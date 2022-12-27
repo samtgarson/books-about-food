@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint && prettier --check .",
+    "format": "next lint --fix && prettier --write ."
   },
   "dependencies": {
     "@next/font": "13.1.1",
@@ -21,8 +22,33 @@
     "typescript": "4.9.4"
   },
   "devDependencies": {
+    "@samtgarson/eslint-config": "^2.8.3",
     "autoprefixer": "^10.4.13",
+    "husky": "^8.0.2",
+    "lint-staged": "^13.1.0",
     "postcss": "^8.4.20",
+    "prettier": "^2.8.1",
     "tailwindcss": "^3.2.4"
+  },
+  "eslintConfig": {
+    "extends": [
+      "next/core-web-vitals",
+      "plugin:@next/next/recommended",
+      "@samtgarson/eslint-config",
+      "@samtgarson/eslint-config/typescript",
+      "@samtgarson/eslint-config/react",
+      "plugin:react/jsx-runtime"
+    ]
+  },
+  "prettier": "@samtgarson/eslint-config/prettier",
+  "lint-staged": {
+    "*.(ts|tsx)": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "prisma/schema.prisma": [
+      "prettier --write",
+      "prisma format"
+    ]
   }
 }
