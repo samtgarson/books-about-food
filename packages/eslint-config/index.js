@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['next/core-web-vitals', '@samtgarson/eslint-config'],
+  extends: ['@samtgarson/eslint-config'],
   overrides: [
     {
       files: ['**/*.ts', '**/*.tsx'],

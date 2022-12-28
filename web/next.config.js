@@ -1,14 +1,10 @@
-const withTM = require('next-transpile-modules')([
-  // Add "math-helpers" to this array:
-  'shared'
-])
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
     appDir: true
-  }
+  },
+  transpilePackages: ['shared']
 }
 
-module.exports = withTM(nextConfig)
+module.exports = nextConfig

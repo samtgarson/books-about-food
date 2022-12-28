@@ -4,7 +4,6 @@ if (process.env.NODE_ENV !== 'production') {
 
 import { createAgent } from '@forestadmin/agent'
 import { createSqlDataSource } from '@forestadmin/datasource-sql'
-import express from 'express'
 import { getEnv } from 'shared'
 
 // Create your Forest Admin agent
@@ -15,18 +14,7 @@ const agent = createAgent({
   isProduction: process.env.NODE_ENV === 'production'
 })
 
-const app = express()
+agent.addDataSource(createSqlDataSource(getEnv('DATABASE_URL'))).start()
 
-agent
-  .addDataSource(createSqlDataSource(getEnv('DATABASE_URL')))
-  .mountOnExpress(app)
-  .start()
-
-const port = process.env.PORT || 3001
-if (process.env.NODE_ENV === 'development') {
-  app.listen(port, () => {
-    console.log(`Listening on port ${port}`)
-  })
-}
-
-export default app
+//@ts-expect-error using a private method here
+export default agent.getConnectCallback(false)

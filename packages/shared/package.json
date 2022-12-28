@@ -4,8 +4,8 @@
   "main": "index.ts",
   "types": "index.ts",
   "scripts": {
-    "lint": "next lint && prettier --check --ignore-path ../.gitignore .",
-    "format": "next lint --fix && prettier --write --ignore-path ../.gitignore ."
+    "lint": "eslint . --ignore-path ../../.gitignore && prettier --check --ignore-path ../../.gitignore .",
+    "format": "eslint . --ignore-path ../../.gitignore --fix && prettier --write --ignore-path ../../.gitignore ."
   },
   "devDependencies": {
     "@books-about-food/eslint-config": "*"
