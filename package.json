@@ -26,11 +26,14 @@
     "dev": "turbo run dev"
   },
   "devDependencies": {
+    "@books-about-food/eslint-config": "*",
+    "@swc/core": "^1.3.24",
     "husky": "^8.0.2",
     "lint-staged": "^13.1.0",
     "prettier": "^2.8.1",
     "prettier-plugin-prisma": "^4.8.0",
     "prisma": "^4.8.0",
+    "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.1.1",
     "turbo": "^1.6.3",
     "typescript": "4.9.4"
@@ -38,8 +41,21 @@
   "eslintConfig": {
     "root": true,
     "extends": [
-      "@books-about-food/eslint-config"
+      "@books-about-food"
     ]
   },
-  "prettier": "@samtgarson/eslint-config/prettier"
+  "prettier": "@samtgarson/eslint-config/prettier",
+  "lint-staged": {
+    "*.(json|md)": [
+      "prettier --write"
+    ],
+    "*.(ts|tsx|js)": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "web/prisma/schema.prisma": [
+      "prettier --write",
+      "prisma format"
+    ]
+  }
 }

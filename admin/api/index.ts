@@ -5,7 +5,7 @@ if (process.env.NODE_ENV !== 'production') {
 import { createAgent } from '@forestadmin/agent'
 import { createSqlDataSource } from '@forestadmin/datasource-sql'
 import express from 'express'
-import { getEnv } from './utils/get-env'
+import { getEnv } from 'shared'
 
 // Create your Forest Admin agent
 const agent = createAgent({

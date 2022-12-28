@@ -3,7 +3,7 @@ import type { NextAuthOptions } from 'next-auth'
 import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import prisma from 'prisma/client'
-import { getEnv } from 'src/utils/get-env'
+import { getEnv } from 'shared'
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),

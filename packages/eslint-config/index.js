@@ -1,10 +1,13 @@
 module.exports = {
-  extends: [
-    "next/core-web-vitals",
-    "plugin:@next/next/recommended",
-    "@samtgarson/eslint-config",
-    "@samtgarson/eslint-config/typescript",
-    "@samtgarson/eslint-config/react",
-    "plugin:react/jsx-runtime"
+  extends: ['next/core-web-vitals', '@samtgarson/eslint-config'],
+  overrides: [
+    {
+      files: ['**/*.ts', '**/*.tsx'],
+      extends: ['@samtgarson/eslint-config/typescript']
+    },
+    {
+      files: ['**/*.tsx'],
+      extends: ['@samtgarson/eslint-config/react', 'plugin:react/jsx-runtime']
+    }
   ]
 }

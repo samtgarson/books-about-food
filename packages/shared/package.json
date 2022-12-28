@@ -1,0 +1,20 @@
+{
+  "name": "shared",
+  "private": true,
+  "main": "index.ts",
+  "types": "index.ts",
+  "scripts": {
+    "lint": "next lint && prettier --check --ignore-path ../.gitignore .",
+    "format": "next lint --fix && prettier --write --ignore-path ../.gitignore ."
+  },
+  "devDependencies": {
+    "@books-about-food/eslint-config": "*"
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "@books-about-food"
+    ]
+  },
+  "prettier": "@samtgarson/eslint-config/prettier"
+}
