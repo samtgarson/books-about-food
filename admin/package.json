@@ -12,6 +12,7 @@
     "@forestadmin/agent": "^1.5.5",
     "@forestadmin/datasource-sql": "^1.1.9",
     "pg": "^8.8.0",
+    "pg-hstore": "^2.3.4",
     "shared": "*"
   },
   "eslintConfig": {
