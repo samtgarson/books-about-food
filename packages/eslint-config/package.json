@@ -1,0 +1,9 @@
+{
+  "name": "@books-about-food/eslint-config",
+  "main": "index.js",
+  "dependencies": {
+    "eslint": "latest",
+    "eslint-config-next": "latest",
+    "@samtgarson/eslint-config": "latest"
+  }
+}

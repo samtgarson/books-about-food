@@ -23,22 +23,16 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@samtgarson/eslint-config": "^2.8.3",
+    "@books-about-food/eslint-config": "*",
     "@types/node": "^18.11.18",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.20",
-    "tailwindcss": "^3.2.4",
-    "tsconfig-paths": "^4.1.1",
-    "turbo": "^1.6.3"
+    "tailwindcss": "^3.2.4"
   },
   "eslintConfig": {
+    "root": true,
     "extends": [
-      "next/core-web-vitals",
-      "plugin:@next/next/recommended",
-      "@samtgarson/eslint-config",
-      "@samtgarson/eslint-config/typescript",
-      "@samtgarson/eslint-config/react",
-      "plugin:react/jsx-runtime"
+      "@books-about-food/eslint-config"
     ]
   },
   "prettier": "@samtgarson/eslint-config/prettier",
