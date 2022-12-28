@@ -18,6 +18,9 @@
     "admin",
     "packages/*"
   ],
+  "cacheDirectories": [
+    "web/.next/cache"
+  ],
   "scripts": {
     "build": "turbo run build",
     "test": "turbo run test",

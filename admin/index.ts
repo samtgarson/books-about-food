@@ -16,5 +16,5 @@ const agent = createAgent({
 
 agent.addDataSource(createSqlDataSource(getEnv('DATABASE_URL'))).start()
 
-//@ts-expect-error using a private method here
-export default agent.getConnectCallback(false)
+const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 3001
+agent.mountOnStandaloneServer(port)
