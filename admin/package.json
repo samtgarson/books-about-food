@@ -13,6 +13,7 @@
     "@forestadmin/agent": "^1.5.5",
     "@forestadmin/datasource-sql": "^1.1.9",
     "pg": "^8.8.0",
+    "pg-connection-string": "^2.5.0",
     "shared": "*"
   },
   "eslintConfig": {
