@@ -56,6 +56,7 @@ model User {
   email         String?   @unique
   emailVerified DateTime? @map("email_verified")
   createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @default(now()) @map("updated_at")
   image         String?
   accounts      Account[]
   sessions      Session[]
@@ -67,6 +68,8 @@ model User {
 
 model Profile {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
   userId    String?  @unique @map("user_id") @db.Uuid
   name      String
   location  String?
@@ -76,14 +79,19 @@ model Profile {
 
   user          User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
   contributions Contribution[]
+
+  @@map("profiles")
 }
 
 model Job {
-  id     String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId String? @map("user_id") @db.Uuid
-  name   String
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+  name      String
 
   contributions Contribution[]
+
+  @@map("jobs")
 }
 
 model Contribution {
@@ -91,27 +99,33 @@ model Contribution {
   profileId String   @map("profile_id") @db.Uuid
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @map("updated_at")
-  job_id    String?  @map("job_id") @db.Uuid
-  book_id   String   @map("book_id") @db.Uuid
+  jobId     String?  @map("job_id") @db.Uuid
+  bookId    String   @map("book_id") @db.Uuid
 
-  job     Job?    @relation(fields: [job_id], references: [id], onDelete: SetNull)
+  job     Job?    @relation(fields: [jobId], references: [id], onDelete: SetNull)
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
-  book    Book    @relation(fields: [book_id], references: [id], onDelete: Cascade)
+  book    Book    @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@map("contributions")
 }
 
 model Link {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  book_id   String   @map("book_id") @db.Uuid
+  bookId    String   @map("book_id") @db.Uuid
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @map("updated_at")
   url       String
   site      String
 
-  book Book @relation(fields: [book_id], references: [id], onDelete: Cascade)
+  book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@map("links")
 }
 
 model Book {
   id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @map("updated_at")
   title       String
   subtitle    String?
   publishedOn DateTime @map("published_on")
@@ -123,17 +137,23 @@ model Book {
   contributions Contribution[]
   links         Link[]
   publisher     Publisher      @relation(fields: [publisherId], references: [id], onDelete: Restrict)
+
+  @@map("books")
 }
 
 model Publisher {
-  id             String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @default(now()) @map("updated_at")
   name           String
   website        String?
-  genericContact String? @map("generic_contact")
-  directContact  String? @map("direct_contact")
+  genericContact String?  @map("generic_contact")
+  directContact  String?  @map("direct_contact")
   instagram      String?
   imprint        String?
-  logoUrl        String? @map("logo_url")
+  logoUrl        String?  @map("logo_url")
 
   books Book[]
+
+  @@map("publishers")
 }
