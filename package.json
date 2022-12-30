@@ -21,6 +21,9 @@
   "cacheDirectories": [
     "web/.next/cache"
   ],
+  "prisma": {
+    "schema": "web/prisma/schema.prisma"
+  },
   "scripts": {
     "build": "turbo run build",
     "test": "turbo run test",

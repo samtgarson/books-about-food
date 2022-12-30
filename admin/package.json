@@ -2,11 +2,11 @@
   "name": "admin",
   "version": "0.1.0",
   "private": true,
-  "main": "api/index.ts",
+  "main": "index.ts",
   "scripts": {
     "lint": "eslint . --ignore-path ../.gitignore && prettier --check --ignore-path ../.gitignore .",
     "format": "eslint . --ignore-path ../.gitignore --fix && prettier --write --ignore-path ../.gitignore .",
-    "dev": "nodemon ./api/index.ts",
+    "dev": "nodemon -r dotenv/config ./index.ts",
     "build": "npx esbuild index.ts --bundle --outfile=dist/index.js --platform=node --external:fastify --external:pg-hstore --target=node18"
   },
   "dependencies": {
@@ -26,9 +26,11 @@
   "devDependencies": {
     "@books-about-food/eslint-config": "*",
     "@types/express": "^4.17.15",
+    "@types/pg": "^8.6.6",
     "@types/sequelize": "^4.28.14",
     "dotenv": "^16.0.3",
     "esbuild": "^0.16.12",
+    "forest-cli": "^3.0.1-beta.1",
     "nodemon": "^2.0.20"
   }
 }

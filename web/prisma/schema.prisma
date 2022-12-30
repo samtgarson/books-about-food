@@ -60,5 +60,80 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
+  profile Profile?
+
   @@map("users")
+}
+
+model Profile {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId    String?  @unique @map("user_id") @db.Uuid
+  name      String
+  location  String?
+  website   String?
+  instagram String?
+  roles     String[]
+
+  user          User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contributions Contribution[]
+}
+
+model Job {
+  id     String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId String? @map("user_id") @db.Uuid
+  name   String
+
+  contributions Contribution[]
+}
+
+model Contribution {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  profileId String   @map("profile_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+  job_id    String?  @map("job_id") @db.Uuid
+  book_id   String   @map("book_id") @db.Uuid
+
+  job     Job?    @relation(fields: [job_id], references: [id], onDelete: SetNull)
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  book    Book    @relation(fields: [book_id], references: [id], onDelete: Cascade)
+}
+
+model Link {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  book_id   String   @map("book_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+  url       String
+  site      String
+
+  book Book @relation(fields: [book_id], references: [id], onDelete: Cascade)
+}
+
+model Book {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title       String
+  subtitle    String?
+  publishedOn DateTime @map("published_on")
+  pages       Int
+  coverUrl    String   @map("cover_url")
+  imageUrls   String[] @map("image_urls")
+  publisherId String   @map("publisher_id") @db.Uuid
+
+  contributions Contribution[]
+  links         Link[]
+  publisher     Publisher      @relation(fields: [publisherId], references: [id], onDelete: Restrict)
+}
+
+model Publisher {
+  id             String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name           String
+  website        String?
+  genericContact String? @map("generic_contact")
+  directContact  String? @map("direct_contact")
+  instagram      String?
+  imprint        String?
+  logoUrl        String? @map("logo_url")
+
+  books Book[]
 }
