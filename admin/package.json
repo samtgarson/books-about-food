@@ -7,13 +7,14 @@
     "lint": "eslint . --ignore-path ../.gitignore && prettier --check --ignore-path ../.gitignore .",
     "format": "eslint . --ignore-path ../.gitignore --fix && prettier --write --ignore-path ../.gitignore .",
     "dev": "nodemon -r dotenv/config ./index.ts",
-    "build": "npx esbuild index.ts --bundle --outfile=dist/index.js --platform=node --external:fastify --external:pg-hstore --target=node18"
+    "build": "npx esbuild index.ts --bundle --outfile=dist/index.js --platform=node --external:fastify --external:pg-hstore --external:pg-native --target=node18"
   },
   "dependencies": {
     "@forestadmin/agent": "^1.5.5",
     "@forestadmin/datasource-sql": "^1.1.9",
     "pg": "^8.8.0",
     "pg-connection-string": "^2.5.0",
+    "pkg-dir": "^5.0.0",
     "shared": "*"
   },
   "eslintConfig": {

@@ -1,13 +1,21 @@
 import { createAgent } from '@forestadmin/agent'
 import { createSqlDataSource } from '@forestadmin/datasource-sql'
+import { resolve } from 'path'
 import pg from 'pg'
 import { parse } from 'pg-connection-string'
+import pkgDir from 'pkg-dir'
 import { getEnv } from 'shared'
+
+const rootDir = pkgDir.sync(__dirname)
+if (!rootDir) {
+  throw new Error('Cannot find directory for schema')
+}
 
 const agent = createAgent({
   authSecret: getEnv('FOREST_AUTH_SECRET'),
   envSecret: getEnv('FOREST_ENV_SECRET'),
-  isProduction: process.env.NODE_ENV === 'production'
+  isProduction: process.env.NODE_ENV === 'production',
+  schemaPath: resolve(rootDir, '.forestadmin-schema.json')
 })
 
 const parsed = parse(getEnv('DATABASE_URL'))
