@@ -130,7 +130,7 @@ model Book {
   subtitle    String?
   publishedOn DateTime @map("published_on")
   pages       Int
-  coverUrl    String   @map("cover_url")
+  coverUrl    String?  @map("cover_url")
   imageUrls   String[] @map("image_urls")
   publisherId String   @map("publisher_id") @db.Uuid
 

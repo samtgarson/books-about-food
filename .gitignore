@@ -1,4 +1,5 @@
-/node_modules
+dist/
+node_modules/
 .next/
 .DS_Store
 npm-debug.log*
@@ -7,4 +8,3 @@ npm-debug.log*
 next-env.d.ts
 .env
 .turbo
-admin/dist

@@ -8,7 +8,9 @@
     "format": "eslint . --ignore-path ../../.gitignore --fix && prettier --write --ignore-path ../../.gitignore ."
   },
   "devDependencies": {
-    "@books-about-food/eslint-config": "*"
+    "@books-about-food/eslint-config": "*",
+    "@types/mime-types": "^2.1.1",
+    "@types/uuid": "^9.0.0"
   },
   "eslintConfig": {
     "root": true,
@@ -16,5 +18,10 @@
       "@books-about-food"
     ]
   },
-  "prettier": "@samtgarson/eslint-config/prettier"
+  "prettier": "@samtgarson/eslint-config/prettier",
+  "dependencies": {
+    "aws-sdk": "^2.1286.0",
+    "mime-types": "^2.1.35",
+    "uuid": "^9.0.0"
+  }
 }
