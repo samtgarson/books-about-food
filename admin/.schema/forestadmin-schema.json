@@ -3,6 +3,58 @@
     "actions": [],
     "fields": [
       {
+        "defaultValue": null,
+        "enums": null,
+        "field": "job",
+        "integration": null,
+        "inverseOf": "_JobToProfiles",
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": true,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": "jobs.id",
+        "relationship": "BelongsTo",
+        "type": "Uuid",
+        "validations": [
+          {"type": "is present", "message": "Failed validation rule: 'Present'"}
+        ]
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
+        "field": "profile",
+        "integration": null,
+        "inverseOf": "_JobToProfiles",
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": true,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": "profiles.id",
+        "relationship": "BelongsTo",
+        "type": "Uuid",
+        "validations": [
+          {"type": "is present", "message": "Failed validation rule: 'Present'"}
+        ]
+      }
+    ],
+    "icon": null,
+    "integration": null,
+    "isReadOnly": false,
+    "isSearchable": true,
+    "isVirtual": false,
+    "name": "_JobToProfile",
+    "onlyForRelationships": false,
+    "paginationType": "page",
+    "segments": []
+  },
+  {
+    "actions": [],
+    "fields": [
+      {
         "defaultValue": 0,
         "enums": null,
         "field": "applied_steps_count",
@@ -722,6 +774,23 @@
       {
         "defaultValue": null,
         "enums": null,
+        "field": "_JobToProfiles",
+        "integration": null,
+        "inverseOf": "job",
+        "isFilterable": false,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": "_JobToProfile.id",
+        "relationship": "HasMany",
+        "type": ["Uuid"],
+        "validations": []
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
         "field": "contributions",
         "integration": null,
         "inverseOf": "job",
@@ -936,6 +1005,23 @@
       {
         "defaultValue": null,
         "enums": null,
+        "field": "_JobToProfiles",
+        "integration": null,
+        "inverseOf": "profile",
+        "isFilterable": false,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": "_JobToProfile.id",
+        "relationship": "HasMany",
+        "type": ["Uuid"],
+        "validations": []
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
         "field": "contributions",
         "integration": null,
         "inverseOf": "profile",
@@ -1031,22 +1117,6 @@
         "validations": [
           {"type": "is present", "message": "Failed validation rule: 'Present'"}
         ]
-      },
-      {
-        "defaultValue": null,
-        "enums": null,
-        "field": "roles",
-        "integration": null,
-        "inverseOf": null,
-        "isFilterable": true,
-        "isPrimaryKey": false,
-        "isReadOnly": false,
-        "isRequired": false,
-        "isSortable": true,
-        "isVirtual": false,
-        "reference": null,
-        "type": ["String"],
-        "validations": []
       },
       {
         "defaultValue": null,

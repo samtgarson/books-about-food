@@ -75,8 +75,8 @@ model Profile {
   location  String?
   website   String?
   instagram String?
-  roles     String[]
 
+  roles         Job[]
   user          User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
   contributions Contribution[]
 
@@ -90,6 +90,7 @@ model Job {
   name      String
 
   contributions Contribution[]
+  profiles      Profile[]
 
   @@map("jobs")
 }

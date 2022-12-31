@@ -4,7 +4,7 @@ const nextConfig = {
   experimental: {
     appDir: true
   },
-  transpilePackages: ['shared']
+  transpilePackages: ['shared', 'database']
 }
 
 module.exports = nextConfig

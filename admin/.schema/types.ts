@@ -1,5 +1,36 @@
 /* eslint-disable */
 export type Schema = {
+  '_JobToProfile': {
+    plain: {
+      'A': string;
+      'B': string;
+    };
+    nested: {
+      'job': Schema['jobs']['plain'] & Schema['jobs']['nested'];
+      'profile': Schema['profiles']['plain'] & Schema['profiles']['nested'];
+    };
+    flat: {
+      'job:id': string;
+      'job:created_at': string;
+      'job:updated_at': string;
+      'job:name': string;
+      'profile:id': string;
+      'profile:created_at': string;
+      'profile:updated_at': string;
+      'profile:user_id': string;
+      'profile:name': string;
+      'profile:location': string;
+      'profile:website': string;
+      'profile:instagram': string;
+      'profile:user:id': string;
+      'profile:user:name': string;
+      'profile:user:email': string;
+      'profile:user:email_verified': string;
+      'profile:user:image': string;
+      'profile:user:created_at': string;
+      'profile:user:updated_at': string;
+    };
+  };
   '_prisma_migrations': {
     plain: {
       'id': string;
@@ -49,7 +80,6 @@ export type Schema = {
       'user:profile:location': string;
       'user:profile:website': string;
       'user:profile:instagram': string;
-      'user:profile:roles': Array<string>;
     };
   };
   'books': {
@@ -104,7 +134,6 @@ export type Schema = {
       'profile:location': string;
       'profile:website': string;
       'profile:instagram': string;
-      'profile:roles': Array<string>;
       'profile:user:id': string;
       'profile:user:name': string;
       'profile:user:email': string;
@@ -193,7 +222,6 @@ export type Schema = {
       'location': string;
       'website': string;
       'instagram': string;
-      'roles': Array<string>;
     };
     nested: {
       'user': Schema['users']['plain'] & Schema['users']['nested'];
@@ -250,7 +278,6 @@ export type Schema = {
       'user:profile:location': string;
       'user:profile:website': string;
       'user:profile:instagram': string;
-      'user:profile:roles': Array<string>;
     };
   };
   'users': {
@@ -275,7 +302,6 @@ export type Schema = {
       'profile:location': string;
       'profile:website': string;
       'profile:instagram': string;
-      'profile:roles': Array<string>;
     };
   };
   'verification_tokens': {

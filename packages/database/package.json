@@ -1,0 +1,23 @@
+{
+  "name": "database",
+  "private": true,
+  "main": "prisma/client.ts",
+  "types": "prisma/client.ts",
+  "scripts": {
+    "lint": "eslint . --ignore-path ../../.gitignore && prettier --check --ignore-path ../../.gitignore .",
+    "format": "eslint . --ignore-path ../../.gitignore --fix && prettier --write --ignore-path ../../.gitignore ."
+  },
+  "devDependencies": {
+    "@books-about-food/eslint-config": "*"
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "@books-about-food"
+    ]
+  },
+  "prettier": "@samtgarson/eslint-config/prettier",
+  "dependencies": {
+    "@prisma/client": "^4.8.0"
+  }
+}
