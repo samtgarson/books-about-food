@@ -1,6 +1,80 @@
 /* eslint-disable */
 export type Schema = {
-  '_JobToProfile': {
+  '_contributions_jobs': {
+    plain: {
+      'A': string;
+      'B': string;
+    };
+    nested: {
+      'contribution': Schema['contributions']['plain'] & Schema['contributions']['nested'];
+      'job': Schema['jobs']['plain'] & Schema['jobs']['nested'];
+    };
+    flat: {
+      'contribution:id': string;
+      'contribution:profile_id': string;
+      'contribution:created_at': string;
+      'contribution:updated_at': string;
+      'contribution:book_id': string;
+      'contribution:Display Name': string;
+      'contribution:Job Titles': Array<string>;
+      'contribution:profile:id': string;
+      'contribution:profile:created_at': string;
+      'contribution:profile:updated_at': string;
+      'contribution:profile:user_id': string;
+      'contribution:profile:name': string;
+      'contribution:profile:location': string;
+      'contribution:profile:website': string;
+      'contribution:profile:instagram': string;
+      'contribution:profile:user:id': string;
+      'contribution:profile:user:name': string;
+      'contribution:profile:user:email': string;
+      'contribution:profile:user:email_verified': string;
+      'contribution:profile:user:image': string;
+      'contribution:profile:user:created_at': string;
+      'contribution:profile:user:updated_at': string;
+      'contribution:book:id': string;
+      'contribution:book:created_at': string;
+      'contribution:book:updated_at': string;
+      'contribution:book:title': string;
+      'contribution:book:subtitle': string;
+      'contribution:book:published_on': string;
+      'contribution:book:pages': number;
+      'contribution:book:cover_url': string;
+      'contribution:book:image_urls': Array<string>;
+      'contribution:book:publisher_id': string;
+      'contribution:book:tags': Array<string>;
+      'contribution:book:Tags': string;
+      'contribution:book:publisher:id': string;
+      'contribution:book:publisher:created_at': string;
+      'contribution:book:publisher:updated_at': string;
+      'contribution:book:publisher:name': string;
+      'contribution:book:publisher:website': string;
+      'contribution:book:publisher:generic_contact': string;
+      'contribution:book:publisher:direct_contact': string;
+      'contribution:book:publisher:instagram': string;
+      'contribution:book:publisher:imprint': string;
+      'contribution:book:publisher:logo_url': string;
+      'job:id': string;
+      'job:created_at': string;
+      'job:updated_at': string;
+      'job:name': string;
+    };
+  };
+  '_prisma_migrations': {
+    plain: {
+      'id': string;
+      'checksum': string;
+      'finished_at': string;
+      'migration_name': string;
+      'logs': string;
+      'rolled_back_at': string;
+      'started_at': string;
+      'applied_steps_count': number;
+    };
+    nested: {};
+    flat: {};
+  };
+  '_profiles_jobs': {
     plain: {
       'A': string;
       'B': string;
@@ -30,20 +104,6 @@ export type Schema = {
       'profile:user:created_at': string;
       'profile:user:updated_at': string;
     };
-  };
-  '_prisma_migrations': {
-    plain: {
-      'id': string;
-      'checksum': string;
-      'finished_at': string;
-      'migration_name': string;
-      'logs': string;
-      'rolled_back_at': string;
-      'started_at': string;
-      'applied_steps_count': number;
-    };
-    nested: {};
-    flat: {};
   };
   'accounts': {
     plain: {
@@ -94,6 +154,8 @@ export type Schema = {
       'cover_url': string;
       'image_urls': Array<string>;
       'publisher_id': string;
+      'tags': Array<string>;
+      'Tags': string;
     };
     nested: {
       'publisher': Schema['publishers']['plain'] & Schema['publishers']['nested'];
@@ -117,12 +179,12 @@ export type Schema = {
       'profile_id': string;
       'created_at': string;
       'updated_at': string;
-      'job_id': string;
       'book_id': string;
+      'Display Name': string;
+      'Job Titles': Array<string>;
     };
     nested: {
       'profile': Schema['profiles']['plain'] & Schema['profiles']['nested'];
-      'job': Schema['jobs']['plain'] & Schema['jobs']['nested'];
       'book': Schema['books']['plain'] & Schema['books']['nested'];
     };
     flat: {
@@ -141,10 +203,6 @@ export type Schema = {
       'profile:user:image': string;
       'profile:user:created_at': string;
       'profile:user:updated_at': string;
-      'job:id': string;
-      'job:created_at': string;
-      'job:updated_at': string;
-      'job:name': string;
       'book:id': string;
       'book:created_at': string;
       'book:updated_at': string;
@@ -155,6 +213,8 @@ export type Schema = {
       'book:cover_url': string;
       'book:image_urls': Array<string>;
       'book:publisher_id': string;
+      'book:tags': Array<string>;
+      'book:Tags': string;
       'book:publisher:id': string;
       'book:publisher:created_at': string;
       'book:publisher:updated_at': string;
@@ -200,6 +260,8 @@ export type Schema = {
       'book:cover_url': string;
       'book:image_urls': Array<string>;
       'book:publisher_id': string;
+      'book:tags': Array<string>;
+      'book:Tags': string;
       'book:publisher:id': string;
       'book:publisher:created_at': string;
       'book:publisher:updated_at': string;

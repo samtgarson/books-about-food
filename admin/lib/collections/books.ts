@@ -27,4 +27,14 @@ export const customiseBooks = (
       return { image_urls: paths.filter((path): path is string => !!path) }
     }
   )
+
+  collection
+    .addField('Tags', {
+      dependencies: ['tags'],
+      getValues: (records) => records.map((r) => r.tags.join(', ')),
+      columnType: 'String'
+    })
+    .replaceFieldWriting('Tags', (value) => ({
+      tags: value.split(',').map((s) => s.trim())
+    }))
 }

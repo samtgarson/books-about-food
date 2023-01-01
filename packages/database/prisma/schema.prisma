@@ -76,7 +76,7 @@ model Profile {
   website   String?
   instagram String?
 
-  roles         Job[]
+  jobs          Job[]          @relation("profiles_jobs")
   user          User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
   contributions Contribution[]
 
@@ -89,8 +89,8 @@ model Job {
   updatedAt DateTime @default(now()) @map("updated_at")
   name      String
 
-  contributions Contribution[]
-  profiles      Profile[]
+  contributions Contribution[] @relation("contributions_jobs")
+  profiles      Profile[]      @relation("profiles_jobs")
 
   @@map("jobs")
 }
@@ -100,10 +100,9 @@ model Contribution {
   profileId String   @map("profile_id") @db.Uuid
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @map("updated_at")
-  jobId     String?  @map("job_id") @db.Uuid
   bookId    String   @map("book_id") @db.Uuid
 
-  job     Job?    @relation(fields: [jobId], references: [id], onDelete: SetNull)
+  jobs    Job[]   @relation("contributions_jobs")
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
   book    Book    @relation(fields: [bookId], references: [id], onDelete: Cascade)
 
@@ -134,6 +133,7 @@ model Book {
   coverUrl    String?  @map("cover_url")
   imageUrls   String[] @map("image_urls")
   publisherId String   @map("publisher_id") @db.Uuid
+  tags        String[]
 
   contributions Contribution[]
   links         Link[]

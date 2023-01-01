@@ -17,6 +17,9 @@
   },
   "exclude": ["node_modules"],
   "ts-node": {
-    "require": ["tsconfig-paths/register"]
+    "compilerOptions": {
+      "module": "commonjs"
+    },
+    "require": ["tsconfig-paths/register", "dotenv/config"]
   }
 }

@@ -1,0 +1,32 @@
+{
+  "name": "seed",
+  "private": true,
+  "main": "index.ts",
+  "types": "index.ts",
+  "scripts": {
+    "lint": "eslint . --ignore-path ../../.gitignore && prettier --check --ignore-path ../../.gitignore .",
+    "format": "eslint . --ignore-path ../../.gitignore --fix && prettier --write --ignore-path ../../.gitignore .",
+    "run": "npx -w database prisma migrate reset --force && ts-node index.ts"
+  },
+  "dependencies": {
+    "@books-about-food/eslint-config": "*",
+    "@fast-csv/parse": "^4.3.6",
+    "database": "*",
+    "date-fns": "^2.29.3",
+    "mime-types": "^2.1.35",
+    "ora": "^5.4.1",
+    "shared": "*",
+    "string-replace-async": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/mime-types": "^2.1.1",
+    "ts-node": "^10.9.1"
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "@books-about-food"
+    ]
+  },
+  "prettier": "@samtgarson/eslint-config/prettier"
+}
