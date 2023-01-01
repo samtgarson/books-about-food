@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint && prettier --check --ignore-path ../.gitignore .",
-    "format": "next lint --fix && prettier --write --ignore-path ../.gitignore .",
-    "vercel-build": "npx -w database prisma generate && npx -w database prisma migrate deploy && next build"
+    "format": "next lint --fix && prettier --write --ignore-path ../.gitignore ."
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.5",

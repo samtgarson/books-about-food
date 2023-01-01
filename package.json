@@ -22,7 +22,7 @@
     "web/.next/cache"
   ],
   "prisma": {
-    "schema": "web/prisma/schema.prisma"
+    "schema": "packages/database/prisma/schema.prisma"
   },
   "scripts": {
     "build": "turbo run build",

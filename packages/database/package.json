@@ -5,7 +5,8 @@
   "types": "prisma/client.ts",
   "scripts": {
     "lint": "eslint . --ignore-path ../../.gitignore && prettier --check --ignore-path ../../.gitignore .",
-    "format": "eslint . --ignore-path ../../.gitignore --fix && prettier --write --ignore-path ../../.gitignore ."
+    "format": "eslint . --ignore-path ../../.gitignore --fix && prettier --write --ignore-path ../../.gitignore .",
+    "build": "npx prisma generate && npx prisma migrate deploy"
   },
   "devDependencies": {
     "@books-about-food/eslint-config": "*"
