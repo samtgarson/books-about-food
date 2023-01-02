@@ -4,10 +4,11 @@
   "private": true,
   "main": "index.ts",
   "scripts": {
+    "start": "node dist",
     "lint": "eslint . --ignore-path ../.gitignore && prettier --check --ignore-path ../.gitignore .",
     "format": "eslint . --ignore-path ../.gitignore --fix && prettier --write --ignore-path ../.gitignore .",
     "dev": "nodemon -r dotenv/config ./lib/index.ts",
-    "build": "npx esbuild ./lib/index.ts --bundle --outfile=./dist/index.js --platform=node --external:fastify --external:pg-hstore --external:pg-native --target=node18"
+    "build": "npx esbuild ./lib/index.ts --bundle --outfile=./dist/index.js --platform=node --external:fastify --external:pg-hstore --external:pg-native --external:@prisma/client --target=node18"
   },
   "dependencies": {
     "@forestadmin/agent": "^1.5.5",

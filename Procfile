@@ -1,1 +1,1 @@
-web: node admin/dist
+web: npm run start -w admin
