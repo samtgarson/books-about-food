@@ -28,8 +28,8 @@
     "build": "turbo run build",
     "start": "turbo run start",
     "test": "turbo run test",
-    "lint": "turbo run lint",
-    "format": "turbo run format",
+    "lint": "eslint . --ignore-path ./.gitignore && prettier --check --ignore-path ./.prettierignore .",
+    "format": "eslint . --ignore-path ./.gitignore --fix && prettier --write --ignore-path ./.prettierignore .",
     "dev": "turbo run dev"
   },
   "devDependencies": {

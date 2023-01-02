@@ -4,21 +4,11 @@
   "main": "index.ts",
   "types": "index.ts",
   "scripts": {
-    "lint": "eslint . --ignore-path ../../.gitignore && prettier --check --ignore-path ../../.gitignore .",
-    "format": "eslint . --ignore-path ../../.gitignore --fix && prettier --write --ignore-path ../../.gitignore .",
     "build": "npx prisma generate && npx prisma migrate deploy"
   },
   "devDependencies": {
-    "@books-about-food/eslint-config": "*",
     "prisma": "^4.8.0"
   },
-  "eslintConfig": {
-    "root": true,
-    "extends": [
-      "@books-about-food"
-    ]
-  },
-  "prettier": "@samtgarson/eslint-config/prettier",
   "dependencies": {
     "@prisma/client": "^4.8.0"
   }

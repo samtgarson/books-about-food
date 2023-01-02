@@ -8,12 +8,6 @@
       "dependsOn": ["^build"],
       "outputs": [".next/**"]
     },
-    "lint": {
-      "outputs": []
-    },
-    "format": {
-      "outputs": []
-    },
     "dev": {
       "outputs": []
     }
