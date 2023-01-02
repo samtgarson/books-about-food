@@ -4,7 +4,8 @@
   "main": "index.ts",
   "types": "index.ts",
   "scripts": {
-    "run": "npx -w database prisma migrate reset --force && ts-node index.ts"
+    "seed": "ts-node index.ts",
+    "seed:dev": "npx -w database prisma migrate reset --force && ts-node -r dotenv/config index.ts"
   },
   "dependencies": {
     "@fast-csv/parse": "^4.3.6",

@@ -20,6 +20,6 @@
     "compilerOptions": {
       "module": "commonjs"
     },
-    "require": ["tsconfig-paths/register", "dotenv/config"]
+    "require": ["tsconfig-paths/register"]
   }
 }
