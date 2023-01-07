@@ -76,7 +76,7 @@ model Profile {
   location  String?
   website   String?
   instagram String?
-  slug        String?  @unique
+  slug        String  @unique
 
   jobs          Job[]          @relation("profiles_jobs")
   user          User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -135,7 +135,7 @@ model Book {
   coverUrl    String?  @map("cover_url")
   imageUrls   String[] @map("image_urls")
   publisherId String   @map("publisher_id") @db.Uuid
-  slug        String?  @unique
+  slug        String  @unique
 
   tags          Tag[]          @relation("books_tags")
   contributions Contribution[]
@@ -156,7 +156,7 @@ model Publisher {
   instagram      String?
   imprint        String?
   logoUrl        String?  @map("logo_url")
-  slug        String?  @unique
+  slug        String  @unique
 
   books Book[]
 

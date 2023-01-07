@@ -1,3 +1,5 @@
-export default function Page() {
-  return <h1>Hello, Next.js!</h1>
+const Page = async () => {
+  return <h1>Home page</h1>
 }
+
+export default Page
