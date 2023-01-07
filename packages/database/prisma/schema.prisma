@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -75,6 +76,7 @@ model Profile {
   location  String?
   website   String?
   instagram String?
+  slug        String?  @unique
 
   jobs          Job[]          @relation("profiles_jobs")
   user          User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -128,13 +130,14 @@ model Book {
   updatedAt   DateTime @default(now()) @map("updated_at")
   title       String
   subtitle    String?
-  publishedOn DateTime @map("published_on")
+  releaseDate DateTime @map("release_date") @db.Date
   pages       Int
   coverUrl    String?  @map("cover_url")
   imageUrls   String[] @map("image_urls")
   publisherId String   @map("publisher_id") @db.Uuid
-  tags        String[]
+  slug        String?  @unique
 
+  tags          Tag[]          @relation("books_tags")
   contributions Contribution[]
   links         Link[]
   publisher     Publisher      @relation(fields: [publisherId], references: [id], onDelete: Restrict)
@@ -153,8 +156,20 @@ model Publisher {
   instagram      String?
   imprint        String?
   logoUrl        String?  @map("logo_url")
+  slug        String?  @unique
 
   books Book[]
 
   @@map("publishers")
+}
+
+model Tag {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+  name      String
+
+  books Book[] @relation("books_tags")
+
+  @@map("tags")
 }

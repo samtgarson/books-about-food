@@ -1,4 +1,5 @@
 import prisma, { Prisma, Profile } from 'database'
+import { slugify } from 'shared/utils/slugify'
 import { Base } from './base'
 
 type CsvProfile = {
@@ -21,6 +22,7 @@ export class ProfileSeeder extends Base<
 
     return {
       name: row.Name,
+      slug: slugify(row.Name),
       website: row.Website,
       instagram: row.Instagram,
       jobs: { connect: jobs },

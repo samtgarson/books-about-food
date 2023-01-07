@@ -16,7 +16,15 @@ export abstract class Base<
     const transformed = await Promise.all(
       this.rows.map(this.transform.bind(this))
     )
-    return Promise.all(transformed.map(this.save.bind(this)))
+    return Promise.all(
+      transformed.map(async (row) => {
+        try {
+          return await this.save(row)
+        } catch (e) {
+          console.log(`Failed to save record:\n${JSON.stringify(row)}`)
+        }
+      })
+    )
   }
 
   private parseTable() {

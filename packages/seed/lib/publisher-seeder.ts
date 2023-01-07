@@ -1,4 +1,5 @@
 import prisma, { Prisma, Publisher } from 'database'
+import { slugify } from 'shared/utils/slugify'
 import { Base } from './base'
 
 type CsvPublisher = {
@@ -20,6 +21,7 @@ export class PublisherSeeder extends Base<
   async transform(row: CsvPublisher) {
     return {
       name: row.Name,
+      slug: slugify(row.Name),
       website: row.Website,
       genericContact: row['Generic Contact'],
       directContact: row['Direct Contact'],

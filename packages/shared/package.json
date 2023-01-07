@@ -11,6 +11,7 @@
   "dependencies": {
     "aws-sdk": "^2.1286.0",
     "mime-types": "^2.1.35",
+    "slugify": "^1.6.5",
     "uuid": "^9.0.0"
   }
 }

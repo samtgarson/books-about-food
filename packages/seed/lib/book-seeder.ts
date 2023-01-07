@@ -1,5 +1,6 @@
 import prisma, { Book, Job, Prisma } from 'database'
 import { parse } from 'date-fns'
+import { slugify } from 'shared/utils/slugify'
 import { Base } from './base'
 
 type CsvBook = {
@@ -22,22 +23,22 @@ export class BookSeeder extends Base<CsvBook, Prisma.BookCreateInput, Book> {
   async transform(row: CsvBook) {
     const publisher = await this.publisherFor(row)
     const contributions = await this.contributionsFor(row)
-    const publishedOn = parse(row.Published, 'd/L/y', new Date())
+    const releaseDate = parse(row.Published, 'd/L/y', new Date())
+    const tags = await this.tagsFor(row)
 
     return {
       title: row.Title,
+      slug: slugify(row.Title),
+      subtitle: row.Subtitle,
       pages: parseInt(row.Pages, 10),
-      publishedOn,
+      releaseDate,
       coverUrl: row['Cover Image']?.length > 0 ? row['Cover Image'] : undefined,
       imageUrls: row['Other Images']
         .split(',')
         .filter((str) => str?.length > 0),
       publisher: { connect: { id: publisher } },
       contributions,
-      tags: row['Type']
-        ?.split(',')
-        .map((t) => t.trim())
-        .filter((str) => str?.length > 0)
+      tags: { connect: tags }
     } satisfies Prisma.BookCreateInput
   }
 
@@ -83,5 +84,17 @@ export class BookSeeder extends Base<CsvBook, Prisma.BookCreateInput, Book> {
     }
 
     return { create }
+  }
+
+  private async tagsFor(row: CsvBook) {
+    const names = row['Type']
+      ?.split(',')
+      .map((t) => t.trim())
+      .filter((str) => str?.length > 0)
+
+    return await prisma.tag.findMany({
+      where: { name: { in: names } },
+      select: { id: true }
+    })
   }
 }
