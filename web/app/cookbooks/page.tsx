@@ -5,22 +5,29 @@ import { fetchTags } from 'src/services/tags/fetch'
 import { FilterSelect } from 'src/components/lists/filter-select'
 import { pathFor } from 'src/utils/path-helpers'
 import { CookbookItem } from './item'
+import { Search } from 'src/components/lists/search'
 
 type CookbooksParams = {
   page?: string
   sort?: FetchBooksOptions['sort']
   tag?: string
+  search?: string
 }
 type CookbooksProps = { searchParams: CookbooksParams }
 
 export default async ({
-  searchParams: { page: pageParam, sort, tag }
+  searchParams: { page: pageParam, sort, tag, search }
 }: CookbooksProps) => {
   const page = Number(pageParam) || 0
-  const { books, total, perPage } = await fetchBooks({ page, sort, tag })
+  const { books, filteredTotal, total, perPage } = await fetchBooks({
+    page,
+    sort,
+    tag,
+    search
+  })
   const tags = await fetchTags()
-  const tagFilters = tags.map((tag) => ({ label: tag.name, value: tag.id }))
-  const currentPath = pathFor('/cookbooks', { sort, tag })
+  const tagFilters = tags.map((tag) => ({ label: tag.name, value: tag.name }))
+  const currentPath = pathFor('/cookbooks', { sort, tag, search })
 
   return (
     <div>
@@ -41,6 +48,7 @@ export default async ({
         placeholder='All Tags'
         currentFilter={tag}
       />
+      <Search path={currentPath} paramName='search' currentSearch={search} />
       <ul className='flex flex-wrap gap-4'>
         {books.map((book) => (
           <CookbookItem key={book.id} book={book} />
@@ -52,6 +60,7 @@ export default async ({
         perPage={perPage}
         page={page}
         path={currentPath}
+        filteredTotal={filteredTotal}
       />
     </div>
   )

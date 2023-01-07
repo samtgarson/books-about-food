@@ -1,4 +1,4 @@
-import prisma, { Book } from 'database'
+import prisma, { Book, Prisma } from 'database'
 
 export type FetchBooksOptions = {
   page?: number
@@ -15,28 +15,32 @@ export const fetchBooks = async ({
   tag,
   search
 }: FetchBooksOptions) => {
-  const hasSearch = (search && search.length > 0) || undefined
+  const contains = search?.trim()
+  const hasSearch = (contains && contains.length > 0) || undefined
   const hasTag = (tag && tag.length > 0) || undefined
+  const mode: Prisma.QueryMode = 'insensitive'
   const where = {
     AND: hasTag && {
-      tags: { some: { id: tag } }
+      tags: { some: { name: tag } }
     },
     OR: hasSearch && [
-      { title: { search } },
-      { subtitle: { search } },
-      { publisher: { name: { search } } },
-      { contributions: { some: { profile: { name: { search } } } } }
+      { title: { contains, mode } },
+      { subtitle: { contains, mode } },
+      { publisher: { name: { contains, mode } } },
+      { contributions: { some: { profile: { name: { contains, mode } } } } },
+      { tags: { some: { name: { contains, mode } } } }
     ]
   }
 
-  const [books, total] = await Promise.all([
+  const [books, filteredTotal, total] = await Promise.all([
     prisma.book.findMany({
       take: 10,
       skip: 10 * page,
       orderBy: { [sort]: sort === 'title' ? 'asc' : 'desc' },
       where
     }),
-    prisma.book.count({ where })
+    prisma.book.count({ where }),
+    prisma.book.count()
   ])
-  return { books, total, perPage }
+  return { books, filteredTotal, total, perPage }
 }

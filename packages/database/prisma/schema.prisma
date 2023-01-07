@@ -167,7 +167,7 @@ model Tag {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @map("updated_at")
-  name      String
+  name      String @unique
 
   books Book[] @relation("books_tags")
 

@@ -15,7 +15,7 @@ const TopNavItem: FC<{
   )
 
 export const TopNav: FC = () => (
-  <nav className='flex gap-20 py-2 border-b-black border-b'>
+  <nav className='px-4 flex gap-20 py-2 border-b-black border-b overflow-x-auto'>
     <TopNavItem href='/'>Home</TopNavItem>
     <TopNavItem href='/latest'>Latest</TopNavItem>
     <TopNavItem href='/cookbooks'>Cookbooks</TopNavItem>
