@@ -1,6 +1,6 @@
 import { S3 } from 'aws-sdk'
 import { extension } from 'mime-types'
-import { getEnv } from '../utils'
+import { getEnv } from '../utils/get-env'
 import { v4 as uuid } from 'uuid'
 
 const defaultClient = new S3({

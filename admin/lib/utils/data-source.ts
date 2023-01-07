@@ -1,7 +1,7 @@
 import { createSqlDataSource } from '@forestadmin/datasource-sql'
 import pg from 'pg'
 import { parse } from 'pg-connection-string'
-import { getEnv } from 'shared'
+import { getEnv } from 'shared/utils/get-env'
 
 const parsed = parse(getEnv('DATABASE_URL'))
 

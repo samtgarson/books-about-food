@@ -3,7 +3,7 @@ import prisma from 'database'
 import type { NextAuthOptions } from 'next-auth'
 import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
-import { getEnv } from 'shared'
+import { getEnv } from 'shared/utils/get-env'
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
