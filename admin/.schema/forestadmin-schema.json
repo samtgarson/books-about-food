@@ -5,6 +5,58 @@
       {
         "defaultValue": null,
         "enums": null,
+        "field": "book",
+        "integration": null,
+        "inverseOf": "_books_tags",
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": true,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": "books.id",
+        "relationship": "BelongsTo",
+        "type": "Uuid",
+        "validations": [
+          {"type": "is present", "message": "Failed validation rule: 'Present'"}
+        ]
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
+        "field": "tag",
+        "integration": null,
+        "inverseOf": "_books_tags",
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": true,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": "tags.id",
+        "relationship": "BelongsTo",
+        "type": "Uuid",
+        "validations": [
+          {"type": "is present", "message": "Failed validation rule: 'Present'"}
+        ]
+      }
+    ],
+    "icon": null,
+    "integration": null,
+    "isReadOnly": false,
+    "isSearchable": true,
+    "isVirtual": false,
+    "name": "_books_tags",
+    "onlyForRelationships": false,
+    "paginationType": "page",
+    "segments": []
+  },
+  {
+    "actions": [],
+    "fields": [
+      {
+        "defaultValue": null,
+        "enums": null,
         "field": "contribution",
         "integration": null,
         "inverseOf": "_contributions_jobs",
@@ -502,7 +554,24 @@
         "isSortable": false,
         "isVirtual": false,
         "reference": null,
-        "type": "String",
+        "type": ["String"],
+        "validations": []
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
+        "field": "_books_tags",
+        "integration": null,
+        "inverseOf": "book",
+        "isFilterable": false,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": "_books_tags.id",
+        "relationship": "HasMany",
+        "type": ["Uuid"],
         "validations": []
       },
       {
@@ -624,24 +693,6 @@
       {
         "defaultValue": null,
         "enums": null,
-        "field": "published_on",
-        "integration": null,
-        "inverseOf": null,
-        "isFilterable": true,
-        "isPrimaryKey": false,
-        "isReadOnly": false,
-        "isRequired": true,
-        "isSortable": true,
-        "isVirtual": false,
-        "reference": null,
-        "type": "Date",
-        "validations": [
-          {"type": "is present", "message": "Failed validation rule: 'Present'"}
-        ]
-      },
-      {
-        "defaultValue": null,
-        "enums": null,
         "field": "publisher",
         "integration": null,
         "inverseOf": "books",
@@ -661,6 +712,42 @@
       {
         "defaultValue": null,
         "enums": null,
+        "field": "release_date",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": true,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": null,
+        "type": "Dateonly",
+        "validations": [
+          {"type": "is present", "message": "Failed validation rule: 'Present'"}
+        ]
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
+        "field": "slug",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": true,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": null,
+        "type": "String",
+        "validations": [
+          {"type": "is present", "message": "Failed validation rule: 'Present'"}
+        ]
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
         "field": "subtitle",
         "integration": null,
         "inverseOf": null,
@@ -672,22 +759,6 @@
         "isVirtual": false,
         "reference": null,
         "type": "String",
-        "validations": []
-      },
-      {
-        "defaultValue": null,
-        "enums": null,
-        "field": "tags",
-        "integration": null,
-        "inverseOf": null,
-        "isFilterable": true,
-        "isPrimaryKey": false,
-        "isReadOnly": false,
-        "isRequired": false,
-        "isSortable": true,
-        "isVirtual": false,
-        "reference": null,
-        "type": ["String"],
         "validations": []
       },
       {
@@ -1237,6 +1308,24 @@
       {
         "defaultValue": null,
         "enums": null,
+        "field": "slug",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": true,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": null,
+        "type": "String",
+        "validations": [
+          {"type": "is present", "message": "Failed validation rule: 'Present'"}
+        ]
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
         "field": "updated_at",
         "integration": null,
         "inverseOf": null,
@@ -1447,6 +1536,24 @@
       {
         "defaultValue": null,
         "enums": null,
+        "field": "slug",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": true,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": null,
+        "type": "String",
+        "validations": [
+          {"type": "is present", "message": "Failed validation rule: 'Present'"}
+        ]
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
         "field": "updated_at",
         "integration": null,
         "inverseOf": null,
@@ -1570,6 +1677,103 @@
     "isSearchable": true,
     "isVirtual": false,
     "name": "sessions",
+    "onlyForRelationships": false,
+    "paginationType": "page",
+    "segments": []
+  },
+  {
+    "actions": [],
+    "fields": [
+      {
+        "defaultValue": null,
+        "enums": null,
+        "field": "_books_tags",
+        "integration": null,
+        "inverseOf": "tag",
+        "isFilterable": false,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": "_books_tags.id",
+        "relationship": "HasMany",
+        "type": ["Uuid"],
+        "validations": []
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
+        "field": "created_at",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": null,
+        "type": "Date",
+        "validations": []
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
+        "field": "id",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": true,
+        "isPrimaryKey": true,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": null,
+        "type": "Uuid",
+        "validations": []
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
+        "field": "name",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": true,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": null,
+        "type": "String",
+        "validations": [
+          {"type": "is present", "message": "Failed validation rule: 'Present'"}
+        ]
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
+        "field": "updated_at",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": null,
+        "type": "Date",
+        "validations": []
+      }
+    ],
+    "icon": null,
+    "integration": null,
+    "isReadOnly": false,
+    "isSearchable": true,
+    "isVirtual": false,
+    "name": "tags",
     "onlyForRelationships": false,
     "paginationType": "page",
     "segments": []

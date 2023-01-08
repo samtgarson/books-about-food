@@ -1,4 +1,5 @@
 import { CollectionCustomizer } from '@forestadmin/agent'
+import prisma from 'database'
 import { uploadImage } from 'lib/utils/image-utils'
 import { Schema } from '../../.schema/types'
 
@@ -30,11 +31,27 @@ export const customiseBooks = (
 
   collection
     .addField('Tags', {
-      dependencies: ['tags'],
-      getValues: (records) => records.map((r) => r.tags.join(', ')),
-      columnType: 'String'
+      dependencies: ['id'],
+      getValues: async (records) => {
+        const tags = await prisma.tag.findMany({
+          where: { books: { some: { id: { in: records.map((r) => r.id) } } } },
+          include: { books: true }
+        })
+        return records.map((book) =>
+          tags
+            .filter((tag) => tag.books.some((b) => b.id === book.id))
+            .map((tag) => tag.name)
+        )
+      },
+      columnType: ['String']
     })
-    .replaceFieldWriting('Tags', (value) => ({
-      tags: value.split(',').map((s) => s.trim())
-    }))
+    .replaceFieldWriting('Tags', async (tags, context) => {
+      await prisma.book.update({
+        where: { id: context.record.id },
+        data: {
+          tags: { set: tags.map((name) => ({ name })) }
+        }
+      })
+    })
+    .emulateFieldFiltering('Tags')
 }

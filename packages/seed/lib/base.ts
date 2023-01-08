@@ -21,7 +21,10 @@ export abstract class Base<
         try {
           return await this.save(row)
         } catch (e) {
-          console.log(`Failed to save record:\n${JSON.stringify(row)}`)
+          // @ts-expect-error - all rows either have a title or a name
+          console.log(`Failed to save record:\n${row['title'] || row['name']}`)
+          console.log((e as Error).message)
+          throw e
         }
       })
     )

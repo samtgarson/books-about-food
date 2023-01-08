@@ -1,5 +1,44 @@
 /* eslint-disable */
 export type Schema = {
+  '_books_tags': {
+    plain: {
+      'A': string;
+      'B': string;
+    };
+    nested: {
+      'book': Schema['books']['plain'] & Schema['books']['nested'];
+      'tag': Schema['tags']['plain'] & Schema['tags']['nested'];
+    };
+    flat: {
+      'book:id': string;
+      'book:created_at': string;
+      'book:updated_at': string;
+      'book:title': string;
+      'book:subtitle': string;
+      'book:release_date': string;
+      'book:pages': number;
+      'book:cover_url': string;
+      'book:image_urls': Array<string>;
+      'book:publisher_id': string;
+      'book:slug': string;
+      'book:Tags': Array<string>;
+      'book:publisher:id': string;
+      'book:publisher:created_at': string;
+      'book:publisher:updated_at': string;
+      'book:publisher:name': string;
+      'book:publisher:website': string;
+      'book:publisher:generic_contact': string;
+      'book:publisher:direct_contact': string;
+      'book:publisher:instagram': string;
+      'book:publisher:imprint': string;
+      'book:publisher:logo_url': string;
+      'book:publisher:slug': string;
+      'tag:id': string;
+      'tag:created_at': string;
+      'tag:updated_at': string;
+      'tag:name': string;
+    };
+  };
   '_contributions_jobs': {
     plain: {
       'A': string;
@@ -25,6 +64,7 @@ export type Schema = {
       'contribution:profile:location': string;
       'contribution:profile:website': string;
       'contribution:profile:instagram': string;
+      'contribution:profile:slug': string;
       'contribution:profile:user:id': string;
       'contribution:profile:user:name': string;
       'contribution:profile:user:email': string;
@@ -37,13 +77,13 @@ export type Schema = {
       'contribution:book:updated_at': string;
       'contribution:book:title': string;
       'contribution:book:subtitle': string;
-      'contribution:book:published_on': string;
+      'contribution:book:release_date': string;
       'contribution:book:pages': number;
       'contribution:book:cover_url': string;
       'contribution:book:image_urls': Array<string>;
       'contribution:book:publisher_id': string;
-      'contribution:book:tags': Array<string>;
-      'contribution:book:Tags': string;
+      'contribution:book:slug': string;
+      'contribution:book:Tags': Array<string>;
       'contribution:book:publisher:id': string;
       'contribution:book:publisher:created_at': string;
       'contribution:book:publisher:updated_at': string;
@@ -54,6 +94,7 @@ export type Schema = {
       'contribution:book:publisher:instagram': string;
       'contribution:book:publisher:imprint': string;
       'contribution:book:publisher:logo_url': string;
+      'contribution:book:publisher:slug': string;
       'job:id': string;
       'job:created_at': string;
       'job:updated_at': string;
@@ -96,6 +137,7 @@ export type Schema = {
       'profile:location': string;
       'profile:website': string;
       'profile:instagram': string;
+      'profile:slug': string;
       'profile:user:id': string;
       'profile:user:name': string;
       'profile:user:email': string;
@@ -140,6 +182,7 @@ export type Schema = {
       'user:profile:location': string;
       'user:profile:website': string;
       'user:profile:instagram': string;
+      'user:profile:slug': string;
     };
   };
   'books': {
@@ -149,13 +192,13 @@ export type Schema = {
       'updated_at': string;
       'title': string;
       'subtitle': string;
-      'published_on': string;
+      'release_date': string;
       'pages': number;
       'cover_url': string;
       'image_urls': Array<string>;
       'publisher_id': string;
-      'tags': Array<string>;
-      'Tags': string;
+      'slug': string;
+      'Tags': Array<string>;
     };
     nested: {
       'publisher': Schema['publishers']['plain'] & Schema['publishers']['nested'];
@@ -171,6 +214,7 @@ export type Schema = {
       'publisher:instagram': string;
       'publisher:imprint': string;
       'publisher:logo_url': string;
+      'publisher:slug': string;
     };
   };
   'contributions': {
@@ -196,6 +240,7 @@ export type Schema = {
       'profile:location': string;
       'profile:website': string;
       'profile:instagram': string;
+      'profile:slug': string;
       'profile:user:id': string;
       'profile:user:name': string;
       'profile:user:email': string;
@@ -208,13 +253,13 @@ export type Schema = {
       'book:updated_at': string;
       'book:title': string;
       'book:subtitle': string;
-      'book:published_on': string;
+      'book:release_date': string;
       'book:pages': number;
       'book:cover_url': string;
       'book:image_urls': Array<string>;
       'book:publisher_id': string;
-      'book:tags': Array<string>;
-      'book:Tags': string;
+      'book:slug': string;
+      'book:Tags': Array<string>;
       'book:publisher:id': string;
       'book:publisher:created_at': string;
       'book:publisher:updated_at': string;
@@ -225,6 +270,7 @@ export type Schema = {
       'book:publisher:instagram': string;
       'book:publisher:imprint': string;
       'book:publisher:logo_url': string;
+      'book:publisher:slug': string;
     };
   };
   'jobs': {
@@ -255,13 +301,13 @@ export type Schema = {
       'book:updated_at': string;
       'book:title': string;
       'book:subtitle': string;
-      'book:published_on': string;
+      'book:release_date': string;
       'book:pages': number;
       'book:cover_url': string;
       'book:image_urls': Array<string>;
       'book:publisher_id': string;
-      'book:tags': Array<string>;
-      'book:Tags': string;
+      'book:slug': string;
+      'book:Tags': Array<string>;
       'book:publisher:id': string;
       'book:publisher:created_at': string;
       'book:publisher:updated_at': string;
@@ -272,6 +318,7 @@ export type Schema = {
       'book:publisher:instagram': string;
       'book:publisher:imprint': string;
       'book:publisher:logo_url': string;
+      'book:publisher:slug': string;
     };
   };
   'profiles': {
@@ -284,6 +331,7 @@ export type Schema = {
       'location': string;
       'website': string;
       'instagram': string;
+      'slug': string;
     };
     nested: {
       'user': Schema['users']['plain'] & Schema['users']['nested'];
@@ -310,6 +358,7 @@ export type Schema = {
       'instagram': string;
       'imprint': string;
       'logo_url': string;
+      'slug': string;
     };
     nested: {};
     flat: {};
@@ -340,7 +389,18 @@ export type Schema = {
       'user:profile:location': string;
       'user:profile:website': string;
       'user:profile:instagram': string;
+      'user:profile:slug': string;
     };
+  };
+  'tags': {
+    plain: {
+      'id': string;
+      'created_at': string;
+      'updated_at': string;
+      'name': string;
+    };
+    nested: {};
+    flat: {};
   };
   'users': {
     plain: {
@@ -364,6 +424,7 @@ export type Schema = {
       'profile:location': string;
       'profile:website': string;
       'profile:instagram': string;
+      'profile:slug': string;
     };
   };
   'verification_tokens': {
