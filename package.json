@@ -30,7 +30,8 @@
     "test": "turbo run test",
     "lint": "eslint . --ignore-path ./.gitignore && prettier --check --ignore-path ./.prettierignore .",
     "format": "eslint . --ignore-path ./.gitignore --fix && prettier --write --ignore-path ./.prettierignore .",
-    "dev": "turbo run dev"
+    "dev": "turbo run dev",
+    "heroku-postbuild": "turbo run build --filter admin"
   },
   "devDependencies": {
     "@books-about-food/eslint-config": "*",
