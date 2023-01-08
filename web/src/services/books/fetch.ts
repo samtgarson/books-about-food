@@ -34,8 +34,8 @@ export const fetchBooks = async ({
 
   const [books, filteredTotal, total] = await Promise.all([
     prisma.book.findMany({
-      take: 10,
-      skip: 10 * page,
+      take: perPage === 0 ? undefined : perPage,
+      skip: perPage * page,
       orderBy: { [sort]: sort === 'title' ? 'asc' : 'desc' },
       where
     }),

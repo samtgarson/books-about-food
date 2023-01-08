@@ -12,12 +12,12 @@ export type PaginationProps = {
 
 export const Pagination: FC<PaginationProps> = ({
   total,
-  filteredTotal,
+  filteredTotal = total,
   perPage,
   page,
   path
 }) => {
-  const totalPages = Math.ceil(total / perPage)
+  const totalPages = Math.ceil(filteredTotal / perPage)
   const pages = Array.from({ length: totalPages }, (_, i) => i)
   const displayTotal =
     filteredTotal && filteredTotal !== total ? filteredTotal : total
