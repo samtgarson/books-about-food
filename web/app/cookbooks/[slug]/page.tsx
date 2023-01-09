@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { fetchBooks } from 'src/services/books/fetch'
 
 export const generateStaticParams = async () => {
-  const { books } = await fetchBooks({ perPage: Number.POSITIVE_INFINITY })
+  const { books } = await fetchBooks({ perPage: 0 })
 
   return books.map((book) => ({
     slug: book.slug

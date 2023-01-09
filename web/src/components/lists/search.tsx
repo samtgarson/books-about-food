@@ -38,7 +38,7 @@ export const Search: FC<SearchProps> = ({
 
   return (
     <input
-      type='text'
+      type='search'
       value={value}
       onChange={onChange}
       placeholder={placeholder}
