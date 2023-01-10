@@ -30,7 +30,9 @@ export const Pagination: FC<PaginationProps> = ({
             {p === page ? (
               <span className='text-gray-500'>{p + 1}</span>
             ) : (
-              <Link href={addParam(path, 'page', p)}>{p + 1}</Link>
+              <Link href={addParam(path, 'page', p === 0 ? null : p)}>
+                {p + 1}
+              </Link>
             )}
           </li>
         ))}

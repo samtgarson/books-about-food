@@ -32,10 +32,10 @@ export class BookSeeder extends Base<CsvBook, Prisma.BookCreateInput, Book> {
       subtitle: row.Subtitle,
       pages: parseInt(row.Pages, 10),
       releaseDate,
-      coverUrl: row['Cover Image']?.length > 0 ? row['Cover Image'] : undefined,
-      imageUrls: row['Other Images']
-        .split(',')
-        .filter((str) => str?.length > 0),
+      coverImage: { create: await this.imageAttrs(row['Cover Image']) },
+      previewImages: {
+        create: await this.imagesAttrs(row['Other Images'].split(','))
+      },
       publisher: { connect: { id: publisher } },
       contributions,
       tags: { connect: tags }

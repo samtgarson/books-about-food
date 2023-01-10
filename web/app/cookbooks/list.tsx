@@ -1,5 +1,5 @@
 import { Pagination } from 'src/components/lists/pagination'
-import { fetchBooks, FetchBooksOptions } from 'src/services/books/fetch'
+import { fetchBooks, FetchBooksOptions } from 'src/services/books/fetch-books'
 import { CookbookItem } from './item'
 
 type CookbooksListProps = { currentPath: string; filters: FetchBooksOptions }

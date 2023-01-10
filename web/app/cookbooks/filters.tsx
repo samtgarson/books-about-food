@@ -1,7 +1,7 @@
 import { FilterSelect } from 'src/components/lists/filter-select'
 import { Search } from 'src/components/lists/search'
 import { Sort } from 'src/components/lists/sort'
-import { FetchBooksOptions } from 'src/services/books/fetch'
+import { FetchBooksOptions } from 'src/services/books/fetch-books'
 import { fetchTags } from 'src/services/tags/fetch'
 
 type CookbooksFiltersProps = {

@@ -67,6 +67,26 @@ model User {
   @@map("users")
 }
 
+model Image {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  url          String   @unique
+  width        Int
+  height       Int
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @default(now()) @map("updated_at")
+  caption      String?
+  coverForId   String?  @unique @map("cover_for_id") @db.Uuid
+  previewForId String?  @map("preview_for_id") @db.Uuid
+  publisherId  String?  @unique @map("publisher_id") @db.Uuid
+
+  // Prisma doesn't support polymorphic relations yet so some of these will always be null
+  coverFor   Book?      @relation("cover_for", fields: [coverForId], references: [id])
+  previewFor Book?      @relation("preview_for", fields: [previewForId], references: [id])
+  publisher  Publisher? @relation("publisher_logo", fields: [publisherId], references: [id])
+
+  @@map("images")
+}
+
 model Profile {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt DateTime @default(now()) @map("created_at")
@@ -76,7 +96,7 @@ model Profile {
   location  String?
   website   String?
   instagram String?
-  slug        String  @unique
+  slug      String   @unique
 
   jobs          Job[]          @relation("profiles_jobs")
   user          User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -132,11 +152,11 @@ model Book {
   subtitle    String?
   releaseDate DateTime @map("release_date") @db.Date
   pages       Int
-  coverUrl    String?  @map("cover_url")
-  imageUrls   String[] @map("image_urls")
   publisherId String   @map("publisher_id") @db.Uuid
-  slug        String  @unique
+  slug        String   @unique
 
+  coverImage    Image?         @relation("cover_for")
+  previewImages Image[]        @relation("preview_for")
   tags          Tag[]          @relation("books_tags")
   contributions Contribution[]
   links         Link[]
@@ -155,10 +175,10 @@ model Publisher {
   directContact  String?  @map("direct_contact")
   instagram      String?
   imprint        String?
-  logoUrl        String?  @map("logo_url")
-  slug        String  @unique
+  slug           String   @unique
 
   books Book[]
+  logo  Image? @relation("publisher_logo")
 
   @@map("publishers")
 }
@@ -167,7 +187,7 @@ model Tag {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @map("updated_at")
-  name      String @unique
+  name      String   @unique
 
   books Book[] @relation("books_tags")
 

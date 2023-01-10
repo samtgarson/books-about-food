@@ -5,6 +5,7 @@
       "outputs": []
     },
     "db:build": {
+      "cache": false,
       "outputs": ["node_modules/.prisma/**"]
     },
     "build": {
@@ -12,6 +13,7 @@
       "outputs": [".next/**"]
     },
     "dev": {
+      "persistent": true,
       "outputs": []
     }
   }

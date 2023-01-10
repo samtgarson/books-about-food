@@ -5,6 +5,8 @@ import { PublishersList } from './list'
 
 type PublishersProps = { searchParams: { page: number; search?: string } }
 
+export const dynamic = 'force-dynamic'
+
 export default async ({ searchParams: { page, search } }: PublishersProps) => {
   const currentPath = pathFor('/publishers', { search })
 

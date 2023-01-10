@@ -1,5 +1,8 @@
 import { parseFile, Row } from '@fast-csv/parse'
+import { Prisma } from 'database'
 import path from 'path'
+import { getEnv } from 'shared/utils/get-env'
+import getImageSize from 'url-image-size'
 
 const dataDir = process.env.DATA_DIR ?? 'data'
 
@@ -43,4 +46,26 @@ export abstract class Base<
 
   abstract transform(row: In): Promise<Out>
   abstract save(record: Out): Promise<Result>
+
+  protected async imageAttrs(
+    path?: string
+  ): Promise<Prisma.ImageCreateInput | undefined> {
+    if (!path) return undefined
+    const url = new URL(path, getEnv('S3_DOMAIN'))
+    const { width, height } = await getImageSize(
+      // @ts-expect-error - url-image-size is missing types
+      url
+    )
+    if (!width || !height)
+      throw new Error(`Could not get image size for ${url}`)
+    return { width, height, url: path }
+  }
+
+  protected async imagesAttrs(
+    urls?: string[]
+  ): Promise<Prisma.ImageCreateInput[] | undefined> {
+    if (!urls) return undefined
+    const inputs = await Promise.all(urls.map(this.imageAttrs))
+    return inputs.filter((i): i is Prisma.ImageCreateInput => !!i)
+  }
 }

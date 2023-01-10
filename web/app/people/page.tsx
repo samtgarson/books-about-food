@@ -5,6 +5,8 @@ import { PeopleList } from './list'
 
 type PeopleProps = { searchParams: { page: number; jobs?: string[] } }
 
+export const dynamic = 'force-dynamic'
+
 export default async ({ searchParams: { page, jobs } }: PeopleProps) => {
   const currentPath = pathFor('/people', { jobs })
 

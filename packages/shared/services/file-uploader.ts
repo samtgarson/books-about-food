@@ -34,6 +34,15 @@ export class FileUploader {
       })
       .promise()
 
-    return Key
+    return { path: Key, id: name }
+  }
+
+  async delete(path: string) {
+    await this.client
+      .deleteObject({
+        Bucket: this.bucket,
+        Key: path
+      })
+      .promise()
   }
 }

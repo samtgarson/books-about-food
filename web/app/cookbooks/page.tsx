@@ -1,10 +1,12 @@
 import { Suspense } from 'react'
-import { FetchBooksOptions } from 'src/services/books/fetch'
+import { FetchBooksOptions } from 'src/services/books/fetch-books'
 import { pathFor } from 'src/utils/path-helpers'
 import { CookbooksFilters } from './filters'
 import { CookbooksList } from './list'
 
 type CookbooksProps = { searchParams: FetchBooksOptions }
+
+export const dynamic = 'force-dynamic'
 
 export default async ({
   searchParams: { page, sort, tag, search }

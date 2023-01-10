@@ -1,34 +1,70 @@
 import { CollectionCustomizer } from '@forestadmin/agent'
 import prisma from 'database'
-import { uploadImage } from 'lib/utils/image-utils'
+import { deleteImage, uploadImage } from 'lib/utils/image-utils'
 import { Schema } from '../../.schema/types'
 
 export const customiseBooks = (
   collection: CollectionCustomizer<Schema, 'books'>
 ) => {
-  collection.replaceFieldWriting('cover_url', async (dataUri, context) => {
-    if (!dataUri) return { cover_url: undefined }
+  // Cover Images
+  collection
+    .addField('Cover', {
+      dependencies: ['id'],
+      getValues: async (records) => {
+        return Promise.all(
+          records.map(async (record) => {
+            const image = await prisma.image.findUnique({
+              where: { coverForId: record.id }
+            })
+            return image?.url
+          })
+        )
+      },
+      columnType: 'String'
+    })
+    .replaceFieldWriting('Cover', async (dataUri, context) => {
+      if (!dataUri) {
+        await deleteImage({ coverForId: context.record.id })
+        return
+      }
 
-    const prefix = `book-covers/${context.record.id}`
-    const path = await uploadImage(dataUri, prefix)
+      const prefix = `books/cover/${context.record.id}`
+      await uploadImage(dataUri, prefix, 'coverForId', context.record.id)
+    })
 
-    return { cover_url: path }
+  // Preview Images
+  collection.addField('Preview Images', {
+    dependencies: ['id'],
+    getValues: async (records) => {
+      return Promise.all(
+        records.map(async (record) => {
+          const image = await prisma.image.findMany({
+            where: { previewForId: record.id }
+          })
+          return image.map((image) => image.url)
+        })
+      )
+    },
+    columnType: ['String']
   })
-
   collection.replaceFieldWriting(
-    'image_urls',
+    'Preview Images',
     async (dataUris = [], context) => {
-      const paths = await Promise.all(
+      const ids = await Promise.all(
         dataUris.map((dataUri) => {
-          const prefix = `book-images/${context.record.id}`
-          return uploadImage(dataUri, prefix)
+          const prefix = `books/previews/${context.record.id}`
+          return uploadImage(dataUri, prefix, 'previewForId', context.record.id)
         })
       )
 
-      return { image_urls: paths.filter((path): path is string => !!path) }
+      await deleteImage({
+        previewForId: context.record.id,
+        id: { notIn: ids.filter((id): id is string => !!id) }
+      })
     }
   )
 
+  // Tags
   collection
     .addField('Tags', {
       dependencies: ['id'],

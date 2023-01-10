@@ -4,6 +4,8 @@ import { AuthorsList } from './list'
 
 type AuthorsProps = { searchParams: { page: number } }
 
+export const dynamic = 'force-dynamic'
+
 export default async ({ searchParams: { page } }: AuthorsProps) => {
   const currentPath = pathFor('/authors', { page })
 
