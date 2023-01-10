@@ -4,8 +4,11 @@
     "start": {
       "outputs": []
     },
+    "db:build": {
+      "outputs": ["node_modules/.prisma/**"]
+    },
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^db:build"],
       "outputs": [".next/**"]
     },
     "dev": {

@@ -4,7 +4,7 @@
   "main": "index.ts",
   "types": "index.ts",
   "scripts": {
-    "build": "npx prisma generate && npx prisma migrate deploy"
+    "db:build": "npx prisma generate && npx prisma migrate deploy"
   },
   "devDependencies": {
     "prisma": "^4.8.0"
