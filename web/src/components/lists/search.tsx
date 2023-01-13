@@ -1,46 +1,34 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-import { ChangeEvent, FC, useEffect, useState } from 'react'
-import { addParam } from 'src/utils/path-helpers'
+import { FC, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 
 export type SearchProps = {
-  paramName: string
-  currentSearch?: string
-  path: string
+  value?: string
   placeholder?: string
+  onChange?: (value: string) => void
 }
 
 export const Search: FC<SearchProps> = ({
-  paramName,
-  currentSearch = '',
-  path,
+  onChange,
+  value = '',
   placeholder = 'Search'
 }) => {
-  const router = useRouter()
-  const [value, setValue] = useState(currentSearch)
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setValue(value)
-    apply(value)
-  }
-
+  const [internalValue, setInternalValue] = useState(value)
   const apply = useDebouncedCallback(
-    (value: string) => router.push(addParam(path, paramName, value)),
+    (value: string) => onChange?.(value),
     250,
     { leading: true }
   )
 
-  useEffect(() => {
-    if (currentSearch === '') setValue('')
-  }, [currentSearch])
-
   return (
     <input
       type='search'
-      value={value}
-      onChange={onChange}
+      value={internalValue}
+      onChange={(e) => {
+        setInternalValue(e.target.value)
+        apply(e.target.value)
+      }}
       placeholder={placeholder}
     />
   )

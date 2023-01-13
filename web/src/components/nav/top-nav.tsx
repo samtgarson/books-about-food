@@ -21,7 +21,7 @@ export const TopNav: FC = () => (
     <TopNavItem href='/authors'>Authors</TopNavItem>
     <TopNavItem href='/people'>People</TopNavItem>
     <TopNavItem href='/publishers'>Publishers</TopNavItem>
-    <TopNavItem href='/search'>Search</TopNavItem>
+    <TopNavItem href=''>Search</TopNavItem>
     <TopNavItem href='https://www.instagram.com/books.about.food' external>
       Instagram
     </TopNavItem>

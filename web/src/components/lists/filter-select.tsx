@@ -1,33 +1,26 @@
 'use client'
 
 import * as Select from '@radix-ui/react-select'
-import { useRouter } from 'next/navigation'
 import { FC } from 'react'
-import { addParam } from 'src/utils/path-helpers'
 
 export type FilterSelectProps = {
-  filters: { label: string; value: string }[]
-  path: string
-  currentFilter?: string
-  filterName: string
+  options: { label: string; value: string }[]
+  value?: string
   placeholder: string
+  onChange?: (value: string) => void
+  onPreload?: (value: string) => void
 }
 
 export const FilterSelect: FC<FilterSelectProps> = ({
-  filters,
-  path,
-  currentFilter,
-  filterName,
-  placeholder
+  options,
+  value = '',
+  placeholder,
+  onChange,
+  onPreload
 }) => {
-  const router = useRouter()
-  const onChange = (value: string) => {
-    router.push(addParam(path, filterName, value))
-  }
-
   return (
     <>
-      <Select.Root value={currentFilter ?? ''} onValueChange={onChange}>
+      <Select.Root value={value} onValueChange={onChange}>
         <Select.Trigger>
           <Select.Value />
           <Select.Icon>↓</Select.Icon>
@@ -40,8 +33,13 @@ export const FilterSelect: FC<FilterSelectProps> = ({
               <Select.Item asChild value={''} key={''}>
                 <Select.ItemText>{placeholder}</Select.ItemText>
               </Select.Item>
-              {filters.map(({ value, label }) => (
-                <Select.Item asChild value={value} key={value}>
+              {options.map(({ value, label }) => (
+                <Select.Item
+                  asChild
+                  value={value}
+                  key={value}
+                  onMouseOver={() => onPreload?.(value)}
+                >
                   <Select.ItemText>{label}</Select.ItemText>
                 </Select.Item>
               ))}

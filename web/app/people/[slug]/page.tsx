@@ -1,9 +1,9 @@
 import prisma from 'database'
 import { notFound } from 'next/navigation'
-import { fetchProfiles } from 'src/services/profiles/fetch'
+import { fetchProfiles } from 'src/services/profiles/fetch-profiles'
 
 export const generateStaticParams = async () => {
-  const { profiles } = await fetchProfiles({
+  const { profiles } = await fetchProfiles.call({
     perPage: 0
   })
 

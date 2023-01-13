@@ -4,7 +4,7 @@ import { fetchBook } from 'src/services/books/fetch-book'
 import { fetchBooks } from 'src/services/books/fetch-books'
 
 export const generateStaticParams = async () => {
-  const { books } = await fetchBooks({ perPage: 0 })
+  const { books } = await fetchBooks.call({ perPage: 0 })
 
   return books.map((book) => ({
     slug: book.slug
@@ -12,8 +12,8 @@ export const generateStaticParams = async () => {
 }
 
 export default async ({ params: { slug } }: { params: { slug: string } }) => {
-  const book = await fetchBook(slug)
-  if (!book) return notFound()
+  const book = await fetchBook.call({ slug })
+  if (!book) notFound()
 
   return (
     <div>

@@ -2,7 +2,15 @@
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
-    appDir: true
+    appDir: true,
+    swcPlugins: [
+      [
+        'next-superjson-plugin',
+        {
+          excluded: []
+        }
+      ]
+    ]
   },
   transpilePackages: ['shared', 'database'],
   swcMinify: true,

@@ -1,23 +1,32 @@
-import { FC } from 'react'
-import { addParam } from 'src/utils/path-helpers'
-
-export type SortProps = {
-  sorts: Record<string, string>
-  currentSort?: string
-  path: string
+export type SortProps<Value extends string> = {
+  sorts: Record<Value, string>
+  value?: Value
+  onChange?: (value: Value) => void
+  onPreload?: (value: Value) => void
 }
 
-export const Sort: FC<SortProps> = ({ sorts, currentSort, path }) => {
+export const Sort = <Value extends string>({
+  sorts,
+  value,
+  onChange,
+  onPreload
+}: SortProps<Value>) => {
+  const keys = Object.keys(sorts) as Value[]
   return (
     <div className='flex gap-2'>
       <p>Sort by:</p>
       <ul className='flex gap-2'>
-        {Object.entries(sorts).map(([sort, label]) => (
+        {keys.map((sort) => (
           <li key={sort} className='list-none'>
-            {sort === currentSort ? (
-              <span className='text-gray-500'>{label}</span>
+            {sort === value ? (
+              <span className='text-gray-500'>{sorts[sort]}</span>
             ) : (
-              <a href={addParam(path, 'sort', sort)}>{label}</a>
+              <button
+                onClick={() => onChange?.(sort)}
+                onMouseOver={() => onPreload?.(sort)}
+              >
+                {sorts[sort]}
+              </button>
             )}
           </li>
         ))}

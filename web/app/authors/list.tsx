@@ -1,24 +1,18 @@
+'use client'
+
+import { useState } from 'react'
 import { Pagination } from 'src/components/lists/pagination'
-import {
-  fetchProfiles,
-  FetchProfilesOptions
-} from 'src/services/profiles/fetch'
+import { FetchProfilesInput } from 'src/services/profiles/fetch-profiles'
+import { prefetch, useFetcher } from 'src/contexts/fetcher'
 import { AuthorItem } from './item'
 
-type AuthorsListProps = {
-  currentPath: string
-  filters: Omit<FetchProfilesOptions, 'jobs'>
-}
-
-export const AuthorsList = async ({
-  currentPath,
-  filters: { page: pageParam }
-}: AuthorsListProps) => {
-  const page = Number(pageParam) || 0
-  const { profiles, filteredTotal, total, perPage } = await fetchProfiles({
-    page,
+export const AuthorsList = () => {
+  const [filters, setFilters] = useState<FetchProfilesInput>({
     onlyAuthors: true
   })
+  const { data } = useFetcher('profiles', filters)
+  if (!data) return null
+  const { profiles, filteredTotal, total, perPage } = data
 
   return (
     <>
@@ -31,9 +25,10 @@ export const AuthorsList = async ({
       <Pagination
         total={total}
         perPage={perPage}
-        page={page}
-        path={currentPath}
+        page={filters.page ?? 0}
         filteredTotal={filteredTotal}
+        onChange={(page) => setFilters({ ...filters, page })}
+        onPreload={(page) => prefetch('profiles', { ...filters, page })}
       />
     </>
   )

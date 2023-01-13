@@ -1,40 +1,49 @@
 import { FilterSelect } from 'src/components/lists/filter-select'
 import { Search } from 'src/components/lists/search'
 import { Sort } from 'src/components/lists/sort'
-import { FetchBooksOptions } from 'src/services/books/fetch-books'
-import { fetchTags } from 'src/services/tags/fetch'
+import { prefetch, useFetcher } from 'src/contexts/fetcher'
+import { FetchBooksInput } from 'src/services/books/fetch-books'
 
+type Filters = Omit<FetchBooksInput, 'page' | 'perPage'>
 type CookbooksFiltersProps = {
-  currentPath: string
-  filters: FetchBooksOptions
+  filters: Filters
+  onChange: (filters: Partial<Filters>) => void
 }
 
-export const CookbooksFilters = async ({
-  currentPath,
-  filters: { sort, tag, search }
+export const CookbooksFilters = ({
+  filters,
+  onChange
 }: CookbooksFiltersProps) => {
-  const tags = await fetchTags()
-  const tagFilters = tags.map((tag) => ({ label: tag.name, value: tag.name }))
+  const { data: tags } = useFetcher('tags', undefined, { immutable: true })
 
   return (
     <div>
-      <Sort
+      <Sort<NonNullable<Filters['sort']>>
         sorts={{
           title: 'Title',
           releaseDate: 'Release Date',
           createdAt: 'Recently Added'
         }}
-        path='/cookbooks'
-        currentSort={sort ?? 'title'}
+        value={filters.sort ?? 'releaseDate'}
+        onChange={(sort) => onChange({ sort })}
+        onPreload={(sort) => prefetch('books', { sort })}
       />
-      <FilterSelect
-        filters={tagFilters}
-        path={currentPath}
-        filterName='tag'
-        placeholder='All Tags'
-        currentFilter={tag}
+      {!tags ? (
+        'Loading'
+      ) : (
+        <FilterSelect
+          options={tags.map((tag) => ({ label: tag.name, value: tag.name }))}
+          placeholder='All Tags'
+          value={filters.tag}
+          onChange={(tag) => onChange({ tag })}
+          onPreload={(tag) => prefetch('books', { tag })}
+        />
+      )}
+      <Search
+        value={filters.search}
+        onChange={(search) => onChange({ search })}
+        placeholder='Search cookbooks'
       />
-      <Search path={currentPath} paramName='search' currentSearch={search} />
     </div>
   )
 }

@@ -1,13 +1,14 @@
-import Link from 'next/link'
+'use client'
+
 import { FC } from 'react'
-import { addParam } from 'src/utils/path-helpers'
 
 export type PaginationProps = {
   filteredTotal?: number
   total: number
   perPage: number
   page: number
-  path: string
+  onChange: (page: number) => void
+  onPreload?: (page: number) => void
 }
 
 export const Pagination: FC<PaginationProps> = ({
@@ -15,7 +16,8 @@ export const Pagination: FC<PaginationProps> = ({
   filteredTotal = total,
   perPage,
   page,
-  path
+  onChange,
+  onPreload
 }) => {
   const totalPages = Math.ceil(filteredTotal / perPage)
   const pages = Array.from({ length: totalPages }, (_, i) => i)
@@ -30,9 +32,12 @@ export const Pagination: FC<PaginationProps> = ({
             {p === page ? (
               <span className='text-gray-500'>{p + 1}</span>
             ) : (
-              <Link href={addParam(path, 'page', p === 0 ? null : p)}>
+              <button
+                onClick={() => onChange(p)}
+                onMouseOver={() => onPreload?.(p)}
+              >
                 {p + 1}
-              </Link>
+              </button>
             )}
           </li>
         ))}
