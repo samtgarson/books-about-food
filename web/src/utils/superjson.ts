@@ -4,8 +4,8 @@ import { Profile } from 'src/models/profile'
 import { Publisher } from 'src/models/publisher'
 import superjson from 'superjson'
 
-superjson.registerClass(Book)
-superjson.registerClass(FullBook)
-superjson.registerClass(Image)
-superjson.registerClass(Profile)
-superjson.registerClass(Publisher)
+superjson.registerClass(Book, { identifier: 'Book' })
+superjson.registerClass(FullBook, { identifier: 'FullBook' })
+superjson.registerClass(Image, { identifier: 'Image' })
+superjson.registerClass(Profile, { identifier: 'Profile' })
+superjson.registerClass(Publisher, { identifier: 'Publisher' })

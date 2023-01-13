@@ -5,12 +5,7 @@ import type {
   FunctionKey,
   FunctionReturn
 } from 'src/pages/api/data/[fn]'
-import useSWR, {
-  SWRConfig,
-  preload,
-  unstable_serialize,
-  SWRConfiguration
-} from 'swr'
+import useSWR, { SWRConfig, preload, unstable_serialize } from 'swr'
 import superjson from 'superjson'
 import 'src/utils/superjson'
 
