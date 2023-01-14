@@ -14,6 +14,6 @@
 
 @layer utilities {
   .all-caps {
-    @apply uppercase text-10 font-medium tracking-wide;
+    @apply uppercase text-10 font-medium tracking-[0.12em];
   }
 }
