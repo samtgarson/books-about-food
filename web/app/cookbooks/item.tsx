@@ -18,7 +18,7 @@ export const CookbookItem = ({ book }: CookbookItemProps) => {
             height={80}
           />
         ) : (
-          <div className='h-20 w-16 bg-gray-200' />
+          <div className='h-20 w-16 bg-white' />
         )}
         <p>{book.title}</p>
       </Link>

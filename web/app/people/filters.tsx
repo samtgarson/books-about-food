@@ -24,7 +24,7 @@ export const PeopleFilters = ({ value = [], onChange }: PeopleFiltersProps) => {
             <button
               key={job.id}
               onClick={() => onClick(job.id)}
-              className={value.includes(job.id) ? 'font-bold' : ''}
+              className={value.includes(job.id) ? 'font-medium' : ''}
             >
               {job.name}
             </button>

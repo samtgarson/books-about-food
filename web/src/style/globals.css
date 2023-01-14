@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  button,
+  input,
+  select,
+  textarea {
+    @apply bg-grey text-black;
+  }
+}
+
+@layer utilities {
+  .all-caps {
+    @apply uppercase text-10 font-medium tracking-wide;
+  }
+}
