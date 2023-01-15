@@ -1341,6 +1341,22 @@
       {
         "defaultValue": null,
         "enums": null,
+        "field": "Jobs",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": false,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": false,
+        "isVirtual": false,
+        "reference": null,
+        "type": ["String"],
+        "validations": []
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
         "field": "_profiles_jobs",
         "integration": null,
         "inverseOf": "profile",

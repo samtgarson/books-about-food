@@ -229,6 +229,7 @@ export type Schema = {
       'profile:website': string;
       'profile:instagram': string;
       'profile:slug': string;
+      'profile:Jobs': Array<string>;
       'profile:user:id': string;
       'profile:user:name': string;
       'profile:user:email': string;
@@ -274,6 +275,7 @@ export type Schema = {
       'user:profile:website': string;
       'user:profile:instagram': string;
       'user:profile:slug': string;
+      'user:profile:Jobs': Array<string>;
     };
   };
   'books': {
@@ -552,6 +554,7 @@ export type Schema = {
       'profile:website': string;
       'profile:instagram': string;
       'profile:slug': string;
+      'profile:Jobs': Array<string>;
       'profile:user:id': string;
       'profile:user:name': string;
       'profile:user:email': string;
@@ -1240,6 +1243,7 @@ export type Schema = {
       'website': string;
       'instagram': string;
       'slug': string;
+      'Jobs': Array<string>;
     };
     nested: {
       'user': Schema['users']['plain'] & Schema['users']['nested'];
@@ -1468,6 +1472,7 @@ export type Schema = {
       'user:profile:website': string;
       'user:profile:instagram': string;
       'user:profile:slug': string;
+      'user:profile:Jobs': Array<string>;
     };
   };
   'tags': {
@@ -1503,6 +1508,7 @@ export type Schema = {
       'profile:website': string;
       'profile:instagram': string;
       'profile:slug': string;
+      'profile:Jobs': Array<string>;
     };
   };
   'verification_tokens': {
