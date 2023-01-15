@@ -62,22 +62,22 @@ export class BookSeeder extends Base<CsvBook, Prisma.BookCreateInput, Book> {
     const create: Prisma.ContributionCreateWithoutBookInput[] = []
 
     for (const contribution of contributions) {
-      const [name, jobString] = contribution.split('|')
-      if (!name) continue
-      const jobs = jobString.split('/').map((j) => j.trim())
+      const [name, job] = contribution.split('|')
+      if (!name || !job) continue
 
-      const jobRecords = await Promise.all(
-        jobs.map((job) => prisma.job.findFirst({ where: { name: job } }))
-      )
+      const jobRecord = await prisma.job.findFirst({ where: { name: job } })
       const profileRecord = await prisma.profile.findFirst({ where: { name } })
 
-      if (!profileRecord)
+      if (!profileRecord) {
         throw new Error(`Could not find profile with name ${name}`)
+      }
+      if (!jobRecord) {
+        throw new Error(`Could not find job with name ${job}`)
+      }
+
       create.push({
-        jobs: {
-          connect: jobRecords
-            .filter((r): r is Job => !!r)
-            .map((r) => ({ id: r.id }))
+        job: {
+          connect: { id: jobRecord.id }
         },
         profile: { connect: { id: profileRecord.id } }
       })
