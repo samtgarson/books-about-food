@@ -1,7 +1,6 @@
 import { Image } from './image'
 import { Profile } from './profile'
-import { Publisher } from './publisher'
-import { BookAttrs, FullBookAttrs } from './types'
+import { BookAttrs } from './types'
 
 export class Book {
   id: string
@@ -11,6 +10,7 @@ export class Book {
   cover?: Image
   releaseDate: Date
   pages: number
+  authors: Profile[]
 
   constructor({
     id,
@@ -19,7 +19,8 @@ export class Book {
     slug,
     coverImage,
     releaseDate,
-    pages
+    pages,
+    contributions
   }: BookAttrs) {
     this.id = id
     this.title = title
@@ -30,28 +31,12 @@ export class Book {
       : undefined
     this.releaseDate = releaseDate
     this.pages = pages
+    this.authors = contributions
+      .filter((contribution) => contribution.job?.name === 'Author')
+      .map((contribution) => new Profile(contribution.profile))
   }
-}
 
-export class FullBook extends Book {
-  previewImages: Image[]
-  tags: string[]
-  publisher: Publisher
-  contributions: {
-    jobs: string[]
-    profile: Profile
-  }[]
-
-  constructor(attrs: FullBookAttrs) {
-    super(attrs)
-    this.previewImages = attrs.previewImages.map(
-      (image) => new Image(image, `Preview for ${attrs.title}`)
-    )
-    this.tags = attrs.tags.map((tag) => tag.name)
-    this.publisher = new Publisher(attrs.publisher)
-    this.contributions = attrs.contributions.map((contribution) => ({
-      jobs: contribution.jobs.map((job) => job.name),
-      profile: new Profile(contribution.profile)
-    }))
+  get authorNames() {
+    return this.authors.map((author) => author.name).join(' • ')
   }
 }

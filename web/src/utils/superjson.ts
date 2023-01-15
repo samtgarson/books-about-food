@@ -1,4 +1,5 @@
-import { Book, FullBook } from 'src/models/book'
+import { Book } from 'src/models/book'
+import { FullBook } from 'src/models/full-book'
 import { Image } from 'src/models/image'
 import { Profile } from 'src/models/profile'
 import { Publisher } from 'src/models/publisher'

@@ -17,12 +17,16 @@ export const CookbooksFilters = ({
   const { data: tags } = useFetcher('tags', undefined, { immutable: true })
 
   return (
-    <div>
+    <div className='flex gap-4 my-10'>
+      <Search
+        value={filters.search}
+        onChange={(search) => onChange({ search })}
+      />
       <Sort<NonNullable<Filters['sort']>>
         sorts={{
-          title: 'Title',
           releaseDate: 'Release Date',
-          createdAt: 'Recently Added'
+          createdAt: 'Recently Added',
+          title: 'Title'
         }}
         value={filters.sort ?? 'releaseDate'}
         onChange={(sort) => onChange({ sort })}
@@ -39,11 +43,6 @@ export const CookbooksFilters = ({
           onPreload={(tag) => prefetch('books', { tag })}
         />
       )}
-      <Search
-        value={filters.search}
-        onChange={(search) => onChange({ search })}
-        placeholder='Search cookbooks'
-      />
     </div>
   )
 }

@@ -2,6 +2,7 @@ import prisma, { Prisma } from 'database'
 import { Book } from 'src/models/book'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
+import { profileIncludes } from './utils'
 
 export type FetchBooksInput = NonNullable<z.infer<typeof fetchBooks['input']>>
 export const fetchBooks = new Service(
@@ -17,7 +18,7 @@ export const fetchBooks = new Service(
 
   async ({
     page = 0,
-    perPage = 10,
+    perPage = 18,
     sort = 'releaseDate',
     tag,
     search
@@ -44,7 +45,13 @@ export const fetchBooks = new Service(
         take: perPage === 0 ? undefined : perPage,
         skip: perPage * page,
         orderBy: { [sort]: sort === 'title' ? 'asc' : 'desc' },
-        include: { coverImage: true },
+        include: {
+          coverImage: true,
+          contributions: {
+            include: { profile: profileIncludes, job: true },
+            where: { job: { name: 'Author' } }
+          }
+        },
         where
       }),
       prisma.book.count({ where }),

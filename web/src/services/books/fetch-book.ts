@@ -1,7 +1,8 @@
 import prisma from 'database'
-import { FullBook } from 'src/models/book'
+import { FullBook } from 'src/models/full-book'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
+import { profileIncludes } from './utils'
 
 export const fetchBook = new Service(
   z.object({ slug: z.string() }),
@@ -16,8 +17,8 @@ export const fetchBook = new Service(
         tags: true,
         contributions: {
           include: {
-            profile: { include: { user: { select: { image: true } } } },
-            jobs: true
+            profile: profileIncludes,
+            job: true
           }
         }
       }

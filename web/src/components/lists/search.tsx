@@ -2,17 +2,20 @@
 
 import { FC, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
+import cn from 'classnames'
 
 export type SearchProps = {
   value?: string
   placeholder?: string
   onChange?: (value: string) => void
+  className?: string
 }
 
 export const Search: FC<SearchProps> = ({
   onChange,
   value = '',
-  placeholder = 'Search'
+  placeholder = 'Search',
+  className
 }) => {
   const [internalValue, setInternalValue] = useState(value)
   const apply = useDebouncedCallback(
@@ -30,6 +33,10 @@ export const Search: FC<SearchProps> = ({
         apply(e.target.value)
       }}
       placeholder={placeholder}
+      className={cn(
+        'text-32 flex-grow flex-shrink w-4 placeholder-black placeholder-opacity-40',
+        className
+      )}
     />
   )
 }
