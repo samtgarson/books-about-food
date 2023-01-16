@@ -24,7 +24,7 @@ export const PeopleList = () => {
         onReset={() => setFilters({ ...filters, page: 0, jobs: [] })}
       />
       <Container>
-        <ul className='grid auto-grid'>
+        <ul className="grid auto-grid">
           {profiles.map((profile) => (
             <PeopleItem key={profile.id} profile={profile} />
           ))}

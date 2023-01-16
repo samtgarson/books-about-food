@@ -35,8 +35,8 @@ const TopNavItemExternal: FC<{
 }> = ({ children, href }) => (
   <a
     href={href}
-    target='_blank'
-    rel='noopener noreferrer'
+    target="_blank"
+    rel="noopener noreferrer"
     className={navItemClassNames()}
   >
     {children}
@@ -44,13 +44,13 @@ const TopNavItemExternal: FC<{
 )
 
 export const TopNav: FC = () => (
-  <nav className='flex gap-20 py-2 overflow-x-auto'>
+  <nav className="flex gap-20 py-2 overflow-x-auto">
     <TopNavItem path={null}>Home</TopNavItem>
-    <TopNavItem path='cookbooks'>Cookbooks</TopNavItem>
-    <TopNavItem path='authors'>Authors</TopNavItem>
-    <TopNavItem path='people'>People</TopNavItem>
-    <TopNavItem path='publishers'>Publishers</TopNavItem>
-    <TopNavItemExternal href='https://www.instagram.com/books.about.food'>
+    <TopNavItem path="cookbooks">Cookbooks</TopNavItem>
+    <TopNavItem path="authors">Authors</TopNavItem>
+    <TopNavItem path="people">People</TopNavItem>
+    <TopNavItem path="publishers">Publishers</TopNavItem>
+    <TopNavItemExternal href="https://www.instagram.com/books.about.food">
       Instagram
     </TopNavItemExternal>
   </nav>

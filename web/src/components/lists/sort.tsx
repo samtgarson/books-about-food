@@ -15,11 +15,11 @@ export const Sort = <Value extends string>({
 }: SortProps<Value>) => {
   const keys = Object.keys(sorts) as Value[]
   return (
-    <div className='flex gap-2 items-center flex-shrink-0'>
-      <p className='all-caps'>Sort by</p>
-      <ul className='flex gap-2'>
+    <div className="flex gap-2 items-center flex-shrink-0">
+      <p className="all-caps">Sort by</p>
+      <ul className="flex gap-2">
         {keys.map((sort) => (
-          <li key={sort} className='list-none'>
+          <li key={sort} className="list-none">
             <Pill
               onClick={() => onChange?.(sort)}
               onMouseOver={() => onPreload?.(sort)}

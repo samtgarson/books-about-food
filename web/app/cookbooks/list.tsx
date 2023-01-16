@@ -20,7 +20,7 @@ export const CookbooksList = () => {
         filters={filters}
         onChange={(f) => setFilters({ ...filters, page: 0, ...f })}
       />
-      <ul className='grid gap-y-16 auto-grid'>
+      <ul className="grid gap-y-16 auto-grid">
         {books.map((book) => (
           <CookbookItem key={book.id} book={book} />
         ))}

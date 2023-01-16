@@ -23,12 +23,12 @@ export const PeopleFilters = ({
       : onChange([...value, job])
 
   return (
-    <div className='my-10 flex flex-col gap-4'>
+    <div className="my-10 flex flex-col gap-4">
       <Container>
-        <p className='all-caps'>Showing</p>
+        <p className="all-caps">Showing</p>
       </Container>
-      <div className='overflow-x-auto scroll-smooth scrollbar-hidden'>
-        <Container className='flex flex-nowrap gap-4 w-max'>
+      <div className="overflow-x-auto scroll-smooth scrollbar-hidden">
+        <Container className="flex flex-nowrap gap-4 w-max">
           <Pill
             key={'all'}
             onClick={() => onReset?.()}
@@ -36,7 +36,7 @@ export const PeopleFilters = ({
           >
             All
           </Pill>
-          {!jobs && <Pill className='opacity-50'>Loading...</Pill>}
+          {!jobs && <Pill className="opacity-50">Loading...</Pill>}
           {jobs?.map(
             (job) =>
               job.name !== 'Author' && (

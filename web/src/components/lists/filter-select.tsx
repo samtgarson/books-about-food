@@ -27,7 +27,7 @@ export const FilterSelect: FC<FilterSelectProps> = ({
         </Select.Trigger>
 
         <Select.Portal>
-          <Select.Content className='bg-white'>
+          <Select.Content className="bg-white">
             <Select.ScrollUpButton />
             <Select.Viewport>
               <Select.Item asChild value={''} key={''}>

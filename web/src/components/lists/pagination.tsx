@@ -24,15 +24,15 @@ export const Pagination: FC<PaginationProps> = ({
   const pages = Array.from({ length: totalPages }, (_, i) => i)
 
   return (
-    <ul className='flex gap-2 mt-20'>
+    <ul className="flex gap-2 mt-20">
       {pages.map((p) => (
-        <li key={p} className='list-none'>
+        <li key={p} className="list-none">
           <Pill
             onClick={() => onChange(p)}
             onMouseOver={() => onPreload?.(p)}
             selected={page === p}
             disabled={page === p}
-            className='w-10 h-11 !p-0'
+            className="w-10 h-11 !p-0"
           >
             {p + 1}
           </Pill>

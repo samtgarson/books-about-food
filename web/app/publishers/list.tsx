@@ -19,7 +19,7 @@ export const PublishersList = () => {
         value={filters?.search}
         onChange={(search) => setFilters({ ...filters, page: 0, search })}
       />
-      <ul className='flex flex-wrap gap-4'>
+      <ul className="flex flex-wrap gap-4">
         {publishers.map((profile) => (
           <PublishersItem key={profile.id} publisher={profile} />
         ))}

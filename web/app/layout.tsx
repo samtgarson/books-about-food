@@ -8,14 +8,14 @@ import { Container } from 'src/components/atoms/container'
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang='en' className={graphik.variable}>
+    <html lang="en" className={graphik.variable}>
       <head />
       <body>
         <AuthProvider>
           <TopNav />
           {children}
           <footer>
-            <Container className='mt-20 py-12 bg-white h-40'>Footer</Container>
+            <Container className="mt-20 py-12 bg-white h-40">Footer</Container>
           </footer>
         </AuthProvider>
       </body>

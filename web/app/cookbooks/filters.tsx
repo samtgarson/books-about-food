@@ -17,7 +17,7 @@ export const CookbooksFilters = ({
   const { data: tags } = useFetcher('tags', undefined, { immutable: true })
 
   return (
-    <div className='flex gap-4 my-10'>
+    <div className="flex gap-4 my-10">
       <Search
         value={filters.search}
         onChange={(search) => onChange({ search })}
@@ -37,7 +37,7 @@ export const CookbooksFilters = ({
       ) : (
         <FilterSelect
           options={tags.map((tag) => ({ label: tag.name, value: tag.name }))}
-          placeholder='All Tags'
+          placeholder="All Tags"
           value={filters.tag}
           onChange={(tag) => onChange({ tag })}
           onPreload={(tag) => prefetch('books', { tag })}

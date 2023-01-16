@@ -16,7 +16,7 @@ export const AuthorsList = () => {
 
   return (
     <>
-      <ul className='flex flex-wrap gap-4'>
+      <ul className="flex flex-wrap gap-4">
         {profiles.map((profile) => (
           <AuthorItem key={profile.id} profile={profile} />
         ))}

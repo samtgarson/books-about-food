@@ -26,7 +26,7 @@ export const Search: FC<SearchProps> = ({
 
   return (
     <input
-      type='search'
+      type="search"
       value={internalValue}
       onChange={(e) => {
         setInternalValue(e.target.value)
