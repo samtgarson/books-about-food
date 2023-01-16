@@ -1,6 +1,6 @@
 import { Prisma } from 'database'
 
-type ProfileIncludes = { user: { select: { image: true } } }
+type ProfileIncludes = { user: { select: { image: true } }; jobs: true }
 
 export type BookAttrs = Prisma.BookGetPayload<{
   include: {
@@ -28,5 +28,5 @@ export type PublisherAttrs = Prisma.PublisherGetPayload<{
 }>
 
 export type ProfileAttrs = Prisma.ProfileGetPayload<{
-  include: ProfileIncludes
+  include: ProfileIncludes & { jobs: true }
 }>

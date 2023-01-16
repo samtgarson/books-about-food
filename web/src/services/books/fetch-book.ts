@@ -2,7 +2,7 @@ import prisma from 'database'
 import { FullBook } from 'src/models/full-book'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
-import { profileIncludes } from './utils'
+import { profileIncludes } from '../utils'
 
 export const fetchBook = new Service(
   z.object({ slug: z.string() }),

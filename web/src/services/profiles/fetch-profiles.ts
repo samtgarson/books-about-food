@@ -1,6 +1,8 @@
 import prisma, { Prisma } from 'database'
+import { Profile } from 'src/models/profile'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
+import { profileIncludes } from '../utils'
 
 const authorFilter = (onlyAuthors?: boolean): Prisma.ProfileWhereInput => {
   switch (onlyAuthors) {
@@ -23,23 +25,26 @@ export const fetchProfiles = new Service(
     onlyAuthors: z.boolean().optional(),
     jobs: z.string().array().optional()
   }),
-  async ({ page = 0, perPage = 20, jobs, onlyAuthors } = {}) => {
+  async ({ page = 0, perPage = 21, jobs, onlyAuthors } = {}) => {
     const baseWhere = authorFilter(onlyAuthors)
     const hasJob = (jobs && jobs.length > 0) || undefined
     const where: Prisma.ProfileWhereInput = {
       AND: [baseWhere, { jobs: hasJob && { some: { id: { in: jobs } } } }]
     }
 
-    const [profiles, total, filteredTotal] = await Promise.all([
+    const [raw, total, filteredTotal] = await Promise.all([
       prisma.profile.findMany({
         orderBy: { name: 'asc' },
         where,
         take: perPage === 0 ? undefined : perPage,
-        skip: perPage * page
+        skip: perPage * page,
+        include: profileIncludes.include
       }),
       prisma.profile.count({ where: baseWhere }),
       prisma.profile.count({ where })
     ])
+
+    const profiles = raw.map((profile) => new Profile(profile))
 
     return { profiles, total, filteredTotal, perPage }
   }

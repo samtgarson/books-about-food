@@ -2,7 +2,7 @@ import prisma, { Prisma } from 'database'
 import { Book } from 'src/models/book'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
-import { profileIncludes } from './utils'
+import { profileIncludes } from '../utils'
 
 export type FetchBooksInput = NonNullable<z.infer<typeof fetchBooks['input']>>
 export const fetchBooks = new Service(

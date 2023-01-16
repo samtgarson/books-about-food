@@ -32,7 +32,7 @@ export const Pagination: FC<PaginationProps> = ({
             onMouseOver={() => onPreload?.(p)}
             selected={page === p}
             disabled={page === p}
-            className='leading-5'
+            className='w-10 h-11 !p-0'
           >
             {p + 1}
           </Pill>
