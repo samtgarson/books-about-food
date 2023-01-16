@@ -1,3 +1,4 @@
+import { Link } from 'src/components/atoms/link-list'
 import { ProfileAttrs } from './types'
 
 export class Profile {
@@ -34,5 +35,20 @@ export class Profile {
 
   get jobNames() {
     return this.jobs.join(' • ')
+  }
+
+  get links(): Link[] {
+    const links = []
+    if (this.website) {
+      const name = new URL(this.website).hostname
+      links.push({ name, url: this.website })
+    }
+
+    if (this.instagram)
+      links.push({
+        name: `@${this.instagram}`,
+        url: `https://instagram.com/${this.instagram}`
+      })
+    return links
   }
 }

@@ -37,6 +37,30 @@ module.exports = {
     autoGrid: {
       md: '150px',
       lg: '200px'
+    },
+    keyframes: {
+      'collapsible-open': {
+        from: { height: 0 },
+        to: { height: 'var(--radix-collapsible-content-height)' }
+      },
+      'collapsible-closed': {
+        from: { height: 'var(--radix-collapsible-content-height)' },
+        to: { height: '0' }
+      },
+      'fade-in': {
+        from: { opacity: 0 },
+        to: { opacity: 1 }
+      },
+      'fade-out': {
+        from: { opacity: 1 },
+        to: { opacity: 0 }
+      }
+    },
+    animation: {
+      'collapsible-open': 'collapsible-open 0.3s ease-out both',
+      'collapsible-closed': 'collapsible-closed 0.3s 0.1s ease-out both',
+      'fade-in': 'fade-in 0.3s ease-out both',
+      'fade-out': 'fade-out 0.3s ease-out both'
     }
   },
   plugins: [

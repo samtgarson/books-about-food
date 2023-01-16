@@ -1,31 +1,42 @@
 'use client'
 
-import { useState } from 'react'
-import { Container } from 'src/components/atoms/container'
+import { FC, useState } from 'react'
 import { Pagination } from 'src/components/lists/pagination'
 import { prefetch, useFetcher } from 'src/contexts/fetcher'
 import { FetchBooksInput } from 'src/services/books/fetch-books'
-import { CookbooksFilters } from './filters'
-import { CookbookItem } from './item'
+import { BookFilters } from './filters'
+import { BookItem } from './item'
 
-export const CookbooksList = () => {
-  const [filters, setFilters] = useState<FetchBooksInput>({})
+export type BookListProps = {
+  filters?: FetchBooksInput
+  showFilters?: boolean
+  showEmpty?: boolean
+}
+
+export const BookList: FC<BookListProps> = ({
+  filters: initialFilters = {},
+  showFilters = true,
+  showEmpty = true
+}) => {
+  const [filters, setFilters] = useState<FetchBooksInput>(initialFilters)
   const { data } = useFetcher('books', filters)
   if (!data) return null
   const { books, filteredTotal, total, perPage } = data
 
   return (
-    <Container>
-      <CookbooksFilters
-        filters={filters}
-        onChange={(f) => setFilters({ ...filters, page: 0, ...f })}
-      />
+    <>
+      {showFilters && (
+        <BookFilters
+          filters={filters}
+          onChange={(f) => setFilters({ ...filters, page: 0, ...f })}
+        />
+      )}
       <ul className="grid gap-y-16 auto-grid-lg">
         {books.map((book) => (
-          <CookbookItem key={book.id} book={book} />
+          <BookItem key={book.id} book={book} />
         ))}
       </ul>
-      {books.length === 0 && <p>No books found</p>}
+      {books.length === 0 && showEmpty && <p>No books found</p>}
       <Pagination
         total={total}
         perPage={perPage}
@@ -34,6 +45,6 @@ export const CookbooksList = () => {
         onChange={(page) => setFilters({ ...filters, page })}
         onPreload={(page) => prefetch('books', { ...filters, page })}
       />
-    </Container>
+    </>
   )
 }

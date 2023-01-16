@@ -5,12 +5,16 @@ export type PageTitleType = {
   showBrand?: boolean
 }
 
+export const BrandTitle = () => (
+  <span className="opacity-25 hidden md:inline"> Books About Food</span>
+)
+
 export const PageTitle: FC<PageTitleType> = ({
   children,
   showBrand = true
 }) => (
   <h1 className="text-48 py-20 text-right">
     {children}
-    {showBrand && <span className="opacity-25"> Books About Food</span>}
+    {showBrand && <BrandTitle />}
   </h1>
 )

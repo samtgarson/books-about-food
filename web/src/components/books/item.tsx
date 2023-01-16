@@ -6,7 +6,7 @@ export type CookbookItemProps = {
   book: Book
 }
 
-export const CookbookItem = ({ book }: CookbookItemProps) => {
+export const BookItem = ({ book }: CookbookItemProps) => {
   return (
     <li className="-mr-px">
       <Link href={`/cookbooks/${book.slug}`} className="h-full flex flex-col">

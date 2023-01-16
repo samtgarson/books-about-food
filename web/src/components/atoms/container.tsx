@@ -13,7 +13,10 @@ export const Container: FC<ContainerProps> = ({
   right = true,
   ...props
 }) => (
-  <div className={cn(right && 'pr-16', left && 'pl-16', className)} {...props}>
+  <div
+    className={cn(right && 'pr-5 md:pr-16', left && 'pl-5 md:pl-16', className)}
+    {...props}
+  >
     {children}
   </div>
 )

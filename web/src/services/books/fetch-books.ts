@@ -12,7 +12,8 @@ export const fetchBooks = new Service(
       perPage: z.number().optional(),
       sort: z.enum(['title', 'releaseDate', 'createdAt']).optional(),
       tag: z.string().optional(),
-      search: z.string().optional()
+      search: z.string().optional(),
+      profile: z.string().optional()
     })
     .optional(),
 
@@ -21,16 +22,20 @@ export const fetchBooks = new Service(
     perPage = 18,
     sort = 'releaseDate',
     tag,
-    search
+    search,
+    profile
   } = {}) => {
     const contains = search?.trim()
     const hasSearch = (contains && contains.length > 0) || undefined
     const hasTag = (tag && tag.length > 0) || undefined
     const mode: Prisma.QueryMode = 'insensitive'
+    const AND: Prisma.BookWhereInput[] = []
+    if (hasTag) AND.push({ tags: { some: { name: tag } } })
+    if (profile)
+      AND.push({ contributions: { some: { profile: { slug: profile } } } })
+
     const where = {
-      AND: hasTag && {
-        tags: { some: { name: tag } }
-      },
+      AND,
       OR: hasSearch && [
         { title: { contains, mode } },
         { subtitle: { contains, mode } },

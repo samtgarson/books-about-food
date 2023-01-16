@@ -5,19 +5,16 @@ import { prefetch, useFetcher } from 'src/contexts/fetcher'
 import { FetchBooksInput } from 'src/services/books/fetch-books'
 
 type Filters = Omit<FetchBooksInput, 'page' | 'perPage'>
-type CookbooksFiltersProps = {
+type BookFiltersProps = {
   filters: Filters
   onChange: (filters: Partial<Filters>) => void
 }
 
-export const CookbooksFilters = ({
-  filters,
-  onChange
-}: CookbooksFiltersProps) => {
+export const BookFilters = ({ filters, onChange }: BookFiltersProps) => {
   const { data: tags } = useFetcher('tags', undefined, { immutable: true })
 
   return (
-    <div className="flex gap-4 my-10">
+    <div className="flex flex-wrap gap-4 my-10">
       <Search
         value={filters.search}
         onChange={(search) => onChange({ search })}
