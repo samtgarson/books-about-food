@@ -1,9 +1,10 @@
+import { PageTitle } from 'src/components/atoms/page-title'
 import { AuthorsList } from './list'
 
 export default async () => {
   return (
     <>
-      <h1>Authors</h1>
+      <PageTitle>Authors</PageTitle>
       <AuthorsList />
     </>
   )

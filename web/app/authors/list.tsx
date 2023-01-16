@@ -5,6 +5,7 @@ import { Pagination } from 'src/components/lists/pagination'
 import { FetchProfilesInput } from 'src/services/profiles/fetch-profiles'
 import { prefetch, useFetcher } from 'src/contexts/fetcher'
 import { AuthorItem } from './item'
+import { Container } from 'src/components/atoms/container'
 
 export const AuthorsList = () => {
   const [filters, setFilters] = useState<FetchProfilesInput>({
@@ -15,8 +16,8 @@ export const AuthorsList = () => {
   const { profiles, filteredTotal, total, perPage } = data
 
   return (
-    <>
-      <ul className="flex flex-wrap gap-4">
+    <Container>
+      <ul className="grid auto-grid-md gap-x-8 gap-y-16">
         {profiles.map((profile) => (
           <AuthorItem key={profile.id} profile={profile} />
         ))}
@@ -30,6 +31,6 @@ export const AuthorsList = () => {
         onChange={(page) => setFilters({ ...filters, page })}
         onPreload={(page) => prefetch('profiles', { ...filters, page })}
       />
-    </>
+    </Container>
   )
 }

@@ -1,5 +1,6 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
+/* eslint-disable import/no-extraneous-dependencies */
 const defaultTheme = require('tailwindcss/defaultTheme')
+const plugin = require('tailwindcss/plugin')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -32,7 +33,22 @@ module.exports = {
       28: ['28px', '34px'],
       32: ['32px', '38px'],
       48: ['48px', '58px']
+    },
+    autoGrid: {
+      md: '150px',
+      lg: '200px'
     }
   },
-  plugins: []
+  plugins: [
+    plugin(function ({ matchUtilities, theme }) {
+      matchUtilities(
+        {
+          'auto-grid': (value) => ({
+            gridTemplateColumns: `repeat(auto-fill, minmax(min(${value}, 100%), 1fr))`
+          })
+        },
+        { values: theme('autoGrid') }
+      )
+    })
+  ]
 }

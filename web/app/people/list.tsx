@@ -27,7 +27,7 @@ export const PeopleList = () => {
         }
       />
       <Container>
-        <ul className="grid auto-grid">
+        <ul className="grid auto-grid-lg">
           {profiles.map((profile) => (
             <PeopleItem key={profile.id} profile={profile} />
           ))}
