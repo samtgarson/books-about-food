@@ -22,6 +22,9 @@ export const PeopleList = () => {
         value={filters.jobs ?? []}
         onChange={(jobs) => setFilters({ ...filters, page: 0, jobs })}
         onReset={() => setFilters({ ...filters, page: 0, jobs: [] })}
+        onPreload={(jobs) =>
+          prefetch('profiles', { ...filters, page: 0, jobs })
+        }
       />
       <Container>
         <ul className="grid auto-grid">

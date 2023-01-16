@@ -8,19 +8,19 @@ type PeopleFiltersProps = {
   value: string[]
   onChange: (jobs: string[]) => void
   onReset?: () => void
+  onPreload?: (jobs: string[]) => void
 }
 
 export const PeopleFilters = ({
   value = [],
   onChange,
+  onPreload,
   onReset
 }: PeopleFiltersProps) => {
   const { data: jobs } = useFetcher('jobs', undefined, { immutable: true })
 
-  const onClick = (job: string) =>
-    value.includes(job)
-      ? onChange(value.filter((j) => j !== job))
-      : onChange([...value, job])
+  const toggle = (job: string) =>
+    value.includes(job) ? value.filter((j) => j !== job) : [...value, job]
 
   return (
     <div className="my-10 flex flex-col gap-4">
@@ -42,8 +42,9 @@ export const PeopleFilters = ({
               job.name !== 'Author' && (
                 <Pill
                   key={job.id}
-                  onClick={() => onClick(job.id)}
+                  onClick={() => onChange(toggle(job.id))}
                   selected={value.includes(job.id)}
+                  onMouseOver={() => onPreload?.(toggle(job.id))}
                 >
                   {job.name}
                 </Pill>
