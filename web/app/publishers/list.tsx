@@ -6,6 +6,7 @@ import { prefetch, useFetcher } from 'src/contexts/fetcher'
 import { PublishersItem } from './item'
 import { FetchPublishersInput } from 'src/services/publishers/fetch-publishers'
 import { Search } from 'src/components/lists/search'
+import { Container } from 'src/components/atoms/container'
 
 export const PublishersList = () => {
   const [filters, setFilters] = useState<FetchPublishersInput>()
@@ -14,12 +15,14 @@ export const PublishersList = () => {
   const { publishers, filteredTotal, total, perPage } = data
 
   return (
-    <>
-      <Search
-        value={filters?.search}
-        onChange={(search) => setFilters({ ...filters, page: 0, search })}
-      />
-      <ul className="flex flex-wrap gap-4">
+    <Container>
+      <div className="flex justify-between items-center my-10">
+        <Search
+          value={filters?.search}
+          onChange={(search) => setFilters({ ...filters, page: 0, search })}
+        />
+      </div>
+      <ul className="grid auto-grid-lg">
         {publishers.map((profile) => (
           <PublishersItem key={profile.id} publisher={profile} />
         ))}
@@ -33,6 +36,6 @@ export const PublishersList = () => {
         onChange={(page) => setFilters({ ...filters, page })}
         onPreload={(page) => prefetch('publishers', { ...filters, page })}
       />
-    </>
+    </Container>
   )
 }

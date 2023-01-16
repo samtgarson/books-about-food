@@ -11,7 +11,7 @@ export const fetchPublishers = new Service(
       search: z.string().optional()
     })
     .optional(),
-  async ({ page = 0, perPage = 10, search: contains } = {}) => {
+  async ({ page = 0, perPage = 21, search: contains } = {}) => {
     const where: Prisma.PublisherWhereInput = {
       name: { contains, mode: 'insensitive' }
     }

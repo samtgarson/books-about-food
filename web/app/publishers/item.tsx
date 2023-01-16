@@ -6,8 +6,11 @@ export type PublishersItemProps = {
 }
 
 export const PublishersItem = ({ publisher }: PublishersItemProps) => (
-  <li>
-    <Link href={`/publishers/${publisher.slug}`}>
+  <li className="aspect-square -mr-px -mb-px">
+    <Link
+      href={`/publishers/${publisher.slug}`}
+      className="w-full h-full border border-black flex justify-center items-center p-8 text-center"
+    >
       <p>{publisher.name}</p>
     </Link>
   </li>

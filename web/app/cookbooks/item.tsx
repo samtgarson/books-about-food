@@ -1,4 +1,4 @@
-import Img from 'next/image'
+import Image from 'next/image'
 import Link from 'next/link'
 import { Book } from 'src/models/book'
 
@@ -12,7 +12,7 @@ export const CookbookItem = ({ book }: CookbookItemProps) => {
       <Link href={`/cookbooks/${book.slug}`} className="h-full flex flex-col">
         <div className="aspect-square border border-black mb-6 relative flex items-center justify-center">
           {book.cover ? (
-            <Img
+            <Image
               alt={book.cover.caption}
               src={book.cover.src}
               width={book.cover.widthFor(200)}

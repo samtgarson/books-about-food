@@ -10,10 +10,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={graphik.variable}>
       <head />
-      <body>
+      <body className="min-h-screen flex flex-col">
         <AuthProvider>
           <TopNav />
-          {children}
+          <main className="flex-grow">{children}</main>
           <footer>
             <Container className="mt-20 py-12 bg-white h-40">Footer</Container>
           </footer>
