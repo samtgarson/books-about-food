@@ -1,5 +1,6 @@
 import { CollectionCustomizer } from '@forestadmin/agent'
 import prisma from 'database'
+import { slugify } from 'shared/utils/slugify'
 import { Schema } from '../../.schema/types'
 
 export const customiseProfiles = (
@@ -30,4 +31,10 @@ export const customiseProfiles = (
         data: { jobs: { connect: jobs.map((job) => ({ id: job.id })) } }
       })
     })
+
+  collection.addHook('Before', 'Create', async (context) => {
+    context.data.forEach((profile) => {
+      profile.slug ||= slugify(profile.name)
+    })
+  })
 }

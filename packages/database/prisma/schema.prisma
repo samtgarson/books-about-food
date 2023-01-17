@@ -123,9 +123,9 @@ model Contribution {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @map("updated_at")
   bookId    String   @map("book_id") @db.Uuid
-  jobId     String?  @map("job_id") @db.Uuid
+  jobId     String   @map("job_id") @db.Uuid
 
-  job     Job?    @relation(fields: [jobId], references: [id])
+  job     Job     @relation(fields: [jobId], references: [id])
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
   book    Book    @relation(fields: [bookId], references: [id], onDelete: Cascade)
 

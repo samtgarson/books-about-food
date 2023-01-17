@@ -1,6 +1,8 @@
 import { CollectionCustomizer } from '@forestadmin/agent'
 import prisma from 'database'
 import { deleteImage, uploadImage } from 'lib/utils/image-utils'
+import { slugifyField } from 'lib/utils/slugify'
+import { slugify } from 'shared/utils/slugify'
 import { Schema } from '../../.schema/types'
 
 export const customiseBooks = (
@@ -90,4 +92,42 @@ export const customiseBooks = (
       })
     })
     .emulateFieldFiltering('Tags')
+
+  collection.addAction('Add new collaborator', {
+    scope: 'Single',
+    form: [
+      {
+        label: 'Name',
+        type: 'String'
+      },
+      { label: 'Job', type: 'Collection', collectionName: 'jobs' }
+    ],
+    execute: async (context, result) => {
+      const bookId = await context.getRecordId()
+      const jobId = context.formValues.Job[0]
+      await prisma.profile.create({
+        data: {
+          name: context.formValues['Name'],
+          slug: slugify(context.formValues['Name']),
+          jobs: { connect: { id: jobId } },
+          contributions: {
+            create: {
+              book: {
+                connect: { id: bookId.toString() }
+              },
+              job: { connect: { id: jobId } }
+            }
+          }
+        }
+      })
+
+      return result.success('Collaborator added')
+    }
+  })
+
+  collection.addHook('Before', 'Create', async (context) => {
+    context.data.forEach((book) => {
+      book.slug ||= slugify(book.title)
+    })
+  })
 }

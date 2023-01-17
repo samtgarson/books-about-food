@@ -1,6 +1,7 @@
 import { CollectionCustomizer } from '@forestadmin/agent'
 import prisma from 'database'
 import { deleteImage, uploadImage } from 'lib/utils/image-utils'
+import { slugify } from 'shared/utils/slugify'
 import { Schema } from '../../.schema/types'
 
 export const customisePublishers = (
@@ -31,4 +32,10 @@ export const customisePublishers = (
       await uploadImage(dataUri, prefix, 'publisherId', context.record.id)
       return { id: context.record.id }
     })
+
+  collection.addHook('Before', 'Create', async (context) => {
+    context.data.forEach((publisher) => {
+      publisher.slug ||= slugify(publisher.name)
+    })
+  })
 }

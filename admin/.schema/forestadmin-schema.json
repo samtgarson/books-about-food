@@ -487,7 +487,23 @@
     "segments": []
   },
   {
-    "actions": [],
+    "actions": [
+      {
+        "id": "books-0-add-new-collaborator",
+        "name": "Add new collaborator",
+        "type": "single",
+        "baseUrl": null,
+        "endpoint": "/forest/_actions/books/0/add-new-collaborator",
+        "httpMethod": "POST",
+        "redirect": null,
+        "download": false,
+        "fields": [
+          {"field": "Name", "type": "String"},
+          {"field": "Job", "type": "Uuid", "reference": "jobs.id"}
+        ],
+        "hooks": {"load": false, "change": ["changeHook"]}
+      }
+    ],
     "fields": [
       {
         "defaultValue": null,
