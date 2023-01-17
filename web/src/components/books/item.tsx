@@ -26,8 +26,8 @@ export const BookItem = ({ book }: CookbookItemProps) => {
             />
           )}
         </div>
-        <p className="font-medium text-16 mb-1 mt-auto">{book.title}</p>
-        <p className="text-14">{book.authorNames}</p>
+        <p className="pr-4 font-medium text-16 mb-1 mt-auto">{book.title}</p>
+        <p className="pr-4 text-14">{book.authorNames}</p>
       </Link>
     </li>
   )

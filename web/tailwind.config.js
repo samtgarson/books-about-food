@@ -36,7 +36,7 @@ module.exports = {
     },
     autoGrid: {
       md: '150px',
-      lg: '200px'
+      lg: '250px'
     },
     keyframes: {
       'collapsible-open': {

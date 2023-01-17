@@ -1,4 +1,5 @@
 import { Link } from 'src/components/atoms/link-list'
+import { normalizeLink } from 'src/utils/url-helpers'
 import { ProfileAttrs } from './types'
 
 export class Profile {
@@ -22,7 +23,7 @@ export class Profile {
     this.id = id
     this.name = name
     this.slug = slug
-    this.website = website ?? undefined
+    this.website = normalizeLink(website ?? undefined)
     this.instagram = instagram ?? undefined
     this.image = user?.image ?? undefined
     this.jobs = jobs.map((job) => job.name)

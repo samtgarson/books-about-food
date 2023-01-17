@@ -3,8 +3,10 @@ import { Container } from 'src/components/atoms/container'
 import { Detail } from 'src/components/atoms/detail'
 import { LinkList } from 'src/components/atoms/link-list'
 import { BookList } from 'src/components/books/list'
+import { ProfileItem } from 'src/components/profiles/item'
 import { FetchProvider } from 'src/contexts/fetcher'
 import { fetchBooks, FetchBooksInput } from 'src/services/books/fetch-books'
+import { fetchFrequentCollaborators } from 'src/services/books/fetch-frequent-collaborators'
 import { fetchProfile } from 'src/services/profiles/fetch-profile'
 import { fetchProfiles } from 'src/services/profiles/fetch-profiles'
 import { fetcherData } from 'src/utils/fetcher-helpers'
@@ -21,16 +23,17 @@ export const generateStaticParams = async () => {
 
 export default async ({ params: { slug } }: { params: { slug: string } }) => {
   const bookFilters = { profile: slug, perPage: 8 } satisfies FetchBooksInput
-  const [profile, books] = await Promise.all([
+  const [profile, books, collaborators] = await Promise.all([
     fetchProfile.call({ slug }),
-    fetchBooks.call(bookFilters)
+    fetchBooks.call(bookFilters),
+    fetchFrequentCollaborators.call({ slug })
   ])
   if (!profile) return notFound()
 
   return (
     <FetchProvider data-superjson data={[fetcherData('books', books)]}>
-      <Container>
-        <div className="flex mt-20">
+      <Container className="mt-20">
+        <div className="flex">
           <div className="flex-grow">
             <h1 className="text-32 mb-8">{profile.name}</h1>
             <Detail>{profile.jobNames}</Detail>
@@ -39,6 +42,12 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
             </Detail>
           </div>
         </div>
+        <h2 className="all-caps mt-20 mb-8">Frequent Collaborators</h2>
+        <ul className="grid auto-grid-lg">
+          {collaborators.map((profile) => (
+            <ProfileItem key={profile.id} profile={profile} display="list" />
+          ))}
+        </ul>
       </Container>
       <Container className="mt-20">
         {books.filteredTotal > 0 && (

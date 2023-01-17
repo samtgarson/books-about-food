@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Pagination } from 'src/components/lists/pagination'
 import { FetchProfilesInput } from 'src/services/profiles/fetch-profiles'
 import { prefetch, useFetcher } from 'src/contexts/fetcher'
-import { PeopleItem } from './item'
+import { ProfileItem } from 'src/components/profiles/item'
 import { PeopleFilters } from './filters'
 import { Container } from 'src/components/atoms/container'
 
@@ -29,7 +29,7 @@ export const PeopleList = () => {
       <Container>
         <ul className="grid auto-grid-lg">
           {profiles.map((profile) => (
-            <PeopleItem key={profile.id} profile={profile} />
+            <ProfileItem key={profile.id} profile={profile} />
           ))}
         </ul>
         {profiles.length === 0 && <p>No profiles found</p>}
