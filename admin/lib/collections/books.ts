@@ -1,7 +1,6 @@
 import { CollectionCustomizer } from '@forestadmin/agent'
 import prisma from 'database'
 import { deleteImage, uploadImage } from 'lib/utils/image-utils'
-import { slugifyField } from 'lib/utils/slugify'
 import { slugify } from 'shared/utils/slugify'
 import { Schema } from '../../.schema/types'
 

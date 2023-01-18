@@ -28,7 +28,7 @@ export const customiseProfiles = (
 
       await prisma.profile.update({
         where: { id: context.record.id },
-        data: { jobs: { connect: jobs.map((job) => ({ id: job.id })) } }
+        data: { jobs: { set: jobs.map((job) => ({ id: job.id })) } }
       })
     })
 
