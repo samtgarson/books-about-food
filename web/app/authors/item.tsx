@@ -9,7 +9,7 @@ export type AuthorItemProps = {
 export const AuthorItem = ({ profile }: AuthorItemProps) => (
   <li>
     <Link
-      href={`/people/${profile.slug}`}
+      href={`/authors/${profile.slug}`}
       className="flex flex-col text-center gap-6 h-full"
     >
       <Avatar profile={profile} size="fill" className="border border-black" />

@@ -13,7 +13,8 @@ import { fetcherData } from 'src/utils/fetcher-helpers'
 
 export const generateStaticParams = async () => {
   const { profiles } = await fetchProfiles.call({
-    perPage: 0
+    perPage: 0,
+    onlyAuthors: false
   })
 
   return profiles.map((profile) => ({
