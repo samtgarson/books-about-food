@@ -4,7 +4,7 @@ import * as Collapsible from '@radix-ui/react-collapsible'
 import cn from 'classnames'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
-import { CSSProperties, FC } from 'react'
+import { CSSProperties, FC, useState } from 'react'
 
 const navItemClassNames = (active?: boolean) =>
   cn(
@@ -85,12 +85,22 @@ const DesktopTopNav: FC = () => {
 }
 
 const MobileTopNav: FC = () => {
+  const [open, setOpen] = useState(false)
   return (
-    <Collapsible.Root>
+    <Collapsible.Root open={open} onOpenChange={setOpen}>
       <nav className="h-16 relative bg-white md:bg-transparent md:hidden flex items-center border-b border-black">
-        <p className="px-4 text-16 flex-grow">Books About Food</p>
+        <Link
+          href="/"
+          className="px-4 text-16 flex-grow"
+          onClick={() => setOpen(false)}
+        >
+          Books About Food
+        </Link>
         <Collapsible.Trigger className="px-4">Menu</Collapsible.Trigger>
-        <Collapsible.Content className="z-10 absolute top-full inset-x-0 flex flex-col bg-white items-start overflow-y-hidden data-[state=open]:animate-collapsible-open data-[state=closed]:animate-collapsible-closed border-b border-black">
+        <Collapsible.Content
+          onClick={() => setOpen(false)}
+          className="-mt-px z-10 absolute top-full inset-x-0 flex flex-col bg-white items-start overflow-y-hidden data-[state=open]:animate-collapsible-open data-[state=closed]:animate-collapsible-closed border-b border-black"
+        >
           <NavContent />
         </Collapsible.Content>
       </nav>
