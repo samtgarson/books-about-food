@@ -35,6 +35,7 @@ export class Profile {
   }
 
   get jobNames() {
+    if (!this.jobs.length) return
     return this.jobs.join(' • ')
   }
 

@@ -37,17 +37,27 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
           <div className="flex-grow">
             <h1 className="text-32 mb-8">{profile.name}</h1>
             <Detail>{profile.jobNames}</Detail>
-            <Detail>
-              <LinkList links={profile.links} />
-            </Detail>
+            {profile.links.length > 0 && (
+              <Detail>
+                <LinkList links={profile.links} />
+              </Detail>
+            )}
           </div>
         </div>
-        <h2 className="all-caps mt-20 mb-8">Frequent Collaborators</h2>
-        <ul className="grid auto-grid-lg">
-          {collaborators.map((profile) => (
-            <ProfileItem key={profile.id} profile={profile} display="list" />
-          ))}
-        </ul>
+        {collaborators.length > 0 && (
+          <>
+            <h2 className="all-caps mt-20 mb-8">Frequent Collaborators</h2>
+            <ul className="grid auto-grid-lg">
+              {collaborators.map((profile) => (
+                <ProfileItem
+                  key={profile.id}
+                  profile={profile}
+                  display="list"
+                />
+              ))}
+            </ul>
+          </>
+        )}
       </Container>
       <Container className="mt-20">
         {books.filteredTotal > 0 && (
