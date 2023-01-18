@@ -29,7 +29,15 @@ export const fetchProfiles = new Service(
     const baseWhere = authorFilter(onlyAuthors)
     const hasJob = (jobs && jobs.length > 0) || undefined
     const where: Prisma.ProfileWhereInput = {
-      AND: [baseWhere, { jobs: hasJob && { some: { id: { in: jobs } } } }]
+      AND: [
+        baseWhere,
+        {
+          OR: hasJob && [
+            { contributions: { some: { job: { id: { in: jobs } } } } },
+            { jobs: { some: { id: { in: jobs } } } }
+          ]
+        }
+      ]
     }
 
     const [raw, total, filteredTotal] = await Promise.all([
