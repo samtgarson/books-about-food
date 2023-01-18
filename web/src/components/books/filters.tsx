@@ -14,7 +14,7 @@ export const BookFilters = ({ filters, onChange }: BookFiltersProps) => {
   const { data: tags } = useFetcher('tags', undefined, { immutable: true })
 
   return (
-    <div className="flex flex-wrap gap-4 my-10">
+    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 my-10">
       <Search
         value={filters.search}
         onChange={(search) => onChange({ search })}

@@ -3,6 +3,7 @@ import { Container } from 'src/components/atoms/container'
 import { Detail } from 'src/components/atoms/detail'
 import { LinkList } from 'src/components/atoms/link-list'
 import { BookList } from 'src/components/books/list'
+import { GridContainer } from 'src/components/lists/grid-container'
 import { ProfileItem } from 'src/components/profiles/item'
 import { FetchProvider } from 'src/contexts/fetcher'
 import { fetchBooks, FetchBooksInput } from 'src/services/books/fetch-books'
@@ -48,7 +49,7 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
         {collaborators.length > 0 && (
           <>
             <h2 className="all-caps mt-20 mb-8">Frequent Collaborators</h2>
-            <ul className="grid auto-grid-lg">
+            <GridContainer>
               {collaborators.map((profile) => (
                 <ProfileItem
                   key={profile.id}
@@ -56,7 +57,7 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
                   display="list"
                 />
               ))}
-            </ul>
+            </GridContainer>
           </>
         )}
       </Container>

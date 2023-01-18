@@ -7,6 +7,7 @@ import { prefetch, useFetcher } from 'src/contexts/fetcher'
 import { ProfileItem } from 'src/components/profiles/item'
 import { PeopleFilters } from './filters'
 import { Container } from 'src/components/atoms/container'
+import { GridContainer } from 'src/components/lists/grid-container'
 
 export const PeopleList = () => {
   const [filters, setFilters] = useState<FetchProfilesInput>({
@@ -27,11 +28,11 @@ export const PeopleList = () => {
         }
       />
       <Container>
-        <ul className="grid auto-grid-lg">
+        <GridContainer>
           {profiles.map((profile) => (
             <ProfileItem key={profile.id} profile={profile} />
           ))}
-        </ul>
+        </GridContainer>
         {profiles.length === 0 && <p>No profiles found</p>}
         <Pagination
           total={total}

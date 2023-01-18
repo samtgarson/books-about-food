@@ -4,6 +4,7 @@ import { FC, useState } from 'react'
 import { Pagination } from 'src/components/lists/pagination'
 import { prefetch, useFetcher } from 'src/contexts/fetcher'
 import { FetchBooksInput } from 'src/services/books/fetch-books'
+import { GridContainer } from '../lists/grid-container'
 import { BookFilters } from './filters'
 import { BookItem } from './item'
 
@@ -31,11 +32,11 @@ export const BookList: FC<BookListProps> = ({
           onChange={(f) => setFilters({ ...filters, page: 0, ...f })}
         />
       )}
-      <ul className="grid gap-y-16 auto-grid-lg">
+      <GridContainer className="sm:gap-y-16">
         {books.map((book) => (
           <BookItem key={book.id} book={book} />
         ))}
-      </ul>
+      </GridContainer>
       {books.length === 0 && showEmpty && <p>No books found</p>}
       <Pagination
         total={total}

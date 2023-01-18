@@ -24,7 +24,7 @@ export const Pagination: FC<PaginationProps> = ({
   const pages = Array.from({ length: totalPages }, (_, i) => i)
 
   return (
-    <ul className="flex gap-2 mt-20">
+    <ul className="flex gap-2 mt-20 flex-wrap">
       {pages.map((p) => (
         <li key={p} className="list-none">
           <Pill

@@ -6,19 +6,21 @@ import cn from 'classnames'
 export type ProfileItemProps = {
   profile: Profile
   display?: 'list' | 'grid'
+  className?: string
 }
 
 export const ProfileItem = ({
   profile,
-  display = 'grid'
+  display = 'grid',
+  className
 }: ProfileItemProps) => (
-  <li className="border -mr-px -mb-px">
+  <li className={cn('border -mr-px -mb-px', className)}>
     <Link
       href={`/people/${profile.slug}`}
       className={cn(
         'h-full flex p-4 items-center gap-4',
         display === 'grid' &&
-          'md:items-stretch md:flex-col md:aspect-square md:justify-between md:p-8'
+          'sm:items-stretch sm:flex-col sm:aspect-square sm:justify-between sm:p-8'
       )}
     >
       <Avatar
