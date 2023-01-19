@@ -8,7 +8,7 @@ import { CSSProperties, FC, useState } from 'react'
 
 const navItemClassNames = (active?: boolean) =>
   cn(
-    'all-caps px-4 py-2 my-2 rounded-full transition-colors border [[data-state="closed"]_&]:animate-fade-out [[data-state="open"]_&]:animate-fade-in',
+    'all-caps px-4 py-2 my-2 rounded-full transition-colors border collapsible-fade',
     {
       'bg-white border-black': active,
       'bg-transparent border-transparent': !active

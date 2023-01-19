@@ -59,8 +59,8 @@ module.exports = {
     animation: {
       'collapsible-open': 'collapsible-open 0.3s ease-out both',
       'collapsible-closed': 'collapsible-closed 0.3s 0.1s ease-out both',
-      'fade-in': 'fade-in 0.3s ease-out both',
-      'fade-out': 'fade-out 0.3s ease-out both'
+      'fade-in': 'fade-in 0.2s ease-out both',
+      'fade-out': 'fade-out 0.2s ease-out both'
     }
   },
   plugins: [

@@ -14,7 +14,12 @@ export const ProfileItem = ({
   display = 'grid',
   className
 }: ProfileItemProps) => (
-  <li className={cn('border -mr-px -mb-px', className)}>
+  <li
+    className={cn(
+      'border sm:-mr-px -mb-px last:mb-0 sm:last:-mb-px',
+      className
+    )}
+  >
     <Link
       href={`/people/${profile.slug}`}
       className={cn(

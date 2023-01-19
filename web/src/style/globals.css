@@ -40,4 +40,8 @@
   [hidden] {
     display: none !important;
   }
+
+  .collapsible-fade {
+    @apply [[data-state="closed"]_&]:opacity-0 [[data-state="open"]_&]:opacity-100 transition-opacity;
+  }
 }
