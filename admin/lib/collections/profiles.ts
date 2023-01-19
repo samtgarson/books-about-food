@@ -3,6 +3,17 @@ import prisma from 'database'
 import { slugify } from 'shared/utils/slugify'
 import { Schema } from '../../.schema/types'
 
+const updateWithJobs = async (id: string, jobNames: string[]) => {
+  const jobs = await prisma.job.findMany({
+    where: { name: { in: jobNames } }
+  })
+
+  await prisma.profile.update({
+    where: { id },
+    data: { jobs: { set: jobs.map((job) => ({ id: job.id })) } }
+  })
+}
+
 export const customiseProfiles = (
   collection: CollectionCustomizer<Schema, 'profiles'>
 ) => {
@@ -22,19 +33,21 @@ export const customiseProfiles = (
       columnType: ['String']
     })
     .replaceFieldWriting('Jobs', async (jobNames = [], context) => {
-      const jobs = await prisma.job.findMany({
-        where: { name: { in: jobNames } }
-      })
-
-      await prisma.profile.update({
-        where: { id: context.record.id },
-        data: { jobs: { set: jobs.map((job) => ({ id: job.id })) } }
-      })
+      if (context.action === 'create' && context.record.id)
+        return updateWithJobs(context.record.id, jobNames)
     })
 
   collection.addHook('Before', 'Create', async (context) => {
     context.data.forEach((profile) => {
       profile.slug ||= slugify(profile.name)
     })
+  })
+
+  collection.addHook('After', 'Create', async (context) => {
+    await Promise.all(
+      context.records.map((profile, i) =>
+        updateWithJobs(profile.id, context.data[i].Jobs)
+      )
+    )
   })
 }
