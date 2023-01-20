@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { profileIncludes } from '../utils'
 
 export type FetchBooksInput = NonNullable<z.infer<typeof fetchBooks['input']>>
+export type FetchBooksOutput = Awaited<ReturnType<typeof fetchBooks['call']>>
 export const fetchBooks = new Service(
   z
     .object({

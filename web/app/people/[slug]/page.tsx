@@ -4,12 +4,10 @@ import { Detail } from 'src/components/atoms/detail'
 import { LinkList } from 'src/components/atoms/link-list'
 import { BookList } from 'src/components/books/list'
 import { ProfileListSection } from 'src/components/profiles/list-section'
-import { FetchProvider } from 'src/contexts/fetcher'
 import { fetchBooks, FetchBooksInput } from 'src/services/books/fetch-books'
 import { fetchFrequentCollaborators } from 'src/services/books/fetch-frequent-collaborators'
 import { fetchProfile } from 'src/services/profiles/fetch-profile'
 import { fetchProfiles } from 'src/services/profiles/fetch-profiles'
-import { fetcherData } from 'src/utils/fetcher-helpers'
 
 export const generateStaticParams = async () => {
   const { profiles } = await fetchProfiles.call({
@@ -57,13 +55,13 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
         {books.filteredTotal > 0 && (
           <>
             <h2 className="all-caps mb-8">Cookbook Portfolio</h2>
-            <FetchProvider data-superjson data={[fetcherData('books', books)]}>
-              <BookList
-                showFilters={false}
-                showEmpty={false}
-                filters={bookFilters}
-              />
-            </FetchProvider>
+            <BookList
+              showFilters={false}
+              showEmpty={false}
+              filters={bookFilters}
+              fallback={books}
+              data-superjson
+            />
           </>
         )}
       </Container>

@@ -3,6 +3,9 @@ import { Service } from 'src/utils/service'
 import { z } from 'zod'
 
 export type FetchPublishersInput = z.infer<typeof fetchPublishers['input']>
+export type FetchPublishersOutput = Awaited<
+  ReturnType<typeof fetchPublishers['call']>
+>
 export const fetchPublishers = new Service(
   z
     .object({

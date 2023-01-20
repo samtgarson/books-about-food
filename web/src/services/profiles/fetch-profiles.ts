@@ -18,6 +18,9 @@ const authorFilter = (onlyAuthors?: boolean): Prisma.ProfileWhereInput => {
 export type FetchProfilesInput = NonNullable<
   z.infer<typeof fetchProfiles['input']>
 >
+export type FetchProfilesOutput = Awaited<
+  ReturnType<typeof fetchProfiles['call']>
+>
 export const fetchProfiles = new Service(
   z.object({
     page: z.number().optional(),

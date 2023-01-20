@@ -5,7 +5,7 @@ import type {
   FunctionKey,
   FunctionReturn
 } from 'src/pages/api/data/[fn]'
-import useSWR, { SWRConfig, preload, unstable_serialize } from 'swr'
+import useSWR, { SWRConfig, preload, SWRConfiguration } from 'swr'
 import superjson from 'superjson'
 import 'src/utils/superjson'
 
@@ -22,46 +22,26 @@ export const fetcher = async <K extends FunctionKey>({
   return superjson.deserialize<FunctionReturn<K>>(json)
 }
 
-type FetcherKey<K extends FunctionKey> = { key: K; args: FunctionArgs<K> }
-export type FetcherData<K extends FunctionKey> = {
-  key: FetcherKey<K>
-  data: FunctionReturn<K>
-}
-
-export const FetchProvider = ({
-  children,
-  data
-}: {
-  children: React.ReactNode
-  data: FetcherData<FunctionKey>[]
-}) => {
-  const fallback = data?.reduce(
-    (acc, { key, data }) => ({ ...acc, [unstable_serialize(key)]: data }),
-    {}
-  )
-
-  return (
-    <SWRConfig value={{ fallback, keepPreviousData: true }}>
-      {children}
-    </SWRConfig>
-  )
+export const FetchProvider = ({ children }: { children: React.ReactNode }) => {
+  return <SWRConfig value={{ keepPreviousData: true }}>{children}</SWRConfig>
 }
 
 export const useFetcher = <K extends FunctionKey>(
   key: K,
   args: FunctionArgs<K>,
-  { immutable }: { immutable?: boolean } = {}
+  { immutable, ...config }: { immutable?: boolean } & SWRConfiguration = {}
 ) => {
+  const immutableConfig = immutable
+    ? {
+        revalidateIfStale: false,
+        revalidateOnFocus: false,
+        revalidateOnReconnect: false
+      }
+    : {}
   return useSWR<FunctionReturn<K>>(
     { key, args: Object.keys(args ?? {}).length === 0 ? undefined : args },
     fetcher,
-    immutable
-      ? {
-          revalidateIfStale: false,
-          revalidateOnFocus: false,
-          revalidateOnReconnect: false
-        }
-      : undefined
+    { ...immutableConfig, ...config }
   )
 }
 

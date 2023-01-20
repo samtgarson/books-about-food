@@ -1,6 +1,6 @@
 'use client'
 
-import { Container } from 'src/components/atoms/container'
+import { AntiContainer, Container } from 'src/components/atoms/container'
 import { Pill } from 'src/components/atoms/pill'
 import { useFetcher } from 'src/contexts/fetcher'
 
@@ -24,10 +24,8 @@ export const PeopleFilters = ({
 
   return (
     <div className="my-10 flex flex-col gap-4">
-      <Container>
-        <p className="all-caps">Showing</p>
-      </Container>
-      <div className="overflow-x-auto scroll-smooth scrollbar-hidden">
+      <p className="all-caps">Showing</p>
+      <AntiContainer className="overflow-x-auto scroll-smooth scrollbar-hidden">
         <Container className="flex flex-nowrap gap-4 w-max">
           <Pill
             key={'all'}
@@ -51,7 +49,7 @@ export const PeopleFilters = ({
               )
           )}
         </Container>
-      </div>
+      </AntiContainer>
     </div>
   )
 }

@@ -20,3 +20,25 @@ export const Container: FC<ContainerProps> = ({
     {children}
   </div>
 )
+
+export const AntiContainer: FC<ContainerProps & { mobile?: boolean }> = ({
+  children,
+  className,
+  left = true,
+  right = true,
+  mobile = true,
+  ...props
+}) => (
+  <div
+    className={cn(
+      right && mobile && 'md:-mr-16',
+      left && mobile && 'md:-ml-16',
+      right && !mobile && '-mr-5 md:mr-0',
+      left && !mobile && '-ml-5 md:ml-0',
+      className
+    )}
+    {...props}
+  >
+    {children}
+  </div>
+)
