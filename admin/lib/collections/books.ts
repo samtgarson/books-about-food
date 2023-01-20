@@ -4,6 +4,30 @@ import { deleteImage, uploadImage } from 'lib/utils/image-utils'
 import { slugify } from 'shared/utils/slugify'
 import { Schema } from '../../.schema/types'
 
+const uploadCover = async (dataUri: string, bookId: string) => {
+  if (!dataUri) {
+    await deleteImage({ coverForId: bookId })
+    return
+  }
+
+  const prefix = `books/${bookId}/cover`
+  await uploadImage(dataUri, prefix, 'coverForId', bookId)
+}
+
+const uploadPreviews = async (dataUris: string[] = [], bookId: string) => {
+  const ids = await Promise.all(
+    dataUris.map((dataUri) => {
+      const prefix = `books/${bookId}/previews`
+      return uploadImage(dataUri, prefix, 'previewForId', bookId)
+    })
+  )
+
+  await deleteImage({
+    previewForId: bookId,
+    id: { notIn: ids.filter((id): id is string => !!id) }
+  })
+}
+
 export const customiseBooks = (
   collection: CollectionCustomizer<Schema, 'books'>
 ) => {
@@ -24,46 +48,30 @@ export const customiseBooks = (
       columnType: 'String'
     })
     .replaceFieldWriting('Cover', async (dataUri, context) => {
-      if (!dataUri) {
-        await deleteImage({ coverForId: context.record.id })
-        return
-      }
-
-      const prefix = `books/cover/${context.record.id}`
-      await uploadImage(dataUri, prefix, 'coverForId', context.record.id)
+      if (!context.record.id) return
+      await uploadCover(dataUri, context.record.id)
     })
 
   // Preview Images
-  collection.addField('Preview Images', {
-    dependencies: ['id'],
-    getValues: async (records) => {
-      return Promise.all(
-        records.map(async (record) => {
-          const image = await prisma.image.findMany({
-            where: { previewForId: record.id }
+  collection
+    .addField('Preview Images', {
+      dependencies: ['id'],
+      getValues: async (records) => {
+        return Promise.all(
+          records.map(async (record) => {
+            const image = await prisma.image.findMany({
+              where: { previewForId: record.id }
+            })
+            return image.map((image) => image.url)
           })
-          return image.map((image) => image.url)
-        })
-      )
-    },
-    columnType: ['String']
-  })
-  collection.replaceFieldWriting(
-    'Preview Images',
-    async (dataUris = [], context) => {
-      const ids = await Promise.all(
-        dataUris.map((dataUri) => {
-          const prefix = `books/previews/${context.record.id}`
-          return uploadImage(dataUri, prefix, 'previewForId', context.record.id)
-        })
-      )
-
-      await deleteImage({
-        previewForId: context.record.id,
-        id: { notIn: ids.filter((id): id is string => !!id) }
-      })
-    }
-  )
+        )
+      },
+      columnType: ['String']
+    })
+    .replaceFieldWriting('Preview Images', async (dataUris = [], context) => {
+      if (!context.record.id) return
+      await uploadPreviews(dataUris, context.record.id)
+    })
 
   // Tags
   collection
@@ -128,5 +136,15 @@ export const customiseBooks = (
     context.data.forEach((book) => {
       book.slug ||= slugify(book.title)
     })
+  })
+
+  collection.addHook('After', 'Create', async (context) => {
+    await Promise.all(
+      context.records.map(async (record, i) => {
+        const data = context.data[i]
+        await uploadCover(data.Cover, record.id)
+        await uploadPreviews(data['Preview Images'], record.id)
+      })
+    )
   })
 }

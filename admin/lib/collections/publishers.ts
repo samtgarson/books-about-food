@@ -4,6 +4,16 @@ import { deleteImage, uploadImage } from 'lib/utils/image-utils'
 import { slugify } from 'shared/utils/slugify'
 import { Schema } from '../../.schema/types'
 
+const uploadLogo = async (dataUri: string, publisherId: string) => {
+  if (!dataUri) {
+    await deleteImage({ publisherId: publisherId })
+    return
+  }
+
+  const prefix = `publisher-logos/${publisherId}`
+  await uploadImage(dataUri, prefix, 'publisherId', publisherId)
+}
+
 export const customisePublishers = (
   collection: CollectionCustomizer<Schema, 'publishers'>
 ) => {
@@ -23,19 +33,21 @@ export const customisePublishers = (
       columnType: 'String'
     })
     .replaceFieldWriting('Logo', async (dataUri, context) => {
-      if (!dataUri) {
-        await deleteImage({ publisherId: context.record.id })
-        return
-      }
-
-      const prefix = `publisher-logos/${context.record.id}`
-      await uploadImage(dataUri, prefix, 'publisherId', context.record.id)
-      return { id: context.record.id }
+      if (!context.record.id) return
+      await uploadLogo(dataUri, context.record.id)
     })
 
   collection.addHook('Before', 'Create', async (context) => {
     context.data.forEach((publisher) => {
       publisher.slug ||= slugify(publisher.name)
     })
+  })
+
+  collection.addHook('After', 'Create', async (context) => {
+    await Promise.all(
+      context.records.map((publisher, i) =>
+        uploadLogo(context.data[i].Logo, publisher.id)
+      )
+    )
   })
 }
