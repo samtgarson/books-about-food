@@ -8,8 +8,8 @@ export class Book {
   subtitle?: string
   slug: string
   cover?: Image
-  releaseDate: Date
-  pages: number
+  releaseDate?: Date
+  pages?: number
   authors: Profile[]
 
   constructor({
@@ -29,8 +29,8 @@ export class Book {
     this.cover = coverImage
       ? new Image(coverImage, `Cover for ${title}`)
       : undefined
-    this.releaseDate = releaseDate
-    this.pages = pages
+    this.releaseDate = releaseDate ?? undefined
+    this.pages = pages ?? undefined
     this.authors = contributions
       .filter((contribution) => contribution.job?.name === 'Author')
       .map((contribution) => new Profile(contribution.profile))

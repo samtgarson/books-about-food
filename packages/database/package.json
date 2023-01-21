@@ -7,10 +7,10 @@
     "db:build": "npx prisma generate && npx prisma migrate deploy"
   },
   "devDependencies": {
-    "prisma": "^4.8.0"
+    "prisma": "^4.9.0"
   },
   "dependencies": {
-    "@prisma/client": "^4.8.0",
+    "@prisma/client": "^4.9.0",
     "shared": "*"
   }
 }
