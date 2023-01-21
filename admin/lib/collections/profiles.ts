@@ -18,7 +18,7 @@ export const customiseProfiles = (
   collection: CollectionCustomizer<Schema, 'profiles'>
 ) => {
   collection
-    .addField('Jobs', {
+    .addField('jobs', {
       dependencies: ['id'],
       getValues: async (records) => {
         return Promise.all(
@@ -32,10 +32,11 @@ export const customiseProfiles = (
       },
       columnType: ['String']
     })
-    .replaceFieldWriting('Jobs', async (jobNames = [], context) => {
-      if (context.action === 'create' && context.record.id)
-        return updateWithJobs(context.record.id, jobNames)
+    .replaceFieldWriting('jobs', async (jobNames = [], context) => {
+      if (context.record.id) return updateWithJobs(context.record.id, jobNames)
     })
+    .emulateFieldSorting('jobs')
+    .emulateFieldOperator('jobs', 'IncludesAll')
 
   collection.addHook('Before', 'Create', async (context) => {
     context.data.forEach((profile) => {
@@ -46,7 +47,7 @@ export const customiseProfiles = (
   collection.addHook('After', 'Create', async (context) => {
     await Promise.all(
       context.records.map((profile, i) =>
-        updateWithJobs(profile.id, context.data[i].Jobs)
+        updateWithJobs(profile.id, context.data[i].jobs)
       )
     )
   })
