@@ -1208,6 +1208,23 @@
       {
         "defaultValue": null,
         "enums": null,
+        "field": "profiles",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": false,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": "jobs.id",
+        "relationship": "BelongsToMany",
+        "type": ["Uuid"],
+        "validations": []
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
         "field": "updated_at",
         "integration": null,
         "inverseOf": null,
