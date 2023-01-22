@@ -1,5 +1,6 @@
 'use client'
 
+import { pluralize } from 'inflection'
 import { AntiContainer, Container } from 'src/components/atoms/container'
 import { Pill } from 'src/components/atoms/pill'
 import { useFetcher } from 'src/contexts/fetcher'
@@ -44,7 +45,7 @@ export const PeopleFilters = ({
                   selected={value.includes(job.id)}
                   onMouseOver={() => onPreload?.(toggle(job.id))}
                 >
-                  {job.name}
+                  {pluralize(job.name)}
                 </Pill>
               )
           )}
