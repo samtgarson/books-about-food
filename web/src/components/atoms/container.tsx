@@ -31,10 +31,10 @@ export const AntiContainer: FC<ContainerProps & { mobile?: boolean }> = ({
 }) => (
   <div
     className={cn(
-      right && mobile && 'md:-mr-16',
-      left && mobile && 'md:-ml-16',
-      right && !mobile && '-mr-5 md:mr-0',
-      left && !mobile && '-ml-5 md:ml-0',
+      right && mobile && 'sm:-mr-16',
+      left && mobile && 'sm:-ml-16',
+      right && !mobile && '-mr-5 sm:mr-0',
+      left && !mobile && '-ml-5 sm:ml-0',
       className
     )}
     {...props}

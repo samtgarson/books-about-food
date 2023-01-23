@@ -5,6 +5,7 @@ import cn from 'classnames'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 import { CSSProperties, FC, useState } from 'react'
+import { Menu, Minus } from 'react-feather'
 
 const navItemClassNames = (active?: boolean) =>
   cn(
@@ -57,9 +58,7 @@ const TopNavItemExternal: FC<{
 
 const NavContent = () => (
   <>
-    <TopNavItem path={null} className="hidden md:block">
-      Home
-    </TopNavItem>
+    <TopNavItem path={null}>Home</TopNavItem>
     <TopNavItem path="cookbooks">Cookbooks</TopNavItem>
     <TopNavItem delay={100} path="authors">
       Authors
@@ -96,10 +95,12 @@ const MobileTopNav: FC = () => {
         >
           Books About Food
         </Link>
-        <Collapsible.Trigger className="px-4">Menu</Collapsible.Trigger>
+        <Collapsible.Trigger className="px-4">
+          {open ? <Minus strokeWidth={1} /> : <Menu strokeWidth={1} />}
+        </Collapsible.Trigger>
         <Collapsible.Content
           onClick={() => setOpen(false)}
-          className="-mt-px z-10 absolute top-full inset-x-0 flex flex-col bg-white items-start overflow-y-hidden data-[state=open]:animate-collapsible-open data-[state=closed]:animate-collapsible-closed border-b border-black"
+          className="-mt-px z-10 absolute top-full inset-x-0 flex flex-col bg-white items-end px-5 overflow-y-hidden data-[state=open]:animate-collapsible-open data-[state=closed]:animate-collapsible-closed border-b border-black"
         >
           <NavContent />
         </Collapsible.Content>

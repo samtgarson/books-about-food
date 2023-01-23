@@ -19,7 +19,6 @@ export const ProfileListSection: FC<ProfileListSectionProps> = ({
   profiles,
   title
 }) => {
-  const [forceOpen, setForceOpen] = useState(false)
   const [open, setOpen] = useState(false)
 
   return (
@@ -29,7 +28,6 @@ export const ProfileListSection: FC<ProfileListSectionProps> = ({
         open={open}
         onOpenChange={(o) => {
           setOpen(o)
-          setForceOpen(true)
         }}
       >
         <motion.div
@@ -61,7 +59,7 @@ export const ProfileListSection: FC<ProfileListSectionProps> = ({
 
         <Collapsible.Content
           className="data-[state=open]:animate-collapsible-open data-[state=closed]:animate-collapsible-closed sm:!h-auto overflow-hidden px-5 sm:px-0 sm:overflow-visible -mb-px"
-          forceMount={forceOpen || undefined}
+          forceMount={true}
         >
           <GridContainer className="collapsible-fade sm:!opacity-100 -mt-px sm:mt-0">
             {profiles.map((profile) => (
