@@ -5,7 +5,6 @@ import 'src/utils/superjson'
 import { graphik } from 'src/style/font'
 import 'src/style/globals.css' // eslint-disable-line import/extensions
 import { Container } from 'src/components/atoms/container'
-import { FetchProvider } from 'src/contexts/fetcher'
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -14,9 +13,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="min-h-screen flex flex-col">
         <AuthProvider>
           <TopNav />
-          <main className="flex-grow">
-            <FetchProvider>{children}</FetchProvider>
-          </main>
+          <main className="flex-grow">{children}</main>
           <footer>
             <Container className="mt-20 py-12 bg-white h-40">Footer</Container>
           </footer>

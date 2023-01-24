@@ -3,6 +3,7 @@ import { Container } from 'src/components/atoms/container'
 import { Detail } from 'src/components/atoms/detail'
 import { LinkList } from 'src/components/atoms/link-list'
 import { BookList } from 'src/components/books/list'
+import { FavouriteButton } from 'src/components/favourites/favourite-button'
 import { ProfileListSection } from 'src/components/profiles/list-section'
 import { fetchBooks, FetchBooksInput } from 'src/services/books/fetch-books'
 import { fetchFrequentCollaborators } from 'src/services/books/fetch-frequent-collaborators'
@@ -32,7 +33,7 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
   return (
     <>
       <Container className="mt-20" key="header">
-        <div className="flex">
+        <div className="flex md:items-end flex-col md:flex-row relative">
           <div className="flex-grow">
             <h1 className="text-32 mb-8">{profile.name}</h1>
             <Detail>{profile.jobNames}</Detail>
@@ -41,6 +42,9 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
                 <LinkList links={profile.links} />
               </Detail>
             )}
+          </div>
+          <div className="pb-2 absolute md:relative top-0 right-0">
+            <FavouriteButton profileId={profile.id} />
           </div>
         </div>
         {collaborators.length > 0 && (

@@ -57,12 +57,13 @@ model User {
   email         String?   @unique
   emailVerified DateTime? @map("email_verified")
   createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @default(now()) @map("updated_at")
+  updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at")
   image         String?
   accounts      Account[]
   sessions      Session[]
 
-  profile Profile?
+  profile   Profile?
+  Favourite Favourite[]
 
   @@map("users")
 }
@@ -73,7 +74,7 @@ model Image {
   width        Int
   height       Int
   createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @default(now()) @map("updated_at")
+  updatedAt    DateTime @default(now()) @updatedAt @map("updated_at")
   caption      String?
   coverForId   String?  @unique @map("cover_for_id") @db.Uuid
   previewForId String?  @map("preview_for_id") @db.Uuid
@@ -90,7 +91,7 @@ model Image {
 model Profile {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @map("updated_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
   userId    String?  @unique @map("user_id") @db.Uuid
   name      String
   location  String?
@@ -101,6 +102,7 @@ model Profile {
   jobs          Job[]          @relation("profiles_jobs")
   user          User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
   contributions Contribution[]
+  Favourite     Favourite[]
 
   @@map("profiles")
 }
@@ -108,7 +110,7 @@ model Profile {
 model Job {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @map("updated_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
   name      String   @unique
 
   profiles      Profile[]      @relation("profiles_jobs")
@@ -121,7 +123,7 @@ model Contribution {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   profileId String   @map("profile_id") @db.Uuid
   createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @map("updated_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
   bookId    String   @map("book_id") @db.Uuid
   jobId     String   @map("job_id") @db.Uuid
 
@@ -169,7 +171,7 @@ model Book {
 model Publisher {
   id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt      DateTime @default(now()) @map("created_at")
-  updatedAt      DateTime @default(now()) @map("updated_at")
+  updatedAt      DateTime @default(now()) @updatedAt @map("updated_at")
   name           String
   website        String?
   genericContact String?  @map("generic_contact")
@@ -187,10 +189,24 @@ model Publisher {
 model Tag {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @map("updated_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
   name      String   @unique
 
   books Book[] @relation("books_tags")
 
   @@map("tags")
+}
+
+model Favourite {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  profileId String   @map("profile_id") @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([profileId, userId])
+  @@map("favourites")
 }

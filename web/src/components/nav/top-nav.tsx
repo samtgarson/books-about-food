@@ -5,7 +5,7 @@ import cn from 'classnames'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 import { CSSProperties, FC, useState } from 'react'
-import { Menu, Minus } from 'react-feather'
+import { Menu, Minus, User } from 'react-feather'
 
 const navItemClassNames = (active?: boolean) =>
   cn(
@@ -94,6 +94,9 @@ const MobileTopNav: FC = () => {
           onClick={() => setOpen(false)}
         >
           Books About Food
+        </Link>
+        <Link href="/account">
+          <User strokeWidth={1} />
         </Link>
         <Collapsible.Trigger className="px-4">
           {open ? <Minus strokeWidth={1} /> : <Menu strokeWidth={1} />}

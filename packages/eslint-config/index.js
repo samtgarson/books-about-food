@@ -18,6 +18,12 @@ module.exports = {
     }
   ],
   rules: {
-    '@next/next/no-html-link-for-pages': ['error', 'web']
+    '@next/next/no-html-link-for-pages': ['error', 'web'],
+    'import/extensions': [
+      'error',
+      {
+        'nextauth]': 'always'
+      }
+    ]
   }
 }
