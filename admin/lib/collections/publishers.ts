@@ -6,7 +6,7 @@ import { Schema } from '../../.schema/types'
 
 const uploadLogo = async (dataUri: string, publisherId: string) => {
   if (!dataUri) {
-    await deleteImage({ publisherId: publisherId })
+    await deleteImage({ publisherId })
     return
   }
 
@@ -48,6 +48,13 @@ export const customisePublishers = (
       context.records.map((publisher, i) =>
         uploadLogo(context.data[i].Logo, publisher.id)
       )
+    )
+  })
+
+  collection.addHook('Before', 'Delete', async (context) => {
+    const records = await context.collection.list(context.filter, ['id'])
+    await Promise.all(
+      records.map((record) => deleteImage({ publisherId: record.id }))
     )
   })
 }

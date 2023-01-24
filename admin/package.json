@@ -9,8 +9,8 @@
     "build": "npx esbuild ./lib/index.ts --bundle --outfile=./dist/index.js --platform=node --external:fastify --external:pg-hstore --external:pg-native --external:@prisma/client --target=node18"
   },
   "dependencies": {
-    "@forestadmin/agent": "^1.6.0",
-    "@forestadmin/datasource-sql": "^1.1.9",
+    "@forestadmin/agent": "^1.6.4",
+    "@forestadmin/datasource-sql": "^1.1.13",
     "buffer-image-size": "^0.6.4",
     "database": "*",
     "pg": "^8.8.0",

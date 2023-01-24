@@ -79,11 +79,13 @@ model Image {
   coverForId   String?  @unique @map("cover_for_id") @db.Uuid
   previewForId String?  @map("preview_for_id") @db.Uuid
   publisherId  String?  @unique @map("publisher_id") @db.Uuid
+  profileId    String?  @unique @map("profile_id") @db.Uuid
 
   // Prisma doesn't support polymorphic relations yet so some of these will always be null
   coverFor   Book?      @relation("cover_for", fields: [coverForId], references: [id])
   previewFor Book?      @relation("preview_for", fields: [previewForId], references: [id])
   publisher  Publisher? @relation("publisher_logo", fields: [publisherId], references: [id])
+  profile    Profile?   @relation("profile_for", fields: [profileId], references: [id])
 
   @@map("images")
 }
@@ -100,9 +102,10 @@ model Profile {
   slug      String   @unique
 
   jobs          Job[]          @relation("profiles_jobs")
-  user          User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user          User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
   contributions Contribution[]
-  Favourite     Favourite[]
+  favourite     Favourite[]
+  avatar        Image?         @relation("profile_for")
 
   @@map("profiles")
 }

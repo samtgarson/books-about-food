@@ -1,6 +1,7 @@
 import { ComponentProps, FC } from 'react'
 import { Profile } from 'src/models/profile'
 import cn from 'classnames'
+import Image from 'next/image'
 
 export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'fill'
 
@@ -21,7 +22,7 @@ export const Avatar: FC<AvatarProps> = ({
     {...props}
     className={cn(
       className,
-      'rounded-full flex items-center justify-center bg-white bg-opacity-50 aspect-square flex-shrink-0',
+      'rounded-full flex items-center justify-center bg-white bg-opacity-50 aspect-square flex-shrink-0 relative overflow-hidden',
       {
         'w-16': mobileSize === 'md',
         'w-12': mobileSize === 'sm',
@@ -36,6 +37,16 @@ export const Avatar: FC<AvatarProps> = ({
       }
     )}
   >
-    {profile.initials}
+    {profile.avatar ? (
+      <Image
+        alt={profile.avatar.caption}
+        fill
+        src={profile.avatar.src}
+        className="inset-0 object-cover"
+        sizes="300px"
+      />
+    ) : (
+      profile.initials
+    )}
   </div>
 )

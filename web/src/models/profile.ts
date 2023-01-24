@@ -1,5 +1,6 @@
 import { Link } from 'src/components/atoms/link-list'
 import { normalizeLink } from 'src/utils/url-helpers'
+import { Image } from './image'
 import { ProfileAttrs } from './types'
 
 export class Profile {
@@ -8,7 +9,7 @@ export class Profile {
   slug: string
   website?: string
   instagram?: string
-  image?: string
+  avatar?: Image
   jobs: string[]
 
   constructor({
@@ -17,15 +18,15 @@ export class Profile {
     slug,
     website,
     instagram,
-    user,
-    jobs
+    jobs,
+    avatar
   }: ProfileAttrs) {
     this.id = id
     this.name = name
     this.slug = slug
     this.website = normalizeLink(website ?? undefined)
     this.instagram = instagram ?? undefined
-    this.image = user?.image ?? undefined
+    this.avatar = avatar ? new Image(avatar, `Avatar for ${name}`) : undefined
     this.jobs = jobs.map((job) => job.name)
   }
 

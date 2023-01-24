@@ -147,4 +147,14 @@ export const customiseBooks = (
       })
     )
   })
+
+  collection.addHook('Before', 'Delete', async (context) => {
+    const records = await context.collection.list(context.filter, ['id'])
+    await Promise.all(
+      records.flatMap((record) => [
+        deleteImage({ coverForId: record.id }),
+        deleteImage({ previewForId: record.id })
+      ])
+    )
+  })
 }
