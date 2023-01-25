@@ -1,6 +1,6 @@
 'use client'
 
-import { FC, useState } from 'react'
+import { FC, startTransition, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import cn from 'classnames'
 
@@ -30,7 +30,7 @@ export const Search: FC<SearchProps> = ({
       value={internalValue}
       onChange={(e) => {
         setInternalValue(e.target.value)
-        apply(e.target.value)
+        startTransition(() => apply(e.target.value))
       }}
       placeholder={placeholder}
       className={cn(

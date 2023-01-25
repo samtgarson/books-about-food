@@ -3,6 +3,8 @@ import { PageTitle } from 'src/components/atoms/page-title'
 import { fetchPublishers } from 'src/services/publishers/fetch-publishers'
 import { PublishersList } from './list'
 
+export * from 'app/default-static-config'
+
 export default async () => {
   const data = await fetchPublishers.call()
 

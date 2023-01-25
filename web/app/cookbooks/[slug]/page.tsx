@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation'
 import { fetchBook } from 'src/services/books/fetch-book'
 import { fetchBooks } from 'src/services/books/fetch-books'
 
+export * from 'app/default-static-config'
+
 export const generateStaticParams = async () => {
   const { books } = await fetchBooks.call({ perPage: 0 })
 

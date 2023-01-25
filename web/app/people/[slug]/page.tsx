@@ -10,6 +10,8 @@ import { fetchFrequentCollaborators } from 'src/services/books/fetch-frequent-co
 import { fetchProfile } from 'src/services/profiles/fetch-profile'
 import { fetchProfiles } from 'src/services/profiles/fetch-profiles'
 
+export * from 'app/default-static-config'
+
 export const generateStaticParams = async () => {
   const { profiles } = await fetchProfiles.call({
     perPage: 0,
