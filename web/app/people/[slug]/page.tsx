@@ -34,20 +34,30 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
 
   return (
     <>
-      <Container className="mt-20" key="header">
-        <div className="flex md:items-end flex-col md:flex-row relative">
-          <div className="flex-grow">
-            <h1 className="text-32 mb-8">{profile.name}</h1>
-            <Detail>{profile.jobNames}</Detail>
+      <Container className="mt-8 sm:mt-20" key="header">
+        <div className="flex items-start md:items-end flex-col md:flex-row relative">
+          <div className="flex-grow w-full">
+            <h1 className="font-style-title flex items-center">
+              {profile.name}
+              <FavouriteButton
+                profileId={profile.id}
+                className="ml-auto md:hidden"
+              />
+            </h1>
+            {profile.description && (
+              <p className="text-16 mt-4 max-w-prose">{profile.description}</p>
+            )}
+            <Detail className="mt-8">{profile.jobNames}</Detail>
             {profile.links.length > 0 && (
               <Detail>
                 <LinkList links={profile.links} />
               </Detail>
             )}
           </div>
-          <div className="pb-2 absolute md:relative top-0 right-0">
-            <FavouriteButton profileId={profile.id} />
-          </div>
+          <FavouriteButton
+            profileId={profile.id}
+            className="pb-2 hidden md:flex"
+          />
         </div>
         {collaborators.length > 0 && (
           <ProfileListSection
@@ -57,10 +67,15 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
           />
         )}
       </Container>
-      <Container className="mt-20" key="books">
+      <Container
+        className="mt-8 sm:mt-20 border-t border-black sm:border-t-0"
+        key="books"
+      >
         {books.filteredTotal > 0 && (
           <>
-            <h2 className="all-caps mb-8">Cookbook Portfolio</h2>
+            <h2 className="all-caps my-4 sm:mt-0 sm:mb-8 ">
+              Cookbook Portfolio
+            </h2>
             <BookList
               showFilters={false}
               showEmpty={false}

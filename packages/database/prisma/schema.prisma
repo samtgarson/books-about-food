@@ -91,15 +91,16 @@ model Image {
 }
 
 model Profile {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
-  userId    String?  @unique @map("user_id") @db.Uuid
-  name      String
-  location  String?
-  website   String?
-  instagram String?
-  slug      String   @unique
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
+  userId      String?  @unique @map("user_id") @db.Uuid
+  name        String
+  location    String?
+  website     String?
+  instagram   String?
+  slug        String   @unique
+  description String?
 
   jobs          Job[]          @relation("profiles_jobs")
   user          User?          @relation(fields: [userId], references: [id], onDelete: SetNull)

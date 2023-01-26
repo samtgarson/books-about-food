@@ -110,6 +110,7 @@ export type Schema = {
       'book:publisher:image:profile:website': string;
       'book:publisher:image:profile:instagram': string;
       'book:publisher:image:profile:slug': string;
+      'book:publisher:image:profile:description': string;
       'book:publisher:image:profile:jobs': Array<string>;
       'book:publisher:image:profile:Avatar': string;
       'book:publisher:image:profile:user:id': string;
@@ -207,6 +208,7 @@ export type Schema = {
       'book:image:preview_for:image:profile:website': string;
       'book:image:preview_for:image:profile:instagram': string;
       'book:image:preview_for:image:profile:slug': string;
+      'book:image:preview_for:image:profile:description': string;
       'book:image:preview_for:image:profile:jobs': Array<string>;
       'book:image:preview_for:image:profile:Avatar': string;
       'book:image:publisher:id': string;
@@ -229,6 +231,7 @@ export type Schema = {
       'book:image:profile:website': string;
       'book:image:profile:instagram': string;
       'book:image:profile:slug': string;
+      'book:image:profile:description': string;
       'book:image:profile:jobs': Array<string>;
       'book:image:profile:Avatar': string;
       'book:image:profile:user:id': string;
@@ -281,6 +284,7 @@ export type Schema = {
       'profile:website': string;
       'profile:instagram': string;
       'profile:slug': string;
+      'profile:description': string;
       'profile:jobs': Array<string>;
       'profile:Avatar': string;
       'profile:user:id': string;
@@ -452,6 +456,7 @@ export type Schema = {
       'user:profile:website': string;
       'user:profile:instagram': string;
       'user:profile:slug': string;
+      'user:profile:description': string;
       'user:profile:jobs': Array<string>;
       'user:profile:Avatar': string;
       'user:profile:image:id': string;
@@ -677,6 +682,7 @@ export type Schema = {
       'publisher:image:preview_for:image:profile:website': string;
       'publisher:image:preview_for:image:profile:instagram': string;
       'publisher:image:preview_for:image:profile:slug': string;
+      'publisher:image:preview_for:image:profile:description': string;
       'publisher:image:preview_for:image:profile:jobs': Array<string>;
       'publisher:image:preview_for:image:profile:Avatar': string;
       'publisher:image:profile:id': string;
@@ -688,6 +694,7 @@ export type Schema = {
       'publisher:image:profile:website': string;
       'publisher:image:profile:instagram': string;
       'publisher:image:profile:slug': string;
+      'publisher:image:profile:description': string;
       'publisher:image:profile:jobs': Array<string>;
       'publisher:image:profile:Avatar': string;
       'publisher:image:profile:user:id': string;
@@ -763,6 +770,7 @@ export type Schema = {
       'image:preview_for:publisher:image:profile:website': string;
       'image:preview_for:publisher:image:profile:instagram': string;
       'image:preview_for:publisher:image:profile:slug': string;
+      'image:preview_for:publisher:image:profile:description': string;
       'image:preview_for:publisher:image:profile:jobs': Array<string>;
       'image:preview_for:publisher:image:profile:Avatar': string;
       'image:preview_for:image:id': string;
@@ -830,6 +838,7 @@ export type Schema = {
       'image:preview_for:image:profile:website': string;
       'image:preview_for:image:profile:instagram': string;
       'image:preview_for:image:profile:slug': string;
+      'image:preview_for:image:profile:description': string;
       'image:preview_for:image:profile:jobs': Array<string>;
       'image:preview_for:image:profile:Avatar': string;
       'image:preview_for:image:profile:user:id': string;
@@ -859,6 +868,7 @@ export type Schema = {
       'image:profile:website': string;
       'image:profile:instagram': string;
       'image:profile:slug': string;
+      'image:profile:description': string;
       'image:profile:jobs': Array<string>;
       'image:profile:Avatar': string;
       'image:profile:user:id': string;
@@ -895,6 +905,7 @@ export type Schema = {
       'profile:website': string;
       'profile:instagram': string;
       'profile:slug': string;
+      'profile:description': string;
       'profile:jobs': Array<string>;
       'profile:Avatar': string;
       'profile:user:id': string;
@@ -1128,6 +1139,7 @@ export type Schema = {
       'book:publisher:image:profile:website': string;
       'book:publisher:image:profile:instagram': string;
       'book:publisher:image:profile:slug': string;
+      'book:publisher:image:profile:description': string;
       'book:publisher:image:profile:jobs': Array<string>;
       'book:publisher:image:profile:Avatar': string;
       'book:publisher:image:profile:user:id': string;
@@ -1225,6 +1237,7 @@ export type Schema = {
       'book:image:preview_for:image:profile:website': string;
       'book:image:preview_for:image:profile:instagram': string;
       'book:image:preview_for:image:profile:slug': string;
+      'book:image:preview_for:image:profile:description': string;
       'book:image:preview_for:image:profile:jobs': Array<string>;
       'book:image:preview_for:image:profile:Avatar': string;
       'book:image:publisher:id': string;
@@ -1247,6 +1260,7 @@ export type Schema = {
       'book:image:profile:website': string;
       'book:image:profile:instagram': string;
       'book:image:profile:slug': string;
+      'book:image:profile:description': string;
       'book:image:profile:jobs': Array<string>;
       'book:image:profile:Avatar': string;
       'book:image:profile:user:id': string;
@@ -1284,6 +1298,7 @@ export type Schema = {
       'profile:website': string;
       'profile:instagram': string;
       'profile:slug': string;
+      'profile:description': string;
       'profile:jobs': Array<string>;
       'profile:Avatar': string;
       'profile:user:id': string;
@@ -1433,6 +1448,7 @@ export type Schema = {
       'user:profile:website': string;
       'user:profile:instagram': string;
       'user:profile:slug': string;
+      'user:profile:description': string;
       'user:profile:jobs': Array<string>;
       'user:profile:Avatar': string;
       'user:profile:image:id': string;
@@ -1626,6 +1642,7 @@ export type Schema = {
       'cover_for:publisher:image:profile:website': string;
       'cover_for:publisher:image:profile:instagram': string;
       'cover_for:publisher:image:profile:slug': string;
+      'cover_for:publisher:image:profile:description': string;
       'cover_for:publisher:image:profile:jobs': Array<string>;
       'cover_for:publisher:image:profile:Avatar': string;
       'cover_for:publisher:image:profile:user:id': string;
@@ -1735,6 +1752,7 @@ export type Schema = {
       'preview_for:publisher:image:profile:website': string;
       'preview_for:publisher:image:profile:instagram': string;
       'preview_for:publisher:image:profile:slug': string;
+      'preview_for:publisher:image:profile:description': string;
       'preview_for:publisher:image:profile:jobs': Array<string>;
       'preview_for:publisher:image:profile:Avatar': string;
       'preview_for:publisher:image:profile:user:id': string;
@@ -1832,6 +1850,7 @@ export type Schema = {
       'preview_for:image:preview_for:image:profile:website': string;
       'preview_for:image:preview_for:image:profile:instagram': string;
       'preview_for:image:preview_for:image:profile:slug': string;
+      'preview_for:image:preview_for:image:profile:description': string;
       'preview_for:image:preview_for:image:profile:jobs': Array<string>;
       'preview_for:image:preview_for:image:profile:Avatar': string;
       'preview_for:image:publisher:id': string;
@@ -1854,6 +1873,7 @@ export type Schema = {
       'preview_for:image:profile:website': string;
       'preview_for:image:profile:instagram': string;
       'preview_for:image:profile:slug': string;
+      'preview_for:image:profile:description': string;
       'preview_for:image:profile:jobs': Array<string>;
       'preview_for:image:profile:Avatar': string;
       'preview_for:image:profile:user:id': string;
@@ -1883,6 +1903,7 @@ export type Schema = {
       'profile:website': string;
       'profile:instagram': string;
       'profile:slug': string;
+      'profile:description': string;
       'profile:jobs': Array<string>;
       'profile:Avatar': string;
       'profile:user:id': string;
@@ -2017,6 +2038,7 @@ export type Schema = {
       'book:publisher:image:profile:website': string;
       'book:publisher:image:profile:instagram': string;
       'book:publisher:image:profile:slug': string;
+      'book:publisher:image:profile:description': string;
       'book:publisher:image:profile:jobs': Array<string>;
       'book:publisher:image:profile:Avatar': string;
       'book:publisher:image:profile:user:id': string;
@@ -2114,6 +2136,7 @@ export type Schema = {
       'book:image:preview_for:image:profile:website': string;
       'book:image:preview_for:image:profile:instagram': string;
       'book:image:preview_for:image:profile:slug': string;
+      'book:image:preview_for:image:profile:description': string;
       'book:image:preview_for:image:profile:jobs': Array<string>;
       'book:image:preview_for:image:profile:Avatar': string;
       'book:image:publisher:id': string;
@@ -2136,6 +2159,7 @@ export type Schema = {
       'book:image:profile:website': string;
       'book:image:profile:instagram': string;
       'book:image:profile:slug': string;
+      'book:image:profile:description': string;
       'book:image:profile:jobs': Array<string>;
       'book:image:profile:Avatar': string;
       'book:image:profile:user:id': string;
@@ -2158,6 +2182,7 @@ export type Schema = {
       'website': string;
       'instagram': string;
       'slug': string;
+      'description': string;
       'jobs': Array<string>;
       'Avatar': string;
     };
@@ -2465,6 +2490,7 @@ export type Schema = {
       'image:cover_for:publisher:image:profile:website': string;
       'image:cover_for:publisher:image:profile:instagram': string;
       'image:cover_for:publisher:image:profile:slug': string;
+      'image:cover_for:publisher:image:profile:description': string;
       'image:cover_for:publisher:image:profile:jobs': Array<string>;
       'image:cover_for:publisher:image:profile:Avatar': string;
       'image:preview_for:id': string;
@@ -2534,6 +2560,7 @@ export type Schema = {
       'image:preview_for:publisher:image:profile:website': string;
       'image:preview_for:publisher:image:profile:instagram': string;
       'image:preview_for:publisher:image:profile:slug': string;
+      'image:preview_for:publisher:image:profile:description': string;
       'image:preview_for:publisher:image:profile:jobs': Array<string>;
       'image:preview_for:publisher:image:profile:Avatar': string;
       'image:preview_for:image:id': string;
@@ -2590,6 +2617,7 @@ export type Schema = {
       'image:preview_for:image:profile:website': string;
       'image:preview_for:image:profile:instagram': string;
       'image:preview_for:image:profile:slug': string;
+      'image:preview_for:image:profile:description': string;
       'image:preview_for:image:profile:jobs': Array<string>;
       'image:preview_for:image:profile:Avatar': string;
       'image:preview_for:image:profile:user:id': string;
@@ -2608,6 +2636,7 @@ export type Schema = {
       'image:profile:website': string;
       'image:profile:instagram': string;
       'image:profile:slug': string;
+      'image:profile:description': string;
       'image:profile:jobs': Array<string>;
       'image:profile:Avatar': string;
       'image:profile:user:id': string;
@@ -2646,6 +2675,7 @@ export type Schema = {
       'user:profile:website': string;
       'user:profile:instagram': string;
       'user:profile:slug': string;
+      'user:profile:description': string;
       'user:profile:jobs': Array<string>;
       'user:profile:Avatar': string;
       'user:profile:image:id': string;
@@ -2762,6 +2792,7 @@ export type Schema = {
       'profile:website': string;
       'profile:instagram': string;
       'profile:slug': string;
+      'profile:description': string;
       'profile:jobs': Array<string>;
       'profile:Avatar': string;
       'profile:image:id': string;

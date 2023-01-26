@@ -6,6 +6,7 @@ import { ProfileAttrs } from './types'
 export class Profile {
   id: string
   name: string
+  description?: string
   slug: string
   website?: string
   instagram?: string
@@ -19,10 +20,12 @@ export class Profile {
     website,
     instagram,
     jobs,
-    avatar
+    avatar,
+    description
   }: ProfileAttrs) {
     this.id = id
     this.name = name
+    this.description = description ?? undefined
     this.slug = slug
     this.website = normalizeLink(website ?? undefined)
     this.instagram = instagram ?? undefined
