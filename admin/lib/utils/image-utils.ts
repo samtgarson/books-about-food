@@ -28,11 +28,7 @@ export const uploadImage = async (
   const { width, height } = sizeOf(buffer)
 
   if (key && foreignKey) {
-    await prisma.image.upsert({
-      where: { id },
-      create: { id, url: path, width, height, [key]: foreignKey },
-      update: { id, url: path, width, height }
-    })
+    await replaceImage(id, key, foreignKey, path, width, height)
   }
 
   return id
@@ -44,4 +40,22 @@ export const deleteImage = async (query: Prisma.ImageWhereInput) => {
 
   await Promise.all(images.map((image) => s3.delete(image.url)))
   await prisma.image.deleteMany({ where: query })
+}
+
+const replaceImage = async (
+  id: string,
+  key: keyof Prisma.ImageCreateManyInput,
+  foreignKey: string,
+  path: string,
+  width: number,
+  height: number
+) => {
+  const existing = await prisma.image.findUnique({
+    where: { [key]: foreignKey }
+  })
+
+  if (existing) await deleteImage({ [key]: foreignKey })
+  await prisma.image.create({
+    data: { id, url: path, [key]: foreignKey, width, height }
+  })
 }
