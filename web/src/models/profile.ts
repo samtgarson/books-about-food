@@ -1,3 +1,5 @@
+import Color from 'color'
+import randomColor from 'randomcolor'
 import { Link } from 'src/components/atoms/link-list'
 import { normalizeLink } from 'src/utils/url-helpers'
 import { Image } from './image'
@@ -56,5 +58,13 @@ export class Profile {
         url: `https://instagram.com/${this.instagram}`
       })
     return links
+  }
+
+  get backgroundColour() {
+    return randomColor({ seed: this.id, luminosity: 'bright' })
+  }
+
+  get foregroundColour() {
+    return new Color(this.backgroundColour).isDark() ? '#fff' : '#000'
   }
 }

@@ -36,6 +36,14 @@ export const Avatar: FC<AvatarProps> = ({
         'md:w-full': size === 'fill'
       }
     )}
+    style={
+      profile.avatar
+        ? undefined
+        : {
+            backgroundColor: profile.backgroundColour,
+            color: profile.foregroundColour
+          }
+    }
   >
     {profile.avatar ? (
       <Image
