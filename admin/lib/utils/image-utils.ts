@@ -14,8 +14,9 @@ export const parseDataUri = (dataUri: string) => {
 export const uploadImage = async (
   dataUri: string,
   prefix: string,
-  key?: keyof Prisma.ImageCreateManyInput,
-  foreignKey?: string
+  key: keyof Prisma.ImageCreateManyInput,
+  foreignKey: string,
+  replace = false
 ) => {
   if (!dataUri) return undefined
   if (dataUri.startsWith(prefix)) {
@@ -27,9 +28,13 @@ export const uploadImage = async (
   const { id, path } = await s3.upload(buffer, mimeType, prefix)
   const { width, height } = sizeOf(buffer)
 
-  if (key && foreignKey) {
-    await replaceImage(id, key, foreignKey, path, width, height)
+  if (replace && key && foreignKey) {
+    await deleteExisting(key, foreignKey)
   }
+
+  await prisma.image.create({
+    data: { id, url: path, [key]: foreignKey, width, height }
+  })
 
   return id
 }
@@ -42,20 +47,13 @@ export const deleteImage = async (query: Prisma.ImageWhereInput) => {
   await prisma.image.deleteMany({ where: query })
 }
 
-const replaceImage = async (
-  id: string,
+const deleteExisting = async (
   key: keyof Prisma.ImageCreateManyInput,
-  foreignKey: string,
-  path: string,
-  width: number,
-  height: number
+  foreignKey: string
 ) => {
-  const existing = await prisma.image.findUnique({
+  const existing = await prisma.image.findMany({
     where: { [key]: foreignKey }
   })
 
   if (existing) await deleteImage({ [key]: foreignKey })
-  await prisma.image.create({
-    data: { id, url: path, [key]: foreignKey, width, height }
-  })
 }

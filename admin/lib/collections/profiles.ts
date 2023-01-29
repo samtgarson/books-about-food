@@ -22,7 +22,7 @@ const uploadAvatar = async (dataUri: string, profileId: string) => {
   }
 
   const prefix = `profile-avatars/${profileId}`
-  await uploadImage(dataUri, prefix, 'profileId', profileId)
+  await uploadImage(dataUri, prefix, 'profileId', profileId, true)
 }
 
 export const customiseProfiles = (

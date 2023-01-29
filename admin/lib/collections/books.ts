@@ -11,7 +11,7 @@ const uploadCover = async (dataUri: string, bookId: string) => {
   }
 
   const prefix = `books/${bookId}/cover`
-  await uploadImage(dataUri, prefix, 'coverForId', bookId)
+  await uploadImage(dataUri, prefix, 'coverForId', bookId, true)
 }
 
 const uploadPreviews = async (dataUris: string[] = [], bookId: string) => {

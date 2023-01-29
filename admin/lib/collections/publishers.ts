@@ -11,7 +11,7 @@ const uploadLogo = async (dataUri: string, publisherId: string) => {
   }
 
   const prefix = `publisher-logos/${publisherId}`
-  await uploadImage(dataUri, prefix, 'publisherId', publisherId)
+  await uploadImage(dataUri, prefix, 'publisherId', publisherId, true)
 }
 
 export const customisePublishers = (
