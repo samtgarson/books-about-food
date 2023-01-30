@@ -9,18 +9,20 @@ export type SearchProps = {
   placeholder?: string
   onChange?: (value: string) => void
   className?: string
+  debounce?: number
 }
 
 export const Search: FC<SearchProps> = ({
   onChange,
   value = '',
   placeholder = 'Search',
-  className
+  className,
+  debounce = 250
 }) => {
   const [internalValue, setInternalValue] = useState(value)
   const apply = useDebouncedCallback(
     (value: string) => onChange?.(value),
-    250,
+    debounce,
     { leading: true }
   )
 
@@ -34,7 +36,7 @@ export const Search: FC<SearchProps> = ({
       }}
       placeholder={placeholder}
       className={cn(
-        'text-32 flex-grow flex-shrink placeholder-black placeholder-opacity-40 w-full md:w-4',
+        'text-32 flex-grow flex-shrink bg-transparent placeholder-black placeholder-opacity-40 w-full md:w-4',
         className
       )}
     />
