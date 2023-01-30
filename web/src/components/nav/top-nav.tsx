@@ -87,7 +87,7 @@ const MobileTopNav: FC = () => {
   const [open, setOpen] = useState(false)
   return (
     <Collapsible.Root open={open} onOpenChange={setOpen}>
-      <nav className="h-16 relative bg-white md:bg-transparent md:hidden flex items-center border-b border-black">
+      <nav className="h-16 relative bg-grey md:hidden flex items-center border-b border-black">
         <Link
           href="/"
           className="px-4 text-16 flex-grow"
@@ -103,7 +103,7 @@ const MobileTopNav: FC = () => {
         </Collapsible.Trigger>
         <Collapsible.Content
           onClick={() => setOpen(false)}
-          className="-mt-px z-10 absolute top-full inset-x-0 flex flex-col bg-white items-end px-5 overflow-y-hidden data-[state=open]:animate-collapsible-open data-[state=closed]:animate-collapsible-closed border-b border-black"
+          className="-mt-px z-10 absolute top-full inset-x-0 flex flex-col bg-grey items-end px-5 overflow-y-hidden data-[state=open]:animate-collapsible-open data-[state=closed]:animate-collapsible-closed border-b border-black"
         >
           <NavContent />
         </Collapsible.Content>

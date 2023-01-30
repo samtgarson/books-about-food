@@ -1,12 +1,14 @@
 import { ComponentProps, forwardRef } from 'react'
 import cn from 'classnames'
+import { AntiContainer } from '../atoms/container'
 
 export type GridContainerProps = ComponentProps<'ul'>
 
 export const GridContainer = forwardRef<HTMLDivElement, GridContainerProps>(
   ({ children, className, ...props }, ref) => (
-    <div
-      className="-mx-5 sm:mx-0 overflow-hidden sm:overflow-visible"
+    <AntiContainer
+      desktop={false}
+      className="overflow-hidden sm:overflow-visible"
       ref={ref}
     >
       <ul
@@ -18,7 +20,7 @@ export const GridContainer = forwardRef<HTMLDivElement, GridContainerProps>(
       >
         {children}
       </ul>
-    </div>
+    </AntiContainer>
   )
 )
 

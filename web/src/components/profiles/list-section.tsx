@@ -45,9 +45,7 @@ export const ProfileListSection: FC<ProfileListSectionProps> = ({
           </Sheet.Body>
         </Sheet.Content>
       </Sheet.Root>
-      <AntiContainer mobile={false}>
-        <ListContent className="hidden sm:block" />
-      </AntiContainer>
+      <ListContent className="hidden sm:block" />
     </>
   )
 }
