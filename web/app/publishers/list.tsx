@@ -6,6 +6,7 @@ import { prefetch, useFetcher } from 'src/contexts/fetcher'
 import { PublishersItem } from './item'
 import { FetchPublishersInput } from 'src/services/publishers/fetch-publishers'
 import { Search } from 'src/components/lists/search'
+import cn from 'classnames'
 
 export type PublishersListProps = {
   fallback?: FetchPublishersInput
@@ -15,7 +16,9 @@ export const PublishersList: FC<PublishersListProps> = ({
   fallback: fallbackData
 }) => {
   const [filters, setFilters] = useState<FetchPublishersInput>()
-  const { data } = useFetcher('publishers', filters, { fallbackData })
+  const { data, isLoading } = useFetcher('publishers', filters, {
+    fallbackData
+  })
   if (!data) return null
   const { publishers, filteredTotal, total, perPage } = data
 
@@ -34,7 +37,12 @@ export const PublishersList: FC<PublishersListProps> = ({
           onChange={(search) => setFilters({ ...filters, page: 0, search })}
         />
       </div>
-      <ul className="grid auto-grid-lg">
+      <ul
+        className={cn(
+          'grid auto-grid-lg transition-opacity',
+          isLoading && 'opacity-50'
+        )}
+      >
         {publishers.map((profile) => (
           <PublishersItem key={profile.id} publisher={profile} />
         ))}

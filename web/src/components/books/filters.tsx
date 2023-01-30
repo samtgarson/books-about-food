@@ -13,7 +13,9 @@ type BookFiltersProps = {
 }
 
 export const BookFilters = ({ filters, onChange }: BookFiltersProps) => {
-  const { data: tags } = useFetcher('tags', undefined, { immutable: true })
+  const { data: tags = [], isLoading } = useFetcher('tags', undefined, {
+    immutable: true
+  })
 
   return (
     <AntiContainer>
@@ -37,21 +39,18 @@ export const BookFilters = ({ filters, onChange }: BookFiltersProps) => {
               onChange={(sort) => onChange({ sort })}
               onPreload={(sort) => prefetch('books', { sort })}
             />
-            {!tags ? (
-              'Loading'
-            ) : (
-              <FilterSelect
-                search
-                options={tags.map((tag) => ({
-                  label: tag.name,
-                  value: tag.name
-                }))}
-                placeholder="Tags"
-                value={filters.tag}
-                multi
-                onChange={(tag) => onChange({ tag })}
-              />
-            )}
+            <FilterSelect
+              search
+              loading={isLoading}
+              options={tags.map((tag) => ({
+                label: tag.name,
+                value: tag.name
+              }))}
+              placeholder="Tags"
+              value={filters.tag}
+              multi
+              onChange={(tag) => onChange({ tag })}
+            />
             <FilterSelect
               multi={false}
               options={fetchBooksPageFilters}

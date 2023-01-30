@@ -14,6 +14,7 @@ type BaseFilterSelectProps<Value> = {
   options: { label: string; value: Value }[]
   placeholder: string
   search?: boolean
+  loading?: boolean
 }
 
 type SingleFilterSelectProps<Value> = {
@@ -40,7 +41,8 @@ const FilterSelectContent = <Value extends string | number = string>({
   value: initialValue,
   placeholder,
   onPreload,
-  search
+  search,
+  loading
 }: FilterSelectProps<Value>) => {
   const [value, setValue] = useState(initialValue)
   const [searchValue, setSearchValue] = useState('')
@@ -106,8 +108,10 @@ const FilterSelectContent = <Value extends string | number = string>({
   return (
     <>
       <Sheet.Trigger asChild>
-        <Pill className="gap-1.5">
-          {label}
+        <Pill className="gap-1.5" disabled={loading}>
+          <span className={cn('transition-opacity', loading && 'opacity-50')}>
+            {label}
+          </span>
           <ChevronDown
             size={24}
             strokeWidth={1}

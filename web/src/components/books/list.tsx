@@ -7,7 +7,7 @@ import {
   FetchBooksInput,
   FetchBooksOutput
 } from 'src/services/books/fetch-books'
-import { AntiContainer } from '../atoms/container'
+import cn from 'classnames'
 import { GridContainer } from '../lists/grid-container'
 import { BookFilters } from './filters'
 import { BookItem } from './item'
@@ -26,7 +26,7 @@ export const BookList: FC<BookListProps> = ({
   fallback: fallbackData
 }) => {
   const [filters, setFilters] = useState<FetchBooksInput>(initialFilters)
-  const { data } = useFetcher('books', filters, { fallbackData })
+  const { data, isLoading } = useFetcher('books', filters, { fallbackData })
   if (!data) return null
   const { books, filteredTotal, total, perPage } = data
 
@@ -45,7 +45,12 @@ export const BookList: FC<BookListProps> = ({
           onChange={(f) => setFilters({ ...filters, page: 0, ...f })}
         />
       )}
-      <GridContainer className="sm:gap-y-16">
+      <GridContainer
+        className={cn(
+          'sm:gap-y-16 transition-opacity',
+          isLoading && 'opacity-50'
+        )}
+      >
         {books.map((book) => (
           <BookItem key={book.id} book={book} />
         ))}

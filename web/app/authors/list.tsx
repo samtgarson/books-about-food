@@ -9,6 +9,7 @@ import {
 import { prefetch, useFetcher } from 'src/contexts/fetcher'
 import { AuthorItem } from './item'
 import { Container } from 'src/components/atoms/container'
+import cn from 'classnames'
 
 export type AuthorListProps = {
   fallback?: FetchProfilesOutput
@@ -20,7 +21,7 @@ export const AuthorsList: FC<AuthorListProps> = ({
   const [filters, setFilters] = useState<FetchProfilesInput>({
     onlyAuthors: true
   })
-  const { data } = useFetcher('profiles', filters, { fallbackData })
+  const { data, isLoading } = useFetcher('profiles', filters, { fallbackData })
   if (!data) return null
   const { profiles, filteredTotal, total, perPage } = data
 
@@ -34,7 +35,12 @@ export const AuthorsList: FC<AuthorListProps> = ({
         onChange={(page) => setFilters({ ...filters, page })}
         onPreload={(page) => prefetch('profiles', { ...filters, page })}
       >
-        <ul className="grid auto-grid-md gap-x-8 gap-y-16">
+        <ul
+          className={cn(
+            'grid auto-grid-md gap-x-8 gap-y-16 transition-opacity',
+            isLoading && 'opacity-50'
+          )}
+        >
           {profiles.map((profile) => (
             <AuthorItem key={profile.id} profile={profile} />
           ))}
