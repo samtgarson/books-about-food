@@ -65,7 +65,10 @@ export const Body = ({
   children: ReactNode
 }) => (
   <div
-    className={cn('bg-white p-5 sm:p-8 max-h-[70vh] overflow-auto', className)}
+    className={cn(
+      'bg-white p-5 sm:p-8 max-h-[70vh] overflow-auto book-shadow',
+      className
+    )}
   >
     {children}
   </div>
@@ -86,7 +89,7 @@ export const Header = ({
 )
 
 export const Footer = ({ children }: { children: ReactNode }) => (
-  <div className="bg-white">{children}</div>
+  <div className="bg-white book-shadow">{children}</div>
 )
 
 export const Root: FC<SheetProps> = ({ children, mobileOnly, onCancel }) => {

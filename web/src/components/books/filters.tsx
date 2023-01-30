@@ -3,6 +3,7 @@ import { Search } from 'src/components/lists/search'
 import { Sort } from 'src/components/lists/sort'
 import { prefetch, useFetcher } from 'src/contexts/fetcher'
 import { FetchBooksInput } from 'src/services/books/fetch-books'
+import { fetchBooksPageFilters } from 'src/services/books/filters'
 import { AntiContainer, Container } from '../atoms/container'
 
 type Filters = Omit<FetchBooksInput, 'page' | 'perPage'>
@@ -16,7 +17,7 @@ export const BookFilters = ({ filters, onChange }: BookFiltersProps) => {
 
   return (
     <AntiContainer className="my-10 overflow-x-auto">
-      <Container className="flex items-start sm:items-center gap-4 whitespace-nowrap width-max">
+      <Container className="flex items-start sm:items-center gap-2 whitespace-nowrap min-w-max">
         <Search
           value={filters.search}
           onChange={(search) => onChange({ search })}
@@ -43,6 +44,13 @@ export const BookFilters = ({ filters, onChange }: BookFiltersProps) => {
             onChange={(tag) => onChange({ tag })}
           />
         )}
+        <FilterSelect
+          multi={false}
+          options={fetchBooksPageFilters}
+          placeholder="No. of Pages"
+          value={filters.pageCount}
+          onChange={(pageCount) => onChange({ pageCount })}
+        />
       </Container>
     </AntiContainer>
   )

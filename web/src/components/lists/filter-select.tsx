@@ -68,9 +68,9 @@ const FilterSelectContent = <Value extends string | number = string>({
 
         if (foundA && !foundB) return -1
         if (!foundA && foundB) return 1
-        return a.label.localeCompare(b.label)
+        return search ? a.label.localeCompare(b.label) : 0
       }),
-    [options, matches]
+    [options, matches, search]
   )
 
   const onCheckedChange = useCallback(
@@ -82,7 +82,7 @@ const FilterSelectContent = <Value extends string | number = string>({
         setValue(Array.from(newValue))
         onPreload?.(Array.from(newValue))
       } else if (!multi && !Array.isArray(value)) {
-        const newValue = checked ? value : undefined
+        const newValue = checked ? id : undefined
         setValue(newValue)
         onPreload?.(newValue)
       }
@@ -100,7 +100,7 @@ const FilterSelectContent = <Value extends string | number = string>({
       )}
     </>
   ) : (
-    initialValue || placeholder
+    options.find((o) => o.value === initialValue)?.label || placeholder
   )
 
   return (

@@ -3,6 +3,11 @@ import { Book } from 'src/models/book'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
 import { profileIncludes } from '../utils'
+import {
+  fetchBooksPageFilters,
+  FetchBooksPageFilters,
+  fetchBooksPageFilterValues
+} from './filters'
 
 export type FetchBooksInput = NonNullable<z.infer<typeof fetchBooks['input']>>
 export type FetchBooksOutput = Awaited<ReturnType<typeof fetchBooks['call']>>
@@ -14,7 +19,14 @@ export const fetchBooks = new Service(
       sort: z.enum(['title', 'releaseDate', 'createdAt']).optional(),
       tag: z.string().array().optional(),
       search: z.string().optional(),
-      profile: z.string().optional()
+      profile: z.string().optional(),
+      pageCount: z
+        .custom<FetchBooksPageFilters>((key) => {
+          return fetchBooksPageFilterValues.includes(
+            key as FetchBooksPageFilters
+          )
+        })
+        .optional()
     })
     .optional(),
 
@@ -24,7 +36,8 @@ export const fetchBooks = new Service(
     sort = 'releaseDate',
     tag,
     search,
-    profile
+    profile,
+    pageCount
   } = {}) => {
     const contains = search?.trim()
     const hasSearch = (contains && contains.length > 0) || undefined
@@ -32,8 +45,19 @@ export const fetchBooks = new Service(
     const mode: Prisma.QueryMode = 'insensitive'
     const AND: Prisma.BookWhereInput[] = []
     if (hasTag) AND.push({ tags: { some: { name: { in: tag } } } })
-    if (profile)
+    if (profile) {
       AND.push({ contributions: { some: { profile: { slug: profile } } } })
+    }
+
+    if (pageCount) {
+      const pageCountFilter = fetchBooksPageFilters.find(
+        (f) => f.value === pageCount
+      )
+      if (pageCountFilter) {
+        const { min, max } = pageCountFilter
+        AND.push({ pages: { gte: min, lte: max } })
+      }
+    }
 
     const where = {
       AND,
