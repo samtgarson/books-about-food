@@ -5,12 +5,19 @@ import { z } from 'zod'
 export type fetchFavouritesOutput = Awaited<
   ReturnType<typeof fetchFavourites.call>
 >
-export const fetchFavourites = new Service(z.undefined(), async (_, user) => {
-  if (!user) return null
-  const userId = user.id
+export const fetchFavourites = new Service(
+  z.undefined(),
+  async (_, user) => {
+    if (!user) return null
+    const userId = user.id
 
-  return prisma.favourite.findMany({
-    where: { userId },
-    include: { profile: true }
-  })
-})
+    return prisma.favourite.findMany({
+      where: { userId },
+      include: { profile: true }
+    })
+  },
+  {
+    maxAge: 0,
+    staleFor: 0
+  }
+)

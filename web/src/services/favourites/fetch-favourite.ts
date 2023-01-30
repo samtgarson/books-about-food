@@ -18,5 +18,9 @@ export const fetchFavourite = new Service(
         }
       }
     })
+  },
+  {
+    maxAge: 0,
+    staleFor: 0
   }
 )

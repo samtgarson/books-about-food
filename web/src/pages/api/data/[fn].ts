@@ -59,6 +59,14 @@ const handler: NextApiHandler = async (req, res) => {
     const parsed = input && superjson.parse(input)
     const data = await service.parseAndCall(parsed, user)
     const serialized = superjson.serialize(data)
+
+    if (isFetch) {
+      const { maxAge = 60, staleFor = 604800 } = service.requestMeta
+      res.setHeader(
+        'Cache-Control',
+        `s-maxage=${maxAge}, stale-while-revalidate=${staleFor}`
+      )
+    }
     res.status(200).json(serialized)
   } catch (error) {
     console.error(error)
