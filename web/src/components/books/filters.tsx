@@ -16,42 +16,52 @@ export const BookFilters = ({ filters, onChange }: BookFiltersProps) => {
   const { data: tags } = useFetcher('tags', undefined, { immutable: true })
 
   return (
-    <AntiContainer className="my-10 overflow-x-auto">
-      <Container className="flex items-start sm:items-center gap-2 whitespace-nowrap min-w-max">
-        <Search
-          value={filters.search}
-          onChange={(search) => onChange({ search })}
-        />
-        <Sort<NonNullable<Filters['sort']>>
-          sorts={{
-            releaseDate: 'Release Date',
-            createdAt: 'Recently Added',
-            title: 'Title'
-          }}
-          value={filters.sort ?? 'releaseDate'}
-          onChange={(sort) => onChange({ sort })}
-          onPreload={(sort) => prefetch('books', { sort })}
-        />
-        {!tags ? (
-          'Loading'
-        ) : (
-          <FilterSelect
-            search
-            options={tags.map((tag) => ({ label: tag.name, value: tag.name }))}
-            placeholder="Tags"
-            value={filters.tag}
-            multi
-            onChange={(tag) => onChange({ tag })}
+    <AntiContainer>
+      <div className="my-10 flex flex-wrap items-center gap-4 w-full">
+        <Container className="w-full flex-grow md:w-72">
+          <Search
+            className="w-full"
+            value={filters.search}
+            onChange={(search) => onChange({ search })}
           />
-        )}
-        <FilterSelect
-          multi={false}
-          options={fetchBooksPageFilters}
-          placeholder="No. of Pages"
-          value={filters.pageCount}
-          onChange={(pageCount) => onChange({ pageCount })}
-        />
-      </Container>
+        </Container>
+        <div className="overflow-x-auto">
+          <Container className="flex gap-2 w-max">
+            <Sort<NonNullable<Filters['sort']>>
+              sorts={{
+                releaseDate: 'Release Date',
+                createdAt: 'Recently Added',
+                title: 'Title'
+              }}
+              value={filters.sort ?? 'releaseDate'}
+              onChange={(sort) => onChange({ sort })}
+              onPreload={(sort) => prefetch('books', { sort })}
+            />
+            {!tags ? (
+              'Loading'
+            ) : (
+              <FilterSelect
+                search
+                options={tags.map((tag) => ({
+                  label: tag.name,
+                  value: tag.name
+                }))}
+                placeholder="Tags"
+                value={filters.tag}
+                multi
+                onChange={(tag) => onChange({ tag })}
+              />
+            )}
+            <FilterSelect
+              multi={false}
+              options={fetchBooksPageFilters}
+              placeholder="No. of Pages"
+              value={filters.pageCount}
+              onChange={(pageCount) => onChange({ pageCount })}
+            />
+          </Container>
+        </div>
+      </div>
     </AntiContainer>
   )
 }

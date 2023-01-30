@@ -7,7 +7,7 @@ import { GridContainer } from '../lists/grid-container'
 import { ProfileItem } from './item'
 import cn from 'classnames'
 import { AntiContainer } from '../atoms/container'
-import { Sheet } from '../atoms/sheet'
+import * as Sheet from '../atoms/sheet'
 
 export type ProfileListSectionProps = {
   profiles: Profile[]
@@ -28,20 +28,23 @@ export const ProfileListSection: FC<ProfileListSectionProps> = ({
 
   return (
     <>
-      <Sheet
-        title={title}
-        mobileOnly
-        triggerClassName="w-full mt-4 sm:mt-20 sm:mb-8 flex flex-wrap justify-between items-start"
-        content={<ListContent className="pb-8" />}
-      >
-        <h2>{title}</h2>
-        <span className="sm:hidden">Open</span>
-        <div className={cn('w-full flex flex-wrap gap-2 sm:hidden mt-4')}>
-          {profiles.map((profile) => (
-            <Avatar key={profile.id} profile={profile} size="xs" />
-          ))}
-        </div>
-      </Sheet>
+      <Sheet.Root mobileOnly>
+        <Sheet.Trigger className="w-full mt-4 sm:mt-20 sm:mb-8 flex flex-wrap justify-between items-start">
+          <h2>{title}</h2>
+          <span className="sm:hidden">Open</span>
+          <div className={cn('w-full flex flex-wrap gap-2 sm:hidden mt-4')}>
+            {profiles.map((profile) => (
+              <Avatar key={profile.id} profile={profile} size="xs" />
+            ))}
+          </div>
+        </Sheet.Trigger>
+        <Sheet.Content>
+          <Sheet.Body>
+            <Sheet.Header title="Frequent Collaborators" />
+            <ListContent className="pb-8" />
+          </Sheet.Body>
+        </Sheet.Content>
+      </Sheet.Root>
       <AntiContainer mobile={false}>
         <ListContent className="hidden sm:block" />
       </AntiContainer>

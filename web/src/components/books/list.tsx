@@ -7,6 +7,7 @@ import {
   FetchBooksInput,
   FetchBooksOutput
 } from 'src/services/books/fetch-books'
+import { AntiContainer } from '../atoms/container'
 import { GridContainer } from '../lists/grid-container'
 import { BookFilters } from './filters'
 import { BookItem } from './item'

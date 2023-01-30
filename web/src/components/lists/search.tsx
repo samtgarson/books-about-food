@@ -36,7 +36,7 @@ export const Search: FC<SearchProps> = ({
       }}
       placeholder={placeholder}
       className={cn(
-        'text-32 flex-grow flex-shrink-0 bg-transparent placeholder-black placeholder-opacity-40 w-full md:w-52',
+        'text-32 flex-grow flex-shrink-0 bg-transparent placeholder-black placeholder-opacity-40',
         className
       )}
     />
