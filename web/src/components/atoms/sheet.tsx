@@ -51,7 +51,7 @@ export const Content = ({ children }: { children: ReactNode }) => {
         <Dialog.Close className="p-4 self-end">
           <X strokeWidth={1} size={24} className="stroke-white" />
         </Dialog.Close>
-        {children}
+        <div className="book-shadow">{children}</div>
       </Dialog.Content>
     </Dialog.Portal>
   )
@@ -65,10 +65,7 @@ export const Body = ({
   children: ReactNode
 }) => (
   <div
-    className={cn(
-      'bg-white p-5 sm:p-8 max-h-[70vh] overflow-auto book-shadow',
-      className
-    )}
+    className={cn('bg-white p-5 sm:p-8 max-h-[70vh] overflow-auto', className)}
   >
     {children}
   </div>
@@ -89,7 +86,7 @@ export const Header = ({
 )
 
 export const Footer = ({ children }: { children: ReactNode }) => (
-  <div className="bg-white book-shadow">{children}</div>
+  <div className="bg-white">{children}</div>
 )
 
 export const Root: FC<SheetProps> = ({ children, mobileOnly, onCancel }) => {

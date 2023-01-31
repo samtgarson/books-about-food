@@ -1,6 +1,7 @@
 import { ElementType, forwardRef } from 'react'
 import { PolymorphicComponentPropWithRef, PolymorphicRef } from '../types'
 import cn from 'classnames'
+import Link from 'next/link'
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'outline'
 export type ButtonProps<C extends ElementType> =
@@ -27,7 +28,8 @@ export const Button = forwardRef(
     { as, variant = 'primary', className, children, ...props }: ButtonProps<C>,
     ref: PolymorphicRef<C>
   ) => {
-    const Component = as || 'button'
+    const Component =
+      as === 'a' && props.href?.startsWith('/') ? Link : as || 'button'
     return (
       <Component
         ref={ref}

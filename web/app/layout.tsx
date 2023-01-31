@@ -4,7 +4,7 @@ import { TopNav } from 'src/components/nav/top-nav'
 import 'src/utils/superjson'
 import { graphik } from 'src/style/font'
 import 'src/style/globals.css' // eslint-disable-line import/extensions
-import { Container } from 'src/components/atoms/container'
+import { Footer } from 'src/components/nav/footer'
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -14,9 +14,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <AuthProvider>
           <TopNav />
           <main className="flex-grow">{children}</main>
-          <footer>
-            <Container className="mt-20 py-12 bg-white h-40">Footer</Container>
-          </footer>
+          <Footer />
         </AuthProvider>
       </body>
     </html>
