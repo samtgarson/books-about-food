@@ -25,10 +25,11 @@ export const fetchProfiles = new Service(
   z.object({
     page: z.number().optional(),
     perPage: z.number().optional(),
+    sort: z.enum(['name', 'trending']).optional(),
     onlyAuthors: z.boolean().optional(),
     jobs: z.string().array().optional()
   }),
-  async ({ page = 0, perPage = 21, jobs, onlyAuthors } = {}) => {
+  async ({ page = 0, perPage = 21, jobs, onlyAuthors, sort = 'name' } = {}) => {
     const baseWhere = authorFilter(onlyAuthors)
     const hasJob = (jobs && jobs.length > 0) || undefined
     const where: Prisma.ProfileWhereInput = {
@@ -43,9 +44,14 @@ export const fetchProfiles = new Service(
       ]
     }
 
+    const orderBy: Prisma.ProfileOrderByWithRelationAndSearchRelevanceInput =
+      sort === 'name'
+        ? { name: 'asc' }
+        : { mostRecentlyPublishedOn: { sort: 'desc', nulls: 'last' } }
+
     const [raw, total, filteredTotal] = await Promise.all([
       prisma.profile.findMany({
-        orderBy: { name: 'asc' },
+        orderBy,
         where,
         take: perPage === 0 ? undefined : perPage,
         skip: perPage * page,

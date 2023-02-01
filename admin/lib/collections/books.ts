@@ -28,6 +28,19 @@ const uploadPreviews = async (dataUris: string[] = [], bookId: string) => {
   })
 }
 
+const updateProfiles = async (bookId: string) => {
+  const book = await prisma.book.findUnique({ where: { id: bookId } })
+  if (!book) return
+
+  await prisma.profile.updateMany({
+    where: {
+      contributions: { some: { bookId } },
+      mostRecentlyPublishedOn: { lt: book.releaseDate }
+    },
+    data: { mostRecentlyPublishedOn: book.releaseDate }
+  })
+}
+
 export const customiseBooks = (
   collection: CollectionCustomizer<Schema, 'books'>
 ) => {
@@ -144,6 +157,7 @@ export const customiseBooks = (
         const data = context.data[i]
         await uploadCover(data.Cover, record.id)
         await uploadPreviews(data['Preview Images'], record.id)
+        await updateProfiles(record.id)
       })
     )
   })
@@ -156,5 +170,10 @@ export const customiseBooks = (
         deleteImage({ previewForId: record.id })
       ])
     )
+  })
+
+  collection.addHook('After', 'Update', async (context) => {
+    const records = await context.collection.list(context.filter, ['id'])
+    await Promise.all(records.map(async (record) => updateProfiles(record.id)))
   })
 }
