@@ -8,7 +8,6 @@ import {
 } from 'src/services/profiles/fetch-profiles'
 import { prefetch, useFetcher } from 'src/contexts/fetcher'
 import { AuthorItem } from './item'
-import { Container } from 'src/components/atoms/container'
 import cn from 'classnames'
 import { Sort } from 'src/components/lists/sort'
 
@@ -27,35 +26,33 @@ export const AuthorsList: FC<AuthorListProps> = ({
   const { profiles, filteredTotal, total, perPage } = data
 
   return (
-    <Container>
-      <Pagination
-        total={total}
-        perPage={perPage}
-        page={filters.page ?? 0}
-        filteredTotal={filteredTotal}
-        onChange={(page) => setFilters({ ...filters, page })}
-        onPreload={(page) => prefetch('profiles', { ...filters, page })}
+    <Pagination
+      total={total}
+      perPage={perPage}
+      page={filters.page ?? 0}
+      filteredTotal={filteredTotal}
+      onChange={(page) => setFilters({ ...filters, page })}
+      onPreload={(page) => prefetch('profiles', { ...filters, page })}
+    >
+      <div className="flex sm:justify-end my-10">
+        <Sort
+          sorts={{ name: 'Name', trending: 'Trending' }}
+          value={filters.sort ?? 'name'}
+          onChange={(sort) => setFilters({ ...filters, sort })}
+          onPreload={(sort) => prefetch('profiles', { ...filters, sort })}
+        />
+      </div>
+      <ul
+        className={cn(
+          'grid auto-grid-md gap-x-8 gap-y-16 transition-opacity',
+          isLoading && 'opacity-50'
+        )}
       >
-        <div className="flex sm:justify-end my-10">
-          <Sort
-            sorts={{ name: 'Name', trending: 'Trending' }}
-            value={filters.sort ?? 'name'}
-            onChange={(sort) => setFilters({ ...filters, sort })}
-            onPreload={(sort) => prefetch('profiles', { ...filters, sort })}
-          />
-        </div>
-        <ul
-          className={cn(
-            'grid auto-grid-md gap-x-8 gap-y-16 transition-opacity',
-            isLoading && 'opacity-50'
-          )}
-        >
-          {profiles.map((profile) => (
-            <AuthorItem key={profile.id} profile={profile} />
-          ))}
-        </ul>
-        {profiles.length === 0 && <p>No authors found</p>}
-      </Pagination>
-    </Container>
+        {profiles.map((profile) => (
+          <AuthorItem key={profile.id} profile={profile} />
+        ))}
+      </ul>
+      {profiles.length === 0 && <p>No authors found</p>}
+    </Pagination>
   )
 }

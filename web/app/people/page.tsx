@@ -10,8 +10,8 @@ export default async () => {
 
   return (
     <>
-      <PageTitle>People</PageTitle>
       <Container>
+        <PageTitle>People</PageTitle>
         <PeopleList fallback={data} data-superjson />
       </Container>
     </>

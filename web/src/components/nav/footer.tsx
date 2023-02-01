@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { AntiContainer, Container } from '../atoms/container'
+import { Container } from '../atoms/container'
 import { Logo } from './logo'
 import cn from 'classnames'
 import { FC } from 'react'
@@ -36,11 +36,7 @@ const FooterItemExternal: FC<{
 export const Footer = () => (
   <footer className="bg-white mt-20 pt-12 md:pt-20 pb-6 md:pb-10">
     <Container>
-      <AntiContainer
-        left={false}
-        mobile={false}
-        className="flex justify-between md:items-center flex-wrap gap-8"
-      >
+      <div className="flex justify-between md:items-center flex-wrap gap-8">
         <Logo />
         <div className="md:order-first flex gap-4 md:gap-8 flex-wrap md:flex-shrink-0">
           <FooterItem path="/">Home</FooterItem>
@@ -52,7 +48,7 @@ export const Footer = () => (
             Instagram
           </FooterItemExternal>
         </div>
-      </AntiContainer>
+      </div>
       <div className="flex lg:justify-end mt-16 md:mt-20 gap-4">
         <Button as="a" href="/" variant="outline">
           Submit

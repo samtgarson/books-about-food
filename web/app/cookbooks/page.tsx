@@ -10,8 +10,8 @@ export default async () => {
 
   return (
     <>
-      <PageTitle>Cookbooks</PageTitle>
       <Container>
+        <PageTitle>Cookbooks</PageTitle>
         <BookList fallback={books} data-superjson />
       </Container>
     </>
