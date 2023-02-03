@@ -70,8 +70,7 @@ model User {
 
 model Image {
   id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  url            String   @unique
-  path           String?  @unique
+  path           String   @unique
   width          Int
   height         Int
   createdAt      DateTime @default(now()) @map("created_at")

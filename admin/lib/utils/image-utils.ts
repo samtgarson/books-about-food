@@ -21,7 +21,7 @@ export const uploadImage = async (
 ) => {
   if (!dataUri) return undefined
   if (dataUri.startsWith(prefix)) {
-    const image = await prisma.image.findUnique({ where: { url: dataUri } })
+    const image = await prisma.image.findUnique({ where: { path: dataUri } })
     return image?.id
   }
 
@@ -37,7 +37,7 @@ export const uploadImage = async (
   const placeholderUrl = await blurrer.call()
 
   await prisma.image.create({
-    data: { id, url: path, [key]: foreignKey, width, height, placeholderUrl }
+    data: { id, path, [key]: foreignKey, width, height, placeholderUrl }
   })
 
   return id
@@ -47,7 +47,7 @@ export const deleteImage = async (query: Prisma.ImageWhereInput) => {
   const images = await prisma.image.findMany({ where: query })
   if (!images.length) return
 
-  await Promise.all(images.map((image) => s3.delete(image.url)))
+  await Promise.all(images.map((image) => s3.delete(image.path)))
   await prisma.image.deleteMany({ where: query })
 }
 

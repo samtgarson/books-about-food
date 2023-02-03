@@ -2,17 +2,17 @@ import * as Prisma from 'database'
 import { ImageProps } from 'next/image'
 
 export class Image {
-  url: string
+  path: string
   width: number
   height: number
   caption: string
   placeholderUrl?: string
 
   constructor(
-    { url, width, height, caption, placeholderUrl }: Prisma.Image,
+    { path, width, height, caption, placeholderUrl }: Prisma.Image,
     defaultCaption: string
   ) {
-    this.url = url
+    this.path = path
     this.width = width
     this.height = height
     this.caption = caption || defaultCaption
@@ -20,7 +20,7 @@ export class Image {
   }
 
   get src() {
-    return new URL(this.url, process.env.NEXT_PUBLIC_S3_DOMAIN).toString()
+    return new URL(this.path, process.env.NEXT_PUBLIC_S3_DOMAIN).toString()
   }
 
   widthFor(height: number) {

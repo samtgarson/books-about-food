@@ -11,13 +11,13 @@ export const customiseImages = (
     execute: async (_context, result) => {
       const images = await prisma.image.findMany({
         where: { placeholderUrl: null },
-        select: { url: true, id: true }
+        select: { path: true, id: true }
       })
 
       const results = await Promise.all(
-        images.map(async ({ id, url }) => {
+        images.map(async ({ id, path }) => {
           try {
-            const blurrer = new ImageBlurrer({ s3path: url })
+            const blurrer = new ImageBlurrer({ s3path: path })
             const placeholderUrl = await blurrer.call()
             await prisma.image.update({
               where: { id },

@@ -59,7 +59,7 @@ export const customiseProfiles = (
             const image = await prisma.image.findUnique({
               where: { profileId: record.id }
             })
-            return image?.url
+            return image?.path
           })
         )
       },

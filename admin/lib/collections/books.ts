@@ -54,7 +54,7 @@ export const customiseBooks = (
             const image = await prisma.image.findUnique({
               where: { coverForId: record.id }
             })
-            return image?.url
+            return image?.path
           })
         )
       },
@@ -75,7 +75,7 @@ export const customiseBooks = (
             const image = await prisma.image.findMany({
               where: { previewForId: record.id }
             })
-            return image.map((image) => image.url)
+            return image.map((image) => image.path)
           })
         )
       },

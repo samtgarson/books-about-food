@@ -26,7 +26,7 @@ export const customisePublishers = (
             const image = await prisma.image.findUnique({
               where: { publisherId: record.id }
             })
-            return image?.url
+            return image?.path
           })
         )
       },
