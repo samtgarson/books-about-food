@@ -47,9 +47,8 @@ export const Avatar: FC<AvatarProps> = ({
   >
     {profile.avatar ? (
       <Image
-        alt={profile.avatar.caption}
+        {...profile.avatar.imageAttrs()}
         fill
-        src={profile.avatar.src}
         className="inset-0 object-cover"
         sizes="300px"
       />

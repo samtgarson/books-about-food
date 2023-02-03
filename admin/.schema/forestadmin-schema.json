@@ -1040,7 +1040,20 @@
     "segments": []
   },
   {
-    "actions": [],
+    "actions": [
+      {
+        "id": "images-0-generate-missing-placeholders",
+        "name": "Generate missing placeholders",
+        "type": "global",
+        "baseUrl": null,
+        "endpoint": "/forest/_actions/images/0/generate-missing-placeholders",
+        "httpMethod": "POST",
+        "redirect": null,
+        "download": false,
+        "fields": [],
+        "hooks": {"load": false, "change": ["changeHook"]}
+      }
+    ],
     "fields": [
       {
         "defaultValue": null,
@@ -1123,6 +1136,22 @@
         "isVirtual": false,
         "reference": null,
         "type": "Uuid",
+        "validations": []
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
+        "field": "placeholder_url",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": null,
+        "type": "String",
         "validations": []
       },
       {

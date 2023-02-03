@@ -1,6 +1,7 @@
 import sizeOf from 'buffer-image-size'
 import prisma, { Prisma } from 'database'
 import { FileUploader } from 'shared/services/file-uploader'
+import { ImageBlurrer } from 'shared/services/image-blurrer'
 
 const s3 = new FileUploader()
 
@@ -32,8 +33,11 @@ export const uploadImage = async (
     await deleteExisting(key, foreignKey)
   }
 
+  const blurrer = new ImageBlurrer({ s3path: path })
+  const placeholderUrl = await blurrer.call()
+
   await prisma.image.create({
-    data: { id, url: path, [key]: foreignKey, width, height }
+    data: { id, url: path, [key]: foreignKey, width, height, placeholderUrl }
   })
 
   return id

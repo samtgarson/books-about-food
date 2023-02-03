@@ -69,17 +69,18 @@ model User {
 }
 
 model Image {
-  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  url          String   @unique
-  width        Int
-  height       Int
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @default(now()) @updatedAt @map("updated_at")
-  caption      String?
-  coverForId   String?  @unique @map("cover_for_id") @db.Uuid
-  previewForId String?  @map("preview_for_id") @db.Uuid
-  publisherId  String?  @unique @map("publisher_id") @db.Uuid
-  profileId    String?  @unique @map("profile_id") @db.Uuid
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  url            String   @unique
+  width          Int
+  height         Int
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @default(now()) @updatedAt @map("updated_at")
+  caption        String?
+  coverForId     String?  @unique @map("cover_for_id") @db.Uuid
+  previewForId   String?  @map("preview_for_id") @db.Uuid
+  publisherId    String?  @unique @map("publisher_id") @db.Uuid
+  profileId      String?  @unique @map("profile_id") @db.Uuid
+  placeholderUrl String?  @map("placeholder_url")
 
   // Prisma doesn't support polymorphic relations yet so some of these will always be null
   coverFor   Book?      @relation("cover_for", fields: [coverForId], references: [id])

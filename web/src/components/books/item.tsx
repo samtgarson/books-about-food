@@ -18,10 +18,7 @@ export const BookItem = ({ book, className }: CookbookItemProps) => {
         <div className="sm:aspect-square sm:border border-black sm:mb-6 relative flex items-center justify-center w-24 sm:w-full">
           {book.cover ? (
             <Image
-              alt={book.cover.caption}
-              src={book.cover.src}
-              width={book.cover.widthFor(200)}
-              height={200}
+              {...book.cover.imageAttrs(200)}
               className="sm:absolute h-24 sm:!h-[80%] sm:!top-[10%] sm:mx-auto sm:inset-x-0 !w-auto book-shadow"
             />
           ) : (

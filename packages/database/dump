@@ -5,14 +5,16 @@ set -e
 function dump () {
   local tmpfile=$(mktemp -t baf-backup.XXXXXX.sql)
   pg_dump \
+    -t jobs \
     -t books \
     -t contributions \
     -t images \
-    -t jobs \
     -t links \
     -t profiles \
     -t publishers \
     -t tags \
+    -t _books_tags \
+    -t _profiles_jobs \
     --data-only \
     $PROD_DATABASE_URL > $tmpfile \
     && psql -d $DATABASE_URL -f $tmpfile || true

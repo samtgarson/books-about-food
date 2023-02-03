@@ -19,14 +19,7 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
 
   return (
     <div>
-      {book.cover && (
-        <Image
-          alt={book.cover.caption}
-          src={book.cover.src}
-          width={book.cover.widthFor(200)}
-          height={200}
-        />
-      )}
+      {book.cover && <Image {...book.cover.imageAttrs(200)} />}
       <h1>{book.title}</h1>
     </div>
   )

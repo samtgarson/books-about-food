@@ -6,6 +6,7 @@ import pkgDir from 'pkg-dir'
 import { getEnv } from 'shared/utils/get-env'
 import { customiseBooks } from './collections/books'
 import { customiseContributions } from './collections/contributions'
+import { customiseImages } from './collections/images'
 import { customiseJobs } from './collections/jobs'
 import { customiseProfiles } from './collections/profiles'
 import { customisePublishers } from './collections/publishers'
@@ -31,6 +32,7 @@ agent
   .customizeCollection('contributions', customiseContributions)
   .customizeCollection('profiles', customiseProfiles)
   .customizeCollection('jobs', customiseJobs)
+  .customizeCollection('images', customiseImages)
   .start()
 
 const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 3001
