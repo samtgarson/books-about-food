@@ -1,4 +1,5 @@
 import { CollectionCustomizer } from '@forestadmin/agent'
+import { map } from 'async-parallel'
 import prisma from 'database'
 import { ImageBlurrer } from 'shared/services/image-blurrer'
 import { Schema } from '../../.schema/types'
@@ -36,7 +37,7 @@ export const customiseImages = (
       })
 
       console.log(`Generating placeholders for ${images.length} images`)
-      const results = await Promise.all(images.map(generatePlaceholder))
+      const results = await map(images, generatePlaceholder, 5)
 
       const successes = results.filter((r) => r).length
       if (successes === results.length) {
