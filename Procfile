@@ -1,1 +1,1 @@
-web: npm run start -w admin
+web: npm run start -- --filter=admin

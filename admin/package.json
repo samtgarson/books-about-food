@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist",
     "dev": "nodemon -r dotenv/config ./lib/index.ts",
-    "build": "npx esbuild ./lib/index.ts --bundle --outfile=./dist/index.js --platform=node --external:fastify --external:pg-hstore --external:pg-native --external:@prisma/client --target=node18"
+    "build": "npx esbuild ./lib/index.ts --bundle --outfile=./dist/index.js --platform=node --external:fastify --external:pg-hstore --external:pg-native --external:@prisma/client --external:sharp --target=node18"
   },
   "dependencies": {
     "@forestadmin/agent": "^1.6.4",
