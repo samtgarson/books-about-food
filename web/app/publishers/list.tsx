@@ -7,6 +7,7 @@ import { PublishersItem } from './item'
 import { FetchPublishersInput } from 'src/services/publishers/fetch-publishers'
 import { Search } from 'src/components/lists/search'
 import cn from 'classnames'
+import { FilterBar } from 'src/components/lists/filter-bar'
 
 export type PublishersListProps = {
   fallback?: FetchPublishersInput
@@ -31,12 +32,15 @@ export const PublishersList: FC<PublishersListProps> = ({
       onChange={(page) => setFilters({ ...filters, page })}
       onPreload={(page) => prefetch('publishers', { ...filters, page })}
     >
-      <div className="flex justify-between items-center my-10">
-        <Search
-          value={filters?.search}
-          onChange={(search) => setFilters({ ...filters, page: 0, search })}
-        />
-      </div>
+      <FilterBar
+        label="Show"
+        search={
+          <Search
+            value={filters?.search}
+            onChange={(search) => setFilters({ ...filters, page: 0, search })}
+          />
+        }
+      />
       <ul
         className={cn(
           'grid auto-grid-lg transition-opacity',

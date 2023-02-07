@@ -13,7 +13,7 @@ export const PageTitle: FC<PageTitleType> = ({
   children,
   showBrand = true
 }) => (
-  <h1 className="text-48 py-20 text-right">
+  <h1 className="text-48 py-10 md:py-20 text-right">
     {children}
     {showBrand && <BrandTitle />}
   </h1>

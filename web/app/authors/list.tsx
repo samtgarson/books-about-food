@@ -10,6 +10,7 @@ import { prefetch, useFetcher } from 'src/contexts/fetcher'
 import { AuthorItem } from './item'
 import cn from 'classnames'
 import { Sort } from 'src/components/lists/sort'
+import { FilterBar } from 'src/components/lists/filter-bar'
 
 export type AuthorListProps = {
   fallback?: FetchProfilesOutput
@@ -34,14 +35,14 @@ export const AuthorsList: FC<AuthorListProps> = ({
       onChange={(page) => setFilters({ ...filters, page })}
       onPreload={(page) => prefetch('profiles', { ...filters, page })}
     >
-      <div className="flex sm:justify-end my-10">
+      <FilterBar>
         <Sort
           sorts={{ name: 'Name', trending: 'Trending' }}
           value={filters.sort ?? 'name'}
           onChange={(sort) => setFilters({ ...filters, sort })}
           onPreload={(sort) => prefetch('profiles', { ...filters, sort })}
         />
-      </div>
+      </FilterBar>
       <ul
         className={cn(
           'grid auto-grid-md gap-x-8 gap-y-16 transition-opacity',

@@ -1,56 +1,46 @@
 'use client'
 
-import { pluralize } from 'inflection'
-import { AntiContainer, Container } from 'src/components/atoms/container'
-import { Pill } from 'src/components/atoms/pill'
+import { FilterBar } from 'src/components/lists/filter-bar'
+import { FilterSelect } from 'src/components/lists/filter-select'
+import { Sort } from 'src/components/lists/sort'
 import { useFetcher } from 'src/contexts/fetcher'
+import { FetchProfilesInput } from 'src/services/profiles/fetch-profiles'
 
 type PeopleFiltersProps = {
-  value: string[]
-  onChange: (jobs: string[]) => void
-  onReset?: () => void
-  onPreload?: (jobs: string[]) => void
+  filters: FetchProfilesInput
+  onChange: (jobs: FetchProfilesInput) => void
+  onPreload?: (jobs: FetchProfilesInput) => void
 }
 
 export const PeopleFilters = ({
-  value = [],
+  filters,
   onChange,
-  onPreload,
-  onReset
+  onPreload
 }: PeopleFiltersProps) => {
-  const { data: jobs } = useFetcher('jobs', undefined, { immutable: true })
-
-  const toggle = (job: string) =>
-    value.includes(job) ? value.filter((j) => j !== job) : [...value, job]
+  const { data: jobs = [], isLoading } = useFetcher('jobs', undefined, {
+    immutable: true
+  })
 
   return (
-    <div className="my-10 flex flex-col gap-4">
-      <p className="all-caps">Showing</p>
-      <AntiContainer className="overflow-x-auto scroll-smooth scrollbar-hidden">
-        <Container className="flex flex-nowrap gap-4 w-max">
-          <Pill
-            key={'all'}
-            onClick={() => onReset?.()}
-            selected={value.length === 0}
-          >
-            All
-          </Pill>
-          {!jobs && <Pill className="opacity-50">Loading...</Pill>}
-          {jobs?.map(
-            (job) =>
-              job.name !== 'Author' && (
-                <Pill
-                  key={job.id}
-                  onClick={() => onChange(toggle(job.id))}
-                  selected={value.includes(job.id)}
-                  onMouseOver={() => onPreload?.(toggle(job.id))}
-                >
-                  {pluralize(job.name)}
-                </Pill>
-              )
-          )}
-        </Container>
-      </AntiContainer>
-    </div>
+    <FilterBar>
+      <Sort
+        sorts={{ name: 'Name', trending: 'Trending' }}
+        value={filters.sort ?? 'name'}
+        onChange={(sort) => onChange({ ...filters, sort })}
+        onPreload={(sort) => onPreload?.({ ...filters, sort })}
+      />
+      <FilterSelect
+        search
+        loading={isLoading}
+        options={jobs.map((job) => ({
+          label: job.name,
+          value: job.id
+        }))}
+        placeholder="Roles"
+        value={filters.jobs}
+        multi
+        onChange={(jobs) => onChange({ jobs })}
+      />
+    </FilterBar>
   )
 }

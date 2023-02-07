@@ -34,11 +34,12 @@ export const PeopleList: FC<PeopleListProps> = ({ fallback: fallbackData }) => {
       onPreload={(page) => prefetch('profiles', { ...filters, page })}
     >
       <PeopleFilters
-        value={filters.jobs ?? []}
-        onChange={(jobs) => setFilters({ ...filters, page: 0, jobs })}
-        onReset={() => setFilters({ ...filters, page: 0, jobs: [] })}
-        onPreload={(jobs) =>
-          prefetch('profiles', { ...filters, page: 0, jobs })
+        filters={filters}
+        onChange={(newFilters) =>
+          setFilters({ ...filters, ...newFilters, page: 0 })
+        }
+        onPreload={(newFilters) =>
+          prefetch('profiles', { ...filters, ...newFilters, page: 0 })
         }
       />
       <GridContainer
