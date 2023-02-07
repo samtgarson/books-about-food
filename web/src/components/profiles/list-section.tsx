@@ -6,7 +6,6 @@ import { Avatar } from '../atoms/avatar'
 import { GridContainer } from '../lists/grid-container'
 import { ProfileItem } from './item'
 import cn from 'classnames'
-import { AntiContainer } from '../atoms/container'
 import * as Sheet from '../atoms/sheet'
 
 export type ProfileListSectionProps = {
