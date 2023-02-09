@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import { MoreHorizontal } from 'react-feather'
 import { Container } from 'src/components/atoms/container'
 import { Detail } from 'src/components/atoms/detail'
 import { LinkList } from 'src/components/atoms/link-list'
@@ -34,7 +35,7 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
 
   return (
     <>
-      <Container className="mt-8 sm:mt-20" key="header">
+      <Container className="mt-8 md:mt-20" key="header">
         <div className="flex items-start md:items-end flex-col md:flex-row relative">
           <div className="flex-grow w-full">
             <h1 className="font-style-title flex items-center">
@@ -43,6 +44,7 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
                 profileId={profile.id}
                 className="ml-auto md:hidden"
               />
+              <MoreHorizontal strokeWidth={1} className="md:hidden" />
             </h1>
             {profile.description && (
               <p className="text-16 mt-4 max-w-prose">{profile.description}</p>
@@ -54,16 +56,17 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
               </Detail>
             )}
           </div>
-          <FavouriteButton
-            profileId={profile.id}
-            className="pb-2 hidden md:flex"
-          />
+          <div className="md:flex gap-2 items-center hidden flex-shrink-0">
+            <FavouriteButton profileId={profile.id} />
+            <MoreHorizontal strokeWidth={1} />
+          </div>
         </div>
         {collaborators.length > 0 && (
           <ProfileListSection
             data-superjson
             profiles={collaborators}
             title="Frequent collaborators"
+            className="mt-4 sm:mt-20"
           />
         )}
       </Container>

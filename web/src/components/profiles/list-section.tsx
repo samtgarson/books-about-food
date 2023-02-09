@@ -7,6 +7,7 @@ import { GridContainer } from '../lists/grid-container'
 import { ProfileItem } from './item'
 import cn from 'classnames'
 import * as Sheet from '../atoms/sheet'
+import { Eye } from 'react-feather'
 
 export type ProfileListSectionProps = {
   profiles: Profile[]
@@ -30,7 +31,9 @@ export const ProfileListSection: FC<ProfileListSectionProps> = ({
       <Sheet.Root mobileOnly>
         <Sheet.Trigger className="w-full mt-4 sm:mt-20 sm:mb-8 flex flex-wrap justify-between items-start">
           <h2>{title}</h2>
-          <span className="sm:hidden">Open</span>
+          <Eye className="sm:hidden" size={22} strokeWidth={1}>
+            Open
+          </Eye>
           <div className={cn('w-full flex flex-wrap gap-2 sm:hidden mt-4')}>
             {profiles.map((profile) => (
               <Avatar key={profile.id} profile={profile} size="xs" />
