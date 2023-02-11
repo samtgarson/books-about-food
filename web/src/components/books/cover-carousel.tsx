@@ -32,7 +32,7 @@ export const CoverCarousel: FC<CoverCarouselProps> = ({ book, className }) => {
           <li key={preview.id} className="snap-center">
             <Image
               {...preview.imageAttrs(440)}
-              className="max-w-none h-[210px] xl:h-[440px] w-auto"
+              className="max-w-none h-[210px] lg:h-[310px] xl:h-[440px] w-auto"
             />
           </li>
         ))}
@@ -41,6 +41,13 @@ export const CoverCarousel: FC<CoverCarouselProps> = ({ book, className }) => {
         #${id} {
           padding-left: calc(50% - ${firstImage.widthFor(220) / 2}px);
           padding-right: calc(50% - ${lastImage.widthFor(220) / 2}px);
+        }
+
+        @media (min-width: 1024px) {
+          #${id} {
+            padding-left: calc(50% - ${firstImage.widthFor(310) / 2}px);
+            padding-right: calc(50% - ${lastImage.widthFor(310) / 2}px);
+          }
         }
 
         @media (min-width: 1280px) {

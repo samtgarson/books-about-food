@@ -33,8 +33,7 @@ export const ProfileListSection: FC<ProfileListSectionProps> = ({
       <Sheet.Root mobileOnly>
         <Sheet.Trigger
           className={cn(
-            className,
-            'w-full sm:mb-8 flex flex-wrap justify-between items-start'
+            'w-full sm:mb-4 flex flex-wrap justify-between items-start'
           )}
         >
           <h2>{title}</h2>
@@ -50,11 +49,11 @@ export const ProfileListSection: FC<ProfileListSectionProps> = ({
         <Sheet.Content>
           <Sheet.Body>
             <Sheet.Header title={title} />
-            <ListContent className="pb-8" />
+            <ListContent className={cn(className, 'pb-8')} />
           </Sheet.Body>
         </Sheet.Content>
       </Sheet.Root>
-      <ListContent className="hidden sm:block" />
+      <ListContent className={cn(className, 'hidden sm:block')} />
     </>
   )
 }

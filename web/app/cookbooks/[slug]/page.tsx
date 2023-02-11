@@ -36,18 +36,17 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
         <AntiContainer desktop={false}>
           <Container
             desktop={false}
-            className="pt-4 md:pt-0 border-t border-black md:border-t-0"
+            className="pt-4 md:pt-0 mb-4 sm:mb-8 border-t border-black sm:border-t-0"
           >
             <ProfileListSection
               data-superjson
               profiles={book.authors}
               title={book.authors.length > 1 ? 'Authors' : 'Author'}
-              className="md:mb-8"
             />
           </Container>
           <Container
             desktop={false}
-            className="pt-4 md:pt-0 border-t border-black md:border-t-0"
+            className="pt-4 md:pt-0 border-t border-black sm:border-t-0"
           >
             <ProfileListSection
               data-superjson
