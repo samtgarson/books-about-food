@@ -12,10 +12,11 @@ export const fetchBook = new Service(
       where: { slug },
       include: {
         coverImage: true,
-        previewImages: true,
+        previewImages: { orderBy: { createdAt: 'asc' } },
         publisher: { include: { logo: true } },
         tags: true,
         contributions: {
+          distinct: ['profileId'],
           include: {
             profile: profileIncludes,
             job: true

@@ -2,6 +2,7 @@ import * as Prisma from 'database'
 import { ImageProps } from 'next/image'
 
 export class Image {
+  id: string
   path: string
   width: number
   height: number
@@ -9,9 +10,10 @@ export class Image {
   placeholderUrl?: string
 
   constructor(
-    { path, width, height, caption, placeholderUrl }: Prisma.Image,
+    { path, width, height, caption, placeholderUrl, id }: Prisma.Image,
     defaultCaption: string
   ) {
+    this.id = id
     this.path = path
     this.width = width
     this.height = height

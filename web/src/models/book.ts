@@ -10,7 +10,7 @@ export class Book {
   cover?: Image
   releaseDate?: Date
   pages?: number
-  authors: Profile[]
+  contributions: BookAttrs['contributions']
 
   constructor({
     id,
@@ -31,8 +31,18 @@ export class Book {
       : undefined
     this.releaseDate = releaseDate ?? undefined
     this.pages = pages ?? undefined
-    this.authors = contributions
+    this.contributions = contributions ?? []
+  }
+
+  get authors() {
+    return this.contributions
       .filter((contribution) => contribution.job?.name === 'Author')
+      .map((contribution) => new Profile(contribution.profile))
+  }
+
+  get team(): Profile[] {
+    return this.contributions
+      .filter((contribution) => contribution.job?.name !== 'Author')
       .map((contribution) => new Profile(contribution.profile))
   }
 

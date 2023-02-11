@@ -12,11 +12,13 @@ import { Eye } from 'react-feather'
 export type ProfileListSectionProps = {
   profiles: Profile[]
   title: string
+  className?: string
 }
 
 export const ProfileListSection: FC<ProfileListSectionProps> = ({
   profiles,
-  title
+  title,
+  className
 }) => {
   const ListContent = ({ className }: { className?: string }) => (
     <GridContainer className={cn('-mt-px sm:mt-0', className)}>
@@ -29,7 +31,12 @@ export const ProfileListSection: FC<ProfileListSectionProps> = ({
   return (
     <>
       <Sheet.Root mobileOnly>
-        <Sheet.Trigger className="w-full mt-4 sm:mt-20 sm:mb-8 flex flex-wrap justify-between items-start">
+        <Sheet.Trigger
+          className={cn(
+            className,
+            'w-full sm:mb-8 flex flex-wrap justify-between items-start'
+          )}
+        >
           <h2>{title}</h2>
           <Eye className="sm:hidden" size={22} strokeWidth={1}>
             Open
@@ -42,7 +49,7 @@ export const ProfileListSection: FC<ProfileListSectionProps> = ({
         </Sheet.Trigger>
         <Sheet.Content>
           <Sheet.Body>
-            <Sheet.Header title="Frequent Collaborators" />
+            <Sheet.Header title={title} />
             <ListContent className="pb-8" />
           </Sheet.Body>
         </Sheet.Content>
