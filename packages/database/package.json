@@ -6,6 +6,10 @@
   "scripts": {
     "db:build": "npx prisma generate && npx prisma migrate deploy"
   },
+  "prisma": {
+    "schema": "prisma/schema.prisma",
+    "seed": "./dump"
+  },
   "devDependencies": {
     "prisma": "^4.9.0"
   },

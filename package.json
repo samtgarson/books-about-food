@@ -21,10 +21,6 @@
   "cacheDirectories": [
     "web/.next/cache"
   ],
-  "prisma": {
-    "schema": "packages/database/prisma/schema.prisma",
-    "seed": "dotenv -f ./packages/database/.env ./packages/database/dump"
-  },
   "scripts": {
     "build": "turbo run build",
     "start": "turbo run start",

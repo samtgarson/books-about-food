@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 set -e
 
@@ -21,4 +21,14 @@ function dump () {
   rm $tmpfile
 }
 
+db_dir=${0:a:h}
+export $(cat "$db_dir/.env" | xargs)
+if [[ -z "$DATABASE_URL" ]]; then
+  echo "DATABASE_URL not set"
+  exit 1
+fi
+if [[ -z "$PROD_DATABASE_URL" ]]; then
+  echo "PROD_DATABASE_URL not set"
+  exit 1
+fi
 dump || rm /tmp/baf-backup.XXXXXX.sql
