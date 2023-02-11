@@ -1,3 +1,4 @@
+import { Link } from 'database'
 import { Book } from './book'
 import { Image } from './image'
 import { Publisher } from './publisher'
@@ -7,6 +8,7 @@ export class FullBook extends Book {
   previewImages: Image[]
   tags: string[]
   publisher: Publisher
+  links: Link[]
 
   constructor(attrs: FullBookAttrs) {
     super(attrs)
@@ -15,5 +17,6 @@ export class FullBook extends Book {
     )
     this.tags = attrs.tags.map((tag) => tag.name)
     this.publisher = new Publisher(attrs.publisher)
+    this.links = attrs.links
   }
 }

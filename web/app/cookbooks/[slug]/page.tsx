@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { AntiContainer, Container } from 'src/components/atoms/container'
-import { Detail } from 'src/components/atoms/detail'
 import { CoverCarousel } from 'src/components/books/cover-carousel'
+import { BookLinks } from 'src/components/books/links'
 import { ProfileListSection } from 'src/components/profiles/list-section'
 import { fetchBook } from 'src/services/books/fetch-book'
 import { fetchBooks } from 'src/services/books/fetch-books'
@@ -26,7 +26,9 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
         <h1 className="font-style-title flex items-center mb-6 sm:mb-4">
           {book.title}
         </h1>
-        {book.subtitle && <Detail className="md:mb-8">{book.subtitle}</Detail>}
+        {book.subtitle && (
+          <p className="md:mb-8 py-4 border-y border-black">{book.subtitle}</p>
+        )}
         <AntiContainer>
           <CoverCarousel
             book={book}
@@ -46,7 +48,7 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
           </Container>
           <Container
             desktop={false}
-            className="pt-4 md:pt-0 border-t border-black sm:border-t-0"
+            className="pt-4 md:pt-0 mb-4 sm:mb-8 border-t border-black sm:border-t-0"
           >
             <ProfileListSection
               data-superjson
@@ -54,6 +56,14 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
               title="Team"
             />
           </Container>
+          {book.links.length > 0 && (
+            <Container
+              desktop={false}
+              className="mb-4 py-4 sm:mb-8 border-t border-black"
+            >
+              <BookLinks links={book.links} />
+            </Container>
+          )}
         </AntiContainer>
       </Container>
     </div>

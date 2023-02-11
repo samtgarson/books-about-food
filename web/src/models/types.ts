@@ -20,6 +20,7 @@ export type FullBookAttrs = Prisma.BookGetPayload<{
     previewImages: true
     publisher: { include: { logo: true } }
     tags: true
+    links: true
     contributions: {
       include: { profile: { include: ProfileIncludes }; job: true }
     }

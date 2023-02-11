@@ -15,6 +15,7 @@ export const fetchBook = new Service(
         previewImages: { orderBy: { createdAt: 'asc' } },
         publisher: { include: { logo: true } },
         tags: true,
+        links: true,
         contributions: {
           distinct: ['profileId'],
           include: {
