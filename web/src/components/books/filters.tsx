@@ -45,9 +45,9 @@ export const BookFilters = ({ filters, onChange }: BookFiltersProps) => {
           value: tag.name
         }))}
         placeholder="Tags"
-        value={filters.tag}
+        value={filters.tags}
         multi
-        onChange={(tag) => onChange({ tag })}
+        onChange={(tags) => onChange({ tags })}
       />
       <FilterSelect
         multi={false}

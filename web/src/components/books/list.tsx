@@ -1,6 +1,6 @@
 'use client'
 
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Pagination } from 'src/components/lists/pagination'
 import { prefetch, useFetcher } from 'src/contexts/fetcher'
 import {
@@ -27,6 +27,14 @@ export const BookList: FC<BookListProps> = ({
 }) => {
   const [filters, setFilters] = useState<FetchBooksInput>(initialFilters)
   const { data, isLoading } = useFetcher('books', filters, { fallbackData })
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search)
+    if (params.get('tags')) {
+      setFilters((f) => ({ ...f, tags: params.get('tags')?.split(',') }))
+    }
+  }, [])
+
   if (!data) return null
   const { books, filteredTotal, total, perPage } = data
 

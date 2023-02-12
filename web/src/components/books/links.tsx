@@ -6,6 +6,7 @@ import { linkLogos } from 'src/assets/link-logos'
 
 export type BookLinksProps = {
   links: Link[]
+  className?: string
 }
 
 const DefaultLogo = () => (
@@ -32,32 +33,33 @@ const titleFor = (link: Link) => {
   }
 }
 
-export const BookLinks: FC<BookLinksProps> = ({ links }) => (
-  <>
-    <p className="mb-4">Links</p>
-    <ul className="flex flex-wrap gap-y-4">
-      {links.map((link) => (
-        <li key={link.id} className="min-w-[250px] basis-1/2 flex-grow">
-          <a
-            href={link.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex gap-4 items-center"
-          >
-            {linkLogos[link.site] ? (
-              <Image
-                width={40}
-                height={40}
-                src={linkLogos[link.site]}
-                alt={link.site}
-              />
-            ) : (
-              <DefaultLogo />
-            )}
-            {titleFor(link)}
-          </a>
-        </li>
-      ))}
-    </ul>
-  </>
-)
+export const BookLinks: FC<BookLinksProps> = ({ links, className }) =>
+  links.length === 0 ? null : (
+    <div className={className}>
+      <p className="mb-4">Links</p>
+      <ul className="flex flex-wrap gap-y-4">
+        {links.map((link) => (
+          <li key={link.id} className="min-w-[250px] basis-1/2 flex-grow">
+            <a
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex gap-4 items-center"
+            >
+              {linkLogos[link.site] ? (
+                <Image
+                  width={40}
+                  height={40}
+                  src={linkLogos[link.site]}
+                  alt={link.site}
+                />
+              ) : (
+                <DefaultLogo />
+              )}
+              {titleFor(link)}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )

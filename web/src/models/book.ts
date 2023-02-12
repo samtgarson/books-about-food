@@ -1,6 +1,7 @@
 import { Image } from './image'
 import { Profile } from './profile'
 import { BookAttrs } from './types'
+import format from 'date-fns/format'
 
 export class Book {
   id: string
@@ -8,8 +9,8 @@ export class Book {
   subtitle?: string
   slug: string
   cover?: Image
-  releaseDate?: Date
-  pages?: number
+  releaseDate: Date
+  pages: number
   contributions: BookAttrs['contributions']
 
   constructor({
@@ -48,5 +49,9 @@ export class Book {
 
   get authorNames() {
     return this.authors.map((author) => author.name).join(' • ')
+  }
+
+  get formattedReleaseDate() {
+    return format(this.releaseDate, 'd MMMM yyyy')
   }
 }

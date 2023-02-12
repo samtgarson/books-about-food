@@ -17,4 +17,8 @@ export class Publisher {
     this.instagram = instagram ?? undefined
     this.logo = logo ? new Image(logo, `Logo for ${name}`) : undefined
   }
+
+  get url() {
+    return `/publishers/${this.slug}`
+  }
 }

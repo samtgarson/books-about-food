@@ -2,7 +2,7 @@
 
 import * as Checkbox from '@radix-ui/react-checkbox'
 import { motion } from 'framer-motion'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Check, ChevronDown } from 'react-feather'
 import { Button } from '../atoms/button'
 import { Pill } from '../atoms/pill'
@@ -47,6 +47,10 @@ const FilterSelectContent = <Value extends string | number = string>({
   const [value, setValue] = useState(initialValue)
   const [searchValue, setSearchValue] = useState('')
   const { close } = Sheet.useSheetContext()
+
+  useEffect(() => {
+    setValue(initialValue)
+  }, [initialValue])
 
   const matches = useMemo(
     () =>

@@ -1,7 +1,10 @@
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { AntiContainer, Container } from 'src/components/atoms/container'
+import { Detail } from 'src/components/atoms/detail'
 import { CoverCarousel } from 'src/components/books/cover-carousel'
 import { BookLinks } from 'src/components/books/links'
+import { TagList } from 'src/components/books/tag-list'
 import { ProfileListSection } from 'src/components/profiles/list-section'
 import { fetchBook } from 'src/services/books/fetch-book'
 import { fetchBooks } from 'src/services/books/fetch-books'
@@ -56,14 +59,32 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
               title="Team"
             />
           </Container>
-          {book.links.length > 0 && (
-            <Container
-              desktop={false}
-              className="mb-4 py-4 sm:mb-8 border-t border-black"
-            >
-              <BookLinks links={book.links} />
-            </Container>
-          )}
+          <Container
+            desktop={false}
+            className="mb-4 py-4 sm:mb-8 border-t border-black flex gap-x-4 flex-wrap"
+          >
+            <BookLinks links={book.links} className="w-full mb-4" />
+            <Detail column>
+              <p>Publisher</p>
+              <p className="font-medium">
+                <Link href={book.publisher.url}>{book.publisher.name}</Link>
+              </p>
+            </Detail>
+            <Detail column>
+              <p>Release Date</p>
+              <p>{book.formattedReleaseDate}</p>
+            </Detail>
+            {book.tags.length > 0 && (
+              <Detail column>
+                <p>Tags</p>
+                <TagList tags={book.tags} />
+              </Detail>
+            )}
+            <Detail column>
+              <p>No. of Pages</p>
+              <p>{book.pages}</p>
+            </Detail>
+          </Container>
         </AntiContainer>
       </Container>
     </div>

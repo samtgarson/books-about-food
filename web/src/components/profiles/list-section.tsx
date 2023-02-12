@@ -29,7 +29,7 @@ export const ProfileListSection: FC<ProfileListSectionProps> = ({
   )
 
   return (
-    <>
+    <div className={className}>
       <Sheet.Root mobileOnly>
         <Sheet.Trigger
           className={cn(
@@ -49,11 +49,11 @@ export const ProfileListSection: FC<ProfileListSectionProps> = ({
         <Sheet.Content>
           <Sheet.Body>
             <Sheet.Header title={title} />
-            <ListContent className={cn(className, 'pb-8')} />
+            <ListContent className={cn('pb-8')} />
           </Sheet.Body>
         </Sheet.Content>
       </Sheet.Root>
-      <ListContent className={cn(className, 'hidden sm:block')} />
-    </>
+      <ListContent className={cn('hidden sm:block')} />
+    </div>
   )
 }

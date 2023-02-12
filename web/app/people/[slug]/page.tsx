@@ -49,12 +49,14 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
             {profile.description && (
               <p className="text-16 mt-4 max-w-prose">{profile.description}</p>
             )}
-            <Detail className="mt-8">{profile.jobNames}</Detail>
-            {profile.links.length > 0 && (
-              <Detail>
-                <LinkList links={profile.links} />
-              </Detail>
-            )}
+            <div className="mt-8">
+              <Detail maxWidth>{profile.jobNames}</Detail>
+              {profile.links.length > 0 && (
+                <Detail maxWidth>
+                  <LinkList links={profile.links} />
+                </Detail>
+              )}
+            </div>
           </div>
           <div className="md:flex gap-2 items-center hidden flex-shrink-0">
             <FavouriteButton profileId={profile.id} />
