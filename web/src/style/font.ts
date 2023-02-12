@@ -1,6 +1,6 @@
 import localFont from '@next/font/local'
 
-export const graphik = localFont({
+const graphik = localFont({
   src: [
     {
       path: '../assets/fonts/Graphik-Regular-Trial.otf',
@@ -15,3 +15,5 @@ export const graphik = localFont({
   ],
   variable: '--font-graphik'
 })
+
+export const fontClassname = `${graphik.variable}`

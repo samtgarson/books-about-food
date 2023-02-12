@@ -48,4 +48,8 @@
   .font-style-title {
     @apply text-24 sm:text-32;
   }
+
+  [class*='auto-grid'] > * {
+    max-width: calc(100% + 1px);
+  }
 }

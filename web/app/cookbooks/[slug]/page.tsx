@@ -34,6 +34,7 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
         )}
         <AntiContainer>
           <CoverCarousel
+            data-superjson
             book={book}
             className="lg:absolute lg:w-[50vw] lg:inset-y-0 lg:right-0"
           />
@@ -61,9 +62,12 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
           </Container>
           <Container
             desktop={false}
-            className="mb-4 py-4 sm:mb-8 border-t border-black flex gap-x-4 flex-wrap"
+            className="mb-4 sm:mb-8 flex gap-x-4 flex-wrap"
           >
-            <BookLinks links={book.links} className="w-full mb-4" />
+            <BookLinks
+              links={book.links}
+              className="w-full mb-4 border-t border-black pt-4"
+            />
             <Detail column>
               <p>Publisher</p>
               <p className="font-medium">

@@ -45,6 +45,6 @@ export class Image {
       }
     }
 
-    return attrs
+    return { ...attrs, fill: true }
   }
 }
