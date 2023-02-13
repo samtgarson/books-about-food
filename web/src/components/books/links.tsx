@@ -37,9 +37,12 @@ export const BookLinks: FC<BookLinksProps> = ({ links, className }) =>
   links.length === 0 ? null : (
     <div className={className}>
       <p className="mb-4">Links</p>
-      <ul className="flex flex-wrap gap-y-4">
+      <ul className="flex flex-wrap gap-4">
         {links.map((link) => (
-          <li key={link.id} className="min-w-[250px] basis-1/2 flex-grow">
+          <li
+            key={link.id}
+            className="min-w-[250px] basis-[calc(50%-8px)] flex-grow"
+          >
             <a
               href={link.url}
               target="_blank"
