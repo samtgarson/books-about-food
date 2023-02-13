@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import { MoreHorizontal } from 'react-feather'
+import { Avatar } from 'src/components/atoms/avatar'
 import { Container } from 'src/components/atoms/container'
 import { Detail } from 'src/components/atoms/detail'
 import { LinkList } from 'src/components/atoms/link-list'
@@ -36,15 +37,10 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
   return (
     <>
       <Container className="mt-8 md:mt-20" key="header">
-        <div className="flex items-start md:items-end flex-col md:flex-row relative">
+        <div className="flex items-stretch md:items-start flex-col md:flex-row relative gap-6">
           <div className="flex-grow w-full">
             <h1 className="font-style-title flex items-center">
               {profile.name}
-              <FavouriteButton
-                profileId={profile.id}
-                className="ml-auto md:hidden"
-              />
-              <MoreHorizontal strokeWidth={1} className="md:hidden" />
             </h1>
             {profile.description && (
               <p className="text-16 mt-4 max-w-prose">{profile.description}</p>
@@ -58,9 +54,12 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
               )}
             </div>
           </div>
-          <div className="md:flex gap-2 items-center hidden flex-shrink-0">
-            <FavouriteButton profileId={profile.id} />
-            <MoreHorizontal strokeWidth={1} />
+          <div className="order-first md:order-last flex md:flex-col flex-shrink-0 items-start md:items-end gap-5 justify-between">
+            <Avatar profile={profile} size="xl" mobileSize="md" />
+            <div className="flex gap-2 items-center">
+              <FavouriteButton profileId={profile.id} />
+              <MoreHorizontal strokeWidth={1} />
+            </div>
           </div>
         </div>
         {collaborators.length > 0 && (

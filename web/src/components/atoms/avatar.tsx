@@ -27,7 +27,7 @@ export const Avatar: FC<AvatarProps> = ({
         'w-16': mobileSize === 'md',
         'w-12': mobileSize === 'sm',
         'w-10': mobileSize === 'xs',
-        'w-36': mobileSize === 'xl',
+        'w-32': mobileSize === 'xl',
         'w-full': mobileSize === 'fill',
         'md:w-16': size === 'md',
         'md:w-12': size === 'sm',
