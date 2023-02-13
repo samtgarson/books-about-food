@@ -1,11 +1,12 @@
 'use client'
 
 import { FC, useState } from 'react'
-import cn from 'classnames'
+import * as Carousel from 'src/components/atoms/carousel'
 import Image from 'next/image'
 import { FullBook } from 'src/models/full-book'
 import { Image as ImageModel } from 'src/models/image'
 import { X } from 'react-feather'
+import cn from 'classnames'
 
 export type CoverCarouselProps = {
   book: FullBook
@@ -24,34 +25,20 @@ export const CoverCarousel: FC<CoverCarouselProps> = ({ book, className }) => {
   const lastImage = images[images.length - 1]
   return (
     <>
-      <ul
-        className={cn(
-          'relative flex gap-24 w-full overflow-x-scroll snap-x snap-mandatory snap-always whitespace-nowrap py-16 items-center',
-          className
-        )}
-        id={id}
-      >
-        {images.map((image) => (
-          <li
+      <Carousel.Root id={id} className={cn(className, 'gap-24 w-full')}>
+        {images.map((image, i) => (
+          <Carousel.Item
             key={image.id}
-            className="snap-center flex-none w-max"
-            onClick={(e) => {
-              const target = e.target as HTMLLIElement
-              target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'nearest',
-                inline: 'center'
-              })
-              setFocusedImage(image)
-            }}
+            onClick={(e) => setFocusedImage(image)}
+            index={i}
           >
             <Image
               {...image.imageAttrs(440)}
               className="max-w-none h-[210px] md:h-[310px] xl:h-[440px] w-auto"
             />
-          </li>
+          </Carousel.Item>
         ))}
-      </ul>
+      </Carousel.Root>
       <style>{`
         #${id} li:first-child {
           margin-left: calc(50% - ${firstImage.widthFor(220) / 2}px);
