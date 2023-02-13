@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { Container } from 'src/components/atoms/container'
+import { SignOutButton } from 'src/components/auth/sign-out-button'
 import { FavouritesList } from 'src/components/favourites/favourites-list'
 import { getUser } from 'src/services/auth/get-user'
 
@@ -15,6 +16,7 @@ const Page = async () => {
         {/** @ts-expect-error RSC */}
         <FavouritesList user={user} />
       </Suspense>
+      <SignOutButton />
     </Container>
   )
 }

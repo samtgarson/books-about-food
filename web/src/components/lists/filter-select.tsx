@@ -3,7 +3,7 @@
 import * as Checkbox from '@radix-ui/react-checkbox'
 import { motion } from 'framer-motion'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Check, ChevronDown } from 'react-feather'
+import { Check, ChevronDown, Loader } from 'react-feather'
 import { Button } from '../atoms/button'
 import { Pill } from '../atoms/pill'
 import * as Sheet from '../atoms/sheet'
@@ -116,11 +116,19 @@ const FilterSelectContent = <Value extends string | number = string>({
           <span className={cn('transition-opacity', loading && 'opacity-50')}>
             {label}
           </span>
-          <ChevronDown
-            size={24}
-            strokeWidth={1}
-            className="-my-2 ml-0.5 -mr-1"
-          />
+          {loading ? (
+            <Loader
+              strokeWidth={1}
+              size={24}
+              className="-my-2 ml-0.5 -mr-1 animate-spin"
+            />
+          ) : (
+            <ChevronDown
+              size={24}
+              strokeWidth={1}
+              className="-my-2 ml-0.5 -mr-1"
+            />
+          )}
         </Pill>
       </Sheet.Trigger>
       <Sheet.Content>

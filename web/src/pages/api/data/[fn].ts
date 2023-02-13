@@ -53,7 +53,7 @@ const handler: NextApiHandler = async (req, res) => {
     return
   }
 
-  const user = await getUser.call({ req })
+  const user = await getUser.call({ req, res })
 
   try {
     const parsed = input && superjson.parse(input)

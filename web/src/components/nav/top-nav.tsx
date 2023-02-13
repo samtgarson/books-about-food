@@ -6,10 +6,21 @@ import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 import { CSSProperties, FC, useState } from 'react'
 import { Menu, Minus, User } from 'react-feather'
+import { SignInButton } from '../auth/sign-in-button'
+
+const AccountLink = ({ className }: { className?: string }) => {
+  return (
+    <SignInButton>
+      <Link href="/account" className={className}>
+        <User strokeWidth={1} />
+      </Link>
+    </SignInButton>
+  )
+}
 
 const navItemClassNames = (active?: boolean) =>
   cn(
-    'all-caps px-4 py-2 my-2 rounded-full transition-colors border collapsible-fade',
+    'all-caps px-4 py-2 rounded-full transition-colors border collapsible-fade',
     {
       'bg-white border-black': active,
       'bg-transparent border-transparent': !active
@@ -77,8 +88,9 @@ const NavContent = () => (
 
 const DesktopTopNav: FC = () => {
   return (
-    <nav className="gap-20 hidden md:flex w-screen overflow-x-auto">
+    <nav className="gap-20 hidden md:flex w-screen overflow-x-auto py-2 pr-4 items-center">
       <NavContent />
+      <AccountLink className="ml-auto" />
     </nav>
   )
 }
@@ -95,9 +107,7 @@ const MobileTopNav: FC = () => {
         >
           Books About Food
         </Link>
-        <Link href="/account">
-          <User strokeWidth={1} />
-        </Link>
+        <AccountLink />
         <Collapsible.Trigger className="px-4">
           {open ? <Minus strokeWidth={1} /> : <Menu strokeWidth={1} />}
         </Collapsible.Trigger>
