@@ -45,7 +45,8 @@ module.exports = {
       current: 'currentColor',
       black: '#1D1D1B',
       white: '#fff',
-      grey: '#F0EEEB'
+      grey: '#F0EEEB',
+      sand: '#E7E5E2'
     },
     fontWeight: {
       normal: 400,

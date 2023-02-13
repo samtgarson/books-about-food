@@ -12,16 +12,16 @@ export const FilterBar: FC<FilterBarProps> = ({
   search,
   label = 'Sort & Filter'
 }) => (
-  <AntiContainer>
+  <AntiContainer desktop={false}>
     <div className="mb-6 md:mb-10 flex flex-wrap items-center gap-3 md:gap-4 w-full">
       {search && (
-        <Container className="w-full flex-grow md:w-72 flex">
+        <Container desktop={false} className="w-full flex-grow md:w-72 flex">
           {search}
         </Container>
       )}
       {children && (
         <div className="overflow-x-auto ml-auto">
-          <Container className="flex gap-2 w-max items-center">
+          <Container desktop={false} className="flex gap-2 w-max items-center">
             <p className="all-caps">{label}</p>
             {children}
           </Container>
