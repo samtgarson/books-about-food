@@ -5,7 +5,7 @@ import { Heart, Loader } from 'react-feather'
 import { useFetcher } from 'src/contexts/fetcher'
 import cn from 'classnames'
 import { Button } from '../atoms/button'
-import { SignInButton } from '../auth/sign-in-button'
+import { AuthedButton } from '../auth/authed-button'
 
 export type FavouriteButtonProps = {
   profileId: string
@@ -24,7 +24,7 @@ export const FavouriteButton: FC<FavouriteButtonProps> = ({
     mutate({ profileId, isFavourite })
 
   return (
-    <SignInButton redirect={false}>
+    <AuthedButton redirect={false}>
       <Button
         variant="secondary"
         onClick={() => setFavourite(!value)}
@@ -51,6 +51,6 @@ export const FavouriteButton: FC<FavouriteButtonProps> = ({
           </>
         )}
       </Button>
-    </SignInButton>
+    </AuthedButton>
   )
 }

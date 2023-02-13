@@ -6,15 +6,15 @@ import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 import { CSSProperties, FC, useState } from 'react'
 import { Menu, Minus, User } from 'react-feather'
-import { SignInButton } from '../auth/sign-in-button'
+import { AuthedButton } from '../auth/authed-button'
 
 const AccountLink = ({ className }: { className?: string }) => {
   return (
-    <SignInButton>
+    <AuthedButton>
       <Link href="/account" className={className}>
         <User strokeWidth={1} />
       </Link>
-    </SignInButton>
+    </AuthedButton>
   )
 }
 

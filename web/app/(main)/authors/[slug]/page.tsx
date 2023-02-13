@@ -13,4 +13,4 @@ export const generateStaticParams = async () => {
   }))
 }
 
-export { default } from 'app/people/[slug]/page'
+export { default } from 'app/(main)/people/[slug]/page'

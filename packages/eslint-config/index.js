@@ -22,7 +22,8 @@ module.exports = {
     'import/extensions': [
       'error',
       {
-        'nextauth]': 'always'
+        'nextauth]': 'always',
+        svg: 'always'
       }
     ]
   }

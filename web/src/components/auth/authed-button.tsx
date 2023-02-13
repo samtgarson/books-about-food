@@ -1,18 +1,17 @@
 'use client'
 
-import { signIn } from 'next-auth/react'
 import { usePathname } from 'next/navigation'
 import { cloneElement, FC } from 'react'
 import * as Sheet from 'src/components/atoms/sheet'
 import { useCurrentUser } from 'src/hooks/use-current-user'
-import { Button } from '../atoms/button'
+import { SignInButtons } from './sign-in-buttons'
 
-export type SignInButtonProps = {
+export type AuthedButtonProps = {
   children: JSX.Element
   redirect?: string | null | false
 }
 
-export const SignInButton: FC<SignInButtonProps> = ({
+export const AuthedButton: FC<AuthedButtonProps> = ({
   redirect = '/account',
   children
 }) => {
@@ -33,10 +32,8 @@ export const SignInButton: FC<SignInButtonProps> = ({
     <Sheet.Root>
       <Sheet.Trigger asChild>{contents}</Sheet.Trigger>
       <Sheet.Content>
-        <Sheet.Body>
-          <Button onClick={() => signIn('google', { callbackUrl })}>
-            Continue with Google
-          </Button>
+        <Sheet.Body className="bg-grey">
+          <SignInButtons callbackUrl={callbackUrl} />
         </Sheet.Body>
       </Sheet.Content>
     </Sheet.Root>
