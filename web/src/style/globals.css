@@ -21,6 +21,10 @@
     @apply uppercase text-12 font-medium tracking-[0.12em];
   }
 
+  .all-caps-sm {
+    @apply uppercase text-10 font-medium tracking-[0.12em];
+  }
+
   .book-shadow {
     box-shadow: 0px 2.5px 1.9px rgba(0, 0, 0, 0.02),
       0px 6px 4.7px rgba(0, 0, 0, 0.028), 0px 11.3px 8.8px rgba(0, 0, 0, 0.035),

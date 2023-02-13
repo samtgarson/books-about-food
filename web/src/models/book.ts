@@ -2,6 +2,7 @@ import { Image } from './image'
 import { Profile } from './profile'
 import { BookAttrs } from './types'
 import format from 'date-fns/format'
+import { isFuture } from 'date-fns'
 
 export class Book {
   id: string
@@ -53,5 +54,13 @@ export class Book {
 
   get formattedReleaseDate() {
     return format(this.releaseDate, 'd MMMM yyyy')
+  }
+
+  get shortReleaseDate() {
+    return format(this.releaseDate, 'MMMM yyyy')
+  }
+
+  get publishedInFuture() {
+    return isFuture(this.releaseDate)
   }
 }

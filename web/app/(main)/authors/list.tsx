@@ -20,7 +20,8 @@ export const AuthorsList: FC<AuthorListProps> = ({
   fallback: fallbackData
 }) => {
   const [filters, setFilters] = useState<FetchProfilesInput>({
-    onlyAuthors: true
+    onlyAuthors: true,
+    sort: 'trending'
   })
   const { data, isLoading } = useFetcher('profiles', filters, { fallbackData })
   if (!data) return null
@@ -38,7 +39,7 @@ export const AuthorsList: FC<AuthorListProps> = ({
       <FilterBar>
         <Sort
           sorts={{ name: 'Name', trending: 'Trending' }}
-          value={filters.sort ?? 'name'}
+          value={filters.sort}
           onChange={(sort) => setFilters({ ...filters, sort })}
           onPreload={(sort) => prefetch('profiles', { ...filters, sort })}
         />
