@@ -29,7 +29,7 @@ export const CoverCarousel: FC<CoverCarouselProps> = ({ book, className }) => {
         {images.map((image, i) => (
           <Carousel.Item
             key={image.id}
-            onClick={(e) => setFocusedImage(image)}
+            onClick={() => setFocusedImage(image)}
             index={i}
           >
             <Image

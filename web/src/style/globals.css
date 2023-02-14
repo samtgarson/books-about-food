@@ -14,6 +14,11 @@
   textarea {
     @apply bg-grey text-black antialiased;
   }
+
+  button,
+  [type='button'] {
+    @apply appearance-none cursor-pointer;
+  }
 }
 
 @layer utilities {
