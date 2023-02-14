@@ -53,7 +53,7 @@ export const CoverCarousel: FC<CoverCarouselProps> = ({ book, className }) => {
             margin-left: calc(50% - ${firstImage.widthFor(310) / 2}px);
           }
 
-          #{id} li:last-child {
+          #${id} li:last-child {
             margin-right: calc(50% - ${lastImage.widthFor(310) / 2}px);
           }
         }
@@ -63,7 +63,7 @@ export const CoverCarousel: FC<CoverCarouselProps> = ({ book, className }) => {
             margin-left: calc(50% - ${firstImage.widthFor(440) / 2}px);
           }
 
-          #{id} li:last-child {
+          #${id} li:last-child {
             margin-right: calc(50% - ${lastImage.widthFor(440) / 2}px);
           }
         }
