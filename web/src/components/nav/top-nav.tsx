@@ -80,6 +80,9 @@ const NavContent = () => (
     <TopNavItem delay={300} path="publishers">
       Publishers
     </TopNavItem>
+    <TopNavItem delay={400} path="submit">
+      Submit
+    </TopNavItem>
     <TopNavItemExternal href="https://www.instagram.com/books.about.food">
       Instagram
     </TopNavItemExternal>

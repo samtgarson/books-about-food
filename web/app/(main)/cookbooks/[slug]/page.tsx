@@ -10,6 +10,7 @@ import { fetchBook } from 'src/services/books/fetch-book'
 import { fetchBooks } from 'src/services/books/fetch-books'
 import cn from 'classnames'
 import { MoreHorizontal } from 'react-feather'
+import { CorrectionButton } from 'src/components/books/correction-button'
 
 export * from 'app/default-static-config'
 
@@ -34,11 +35,11 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
         </h1>
         {book.subtitle && <Detail className="md:mb-8">{book.subtitle}</Detail>}
         <AntiContainer className="border-t border-black sm:border-t-0">
-          <div className="lg:absolute lg:w-[50vw] lg:inset-y-0 lg:right-0 lg:mt-[10vh] flex flex-col lg:h-full">
+          <div className="lg:absolute lg:w-[50vw] lg:inset-y-0 lg:right-0 flex flex-col lg:h-full">
             <CoverCarousel
               data-superjson
               book={book}
-              className="lg:sticky lg:top-0 lg:-mt-32 lg:pt-32 lg:max-h-screen"
+              className="lg:sticky lg:top-0 lg:-mt-32 lg:h-full lg:max-h-screen lg:flex lg:items-stretch"
             />
           </div>
         </AntiContainer>
@@ -53,25 +54,27 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
               title={book.authors.length > 1 ? 'Authors' : 'Author'}
             />
           </Container>
-          {book.team.length > 0 && (
-            <Container
-              desktop={false}
-              className="pt-4 md:pt-0 mb-4 sm:mb-8 border-t border-black sm:border-t-0"
-            >
+          <Container
+            desktop={false}
+            className="pt-4 md:pt-0 mb-4 sm:mb-0 border-t border-black sm:border-t-0"
+          >
+            {book.team.length > 0 && (
               <ProfileListSection
                 data-superjson
                 profiles={book.team}
                 title="Team"
+                className="mb-8"
               />
-            </Container>
-          )}
+            )}
+            <CorrectionButton book={book} className="hidden sm:flex" />
+          </Container>
           <Container
             desktop={false}
-            className={cn('mb-4 sm:mb-8 flex gap-x-4 flex-wrap sm:pt-20')}
+            className={cn('mb-4 sm:mb-8 flex gap-x-4 flex-wrap sm:pt-16')}
           >
             <BookLinks
               links={book.links}
-              className="w-full mb-4 order-last sm:order-first pt-4 sm:pt-0"
+              className="w-full mb-4 order-last sm:order-first pt-4 sm:pt-0 sm:mb-16"
             />
             <Detail column>
               <p>Publisher</p>
