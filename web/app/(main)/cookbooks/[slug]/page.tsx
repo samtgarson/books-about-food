@@ -34,11 +34,13 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
         </h1>
         {book.subtitle && <Detail className="md:mb-8">{book.subtitle}</Detail>}
         <AntiContainer className="border-t border-black sm:border-t-0">
-          <CoverCarousel
-            data-superjson
-            book={book}
-            className="lg:absolute lg:w-[50vw] lg:inset-y-0 lg:right-0"
-          />
+          <div className="lg:absolute lg:w-[50vw] lg:inset-y-0 lg:right-0 lg:mt-[10vh] flex flex-col lg:h-full">
+            <CoverCarousel
+              data-superjson
+              book={book}
+              className="lg:sticky lg:top-0 lg:-mt-32 lg:pt-32 lg:max-h-screen"
+            />
+          </div>
         </AntiContainer>
         <AntiContainer desktop={false}>
           <Container
