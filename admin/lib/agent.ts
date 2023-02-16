@@ -8,6 +8,7 @@ import { customiseBooks } from './collections/books'
 import { customiseContributions } from './collections/contributions'
 import { customiseImages } from './collections/images'
 import { customiseJobs } from './collections/jobs'
+import { customiseLinks } from './collections/links'
 import { customiseProfiles } from './collections/profiles'
 import { customisePublishers } from './collections/publishers'
 
@@ -33,4 +34,5 @@ agent
   .customizeCollection('profiles', customiseProfiles)
   .customizeCollection('jobs', customiseJobs)
   .customizeCollection('images', customiseImages)
+  .customizeCollection('links', customiseLinks)
   .start()

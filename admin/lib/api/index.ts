@@ -14,3 +14,23 @@ apiRouter.get('/tags', async (ctx) => {
   const tags = await prisma.tag.findMany()
   ctx.body = { data: tags.map((t) => t.name) }
 })
+
+apiRouter.get('/link-sites', async (ctx) => {
+  const sites = await prisma.link.findMany({
+    select: { site: true },
+    distinct: ['site']
+  })
+  const defaultLinkSites = [
+    'Amazon',
+    'Edelweiss+',
+    'Bookshop.org',
+    'Worldcat',
+    'AbeBooks',
+    'Book Depository'
+  ]
+  ctx.body = {
+    data: Array.from(
+      new Set([...defaultLinkSites, ...sites.map((s) => s.site), 'Other'])
+    )
+  }
+})

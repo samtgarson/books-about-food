@@ -1995,6 +1995,8 @@ export type Schema = {
       'updated_at': string;
       'url': string;
       'site': string;
+      'Website': string;
+      'Website (Other)': string;
     };
     nested: {
       'book': Schema['books']['plain'] & Schema['books']['nested'];
