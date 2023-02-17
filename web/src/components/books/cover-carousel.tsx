@@ -26,7 +26,7 @@ export const CoverCarousel: FC<CoverCarouselProps> = ({ book, className }) => {
         <div className={cn('relative', className)}>
           <Carousel.Scroller<ImageModel>
             id={id}
-            className="gap-24 w-full sm:py-36 lg:pl-[50vw]"
+            className="gap-24 w-full sm:py-36"
           >
             {(image, i) => (
               <Carousel.Item key={image.id} index={i}>
@@ -38,7 +38,9 @@ export const CoverCarousel: FC<CoverCarouselProps> = ({ book, className }) => {
               </Carousel.Item>
             )}
           </Carousel.Scroller>
-          <Carousel.Buttons className="absolute right-0 top-1/2 -translate-y-1/2 hidden md:flex" />
+          {images.length > 1 && (
+            <Carousel.Buttons className="absolute right-0 top-1/2 -translate-y-1/2 hidden md:flex" />
+          )}
         </div>
       </Carousel.Root>
       <style>{`

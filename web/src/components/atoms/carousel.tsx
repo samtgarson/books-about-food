@@ -111,7 +111,7 @@ export const Scroller = <Item,>({
     <ul
       ref={scrollerRef}
       className={cn(
-        'relative flex overflow-x-auto snap-x snap-mandatory whitespace-nowrap py-16 items-center',
+        'relative flex overflow-y-hidden overflow-x-auto snap-x snap-mandatory whitespace-nowrap py-16 items-center scrollbar-hidden',
         className
       )}
       onScroll={() => {
