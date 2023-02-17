@@ -39,7 +39,7 @@ export const CoverCarousel: FC<CoverCarouselProps> = ({ book, className }) => {
             )}
           </Carousel.Scroller>
           {images.length > 1 && (
-            <Carousel.Buttons className="absolute right-0 top-1/2 -translate-y-1/2 hidden md:flex" />
+            <Carousel.Buttons className="absolute right-0 top-1/2 -translate-y-1/2 hidden md:flex -mr-px" />
           )}
         </div>
       </Carousel.Root>
