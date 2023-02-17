@@ -1,8 +1,10 @@
 import { FC } from 'react'
+import cn from 'classnames'
 
 export type PageTitleType = {
   children: string
   showBrand?: boolean
+  className?: string
 }
 
 export const BrandTitle = () => (
@@ -11,9 +13,12 @@ export const BrandTitle = () => (
 
 export const PageTitle: FC<PageTitleType> = ({
   children,
-  showBrand = true
+  showBrand = true,
+  className
 }) => (
-  <h1 className="text-48 py-10 md:py-20 text-right">
+  <h1
+    className={cn('text-24 sm:text-48 py-10 md:py-20 sm:text-right', className)}
+  >
     {children}
     {showBrand && <BrandTitle />}
   </h1>

@@ -19,6 +19,7 @@ export const BookFilters = ({ filters, onChange }: BookFiltersProps) => {
 
   return (
     <FilterBar
+      title="Cookbooks"
       search={
         <Search
           className="w-full"
