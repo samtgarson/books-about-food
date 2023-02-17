@@ -36,7 +36,7 @@ const titleFor = (link: Link) => {
 export const BookLinks: FC<BookLinksProps> = ({ links, className }) =>
   links.length === 0 ? null : (
     <div className={className}>
-      <p className="mb-4">Links</p>
+      <p className="mb-4 sm:hidden">Links</p>
       <ul className="flex flex-wrap gap-4">
         {links.map((link) => (
           <li

@@ -66,7 +66,7 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
                 className="mb-8"
               />
             )}
-            <CorrectionButton book={book} className="hidden sm:flex" />
+            <CorrectionButton book={book} className="" />
           </Container>
           <Container
             desktop={false}
