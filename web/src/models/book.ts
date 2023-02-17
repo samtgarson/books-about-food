@@ -57,7 +57,7 @@ export class Book {
   }
 
   get shortReleaseDate() {
-    return format(this.releaseDate, 'MMMM yyyy')
+    return format(this.releaseDate, 'MMM yyyy')
   }
 
   get publishedInFuture() {
