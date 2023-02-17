@@ -32,6 +32,7 @@ export const CoverCarousel: FC<CoverCarouselProps> = ({ book, className }) => {
               <Carousel.Item key={image.id} index={i}>
                 <Image
                   {...image.imageAttrs(440)}
+                  loading="eager"
                   className="max-w-none h-[210px] md:h-[310px] xl:h-[440px] w-auto book-shadow"
                 />
               </Carousel.Item>
