@@ -27,14 +27,25 @@ export const fetchProfiles = new Service(
     perPage: z.number().optional(),
     sort: z.enum(['name', 'trending']).optional(),
     onlyAuthors: z.boolean().optional(),
+    search: z.string().optional(),
     jobs: z.string().array().optional()
   }),
-  async ({ page = 0, perPage = 21, jobs, onlyAuthors, sort = 'name' } = {}) => {
+  async ({
+    page = 0,
+    perPage = 21,
+    jobs,
+    onlyAuthors,
+    sort = 'name',
+    search
+  } = {}) => {
+    const contains = search?.trim()
+    const hasSearch = (contains && contains.length > 0) || undefined
     const baseWhere = authorFilter(onlyAuthors)
     const hasJob = (jobs && jobs.length > 0) || undefined
     const where: Prisma.ProfileWhereInput = {
       AND: [
         baseWhere,
+        hasSearch ? { name: { contains, mode: 'insensitive' } } : {},
         {
           OR: hasJob && [
             { contributions: { some: { job: { id: { in: jobs } } } } },

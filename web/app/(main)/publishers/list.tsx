@@ -5,7 +5,6 @@ import { Pagination } from 'src/components/lists/pagination'
 import { prefetch, useFetcher } from 'src/contexts/fetcher'
 import { PublishersItem } from './item'
 import { FetchPublishersInput } from 'src/services/publishers/fetch-publishers'
-import { Search } from 'src/components/lists/search'
 import cn from 'classnames'
 import { FilterBar } from 'src/components/lists/filter-bar'
 
@@ -34,12 +33,10 @@ export const PublishersList: FC<PublishersListProps> = ({
     >
       <FilterBar
         label="Show"
-        search={
-          <Search
-            value={filters?.search}
-            onChange={(search) => setFilters({ ...filters, page: 0, search })}
-          />
-        }
+        search={{
+          value: filters?.search,
+          onChange: (search) => setFilters({ ...filters, page: 0, search })
+        }}
       />
       <ul
         className={cn(

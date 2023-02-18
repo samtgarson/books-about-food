@@ -1,11 +1,12 @@
 import { FC, useRef, useState } from 'react'
-import { Search, X } from 'react-feather'
+import { Search as SearchIcon } from 'react-feather'
 import { AntiContainer, Container } from '../atoms/container'
 import { PageTitle } from '../atoms/page-title'
+import { Search, SearchProps } from './search'
 
 export type FilterBarProps = {
   children?: React.ReactNode
-  search?: React.ReactNode
+  search?: Omit<SearchProps, 'className'>
   label?: string
   title?: string
 }
@@ -18,6 +19,7 @@ export const FilterBar: FC<FilterBarProps> = ({
 }) => {
   const [showSearch, setShowSearch] = useState(false)
   const searchWrapper = useRef<HTMLDivElement>(null)
+  const searchProps = { ...search, className: 'w-full' }
 
   const showSearchAndFocus = () => {
     setShowSearch(true)
@@ -31,25 +33,28 @@ export const FilterBar: FC<FilterBarProps> = ({
       {title &&
         search &&
         (showSearch ? (
-          <div className="my-8 relative flex" ref={searchWrapper}>
-            {search}
-            <button
-              onClick={() => setShowSearch(false)}
-              className="absolute right-0 inset-y-0 flex items-center bg-transparent"
-              aria-label="Close Search"
-            >
-              <X strokeWidth={1} size={24} />
-            </button>
+          <div
+            className="my-8 relative flex animate-fade-in"
+            ref={searchWrapper}
+          >
+            <Search
+              {...searchProps}
+              onReset={() => setShowSearch(false)}
+              onBlur={() => setShowSearch(false)}
+            />
           </div>
         ) : (
-          <div className="flex items-center">
+          <div
+            className="flex items-center animate-fade-in"
+            onClick={() => showSearchAndFocus()}
+          >
             <PageTitle className="flex-grow">{title}</PageTitle>
             <button
               onClick={() => showSearchAndFocus()}
               className="ml-auto sm:hidden"
               aria-label="Open Search"
             >
-              <Search strokeWidth={1} size={24} />
+              <SearchIcon strokeWidth={1} size={24} />
             </button>
           </div>
         ))}
@@ -60,7 +65,7 @@ export const FilterBar: FC<FilterBarProps> = ({
               desktop={false}
               className="w-full flex-grow md:w-72 hidden sm:flex"
             >
-              {search}
+              <Search {...searchProps} />
             </Container>
           )}
           {children && (

@@ -1,5 +1,4 @@
 import { Container } from 'src/components/atoms/container'
-import { PageTitle } from 'src/components/atoms/page-title'
 import { fetchProfiles } from 'src/services/profiles/fetch-profiles'
 import { PeopleList } from './list'
 
@@ -11,7 +10,6 @@ export default async () => {
   return (
     <>
       <Container>
-        <PageTitle>People</PageTitle>
         <PeopleList fallback={data} data-superjson />
       </Container>
     </>

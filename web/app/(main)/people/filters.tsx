@@ -22,7 +22,13 @@ export const PeopleFilters = ({
   })
 
   return (
-    <FilterBar>
+    <FilterBar
+      title="People"
+      search={{
+        value: filters.search,
+        onChange: (search) => onChange({ search })
+      }}
+    >
       <Sort
         sorts={{ name: 'Name', trending: 'Trending' }}
         value={filters.sort ?? 'name'}

@@ -1,6 +1,5 @@
 import { FilterBar } from 'src/components/lists/filter-bar'
 import { FilterSelect } from 'src/components/lists/filter-select'
-import { Search } from 'src/components/lists/search'
 import { Sort } from 'src/components/lists/sort'
 import { prefetch, useFetcher } from 'src/contexts/fetcher'
 import { FetchBooksInput } from 'src/services/books/fetch-books'
@@ -20,13 +19,10 @@ export const BookFilters = ({ filters, onChange }: BookFiltersProps) => {
   return (
     <FilterBar
       title="Cookbooks"
-      search={
-        <Search
-          className="w-full"
-          value={filters.search}
-          onChange={(search) => onChange({ search })}
-        />
-      }
+      search={{
+        value: filters.search,
+        onChange: (search) => onChange({ search })
+      }}
     >
       <Sort<NonNullable<Filters['sort']>>
         sorts={{

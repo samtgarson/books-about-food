@@ -36,7 +36,13 @@ export const AuthorsList: FC<AuthorListProps> = ({
       onChange={(page) => setFilters({ ...filters, page })}
       onPreload={(page) => prefetch('profiles', { ...filters, page })}
     >
-      <FilterBar>
+      <FilterBar
+        title="Authors"
+        search={{
+          value: filters.search,
+          onChange: (search) => setFilters({ ...filters, search })
+        }}
+      >
         <Sort
           sorts={{ name: 'Name', trending: 'Trending' }}
           value={filters.sort}
