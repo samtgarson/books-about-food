@@ -14,7 +14,7 @@ export const LinkList: FC<LinkListProps> = ({ links }) => {
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="underline"
+            className="underline mr-2 last:mr-0"
           >
             {link.name}
           </a>

@@ -11,6 +11,7 @@ import cn from 'classnames'
 import { GridContainer } from '../lists/grid-container'
 import { BookFilters } from './filters'
 import { BookItem } from './item'
+import { useDelayedFlag } from 'src/hooks/use-delayed-flag'
 
 export type BookListProps = {
   filters?: FetchBooksInput
@@ -27,6 +28,7 @@ export const BookList: FC<BookListProps> = ({
 }) => {
   const [filters, setFilters] = useState<FetchBooksInput>(initialFilters)
   const { data, isLoading } = useFetcher('books', filters, { fallbackData })
+  const isLoadingSlow = useDelayedFlag(isLoading, 10)
 
   useEffect(() => {
     const params = new URLSearchParams(location.search)
@@ -56,7 +58,7 @@ export const BookList: FC<BookListProps> = ({
       <GridContainer
         className={cn(
           'sm:gap-y-16 transition-opacity',
-          isLoading && 'opacity-50'
+          isLoadingSlow && 'opacity-50'
         )}
       >
         {books.map((book) => (

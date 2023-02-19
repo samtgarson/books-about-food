@@ -44,10 +44,7 @@ export const FilterBar: FC<FilterBarProps> = ({
             />
           </div>
         ) : (
-          <div
-            className="flex items-center animate-fade-in"
-            onClick={() => showSearchAndFocus()}
-          >
+          <div className="flex items-center animate-fade-in">
             <PageTitle className="flex-grow">{title}</PageTitle>
             <button
               onClick={() => showSearchAndFocus()}
