@@ -15,7 +15,7 @@ export const fetchBook = new Service(
         previewImages: { orderBy: { createdAt: 'asc' } },
         publisher: { include: { logo: true } },
         tags: true,
-        links: true,
+        links: { orderBy: { site: 'asc' } },
         contributions: {
           distinct: ['profileId'],
           include: {
@@ -25,6 +25,7 @@ export const fetchBook = new Service(
         }
       }
     })
+
     if (!raw) throw new Error('Book not found')
     return new FullBook(raw)
   }
