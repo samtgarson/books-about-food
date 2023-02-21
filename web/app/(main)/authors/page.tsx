@@ -8,7 +8,7 @@ export default async () => {
   const data = await fetchProfiles.call({ onlyAuthors: true, sort: 'trending' })
 
   return (
-    <Container>
+    <Container belowNav>
       <AuthorsList fallback={data} data-superjson />
     </Container>
   )

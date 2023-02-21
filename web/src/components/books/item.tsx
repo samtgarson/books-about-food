@@ -12,7 +12,7 @@ export const BookItem = ({ book, className }: CookbookItemProps) => {
   return (
     <li className={cn('group', className)}>
       <Link
-        href={`/cookbooks/${book.slug}`}
+        href={book.href}
         className="-mb-px group-last:mb-0 sm:mb-0 sm:-mr-px sm:w-auto h-full flex sm:flex-col sm:items-start items-center sm:gap-0 gap-6 p-4 sm:p-0 border sm:border-none border-black relative"
       >
         <div className="sm:aspect-square sm:border border-black sm:mb-6 relative flex items-center justify-center w-24 sm:w-full">

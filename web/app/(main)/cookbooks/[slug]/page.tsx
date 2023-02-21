@@ -28,7 +28,7 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
 
   return (
     <div className="lg:pr-[50vw] relative">
-      <Container className="pt-6 sm:pt-20" key="header">
+      <Container className="pt-6 sm:pt-20" key="header" belowNav>
         <h1 className="font-style-title flex items-center mb-6 sm:mb-4">
           {book.title}
           <MoreHorizontal className="ml-auto" strokeWidth={1} />

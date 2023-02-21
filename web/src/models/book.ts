@@ -36,6 +36,10 @@ export class Book {
     this.contributions = contributions ?? []
   }
 
+  get href() {
+    return `/cookbooks/${this.slug}`
+  }
+
   get authors() {
     return this.contributions
       .filter((contribution) => contribution.job?.name === 'Author')

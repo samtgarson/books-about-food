@@ -6,6 +6,7 @@ export type ContainerProps = ComponentProps<'div'> & {
   right?: boolean
   mobile?: boolean
   desktop?: boolean
+  belowNav?: boolean
 }
 
 export const Container: FC<ContainerProps> = ({
@@ -15,6 +16,7 @@ export const Container: FC<ContainerProps> = ({
   right = true,
   mobile = true,
   desktop = true,
+  belowNav = false,
   ...props
 }) => (
   <div
@@ -25,7 +27,8 @@ export const Container: FC<ContainerProps> = ({
         'pr-5 sm:pr-0': right && mobile && !desktop,
         'pl-5 sm:pl-0': left && mobile && !desktop,
         'md:pr-16': right && !mobile && desktop,
-        'md:pl-16': left && !mobile && desktop
+        'md:pl-16': left && !mobile && desktop,
+        'mt-12': belowNav
       },
       className
     )}

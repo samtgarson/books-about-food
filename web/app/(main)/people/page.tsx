@@ -9,7 +9,7 @@ export default async () => {
 
   return (
     <>
-      <Container>
+      <Container belowNav>
         <PeopleList fallback={data} data-superjson />
       </Container>
     </>

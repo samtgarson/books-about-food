@@ -36,7 +36,7 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
 
   return (
     <>
-      <Container className="mt-8 md:mt-20" key="header">
+      <Container className="pt-8 md:pt-20" key="header" belowNav>
         <div className="flex items-stretch md:items-start flex-col md:flex-row relative gap-6">
           <div className="flex-grow w-full">
             <h1 className="font-style-title flex items-center">

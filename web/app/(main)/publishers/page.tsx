@@ -10,7 +10,7 @@ export default async () => {
 
   return (
     <>
-      <Container>
+      <Container belowNav>
         <PageTitle>Publishers</PageTitle>
         <PublishersList fallback={data} data-superjson />
       </Container>

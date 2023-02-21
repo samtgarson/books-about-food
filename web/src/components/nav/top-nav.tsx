@@ -91,7 +91,7 @@ const NavContent = () => (
 
 const DesktopTopNav: FC = () => {
   return (
-    <nav className="gap-20 hidden md:flex w-screen overflow-x-auto py-2 pr-4 items-center">
+    <nav className="z-30 absolute top-0 inset-x-0 gap-20 hidden md:flex w-screen overflow-x-auto py-2 pr-4 items-center">
       <NavContent />
       <AccountLink className="ml-auto" />
     </nav>
@@ -102,7 +102,7 @@ const MobileTopNav: FC = () => {
   const [open, setOpen] = useState(false)
   return (
     <Collapsible.Root open={open} onOpenChange={setOpen}>
-      <nav className="h-16 relative bg-grey md:hidden flex items-center border-b border-black">
+      <nav className="z-30 absolute top-0 inset-x-0 h-16 md:hidden flex items-center border-b border-black">
         <Link
           href="/"
           className="px-4 text-16 flex-grow"
