@@ -10,7 +10,7 @@ export const fetchProfile = new Service(
     if (!slug) return null
     const raw = await prisma.profile.findUnique({
       where: { slug },
-      include: profileIncludes.include
+      include: profileIncludes
     })
 
     return raw && new Profile(raw)

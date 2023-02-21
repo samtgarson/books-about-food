@@ -2,7 +2,7 @@ import prisma, { Prisma } from 'database'
 import { Book } from 'src/models/book'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
-import { profileIncludes } from '../utils'
+import { bookIncludes } from '../utils'
 import {
   fetchBooksPageFilters,
   FetchBooksPageFilters,
@@ -75,13 +75,7 @@ export const fetchBooks = new Service(
         take: perPage === 0 ? undefined : perPage,
         skip: perPage * page,
         orderBy: { [sort]: sort === 'title' ? 'asc' : 'desc' },
-        include: {
-          coverImage: true,
-          contributions: {
-            include: { profile: profileIncludes, job: true },
-            where: { job: { name: 'Author' } }
-          }
-        },
+        include: bookIncludes,
         where
       }),
       prisma.book.count({ where }),

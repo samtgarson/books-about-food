@@ -3,7 +3,7 @@ import { Profile } from 'src/models/profile'
 import cn from 'classnames'
 import Image from 'next/image'
 
-export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'fill'
+export type AvatarSize = '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'fill'
 
 export type AvatarProps = {
   profile: Profile
@@ -24,15 +24,17 @@ export const Avatar: FC<AvatarProps> = ({
       className,
       'rounded-full flex items-center justify-center bg-white bg-opacity-50 aspect-square flex-shrink-0 relative overflow-hidden',
       {
-        'w-16': mobileSize === 'md',
-        'w-12': mobileSize === 'sm',
-        'w-10': mobileSize === 'xs',
-        'w-32': mobileSize === 'xl',
-        'w-full': mobileSize === 'fill',
+        'w-16': mobileSize === 'md' || (!mobileSize && size === 'md'),
+        'w-12': mobileSize === 'sm' || (!mobileSize && size === 'sm'),
+        'w-10': mobileSize === 'xs' || (!mobileSize && size === 'xs'),
+        'w-32': mobileSize === 'xl' || (!mobileSize && size === 'xl'),
+        'w-8': mobileSize === '2xs' || (!mobileSize && size === '2xs'),
+        'w-full': mobileSize === 'fill' || (!mobileSize && size === 'fill'),
         'md:w-16': size === 'md',
         'md:w-12': size === 'sm',
         'md:w-10': size === 'xs',
         'md:w-36': size === 'xl',
+        'md:w-8': size === '2xs',
         'md:w-full': size === 'fill'
       }
     )}

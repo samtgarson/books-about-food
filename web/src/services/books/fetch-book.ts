@@ -19,7 +19,7 @@ export const fetchBook = new Service(
         contributions: {
           distinct: ['profileId'],
           include: {
-            profile: profileIncludes,
+            profile: { include: profileIncludes },
             job: true
           }
         }

@@ -66,7 +66,7 @@ export const fetchProfiles = new Service(
         where,
         take: perPage === 0 ? undefined : perPage,
         skip: perPage * page,
-        include: profileIncludes.include
+        include: profileIncludes
       }),
       prisma.profile.count({ where: baseWhere }),
       prisma.profile.count({ where })

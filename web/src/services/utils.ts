@@ -1,5 +1,15 @@
 import { Prisma } from 'database'
 
 export const profileIncludes = {
-  include: { user: { select: { image: true } }, jobs: true, avatar: true }
-} satisfies Prisma.ProfileArgs
+  user: { select: { image: true } },
+  jobs: true,
+  avatar: true
+} satisfies Prisma.ProfileArgs['include']
+
+export const bookIncludes = {
+  coverImage: true,
+  contributions: {
+    include: { profile: { include: profileIncludes }, job: true },
+    where: { job: { name: 'Author' } }
+  }
+} satisfies Prisma.BookArgs['include']

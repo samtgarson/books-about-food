@@ -170,6 +170,7 @@ model Book {
   contributions Contribution[]
   links         Link[]
   publisher     Publisher      @relation(fields: [publisherId], references: [id], onDelete: Restrict)
+  features      Feature[]
 
   @@map("books")
 }
@@ -215,4 +216,18 @@ model Favourite {
 
   @@unique([profileId, userId])
   @@map("favourites")
+}
+
+model Feature {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at")
+  bookId      String    @map("book_id") @db.Uuid
+  tagLine     String?   @map("tag_line")
+  until       DateTime? @db.Date
+  description String?
+
+  book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@map("features")
 }
