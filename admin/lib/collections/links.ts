@@ -6,6 +6,7 @@ export const customiseLinks = (
   collection: CollectionCustomizer<Schema, 'links'>
 ) => {
   collection
+    .removeField('site')
     .addField('Website', {
       dependencies: ['id'],
       getValues: async (records) => {
@@ -20,14 +21,14 @@ export const customiseLinks = (
       },
       columnType: 'String'
     })
-    .replaceFieldWriting('Website', async (site, context) => {
-      return { site: site || context.record['Website (Other)'] }
+    .replaceFieldWriting('Website', async (Website) => {
+      return { Website }
     })
 
   collection
     .addField('Website (Other)', {
       getValues: async (records) => {
-        return records.map((record) => record.site)
+        return records.map(() => null)
       },
       columnType: 'String',
       dependencies: ['site']
@@ -37,25 +38,22 @@ export const customiseLinks = (
     })
     .addHook('Before', 'Create', async (context) => {
       context.data.forEach((link) => {
-        if (!link.site && !link['Website (Other)']) {
+        if (!link.Website && !link['Website (Other)']) {
           context.throwValidationError('Please provide a site name')
         }
 
-        link.site = link.site || link['Website (Other)']
-        console.log(link)
+        link.site = link.Website || link['Website (Other)']
       })
     })
     .addHook('Before', 'Update', async (context) => {
-      console.log(context.patch)
       if (
-        context.patch.site === null &&
+        context.patch.Website === null &&
         context.patch['Website (Other)'] === null
       ) {
         context.throwValidationError('Please provide a site name')
       }
 
       context.patch.site =
-        context.patch.site || context.patch['Website (Other)']
-      console.log(context.patch)
+        context.patch.Website || context.patch['Website (Other)']
     })
 }
