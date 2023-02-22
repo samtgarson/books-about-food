@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, Fragment } from 'react'
 
 export type Link = { name: string; url: string }
 export type LinkListProps = { links: Link[] }
@@ -8,7 +8,7 @@ export const LinkList: FC<LinkListProps> = ({ links }) => {
   return (
     <>
       {links.map((link, i) => (
-        <>
+        <Fragment key={link.url}>
           <a
             key={link.url}
             href={link.url}
@@ -19,7 +19,7 @@ export const LinkList: FC<LinkListProps> = ({ links }) => {
             {link.name}
           </a>
           {i < links.length - 1 && ' • '}
-        </>
+        </Fragment>
       ))}
     </>
   )

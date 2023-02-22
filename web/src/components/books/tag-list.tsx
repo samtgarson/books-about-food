@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { FC } from 'react'
+import { FC, Fragment } from 'react'
 
 export type TagListProps = { tags: string[] }
 
@@ -7,7 +7,7 @@ export const TagList: FC<TagListProps> = ({ tags }) => {
   return (
     <p>
       {tags.map((tag, i) => (
-        <>
+        <Fragment key={tag}>
           <Link
             key={tag}
             href={`/cookbooks?tags=${tag}`}
@@ -16,7 +16,7 @@ export const TagList: FC<TagListProps> = ({ tags }) => {
             {tag}
           </Link>
           {i < tags.length - 1 && ' • '}
-        </>
+        </Fragment>
       ))}
     </p>
   )
