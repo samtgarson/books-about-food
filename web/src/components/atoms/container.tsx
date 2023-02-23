@@ -28,7 +28,7 @@ export const Container: FC<ContainerProps> = ({
         'pl-5 sm:pl-0': left && mobile && !desktop,
         'md:pr-16': right && !mobile && desktop,
         'md:pl-16': left && !mobile && desktop,
-        'mt-12': belowNav
+        'mt-16 md:mt-12': belowNav
       },
       className
     )}
