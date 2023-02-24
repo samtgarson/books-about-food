@@ -2,6 +2,7 @@ import { ComponentProps, FC } from 'react'
 import cn from 'classnames'
 
 export type ContainerProps = ComponentProps<'div'> & {
+  scroll?: boolean
   left?: boolean
   right?: boolean
   mobile?: boolean
@@ -9,27 +10,50 @@ export type ContainerProps = ComponentProps<'div'> & {
   belowNav?: boolean
 }
 
-export const Container: FC<ContainerProps> = ({
-  children,
-  className,
+export const containerClasses = ({
   left = true,
   right = true,
   mobile = true,
   desktop = true,
-  belowNav = false,
+  scroll = false,
+  belowNav = false
+}: ContainerProps = {}) =>
+  cn(
+    scroll
+      ? {
+          'scroll-pr-5 md:scroll-pr-16': right && mobile && desktop,
+          'scroll-pl-5 md:scroll-pl-16': left && mobile && desktop,
+          'scroll-pr-5 sm:scroll-pr-0': right && mobile && !desktop,
+          'scroll-pl-5 sm:scroll-pl-0': left && mobile && !desktop,
+          'md:scroll-pr-16': right && !mobile && desktop,
+          'md:scroll-pl-16': left && !mobile && desktop
+        }
+      : {
+          'pr-5 md:pr-16': right && mobile && desktop,
+          'pl-5 md:pl-16': left && mobile && desktop,
+          'pr-5 sm:pr-0': right && mobile && !desktop,
+          'pl-5 sm:pl-0': left && mobile && !desktop,
+          'md:pr-16': right && !mobile && desktop,
+          'md:pl-16': left && !mobile && desktop
+        },
+    {
+      'mt-16 md:mt-12': belowNav
+    }
+  )
+
+export const Container: FC<ContainerProps> = ({
+  children,
+  className,
+  left,
+  right,
+  mobile,
+  desktop,
+  belowNav,
   ...props
 }) => (
   <div
     className={cn(
-      {
-        'pr-5 md:pr-16': right && mobile && desktop,
-        'pl-5 md:pl-16': left && mobile && desktop,
-        'pr-5 sm:pr-0': right && mobile && !desktop,
-        'pl-5 sm:pl-0': left && mobile && !desktop,
-        'md:pr-16': right && !mobile && desktop,
-        'md:pl-16': left && !mobile && desktop,
-        'mt-16 md:mt-12': belowNav
-      },
+      containerClasses({ left, right, mobile, desktop, belowNav }),
       className
     )}
     {...props}

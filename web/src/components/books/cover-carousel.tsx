@@ -1,7 +1,6 @@
 'use client'
 
 import cn from 'classnames'
-import { Image as ImageModel } from 'src/models/image'
 import Image from 'next/image'
 import { FC } from 'react'
 import * as Carousel from 'src/components/atoms/carousel'
@@ -22,24 +21,23 @@ export const CoverCarousel: FC<CoverCarouselProps> = ({ book, className }) => {
   const lastImage = images[images.length - 1]
   return (
     <>
-      <Carousel.Root items={images}>
+      <Carousel.Root totalItems={images.length}>
         <div className={cn('relative', className)}>
-          <Carousel.Scroller<ImageModel>
-            id={id}
-            className="gap-24 w-full sm:py-36"
-          >
-            {(image, i) => (
+          <Carousel.Scroller id={id} className="gap-24 w-full py-16 sm:py-36">
+            {images.map((image, i) => (
               <Carousel.Item key={image.id} index={i}>
-                <Image
-                  {...image.imageAttrs(440)}
-                  loading="eager"
-                  className="max-w-none h-[210px] md:h-[310px] xl:h-[440px] w-auto book-shadow"
-                />
+                <li>
+                  <Image
+                    {...image.imageAttrs(440)}
+                    loading="eager"
+                    className="max-w-none h-[210px] md:h-[310px] xl:h-[440px] w-auto book-shadow"
+                  />
+                </li>
               </Carousel.Item>
-            )}
+            ))}
           </Carousel.Scroller>
           {images.length > 1 && (
-            <Carousel.Buttons className="absolute right-0 top-1/2 -translate-y-1/2 hidden md:flex -mr-px" />
+            <Carousel.Buttons className="absolute right-0 top-1/2 -translate-y-1/2 -mr-px" />
           )}
         </div>
       </Carousel.Root>

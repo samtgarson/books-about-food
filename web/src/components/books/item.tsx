@@ -2,33 +2,60 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Book } from 'src/models/book'
 import cn from 'classnames'
+import { ComponentProps } from 'react'
 
-export type CookbookItemProps = {
+export type CookbookItemProps = ComponentProps<'li'> & {
   book: Book
-  className?: string
+  mobileGrid?: boolean
 }
 
-export const BookItem = ({ book, className }: CookbookItemProps) => {
+export const BookItem = ({
+  book,
+  className,
+  mobileGrid,
+  ...props
+}: CookbookItemProps) => {
   return (
-    <li className={cn('group', className)}>
+    <li className={cn('group', className)} {...props}>
       <Link
         href={book.href}
-        className="-mb-px group-last:mb-0 sm:mb-0 sm:-mr-px sm:w-auto h-full flex sm:flex-col sm:items-start items-center sm:gap-0 gap-6 p-4 sm:p-0 border sm:border-none border-black relative"
+        className={cn(
+          '-mb-px group-last:mb-0 sm:mb-0 sm:-mr-px sm:w-auto h-full flex sm:flex-col sm:items-start sm:gap-0 p-4 sm:p-0 border relative items-center gap-6 border-black sm:border-none',
+          mobileGrid &&
+            'mb-0 -mr-px w-auto flex-col items-start gap-0 p-0 border-none'
+        )}
       >
-        <div className="sm:aspect-square sm:border border-black sm:mb-6 relative flex items-center justify-center w-24 sm:w-full">
+        <div
+          className={cn(
+            'sm:aspect-square sm:border border-black sm:mb-6 relative flex items-center justify-center sm:w-full',
+            mobileGrid ? 'aspect-square border mb-6 w-full' : 'w-24'
+          )}
+        >
           {book.cover ? (
             <Image
               {...book.cover.imageAttrs(200)}
-              className="sm:absolute h-24 sm:!h-[80%] sm:!top-[10%] sm:mx-auto sm:inset-x-0 !w-auto book-shadow"
+              className={cn(
+                'sm:absolute h-24 sm:!h-[80%] sm:!top-[10%] sm:mx-auto sm:inset-x-0 !w-auto book-shadow',
+                mobileGrid && 'absolute h-[80%] top-[10%] mx-auto inset-x-0'
+              )}
             />
           ) : (
             <div
               aria-hidden
-              className="sm:absolute h-24 sm:!h-[80%] sm:!top-[10%] sm:mx-auto sm:inset-x-0 w-16 sm:w-[60%] bg-opacity-50 bg-white"
+              className={cn(
+                'sm:absolute h-24 sm:!h-[80%] sm:!top-[10%] sm:mx-auto sm:inset-x-0 w-16 sm:w-[60%] bg-opacity-50 bg-white',
+                mobileGrid &&
+                  'absolute h-[80%] top-[10%] mx-auto inset-x-0 w-[60%]'
+              )}
             />
           )}
         </div>
-        <div className="sm:pr-4 sm:mt-auto w-full">
+        <div
+          className={cn(
+            'sm:pr-4 sm:mt-auto w-full',
+            mobileGrid && 'pr-4 mt-auto'
+          )}
+        >
           <p className="font-medium text-16 mb-1">{book.title}</p>
           <p className="text-14">{book.authorNames}</p>
         </div>

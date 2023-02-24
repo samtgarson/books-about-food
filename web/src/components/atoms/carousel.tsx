@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import cn from 'classnames'
 import {
+  cloneElement,
   ComponentProps,
   createContext,
   FC,
@@ -13,10 +12,10 @@ import {
   useState
 } from 'react'
 import { ChevronLeft, ChevronRight } from 'react-feather'
+import { containerClasses, ContainerProps } from './container'
 
 type CarouselAlginment = 'left' | 'center'
-type CarouselContext<Item> = {
-  items: Item[]
+type CarouselContext = {
   currentIndex: number
   totalItems: number
   setCurrentIndex: (index: number) => void
@@ -25,14 +24,12 @@ type CarouselContext<Item> = {
   alignment: CarouselAlginment
 }
 
-const CarouselContext = createContext<CarouselContext<any>>(
-  {} as CarouselContext<any>
-)
+const CarouselContext = createContext({} as CarouselContext)
 
-export type CarouselRootProps<Item> = {
+export type CarouselRootProps = {
   children: ReactNode
   alignment?: CarouselAlginment
-  items: Item[]
+  totalItems: number
 }
 
 const getCurrentIndex = (
@@ -40,19 +37,31 @@ const getCurrentIndex = (
   alignment: CarouselAlginment
 ) => {
   if (!el) return
-  const rect = el.getBoundingClientRect()
-  const x = alignment === 'left' ? rect.left : rect.left + rect.width / 2
+  const parent = el.parentElement
+  if (!parent) return
+  const rect = parent.getBoundingClientRect()
+
+  let x: number
+  if (alignment === 'left') {
+    const styleMap = getComputedStyle(el)
+    const padding = parseInt(styleMap.getPropertyValue('padding-left'))
+    x = rect.left + padding
+  } else {
+    x = rect.left + rect.width / 2
+  }
+
   const y = rect.top + rect.height / 2
   const elAtPoint = document.elementFromPoint(x, y)?.closest('li')
+
   if (!elAtPoint || !elAtPoint.parentElement) return
   return Array.from(elAtPoint.parentElement.children).indexOf(elAtPoint)
 }
 
-export const Root = <Item,>({
+export const Root = ({
   alignment = 'center',
-  items,
+  totalItems,
   children
-}: CarouselRootProps<Item>) => {
+}: CarouselRootProps) => {
   const scrollerRef = useRef<HTMLUListElement>(null)
   const [currentIndex, setCurrentIndex] = useState(0)
 
@@ -72,10 +81,9 @@ export const Root = <Item,>({
   return (
     <CarouselContext.Provider
       value={{
-        items,
         currentIndex,
         setCurrentIndex,
-        totalItems: items.length,
+        totalItems,
         scrollTo,
         scrollerRef,
         alignment
@@ -86,33 +94,39 @@ export const Root = <Item,>({
   )
 }
 
-export interface CarouselScrollerProps<Item>
+export interface CarouselScrollerProps
   extends Omit<ComponentProps<'ul'>, 'children'> {
-  children: (item: Item, index: number) => ReactNode
+  children: ReactNode
+  padded?: boolean
+  containerProps?: ContainerProps
 }
 
-export const Scroller = <Item,>({
+export const Scroller = ({
   children,
   className,
+  padded,
+  containerProps,
   ...props
-}: CarouselScrollerProps<Item>) => {
-  const { scrollerRef, setCurrentIndex, alignment, items } =
+}: CarouselScrollerProps) => {
+  const { scrollerRef, setCurrentIndex, alignment } =
     useContext(CarouselContext)
   const timer = useRef<number>()
   const onScrollEnd = useCallback(() => {
     if (!scrollerRef.current) return
-    const currentIndex = getCurrentIndex(
-      scrollerRef.current?.parentElement,
-      alignment
-    )
+    const currentIndex = getCurrentIndex(scrollerRef.current, alignment)
     if (typeof currentIndex !== 'undefined') setCurrentIndex(currentIndex)
   }, [alignment, setCurrentIndex, scrollerRef])
   return (
     <ul
       ref={scrollerRef}
       className={cn(
-        'relative flex overflow-y-hidden overflow-x-auto snap-x snap-mandatory whitespace-nowrap py-16 items-center scrollbar-hidden',
-        className
+        'relative flex overflow-y-hidden overflow-x-auto snap-x snap-mandatory whitespace-nowrap items-center scrollbar-hidden justify-start pb-16',
+        className,
+        padded &&
+          cn(
+            containerClasses(containerProps),
+            containerClasses({ ...containerProps, scroll: true })
+          )
       )}
       onScroll={() => {
         if (timer.current) window.clearTimeout(timer.current)
@@ -120,41 +134,46 @@ export const Scroller = <Item,>({
       }}
       {...props}
     >
-      {items.map(children)}
+      {children}
     </ul>
   )
 }
 
-export type CarouselItemProps = ComponentProps<'li'> & { index: number }
+export type CarouselItemProps = {
+  index: number
+  children: JSX.Element
+  onClick?: (e: MouseEvent) => void
+  className?: string
+}
 
 export const Item: FC<CarouselItemProps> = ({
   children,
   onClick,
-  className,
   index,
-  ...props
+  className
 }) => {
-  const { scrollTo } = useContext(CarouselContext)
+  const { scrollTo, alignment } = useContext(CarouselContext)
 
-  return (
-    <li
-      {...props}
-      className={cn('snap-center flex-none w-max', className)}
-      onClick={(e) => {
-        scrollTo(index)
-        onClick?.(e)
-      }}
-    >
-      {children}
-    </li>
-  )
+  return cloneElement(children, {
+    className: cn(
+      'flex-none w-max',
+      children.props.className,
+      alignment === 'center' && 'snap-center',
+      alignment === 'left' && 'snap-start',
+      className
+    ),
+    onClick(e: MouseEvent) {
+      scrollTo(index)
+      onClick?.(e)
+    }
+  })
 }
 
 export const Buttons: FC<ComponentProps<'div'>> = ({ className, ...props }) => {
   const { currentIndex, totalItems, scrollTo } = useContext(CarouselContext)
 
   return (
-    <div className={cn('flex', className)} {...props}>
+    <div className={cn('hidden md:flex', className)} {...props}>
       <button
         className="w-14 h-14 border border-black bg-white flex items-center justify-center -mr-px group"
         onClick={() => scrollTo(currentIndex - 1)}
