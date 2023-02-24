@@ -1,12 +1,11 @@
 'use client'
 
 import { FC, useState } from 'react'
+import { FilterBar } from 'src/components/lists/filter-bar'
 import { Pagination } from 'src/components/lists/pagination'
 import { prefetch, useFetcher } from 'src/contexts/fetcher'
-import { PublishersItem } from './item'
 import { FetchPublishersInput } from 'src/services/publishers/fetch-publishers'
-import cn from 'classnames'
-import { FilterBar } from 'src/components/lists/filter-bar'
+import { PublisherGrid } from './grid'
 
 export type PublishersListProps = {
   fallback?: FetchPublishersInput
@@ -32,22 +31,13 @@ export const PublishersList: FC<PublishersListProps> = ({
       onPreload={(page) => prefetch('publishers', { ...filters, page })}
     >
       <FilterBar
-        label="Show"
+        title="Publishers"
         search={{
           value: filters?.search,
           onChange: (search) => setFilters({ ...filters, page: 0, search })
         }}
       />
-      <ul
-        className={cn(
-          'grid auto-grid-lg transition-opacity',
-          isLoading && 'opacity-50'
-        )}
-      >
-        {publishers.map((profile) => (
-          <PublishersItem key={profile.id} publisher={profile} />
-        ))}
-      </ul>
+      <PublisherGrid publishers={publishers} loading={isLoading} />
       {publishers.length === 0 && <p>No publishers found</p>}
     </Pagination>
   )

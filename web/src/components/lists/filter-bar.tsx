@@ -40,7 +40,9 @@ export const FilterBar: FC<FilterBarProps> = ({
             <Search
               {...searchProps}
               onReset={() => setShowSearch(false)}
-              onBlur={() => setShowSearch(false)}
+              onBlur={() => {
+                !searchProps.value?.length && setShowSearch(false)
+              }}
             />
           </div>
         ) : (

@@ -7,10 +7,9 @@ import {
   FetchProfilesOutput
 } from 'src/services/profiles/fetch-profiles'
 import { prefetch, useFetcher } from 'src/contexts/fetcher'
-import { AuthorItem } from './item'
-import cn from 'classnames'
 import { Sort } from 'src/components/lists/sort'
 import { FilterBar } from 'src/components/lists/filter-bar'
+import { AuthorsGrid } from './grid'
 
 export type AuthorListProps = {
   fallback?: FetchProfilesOutput
@@ -50,16 +49,7 @@ export const AuthorsList: FC<AuthorListProps> = ({
           onPreload={(sort) => prefetch('profiles', { ...filters, sort })}
         />
       </FilterBar>
-      <ul
-        className={cn(
-          'grid auto-grid-md gap-x-8 gap-y-16 transition-opacity',
-          isLoading && 'opacity-50'
-        )}
-      >
-        {profiles.map((profile) => (
-          <AuthorItem key={profile.id} profile={profile} />
-        ))}
-      </ul>
+      <AuthorsGrid profiles={profiles} loading={isLoading} />
       {profiles.length === 0 && <p>No authors found</p>}
     </Pagination>
   )

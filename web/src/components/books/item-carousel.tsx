@@ -4,7 +4,6 @@ import { FC } from 'react'
 import { Book } from 'src/models/book'
 import * as Carousel from 'src/components/atoms/carousel'
 import { BookItem } from './item'
-import cn from 'classnames'
 import { Container } from '../atoms/container'
 import Link from 'next/link'
 
@@ -31,7 +30,7 @@ export const ItemCarousel: FC<ItemCarouselProps> = ({
       <Container>
         <h3 className="all-caps mb-8">{title}</h3>
       </Container>
-      <div className="relative">
+      <div className="relative overflow-x-hidden">
         <Carousel.Root totalItems={total} alignment="left">
           <Carousel.Scroller
             padded

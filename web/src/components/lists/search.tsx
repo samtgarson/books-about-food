@@ -48,11 +48,14 @@ export const Search: FC<SearchProps> = ({
       />
       <button
         onClick={() => {
-          onReset?.()
           setInternalValue('')
-          startTransition(() => apply(''))
+          apply('')
+          onReset?.()
         }}
-        className="absolute right-0 inset-y-0 flex items-center bg-transparent group-focus-within:opacity-100 opacity-0 transition-opacity"
+        className={cn(
+          'absolute right-0 inset-y-0 flex items-center bg-transparent group-focus-within:opacity-100 opacity-0 transition-opacity',
+          value?.length && 'opacity-100'
+        )}
         aria-label="Reset"
       >
         <X strokeWidth={1} size={24} />
