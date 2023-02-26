@@ -31,9 +31,9 @@ export const Pagination: FC<PaginationProps> = ({
   const displayPages = useMemo(() => {
     const pages = Array.from({ length: totalPages }, (_, i) => i)
     if (totalPages <= 5) return [pages]
-    if (page < 3) return [pages.slice(0, 4), pages.slice(-1)]
-    if (page > totalPages - 3) return [pages.slice(0, 1), pages.slice(-4)]
-    return [pages.slice(0, 1), pages.slice(page - 2, page + 1), pages.slice(-1)]
+    if (page < 4) return [pages.slice(0, 5), pages.slice(-1)]
+    if (page > totalPages - 5) return [pages.slice(0, 1), pages.slice(-5)]
+    return [pages.slice(0, 1), pages.slice(page - 2, page + 3), pages.slice(-1)]
   }, [page, totalPages])
 
   return (
