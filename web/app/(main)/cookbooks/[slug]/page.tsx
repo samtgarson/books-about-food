@@ -44,16 +44,18 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
           </div>
         </AntiContainer>
         <AntiContainer desktop={false}>
-          <Container
-            desktop={false}
-            className="pt-4 md:pt-0 mb-4 sm:mb-8 border-t border-black sm:border-t-0"
-          >
-            <ProfileListSection
-              data-superjson
-              profiles={book.authors}
-              title={book.authors.length > 1 ? 'Authors' : 'Author'}
-            />
-          </Container>
+          {book.authors.length > 0 && (
+            <Container
+              desktop={false}
+              className="pt-4 md:pt-0 mb-4 sm:mb-8 border-t border-black sm:border-t-0"
+            >
+              <ProfileListSection
+                data-superjson
+                profiles={book.authors}
+                title={book.authors.length > 1 ? 'Authors' : 'Author'}
+              />
+            </Container>
+          )}
           <Container
             desktop={false}
             className="pt-4 md:pt-0 mb-4 sm:mb-0 border-t border-black sm:border-t-0"
@@ -82,20 +84,24 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
                 <Link href={book.publisher.url}>{book.publisher.name}</Link>
               </p>
             </Detail>
-            <Detail column>
-              <p>Release Date</p>
-              <p>{book.formattedReleaseDate}</p>
-            </Detail>
+            {book.releaseDate && (
+              <Detail column>
+                <p>Release Date</p>
+                <p>{book.formattedReleaseDate}</p>
+              </Detail>
+            )}
             {book.tags.length > 0 && (
               <Detail column>
                 <p>Tags</p>
                 <TagList tags={book.tags} />
               </Detail>
             )}
-            <Detail column>
-              <p>No. of Pages</p>
-              <p>{book.pages}</p>
-            </Detail>
+            {book.pages && (
+              <Detail column>
+                <p>No. of Pages</p>
+                <p>{book.pages}</p>
+              </Detail>
+            )}
           </Container>
         </AntiContainer>
       </Container>

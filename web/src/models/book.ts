@@ -10,8 +10,8 @@ export class Book {
   subtitle?: string
   slug: string
   cover?: Image
-  releaseDate: Date
-  pages: number
+  releaseDate?: Date
+  pages?: number
   contributions: BookAttrs['contributions']
 
   constructor({
@@ -57,14 +57,14 @@ export class Book {
   }
 
   get formattedReleaseDate() {
-    return format(this.releaseDate, 'd MMMM yyyy')
+    return this.releaseDate && format(this.releaseDate, 'd MMMM yyyy')
   }
 
   get shortReleaseDate() {
-    return format(this.releaseDate, 'MMM yyyy')
+    return this.releaseDate && format(this.releaseDate, 'MMM yyyy')
   }
 
   get publishedInFuture() {
-    return isFuture(this.releaseDate)
+    return this.releaseDate && isFuture(this.releaseDate)
   }
 }

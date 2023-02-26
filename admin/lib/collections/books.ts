@@ -30,7 +30,7 @@ const uploadPreviews = async (dataUris: string[] = [], bookId: string) => {
 
 const updateProfiles = async (bookId: string) => {
   const book = await prisma.book.findUnique({ where: { id: bookId } })
-  if (!book) return
+  if (!book?.releaseDate) return
 
   await prisma.profile.updateMany({
     where: {

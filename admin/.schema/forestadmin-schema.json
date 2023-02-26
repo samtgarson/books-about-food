@@ -696,14 +696,12 @@
         "isFilterable": true,
         "isPrimaryKey": false,
         "isReadOnly": false,
-        "isRequired": true,
+        "isRequired": false,
         "isSortable": true,
         "isVirtual": false,
         "reference": null,
         "type": "Number",
-        "validations": [
-          {"type": "is present", "message": "Failed validation rule: 'Present'"}
-        ]
+        "validations": []
       },
       {
         "defaultValue": null,
@@ -733,14 +731,12 @@
         "isFilterable": true,
         "isPrimaryKey": false,
         "isReadOnly": false,
-        "isRequired": true,
+        "isRequired": false,
         "isSortable": true,
         "isVirtual": false,
         "reference": null,
         "type": "Dateonly",
-        "validations": [
-          {"type": "is present", "message": "Failed validation rule: 'Present'"}
-        ]
+        "validations": []
       },
       {
         "defaultValue": null,
