@@ -41,6 +41,14 @@ const updateProfiles = async (bookId: string) => {
   })
 }
 
+const updateTags = async (bookId: string, tags: string[]) =>
+  prisma.book.update({
+    where: { id: bookId },
+    data: {
+      tags: { set: tags.map((name) => ({ name })) }
+    }
+  })
+
 export const customiseBooks = (
   collection: CollectionCustomizer<Schema, 'books'>
 ) => {
@@ -104,12 +112,9 @@ export const customiseBooks = (
       columnType: ['String']
     })
     .replaceFieldWriting('Tags', async (tags, context) => {
-      await prisma.book.update({
-        where: { id: context.record.id },
-        data: {
-          tags: { set: tags.map((name) => ({ name })) }
-        }
-      })
+      if (context.record.id) await updateTags(context.record.id, tags)
+
+      return { Tags: tags }
     })
     .emulateFieldFiltering('Tags')
 
@@ -155,6 +160,8 @@ export const customiseBooks = (
     await Promise.all(
       context.records.map(async (record, i) => {
         const data = context.data[i]
+
+        await updateTags(record.id, data.Tags)
         await uploadCover(data.Cover, record.id)
         await uploadPreviews(data['Preview Images'], record.id)
         await updateProfiles(record.id)
