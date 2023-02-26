@@ -154,14 +154,12 @@ const FilterSelectContent = <Value extends string | number = string>({
           </Sheet.Header>
           <form>
             {search && (
-              <div className="flex">
-                <Search
-                  debounce={0}
-                  value={searchValue}
-                  onChange={setSearchValue}
-                  className="text-20 sm:text-24 mb-4 sm:mb-6"
-                />
-              </div>
+              <Search
+                debounce={0}
+                value={searchValue}
+                onChange={setSearchValue}
+                className="text-20 sm:text-24 mb-4 sm:mb-6"
+              />
             )}
             <ul className="flex flex-col gap-2 sm:gap-3">
               {filteredOptions.map((option) => (
