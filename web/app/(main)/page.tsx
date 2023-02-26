@@ -3,7 +3,6 @@ import { ItemCarousel } from 'src/components/books/item-carousel'
 import { FeatureCarousel } from 'src/components/home/feature-carousel'
 import { fetchFeatures } from 'src/services/features/fetch-features'
 import { fetchHome } from 'src/services/home/fetch'
-import { AuthorsGrid } from './authors/grid'
 import { PeopleGrid } from './people/grid'
 import { PublisherGrid } from './publishers/grid'
 
@@ -39,13 +38,6 @@ const Page = async () => {
           their published cookbooks and new releases—alongside a directory of
           the people involved in making them.
         </p>
-      </Container>
-      <Container className="py-12 md:py-20 bg-gradient-to-b from-sand to-grey">
-        <h3 className="all-caps mb-6 md:mb-8">Author Spotlight</h3>
-        <AuthorsGrid
-          profiles={home.authors}
-          viewMoreLink={{ path: '/authors', label: 'View Others' }}
-        />
       </Container>
       <Container className="py-12 md:py-20">
         <h3 className="all-caps mb-6 md:mb-8">Featured People</h3>
