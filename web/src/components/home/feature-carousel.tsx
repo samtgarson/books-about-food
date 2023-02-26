@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { FC, Fragment, useState } from 'react'
 import { Feature } from 'src/services/features/fetch-features'
 import { Avatar } from '../atoms/avatar'
-import { Container } from '../atoms/container'
+import { Container, containerClasses } from '../atoms/container'
 
 export type FeatureCarouselProps = {
   features: Feature[]
@@ -51,9 +51,9 @@ const FeatureCarouselItem = ({
       className={cn(
         'flex items-start lg:items-center lg:justify-center gap-8 lg:gap-20 flex-col lg:flex-row h-full w-full max-w-4xl top-0',
         {
-          'lg:mx-auto flex-grow px-5': pos.current,
-          'absolute right-full lg:-mr-[44rem]': pos.prev,
-          'absolute left-full -ml-24': pos.next,
+          [`lg:mx-auto flex-grow ${containerClasses()}`]: pos.current,
+          'absolute right-full lg:-mr-[42rem] xl:-mr-[44rem]': pos.prev,
+          'absolute left-full -ml-[3.5rem] sm:-ml-24': pos.next,
           'absolute right-full': pos.offPrev,
           'absolute left-full': pos.offNext
         }
@@ -65,7 +65,7 @@ const FeatureCarouselItem = ({
       {feature.book.cover && (
         <Image
           {...feature.book.cover?.imageAttrs(360)}
-          className="book-shadow max-w-none"
+          className="book-shadow max-w-none h-[250px] sm:h-[360px] w-auto"
         />
       )}
       <div
