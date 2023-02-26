@@ -17,7 +17,7 @@ export const PublisherGrid: FC<PublisherListProps> = ({
   publishers,
   loading,
   className,
-  square,
+  square = true,
   viewMoreLink
 }) => (
   <GridContainer

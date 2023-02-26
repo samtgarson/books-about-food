@@ -11,17 +11,12 @@ export const PublishersItem = ({
   publisher,
   square = true
 }: PublishersItemProps) => (
-  <li
-    className={cn(
-      'sm:-mr-px -mb-px last:mb-0 sm:last:-mb-px',
-      square && 'sm:aspect-square'
-    )}
-  >
+  <li className={cn('sm:-mr-px -mb-px last:mb-0 sm:last:-mb-px')}>
     <Link
       href={`/publishers/${publisher.slug}`}
       className={cn(
         'w-full border border-black flex justify-center items-center p-6 text-center text-18 sm:text-24',
-        square && 'h-full'
+        square && 'h-full sm:aspect-square'
       )}
     >
       <p>{publisher.name}</p>
