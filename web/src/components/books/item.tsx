@@ -35,27 +35,22 @@ export const BookItem = ({
             <Image
               {...book.cover.imageAttrs(200)}
               className={cn(
-                'sm:absolute h-24 sm:!h-[80%] sm:!top-[10%] sm:mx-auto sm:inset-x-0 !w-auto book-shadow',
-                mobileGrid && 'absolute h-[80%] top-[10%] mx-auto inset-x-0'
+                'sm:absolute h-24 sm:!h-[70%] sm:!top-[15%] sm:mx-auto sm:inset-x-0 !w-auto book-shadow',
+                mobileGrid && 'absolute h-[70%] top-[15%] mx-auto inset-x-0'
               )}
             />
           ) : (
             <div
               aria-hidden
               className={cn(
-                'sm:absolute h-24 sm:!h-[80%] sm:!top-[10%] sm:mx-auto sm:inset-x-0 w-16 sm:w-[60%] bg-opacity-50 bg-white',
+                'sm:absolute h-24 sm:!h-[70%] sm:!top-[15%] sm:mx-auto sm:inset-x-0 w-16 sm:w-[60%] bg-opacity-50 bg-white',
                 mobileGrid &&
-                  'absolute h-[80%] top-[10%] mx-auto inset-x-0 w-[60%]'
+                  'absolute h-[70%] top-[15%] mx-auto inset-x-0 w-[60%]'
               )}
             />
           )}
         </div>
-        <div
-          className={cn(
-            'sm:pr-4 sm:mt-auto w-full',
-            mobileGrid && 'pr-4 mt-auto'
-          )}
-        >
+        <div className={cn('sm:pr-4 w-full', mobileGrid && 'pr-4')}>
           <p className="font-medium text-16 mb-1">{book.title}</p>
           <p className="text-14">{book.authorNames}</p>
         </div>

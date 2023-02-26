@@ -14,6 +14,7 @@ export type SheetProps = {
 type SheetContext = {
   mobileOnly?: boolean
   close: () => void
+  open: () => void
   onCancel?: () => void
 }
 const SheetContext = createContext<SheetContext>({} as SheetContext)
@@ -40,19 +41,21 @@ export const Content = ({ children }: { children: ReactNode }) => {
   const { onCancel } = useSheetContext()
   return (
     <Dialog.Portal>
-      <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-80 animate-fade-in" />
-      <Dialog.Content
-        onEscapeKeyDown={() => onCancel?.()}
-        onPointerDownOutside={() => onCancel?.()}
-        onInteractOutside={() => onCancel?.()}
-        className="flex flex-col justify-end sm:justify-center fixed inset-x-0 bottom-0 sm:top-0 z-50 animate-fade-slide-in sm:max-w-lg sm:mx-auto"
-        aria-describedby={undefined}
-      >
-        <Dialog.Close className="p-4 self-end">
-          <X strokeWidth={1} size={24} className="stroke-white" />
-        </Dialog.Close>
-        <div className="book-shadow">{children}</div>
-      </Dialog.Content>
+      <Dialog.Overlay className="fixed z-50 inset-0 bg-black bg-opacity-80 animate-fade-in" />
+      <div className="fixed inset-0 flex items-end sm:items-center justify-center z-50 pointer-events-none">
+        <Dialog.Content
+          onEscapeKeyDown={() => onCancel?.()}
+          onPointerDownOutside={() => onCancel?.()}
+          onInteractOutside={() => onCancel?.()}
+          className="animate-fade-slide-in sm:max-w-lg flex-shrink-0 flex flex-col w-full"
+          aria-describedby={undefined}
+        >
+          <Dialog.Close className="p-4 self-end">
+            <X strokeWidth={1} size={24} className="stroke-white" />
+          </Dialog.Close>
+          {children}
+        </Dialog.Content>
+      </div>
     </Dialog.Portal>
   )
 }
@@ -65,7 +68,10 @@ export const Body = ({
   children: ReactNode
 }) => (
   <div
-    className={cn('bg-white p-5 sm:p-8 max-h-[70vh] overflow-auto', className)}
+    className={cn(
+      'book-shadow bg-white p-5 sm:p-8 max-h-[70vh] overflow-auto',
+      className
+    )}
   >
     {children}
   </div>
@@ -94,7 +100,12 @@ export const Root: FC<SheetProps> = ({ children, mobileOnly, onCancel }) => {
 
   return (
     <SheetContext.Provider
-      value={{ mobileOnly, close: () => setOpen(false), onCancel }}
+      value={{
+        mobileOnly,
+        close: () => setOpen(false),
+        open: () => setOpen(true),
+        onCancel
+      }}
     >
       <Dialog.Root open={open} onOpenChange={setOpen}>
         {children}

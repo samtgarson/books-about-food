@@ -1,11 +1,11 @@
-import { FC, useRef, useState } from 'react'
+import { FC, ReactNode, useRef, useState } from 'react'
 import { Search as SearchIcon } from 'react-feather'
 import { AntiContainer, Container } from '../atoms/container'
 import { PageTitle } from '../atoms/page-title'
 import { Search, SearchProps } from './search'
 
 export type FilterBarProps = {
-  children?: React.ReactNode
+  children?: ReactNode
   search?: Omit<SearchProps, 'className'>
   label?: string
   title?: string

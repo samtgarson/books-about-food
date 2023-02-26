@@ -21,7 +21,10 @@ export const CorrectionButton: FC<CorrectionButtonProps> = ({
       <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
         <Plus size={23} strokeWidth={1} />
       </div>
-      <p>Know anyone who was involved in this project?</p>
+      <p>
+        Know anyone{!!book.team.length && ' else'} who was involved in this
+        project?
+      </p>
     </Link>
   )
 }
