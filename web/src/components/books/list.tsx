@@ -28,7 +28,7 @@ export const BookList: FC<BookListProps> = ({
 }) => {
   const [filters, setFilters] = useState<FetchBooksInput>(initialFilters)
   const { data, isLoading } = useFetcher('books', filters, { fallbackData })
-  const isLoadingSlow = useDelayedFlag(isLoading, 10)
+  const isLoadingSlow = useDelayedFlag(isLoading, 500)
 
   useEffect(() => {
     const params = new URLSearchParams(location.search)

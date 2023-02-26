@@ -40,36 +40,38 @@ export const Pagination: FC<PaginationProps> = ({
     <>
       <div ref={anchor} className="h-px w-full" />
       {children}
-      <ul className="flex gap-2 mt-20 flex-wrap">
-        {displayPages.map((pageGroup, i) => (
-          <Fragment key={`group-${i}`}>
-            {pageGroup.map((p) => (
-              <li key={p} className="list-none">
-                <Pill
-                  onClick={async () => {
-                    onChange(p)
-                    scrollToTop()
-                  }}
-                  onMouseOver={() => onPreload?.(p)}
-                  selected={page === p}
-                  disabled={page === p}
-                  className="w-10 h-11 !p-0"
-                  title={`Page ${p + 1}`}
-                >
-                  {p + 1}
-                </Pill>
-              </li>
-            ))}
-            {i < displayPages.length - 1 && (
-              <li className="list-none" key={`ellipsis-${i}`}>
-                <Pill className="w-10 h-11 !p-0" disabled>
-                  …
-                </Pill>
-              </li>
-            )}
-          </Fragment>
-        ))}
-      </ul>
+      {totalPages > 1 && (
+        <ul className="flex gap-2 mt-20 flex-wrap">
+          {displayPages.map((pageGroup, i) => (
+            <Fragment key={`group-${i}`}>
+              {pageGroup.map((p) => (
+                <li key={p} className="list-none">
+                  <Pill
+                    onClick={async () => {
+                      onChange(p)
+                      scrollToTop()
+                    }}
+                    onMouseOver={() => onPreload?.(p)}
+                    selected={page === p}
+                    disabled={page === p}
+                    className="w-10 h-11 !p-0"
+                    title={`Page ${p + 1}`}
+                  >
+                    {p + 1}
+                  </Pill>
+                </li>
+              ))}
+              {i < displayPages.length - 1 && (
+                <li className="list-none" key={`ellipsis-${i}`}>
+                  <Pill className="w-10 h-11 !p-0" disabled>
+                    …
+                  </Pill>
+                </li>
+              )}
+            </Fragment>
+          ))}
+        </ul>
+      )}
     </>
   )
 }

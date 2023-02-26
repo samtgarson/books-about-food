@@ -6,6 +6,7 @@ import { Detail } from 'src/components/atoms/detail'
 import { LinkList } from 'src/components/atoms/link-list'
 import { BookList } from 'src/components/books/list'
 import { FavouriteButton } from 'src/components/favourites/favourite-button'
+import { ClaimProfileButton } from 'src/components/profiles/claim-button'
 import { ProfileListSection } from 'src/components/profiles/list-section'
 import { fetchBooks, FetchBooksInput } from 'src/services/books/fetch-books'
 import { fetchFrequentCollaborators } from 'src/services/books/fetch-frequent-collaborators'
@@ -37,11 +38,16 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
   return (
     <>
       <Container className="pt-8 md:pt-20" key="header" belowNav>
-        <div className="flex items-stretch md:items-start flex-col md:flex-row relative gap-6">
+        <div className="flex items-stretch lg:items-start flex-col lg:flex-row relative gap-6">
           <div className="flex-grow w-full">
             <h1 className="font-style-title flex items-center">
               {profile.name}
             </h1>
+            <ClaimProfileButton
+              data-superjson
+              profile={profile}
+              className="sm:hidden mb-10 mt-6 w-full"
+            />
             {profile.description && (
               <p className="text-16 mt-4 max-w-prose">{profile.description}</p>
             )}
@@ -54,9 +60,14 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
               )}
             </div>
           </div>
-          <div className="order-first md:order-last flex md:flex-col flex-shrink-0 items-start md:items-end gap-5 justify-between">
+          <div className="order-first lg:order-last flex lg:flex-col flex-shrink-0 items-start lg:items-end gap-5 justify-between">
             <Avatar profile={profile} size="xl" mobileSize="md" />
             <div className="flex gap-2 items-center">
+              <ClaimProfileButton
+                data-superjson
+                profile={profile}
+                className="hidden sm:flex"
+              />
               <FavouriteButton profileId={profile.id} />
               <MoreHorizontal strokeWidth={1} />
             </div>

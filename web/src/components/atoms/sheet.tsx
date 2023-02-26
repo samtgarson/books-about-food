@@ -1,15 +1,17 @@
 'use client'
 
-import { createContext, FC, ReactNode, useContext, useState } from 'react'
+import {
+  createContext,
+  FC,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState
+} from 'react'
 import cn from 'classnames'
 import * as Dialog from '@radix-ui/react-dialog'
 import { X } from 'react-feather'
-
-export type SheetProps = {
-  children: ReactNode
-  mobileOnly?: boolean
-  onCancel?: () => void
-}
+import { useRouter, useSearchParams } from 'next/navigation'
 
 type SheetContext = {
   mobileOnly?: boolean
@@ -47,10 +49,10 @@ export const Content = ({ children }: { children: ReactNode }) => {
           onEscapeKeyDown={() => onCancel?.()}
           onPointerDownOutside={() => onCancel?.()}
           onInteractOutside={() => onCancel?.()}
-          className="animate-fade-slide-in sm:max-w-lg flex-shrink-0 flex flex-col w-full"
+          className="animate-fade-slide-in sm:max-w-lg flex-shrink-0 flex flex-col w-full pointer-events-none"
           aria-describedby={undefined}
         >
-          <Dialog.Close className="p-4 self-end">
+          <Dialog.Close className="p-4 self-end pointer-events-auto">
             <X strokeWidth={1} size={24} className="stroke-white" />
           </Dialog.Close>
           {children}
@@ -69,7 +71,7 @@ export const Body = ({
 }) => (
   <div
     className={cn(
-      'book-shadow bg-white p-5 sm:p-8 max-h-[70vh] overflow-auto',
+      'book-shadow bg-white p-5 sm:p-8 max-h-[70vh] overflow-auto pointer-events-auto',
       className
     )}
   >
@@ -95,8 +97,29 @@ export const Footer = ({ children }: { children: ReactNode }) => (
   <div className="bg-white">{children}</div>
 )
 
-export const Root: FC<SheetProps> = ({ children, mobileOnly, onCancel }) => {
+export type SheetProps = {
+  children: ReactNode
+  mobileOnly?: boolean
+  onCancel?: () => void
+  action?: string
+}
+
+export const Root: FC<SheetProps> = ({
+  children,
+  mobileOnly,
+  onCancel,
+  action
+}) => {
   const [open, setOpen] = useState(false)
+  const router = useRouter()
+  const search = useSearchParams()
+
+  useEffect(() => {
+    if (action && search.get('action') === action) {
+      if (!open) setOpen(true)
+      router.replace(location.pathname)
+    }
+  }, [action, search, open, router])
 
   return (
     <SheetContext.Provider
