@@ -22,6 +22,10 @@ type CarouselContext = {
   scrollTo(index: number): void
   scrollerRef: RefObject<HTMLUListElement>
   alignment: CarouselAlginment
+  canGoLeft: boolean
+  canGoRight: boolean
+  setCanGoLeft: (canGoLeft: boolean) => void
+  setCanGoRight: (canGoRight: boolean) => void
 }
 
 const CarouselContext = createContext({} as CarouselContext)
@@ -64,16 +68,21 @@ export const Root = ({
 }: CarouselRootProps) => {
   const scrollerRef = useRef<HTMLUListElement>(null)
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [canGoLeft, setCanGoLeft] = useState(false)
+  const [canGoRight, setCanGoRight] = useState(true)
 
   const scrollTo = useCallback(
     (index: number) => {
       if (!scrollerRef.current) return
-      const item = scrollerRef.current.children[index]
-      item.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: alignment === 'center' ? 'center' : 'start'
-      })
+      const item = scrollerRef.current.children[index] as HTMLElement
+      const itemLeft = item.offsetLeft
+      const wrapperWidth = scrollerRef.current.parentElement
+        ?.clientWidth as number
+      const left =
+        alignment === 'left'
+          ? itemLeft
+          : itemLeft + wrapperWidth / 2 - item.offsetWidth / 2
+      scrollerRef.current.scrollTo({ left, behavior: 'smooth' })
     },
     [alignment]
   )
@@ -86,7 +95,11 @@ export const Root = ({
         totalItems,
         scrollTo,
         scrollerRef,
-        alignment
+        alignment,
+        canGoLeft,
+        canGoRight,
+        setCanGoLeft,
+        setCanGoRight
       }}
     >
       {children}
@@ -108,14 +121,24 @@ export const Scroller = ({
   containerProps,
   ...props
 }: CarouselScrollerProps) => {
-  const { scrollerRef, setCurrentIndex, alignment } =
-    useContext(CarouselContext)
+  const {
+    scrollerRef,
+    setCurrentIndex,
+    alignment,
+    setCanGoRight,
+    setCanGoLeft
+  } = useContext(CarouselContext)
   const timer = useRef<number>()
   const onScrollEnd = useCallback(() => {
     if (!scrollerRef.current) return
-    const currentIndex = getCurrentIndex(scrollerRef.current, alignment)
+    const scroller = scrollerRef.current
+    const currentIndex = getCurrentIndex(scroller, alignment)
     if (typeof currentIndex !== 'undefined') setCurrentIndex(currentIndex)
-  }, [alignment, setCurrentIndex, scrollerRef])
+
+    const maxScroll = scroller.scrollWidth - scroller.clientWidth
+    setCanGoLeft(scroller.scrollLeft > 0)
+    setCanGoRight(scroller.scrollLeft < maxScroll)
+  }, [alignment, setCurrentIndex, scrollerRef, setCanGoLeft, setCanGoRight])
   return (
     <ul
       ref={scrollerRef}
@@ -170,21 +193,22 @@ export const Item: FC<CarouselItemProps> = ({
 }
 
 export const Buttons: FC<ComponentProps<'div'>> = ({ className, ...props }) => {
-  const { currentIndex, totalItems, scrollTo } = useContext(CarouselContext)
+  const { currentIndex, totalItems, scrollTo, canGoLeft, canGoRight } =
+    useContext(CarouselContext)
 
   return (
     <div className={cn('hidden md:flex', className)} {...props}>
       <button
         className="w-14 h-14 border border-black bg-white flex items-center justify-center -mr-px group"
         onClick={() => scrollTo(currentIndex - 1)}
-        disabled={currentIndex === 0}
+        disabled={currentIndex === 0 || !canGoLeft}
       >
         <ChevronLeft className="group-disabled:opacity-50 transition-opacity" />
       </button>
       <button
         className="w-14 h-14 border border-black bg-white flex items-center justify-center group"
         onClick={() => scrollTo(currentIndex + 1)}
-        disabled={currentIndex === totalItems - 1}
+        disabled={currentIndex === totalItems - 1 || !canGoRight}
       >
         <ChevronRight className="group-disabled:opacity-50 transition-opacity" />
       </button>
