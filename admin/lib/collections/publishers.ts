@@ -23,6 +23,7 @@ export const customisePublishers = (
       getValues: async (records) => {
         return Promise.all(
           records.map(async (record) => {
+            if (!record.id) return null
             const image = await prisma.image.findUnique({
               where: { publisherId: record.id }
             })

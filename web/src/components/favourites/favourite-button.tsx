@@ -16,9 +16,11 @@ export const FavouriteButton: FC<FavouriteButtonProps> = ({
   profileId,
   className
 }) => {
-  const { data, mutate, isValidating, isLoading } = useFetcher('favourite', {
-    profileId
-  })
+  const { data, mutate, isValidating, isLoading } = useFetcher(
+    'favourite',
+    { profileId },
+    { authorized: true }
+  )
   const value = !!data
   const setFavourite = (isFavourite: boolean) =>
     mutate({ profileId, isFavourite })

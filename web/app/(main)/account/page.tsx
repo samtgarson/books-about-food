@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
 import { Container } from 'src/components/atoms/container'
 import { SignOutButton } from 'src/components/auth/sign-out-button'
@@ -7,7 +7,7 @@ import { getUser } from 'src/services/auth/get-user'
 
 const Page = async () => {
   const user = await getUser.call()
-  if (!user) notFound()
+  if (!user) redirect('auth/sign-in')
 
   return (
     <Container>

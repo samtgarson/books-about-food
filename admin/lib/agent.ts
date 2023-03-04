@@ -5,6 +5,7 @@ import { resolve } from 'path'
 import pkgDir from 'pkg-dir'
 import { getEnv } from 'shared/utils/get-env'
 import { customiseBooks } from './collections/books'
+import { customiseClaims } from './collections/claims'
 import { customiseContributions } from './collections/contributions'
 import { customiseImages } from './collections/images'
 import { customiseJobs } from './collections/jobs'
@@ -35,4 +36,5 @@ agent
   .customizeCollection('jobs', customiseJobs)
   .customizeCollection('images', customiseImages)
   .customizeCollection('links', customiseLinks)
+  .customizeCollection('claims', customiseClaims)
   .start()

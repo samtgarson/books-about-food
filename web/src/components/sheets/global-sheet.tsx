@@ -1,7 +1,6 @@
 'use client'
 
 import * as Dialog from '@radix-ui/react-dialog'
-import { ClaimProfileSheet } from './claim-profile'
 import {
   ComponentProps,
   createContext,
@@ -11,6 +10,7 @@ import {
   useEffect,
   useState
 } from 'react'
+import { ClaimProfileSheet } from './claim-profile'
 import { SignInSheet } from './sign-in'
 
 const SheetMap = {
@@ -23,7 +23,11 @@ type SheetMap = {
 }
 
 type GlobalSheetContext = {
-  openSheet: <T extends keyof SheetMap>(sheet: T, props: SheetMap[T]) => void
+  openSheet: <T extends keyof SheetMap>(
+    ...opts: undefined extends SheetMap[T]
+      ? [T] | [T, SheetMap[T]]
+      : [T, SheetMap[T]]
+  ) => void
   closeSheet: () => void
 }
 
@@ -32,11 +36,12 @@ type SheetState = {
   props: SheetMap[keyof SheetMap]
 }
 
-const GlobalSheetContext = createContext<GlobalSheetContext>(
+const globalSheetContext = createContext<GlobalSheetContext>(
   {} as GlobalSheetContext
 )
+const { Provider } = globalSheetContext
 
-export const useSheet = () => useContext(GlobalSheetContext)
+export const useSheet = () => useContext(globalSheetContext)
 
 export const useParamSheet = <T extends keyof SheetMap>(
   action: string,
@@ -59,8 +64,8 @@ export const GlobalSheetProvider = ({ children }: { children: ReactNode }) => {
   const [state, setSheet] = useState<SheetState | null>(null)
   const { Component, props } = state || {}
 
-  const openSheet = useCallback(
-    <T extends keyof SheetMap>(key: T, props: SheetMap[T]) => {
+  const openSheet = useCallback<GlobalSheetContext['openSheet']>(
+    (...[key, props]) => {
       setSheet({ Component: SheetMap[key], props })
     },
     []
@@ -71,7 +76,7 @@ export const GlobalSheetProvider = ({ children }: { children: ReactNode }) => {
   }, [])
 
   return (
-    <GlobalSheetContext.Provider value={{ openSheet, closeSheet }}>
+    <Provider value={{ openSheet, closeSheet }}>
       {children}
       <Dialog.Root
         open={!!Component}
@@ -83,6 +88,6 @@ export const GlobalSheetProvider = ({ children }: { children: ReactNode }) => {
         {/* @ts-expect-error how to type this? */}
         {Component && <Component {...props} />}
       </Dialog.Root>
-    </GlobalSheetContext.Provider>
+    </Provider>
   )
 }

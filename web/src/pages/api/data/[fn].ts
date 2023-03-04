@@ -14,6 +14,8 @@ import { getUser } from 'src/services/auth/get-user'
 import { fetchFavourite } from 'src/services/favourites/fetch-favourite'
 import { updateFavourite } from 'src/services/favourites/update-favourite'
 import { Service } from 'src/utils/service'
+import { fetchClaim } from 'src/services/claims/fetch-claim'
+import { createClaim } from 'src/services/claims/create-claim'
 
 export const fetchMap = {
   books: fetchBooks,
@@ -22,17 +24,19 @@ export const fetchMap = {
   publishers: fetchPublishers,
   tags: fetchTags,
   jobs: fetchJobs,
-  favourite: fetchFavourite
+  favourite: fetchFavourite,
+  claim: fetchClaim
 } as const
 
 export const mutateMap = {
-  favourite: updateFavourite
+  favourite: updateFavourite,
+  claim: createClaim
 } as const
 
 export type FetchMap = typeof fetchMap
 export type MutateMap = typeof mutateMap
 export type FetchKey = keyof FetchMap
-export type MutateKey = keyof MutateMap
+export type MutateKey = Extract<FetchKey, keyof MutateMap>
 
 export type FunctionArgs<Map, Key extends keyof Map> = z.infer<
   Map[Key] extends Service<infer I, any> ? I : never
@@ -54,6 +58,12 @@ const handler: NextApiHandler = async (req, res) => {
   }
 
   const user = await getUser.call({ req, res })
+  const { authorized, cache: { maxAge = 60, staleFor = 604800 } = {} } =
+    service.requestMeta
+
+  if (authorized && !user) {
+    return res.status(401).end()
+  }
 
   try {
     const parsed = input && superjson.parse(input)
@@ -61,7 +71,6 @@ const handler: NextApiHandler = async (req, res) => {
     const serialized = superjson.serialize(data)
 
     if (isFetch) {
-      const { maxAge = 60, staleFor = 604800 } = service.requestMeta
       res.setHeader(
         'Cache-Control',
         `s-maxage=${maxAge}, stale-while-revalidate=${staleFor}`

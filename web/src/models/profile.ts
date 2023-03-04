@@ -15,6 +15,7 @@ export class Profile {
   avatar?: Image
   jobs: string[]
   mostRecentlyPublishedOn?: Date
+  userId?: string
 
   constructor({
     id,
@@ -25,7 +26,8 @@ export class Profile {
     jobs,
     avatar,
     description,
-    mostRecentlyPublishedOn
+    mostRecentlyPublishedOn,
+    userId
   }: ProfileAttrs) {
     this.id = id
     this.name = name
@@ -36,6 +38,7 @@ export class Profile {
     this.avatar = avatar ? new Image(avatar, `Avatar for ${name}`) : undefined
     this.jobs = jobs.map((job) => job.name)
     this.mostRecentlyPublishedOn = mostRecentlyPublishedOn ?? undefined
+    this.userId = userId ?? undefined
   }
 
   get initials() {

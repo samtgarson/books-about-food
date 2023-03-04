@@ -2,8 +2,11 @@ import { User } from 'database'
 import { z } from 'zod'
 
 export type RequestMeta = {
-  maxAge?: number
-  staleFor?: number
+  cache?: {
+    maxAge?: number
+    staleFor?: number
+  }
+  authorized?: boolean
 }
 
 export class Service<Input extends z.ZodTypeAny, Return> {

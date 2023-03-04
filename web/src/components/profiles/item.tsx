@@ -16,7 +16,7 @@ export const ProfileItem = ({
 }: ProfileItemProps) => (
   <li
     className={cn(
-      'border sm:-mr-px -mb-px last:mb-0 sm:last:-mb-px',
+      'border sm:-mr-px -mb-px last:mb-0 sm:last:-mb-px list-none',
       className
     )}
   >

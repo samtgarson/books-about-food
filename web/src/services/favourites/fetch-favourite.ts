@@ -20,7 +20,10 @@ export const fetchFavourite = new Service(
     })
   },
   {
-    maxAge: 0,
-    staleFor: 0
+    cache: {
+      maxAge: 0,
+      staleFor: 0
+    },
+    authorized: true
   }
 )

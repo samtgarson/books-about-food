@@ -6,12 +6,15 @@ import {
   ReactNode,
   useContext,
   useEffect,
+  useMemo,
   useState
 } from 'react'
 import cn from 'classnames'
 import * as Dialog from '@radix-ui/react-dialog'
-import { X } from 'react-feather'
+import { Loader, X } from 'react-feather'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { useSession } from 'next-auth/react'
+import { useSheet } from '../sheets/global-sheet'
 
 type SheetContext = {
   mobileOnly?: boolean
@@ -39,8 +42,29 @@ export const Trigger: FC<
   )
 }
 
-export const Content = ({ children }: { children: ReactNode }) => {
+export const Content = ({
+  children,
+  authenticated
+}: {
+  children: ReactNode
+  authenticated?: boolean
+}) => {
   const { onCancel } = useSheetContext()
+  const { openSheet } = useSheet()
+  const { status } = useSession()
+
+  const content = useMemo(() => {
+    if (!authenticated || status === 'authenticated') return children
+    if (status === 'loading')
+      return (
+        <Body>
+          <Loader />
+        </Body>
+      )
+    openSheet('signIn')
+    return null
+  }, [authenticated, children, openSheet, status])
+
   return (
     <Dialog.Portal>
       <Dialog.Overlay className="fixed z-50 inset-0 bg-black bg-opacity-80 animate-fade-in" />
@@ -55,7 +79,7 @@ export const Content = ({ children }: { children: ReactNode }) => {
           <Dialog.Close className="p-4 self-end pointer-events-auto">
             <X strokeWidth={1} size={24} className="stroke-white" />
           </Dialog.Close>
-          {children}
+          {content}
         </Dialog.Content>
       </div>
     </Dialog.Portal>
@@ -64,9 +88,11 @@ export const Content = ({ children }: { children: ReactNode }) => {
 
 export const Body = ({
   className,
+  loading,
   children
 }: {
   className?: string
+  loading?: boolean
   children: ReactNode
 }) => (
   <div
@@ -75,7 +101,11 @@ export const Body = ({
       className
     )}
   >
-    {children}
+    {loading ? (
+      <Loader strokeWidth={1} className="animate-spin text-32 mx-auto my-8" />
+    ) : (
+      children
+    )}
   </div>
 )
 

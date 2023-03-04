@@ -41,7 +41,7 @@ const updateProfiles = async (bookId: string) => {
   })
 }
 
-const updateTags = async (bookId: string, tags: string[]) =>
+const updateTags = async (bookId: string, tags: string[] = []) =>
   prisma.book.update({
     where: { id: bookId },
     data: {
