@@ -1,4 +1,4 @@
-import { Prisma } from 'database'
+import type { Prisma } from 'database'
 
 type ProfileIncludes = {
   jobs: true

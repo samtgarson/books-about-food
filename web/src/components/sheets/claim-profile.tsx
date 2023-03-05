@@ -6,18 +6,22 @@ import { Profile } from 'src/models/profile'
 import { Button } from '../atoms/button'
 import { Body, Content, Header } from '../atoms/sheet'
 import { ProfileItem } from '../profiles/item'
+import { useSheet } from './global-sheet'
 
 export type ClaimProfileSheetProps = {
   profile: Profile
 }
 
 export const ClaimProfileSheet: FC<ClaimProfileSheetProps> = ({ profile }) => {
+  const { closeSheet } = useSheet()
   const {
     isLoading,
     data: claim,
-    mutate
+    mutate,
+    destroy
   } = useFetcher('claim', { profileId: profile.id }, { authorized: true })
   const [claiming, setClaiming] = useState(false)
+  const [destroying, setDestroying] = useState(false)
   const [copied, setCopied] = useState(false)
 
   const createClaim = useCallback(async () => {
@@ -113,6 +117,24 @@ export const ClaimProfileSheet: FC<ClaimProfileSheetProps> = ({ profile }) => {
                 </a>{' '}
                 and we&apos;ll sort it out.
               </p>
+              <button
+                className="font-medium text-14 bg-transparent disabled:opacity-50"
+                disabled={destroying}
+                onClick={async () => {
+                  setDestroying(true)
+                  await destroy({ claimId: claim.id })
+                  closeSheet()
+                }}
+              >
+                {destroying ? (
+                  <>
+                    Loading...{' '}
+                    <Loader className="animate-spin" strokeWidth={1} />
+                  </>
+                ) : (
+                  <>Cancel claim</>
+                )}
+              </button>
             </>
           )}
         </div>
