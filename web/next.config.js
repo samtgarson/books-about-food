@@ -12,7 +12,7 @@ const nextConfig = {
       ]
     ]
   },
-  transpilePackages: ['shared', 'database'],
+  transpilePackages: ['shared', 'database', 'email'],
   swcMinify: true,
   images: {
     remotePatterns: [
