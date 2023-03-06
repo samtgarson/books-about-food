@@ -14,7 +14,7 @@ const transport = nodemailer.createTransport({
 
 const sendMail = buildSendMail({
   transport,
-  defaultFrom: 'no-replay@booksaboutfood.info',
+  defaultFrom: 'Books About Food <no-reply@booksaboutfood.info',
   configPath: './mailing.config.json'
 })
 

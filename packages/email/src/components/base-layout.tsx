@@ -4,13 +4,12 @@ import {
   MjmlAttributes,
   MjmlBody,
   MjmlColumn,
-  MjmlFont,
   MjmlHead,
   MjmlSection,
   MjmlStyle,
   MjmlWrapper
 } from 'mjml-react'
-import React from 'react'
+import { ReactNode } from 'react'
 import { colors, screens, themeDefaults } from '../theme'
 import Footer from './footer'
 import Header from './header'
@@ -19,7 +18,7 @@ import Text from './text'
 type BaseLayoutProps = {
   width?: number
   style?: string
-  children: React.ReactNode
+  children: ReactNode
 }
 
 export default function BaseLayout({
@@ -30,10 +29,6 @@ export default function BaseLayout({
   return (
     <Mjml>
       <MjmlHead>
-        <MjmlFont
-          name="neue-haas-unica"
-          href="https://use.typekit.net/qqd8jtb.css"
-        />
         <MjmlAttributes>
           <MjmlAll {...themeDefaults} />
         </MjmlAttributes>

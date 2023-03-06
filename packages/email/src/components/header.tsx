@@ -1,7 +1,6 @@
 import { MjmlColumn, MjmlSection, MjmlWrapper } from 'mjml-react'
 import { colors, fontSize, fontWeight } from '../theme'
 import Link from './link'
-import { Logo } from './logo'
 import Text from './text'
 
 export default function Header() {
@@ -16,7 +15,12 @@ export default function Header() {
               href="https://booksaboutfood.info"
               textDecoration="none"
             >
-              <Logo />
+              <img
+                src="https://books-about-food-web.vercel.app/wordmark.png"
+                alt="Books About Food"
+                width="280"
+                height="50"
+              />
             </Link>
           </Text>
         </MjmlColumn>

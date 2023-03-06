@@ -82,5 +82,5 @@ const NewClaim = ({
     </BaseLayout>
   )
 }
-NewClaim.subject = '🤖 [Books About Food] New claim for review'
+NewClaim.subject = 'New claim for review'
 export default NewClaim
