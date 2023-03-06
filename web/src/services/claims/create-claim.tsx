@@ -1,8 +1,8 @@
 import prisma from 'database'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
-import { generate } from 'generate-passphrase'
 import sendMail, { NewClaim } from 'email/src'
+import { generate } from 'src/utils/passphrase'
 
 export const createClaim = new Service(
   z
@@ -36,20 +36,25 @@ export const createClaim = new Service(
         userId,
         secret
       },
-      include: { profile: { include: { avatar: true } }, publisher: true }
+      include: {
+        profile: { include: { avatar: true } },
+        publisher: { include: { logo: true } }
+      }
     })
 
     const resourceName = claim.profile?.name || claim.publisher?.name
     const type = claim.profile ? 'profile' : 'publisher'
 
     await sendMail({
-      component: NewClaim({
-        claimId: claim.id,
-        recipientName: 'Admin',
-        resourceName: resourceName as string,
-        type,
-        resourceAvatar: null
-      }),
+      component: (
+        <NewClaim
+          claimId={claim.id}
+          recipientName="Admin"
+          resourceName={resourceName as string}
+          type={type}
+          resourceAvatar={null}
+        />
+      ),
       to: 'aboutcookbooks@gmail.com'
     })
     return claim
