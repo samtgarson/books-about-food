@@ -30,7 +30,8 @@ export class FileUploader {
         Key,
         Body: contents,
         ContentType: mimeType,
-        ACL: 'private'
+        ACL: 'private',
+        CacheControl: 'public,max-age=31536000,immutable'
       })
       .promise()
 
