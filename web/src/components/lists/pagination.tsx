@@ -36,6 +36,7 @@ export const Pagination: FC<PaginationProps> = ({
     return [pages.slice(0, 1), pages.slice(page - 2, page + 3), pages.slice(-1)]
   }, [page, totalPages])
 
+  if (totalPages <= 1) return <>{children}</>
   return (
     <>
       <div ref={anchor} className="h-px w-full" />

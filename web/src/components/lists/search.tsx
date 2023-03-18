@@ -34,6 +34,7 @@ export const Search: FC<SearchProps> = ({
   return (
     <div className={cn('relative group flex', className)}>
       <input
+        autoFocus
         type="text"
         value={internalValue}
         onChange={(e) => {
