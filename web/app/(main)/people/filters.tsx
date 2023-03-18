@@ -20,6 +20,12 @@ export const PeopleFilters = ({
   const { data: jobs = [], isLoading } = useFetcher('jobs', undefined, {
     immutable: true
   })
+  const jobOptions = jobs
+    .filter((job) => job.name !== 'Author')
+    .map((job) => ({
+      label: job.name,
+      value: job.id
+    }))
 
   return (
     <FilterBar
@@ -38,10 +44,7 @@ export const PeopleFilters = ({
       <FilterSelect
         search
         loading={isLoading}
-        options={jobs.map((job) => ({
-          label: job.name,
-          value: job.id
-        }))}
+        options={jobOptions}
         placeholder="Roles"
         value={filters.jobs}
         multi
