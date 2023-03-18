@@ -18,28 +18,17 @@ export class ProfileSeeder extends Base<
   table = 'profile'
 
   async transform(row: CsvProfile) {
-    const jobs = await this.jobsFor(row)
-
     return {
       name: row.Name,
       slug: slugify(row.Name),
       website: row.Website,
       instagram: row.Instagram,
-      jobs: { connect: jobs },
+      jobTitle: row['Job Title(s)'],
       location: row.Location
     } satisfies Prisma.ProfileCreateInput
   }
 
   async save(data: Prisma.ProfileCreateInput) {
     return prisma.profile.create({ data })
-  }
-
-  private async jobsFor(row: CsvProfile) {
-    if (!row['Job Title(s)']) return
-    const names = row['Job Title(s)'].split(',')
-    const records = await prisma.job.findMany({
-      where: { name: { in: names } }
-    })
-    return records.map((r) => ({ id: r.id }))
   }
 }

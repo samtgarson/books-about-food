@@ -104,8 +104,8 @@ model Profile {
   slug                    String    @unique
   description             String?
   mostRecentlyPublishedOn DateTime? @map("most_recently_published_on") @db.Date
+  jobTitle                String?   @map("job_title")
 
-  jobs          Job[]          @relation("profiles_jobs")
   user          User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
   contributions Contribution[]
   favourite     Favourite[]
@@ -121,7 +121,6 @@ model Job {
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
   name      String   @unique
 
-  profiles      Profile[]      @relation("profiles_jobs")
   contributions Contribution[]
 
   @@map("jobs")

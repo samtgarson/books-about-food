@@ -35,7 +35,7 @@ export const ProfileItem = ({
       />
       <div className="flex flex-col gap-2">
         <p className="font-medium text-16">{profile.name}</p>
-        <p className="text-14">{profile.jobNames}</p>
+        <p className="text-14">{profile.jobTitle}</p>
       </div>
     </Link>
   </li>

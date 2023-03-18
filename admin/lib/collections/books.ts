@@ -130,11 +130,12 @@ export const customiseBooks = (
     execute: async (context, result) => {
       const bookId = await context.getRecordId()
       const jobId = context.formValues.Job[0]
+      const job = await prisma.job.findUnique({ where: { id: jobId } })
       await prisma.profile.create({
         data: {
           name: context.formValues['Name'],
           slug: slugify(context.formValues['Name']),
-          jobs: { connect: { id: jobId } },
+          jobTitle: job?.name,
           contributions: {
             create: {
               book: {

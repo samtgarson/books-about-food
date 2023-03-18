@@ -7,9 +7,9 @@ import { profileIncludes } from '../utils'
 const authorFilter = (onlyAuthors?: boolean): Prisma.ProfileWhereInput => {
   switch (onlyAuthors) {
     case true:
-      return { jobs: { some: { name: 'Author' } } }
+      return { contributions: { some: { job: { name: 'Author' } } } }
     case false:
-      return { jobs: { none: { name: 'Author' } } }
+      return { contributions: { none: { job: { name: 'Author' } } } }
     default:
       return {}
   }
@@ -45,11 +45,17 @@ export const fetchProfiles = new Service(
     const where: Prisma.ProfileWhereInput = {
       AND: [
         baseWhere,
-        hasSearch ? { name: { contains, mode: 'insensitive' } } : {},
+        hasSearch
+          ? {
+              OR: [
+                { name: { contains, mode: 'insensitive' } },
+                { jobTitle: { contains, mode: 'insensitive' } }
+              ]
+            }
+          : {},
         {
           OR: hasJob && [
-            { contributions: { some: { job: { id: { in: jobs } } } } },
-            { jobs: { some: { id: { in: jobs } } } }
+            { contributions: { some: { job: { id: { in: jobs } } } } }
           ]
         }
       ]

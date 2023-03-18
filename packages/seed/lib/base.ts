@@ -51,14 +51,13 @@ export abstract class Base<
     path?: string
   ): Promise<Prisma.ImageCreateInput | undefined> {
     if (!path) return undefined
-    const url = new URL(path, getEnv('S3_DOMAIN'))
     const { width, height } = await getImageSize(
       // @ts-expect-error - url-image-size is missing types
       url
     )
     if (!width || !height)
-      throw new Error(`Could not get image size for ${url}`)
-    return { width, height, url: path }
+      throw new Error(`Could not get image size for ${path}`)
+    return { width, height, path }
   }
 
   protected async imagesAttrs(

@@ -13,7 +13,7 @@ export class Profile {
   website?: string
   instagram?: string
   avatar?: Image
-  jobs: string[]
+  jobTitle?: string
   mostRecentlyPublishedOn?: Date
   userId?: string
 
@@ -23,7 +23,7 @@ export class Profile {
     slug,
     website,
     instagram,
-    jobs,
+    jobTitle,
     avatar,
     description,
     mostRecentlyPublishedOn,
@@ -36,7 +36,7 @@ export class Profile {
     this.website = normalizeLink(website ?? undefined)
     this.instagram = instagram ?? undefined
     this.avatar = avatar ? new Image(avatar, `Avatar for ${name}`) : undefined
-    this.jobs = jobs.map((job) => job.name)
+    this.jobTitle = jobTitle ?? undefined
     this.mostRecentlyPublishedOn = mostRecentlyPublishedOn ?? undefined
     this.userId = userId ?? undefined
   }
@@ -44,11 +44,6 @@ export class Profile {
   get initials() {
     const names = this.name.split(' ')
     return names.reduce((acc, name) => acc + name[0], '')
-  }
-
-  get jobNames() {
-    if (!this.jobs.length) return
-    return this.jobs.join(' • ')
   }
 
   get links(): Link[] {

@@ -1,7 +1,6 @@
 import type { Prisma } from 'database'
 
 type ProfileIncludes = {
-  jobs: true
   avatar: true
 }
 

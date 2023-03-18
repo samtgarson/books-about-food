@@ -2,7 +2,6 @@ import { Prisma } from 'database'
 
 export const profileIncludes = {
   user: { select: { image: true } },
-  jobs: true,
   avatar: true
 } satisfies Prisma.ProfileArgs['include']
 

@@ -52,7 +52,7 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
               <p className="text-16 mt-4 max-w-prose">{profile.description}</p>
             )}
             <div className="mt-8">
-              <Detail maxWidth>{profile.jobNames}</Detail>
+              <Detail maxWidth>{profile.jobTitle}</Detail>
               {profile.links.length > 0 && (
                 <Detail maxWidth>
                   <LinkList links={profile.links} />
