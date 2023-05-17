@@ -6,13 +6,20 @@
     },
     "db:build": {
       "cache": false,
-      "outputs": ["node_modules/.prisma/**"]
+      "outputs": [
+        "node_modules/.prisma/**"
+      ]
     },
     "build": {
-      "dependsOn": ["^db:build"],
-      "outputs": [".next/**"]
+      "dependsOn": [
+        "^db:build"
+      ],
+      "outputs": [
+        ".next/**"
+      ]
     },
     "dev": {
+      "cache": false,
       "persistent": true,
       "outputs": []
     }

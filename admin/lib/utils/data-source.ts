@@ -13,6 +13,14 @@ export const datasource = createSqlDataSource({
   database: parsed.database ?? undefined,
   dialect: 'postgres',
   dialectModule: pg,
+  dialectOptions:
+    process.env.NODE_ENV === 'development'
+      ? undefined
+      : {
+        ssl: {
+          require: true
+        }
+      },
   pool: {
     max: 1
   }
