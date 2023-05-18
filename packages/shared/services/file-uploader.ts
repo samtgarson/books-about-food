@@ -4,6 +4,8 @@ import { getEnv } from '../utils/get-env'
 import { v4 as uuid } from 'uuid'
 
 const defaultClient = new S3({
+  endpoint: getEnv('AWS_S3_ENDPOINT'),
+  signatureVersion: 'v4',
   credentials: {
     accessKeyId: getEnv('AWS_ACCESS_KEY_ID'),
     secretAccessKey: getEnv('AWS_SECRET_ACCESS_KEY')
