@@ -775,13 +775,6 @@ export type Schema = {
       'profile:most_recently_published_on': string;
       'profile:job_title': string;
       'profile:Avatar': string;
-      'profile:user:id': string;
-      'profile:user:name': string;
-      'profile:user:email': string;
-      'profile:user:email_verified': string;
-      'profile:user:image': string;
-      'profile:user:created_at': string;
-      'profile:user:updated_at': string;
       'profile:image:id': string;
       'profile:image:width': number;
       'profile:image:height': number;
@@ -910,6 +903,13 @@ export type Schema = {
       'profile:image:publisher:imprint': string;
       'profile:image:publisher:slug': string;
       'profile:image:publisher:Logo': string;
+      'profile:user:id': string;
+      'profile:user:name': string;
+      'profile:user:email': string;
+      'profile:user:email_verified': string;
+      'profile:user:image': string;
+      'profile:user:created_at': string;
+      'profile:user:updated_at': string;
       'publisher:id': string;
       'publisher:created_at': string;
       'publisher:updated_at': string;
@@ -1192,13 +1192,6 @@ export type Schema = {
       'profile:most_recently_published_on': string;
       'profile:job_title': string;
       'profile:Avatar': string;
-      'profile:user:id': string;
-      'profile:user:name': string;
-      'profile:user:email': string;
-      'profile:user:email_verified': string;
-      'profile:user:image': string;
-      'profile:user:created_at': string;
-      'profile:user:updated_at': string;
       'profile:image:id': string;
       'profile:image:width': number;
       'profile:image:height': number;
@@ -1327,6 +1320,13 @@ export type Schema = {
       'profile:image:publisher:imprint': string;
       'profile:image:publisher:slug': string;
       'profile:image:publisher:Logo': string;
+      'profile:user:id': string;
+      'profile:user:name': string;
+      'profile:user:email': string;
+      'profile:user:email_verified': string;
+      'profile:user:image': string;
+      'profile:user:created_at': string;
+      'profile:user:updated_at': string;
       'book:id': string;
       'book:created_at': string;
       'book:updated_at': string;
@@ -1598,13 +1598,6 @@ export type Schema = {
       'profile:most_recently_published_on': string;
       'profile:job_title': string;
       'profile:Avatar': string;
-      'profile:user:id': string;
-      'profile:user:name': string;
-      'profile:user:email': string;
-      'profile:user:email_verified': string;
-      'profile:user:image': string;
-      'profile:user:created_at': string;
-      'profile:user:updated_at': string;
       'profile:image:id': string;
       'profile:image:width': number;
       'profile:image:height': number;
@@ -1733,6 +1726,13 @@ export type Schema = {
       'profile:image:publisher:imprint': string;
       'profile:image:publisher:slug': string;
       'profile:image:publisher:Logo': string;
+      'profile:user:id': string;
+      'profile:user:name': string;
+      'profile:user:email': string;
+      'profile:user:email_verified': string;
+      'profile:user:image': string;
+      'profile:user:created_at': string;
+      'profile:user:updated_at': string;
       'user:id': string;
       'user:name': string;
       'user:email': string;
@@ -2769,17 +2769,10 @@ export type Schema = {
       'Avatar': string;
     };
     nested: {
-      'user': Schema['users']['plain'] & Schema['users']['nested'];
       'image': Schema['images']['plain'] & Schema['images']['nested'];
+      'user': Schema['users']['plain'] & Schema['users']['nested'];
     };
     flat: {
-      'user:id': string;
-      'user:name': string;
-      'user:email': string;
-      'user:email_verified': string;
-      'user:image': string;
-      'user:created_at': string;
-      'user:updated_at': string;
       'image:id': string;
       'image:width': number;
       'image:height': number;
@@ -2979,6 +2972,13 @@ export type Schema = {
       'image:publisher:imprint': string;
       'image:publisher:slug': string;
       'image:publisher:Logo': string;
+      'user:id': string;
+      'user:name': string;
+      'user:email': string;
+      'user:email_verified': string;
+      'user:image': string;
+      'user:created_at': string;
+      'user:updated_at': string;
     };
   };
   'publishers': {
