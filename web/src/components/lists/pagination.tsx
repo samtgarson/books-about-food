@@ -1,15 +1,13 @@
-'use client'
-
-import { FC, Fragment, ReactNode, useMemo, useRef } from 'react'
+import Link from 'next/link'
+import { FC, Fragment, ReactNode, useMemo } from 'react'
 import { Pill } from 'src/components/atoms/pill'
+import { ParamLink } from '../atoms/param-link'
 
 export type PaginationProps = {
   filteredTotal?: number
   total: number
   perPage: number
   page: number
-  onChange: (page: number) => void
-  onPreload?: (page: number) => void
   children: ReactNode
 }
 
@@ -18,15 +16,9 @@ export const Pagination: FC<PaginationProps> = ({
   filteredTotal = total,
   perPage,
   page,
-  onChange,
-  onPreload,
   children
 }) => {
   const totalPages = Math.ceil(filteredTotal / perPage)
-  const anchor = useRef<HTMLDivElement>(null)
-  const scrollToTop = () => {
-    anchor.current?.scrollIntoView({ behavior: 'smooth' })
-  }
 
   const displayPages = useMemo(() => {
     const pages = Array.from({ length: totalPages }, (_, i) => i)
@@ -39,7 +31,6 @@ export const Pagination: FC<PaginationProps> = ({
   if (totalPages <= 1) return <>{children}</>
   return (
     <>
-      <div ref={anchor} className="h-px w-full" />
       {children}
       {totalPages > 1 && (
         <ul className="flex gap-2 mt-20 flex-wrap">
@@ -47,19 +38,18 @@ export const Pagination: FC<PaginationProps> = ({
             <Fragment key={`group-${i}`}>
               {pageGroup.map((p) => (
                 <li key={p} className="list-none">
-                  <Pill
-                    onClick={async () => {
-                      onChange(p)
-                      scrollToTop()
-                    }}
-                    onMouseOver={() => onPreload?.(p)}
-                    selected={page === p}
-                    disabled={page === p}
-                    className="w-10 h-11 !p-0"
-                    title={`Page ${p + 1}`}
-                  >
-                    {p + 1}
-                  </Pill>
+                  <ParamLink page={p}>
+                    <Link href="">
+                      <Pill
+                        selected={page === p}
+                        disabled={page === p}
+                        className="w-10 h-11 !p-0"
+                        title={`Page ${p + 1}`}
+                      >
+                        {p + 1}
+                      </Pill>
+                    </Link>
+                  </ParamLink>
                 </li>
               ))}
               {i < displayPages.length - 1 && (

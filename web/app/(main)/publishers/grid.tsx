@@ -7,7 +7,6 @@ import { PublishersItem } from './item'
 
 export type PublisherListProps = {
   publishers: Publisher[]
-  loading?: boolean
   className?: string
   square?: boolean
   viewMoreLink?: { path: string; label: string }
@@ -15,7 +14,6 @@ export type PublisherListProps = {
 
 export const PublisherGrid: FC<PublisherListProps> = ({
   publishers,
-  loading,
   className,
   square = true,
   viewMoreLink
@@ -23,7 +21,6 @@ export const PublisherGrid: FC<PublisherListProps> = ({
   <GridContainer
     className={cn(
       'transition-opacity',
-      loading && 'opacity-50',
       className,
       !square && 'sm:!flex sm:flex-row flex-wrap'
     )}

@@ -6,21 +6,18 @@ import Link from 'next/link'
 
 export type AuthorListProps = {
   profiles: Profile[]
-  loading?: boolean
   className?: string
   viewMoreLink?: { path: string; label: string }
 }
 
 export const AuthorsGrid: FC<AuthorListProps> = ({
   profiles,
-  loading,
   className,
   viewMoreLink
 }) => (
   <ul
     className={cn(
       'grid auto-grid-md gap-x-8 gap-y-16 transition-opacity',
-      loading && 'opacity-50',
       className
     )}
   >

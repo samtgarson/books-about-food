@@ -7,20 +7,16 @@ import { ProfileItem } from 'src/components/profiles/item'
 
 export type PeopleListProps = {
   profiles: Profile[]
-  loading?: boolean
   className?: string
   viewMoreLink?: { path: string; label: string }
 }
 
 export const PeopleGrid: FC<PeopleListProps> = ({
   profiles,
-  loading,
   className,
   viewMoreLink
 }) => (
-  <GridContainer
-    className={cn('transition-opacity', loading && 'opacity-50', className)}
-  >
+  <GridContainer className={cn('transition-opacity', className)}>
     {profiles.map((profile) => (
       <ProfileItem key={profile.id} profile={profile} />
     ))}

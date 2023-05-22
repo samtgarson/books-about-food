@@ -8,16 +8,17 @@ import {
   FetchBooksPageFilters,
   fetchBooksPageFilterValues
 } from './filters'
+import { array, numeric } from '../utils/inputs'
 
-export type FetchBooksInput = NonNullable<z.infer<typeof fetchBooks['input']>>
-export type FetchBooksOutput = Awaited<ReturnType<typeof fetchBooks['call']>>
+export type FetchBooksInput = NonNullable<z.infer<(typeof fetchBooks)['input']>>
+export type FetchBooksOutput = Awaited<ReturnType<(typeof fetchBooks)['call']>>
 export const fetchBooks = new Service(
   z
     .object({
-      page: z.number().optional(),
-      perPage: z.number().optional(),
+      page: numeric.optional(),
+      perPage: numeric.optional(),
       sort: z.enum(['title', 'releaseDate', 'createdAt']).optional(),
-      tags: z.string().array().optional(),
+      tags: array(z.string()).optional(),
       search: z.string().optional(),
       profile: z.string().optional(),
       pageCount: z

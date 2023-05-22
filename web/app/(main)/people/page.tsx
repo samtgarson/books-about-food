@@ -4,13 +4,13 @@ import { PeopleList } from './list'
 
 export * from 'app/default-static-config'
 
-export default async () => {
-  const data = await fetchProfiles.call({ onlyAuthors: false })
+export default async ({ searchParams }) => {
+  const filters = fetchProfiles.input.parse(searchParams)
 
   return (
     <>
       <Container belowNav>
-        <PeopleList fallback={data} data-superjson />
+        <PeopleList filters={filters} />
       </Container>
     </>
   )

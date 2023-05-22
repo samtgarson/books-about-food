@@ -1,8 +1,12 @@
+'use client'
+
 import { FC, ReactNode, useRef, useState } from 'react'
 import { Search as SearchIcon } from 'react-feather'
 import { AntiContainer, Container } from '../atoms/container'
 import { PageTitle } from '../atoms/page-title'
 import { Search, SearchProps } from './search'
+import { useRouter } from 'next/navigation'
+import { mergeParams } from 'src/utils/url-helpers'
 
 export type FilterBarProps = {
   children?: ReactNode
@@ -20,12 +24,19 @@ export const FilterBar: FC<FilterBarProps> = ({
   const [showSearch, setShowSearch] = useState(false)
   const searchWrapper = useRef<HTMLDivElement>(null)
   const searchProps = { ...search, className: 'w-full' }
+  const { replace } = useRouter()
 
   const showSearchAndFocus = () => {
     setShowSearch(true)
     setTimeout(() => {
       searchWrapper.current?.querySelector('input')?.focus()
     })
+  }
+
+  const onSearchChange = (value: string) => {
+    const search = !value?.length ? null : value
+    const href = mergeParams({ search })
+    replace(href)
   }
 
   return (
@@ -43,6 +54,7 @@ export const FilterBar: FC<FilterBarProps> = ({
               onBlur={() => {
                 !searchProps.value?.length && setShowSearch(false)
               }}
+              onChange={onSearchChange}
             />
           </div>
         ) : (
@@ -64,7 +76,7 @@ export const FilterBar: FC<FilterBarProps> = ({
               desktop={false}
               className="w-full flex-grow md:w-72 hidden sm:flex"
             >
-              <Search {...searchProps} />
+              <Search {...searchProps} onChange={onSearchChange} />
             </Container>
           )}
           {children && (

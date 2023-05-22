@@ -34,7 +34,6 @@
     "shared": "*",
     "superjson": "^1.12.3",
     "swr": "^2.1.5",
-    "use-debounce": "^9.0.4",
     "zod": "^3.21.4"
   },
   "devDependencies": {

@@ -29,7 +29,7 @@ export const Button = forwardRef(
     ref: PolymorphicRef<C>
   ) => {
     const Component =
-      as === 'a' && props.href?.startsWith('/') ? Link : as || 'button'
+      as === 'a' || props.href?.startsWith('/') ? Link : as || 'button'
     return (
       <Component
         ref={ref}

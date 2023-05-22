@@ -32,4 +32,4 @@ if [[ -z "$PROD_DATABASE_URL" ]]; then
   echo "PROD_DATABASE_URL not set"
   exit 1
 fi
-dump || rm /tmp/baf-backup.XXXXXX.sql
+dump

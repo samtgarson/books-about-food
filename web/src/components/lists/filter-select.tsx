@@ -9,48 +9,58 @@ import { Pill } from '../atoms/pill'
 import * as Sheet from '../atoms/sheet'
 import { Search } from './search'
 import cn from 'classnames'
+import Link from 'next/link'
+import { ParamLink } from '../atoms/param-link'
 
 type BaseFilterSelectProps<Value> = {
-  options: { label: string; value: Value }[]
+  options:
+  | { label: string; value: Value }[]
+  | (() => Promise<{ label: string; value: Value }[]>)
   placeholder: string
   search?: boolean
-  loading?: boolean
+  param: string
 }
 
 type SingleFilterSelectProps<Value> = {
   multi: false
   value?: Value
-  onChange?: (value: Value | undefined) => void
-  onPreload?: (value: Value | undefined) => void
 }
 
 type MultiFilterSelectProps<Value> = {
   multi: true
   value?: Value[]
-  onChange?: (value: Value[]) => void
-  onPreload?: (value: Value[]) => void
 }
 
 export type FilterSelectProps<Value> = BaseFilterSelectProps<Value> &
   (SingleFilterSelectProps<Value> | MultiFilterSelectProps<Value>)
 
-const FilterSelectContent = <Value extends string | number = string>({
-  onChange,
+function FilterSelectContent<Value extends string | number = string>({
   multi,
-  options,
+  options: optionsProvider,
   value: initialValue,
   placeholder,
-  onPreload,
   search,
-  loading
-}: FilterSelectProps<Value>) => {
+  param
+}: FilterSelectProps<Value>) {
+  const [options, setOptions] = useState<{ label: string; value: Value }[]>(
+    typeof optionsProvider === 'function' ? [] : optionsProvider
+  )
+  const [loading, setLoading] = useState(false)
   const [value, setValue] = useState(initialValue)
   const [searchValue, setSearchValue] = useState('')
   const { close } = Sheet.useSheetContext()
 
   useEffect(() => {
-    setValue(initialValue)
-  }, [initialValue])
+    if (typeof optionsProvider !== 'function') return
+    const load = async () => {
+      setLoading(true)
+      const options = await optionsProvider()
+      setOptions(options)
+      setLoading(false)
+    }
+
+    load()
+  }, [optionsProvider])
 
   const matches = useMemo(
     () =>
@@ -86,14 +96,12 @@ const FilterSelectContent = <Value extends string | number = string>({
         const newValue = checked ? set.add(id) : set.delete(id) && set
         if (!newValue) return
         setValue(Array.from(newValue))
-        onPreload?.(Array.from(newValue))
       } else if (!multi && !Array.isArray(value)) {
         const newValue = checked ? id : undefined
         setValue(newValue)
-        onPreload?.(newValue)
       }
     },
-    [multi, onPreload, value]
+    [multi, value]
   )
 
   const label = multi ? (
@@ -134,28 +142,19 @@ const FilterSelectContent = <Value extends string | number = string>({
       <Sheet.Content>
         <Sheet.Body>
           <Sheet.Header title={placeholder}>
-            <button
-              className="bg-transparent opacity-50 text-14"
-              onClick={() => {
-                if (multi) {
-                  const newValue: Value[] = []
-                  setValue(newValue)
-                  onChange?.(newValue)
-                } else {
-                  const newValue = undefined
-                  setValue(newValue)
-                  onChange?.(newValue)
-                }
-                close()
-              }}
-            >
-              Reset
-            </button>
+            <ParamLink {...{ [param]: null }}>
+              <Link
+                href=""
+                className="bg-transparent opacity-50 text-14"
+                onClick={close}
+              >
+                Reset
+              </Link>
+            </ParamLink>
           </Sheet.Header>
           <form>
             {search && (
               <Search
-                debounce={0}
                 value={searchValue}
                 onChange={setSearchValue}
                 className="text-20 sm:text-24 mb-4 sm:mb-6"
@@ -202,15 +201,15 @@ const FilterSelectContent = <Value extends string | number = string>({
           </form>
         </Sheet.Body>
         <Sheet.Footer>
-          <Button
-            onClick={() => {
-              multi ? onChange?.(value as Value[]) : onChange?.(value as Value)
-              close()
-            }}
-            className="w-full border-t border-black pt-4 pb-6 sm:pt-6"
-          >
-            Save
-          </Button>
+          <ParamLink {...{ [param]: value }}>
+            <Button
+              onClick={close}
+              as="a"
+              className="w-full border-t border-black pt-4 pb-6 sm:pt-6"
+            >
+              Save
+            </Button>
+          </ParamLink>
         </Sheet.Footer>
       </Sheet.Content>
     </>

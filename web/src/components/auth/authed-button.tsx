@@ -19,7 +19,7 @@ export const AuthedButton: FC<AuthedButtonProps> = ({
   if (currentUser) return <>{children}</>
 
   const contents = cloneElement(children, {
-    href: '',
+    href: '#',
     onClick: (e: MouseEvent) => {
       e.preventDefault()
       openSheet('signIn', { redirect })

@@ -4,13 +4,12 @@ import { fetchBooks } from 'src/services/books/fetch-books'
 
 export * from 'app/default-static-config'
 
-export default async () => {
-  const books = await fetchBooks.call()
-
+export default async ({ searchParams }) => {
+  const filters = fetchBooks.input.parse(searchParams)
   return (
     <>
       <Container belowNav>
-        <BookList fallback={books} data-superjson />
+        <BookList filters={filters} />
       </Container>
     </>
   )

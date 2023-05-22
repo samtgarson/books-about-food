@@ -4,12 +4,12 @@ import { AuthorsList } from './list'
 
 export * from 'app/default-static-config'
 
-export default async () => {
-  const data = await fetchProfiles.call({ onlyAuthors: true, sort: 'trending' })
+export default async ({ searchParams }) => {
+  const filters = fetchProfiles.input.parse(searchParams)
 
   return (
     <Container belowNav>
-      <AuthorsList fallback={data} data-superjson />
+      <AuthorsList filters={filters} />
     </Container>
   )
 }

@@ -1,7 +1,12 @@
 'use client'
 
-import { FC, startTransition, useState } from 'react'
-import { useDebouncedCallback } from 'use-debounce'
+import {
+  FC,
+  startTransition,
+  useDeferredValue,
+  useEffect,
+  useState
+} from 'react'
 import cn from 'classnames'
 import { X } from 'react-feather'
 
@@ -11,7 +16,6 @@ export type SearchProps = {
   onChange?: (value: string) => void
   onReset?: () => void
   className?: string
-  debounce?: number
   onBlur?: () => void
 }
 
@@ -20,16 +24,15 @@ export const Search: FC<SearchProps> = ({
   value = '',
   placeholder = 'Search',
   className,
-  debounce = 250,
   onReset,
   onBlur
 }) => {
   const [internalValue, setInternalValue] = useState(value)
-  const apply = useDebouncedCallback(
-    (value: string) => onChange?.(value),
-    debounce,
-    { leading: true }
-  )
+  const deferred = useDeferredValue(internalValue)
+
+  useEffect(() => {
+    onChange?.(deferred)
+  }, [deferred, onChange])
 
   return (
     <div className={cn('relative group flex', className)}>
@@ -39,7 +42,7 @@ export const Search: FC<SearchProps> = ({
         value={internalValue}
         onChange={(e) => {
           setInternalValue(e.target.value)
-          startTransition(() => apply(e.target.value))
+          startTransition(() => setInternalValue(e.target.value))
         }}
         onBlur={onBlur}
         placeholder={placeholder}
@@ -50,7 +53,7 @@ export const Search: FC<SearchProps> = ({
       <button
         onClick={() => {
           setInternalValue('')
-          apply('')
+          setInternalValue('')
           onReset?.()
         }}
         className={cn(

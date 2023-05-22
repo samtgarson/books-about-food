@@ -3,6 +3,7 @@ import { Profile } from 'src/models/profile'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
 import { profileIncludes } from '../utils'
+import { array, numeric } from '../utils/inputs'
 
 const authorFilter = (onlyAuthors?: boolean): Prisma.ProfileWhereInput => {
   switch (onlyAuthors) {
@@ -16,19 +17,19 @@ const authorFilter = (onlyAuthors?: boolean): Prisma.ProfileWhereInput => {
 }
 
 export type FetchProfilesInput = NonNullable<
-  z.infer<typeof fetchProfiles['input']>
+  z.infer<(typeof fetchProfiles)['input']>
 >
 export type FetchProfilesOutput = Awaited<
-  ReturnType<typeof fetchProfiles['call']>
+  ReturnType<(typeof fetchProfiles)['call']>
 >
 export const fetchProfiles = new Service(
   z.object({
-    page: z.number().optional(),
-    perPage: z.number().optional(),
+    page: numeric.optional(),
+    perPage: numeric.optional(),
     sort: z.enum(['name', 'trending']).optional(),
     onlyAuthors: z.boolean().optional(),
     search: z.string().optional(),
-    jobs: z.string().array().optional()
+    jobs: array(z.string()).optional()
   }),
   async ({
     page = 0,
@@ -47,11 +48,11 @@ export const fetchProfiles = new Service(
         baseWhere,
         hasSearch
           ? {
-              OR: [
-                { name: { contains, mode: 'insensitive' } },
-                { jobTitle: { contains, mode: 'insensitive' } }
-              ]
-            }
+            OR: [
+              { name: { contains, mode: 'insensitive' } },
+              { jobTitle: { contains, mode: 'insensitive' } }
+            ]
+          }
           : {},
         {
           OR: hasJob && [

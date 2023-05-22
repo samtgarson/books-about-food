@@ -4,13 +4,13 @@ import { PublishersList } from './list'
 
 export * from 'app/default-static-config'
 
-export default async () => {
-  const data = await fetchPublishers.call()
+export default async ({ searchParams }) => {
+  const filters = fetchPublishers.input.parse(searchParams)
 
   return (
     <>
       <Container belowNav>
-        <PublishersList fallback={data} data-superjson />
+        <PublishersList filters={filters} />
       </Container>
     </>
   )

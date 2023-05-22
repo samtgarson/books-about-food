@@ -1,54 +1,44 @@
-'use client'
-
 import { FilterBar } from 'src/components/lists/filter-bar'
 import { FilterSelect } from 'src/components/lists/filter-select'
 import { Sort } from 'src/components/lists/sort'
-import { useFetcher } from 'src/contexts/fetcher'
+import { fetchJobs } from 'src/services/jobs/fetch-jobs'
 import { FetchProfilesInput } from 'src/services/profiles/fetch-profiles'
 
 type PeopleFiltersProps = {
   filters: FetchProfilesInput
-  onChange: (jobs: FetchProfilesInput) => void
-  onPreload?: (jobs: FetchProfilesInput) => void
 }
 
-export const PeopleFilters = ({
-  filters,
-  onChange,
-  onPreload
-}: PeopleFiltersProps) => {
-  const { data: jobs = [], isLoading } = useFetcher('jobs', undefined, {
-    immutable: true
-  })
-  const jobOptions = jobs
-    .filter((job) => job.name !== 'Author')
-    .map((job) => ({
-      label: job.name,
-      value: job.id
-    }))
+export const PeopleFilters = ({ filters }: PeopleFiltersProps) => {
+  const jobOptions = async () => {
+    'use server'
+    const jobs = await fetchJobs.call()
+    return jobs
+      .filter((job) => job.name !== 'Author')
+      .map((job) => ({
+        label: job.name,
+        value: job.id
+      }))
+  }
 
   return (
     <FilterBar
       title="People"
       search={{
-        value: filters.search,
-        onChange: (search) => onChange({ search })
+        value: filters.search
       }}
     >
       <Sort
         sorts={{ name: 'Name', trending: 'Trending' }}
         value={filters.sort ?? 'name'}
-        onChange={(sort) => onChange({ ...filters, sort })}
-        onPreload={(sort) => onPreload?.({ ...filters, sort })}
+        defaultValue="name"
       />
       <FilterSelect
         search
-        loading={isLoading}
         options={jobOptions}
         placeholder="Roles"
         value={filters.jobs}
         multi
-        onChange={(jobs) => onChange({ jobs })}
+        param="jobs"
       />
     </FilterBar>
   )

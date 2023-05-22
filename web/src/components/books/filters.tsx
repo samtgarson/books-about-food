@@ -1,27 +1,21 @@
 import { FilterBar } from 'src/components/lists/filter-bar'
 import { FilterSelect } from 'src/components/lists/filter-select'
 import { Sort } from 'src/components/lists/sort'
-import { prefetch, useFetcher } from 'src/contexts/fetcher'
 import { FetchBooksInput } from 'src/services/books/fetch-books'
 import { fetchBooksPageFilters } from 'src/services/books/filters'
+import { fetchTags } from 'src/services/tags/fetch'
 
 type Filters = Omit<FetchBooksInput, 'page' | 'perPage'>
 type BookFiltersProps = {
   filters: Filters
-  onChange: (filters: Partial<Filters>) => void
 }
 
-export const BookFilters = ({ filters, onChange }: BookFiltersProps) => {
-  const { data: tags = [], isLoading } = useFetcher('tags', undefined, {
-    immutable: true
-  })
-
+export const BookFilters = async ({ filters }: BookFiltersProps) => {
   return (
     <FilterBar
       title="Cookbooks"
       search={{
-        value: filters.search,
-        onChange: (search) => onChange({ search })
+        value: filters.search
       }}
     >
       <Sort<NonNullable<Filters['sort']>>
@@ -30,28 +24,30 @@ export const BookFilters = ({ filters, onChange }: BookFiltersProps) => {
           createdAt: 'Recently Added',
           title: 'Title'
         }}
+        defaultValue="releaseDate"
         value={filters.sort ?? 'releaseDate'}
-        onChange={(sort) => onChange({ sort })}
-        onPreload={(sort) => prefetch('books', { sort })}
       />
       <FilterSelect
         search
-        loading={isLoading}
-        options={tags.map((tag) => ({
-          label: tag.name,
-          value: tag.name
-        }))}
+        options={async () => {
+          'use server'
+          const tags = await fetchTags.call()
+          return tags.map((tag) => ({
+            label: tag.name,
+            value: tag.name
+          }))
+        }}
         placeholder="Tags"
+        param="tags"
         value={filters.tags}
         multi
-        onChange={(tags) => onChange({ tags })}
       />
       <FilterSelect
         multi={false}
+        param="pageCount"
         options={fetchBooksPageFilters}
         placeholder="No. of Pages"
         value={filters.pageCount}
-        onChange={(pageCount) => onChange({ pageCount })}
       />
     </FilterBar>
   )

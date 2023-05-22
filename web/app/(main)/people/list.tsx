@@ -1,26 +1,20 @@
-'use client'
-
-import { FC, useState } from 'react'
 import { Pagination } from 'src/components/lists/pagination'
-import { prefetch, useFetcher } from 'src/contexts/fetcher'
 import {
   FetchProfilesInput,
-  FetchProfilesOutput
+  fetchProfiles
 } from 'src/services/profiles/fetch-profiles'
 import { PeopleFilters } from './filters'
 import { PeopleGrid } from './grid'
 
 export type PeopleListProps = {
-  fallback?: FetchProfilesOutput
+  filters?: FetchProfilesInput
 }
 
-export const PeopleList: FC<PeopleListProps> = ({ fallback: fallbackData }) => {
-  const [filters, setFilters] = useState<FetchProfilesInput>({
+export const PeopleList = async ({ filters = {} }: PeopleListProps) => {
+  const { profiles, filteredTotal, total, perPage } = await fetchProfiles.call({
+    ...filters,
     onlyAuthors: false
   })
-  const { data, isLoading } = useFetcher('profiles', filters, { fallbackData })
-  if (!data) return null
-  const { profiles, filteredTotal, total, perPage } = data
 
   return (
     <Pagination
@@ -28,19 +22,9 @@ export const PeopleList: FC<PeopleListProps> = ({ fallback: fallbackData }) => {
       perPage={perPage}
       page={filters.page ?? 0}
       filteredTotal={filteredTotal}
-      onChange={(page) => setFilters({ ...filters, page })}
-      onPreload={(page) => prefetch('profiles', { ...filters, page })}
     >
-      <PeopleFilters
-        filters={filters}
-        onChange={(newFilters) =>
-          setFilters({ ...filters, ...newFilters, page: 0 })
-        }
-        onPreload={(newFilters) =>
-          prefetch('profiles', { ...filters, ...newFilters, page: 0 })
-        }
-      />
-      <PeopleGrid profiles={profiles} loading={isLoading} />
+      <PeopleFilters filters={filters} />
+      <PeopleGrid profiles={profiles} />
       {profiles.length === 0 && <p>No profiles found</p>}
     </Pagination>
   )
