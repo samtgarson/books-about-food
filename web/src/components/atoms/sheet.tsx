@@ -142,14 +142,14 @@ export const Root: FC<SheetProps> = ({
 }) => {
   const [open, setOpen] = useState(false)
   const router = useRouter()
-  const search = useSearchParams()
 
   useEffect(() => {
+    const search = new URLSearchParams(location.search)
     if (action && search.get('action') === action) {
       if (!open) setOpen(true)
       router.replace(location.pathname)
     }
-  }, [action, search, open, router])
+  }, [action, open, router])
 
   return (
     <SheetContext.Provider

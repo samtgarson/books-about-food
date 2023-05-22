@@ -3,7 +3,7 @@
 import * as Checkbox from '@radix-ui/react-checkbox'
 import { motion } from 'framer-motion'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Check, ChevronDown, Loader } from 'react-feather'
+import { Check, ChevronDown } from 'react-feather'
 import { Button } from '../atoms/button'
 import { Pill } from '../atoms/pill'
 import * as Sheet from '../atoms/sheet'
@@ -11,6 +11,7 @@ import { Search } from './search'
 import cn from 'classnames'
 import Link from 'next/link'
 import { ParamLink } from '../atoms/param-link'
+import { Loader } from '../atoms/loader'
 
 type BaseFilterSelectProps<Value> = {
   options:
@@ -125,11 +126,7 @@ function FilterSelectContent<Value extends string | number = string>({
             {label}
           </span>
           {loading ? (
-            <Loader
-              strokeWidth={1}
-              size={24}
-              className="-my-2 ml-0.5 -mr-1 animate-spin"
-            />
+            <Loader className="-my-2 ml-0.5 -mr-1" />
           ) : (
             <ChevronDown
               size={24}

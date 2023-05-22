@@ -19,7 +19,7 @@ const SheetMap = {
 } as const
 
 type SheetMap = {
-  [K in keyof typeof SheetMap]: ComponentProps<typeof SheetMap[K]>
+  [K in keyof typeof SheetMap]: ComponentProps<(typeof SheetMap)[K]>
 }
 
 type GlobalSheetContext = {
@@ -32,7 +32,7 @@ type GlobalSheetContext = {
 }
 
 type SheetState = {
-  Component: typeof SheetMap[keyof SheetMap]
+  Component: (typeof SheetMap)[keyof SheetMap]
   props: SheetMap[keyof SheetMap]
 }
 
@@ -81,7 +81,6 @@ export const GlobalSheetProvider = ({ children }: { children: ReactNode }) => {
       <Dialog.Root
         open={!!Component}
         onOpenChange={(open) => {
-          console.log(open)
           !open && setSheet(null)
         }}
       >

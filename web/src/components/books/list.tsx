@@ -1,4 +1,3 @@
-import { FC } from 'react'
 import { Pagination } from 'src/components/lists/pagination'
 import {
   FetchBooksInput,

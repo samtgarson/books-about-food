@@ -1,9 +1,11 @@
 import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
 import { MoreHorizontal } from 'react-feather'
 import { Avatar } from 'src/components/atoms/avatar'
 import { Container } from 'src/components/atoms/container'
 import { Detail } from 'src/components/atoms/detail'
 import { LinkList } from 'src/components/atoms/link-list'
+import { Loader } from 'src/components/atoms/loader'
 import { BookList } from 'src/components/books/list'
 import { FavouriteButton } from 'src/components/favourites/favourite-button'
 import { ClaimProfileButton } from 'src/components/profiles/claim-button'
@@ -91,13 +93,13 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
             <h2 className="all-caps my-4 sm:mt-0 sm:mb-8 ">
               Cookbook Portfolio
             </h2>
-            <BookList
-              showFilters={false}
-              showEmpty={false}
-              filters={bookFilters}
-              fallback={books}
-              data-superjson
-            />
+            <Suspense fallback={<Loader />}>
+              <BookList
+                showFilters={false}
+                showEmpty={false}
+                filters={bookFilters}
+              />
+            </Suspense>
           </>
         )}
       </Container>
