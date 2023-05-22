@@ -12,6 +12,7 @@ import cn from 'classnames'
 import Link from 'next/link'
 import { ParamLink } from '../atoms/param-link'
 import { Loader } from '../atoms/loader'
+import { usePromise } from 'src/hooks/use-promise'
 
 type BaseFilterSelectProps<Value> = {
   options:
@@ -43,25 +44,10 @@ function FilterSelectContent<Value extends string | number = string>({
   search,
   param
 }: FilterSelectProps<Value>) {
-  const [options, setOptions] = useState<{ label: string; value: Value }[]>(
-    typeof optionsProvider === 'function' ? [] : optionsProvider
-  )
-  const [loading, setLoading] = useState(false)
+  const { loading, value: options } = usePromise(optionsProvider, [])
   const [value, setValue] = useState(initialValue)
   const [searchValue, setSearchValue] = useState('')
   const { close } = Sheet.useSheetContext()
-
-  useEffect(() => {
-    if (typeof optionsProvider !== 'function') return
-    const load = async () => {
-      setLoading(true)
-      const options = await optionsProvider()
-      setOptions(options)
-      setLoading(false)
-    }
-
-    load()
-  }, [optionsProvider])
 
   const matches = useMemo(
     () =>
@@ -115,7 +101,7 @@ function FilterSelectContent<Value extends string | number = string>({
       )}
     </>
   ) : (
-    options.find((o) => o.value === initialValue)?.label || placeholder
+    options?.find((o) => o.value === initialValue)?.label || placeholder
   )
 
   return (
