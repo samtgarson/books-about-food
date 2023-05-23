@@ -8,7 +8,7 @@ import {
   MjmlSection,
   MjmlStyle,
   MjmlWrapper
-} from 'mjml-react'
+} from '@faire/mjml-react'
 import { ReactNode } from 'react'
 import { colors, screens, themeDefaults } from '../theme'
 import Footer from './footer'

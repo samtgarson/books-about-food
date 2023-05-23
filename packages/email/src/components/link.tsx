@@ -1,7 +1,8 @@
 import React from 'react'
-import { MjmlText, HrefProps } from 'mjml-react'
+import { MjmlText } from '@faire/mjml-react'
 import { fontWeight } from '../theme'
 
+type HrefProps = { href?: string; rel?: string; target?: string }
 type LinkProps = HrefProps & React.ComponentProps<typeof MjmlText>
 type StyleProps = Pick<
   LinkProps,

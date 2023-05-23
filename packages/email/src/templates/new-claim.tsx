@@ -1,4 +1,4 @@
-import { MjmlColumn, MjmlSection } from 'mjml-react'
+import { MjmlColumn, MjmlSection } from '@faire/mjml-react'
 import BaseLayout from '../components/base-layout'
 import Button from '../components/button'
 import Text from '../components/text'

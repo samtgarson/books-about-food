@@ -1,5 +1,10 @@
 import { EMAIL_PREFERENCES_URL } from 'mailing-core'
-import { MjmlColumn, MjmlSection, MjmlText, MjmlWrapper } from 'mjml-react'
+import {
+  MjmlColumn,
+  MjmlSection,
+  MjmlText,
+  MjmlWrapper
+} from '@faire/mjml-react'
 import { fontSize } from '../theme'
 import Link from './link'
 
