@@ -10,7 +10,7 @@ type BookFiltersProps = {
   filters: Filters
 }
 
-export const BookFilters = async ({ filters }: BookFiltersProps) => {
+export function BookFilters({ filters }: BookFiltersProps) {
   return (
     <FilterBar
       title="Cookbooks"

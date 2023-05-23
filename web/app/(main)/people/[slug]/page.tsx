@@ -94,6 +94,7 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
               Cookbook Portfolio
             </h2>
             <Suspense fallback={<Loader />}>
+              {/* @ts-expect-error RSC */}
               <BookList
                 showFilters={false}
                 showEmpty={false}

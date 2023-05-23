@@ -1,11 +1,11 @@
 'use client'
-import {
+import type {
   FunctionArgs,
   FunctionReturn,
   FetchMap,
   MutateMap,
   DestroyMap
-} from 'src/pages/api/data/[fn]'
+} from 'src/services/map'
 import superjson from 'superjson'
 import { RequestException } from './exceptions'
 

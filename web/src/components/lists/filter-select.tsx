@@ -141,6 +141,7 @@ function FilterSelectContent<Value extends string | number = string>({
                 value={searchValue}
                 onChange={setSearchValue}
                 className="text-20 sm:text-24 mb-4 sm:mb-6"
+                autoFocus
               />
             )}
             <ul className="flex flex-col gap-2 sm:gap-3">

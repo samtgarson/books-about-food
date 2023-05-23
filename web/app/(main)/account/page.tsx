@@ -13,7 +13,7 @@ const Page = async () => {
     <Container>
       <h1>Account</h1>
       <Suspense fallback="Loading favourites">
-        {/** @ts-expect-error RSC */}
+        {/* @ts-expect-error RSC */}
         <FavouritesList user={user} />
       </Suspense>
       <SignOutButton />

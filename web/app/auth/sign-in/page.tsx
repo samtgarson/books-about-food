@@ -1,11 +1,9 @@
 import { SignInButtons } from 'src/components/auth/sign-in-buttons'
+import { PageProps } from 'src/components/types'
 
 export default async function SignInPage({
   searchParams
-}: {
-  params: { slug: string }
-  searchParams?: { [key: string]: string | string[] | undefined }
-}) {
+}: PageProps<{ slug: string }>) {
   const callbackUrl = searchParams?.callbackUrl || '/'
 
   return (

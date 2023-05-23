@@ -1,5 +1,5 @@
 'use client'
-import { FunctionArgs, FetchKey, FetchMap } from 'src/pages/api/data/[fn]'
+import type { FunctionArgs, FetchKey, FetchMap } from 'src/services/map'
 import { preload } from 'swr'
 import { requester } from './requester'
 

@@ -9,7 +9,7 @@ import {
   MutateMap,
   DestroyMap,
   DestroyKey
-} from 'src/pages/api/data/[fn]'
+} from 'src/services/map'
 import useSWR, { SWRConfiguration } from 'swr'
 import 'src/utils/superjson'
 import { signOut } from 'next-auth/react'
@@ -32,10 +32,10 @@ export const useFetcher = <K extends FetchKey>(
   const currentUser = useCurrentUser()
   const immutableConfig = immutable
     ? {
-        revalidateIfStale: false,
-        revalidateOnFocus: false,
-        revalidateOnReconnect: false
-      }
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false
+    }
     : {}
 
   const onError = (err: unknown) => {

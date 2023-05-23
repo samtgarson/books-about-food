@@ -1,7 +1,10 @@
-import { ElementType, forwardRef } from 'react'
-import { PolymorphicComponentPropWithRef, PolymorphicRef } from '../types'
 import cn from 'classnames'
 import Link from 'next/link'
+import { ElementType, forwardRef } from 'react'
+import {
+  PolymorphicComponentPropWithRef,
+  PolymorphicRef
+} from './polymorhphic-types'
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'outline'
 export type ButtonProps<C extends ElementType> =
