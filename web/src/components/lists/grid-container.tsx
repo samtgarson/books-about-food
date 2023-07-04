@@ -13,7 +13,7 @@ export const GridContainer = forwardRef<HTMLDivElement, GridContainerProps>(
     >
       <ul
         className={cn(
-          'flex flex-col items-stretch sm:grid sm:auto-grid-lg -mx-px sm:mx-0',
+          'flex flex-col items-stretch sm:grid sm:auto-grid-lg -mx-px sm:mx-0 transition-opacity',
           className
         )}
         {...props}

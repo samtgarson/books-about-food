@@ -46,7 +46,8 @@ module.exports = {
       black: '#1D1D1B',
       white: '#fff',
       grey: '#F0EEEB',
-      sand: '#E7E5E2'
+      sand: '#E7E5E2',
+      darkSand: '#C1BFBD'
     },
     fontWeight: {
       normal: 400,

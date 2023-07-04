@@ -33,7 +33,7 @@ export const BookList = async ({
       filteredTotal={filteredTotal}
     >
       {showFilters && <BookFilters filters={filters} />}
-      <GridContainer className={cn('sm:gap-y-16 transition-opacity')}>
+      <GridContainer className={cn('sm:gap-y-16')}>
         {books.map((book) => (
           <BookItem key={book.id} book={book} />
         ))}
