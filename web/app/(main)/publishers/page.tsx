@@ -3,7 +3,7 @@ import { fetchPublishers } from 'src/services/publishers/fetch-publishers'
 import { PublishersList } from './list'
 import { PageProps } from 'src/components/types'
 
-export * from 'app/default-static-config'
+export const dynamic = 'force-dynamic'
 
 export default async ({ searchParams }: PageProps) => {
   const filters = fetchPublishers.input.parse(searchParams)

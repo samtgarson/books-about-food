@@ -1,7 +1,7 @@
 import { Profile } from 'src/models/profile'
 import { AuthorItem } from './item'
 import cn from 'classnames'
-import { FC } from 'react'
+import { FC, ReactNode } from 'react'
 import Link from 'next/link'
 
 export type AuthorListProps = {
@@ -10,10 +10,12 @@ export type AuthorListProps = {
   viewMoreLink?: { path: string; label: string }
 }
 
-export const AuthorsGrid: FC<AuthorListProps> = ({
-  profiles,
-  className,
-  viewMoreLink
+export const AuthorGridContainer = ({
+  children,
+  className
+}: {
+  children: ReactNode
+  className?: string
 }) => (
   <ul
     className={cn(
@@ -21,8 +23,18 @@ export const AuthorsGrid: FC<AuthorListProps> = ({
       className
     )}
   >
-    {profiles.map((profile) => (
-      <AuthorItem key={profile.id} profile={profile} />
+    {children}
+  </ul>
+)
+
+export const AuthorsGrid: FC<AuthorListProps> = ({
+  profiles,
+  className,
+  viewMoreLink
+}) => (
+  <AuthorGridContainer className={className}>
+    {profiles.map((profile, index) => (
+      <AuthorItem key={profile.id} profile={profile} index={index} />
     ))}
     {viewMoreLink && (
       <li>
@@ -34,5 +46,5 @@ export const AuthorsGrid: FC<AuthorListProps> = ({
         </Link>
       </li>
     )}
-  </ul>
+  </AuthorGridContainer>
 )

@@ -1,18 +1,18 @@
 import { ComponentProps, FC } from 'react'
-import { Profile } from 'src/models/profile'
+import { NullProfile, Profile } from 'src/models/profile'
 import cn from 'classnames'
 import Image from 'next/image'
 
 export type AvatarSize = '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'fill'
 
 export type AvatarProps = {
-  profile: Profile
+  profile?: Profile
   size?: AvatarSize
   mobileSize?: AvatarSize
 } & ComponentProps<'div'>
 
 export const Avatar: FC<AvatarProps> = ({
-  profile,
+  profile = new NullProfile(),
   size = 'md',
   mobileSize = size,
   className,
@@ -42,9 +42,9 @@ export const Avatar: FC<AvatarProps> = ({
       profile.avatar
         ? undefined
         : {
-            backgroundColor: profile.backgroundColour,
-            color: profile.foregroundColour
-          }
+          backgroundColor: profile.backgroundColour,
+          color: profile.foregroundColour
+        }
     }
   >
     {profile.avatar ? (

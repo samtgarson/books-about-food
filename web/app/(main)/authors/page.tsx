@@ -3,7 +3,7 @@ import { fetchProfiles } from 'src/services/profiles/fetch-profiles'
 import { AuthorsList } from './list'
 import { PageProps } from 'src/components/types'
 
-export * from 'app/default-static-config'
+export const dynamic = 'force-dynamic'
 
 export default async ({ searchParams }: PageProps) => {
   const filters = fetchProfiles.input.parse(searchParams)

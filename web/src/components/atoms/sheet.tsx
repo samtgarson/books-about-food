@@ -12,7 +12,7 @@ import {
 import cn from 'classnames'
 import * as Dialog from '@radix-ui/react-dialog'
 import { Loader, X } from 'react-feather'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { useSheet } from '../sheets/global-sheet'
 

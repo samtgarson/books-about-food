@@ -4,6 +4,7 @@ import { Link } from 'src/components/atoms/link-list'
 import { normalizeLink } from 'src/utils/url-helpers'
 import { Image } from './image'
 import { ProfileAttrs } from './types'
+import { colors } from 'theme'
 
 export class Profile {
   id: string
@@ -67,5 +68,37 @@ export class Profile {
 
   get foregroundColour() {
     return new Color(this.backgroundColour).isDark() ? '#fff' : '#000'
+  }
+}
+
+export class NullProfile extends Profile {
+  constructor() {
+    super({
+      userId: '',
+      id: '',
+      name: '',
+      slug: '',
+      website: '',
+      instagram: '',
+      avatar: null,
+      jobTitle: '',
+      description: '',
+      mostRecentlyPublishedOn: new Date(),
+      location: '',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    })
+  }
+
+  get backgroundColour() {
+    return colors.sand
+  }
+
+  get foregroundColour() {
+    return '#000' as const
+  }
+
+  get initials() {
+    return ''
   }
 }

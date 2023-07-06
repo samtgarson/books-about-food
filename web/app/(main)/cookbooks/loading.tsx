@@ -13,7 +13,7 @@ export default async () => {
         <BookFilters filters={{}} />
         <GridContainer className={cn('sm:gap-y-16')}>
           {Array.from({ length: 10 }, (_, i) => (
-            <BookItem key={i} skeleton index={i} />
+            <BookItem key={i} index={i} />
           ))}
         </GridContainer>
       </Container>

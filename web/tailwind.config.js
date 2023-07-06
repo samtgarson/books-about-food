@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const defaultTheme = require('tailwindcss/defaultTheme')
 const plugin = require('tailwindcss/plugin')
+const theme = require('./theme')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {

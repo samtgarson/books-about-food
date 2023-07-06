@@ -2,34 +2,27 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Book } from 'src/models/book'
 import cn from 'classnames'
-import { CSSProperties, ComponentProps, useId } from 'react'
+import { ComponentProps } from 'react'
 
 export type CookbookItemProps = ComponentProps<'li'> & {
   mobileGrid?: boolean
   index?: number
-} & (
-    | {
-      book: Book
-      skeleton?: never
-    }
-    | {
-      book?: never
-      skeleton: true
-    }
-  )
+  book?: Book
+}
 
 export const BookItem = ({
   book,
   className,
   mobileGrid,
-  skeleton,
   index = 0,
   ...props
 }: CookbookItemProps) => {
+  const skeleton = !book
+
   return (
     <li className={cn('group', className)} {...props}>
       <Link
-        href={book?.href ?? '#'}
+        href={book?.href || '#'}
         className={cn(
           '-mb-px group-last:mb-0 sm:mb-0 sm:-mr-px sm:w-auto h-full flex sm:flex-col sm:items-start sm:gap-0 p-4 sm:p-0 border relative items-center gap-6 border-black sm:border-none',
           mobileGrid &&
