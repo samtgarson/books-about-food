@@ -65,8 +65,8 @@ export const BookItem = ({
             </>
           ) : (
             <>
-              <div className="inline-block h-4 w-40 mb-1 bg-darkSand"></div>
-              <div className="inline-block h-3.5 w-30 bg-darkSand"></div>
+              <p className="h-4 w-40 mb-1 bg-darkSand"></p>
+              <p className="h-3.5 w-30 bg-darkSand"></p>
             </>
           )}
         </div>

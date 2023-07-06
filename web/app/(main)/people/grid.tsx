@@ -1,5 +1,4 @@
 import { Profile } from 'src/models/profile'
-import cn from 'classnames'
 import { FC } from 'react'
 import Link from 'next/link'
 import { GridContainer } from 'src/components/lists/grid-container'
@@ -16,9 +15,9 @@ export const PeopleGrid: FC<PeopleListProps> = ({
   className,
   viewMoreLink
 }) => (
-  <GridContainer className={cn('transition-opacity', className)}>
-    {profiles.map((profile) => (
-      <ProfileItem key={profile.id} profile={profile} />
+  <GridContainer className={className}>
+    {profiles.map((profile, i) => (
+      <ProfileItem key={profile.id} profile={profile} index={i} />
     ))}
     {viewMoreLink && (
       <li>
