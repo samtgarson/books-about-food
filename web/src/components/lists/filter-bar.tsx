@@ -45,7 +45,7 @@ export const FilterBar: FC<FilterBarProps> = ({
         search &&
         (showSearch ? (
           <div
-            className="my-8 relative flex animate-fade-in"
+            className="py-8 relative flex flex-col justify-center animate-fade-in"
             ref={searchWrapper}
           >
             <Search
