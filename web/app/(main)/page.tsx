@@ -1,6 +1,6 @@
 import { Container } from 'src/components/atoms/container'
 import { ItemCarousel } from 'src/components/books/item-carousel'
-import { FeatureCarousel } from 'src/components/home/feature-carousel'
+import { FeatureCarousel } from 'src/components/feature-carousel'
 import { fetchFeatures } from 'src/services/features/fetch-features'
 import { fetchHome } from 'src/services/home/fetch'
 import { PeopleGrid } from './people/grid'

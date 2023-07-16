@@ -2,7 +2,7 @@ import { Image } from './image'
 import { Profile } from './profile'
 import { BookAttrs } from './types'
 import format from 'date-fns/format'
-import { isFuture } from 'date-fns'
+import isFuture from 'date-fns/isFuture'
 
 export class Book {
   id: string
