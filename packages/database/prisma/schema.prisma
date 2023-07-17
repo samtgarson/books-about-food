@@ -63,9 +63,13 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
+  publisherId String?    @unique @map("publisher_id") @db.Uuid
+  publisher   Publisher? @relation("publisher", fields: [publisherId], references: [id])
+
   profile   Profile?
-  Favourite Favourite[]
+  favourite Favourite[]
   claims    Claim[]
+  pitches   Pitch[]
 
   @@map("users")
 }
@@ -192,6 +196,7 @@ model Publisher {
   books  Book[]
   logo   Image?  @relation("publisher_logo")
   claims Claim[]
+  user   User?   @relation("publisher")
 
   @@map("publishers")
 }
@@ -252,4 +257,16 @@ model Claim {
   @@unique([userId, profileId])
   @@unique([userId, publisherId])
   @@map("claims")
+}
+
+model Pitch {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at")
+  description String
+  viewCount   Int      @default(0) @map("view_count")
+
+  authorId String @map("author_id") @db.Uuid
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@map("pitches")
 }
