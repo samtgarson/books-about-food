@@ -8,6 +8,7 @@ export type ContainerProps = ComponentProps<'div'> & {
   mobile?: boolean
   desktop?: boolean
   belowNav?: boolean
+  centered?: boolean
 }
 
 export const containerClasses = ({
@@ -16,28 +17,30 @@ export const containerClasses = ({
   mobile = true,
   desktop = true,
   scroll = false,
-  belowNav = false
+  belowNav = false,
+  centered = false
 }: ContainerProps = {}) =>
   cn(
     scroll
       ? {
-          'scroll-pr-5 md:scroll-pr-16': right && mobile && desktop,
-          'scroll-pl-5 md:scroll-pl-16': left && mobile && desktop,
-          'scroll-pr-5 sm:scroll-pr-0': right && mobile && !desktop,
-          'scroll-pl-5 sm:scroll-pl-0': left && mobile && !desktop,
-          'md:scroll-pr-16': right && !mobile && desktop,
-          'md:scroll-pl-16': left && !mobile && desktop
-        }
+        'scroll-pr-5 md:scroll-pr-16': right && mobile && desktop,
+        'scroll-pl-5 md:scroll-pl-16': left && mobile && desktop,
+        'scroll-pr-5 sm:scroll-pr-0': right && mobile && !desktop,
+        'scroll-pl-5 sm:scroll-pl-0': left && mobile && !desktop,
+        'md:scroll-pr-16': right && !mobile && desktop,
+        'md:scroll-pl-16': left && !mobile && desktop
+      }
       : {
-          'pr-5 md:pr-16': right && mobile && desktop,
-          'pl-5 md:pl-16': left && mobile && desktop,
-          'pr-5 sm:pr-0': right && mobile && !desktop,
-          'pl-5 sm:pl-0': left && mobile && !desktop,
-          'md:pr-16': right && !mobile && desktop,
-          'md:pl-16': left && !mobile && desktop
-        },
+        'pr-5 md:pr-16': right && mobile && desktop,
+        'pl-5 md:pl-16': left && mobile && desktop,
+        'pr-5 sm:pr-0': right && mobile && !desktop,
+        'pl-5 sm:pl-0': left && mobile && !desktop,
+        'md:pr-16': right && !mobile && desktop,
+        'md:pl-16': left && !mobile && desktop
+      },
     {
-      'mt-16 md:mt-12': belowNav
+      'mt-16': belowNav,
+      'flex flex-col items-center justify-start': centered
     }
   )
 
@@ -49,11 +52,12 @@ export const Container: FC<ContainerProps> = ({
   mobile,
   desktop,
   belowNav,
+  centered,
   ...props
 }) => (
   <div
     className={cn(
-      containerClasses({ left, right, mobile, desktop, belowNav }),
+      containerClasses({ left, right, mobile, desktop, belowNav, centered }),
       className
     )}
     {...props}

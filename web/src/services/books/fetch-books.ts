@@ -1,4 +1,4 @@
-import prisma, { Prisma } from 'database'
+import prisma, { BookStatus, Prisma } from 'database'
 import { Book } from 'src/models/book'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
@@ -8,7 +8,7 @@ import {
   FetchBooksPageFilters,
   fetchBooksPageFilterValues
 } from './filters'
-import { array, numeric } from '../utils/inputs'
+import { array, dbEnum, numeric } from '../utils/inputs'
 
 export type FetchBooksInput = NonNullable<z.infer<(typeof fetchBooks)['input']>>
 export type FetchBooksOutput = Awaited<ReturnType<(typeof fetchBooks)['call']>>
@@ -21,6 +21,7 @@ export const fetchBooks = new Service(
       tags: array(z.string()).optional(),
       search: z.string().optional(),
       profile: z.string().optional(),
+      status: array(dbEnum(BookStatus)).optional(),
       pageCount: z
         .custom<FetchBooksPageFilters>((key) => {
           return fetchBooksPageFilterValues.includes(
@@ -38,13 +39,15 @@ export const fetchBooks = new Service(
     tags,
     search,
     profile,
+    status = ['published' as const],
     pageCount
   } = {}) => {
     const contains = search?.trim()
     const hasSearch = (contains && contains.length > 0) || undefined
     const hasTag = (tags && tags.length > 0) || undefined
     const mode: Prisma.QueryMode = 'insensitive'
-    const AND: Prisma.BookWhereInput[] = []
+
+    const AND: Prisma.BookWhereInput[] = [{ status: { in: status } }]
     if (hasTag) AND.push({ tags: { some: { name: { in: tags } } } })
     if (profile) {
       AND.push({ contributions: { some: { profile: { slug: profile } } } })

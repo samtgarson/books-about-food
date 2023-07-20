@@ -154,6 +154,7 @@ export const customiseBooks = (
   collection.addHook('Before', 'Create', async (context) => {
     context.data.forEach((book) => {
       book.slug ||= slugify(book.title)
+      book.status = 'published'
     })
   })
 

@@ -7,7 +7,7 @@ import { FullBookAttrs } from './types'
 export class FullBook extends Book {
   previewImages: Image[]
   tags: string[]
-  publisher: Publisher
+  publisher?: Publisher
   links: Link[]
 
   constructor(attrs: FullBookAttrs) {
@@ -16,7 +16,9 @@ export class FullBook extends Book {
       (image) => new Image(image, `Preview for ${attrs.title}`)
     )
     this.tags = attrs.tags.map((tag) => tag.name)
-    this.publisher = new Publisher(attrs.publisher)
+    this.publisher = attrs.publisher
+      ? new Publisher(attrs.publisher)
+      : undefined
     this.links = attrs.links
   }
 }

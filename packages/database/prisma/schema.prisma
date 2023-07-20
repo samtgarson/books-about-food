@@ -66,10 +66,11 @@ model User {
   publisherId String?    @unique @map("publisher_id") @db.Uuid
   publisher   Publisher? @relation("publisher", fields: [publisherId], references: [id])
 
-  profile   Profile?
-  favourite Favourite[]
-  claims    Claim[]
-  pitches   Pitch[]
+  profile        Profile?
+  favourite      Favourite[]
+  claims         Claim[]
+  pitches        Pitch[]
+  submittedBooks Book[]      @relation("submitted_books")
 
   @@map("users")
 }
@@ -159,24 +160,33 @@ model Link {
   @@map("links")
 }
 
+enum BookStatus {
+  draft
+  inReview
+  published
+}
+
 model Book {
-  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @default(now()) @map("updated_at")
+  id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @default(now()) @map("updated_at")
   title       String
   subtitle    String?
-  releaseDate DateTime? @map("release_date") @db.Date
+  releaseDate DateTime?  @map("release_date") @db.Date
   pages       Int?
-  publisherId String    @map("publisher_id") @db.Uuid
-  slug        String    @unique
+  publisherId String?    @map("publisher_id") @db.Uuid
+  slug        String     @unique
+  status      BookStatus @default(draft)
+  submitterId String?    @map("submitter_id") @db.Uuid
 
   coverImage    Image?         @relation("cover_for")
   previewImages Image[]        @relation("preview_for")
   tags          Tag[]          @relation("books_tags")
   contributions Contribution[]
   links         Link[]
-  publisher     Publisher      @relation(fields: [publisherId], references: [id], onDelete: Restrict)
+  publisher     Publisher?     @relation(fields: [publisherId], references: [id], onDelete: Restrict)
   features      Feature[]
+  submitter     User?          @relation("submitted_books", fields: [submitterId], references: [id])
 
   @@map("books")
 }

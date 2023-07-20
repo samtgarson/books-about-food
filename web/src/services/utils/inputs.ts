@@ -11,3 +11,6 @@ export const array = <T extends z.ZodTypeAny>(type: T) => {
     return `${val}`.split(',')
   }, z.array(type))
 }
+
+export const dbEnum = <T extends string>(obj: Record<string, T>) =>
+  z.enum(Object.values(obj) as [T, ...T[]])

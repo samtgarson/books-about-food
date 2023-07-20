@@ -660,15 +660,13 @@
         "isFilterable": true,
         "isPrimaryKey": false,
         "isReadOnly": false,
-        "isRequired": true,
+        "isRequired": false,
         "isSortable": true,
         "isVirtual": false,
         "reference": "publishers.id",
         "relationship": "BelongsTo",
         "type": "Uuid",
-        "validations": [
-          {"type": "is present", "message": "Failed validation rule: 'Present'"}
-        ]
+        "validations": []
       },
       {
         "defaultValue": null,
@@ -703,6 +701,39 @@
         "validations": [
           {"type": "is present", "message": "Failed validation rule: 'Present'"}
         ]
+      },
+      {
+        "defaultValue": "draft",
+        "enums": ["draft", "inReview", "published"],
+        "field": "status",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": null,
+        "type": "Enum",
+        "validations": []
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
+        "field": "submitter",
+        "integration": null,
+        "inverseOf": "books",
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": "users.id",
+        "relationship": "BelongsTo",
+        "type": "Uuid",
+        "validations": []
       },
       {
         "defaultValue": null,
@@ -1754,6 +1785,107 @@
       {
         "defaultValue": null,
         "enums": null,
+        "field": "author",
+        "integration": null,
+        "inverseOf": "pitches",
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": true,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": "users.id",
+        "relationship": "BelongsTo",
+        "type": "Uuid",
+        "validations": [
+          {"type": "is present", "message": "Failed validation rule: 'Present'"}
+        ]
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
+        "field": "created_at",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": null,
+        "type": "Date",
+        "validations": []
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
+        "field": "description",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": true,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": null,
+        "type": "String",
+        "validations": [
+          {"type": "is present", "message": "Failed validation rule: 'Present'"}
+        ]
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
+        "field": "id",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": true,
+        "isPrimaryKey": true,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": null,
+        "type": "Uuid",
+        "validations": []
+      },
+      {
+        "defaultValue": 0,
+        "enums": null,
+        "field": "view_count",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": true,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": null,
+        "type": "Number",
+        "validations": [
+          {"type": "is present", "message": "Failed validation rule: 'Present'"}
+        ]
+      }
+    ],
+    "icon": null,
+    "integration": null,
+    "isReadOnly": false,
+    "isSearchable": true,
+    "isVirtual": false,
+    "name": "pitches",
+    "onlyForRelationships": false,
+    "paginationType": "page",
+    "segments": []
+  },
+  {
+    "actions": [],
+    "fields": [
+      {
+        "defaultValue": null,
+        "enums": null,
         "field": "Avatar",
         "integration": null,
         "inverseOf": null,
@@ -2264,6 +2396,23 @@
       {
         "defaultValue": null,
         "enums": null,
+        "field": "user",
+        "integration": null,
+        "inverseOf": "publisher",
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": "users.id",
+        "relationship": "HasOne",
+        "type": "Uuid",
+        "validations": []
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
         "field": "website",
         "integration": null,
         "inverseOf": null,
@@ -2495,6 +2644,23 @@
       {
         "defaultValue": null,
         "enums": null,
+        "field": "books",
+        "integration": null,
+        "inverseOf": "submitter",
+        "isFilterable": false,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": "books.id",
+        "relationship": "HasMany",
+        "type": ["Uuid"],
+        "validations": []
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
         "field": "claims",
         "integration": null,
         "inverseOf": "user",
@@ -2625,6 +2791,23 @@
       {
         "defaultValue": null,
         "enums": null,
+        "field": "pitches",
+        "integration": null,
+        "inverseOf": "author",
+        "isFilterable": false,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": "pitches.id",
+        "relationship": "HasMany",
+        "type": ["Uuid"],
+        "validations": []
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
         "field": "profile",
         "integration": null,
         "inverseOf": "user",
@@ -2636,6 +2819,23 @@
         "isVirtual": false,
         "reference": "profiles.id",
         "relationship": "HasOne",
+        "type": "Uuid",
+        "validations": []
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
+        "field": "publisher",
+        "integration": null,
+        "inverseOf": "user",
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": "publishers.id",
+        "relationship": "BelongsTo",
         "type": "Uuid",
         "validations": []
       },

@@ -24,20 +24,11 @@ export const useFetcher = <K extends FetchKey>(
   key: K | null,
   args: FunctionArgs<FetchMap, K> = {},
   {
-    immutable,
     authorized,
     ...config
   }: { immutable?: boolean; authorized?: boolean } & SWRConfiguration = {}
 ) => {
   const currentUser = useCurrentUser()
-  const immutableConfig = immutable
-    ? {
-      revalidateIfStale: false,
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false
-    }
-    : {}
-
   const onError = (err: unknown) => {
     if (err instanceof RequestException) {
       switch (err.status) {
@@ -56,7 +47,6 @@ export const useFetcher = <K extends FetchKey>(
     requester,
     {
       ...defaultConfig,
-      ...immutableConfig,
       ...config,
       onError
     }

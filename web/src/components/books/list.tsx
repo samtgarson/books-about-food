@@ -1,25 +1,23 @@
 import { Pagination } from 'src/components/lists/pagination'
-import {
-  FetchBooksInput,
-  FetchBooksOutput,
-  fetchBooks
-} from 'src/services/books/fetch-books'
+import { FetchBooksInput, fetchBooks } from 'src/services/books/fetch-books'
 import cn from 'classnames'
 import { GridContainer } from '../lists/grid-container'
 import { BookFilters } from './filters'
-import { BookItem } from './item'
+import { Item } from './item'
+import { NewBookButton } from './new-book-button'
 
 export type BookListProps = {
   filters?: FetchBooksInput
   showFilters?: boolean
   showEmpty?: boolean
-  data?: FetchBooksOutput
+  showCreate?: boolean
 }
 
 export const BookList = async ({
   filters = {},
   showFilters = true,
-  showEmpty = true
+  showEmpty = true,
+  showCreate = false
 }: BookListProps) => {
   const { books, filteredTotal, total, perPage } = await fetchBooks.call(
     filters
@@ -35,8 +33,9 @@ export const BookList = async ({
       {showFilters && <BookFilters filters={filters} />}
       <GridContainer className={cn('sm:gap-y-16')}>
         {books.map((book) => (
-          <BookItem key={book.id} book={book} />
+          <Item key={book.id} book={book} />
         ))}
+        {showCreate && <NewBookButton />}
       </GridContainer>
       {books.length === 0 && showEmpty && <p>No books found</p>}
     </Pagination>

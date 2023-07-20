@@ -3,7 +3,7 @@
 import { FC } from 'react'
 import { Book } from 'src/models/book'
 import * as Carousel from 'src/components/atoms/carousel'
-import { BookItem } from './item'
+import { Item as BookItem } from './item'
 import { Container } from '../atoms/container'
 import Link from 'next/link'
 

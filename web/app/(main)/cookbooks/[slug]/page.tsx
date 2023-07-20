@@ -78,12 +78,14 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
               links={book.links}
               className="w-full mb-4 order-last sm:order-first pt-4 sm:pt-0 sm:mb-16"
             />
-            <Detail column>
-              <p>Publisher</p>
-              <p className="font-medium">
-                <Link href={book.publisher.url}>{book.publisher.name}</Link>
-              </p>
-            </Detail>
+            {book.publisher && (
+              <Detail column>
+                <p>Publisher</p>
+                <p className="font-medium">
+                  <Link href={book.publisher.url}>{book.publisher.name}</Link>
+                </p>
+              </Detail>
+            )}
             {book.releaseDate && (
               <Detail column>
                 <p>Release Date</p>

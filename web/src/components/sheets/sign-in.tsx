@@ -5,8 +5,8 @@ import { SignInButtons } from '../auth/sign-in-buttons'
 
 export type SignInSheetProps =
   | {
-      redirect?: string | null | false
-    }
+    redirect?: string | null | false
+  }
   | undefined
 
 export const SignInSheet: FC<SignInSheetProps> = ({
@@ -17,7 +17,7 @@ export const SignInSheet: FC<SignInSheetProps> = ({
 
   return (
     <Sheet.Content>
-      <Sheet.Body className="bg-grey">
+      <Sheet.Body grey>
         <SignInButtons callbackUrl={callbackUrl} />
       </Sheet.Body>
     </Sheet.Content>

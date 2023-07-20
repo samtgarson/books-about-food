@@ -89,15 +89,18 @@ export const Content = ({
 export const Body = ({
   className,
   loading,
+  grey,
   children
 }: {
   className?: string
   loading?: boolean
+  grey?: boolean
   children: ReactNode
 }) => (
   <div
     className={cn(
-      'book-shadow bg-white p-5 sm:p-8 max-h-[70vh] overflow-auto pointer-events-auto',
+      'book-shadow p-5 sm:p-8 max-h-[70vh] overflow-auto pointer-events-auto',
+      grey ? 'bg-grey' : 'bg-white',
       className
     )}
   >
