@@ -3,6 +3,7 @@ import { FilterSelect } from 'src/components/lists/filter-select'
 import { Sort } from 'src/components/lists/sort'
 import { fetchJobs } from 'src/services/jobs/fetch-jobs'
 import { FetchProfilesInput } from 'src/services/profiles/fetch-profiles'
+import { processArray } from 'src/services/utils/inputs'
 
 type PeopleFiltersProps = {
   filters: FetchProfilesInput
@@ -36,7 +37,7 @@ export const PeopleFilters = ({ filters }: PeopleFiltersProps) => {
         search
         options={jobOptions}
         placeholder="Roles"
-        value={filters.jobs}
+        value={processArray(filters.jobs ?? [])}
         multi
         param="jobs"
       />

@@ -4,6 +4,7 @@ import { Sort } from 'src/components/lists/sort'
 import { FetchBooksInput } from 'src/services/books/fetch-books'
 import { fetchBooksPageFilters } from 'src/services/books/filters'
 import { fetchTags } from 'src/services/tags/fetch'
+import { processArray } from 'src/services/utils/inputs'
 
 type Filters = Omit<FetchBooksInput, 'page' | 'perPage'>
 type BookFiltersProps = {
@@ -39,7 +40,7 @@ export function BookFilters({ filters }: BookFiltersProps) {
         }}
         placeholder="Tags"
         param="tags"
-        value={filters.tags}
+        value={processArray(filters.tags ?? [])}
         multi
       />
       <FilterSelect

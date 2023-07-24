@@ -3,7 +3,7 @@ import { Profile } from 'src/models/profile'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
 import { profileIncludes } from '../utils'
-import { array, numeric } from '../utils/inputs'
+import { array, paginationInput } from '../utils/inputs'
 
 const authorFilter = (onlyAuthors?: boolean): Prisma.ProfileWhereInput => {
   switch (onlyAuthors) {
@@ -23,14 +23,14 @@ export type FetchProfilesOutput = Awaited<
   ReturnType<(typeof fetchProfiles)['call']>
 >
 export const fetchProfiles = new Service(
-  z.object({
-    page: numeric.optional(),
-    perPage: numeric.optional(),
-    sort: z.enum(['name', 'trending']).optional(),
-    onlyAuthors: z.boolean().optional(),
-    search: z.string().optional(),
-    jobs: array(z.string()).optional()
-  }),
+  z
+    .object({
+      sort: z.enum(['name', 'trending']).optional(),
+      onlyAuthors: z.boolean().optional(),
+      search: z.string().optional(),
+      jobs: array(z.string()).optional()
+    })
+    .merge(paginationInput),
   async ({
     page = 0,
     perPage = 21,

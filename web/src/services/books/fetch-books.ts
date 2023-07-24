@@ -8,20 +8,18 @@ import {
   FetchBooksPageFilters,
   fetchBooksPageFilterValues
 } from './filters'
-import { array, dbEnum, numeric } from '../utils/inputs'
+import { array, dbEnum, paginationInput, processArray } from '../utils/inputs'
 
 export type FetchBooksInput = NonNullable<z.infer<(typeof fetchBooks)['input']>>
 export type FetchBooksOutput = Awaited<ReturnType<(typeof fetchBooks)['call']>>
 export const fetchBooks = new Service(
   z
     .object({
-      page: numeric.optional(),
-      perPage: numeric.optional(),
       sort: z.enum(['title', 'releaseDate', 'createdAt']).optional(),
       tags: array(z.string()).optional(),
       search: z.string().optional(),
       profile: z.string().optional(),
-      status: array(dbEnum(BookStatus)).or(dbEnum(BookStatus)).optional(),
+      status: array(dbEnum(BookStatus), { acceptSingle: true }).optional(),
       submitterId: z.string().optional(),
       pageCount: z
         .custom<FetchBooksPageFilters>((key) => {
@@ -31,6 +29,7 @@ export const fetchBooks = new Service(
         })
         .optional()
     })
+    .merge(paginationInput)
     .optional(),
 
   async ({
@@ -48,9 +47,10 @@ export const fetchBooks = new Service(
     const hasSearch = (contains && contains.length > 0) || undefined
     const hasTag = (tags && tags.length > 0) || undefined
     const mode: Prisma.QueryMode = 'insensitive'
-    const statusFilter = Array.isArray(status) ? status : [status]
 
-    const AND: Prisma.BookWhereInput[] = [{ status: { in: statusFilter } }]
+    const AND: Prisma.BookWhereInput[] = [
+      { status: { in: processArray(status) } }
+    ]
     if (submitterId) AND.push({ submitterId })
     if (hasTag) AND.push({ tags: { some: { name: { in: tags } } } })
     if (profile) {

@@ -22,7 +22,7 @@ const Page = async () => {
       <BookList
         showCreate
         showFilters={false}
-        filters={{ status: ['draft'], submitterId: user.id }}
+        filters={{ status: 'draft', submitterId: user.id }}
       />
       <SignOutButton />
     </Container>

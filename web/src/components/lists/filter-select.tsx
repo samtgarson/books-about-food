@@ -2,7 +2,7 @@
 
 import * as Checkbox from '@radix-ui/react-checkbox'
 import { motion } from 'framer-motion'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { Check, ChevronDown } from 'react-feather'
 import { Button } from '../atoms/button'
 import { Pill } from '../atoms/pill'

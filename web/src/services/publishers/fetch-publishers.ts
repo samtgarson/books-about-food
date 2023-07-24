@@ -1,18 +1,18 @@
 import prisma, { Prisma } from 'database'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
+import { paginationInput } from '../utils/inputs'
 
-export type FetchPublishersInput = z.infer<typeof fetchPublishers['input']>
+export type FetchPublishersInput = z.infer<(typeof fetchPublishers)['input']>
 export type FetchPublishersOutput = Awaited<
-  ReturnType<typeof fetchPublishers['call']>
+  ReturnType<(typeof fetchPublishers)['call']>
 >
 export const fetchPublishers = new Service(
   z
     .object({
-      page: z.number().optional(),
-      perPage: z.number().optional(),
       search: z.string().optional()
     })
+    .merge(paginationInput)
     .optional(),
   async ({ page = 0, perPage = 21, search: contains } = {}) => {
     const where: Prisma.PublisherWhereInput = {
