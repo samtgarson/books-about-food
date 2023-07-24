@@ -3,12 +3,13 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import cn from 'classnames'
 import Link from 'next/link'
-import { useSelectedLayoutSegment } from 'next/navigation'
-import { FC } from 'react'
+import { usePathname, useSelectedLayoutSegment } from 'next/navigation'
+import { FC, useEffect, useState } from 'react'
 import { Menu, User, X } from 'react-feather'
 import { useScrollLock } from 'src/hooks/use-scroll-lock'
 import { Container } from '../atoms/container'
 import { AuthedButton } from '../auth/authed-button'
+import { Loader } from '../atoms/loader'
 
 const AccountLink = ({ className }: { className?: string }) => {
   return (
@@ -20,7 +21,8 @@ const AccountLink = ({ className }: { className?: string }) => {
   )
 }
 
-const navItemClassNames = () => cn('text-32 animate-fade-slide-in')
+const navItemClassNames = () =>
+  cn('text-32 animate-fade-slide-in flex gap-2 items-center')
 
 const TopNavItem: FC<{
   children: string
@@ -31,15 +33,18 @@ const TopNavItem: FC<{
   const segment = useSelectedLayoutSegment()
   const active = segment === path
   const href = `/${path || ''}`
+  const [loading, setLoading] = useState(false)
 
   return (
     <Link
       aria-current={active ? 'page' : undefined}
       href={href}
-      className={cn(className, navItemClassNames())}
+      className={cn(className, navItemClassNames(), loading && '!opacity-50')}
       style={{ animationDelay: `${index * 50}ms` }}
+      onClick={() => setLoading(true)}
     >
       {children}
+      {loading && <Loader className="animate-fade-slide-in" />}
     </Link>
   )
 }
@@ -95,10 +100,17 @@ const NavContent = () => {
 }
 
 export const TopNav: FC = () => {
+  const [open, setOpen] = useState(false)
+  const path = usePathname()
+
+  useEffect(() => {
+    setOpen(false)
+  }, [path])
+
   return (
     <nav className="z-30 absolute top-0 inset-x-0">
       <Container className="w-screen flex pr-4 items-stretch py-5 border-b border-black">
-        <Dialog.Root modal>
+        <Dialog.Root modal open={open} onOpenChange={setOpen}>
           <div className="flex gap-8 items-center">
             <Dialog.Trigger>
               <Menu strokeWidth={1} />

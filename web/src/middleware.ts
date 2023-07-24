@@ -1,8 +1,4 @@
-import { withAuth, WithAuthArgs } from 'next-auth/middleware'
-
-export default function Middleware(...args: WithAuthArgs) {
-  return withAuth(...args)
-}
+export { default } from 'next-auth/middleware'
 
 export const config = {
   matcher: ['/account']

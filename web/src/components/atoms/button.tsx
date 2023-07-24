@@ -47,7 +47,7 @@ export const Button = forwardRef(
       <Component
         ref={ref}
         className={cn(
-          'px-4 py-2.5 text-16 whitespace-nowrap flex-shrink-0 relative',
+          'px-4 py-2.5 text-16 whitespace-nowrap flex-shrink-0 relative block',
           variants[variant],
           className,
           loading && 'pointer-events-none'

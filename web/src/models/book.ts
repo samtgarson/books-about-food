@@ -1,3 +1,4 @@
+import { BookStatus } from 'database'
 import { Image } from './image'
 import { Profile } from './profile'
 import { BookAttrs } from './types'
@@ -13,6 +14,7 @@ export class Book {
   releaseDate?: Date
   pages?: number
   contributions: BookAttrs['contributions']
+  status: BookStatus
 
   constructor({
     id,
@@ -22,7 +24,8 @@ export class Book {
     coverImage,
     releaseDate,
     pages,
-    contributions
+    contributions,
+    status
   }: BookAttrs) {
     this.id = id
     this.title = title
@@ -34,9 +37,11 @@ export class Book {
     this.releaseDate = releaseDate ?? undefined
     this.pages = pages ?? undefined
     this.contributions = contributions ?? []
+    this.status = status
   }
 
   get href() {
+    if (this.status !== 'published') return `/edit/${this.slug}`
     return `/cookbooks/${this.slug}`
   }
 

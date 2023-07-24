@@ -21,7 +21,8 @@ export const fetchBooks = new Service(
       tags: array(z.string()).optional(),
       search: z.string().optional(),
       profile: z.string().optional(),
-      status: array(dbEnum(BookStatus)).optional(),
+      status: array(dbEnum(BookStatus)).or(dbEnum(BookStatus)).optional(),
+      submitterId: z.string().optional(),
       pageCount: z
         .custom<FetchBooksPageFilters>((key) => {
           return fetchBooksPageFilterValues.includes(
@@ -39,15 +40,18 @@ export const fetchBooks = new Service(
     tags,
     search,
     profile,
-    status = ['published' as const],
+    status = 'published' as const,
+    submitterId,
     pageCount
   } = {}) => {
     const contains = search?.trim()
     const hasSearch = (contains && contains.length > 0) || undefined
     const hasTag = (tags && tags.length > 0) || undefined
     const mode: Prisma.QueryMode = 'insensitive'
+    const statusFilter = Array.isArray(status) ? status : [status]
 
-    const AND: Prisma.BookWhereInput[] = [{ status: { in: status } }]
+    const AND: Prisma.BookWhereInput[] = [{ status: { in: statusFilter } }]
+    if (submitterId) AND.push({ submitterId })
     if (hasTag) AND.push({ tags: { some: { name: { in: tags } } } })
     if (profile) {
       AND.push({ contributions: { some: { profile: { slug: profile } } } })
