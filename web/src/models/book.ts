@@ -1,4 +1,4 @@
-import { BookStatus } from 'database'
+import { BookStatus, User } from 'database'
 import { Image } from './image'
 import { Profile } from './profile'
 import { BookAttrs } from './types'
@@ -15,6 +15,7 @@ export class Book {
   pages?: number
   contributions: BookAttrs['contributions']
   status: BookStatus
+  submitterId?: string
 
   constructor({
     id,
@@ -25,7 +26,8 @@ export class Book {
     releaseDate,
     pages,
     contributions,
-    status
+    status,
+    submitterId
   }: BookAttrs) {
     this.id = id
     this.title = title
@@ -38,6 +40,7 @@ export class Book {
     this.pages = pages ?? undefined
     this.contributions = contributions ?? []
     this.status = status
+    this.submitterId = submitterId ?? undefined
   }
 
   get href() {

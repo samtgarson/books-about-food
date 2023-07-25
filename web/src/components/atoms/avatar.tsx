@@ -3,7 +3,15 @@ import { NullProfile, Profile } from 'src/models/profile'
 import cn from 'classnames'
 import Image from 'next/image'
 
-export type AvatarSize = '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'fill'
+export type AvatarSize =
+  | '3xs'
+  | '2xs'
+  | 'xs'
+  | 'sm'
+  | 'md'
+  | 'lg'
+  | 'xl'
+  | 'fill'
 
 export type AvatarProps = {
   profile?: Profile
@@ -28,7 +36,8 @@ export const Avatar: FC<AvatarProps> = ({
         'w-12': mobileSize === 'sm' || (!mobileSize && size === 'sm'),
         'w-10': mobileSize === 'xs' || (!mobileSize && size === 'xs'),
         'w-32': mobileSize === 'xl' || (!mobileSize && size === 'xl'),
-        'w-8': mobileSize === '2xs' || (!mobileSize && size === '2xs'),
+        'w-8 text-12': mobileSize === '2xs' || (!mobileSize && size === '2xs'),
+        'w-6 text-10': mobileSize === '3xs' || (!mobileSize && size === '3xs'),
         'w-full': mobileSize === 'fill' || (!mobileSize && size === 'fill'),
         'md:w-16': size === 'md',
         'md:w-12': size === 'sm',

@@ -5,6 +5,7 @@ set -e
 function dump () {
   local tmpfile=$(mktemp -t baf-backup.XXXXXX.sql)
   pg_dump \
+    --inserts \
     -t jobs \
     -t books \
     -t contributions \

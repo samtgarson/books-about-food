@@ -1,17 +1,16 @@
 import { redirect } from 'next/navigation'
 import { Container } from 'src/components/atoms/container'
 import { PageBackLink } from 'src/components/atoms/page-back-link'
-import { Form } from 'src/components/form'
+import { Form, FormAction } from 'src/components/form'
 import { Submit } from 'src/components/form/submit'
 import { TextArea } from 'src/components/form/textarea'
 import { getUser } from 'src/services/auth/get-user'
 import { createPitch } from 'src/services/pitches/create-pitch'
 
 export default function Page() {
-  const action = async (data: FormData) => {
+  const action: FormAction = async (values) => {
     'use server'
 
-    const values = Object.fromEntries(data.entries())
     const user = await getUser.call()
     if (!user) redirect('auth/sign-in')
 

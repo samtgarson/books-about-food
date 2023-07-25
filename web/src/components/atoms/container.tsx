@@ -1,4 +1,4 @@
-import { ComponentProps, FC } from 'react'
+import { ComponentProps, FC, forwardRef } from 'react'
 import cn from 'classnames'
 
 export type ContainerProps = ComponentProps<'div'> & {
@@ -44,26 +44,41 @@ export const containerClasses = ({
     }
   )
 
-export const Container: FC<ContainerProps> = ({
-  children,
-  className,
-  left,
-  right,
-  mobile,
-  desktop,
-  belowNav,
-  centered,
-  ...props
-}) => (
-  <div
-    className={cn(
-      containerClasses({ left, right, mobile, desktop, belowNav, centered }),
-      className
-    )}
-    {...props}
-  >
-    {children}
-  </div>
+export const Container = forwardRef<HTMLDivElement, ContainerProps>(
+  function Container(
+    {
+      children,
+      className,
+      left,
+      right,
+      mobile,
+      desktop,
+      belowNav,
+      centered,
+      ...props
+    },
+    ref
+  ) {
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          containerClasses({
+            left,
+            right,
+            mobile,
+            desktop,
+            belowNav,
+            centered
+          }),
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </div>
+    )
+  }
 )
 
 export const AntiContainer: FC<ContainerProps> = ({

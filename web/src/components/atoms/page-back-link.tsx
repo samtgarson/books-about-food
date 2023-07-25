@@ -17,7 +17,10 @@ export const PageBackLink: FC<PageBackLinkType> = ({
   return (
     <Link
       href={href}
-      className={cn('flex gap-2 mt-20 mb-8 items-center', className)}
+      className={cn(
+        'flex gap-2 mt-20 mb-8 items-center font-medium',
+        className
+      )}
     >
       <ChevronLeft strokeWidth={1} size={24} />
       {children}
