@@ -6,6 +6,8 @@ import { fetchHome } from 'src/services/home/fetch'
 import { PeopleGrid } from './people/grid'
 import { PublisherGrid } from './publishers/grid'
 
+export * from 'app/default-static-config'
+
 const Page = async () => {
   const [features, home] = await Promise.all([
     fetchFeatures.call(),
