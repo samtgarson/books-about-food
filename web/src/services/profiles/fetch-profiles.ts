@@ -8,9 +8,9 @@ import { array, paginationInput } from '../utils/inputs'
 const authorFilter = (onlyAuthors?: boolean): Prisma.ProfileWhereInput => {
   switch (onlyAuthors) {
     case true:
-      return { contributions: { some: { job: { name: 'Author' } } } }
+      return { authoredBooks: { some: {} } }
     case false:
-      return { contributions: { none: { job: { name: 'Author' } } } }
+      return { contributions: { some: {} } }
     default:
       return {}
   }

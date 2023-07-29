@@ -7,8 +7,16 @@ export const profileIncludes = {
 
 export const bookIncludes = {
   coverImage: true,
+  previewImages: { orderBy: { createdAt: 'asc' } },
+  publisher: { include: { logo: true } },
+  tags: true,
+  links: { orderBy: { site: 'asc' } },
+  authors: { include: profileIncludes },
   contributions: {
-    include: { profile: { include: profileIncludes }, job: true },
-    where: { job: { name: 'Author' } }
+    distinct: ['profileId'],
+    include: {
+      profile: { include: profileIncludes },
+      job: true
+    }
   }
 } satisfies Prisma.BookArgs['include']

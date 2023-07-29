@@ -2,14 +2,19 @@ import prisma from 'database'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
 import { fetchBook } from './fetch-book'
+import { slugify } from 'shared/utils/slugify'
+import { array } from '../utils/inputs'
+import { bookIncludes } from '../utils'
+import { Book } from 'src/models/book'
 
 export const updateBook = new Service(
   z.object({
     slug: z.string(),
     title: z.string().optional(),
-    subtitle: z.string().optional()
+    subtitle: z.string().optional(),
+    authorNames: array(z.string()).optional()
   }),
-  async ({ slug, ...data } = {}, user) => {
+  async ({ slug, authorNames = [], ...data } = {}, user) => {
     if (!slug) throw new Error('Slug is required')
     if (!user) throw new Error('User is required')
 
@@ -19,11 +24,26 @@ export const updateBook = new Service(
       throw new Error('You do not have permission to edit this book')
     }
 
-    await prisma.book.update({
+    const authors = await Promise.all(
+      authorNames.map((name) =>
+        prisma.profile.upsert({
+          where: { name },
+          create: { name, slug: slugify(name) },
+          update: { name }
+        })
+      )
+    )
+
+    const result = await prisma.book.update({
       where: { slug },
-      data
+      data: {
+        ...data,
+        slug: data.title ? slugify(data.title) : undefined,
+        authors: { set: authors.map(({ id }) => ({ id })) }
+      },
+      include: bookIncludes
     })
 
-    return true
+    return new Book(result)
   }
 )

@@ -14,44 +14,29 @@ export class Book {
   releaseDate?: Date
   pages?: number
   contributions: BookAttrs['contributions']
+  authors: Profile[]
   status: BookStatus
   submitterId?: string
 
-  constructor({
-    id,
-    title,
-    subtitle,
-    slug,
-    coverImage,
-    releaseDate,
-    pages,
-    contributions,
-    status,
-    submitterId
-  }: BookAttrs) {
-    this.id = id
-    this.title = title
-    this.subtitle = subtitle ?? undefined
-    this.slug = slug
-    this.cover = coverImage
-      ? new Image(coverImage, `Cover for ${title}`)
+  constructor(attrs: BookAttrs) {
+    this.id = attrs.id
+    this.title = attrs.title
+    this.subtitle = attrs.subtitle ?? undefined
+    this.slug = attrs.slug
+    this.cover = attrs.coverImage
+      ? new Image(attrs.coverImage, `Cover for ${attrs.title}`)
       : undefined
-    this.releaseDate = releaseDate ?? undefined
-    this.pages = pages ?? undefined
-    this.contributions = contributions ?? []
-    this.status = status
-    this.submitterId = submitterId ?? undefined
+    this.releaseDate = attrs.releaseDate ?? undefined
+    this.pages = attrs.pages ?? undefined
+    this.contributions = attrs.contributions ?? []
+    this.status = attrs.status
+    this.submitterId = attrs.submitterId ?? undefined
+    this.authors = attrs.authors?.map((author) => new Profile(author)) ?? []
   }
 
   get href() {
     if (this.status !== 'published') return `/edit/${this.slug}`
     return `/cookbooks/${this.slug}`
-  }
-
-  get authors() {
-    return this.contributions
-      .filter((contribution) => contribution.job?.name === 'Author')
-      .map((contribution) => new Profile(contribution.profile))
   }
 
   get team(): Profile[] {

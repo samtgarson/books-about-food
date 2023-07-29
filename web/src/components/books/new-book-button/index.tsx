@@ -31,7 +31,7 @@ export const NewBookButton = () => {
               />
             </Sheet.Body>
             <Sheet.Footer>
-              <Submit className="w-full pt-4 pb-6 sm:pt-6">Create</Submit>
+              <Submit className="w-full pt-4 pb-6 sm:pt-6 -mt-4">Create</Submit>
             </Sheet.Footer>
           </Form>
         </Sheet.Content>

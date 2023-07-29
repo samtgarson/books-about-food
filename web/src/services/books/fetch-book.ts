@@ -2,7 +2,7 @@ import prisma from 'database'
 import { FullBook } from 'src/models/full-book'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
-import { profileIncludes } from '../utils'
+import { bookIncludes } from '../utils'
 
 export const fetchBook = new Service(
   z.object({ slug: z.string(), submitterId: z.string().optional() }),
@@ -10,20 +10,7 @@ export const fetchBook = new Service(
     if (!slug) throw new Error('Slug is required')
     const raw = await prisma.book.findUnique({
       where: { slug },
-      include: {
-        coverImage: true,
-        previewImages: { orderBy: { createdAt: 'asc' } },
-        publisher: { include: { logo: true } },
-        tags: true,
-        links: { orderBy: { site: 'asc' } },
-        contributions: {
-          distinct: ['profileId'],
-          include: {
-            profile: { include: profileIncludes },
-            job: true
-          }
-        }
-      }
+      include: bookIncludes
     })
 
     // TODO Move this to where clause in Prisma 5

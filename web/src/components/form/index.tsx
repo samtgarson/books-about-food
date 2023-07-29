@@ -18,7 +18,7 @@ export function Form({ className, action, ...props }: FormProps) {
         const values = Object.fromEntries(data.entries())
         await action(values)
       }}
-      className={cn('flex flex-col w-full max-w-xl', className)}
+      className={cn('flex flex-col w-full max-w-xl gap-4', className)}
     />
   )
 }

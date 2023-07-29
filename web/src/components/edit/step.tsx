@@ -24,7 +24,7 @@ export const Step: FC<StepProps> = ({
     <Link
       href={href}
       className={cn(
-        'p-5 flex items-center gap-4',
+        'p-5 flex items-center gap-5',
         complete ? 'bg-sand' : 'bg-white'
       )}
     >

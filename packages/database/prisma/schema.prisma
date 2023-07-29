@@ -103,7 +103,7 @@ model Profile {
   createdAt               DateTime  @default(now()) @map("created_at")
   updatedAt               DateTime  @default(now()) @updatedAt @map("updated_at")
   userId                  String?   @unique @map("user_id") @db.Uuid
-  name                    String
+  name                    String    @unique
   location                String?
   website                 String?
   instagram               String?
@@ -117,6 +117,7 @@ model Profile {
   favourite     Favourite[]
   avatar        Image?         @relation("profile_for")
   claims        Claim[]
+  authoredBooks Book[]         @relation("authored_books")
 
   @@map("profiles")
 }
@@ -144,6 +145,7 @@ model Contribution {
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
   book    Book    @relation(fields: [bookId], references: [id], onDelete: Cascade)
 
+  @@unique([profileId, bookId, jobId])
   @@map("contributions")
 }
 
@@ -187,6 +189,7 @@ model Book {
   publisher     Publisher?     @relation(fields: [publisherId], references: [id], onDelete: Restrict)
   features      Feature[]
   submitter     User?          @relation("submitted_books", fields: [submitterId], references: [id])
+  authors       Profile[]      @relation("authored_books")
 
   @@map("books")
 }

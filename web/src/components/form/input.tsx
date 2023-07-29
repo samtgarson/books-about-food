@@ -17,7 +17,7 @@ export function Input({ label, name, ...props }: InputProps) {
         <input
           name={name}
           {...props}
-          className="bg-white transition-colors bg-opacity-60 focus:bg-opacity-100 focus:outline-none p-4"
+          className="bg-white transition-colors bg-opacity-60 focus:bg-opacity-100 focus:outline-none p-4 placeholder:text-black/20"
         />
       </Form.Control>
       <Messages label={label} {...props} />

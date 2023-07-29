@@ -8,7 +8,13 @@ import {
   FetchBooksPageFilters,
   fetchBooksPageFilterValues
 } from './filters'
-import { array, dbEnum, paginationInput, processArray } from '../utils/inputs'
+import {
+  array,
+  arrayOrSingle,
+  dbEnum,
+  paginationInput,
+  processArray
+} from '../utils/inputs'
 
 export type FetchBooksInput = NonNullable<z.infer<(typeof fetchBooks)['input']>>
 export type FetchBooksOutput = Awaited<ReturnType<(typeof fetchBooks)['call']>>
@@ -19,7 +25,7 @@ export const fetchBooks = new Service(
       tags: array(z.string()).optional(),
       search: z.string().optional(),
       profile: z.string().optional(),
-      status: array(dbEnum(BookStatus), { acceptSingle: true }).optional(),
+      status: arrayOrSingle(dbEnum(BookStatus)).optional(),
       submitterId: z.string().optional(),
       pageCount: z
         .custom<FetchBooksPageFilters>((key) => {
