@@ -18,6 +18,7 @@ export const fetchHome = new Service(z.object({}), async () => {
 
     prisma.book
       .findMany({
+        where: { releaseDate: { lt: new Date() } },
         orderBy: { createdAt: 'desc' },
         take: 10,
         include: bookIncludes
