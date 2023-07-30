@@ -7,6 +7,58 @@
         "enums": null,
         "field": "book",
         "integration": null,
+        "inverseOf": "_authored_books",
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": true,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": "books.id",
+        "relationship": "BelongsTo",
+        "type": "Uuid",
+        "validations": [
+          {"type": "is present", "message": "Failed validation rule: 'Present'"}
+        ]
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
+        "field": "profile",
+        "integration": null,
+        "inverseOf": "_authored_books",
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": true,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": "profiles.id",
+        "relationship": "BelongsTo",
+        "type": "Uuid",
+        "validations": [
+          {"type": "is present", "message": "Failed validation rule: 'Present'"}
+        ]
+      }
+    ],
+    "icon": null,
+    "integration": null,
+    "isReadOnly": false,
+    "isSearchable": true,
+    "isVirtual": false,
+    "name": "_authored_books",
+    "onlyForRelationships": false,
+    "paginationType": "page",
+    "segments": []
+  },
+  {
+    "actions": [],
+    "fields": [
+      {
+        "defaultValue": null,
+        "enums": null,
+        "field": "book",
+        "integration": null,
         "inverseOf": "_books_tags",
         "isFilterable": true,
         "isPrimaryKey": false,
@@ -456,6 +508,23 @@
       {
         "defaultValue": null,
         "enums": null,
+        "field": "Authors",
+        "integration": null,
+        "inverseOf": "AuthoredBooks",
+        "isFilterable": false,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": "profiles.id",
+        "relationship": "BelongsToMany",
+        "type": ["Uuid"],
+        "validations": []
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
         "field": "Cover",
         "integration": null,
         "inverseOf": null,
@@ -499,6 +568,23 @@
         "isVirtual": false,
         "reference": null,
         "type": ["String"],
+        "validations": []
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
+        "field": "_authored_books",
+        "integration": null,
+        "inverseOf": "book",
+        "isFilterable": false,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": "_authored_books.id",
+        "relationship": "HasMany",
+        "type": ["Uuid"],
         "validations": []
       },
       {
@@ -1886,6 +1972,23 @@
       {
         "defaultValue": null,
         "enums": null,
+        "field": "AuthoredBooks",
+        "integration": null,
+        "inverseOf": "Authors",
+        "isFilterable": false,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": "books.id",
+        "relationship": "BelongsToMany",
+        "type": ["Uuid"],
+        "validations": []
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
         "field": "Avatar",
         "integration": null,
         "inverseOf": null,
@@ -1897,6 +2000,23 @@
         "isVirtual": false,
         "reference": null,
         "type": "String",
+        "validations": []
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
+        "field": "_authored_books",
+        "integration": null,
+        "inverseOf": "profile",
+        "isFilterable": false,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": "_authored_books.id",
+        "relationship": "HasMany",
+        "type": ["Uuid"],
         "validations": []
       },
       {

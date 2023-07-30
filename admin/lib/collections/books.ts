@@ -59,6 +59,7 @@ export const customiseBooks = (
       getValues: async (records) => {
         return Promise.all(
           records.map(async (record) => {
+            if (!record.id) return
             const image = await prisma.image.findUnique({
               where: { coverForId: record.id }
             })
@@ -117,6 +118,11 @@ export const customiseBooks = (
       return { Tags: tags }
     })
     .emulateFieldFiltering('Tags')
+
+  collection.addManyToManyRelation('Authors', 'profiles', '_authored_books', {
+    originKey: 'A',
+    foreignKey: 'B'
+  })
 
   collection.addAction('Add new collaborator', {
     scope: 'Single',

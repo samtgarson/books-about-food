@@ -38,6 +38,16 @@ export const customiseProfiles = (
       await uploadAvatar(dataUri, context.record.id)
     })
 
+  collection.addManyToManyRelation(
+    'AuthoredBooks',
+    'books',
+    '_authored_books',
+    {
+      originKey: 'B',
+      foreignKey: 'A'
+    }
+  )
+
   collection.addHook('Before', 'Create', async (context) => {
     context.data.forEach((profile) => {
       profile.slug ||= slugify(profile.name)
