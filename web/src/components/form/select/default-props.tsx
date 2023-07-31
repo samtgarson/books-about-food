@@ -9,7 +9,7 @@ const pillClasses =
   'text-14 rounded-full px-4 py-2 flex items-center gap-2 leading-none'
 
 export const selectProps = <
-  Value extends { [key in ValueKey]: string },
+  Value extends { [key in ValueKey]: string } & { __new?: true },
   Multi extends boolean,
   ValueKey extends string
 >({
@@ -23,6 +23,12 @@ export const selectProps = <
   unstyled: true,
   isClearable: true,
   allowCreateWhileLoading: false,
+  getNewOptionData(inputValue) {
+    return {
+      [valueKey]: inputValue,
+      __new: true
+    } as Value
+  },
   classNames: {
     control: (state) =>
       cn(
@@ -41,7 +47,6 @@ export const selectProps = <
     placeholder: () => 'text-black/20',
     multiValue: () => cn('bg-grey mr-2', pillClasses)
   },
-  getNewOptionData: (value) => ({ [valueKey]: value } as Value),
   components: {
     DropdownIndicator: (props) => (
       <components.DropdownIndicator {...props}>
@@ -59,20 +64,19 @@ export const selectProps = <
         <X strokeWidth={1} size={16} />
       </components.MultiValueRemove>
     ),
-    MenuList: (props) => (
-      <components.MenuList {...props}>{props.children}</components.MenuList>
-    ),
-    NoOptionsMessage: (props) =>
-      allowCreate ? null : <components.NoOptionsMessage {...props} />,
     Option: (props) => {
-      if (props.data[valueKey] !== 'NEW')
-        return <components.Option {...props} />
-      return (
-        <CreateButton
-          value={props.selectProps.inputValue}
-          onClick={props.innerProps.onClick}
-        />
-      )
+      if (allowCreate && props.data.__new) {
+        return (
+          <CreateButton
+            value={props.selectProps.inputValue}
+            onClick={props.innerProps.onClick}
+          />
+        )
+      } else if (props.data.__new) {
+        return <components.NoOptionsMessage {...props} />
+      }
+
+      return <components.Option {...props} />
     }
   }
 } satisfies AsyncCreatableProps<Value, Multi, never>)

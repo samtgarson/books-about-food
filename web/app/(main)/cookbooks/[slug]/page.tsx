@@ -82,7 +82,9 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
               <Detail column>
                 <p>Publisher</p>
                 <p className="font-medium">
-                  <Link href={book.publisher.url}>{book.publisher.name}</Link>
+                  <Link href={`/publishers/${book.publisher.slug}`}>
+                    {book.publisher.name}
+                  </Link>
                 </p>
               </Detail>
             )}

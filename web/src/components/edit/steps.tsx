@@ -26,7 +26,7 @@ export const Steps: FC<{ book: FullBook }> = ({ book }) => {
       <Step
         title="Add Publisher"
         completeTitle="Publisher"
-        href="#"
+        href={state.link('publisher')}
         required
         complete={state.publisherComplete}
       />

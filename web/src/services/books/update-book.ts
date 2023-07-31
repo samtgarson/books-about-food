@@ -14,7 +14,8 @@ export const updateBook = new Service(
     subtitle: z.string().optional(),
     authorNames: array(z.string()).optional(),
     coverImageId: z.string().optional(),
-    previewImageIds: array(z.string()).optional()
+    previewImageIds: array(z.string()).optional(),
+    publisherId: z.string().optional()
   }),
   async ({ slug, ...data } = {}, user) => {
     if (!slug) throw new Error('Slug is required')
@@ -26,14 +27,21 @@ export const updateBook = new Service(
       throw new Error('You do not have permission to edit this book')
     }
 
-    const { authorNames, coverImageId, previewImageIds = [], ...attrs } = data
+    const {
+      title,
+      authorNames,
+      coverImageId,
+      previewImageIds = [],
+      publisherId,
+      ...attrs
+    } = data
 
     const authors = await getAuthors(authorNames)
     const result = await prisma.book.update({
       where: { slug },
       data: {
         ...attrs,
-        slug: data.title ? slugify(data.title) : undefined,
+        slug: title ? slugify(title) : undefined,
         authors: authors
           ? { set: authors.map(({ id }) => ({ id })) }
           : undefined,
@@ -46,7 +54,8 @@ export const updateBook = new Service(
         previewImages:
           'previewImageIds' in data
             ? { set: previewImageIds?.map((id) => ({ id })) }
-            : undefined
+            : undefined,
+        publisher: publisherId ? { connect: { id: publisherId } } : undefined
       },
       include: bookIncludes
     })

@@ -11,7 +11,7 @@ import { Stringified } from 'src/utils/superjson'
 import { selectProps } from './default-props'
 
 export interface SelectProps<
-  Value extends { [key in ValueKey]: string },
+  Value extends { [key in ValueKey]: string } & { __new?: true },
   Multi extends boolean,
   ValueKey extends string
 > extends Omit<
@@ -36,7 +36,7 @@ const isMultiValue = <Value,>(
 }
 
 export const Select = function Select<
-  Value extends { [key in ValueKey]: string },
+  Value extends { [key in ValueKey]: string } & { __new?: true },
   Multi extends boolean,
   ValueKey extends string
 >({

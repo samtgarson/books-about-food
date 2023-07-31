@@ -9,16 +9,14 @@ export class Publisher {
   instagram?: string
   logo?: Image
 
-  constructor({ id, name, slug, website, instagram, logo }: PublisherAttrs) {
-    this.id = id
-    this.name = name
-    this.slug = slug
-    this.website = website ?? undefined
-    this.instagram = instagram ?? undefined
-    this.logo = logo ? new Image(logo, `Logo for ${name}`) : undefined
-  }
-
-  get url() {
-    return `/publishers/${this.slug}`
+  constructor(attrs: PublisherAttrs) {
+    this.id = attrs.id
+    this.name = attrs.name
+    this.slug = attrs.slug
+    this.website = attrs.website ?? undefined
+    this.instagram = attrs.instagram ?? undefined
+    this.logo = attrs.logo
+      ? new Image(attrs.logo, `Logo for ${attrs.name}`)
+      : undefined
   }
 }
