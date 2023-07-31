@@ -1,3 +1,4 @@
+import prisma from 'database'
 import { FullBook } from 'src/models/full-book'
 import { Profile } from 'src/models/profile'
 
@@ -13,6 +14,14 @@ export class BookEditState {
 
   link(path: string) {
     return `/edit/${this.book.slug}/${path}`
+  }
+
+  async submitForReview() {
+    if (!this.valid) return
+    await prisma.book.update({
+      where: { id: this.book.id },
+      data: { status: 'inReview' }
+    })
   }
 
   get valid() {

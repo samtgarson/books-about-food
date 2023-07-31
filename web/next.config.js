@@ -16,6 +16,7 @@ const nextConfig = {
   transpilePackages: ['shared', 'database', 'email'],
   swcMinify: true,
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
