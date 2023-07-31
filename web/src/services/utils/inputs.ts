@@ -8,8 +8,8 @@ export const paginationInput = z.object({
 })
 
 const preprocessArray = (val: unknown) => {
-  if (Array.isArray(val)) return val
-  return `${val}`.split(',')
+  const arr = Array.isArray(val) ? val : `${val}`.split(',')
+  return arr.filter((v) => !!v?.length)
 }
 
 export const array = <T extends z.ZodTypeAny>(type: T) => {

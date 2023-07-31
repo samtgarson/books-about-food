@@ -12,9 +12,11 @@ export const updateBook = new Service(
     slug: z.string(),
     title: z.string().optional(),
     subtitle: z.string().optional(),
-    authorNames: array(z.string()).optional()
+    authorNames: array(z.string()).optional(),
+    coverImageId: z.string().optional(),
+    previewImageIds: array(z.string()).optional()
   }),
-  async ({ slug, authorNames = [], ...data } = {}, user) => {
+  async ({ slug, ...data } = {}, user) => {
     if (!slug) throw new Error('Slug is required')
     if (!user) throw new Error('User is required')
 
@@ -24,22 +26,27 @@ export const updateBook = new Service(
       throw new Error('You do not have permission to edit this book')
     }
 
-    const authors = await Promise.all(
-      authorNames.map((name) =>
-        prisma.profile.upsert({
-          where: { name },
-          create: { name, slug: slugify(name) },
-          update: { name }
-        })
-      )
-    )
+    const { authorNames, coverImageId, previewImageIds = [], ...attrs } = data
 
+    const authors = await getAuthors(authorNames)
     const result = await prisma.book.update({
       where: { slug },
       data: {
-        ...data,
+        ...attrs,
         slug: data.title ? slugify(data.title) : undefined,
-        authors: { set: authors.map(({ id }) => ({ id })) }
+        authors: authors
+          ? { set: authors.map(({ id }) => ({ id })) }
+          : undefined,
+        coverImage:
+          'coverImageId' in data
+            ? coverImageId
+              ? { connect: { id: coverImageId } }
+              : { delete: true }
+            : undefined,
+        previewImages:
+          'previewImageIds' in data
+            ? { set: previewImageIds?.map((id) => ({ id })) }
+            : undefined
       },
       include: bookIncludes
     })
@@ -47,3 +54,16 @@ export const updateBook = new Service(
     return new Book(result)
   }
 )
+
+const getAuthors = async (authorNames?: string[]) => {
+  if (!authorNames) return
+  return Promise.all(
+    authorNames.map((name) =>
+      prisma.profile.upsert({
+        where: { name },
+        create: { name, slug: slugify(name) },
+        update: { name }
+      })
+    )
+  )
+}

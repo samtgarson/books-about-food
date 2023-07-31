@@ -19,7 +19,7 @@ export const Steps: FC<{ book: FullBook }> = ({ book }) => {
       <Step
         title="Upload Images"
         completeTitle="Images"
-        href="#"
+        href={state.link('images')}
         required
         complete={state.imagesComplete}
       />

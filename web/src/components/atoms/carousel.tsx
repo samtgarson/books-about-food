@@ -146,10 +146,10 @@ export const Scroller = ({
         'relative flex overflow-y-hidden overflow-x-auto snap-x snap-mandatory whitespace-nowrap items-center scrollbar-hidden justify-start pb-16',
         className,
         padded &&
-          cn(
-            containerClasses(containerProps),
-            containerClasses({ ...containerProps, scroll: true })
-          )
+        cn(
+          containerClasses(containerProps),
+          containerClasses({ ...containerProps, scroll: true })
+        )
       )}
       onScroll={() => {
         if (timer.current) window.clearTimeout(timer.current)
