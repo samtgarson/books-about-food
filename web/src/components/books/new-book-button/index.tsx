@@ -3,7 +3,7 @@ import * as Sheet from 'src/components/atoms/sheet'
 import * as BookItem from 'src/components/books/item'
 import { Plus } from 'react-feather'
 import { Form } from 'src/components/form'
-import { createBook } from './action'
+import { action } from './action'
 import { Input } from 'src/components/form/input'
 import { Submit } from 'src/components/form/submit'
 
@@ -20,7 +20,7 @@ export const NewBookButton = () => {
           </BookItem.Container>
         </Sheet.Trigger>
         <Sheet.Content>
-          <Form action={createBook}>
+          <Form action={action}>
             <Sheet.Body grey>
               <Sheet.Header title="Submit a new cookbook" />
               <Input

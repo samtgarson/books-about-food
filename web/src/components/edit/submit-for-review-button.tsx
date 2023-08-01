@@ -1,27 +1,21 @@
+import cn from 'classnames'
+import { RedirectType } from 'next/dist/client/components/redirect'
+import { redirect } from 'next/navigation'
 import { FC } from 'react'
 import { ArrowRight } from 'react-feather'
 import { FullBook } from 'src/models/full-book'
-import cn from 'classnames'
+import { fetchBook } from 'src/services/books/fetch-book'
 import { Submit } from '../form/submit'
 import { BookEditState } from './state'
-import { redirect } from 'next/navigation'
-import { RedirectType } from 'next/dist/client/components/redirect'
+import { callWithUser } from 'src/utils/call-with-user'
 
 export const SubmitForReviewButton: FC<{
   book: FullBook
   disabled?: boolean
 }> = ({ book, disabled }) => {
-  async function submit() {
-    'use server'
-
-    const state = new BookEditState(book)
-    await state.submitForReview()
-
-    redirect(`/edit/${book.slug}`, RedirectType.replace)
-  }
-
   return (
     <form action={submit}>
+      <input type="hidden" name="slug" value={book.slug} />
       <Submit
         className={cn(
           '!p-5 w-full',
@@ -39,4 +33,13 @@ export const SubmitForReviewButton: FC<{
       </Submit>
     </form>
   )
+}
+
+async function submit(data: FormData) {
+  'use server'
+
+  const book = await callWithUser(fetchBook, Object.fromEntries(data.entries()))
+  await new BookEditState(book).submitForReview()
+
+  redirect(`/edit/${book.slug}`, RedirectType.replace)
 }

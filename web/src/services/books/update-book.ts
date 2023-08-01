@@ -18,7 +18,6 @@ export const updateBook = new Service(
     publisherId: z.string().optional()
   }),
   async ({ slug, ...data } = {}, user) => {
-    if (!slug) throw new Error('Slug is required')
     if (!user) throw new Error('User is required')
 
     // TODO Move this to where clause in Prisma 5
