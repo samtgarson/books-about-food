@@ -16,6 +16,7 @@ export type ImageUploadProps<Multi extends boolean> = {
   name: string
   value?: Multi extends true ? Array<Image> : Image
   multi?: Multi
+  prefix: string
 } & Omit<ComponentProps<'input'>, 'type' | 'multiple' | 'value'>
 
 export function ImageUpload<Multi extends boolean = false>({
@@ -23,6 +24,7 @@ export function ImageUpload<Multi extends boolean = false>({
   name,
   multi,
   value,
+  prefix,
   ...props
 }: ImageUploadProps<Multi>) {
   const input = useRef<HTMLInputElement>(null)
@@ -79,7 +81,7 @@ export function ImageUpload<Multi extends boolean = false>({
               >
                 <ImageUploadButton
                   multi={multi}
-                  prefix="testing"
+                  prefix={prefix}
                   onSuccess={(images) => {
                     setImages((existing) => [...existing, ...images])
                   }}

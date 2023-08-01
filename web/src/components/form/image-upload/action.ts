@@ -4,12 +4,11 @@ import prisma from 'database'
 import sizeOf from 'buffer-image-size'
 import { FileUploader } from 'shared/services/file-uploader'
 import { ImageBlurrer } from 'shared/services/image-blurrer'
-import { v4 as uuid } from 'uuid'
 
 const uploader = new FileUploader()
 
 export async function uploadImage(prefix: string, formData: FormData) {
-  const files = Array.from(formData.values()) as Blob[]
+  const files = formData.getAll('image') as Blob[]
 
   const data = await Promise.all(
     files.map(async (file) => {

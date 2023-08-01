@@ -15,12 +15,14 @@ export const UploadForm = async ({ book }: { book: FullBook }) => {
         required
         value={book.cover}
         data-superjson
+        prefix={`books/${book.id}/cover`}
       />
       <ImageUpload
         label="Spreads"
         name="previewImageIds"
         multi
         value={book.previewImages}
+        prefix={`books/${book.id}/previews`}
         data-superjson
       />
       <Submit variant="dark">Save and Continue</Submit>
