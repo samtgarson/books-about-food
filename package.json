@@ -41,7 +41,7 @@
     "typescript": "5.0.4"
   },
   "dependencies": {
-    "turbo": "^1.9.8"
+    "turbo": "^1.10.12"
   },
   "eslintConfig": {
     "root": true,
