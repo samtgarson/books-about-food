@@ -5,17 +5,9 @@ import { Submit } from 'src/components/form/submit'
 import { FullBook } from 'src/models/full-book'
 import { createAction } from '../action'
 import { Select } from 'src/components/form/select'
-import { fetchProfiles } from 'src/services/profiles/fetch-profiles'
-import { stringify } from 'src/utils/superjson'
+import { profiles } from 'src/services/server-actions'
 
 export const EditTitleForm = async ({ book }: { book: FullBook }) => {
-  const options = async (search: string) => {
-    'use server'
-
-    const { profiles } = await fetchProfiles.call({ search })
-    return stringify(profiles)
-  }
-
   return (
     <Form action={createAction(book.slug)}>
       <PageBackLink href={`/edit/${book.slug}`}>
@@ -24,7 +16,7 @@ export const EditTitleForm = async ({ book }: { book: FullBook }) => {
       <Input label="Title" defaultValue={book.title} name="title" required />
       <Input label="Subtitle" defaultValue={book.subtitle} name="subtitle" />
       <Select
-        loadOptions={options}
+        loadOptions={profiles}
         label="Author(s)"
         name="authorNames"
         valueKey="name"

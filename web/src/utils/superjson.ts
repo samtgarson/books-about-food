@@ -1,4 +1,5 @@
 import { Book } from 'src/models/book'
+import { Contribution } from 'src/models/contribution'
 import { FullBook } from 'src/models/full-book'
 import { Image } from 'src/models/image'
 import { Profile } from 'src/models/profile'
@@ -10,6 +11,7 @@ superjson.registerClass(FullBook, { identifier: 'FullBook' })
 superjson.registerClass(Image, { identifier: 'Image' })
 superjson.registerClass(Profile, { identifier: 'Profile' })
 superjson.registerClass(Publisher, { identifier: 'Publisher' })
+superjson.registerClass(Contribution, { identifier: 'Contribution' })
 
 export const stringify = <T>(value: T): Stringified<T> => {
   return superjson.stringify(value) as Stringified<T>

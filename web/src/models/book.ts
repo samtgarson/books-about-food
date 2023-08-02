@@ -1,9 +1,10 @@
-import { BookStatus, User } from 'database'
+import { BookStatus } from 'database'
 import { Image } from './image'
 import { Profile } from './profile'
 import { BookAttrs } from './types'
 import format from 'date-fns/format'
 import isFuture from 'date-fns/isFuture'
+import { Contribution } from './contribution'
 
 export class Book {
   id: string
@@ -13,7 +14,7 @@ export class Book {
   cover?: Image
   releaseDate?: Date
   pages?: number
-  contributions: BookAttrs['contributions']
+  contributions: Contribution[]
   authors: Profile[]
   status: BookStatus
   submitterId?: string
@@ -28,7 +29,9 @@ export class Book {
       : undefined
     this.releaseDate = attrs.releaseDate ?? undefined
     this.pages = attrs.pages ?? undefined
-    this.contributions = attrs.contributions ?? []
+    this.contributions = (attrs.contributions ?? []).map(
+      (contribution) => new Contribution(contribution)
+    )
     this.status = attrs.status
     this.submitterId = attrs.submitterId ?? undefined
     this.authors = attrs.authors?.map((author) => new Profile(author)) ?? []
@@ -42,7 +45,7 @@ export class Book {
   get team(): Profile[] {
     return this.contributions
       .filter((contribution) => contribution.job?.name !== 'Author')
-      .map((contribution) => new Profile(contribution.profile))
+      .map((contribution) => contribution.profile)
   }
 
   get authorNames() {

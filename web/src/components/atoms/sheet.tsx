@@ -73,7 +73,7 @@ export const Content = ({
           onEscapeKeyDown={() => onCancel?.()}
           onPointerDownOutside={() => onCancel?.()}
           onInteractOutside={() => onCancel?.()}
-          className="animate-fade-slide-in sm:max-w-lg flex-shrink-0 flex flex-col w-full pointer-events-none"
+          className="animate-fade-in sm:max-w-lg flex-shrink-0 flex flex-col w-full pointer-events-none"
           aria-describedby={undefined}
         >
           <Dialog.Close className="p-4 self-end pointer-events-auto">

@@ -1,7 +1,7 @@
 import { ComponentProps, FC } from 'react'
 import { NullProfile, Profile } from 'src/models/profile'
 import cn from 'classnames'
-import Image from 'next/image'
+import Image, { ImageProps } from 'next/image'
 
 export type AvatarSize =
   | '3xs'
@@ -13,14 +13,20 @@ export type AvatarSize =
   | 'xl'
   | 'fill'
 
-export type AvatarProps = {
-  profile?: Profile
+export type BaseAvatarProps = {
+  imgProps?: ImageProps
+  backup: string
   size?: AvatarSize
   mobileSize?: AvatarSize
+  backgroundColour?: string
+  foregroundColour?: string
 } & ComponentProps<'div'>
 
-export const Avatar: FC<AvatarProps> = ({
-  profile = new NullProfile(),
+export const BaseAvatar: FC<BaseAvatarProps> = ({
+  imgProps,
+  backup,
+  backgroundColour,
+  foregroundColour,
   size = 'md',
   mobileSize = size,
   className,
@@ -48,23 +54,43 @@ export const Avatar: FC<AvatarProps> = ({
       }
     )}
     style={
-      profile.avatar
+      imgProps
         ? undefined
         : {
-          backgroundColor: profile.backgroundColour,
-          color: profile.foregroundColour
+          backgroundColor: backgroundColour,
+          color: foregroundColour
         }
     }
   >
-    {profile.avatar ? (
+    {imgProps ? (
       <Image
-        {...profile.avatar.imageAttrs()}
+        {...imgProps}
         fill
         className="inset-0 object-cover"
         sizes="300px"
       />
     ) : (
-      profile.initials
+      backup.split(' ').map((word) => word[0]?.toUpperCase())
     )}
   </div>
+)
+
+export type AvatarProps = Omit<
+  BaseAvatarProps,
+  'backup' | 'foregroundColour' | 'backgroundColour' | 'imageProps'
+> & {
+  profile?: Profile
+}
+
+export const Avatar: FC<AvatarProps> = ({
+  profile = new NullProfile(),
+  ...props
+}) => (
+  <BaseAvatar
+    {...props}
+    imgProps={profile.avatar?.imageAttrs()}
+    backup={profile.name}
+    foregroundColour={profile.foregroundColour}
+    backgroundColour={profile.backgroundColour}
+  />
 )

@@ -23,6 +23,11 @@ export const selectProps = <
   unstyled: true,
   isClearable: true,
   allowCreateWhileLoading: false,
+  menuShouldScrollIntoView: true,
+  menuPortalTarget: document.querySelector(
+    '[role=dialog][data-state=open]'
+  ) as HTMLElement | null,
+  menuPosition: 'fixed',
   getNewOptionData(inputValue) {
     return {
       [valueKey]: inputValue,
@@ -36,6 +41,7 @@ export const selectProps = <
         state.isFocused ? 'bg-opacity-100' : 'bg-opacity-60',
         state.isMulti ? 'px-4 py-3' : 'p-4'
       ),
+    menuPortal: () => '!z-50',
     menu: () => cn('bg-white mt-1'),
     noOptionsMessage: () => 'p-5 text-black/50',
     loadingMessage: () => 'p-5 text-black/50',

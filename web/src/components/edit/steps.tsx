@@ -33,7 +33,7 @@ export const Steps: FC<{ book: FullBook }> = ({ book }) => {
       <Step
         title="Add Team"
         completeTitle="Team"
-        href="#"
+        href={state.link('team')}
         required
         complete={state.teamComplete}
       />

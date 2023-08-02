@@ -1,7 +1,14 @@
 'use client'
 
-import { ReactNode, useCallback, useMemo, useRef } from 'react'
-import ReactSelect from 'react-select/async-creatable'
+import {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from 'react'
+import ReactSelect, { AsyncCreatableProps } from 'react-select/async-creatable'
 import SuperJSON from 'superjson'
 import { MultiValue, OnChangeValue } from 'react-select'
 import * as Form from '@radix-ui/react-form'
@@ -27,6 +34,7 @@ export interface SelectProps<
   multi?: Multi
   defaultValue?: OnChangeValue<Value, Multi>
   allowCreate?: boolean
+  onChange?: (value: OnChangeValue<Value, Multi>) => void
 }
 
 const isMultiValue = <Value,>(
@@ -49,11 +57,15 @@ export const Select = function Select<
   valueKey,
   multi,
   allowCreate,
+  onChange: externalOnChange,
   ...props
 }: SelectProps<Value, Multi, ValueKey>) {
   const input = useRef<HTMLInputElement>(null)
   const renderOption =
     typeof render === 'function' ? render : (value: Value) => value[render]
+  const [browserProps, setProps] = useState<
+    AsyncCreatableProps<Value, Multi, never>
+  >({})
 
   const loadOptionsFn = useMemo(
     () =>
@@ -79,9 +91,14 @@ export const Select = function Select<
       if (!input.current) return
       input.current.value = stringifyValue(val) ?? ''
       input.current.dispatchEvent(new Event('change', { bubbles: true }))
+      externalOnChange?.(val)
     },
-    [stringifyValue]
+    [stringifyValue, externalOnChange]
   )
+
+  useEffect(() => {
+    setProps(selectProps({ valueKey, allowCreate }))
+  }, [valueKey, allowCreate])
 
   return (
     <Form.Field name={name} className="flex flex-col gap-2">
@@ -100,7 +117,7 @@ export const Select = function Select<
       <Form.ValidityState>
         {(validity) => (
           <ReactSelect<Value, Multi, never>
-            {...selectProps({ allowCreate, valueKey })}
+            {...browserProps}
             required={props.required}
             getOptionValue={(value) => value[valueKey]}
             options={options}

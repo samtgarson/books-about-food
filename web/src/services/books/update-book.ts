@@ -70,7 +70,7 @@ const getAuthors = async (authorNames?: string[]) => {
       prisma.profile.upsert({
         where: { name },
         create: { name, slug: slugify(name) },
-        update: { name }
+        update: {}
       })
     )
   )
