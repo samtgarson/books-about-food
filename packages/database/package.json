@@ -1,5 +1,6 @@
 {
   "name": "database",
+  "version": "0.1.0",
   "private": true,
   "main": "index.ts",
   "types": "index.ts",
@@ -11,10 +12,10 @@
     "seed": "./dump"
   },
   "devDependencies": {
-    "prisma": "^4.10.1"
+    "prisma": "^5.1.0"
   },
   "dependencies": {
-    "@prisma/client": "^4.10.1",
+    "@prisma/client": "^5.1.0",
     "shared": "*"
   }
 }
