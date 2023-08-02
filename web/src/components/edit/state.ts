@@ -12,6 +12,10 @@ export type StepCompletionMeta =
 export class BookEditState {
   constructor(private book: FullBook) { }
 
+  get inReview() {
+    return this.book.status === 'inReview'
+  }
+
   link(path: string) {
     return `/edit/${this.book.slug}/${path}`
   }

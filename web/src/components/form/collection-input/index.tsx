@@ -18,7 +18,7 @@ export function CollectionInput<Value extends { id: string }>({
   defaultValue = [],
   render,
   form: FormComponent,
-  serialize,
+  serialize = (v) => v,
   ...props
 }: CollectionInputProps<Value>) {
   const [value, setValue] = useState<Value[]>(defaultValue)

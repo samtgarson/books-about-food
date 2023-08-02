@@ -15,7 +15,13 @@ export const updateBook = new Service(
     authorNames: array(z.string()).optional(),
     coverImageId: z.string().optional(),
     previewImageIds: array(z.string()).optional(),
-    publisherId: z.string().optional()
+    publisherId: z.string().optional(),
+    releaseDate: z.coerce.date().optional(),
+    pages: z.coerce
+      .number()
+      .optional()
+      .transform((n) => (n ? n : null)),
+    tags: array(z.string()).optional()
   }),
   async ({ slug, ...data } = {}, user) => {
     if (!user) throw new Error('User is required')
@@ -32,6 +38,7 @@ export const updateBook = new Service(
       coverImageId,
       previewImageIds = [],
       publisherId,
+      tags,
       ...attrs
     } = data
 
@@ -54,7 +61,8 @@ export const updateBook = new Service(
           'previewImageIds' in data
             ? { set: previewImageIds?.map((id) => ({ id })) }
             : undefined,
-        publisher: publisherId ? { connect: { id: publisherId } } : undefined
+        publisher: publisherId ? { connect: { id: publisherId } } : undefined,
+        tags: tags ? { set: tags.map((name) => ({ name })) } : undefined
       },
       include: bookIncludes
     })

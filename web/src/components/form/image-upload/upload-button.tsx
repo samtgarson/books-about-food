@@ -35,8 +35,8 @@ export function ImageUploadButton({
           startTransition(async () => {
             if (!e.target.files?.length) return
             const fd = new FormData()
-            Array.from(e.target.files).forEach((file, i) =>
-              fd.append('file', file, file.name)
+            Array.from(e.target.files).forEach((file) =>
+              fd.append('image', file, file.name)
             )
             const result = await uploadImage(prefix, fd)
             const images = result.map(

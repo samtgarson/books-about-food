@@ -11,6 +11,7 @@ export interface StepProps {
   required?: boolean
   href: string
   complete?: StepCompletionMeta
+  disabled?: boolean
 }
 
 export const Step: FC<StepProps> = ({
@@ -18,14 +19,16 @@ export const Step: FC<StepProps> = ({
   completeTitle = title,
   required,
   href,
-  complete
+  complete,
+  disabled
 }) => {
   return (
     <Link
       href={href}
       className={cn(
         'p-5 flex items-center gap-5',
-        complete ? 'bg-sand' : 'bg-white'
+        complete ? 'bg-sand' : 'bg-white',
+        disabled && 'pointer-events-none'
       )}
     >
       <p className="mr-auto">{complete ? completeTitle : title}</p>
@@ -37,7 +40,7 @@ export const Step: FC<StepProps> = ({
       {complete?.profiles && (
         <AvatarList profiles={complete.profiles} size="3xs" />
       )}
-      {complete ? (
+      {disabled ? null : complete ? (
         <p className="underline">Edit</p>
       ) : (
         <>

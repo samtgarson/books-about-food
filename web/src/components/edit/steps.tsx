@@ -6,10 +6,12 @@ import { BookEditState } from './state'
 
 export const Steps: FC<{ book: FullBook }> = ({ book }) => {
   const state = new BookEditState(book)
+  console.log(book.status)
 
   return (
     <div className="flex flex-col gap-2 max-w-lg">
       <Step
+        disabled={state.inReview}
         title="Add Title and Author(s)"
         completeTitle="Title and Author(s)"
         href={state.link('title')}
@@ -17,6 +19,7 @@ export const Steps: FC<{ book: FullBook }> = ({ book }) => {
         complete={state.titleComplete}
       />
       <Step
+        disabled={state.inReview}
         title="Upload Images"
         completeTitle="Images"
         href={state.link('images')}
@@ -24,6 +27,7 @@ export const Steps: FC<{ book: FullBook }> = ({ book }) => {
         complete={state.imagesComplete}
       />
       <Step
+        disabled={state.inReview}
         title="Add Publisher"
         completeTitle="Publisher"
         href={state.link('publisher')}
@@ -31,6 +35,7 @@ export const Steps: FC<{ book: FullBook }> = ({ book }) => {
         complete={state.publisherComplete}
       />
       <Step
+        disabled={state.inReview}
         title="Add Team"
         completeTitle="Team"
         href={state.link('team')}
@@ -38,18 +43,22 @@ export const Steps: FC<{ book: FullBook }> = ({ book }) => {
         complete={state.teamComplete}
       />
       <Step
+        disabled={state.inReview}
         title="Add Links"
         completeTitle="Links"
-        href="#"
+        href={state.link('links')}
         complete={state.linksComplete}
       />
       <Step
+        disabled={state.inReview}
         title="Add Further Information"
         completeTitle="Further Information"
-        href="#"
+        href={state.link('meta')}
         complete={state.furtherInformationComplete}
       />
-      <SubmitForReviewButton book={book} disabled={!state.valid} />
+      {state.inReview ? null : (
+        <SubmitForReviewButton book={book} disabled={!state.valid} />
+      )}
     </div>
   )
 }
