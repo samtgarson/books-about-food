@@ -68,7 +68,7 @@ const TopNavItemExternal: FC<{
 const NavContent = () => {
   useScrollLock()
   return (
-    <div className="fixed inset-0 bg-white z-40 flex flex-col items-center justify-center gap-4 animate-fade-in">
+    <div className="fixed inset-0 bg-white z-40 flex flex-col items-center justify-center gap-4 animate-fade-in pt-20 max-h-screen overflow-auto">
       <Dialog.Close>
         <Container className="absolute top-0 inset-x-0 gap-8 flex py-5 border-b border-black all-caps items-center">
           <X strokeWidth={1} />

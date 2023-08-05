@@ -17,6 +17,7 @@ function dump () {
     -t features \
     -t _books_tags \
     -t _profiles_jobs \
+    -t _authored_books \
     --data-only \
     $PROD_DATABASE_URL > $tmpfile \
     && psql -d $DATABASE_URL -f $tmpfile || true
