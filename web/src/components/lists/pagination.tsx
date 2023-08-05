@@ -38,7 +38,7 @@ export const Pagination: FC<PaginationProps> = ({
             <Fragment key={`group-${i}`}>
               {pageGroup.map((p) => (
                 <li key={p} className="list-none">
-                  <ParamLink page={p}>
+                  <ParamLink page={p || undefined}>
                     <Link href="">
                       <Pill
                         selected={page === p}

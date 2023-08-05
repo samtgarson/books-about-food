@@ -1,13 +1,7 @@
 'use client'
 
-import {
-  FC,
-  startTransition,
-  useDeferredValue,
-  useEffect,
-  useState
-} from 'react'
 import cn from 'classnames'
+import { FC, startTransition, useState } from 'react'
 import { X } from 'react-feather'
 import { Loader } from '../atoms/loader'
 
@@ -31,12 +25,6 @@ export const Search: FC<SearchProps> = ({
   autoFocus = false
 }) => {
   const [internalValue, setInternalValue] = useState(value)
-  const deferred = useDeferredValue(internalValue)
-
-  useEffect(() => {
-    onChange?.(deferred)
-  }, [deferred, onChange])
-
   const loading = value !== internalValue
 
   return (
@@ -47,7 +35,9 @@ export const Search: FC<SearchProps> = ({
         value={internalValue}
         onChange={(e) => {
           setInternalValue(e.target.value)
-          startTransition(() => setInternalValue(e.target.value))
+          startTransition(() => {
+            onChange?.(e.target.value)
+          })
         }}
         onBlur={onBlur}
         placeholder={placeholder}
@@ -63,7 +53,7 @@ export const Search: FC<SearchProps> = ({
         <button
           onClick={() => {
             setInternalValue('')
-            setInternalValue('')
+            onChange?.('')
             onReset?.()
           }}
           className={cn(

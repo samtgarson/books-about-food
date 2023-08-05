@@ -24,19 +24,16 @@ export const FilterBar: FC<FilterBarProps> = ({
   const [showSearch, setShowSearch] = useState(false)
   const searchWrapper = useRef<HTMLDivElement>(null)
   const searchProps = { ...search, className: 'w-full' }
-  const { replace } = useRouter()
+  const router = useRouter()
 
   const showSearchAndFocus = () => {
     setShowSearch(true)
-    setTimeout(() => {
-      searchWrapper.current?.querySelector('input')?.focus()
-    })
   }
 
   const onSearchChange = (value: string) => {
     const search = !value?.length ? null : value
     const href = mergeParams({ search })
-    replace(href)
+    router.replace(href)
   }
 
   return (
@@ -50,6 +47,7 @@ export const FilterBar: FC<FilterBarProps> = ({
           >
             <Search
               {...searchProps}
+              autoFocus
               onReset={() => setShowSearch(false)}
               onBlur={() => {
                 !searchProps.value?.length && setShowSearch(false)
