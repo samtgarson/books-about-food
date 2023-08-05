@@ -1,18 +1,17 @@
 import prisma from 'database'
 import { notFound } from 'next/navigation'
-import { fetchPublishers } from 'src/services/publishers/fetch-publishers'
 
 export * from 'app/default-static-config'
 
-export const generateStaticParams = async () => {
-  const { publishers } = await fetchPublishers.call({
-    perPage: 0
-  })
-
-  return publishers.map((publisher) => ({
-    slug: publisher.slug
-  }))
-}
+// export const generateStaticParams = async () => {
+//   const { publishers } = await fetchPublishers.call({
+//     perPage: 0
+//   })
+//
+//   return publishers.map((publisher) => ({
+//     slug: publisher.slug
+//   }))
+// }
 
 const fetchPublisher = async (slug: string) =>
   prisma.publisher.findUnique({

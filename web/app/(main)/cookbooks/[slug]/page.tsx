@@ -15,7 +15,7 @@ import { CorrectionButton } from 'src/components/books/correction-button'
 export * from 'app/default-static-config'
 
 export const generateStaticParams = async () => {
-  const { books } = await fetchBooks.call({ perPage: 0 })
+  const { books } = await fetchBooks.call({ perPage: 100, sort: 'releaseDate' })
 
   return books.map((book) => ({
     slug: book.slug
