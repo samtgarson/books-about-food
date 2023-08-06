@@ -127,6 +127,7 @@ function FilterSelectContent<Value extends string | number = string>({
           <Sheet.Header title={placeholder}>
             <ParamLink {...{ [param]: null }}>
               <Link
+                scroll={false}
                 href=""
                 className="bg-transparent opacity-50 text-14"
                 onClick={close}
@@ -190,6 +191,7 @@ function FilterSelectContent<Value extends string | number = string>({
               onClick={close}
               as="a"
               className="w-full border-t border-black pt-4 pb-6 sm:pt-6"
+              scroll={false}
             >
               Save
             </Button>

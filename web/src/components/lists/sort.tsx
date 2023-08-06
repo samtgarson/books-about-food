@@ -22,7 +22,7 @@ export const Sort = <Value extends string>({
         return (
           <li key={sort} className="list-none flex-shrink-0">
             <ParamLink sort={sort === defaultValue ? null : sort}>
-              <Link href="">
+              <Link href="" scroll={false}>
                 <Pill selected={selected} disabled={selected}>
                   {sorts[sort]}
                 </Pill>

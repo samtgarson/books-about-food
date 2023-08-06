@@ -1,18 +1,11 @@
-import { Container } from 'src/components/atoms/container'
 import { BookList } from 'src/components/books/list'
-import { PageProps } from 'src/components/types'
+import { createIndexPage } from 'src/components/pages/index-page'
 import { fetchBooks } from 'src/services/books/fetch-books'
-
+import Loading from './loading'
 export * from 'app/default-static-config'
 
-export default async ({ searchParams }: PageProps) => {
-  const filters = fetchBooks.input.parse(searchParams)
-  return (
-    <>
-      <Container belowNav>
-        {/* @ts-expect-error RSC */}
-        <BookList filters={filters} />
-      </Container>
-    </>
-  )
-}
+export default createIndexPage({
+  content: BookList,
+  svc: fetchBooks,
+  loading: <Loading />
+})

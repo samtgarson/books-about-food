@@ -1,7 +1,6 @@
-import Link from 'next/link'
 import { FC, Fragment, ReactNode, useMemo } from 'react'
 import { Pill } from 'src/components/atoms/pill'
-import { ParamLink } from '../atoms/param-link'
+import { Button, Wrapper } from './utils'
 
 export type PaginationProps = {
   filteredTotal?: number
@@ -30,27 +29,23 @@ export const Pagination: FC<PaginationProps> = ({
 
   if (totalPages <= 1) return <>{children}</>
   return (
-    <>
+    <Wrapper>
       {children}
       {totalPages > 1 && (
         <ul className="flex gap-2 mt-20 flex-wrap">
           {displayPages.map((pageGroup, i) => (
             <Fragment key={`group-${i}`}>
               {pageGroup.map((p) => (
-                <li key={p} className="list-none">
-                  <ParamLink page={p || undefined}>
-                    <Link href="">
-                      <Pill
-                        selected={page === p}
-                        disabled={page === p}
-                        className="w-10 h-11 !p-0"
-                        title={`Page ${p + 1}`}
-                      >
-                        {p + 1}
-                      </Pill>
-                    </Link>
-                  </ParamLink>
-                </li>
+                <Button page={p} key={p}>
+                  <Pill
+                    selected={page === p}
+                    disabled={page === p}
+                    className="w-10 h-11 !p-0"
+                    title={`Page ${p + 1}`}
+                  >
+                    {p + 1}
+                  </Pill>
+                </Button>
               ))}
               {i < displayPages.length - 1 && (
                 <li className="list-none" key={`ellipsis-${i}`}>
@@ -63,6 +58,6 @@ export const Pagination: FC<PaginationProps> = ({
           ))}
         </ul>
       )}
-    </>
+    </Wrapper>
   )
 }
