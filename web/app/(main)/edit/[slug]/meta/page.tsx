@@ -7,7 +7,6 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
 
   return (
     <Container belowNav centered>
-      {/* @ts-expect-error RSC */}
       <EditMetaForm book={book} />
     </Container>
   )

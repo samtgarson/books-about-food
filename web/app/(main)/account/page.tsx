@@ -15,10 +15,8 @@ const Page = async () => {
     <Container belowNav>
       <PageTitle>Account</PageTitle>
       <Suspense fallback="Loading favourites">
-        {/* @ts-expect-error RSC */}
         <FavouritesList user={user} />
       </Suspense>
-      {/* @ts-expect-error RSC */}
       <BookList
         showCreate
         showFilters={false}
