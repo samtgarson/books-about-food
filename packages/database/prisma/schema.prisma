@@ -198,7 +198,7 @@ model Publisher {
   id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @default(now()) @updatedAt @map("updated_at")
-  name           String
+  name           String   @unique
   website        String?
   genericContact String?  @map("generic_contact")
   directContact  String?  @map("direct_contact")
