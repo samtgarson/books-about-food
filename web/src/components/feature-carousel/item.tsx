@@ -62,7 +62,9 @@ export function FeatureCarouselItem({
             {feature.tagLine}
           </p>
         )}
-        <p className="text-14 lg:text-18 mb-4 lg:mb-8">{feature.description}</p>
+        <p className="text-14 lg:text-18 mb-4 lg:mb-8 max-w-xl">
+          {feature.description}
+        </p>
         <div className="flex items-center gap-2">
           {feature.book.authors.map((author) => (
             <Fragment key={author.slug}>

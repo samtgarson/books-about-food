@@ -13,7 +13,7 @@ export default async function Page({
 
   return (
     <Container belowNav>
-      <PageTitle>Submit a Cookbook</PageTitle>
+      <PageTitle>{`Editing: ${book.title}`}</PageTitle>
       <Steps book={book} />
     </Container>
   )

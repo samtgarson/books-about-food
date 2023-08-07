@@ -6,7 +6,6 @@ import { BookEditState } from './state'
 
 export const Steps: FC<{ book: FullBook }> = ({ book }) => {
   const state = new BookEditState(book)
-  console.log(book.status)
 
   return (
     <div className="flex flex-col gap-2 max-w-lg">

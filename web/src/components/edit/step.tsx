@@ -22,6 +22,7 @@ export const Step: FC<StepProps> = ({
   complete,
   disabled
 }) => {
+  if (disabled && !complete) return null
   return (
     <Link
       href={href}

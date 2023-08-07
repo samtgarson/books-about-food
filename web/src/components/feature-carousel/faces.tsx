@@ -16,9 +16,9 @@ export const Faces: FC<FacesProps> = ({ features }) => {
   return (
     <motion.div
       className="hidden lg:flex right-[15vw] left-[40vw] border-red absolute inset-y-0 justify-center items-center z-30"
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1, transition: { delay: 0.3 } }}
-      exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.2 } }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1, transition: { delay: 0.3 } }}
+      exit={{ opacity: 0, transition: { duration: 0.2 } }}
       transition={{ ease: 'easeIn' }}
     >
       <CircleLogo className={cn('hidden lg:block animate-slow-spin')} />
