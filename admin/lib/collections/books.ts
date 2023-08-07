@@ -31,14 +31,33 @@ const uploadPreviews = async (dataUris: string[] = [], bookId: string) => {
 const updateProfiles = async (bookId: string) => {
   const book = await prisma.book.findUnique({ where: { id: bookId } })
   if (!book?.releaseDate) return
-
-  await prisma.profile.updateMany({
+  const profiles = await prisma.profile.findMany({
     where: {
-      contributions: { some: { bookId } },
-      mostRecentlyPublishedOn: { lt: book.releaseDate }
-    },
-    data: { mostRecentlyPublishedOn: book.releaseDate }
+      OR: [
+        { contributions: { some: { bookId } } },
+        { authoredBooks: { some: { id: bookId } } }
+      ]
+    }
   })
+
+  await Promise.all(
+    profiles.map(async (profile) => {
+      const latestBook = await prisma.book.findFirst({
+        where: {
+          contributions: { some: { profileId: profile.id } },
+          releaseDate: { not: null },
+          status: 'published'
+        },
+        orderBy: { releaseDate: 'desc' }
+      })
+
+      if (!latestBook) return
+      await prisma.profile.update({
+        where: { id: profile.id },
+        data: { mostRecentlyPublishedOn: latestBook.releaseDate }
+      })
+    })
+  )
 }
 
 const updateTags = async (bookId: string, tags: string[] = []) =>
@@ -119,10 +138,39 @@ export const customiseBooks = (
     })
     .emulateFieldFiltering('Tags')
 
-  collection.addManyToManyRelation('Authors', 'profiles', '_authored_books', {
-    originKey: 'A',
-    foreignKey: 'B'
-  })
+  collection
+    .addField('Authors', {
+      dependencies: ['id'],
+      getValues: async (records) => {
+        const profiles = await prisma.profile.findMany({
+          where: {
+            authoredBooks: { some: { id: { in: records.map((r) => r.id) } } }
+          },
+          include: { authoredBooks: true }
+        })
+
+        return records.map((book) =>
+          profiles
+            .filter((profile) =>
+              profile.authoredBooks.some((b) => b.id === book.id)
+            )
+            .map((profile) => profile.name)
+        )
+      },
+      columnType: ['String']
+    })
+    .replaceFieldWriting('Authors', async (authors, context) => {
+      if (!context.record.id) return
+      const bookId = context.record.id
+      await prisma.book.update({
+        where: { id: bookId },
+        data: {
+          authors: {
+            set: authors.map((name) => ({ name }))
+          }
+        }
+      })
+    })
 
   collection.addAction('Add new collaborator', {
     scope: 'Single',

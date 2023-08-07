@@ -25,8 +25,7 @@ apiRouter.get('/link-sites', async (ctx) => {
     'Edelweiss+',
     'Bookshop.org',
     'Worldcat',
-    'AbeBooks',
-    'Book Depository'
+    'AbeBooks'
   ]
   ctx.body = {
     data: Array.from(

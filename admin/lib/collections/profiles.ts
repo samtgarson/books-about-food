@@ -38,15 +38,20 @@ export const customiseProfiles = (
       await uploadAvatar(dataUri, context.record.id)
     })
 
-  collection.addManyToManyRelation(
-    'AuthoredBooks',
-    'books',
-    '_authored_books',
-    {
-      originKey: 'B',
-      foreignKey: 'A'
+  collection.addExternalRelation('Authored Books', {
+    schema: {
+      Title: 'String'
+    },
+    dependencies: ['id'],
+    async listRecords(record) {
+      const books = await prisma.book.findMany({
+        where: {
+          authors: { some: { id: record.id } }
+        }
+      })
+      return books.map((book) => ({ Title: book.title }))
     }
-  )
+  })
 
   collection.addHook('Before', 'Create', async (context) => {
     context.data.forEach((profile) => {
