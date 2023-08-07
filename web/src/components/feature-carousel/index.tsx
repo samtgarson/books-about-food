@@ -1,11 +1,14 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { FC, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { FC, useEffect, useMemo, useState } from 'react'
 import { Feature } from 'src/services/features/fetch-features'
-import { Container } from '../atoms/container'
+import { containerClasses } from '../atoms/container'
 import { FeatureCarouselItem } from './item'
 import { Title } from './title'
+import cn from 'classnames'
+import { Faces } from './faces'
+import { useNav } from '../nav/context'
 
 export type FeatureCarouselProps = {
   features: Feature[]
@@ -16,15 +19,25 @@ type Item =
   | { feature?: never; title: true }
 const createLoop = (features: Feature[]): Item[] => {
   const featureItems = features.map((feature) => ({ feature }))
-  // const title = { title: true } as const
+  const title = { title: true } as const
 
-  return [...featureItems, ...featureItems, ...featureItems]
+  const batch = [title, ...featureItems]
+  return [...batch, ...batch, ...batch]
 }
 
 export const FeatureCarousel: FC<FeatureCarouselProps> = ({ features }) => {
-  const [[currentIndex, offset], setState] = useState([features.length, 0])
+  const [[currentIndex, offset], setState] = useState([features.length + 1, 0])
   const loop = createLoop(features)
-  const totalSlides = features.length
+  const totalSlides = useMemo(() => features.length + 1, [features.length])
+  const showingTitle = useMemo(
+    () => currentIndex % totalSlides === 0,
+    [currentIndex, totalSlides]
+  )
+  const { setTheme } = useNav()
+
+  useEffect(() => {
+    setTheme(showingTitle ? 'dark' : 'light')
+  }, [showingTitle, setTheme])
 
   const onClick = (virtualIndex: number) => {
     const rangeStart = (offset + 1) * totalSlides
@@ -41,13 +54,23 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({ features }) => {
 
   if (!features.length) return null
   return (
-    <motion.div layout className="pb-12 pt-16 lg:pb-52 mb:pb-52 bg-white">
-      <Container belowNav>
-        <motion.h2 className="all-caps-sm" layout>
-          Today&apos;s Specials
-        </motion.h2>
-      </Container>
-      <div className="w-full mt-8 lg:mt-32 relative">
+    <motion.div
+      layout
+      className={cn(
+        'py-28 lg:py-52 transition-colors relative',
+        showingTitle ? 'bg-black' : 'bg-white'
+      )}
+    >
+      <AnimatePresence>
+        {showingTitle && <Faces features={features} />}
+      </AnimatePresence>
+      <div
+        className={cn(
+          'w-full relative',
+          containerClasses(),
+          'lg:pl-[15vw] lg:pr-40'
+        )}
+      >
         {loop.map(({ title, feature }, index) => {
           const virtualIndex = offset * totalSlides + index
           const batch = Math.floor(index / totalSlides) + offset
@@ -73,6 +96,7 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({ features }) => {
               key={id}
               id={id}
               onClick={() => onClick(virtualIndex)}
+              preTitle={index % totalSlides === totalSlides - 1}
             />
           )
         })}

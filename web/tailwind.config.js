@@ -38,7 +38,8 @@ module.exports = {
         'collapsible-closed': 'collapsible-closed 0.3s 0.1s ease-out both',
         'fade-in': 'fade-in 0.2s ease-out both',
         'fade-out': 'fade-out 0.2s ease-out both',
-        'fade-slide-in': 'fade-slide-in 0.4s ease-out both'
+        'fade-slide-in': 'fade-slide-in 0.4s ease-out both',
+        'slow-spin': 'spin 60s linear infinite'
       }
     },
     colors: {

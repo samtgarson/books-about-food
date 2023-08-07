@@ -15,17 +15,20 @@ export function FeatureCarouselItem({
   index,
   currentIndex,
   onClick,
-  id
+  id,
+  preTitle
 }: {
   feature: Feature
   index: number
   currentIndex: number
   onClick?: () => void
   id: string
+  preTitle: boolean
 }) {
-  const { current, attrs, display } = useFeatureCarouselItem({
+  const { current, attrs, display, className } = useFeatureCarouselItem({
     index,
-    currentIndex
+    currentIndex,
+    preTitle
   })
 
   if (!display) return null
@@ -34,17 +37,18 @@ export function FeatureCarouselItem({
       layoutId={id}
       layout="position"
       href={feature.book.href}
-      onClick={(e) => {
-        if (current) return true
-        e.preventDefault()
-        onClick?.()
-      }}
       {...attrs}
+      className={cn(className)}
     >
       {feature.book.cover && (
         <Image
           {...feature.book.cover?.imageAttrs(360)}
-          className="book-shadow max-w-none h-[250px] sm:h-[360px] w-auto"
+          className="book-shadow max-w-none h-[250px] sm:h-[360px] w-auto pointer-events-auto"
+          onClick={(e) => {
+            if (current) return true
+            e.preventDefault()
+            onClick?.()
+          }}
         />
       )}
       <div
@@ -58,7 +62,6 @@ export function FeatureCarouselItem({
             {feature.tagLine}
           </p>
         )}
-        <h3 className="text-32 mb-2">{feature.book.title}</h3>
         <p className="text-14 lg:text-18 mb-4 lg:mb-8">{feature.description}</p>
         <div className="flex items-center gap-2">
           {feature.book.authors.map((author) => (

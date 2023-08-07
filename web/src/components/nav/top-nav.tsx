@@ -10,6 +10,7 @@ import { useScrollLock } from 'src/hooks/use-scroll-lock'
 import { Container } from '../atoms/container'
 import { AuthedButton } from '../auth/authed-button'
 import { Loader } from '../atoms/loader'
+import { useNav } from './context'
 
 const AccountLink = ({ className }: { className?: string }) => {
   return (
@@ -102,6 +103,7 @@ const NavContent = () => {
 export const TopNav: FC = () => {
   const [open, setOpen] = useState(false)
   const path = usePathname()
+  const { theme } = useNav()
 
   useEffect(() => {
     setOpen(false)
@@ -109,11 +111,19 @@ export const TopNav: FC = () => {
 
   return (
     <nav className="z-30 absolute top-0 inset-x-0">
-      <Container className="w-screen flex pr-4 items-stretch py-5 border-b border-black">
+      <Container
+        className={cn(
+          'w-screen flex pr-4 items-stretch py-5 border-b border-black',
+          theme === 'dark' && 'text-white'
+        )}
+      >
         <Dialog.Root modal open={open} onOpenChange={setOpen}>
           <div className="flex gap-8 items-center">
             <Dialog.Trigger>
-              <Menu strokeWidth={1} />
+              <Menu
+                strokeWidth={1}
+                color={theme === 'dark' ? 'white' : 'black'}
+              />
             </Dialog.Trigger>
             <Link href="/" className="all-caps">
               Books About Food

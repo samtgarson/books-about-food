@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { useFeatureCarouselItem } from './use-feature-carousel-item'
 import cn from 'classnames'
 import format from 'date-fns/format'
+import { CircleLogo } from '../atoms/circle-logo'
 
 export function Title({
   index,
@@ -14,7 +15,7 @@ export function Title({
   id: string
   onClick?: () => void
 }) {
-  const { display, attrs, current } = useFeatureCarouselItem({
+  const { display, attrs, current, className } = useFeatureCarouselItem({
     index,
     currentIndex,
     centered: false
@@ -28,13 +29,22 @@ export function Title({
       layoutId={id}
       layout="position"
       {...attrs}
-      className={cn(attrs.className, 'h-96')}
+      className={cn(
+        className,
+        '!pointer-events-auto justify-center lg:justify-between min-w-[65vw]',
+        current && 'lg:-ml-[7vw]'
+      )}
       onClick={(e) => {
         e.preventDefault()
         if (!current) onClick?.()
       }}
     >
-      <div className="flex flex-col gap-4">
+      <div
+        className={cn(
+          'flex flex-col gap-4 transition',
+          current ? 'text-white' : 'opacity-10'
+        )}
+      >
         <p className="all-caps">{date}</p>
         <h2 className="text-64">Today&apos;s Specials</h2>
       </div>

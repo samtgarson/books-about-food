@@ -3,15 +3,20 @@ import { NullProfile, Profile } from 'src/models/profile'
 import cn from 'classnames'
 import Image, { ImageProps } from 'next/image'
 
-export type AvatarSize =
-  | '3xs'
-  | '2xs'
-  | 'xs'
-  | 'sm'
-  | 'md'
-  | 'lg'
-  | 'xl'
-  | 'fill'
+export const avatarSize = [
+  '3xs',
+  '2xs',
+  'xs',
+  'sm',
+  'md',
+  'lg',
+  'xl',
+  '2xl',
+  '3xl',
+  'fill'
+] as const
+
+export type AvatarSize = (typeof avatarSize)[number]
 
 export type BaseAvatarProps = {
   imgProps?: ImageProps
@@ -42,9 +47,13 @@ export const BaseAvatar: FC<BaseAvatarProps> = ({
         'w-12': mobileSize === 'sm' || (!mobileSize && size === 'sm'),
         'w-10': mobileSize === 'xs' || (!mobileSize && size === 'xs'),
         'w-32': mobileSize === 'xl' || (!mobileSize && size === 'xl'),
+        'w-48': mobileSize === '2xl' || (!mobileSize && size === '2xl'),
+        'w-64': mobileSize === '3xl' || (!mobileSize && size === '3xl'),
         'w-8 text-12': mobileSize === '2xs' || (!mobileSize && size === '2xs'),
         'w-6 text-10': mobileSize === '3xs' || (!mobileSize && size === '3xs'),
         'w-full': mobileSize === 'fill' || (!mobileSize && size === 'fill'),
+        'md:w-48': size === '3xl',
+        'md:w-32': size === '2xl',
         'md:w-16': size === 'md',
         'md:w-12': size === 'sm',
         'md:w-10': size === 'xs',
