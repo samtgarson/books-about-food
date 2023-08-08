@@ -79,7 +79,9 @@ export const selectProps = <
           />
         )
       } else if (props.data.__new) {
-        return <components.NoOptionsMessage {...props} />
+        if (props.options.length > 1) return null
+        const noOptionsProps = { ...props, children: undefined }
+        return <components.NoOptionsMessage {...noOptionsProps} />
       }
 
       return <components.Option {...props} />

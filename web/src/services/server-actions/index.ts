@@ -10,12 +10,12 @@ export const profiles = async (search: string) => {
   return stringify(profiles)
 }
 
-export const jobs = async () => {
-  const jobs = await fetchJobs.call()
+export const jobs = async (search?: string) => {
+  const jobs = await fetchJobs.call({ search })
   return stringify(jobs)
 }
 
-export const tags = async () => {
-  const tags = await fetchTags.call()
+export const tags = async (search?: string) => {
+  const tags = await fetchTags.call({ search })
   return stringify(tags)
 }
