@@ -28,7 +28,8 @@ export function FeatureCarouselItem({
   const { current, attrs, display, className } = useFeatureCarouselItem({
     index,
     currentIndex,
-    preTitle
+    preTitle,
+    imageWidth: feature.book.cover?.widthFor(360)
   })
 
   if (!display) return null
@@ -52,7 +53,7 @@ export function FeatureCarouselItem({
         />
       )}
       <div
-        className={cn('flex-grow transition-opacity', {
+        className={cn('transition-opacity lg:flex-grow', {
           'opacity-0': !current,
           'pt-10': !feature.tagLine
         })}

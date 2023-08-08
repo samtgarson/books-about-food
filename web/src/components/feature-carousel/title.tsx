@@ -18,7 +18,8 @@ export function Title({
   const { display, attrs, current, className } = useFeatureCarouselItem({
     index,
     currentIndex,
-    centered: false
+    centered: false,
+    imageWidth: 100
   })
 
   if (!display) return null

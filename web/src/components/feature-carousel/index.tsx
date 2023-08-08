@@ -57,7 +57,7 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({ features }) => {
     <motion.div
       layout
       className={cn(
-        'py-28 lg:py-52 transition-colors relative',
+        'transition-colors relative',
         showingTitle ? 'bg-black' : 'bg-white'
       )}
     >

@@ -48,7 +48,11 @@ export class RandomPlacer {
       const candidateDot = this.generateRandomPosition()
       if (!this.placedDots.length) return candidateDot
       const distance = this.getDistanceToNearestDot(candidateDot)
-      if (!bestDot || !bestDotDistance || distance > bestDotDistance) {
+      if (
+        !bestDot ||
+        !bestDotDistance ||
+        (distance > bestDotDistance && this.notCentered(candidateDot))
+      ) {
         bestDot = candidateDot
         bestDotDistance = distance
       }
@@ -59,5 +63,11 @@ export class RandomPlacer {
   placeNewDot() {
     const dot = this.generateBestDot()
     this.placedDots.push(dot)
+  }
+
+  private notCentered(dot: Dot) {
+    const x = dot.x <= this.width * 0.4 || dot.x > this.width * 0.5
+    const y = dot.y <= this.height * 0.4 || dot.y > this.height * 0.5
+    return x && y
   }
 }

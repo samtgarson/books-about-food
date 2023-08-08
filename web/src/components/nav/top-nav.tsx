@@ -103,11 +103,12 @@ const NavContent = () => {
 export const TopNav: FC = () => {
   const [open, setOpen] = useState(false)
   const path = usePathname()
-  const { theme } = useNav()
+  const { theme, setTheme } = useNav()
 
   useEffect(() => {
     setOpen(false)
-  }, [path])
+    setTheme(path === '/' ? 'dark' : 'light')
+  }, [path, setTheme])
 
   return (
     <nav className="z-30 absolute top-0 inset-x-0">
