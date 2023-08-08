@@ -28,10 +28,10 @@ export function useFeatureCarouselItem({
     'flex items-start lg:items-center justify-center gap-8 lg:gap-20 flex-col lg:flex-row h-[770px] lg:h-[800px] top-0 w-[calc(85vw-10rem)]',
     {
       [`relative flex-grow z-10`]: pos.current,
-      'pointer-events-none': !pos.current,
-      'absolute right-full lg:right-auto lg:ml-[7vw] lg:left-[var(--imageWidth)]':
+      'absolute right-full lg:right-auto lg:ml-[7vw] lg:left-[var(--imageWidth)] cursor-prev':
         pos.prev,
-      'absolute left-full lg:-ml-[3.5rem] sm:-ml-24': pos.next,
+      'absolute left-full lg:-ml-[10.5rem] lg:pl-[7rem] sm:-ml-24 cursor-next':
+        pos.next,
       'absolute right-full': pos.offPrev,
       'absolute left-full': pos.offNext,
       'lg:justify-center': centered
@@ -52,5 +52,12 @@ export function useFeatureCarouselItem({
   const display =
     pos.prev || pos.current || pos.next || pos.offNext || pos.offPrev
 
-  return { current: pos.current, attrs, display, className }
+  return {
+    current: pos.current,
+    attrs,
+    display,
+    className,
+    next: pos.next,
+    prev: pos.prev
+  }
 }

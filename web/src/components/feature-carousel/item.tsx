@@ -25,12 +25,13 @@ export function FeatureCarouselItem({
   id: string
   preTitle: boolean
 }) {
-  const { current, attrs, display, className } = useFeatureCarouselItem({
-    index,
-    currentIndex,
-    preTitle,
-    imageWidth: feature.book.cover?.widthFor(360)
-  })
+  const { current, attrs, display, className, next, prev } =
+    useFeatureCarouselItem({
+      index,
+      currentIndex,
+      preTitle,
+      imageWidth: feature.book.cover?.widthFor(360)
+    })
 
   if (!display) return null
   return (
@@ -40,16 +41,17 @@ export function FeatureCarouselItem({
       href={feature.book.href}
       {...attrs}
       className={cn(className)}
+      onClick={(e) => {
+        if (current) return true
+        e.preventDefault()
+        onClick?.()
+      }}
+      title={next ? 'Next' : prev ? 'Previous' : undefined}
     >
       {feature.book.cover && (
         <Image
           {...feature.book.cover?.imageAttrs(360)}
           className="book-shadow max-w-none h-[250px] sm:h-[360px] w-auto pointer-events-auto"
-          onClick={(e) => {
-            if (current) return true
-            e.preventDefault()
-            onClick?.()
-          }}
         />
       )}
       <div
