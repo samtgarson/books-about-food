@@ -1,7 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const defaultTheme = require('tailwindcss/defaultTheme')
 const plugin = require('tailwindcss/plugin')
-const theme = require('./theme')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -12,14 +11,6 @@ module.exports = {
         sans: ['var(--font-graphik)', ...defaultTheme.fontFamily.sans]
       },
       keyframes: {
-        'collapsible-open': {
-          from: { height: 0 },
-          to: { height: 'var(--radix-collapsible-content-height)' }
-        },
-        'collapsible-closed': {
-          from: { height: 'var(--radix-collapsible-content-height)' },
-          to: { height: '0' }
-        },
         'fade-in': {
           from: { opacity: 0 },
           to: { opacity: 1 }
@@ -31,15 +22,18 @@ module.exports = {
         'fade-slide-in': {
           from: { opacity: 0, transform: 'translateY(10px)' },
           to: { opacity: 1, transform: 'translateY(0)' }
+        },
+        'scale-in': {
+          from: { transform: 'scale(0.9)', opacity: 0 },
+          to: { transform: 'scale(1)', opacity: 1 }
         }
       },
       animation: {
-        'collapsible-open': 'collapsible-open 0.3s ease-out both',
-        'collapsible-closed': 'collapsible-closed 0.3s 0.1s ease-out both',
         'fade-in': 'fade-in 0.2s ease-out both',
         'fade-out': 'fade-out 0.2s ease-out both',
         'fade-slide-in': 'fade-slide-in 0.4s ease-out both',
-        'slow-spin': 'spin 60s linear infinite'
+        'slow-spin': 'spin 60s linear infinite',
+        'scale-in': 'scale-in 0.2s ease-out both'
       },
       cursor: {
         next: "url(\"data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='64' height='64' rx='32' fill='white'/%3E%3Cpath d='M26 44L38 32L26 20' stroke='%231D1D1B' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A\") 32 32, pointer",
@@ -53,7 +47,8 @@ module.exports = {
       white: '#fff',
       grey: '#F0EEEB',
       sand: '#E7E5E2',
-      darkSand: '#C1BFBD'
+      darkSand: '#C1BFBD',
+      warning: '#FF6D4B'
     },
     fontWeight: {
       normal: 400,

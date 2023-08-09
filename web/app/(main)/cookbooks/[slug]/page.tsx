@@ -9,8 +9,8 @@ import { ProfileListSection } from 'src/components/profiles/list-section'
 import { fetchBook } from 'src/services/books/fetch-book'
 import { fetchBooks } from 'src/services/books/fetch-books'
 import cn from 'classnames'
-import { MoreHorizontal } from 'react-feather'
 import { CorrectionButton } from 'src/components/books/correction-button'
+import { BookOverflow } from 'src/components/books/book-overflow'
 
 export * from 'app/default-static-config'
 
@@ -31,7 +31,7 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
       <Container className="pt-6 sm:pt-20" key="header" belowNav>
         <h1 className="font-style-title flex items-center mb-6 sm:mb-4">
           {book.title}
-          <MoreHorizontal className="ml-auto" strokeWidth={1} />
+          <BookOverflow book={book} className="ml-auto" />
         </h1>
         {book.subtitle && <Detail className="md:mb-8">{book.subtitle}</Detail>}
         <AntiContainer className="border-t border-black sm:border-t-0">
