@@ -5,18 +5,15 @@ import { z } from 'zod'
 import { bookIncludes } from '../utils'
 
 export const fetchBook = new Service(
-  z.object({ slug: z.string(), submitterId: z.string().optional() }),
-  async ({ slug, submitterId } = {}) => {
+  z.object({ slug: z.string() }),
+  async ({ slug } = {}) => {
     if (!slug) throw new Error('Slug is required')
     const raw = await prisma.book.findUnique({
       where: { slug },
       include: bookIncludes
     })
 
-    // TODO Move this to where clause in Prisma 5
-    const wrongSubmitter = submitterId && raw?.submitterId !== submitterId
-
-    if (!raw || wrongSubmitter) {
+    if (!raw) {
       throw new Error('Book not found')
     }
 
