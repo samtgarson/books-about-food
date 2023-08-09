@@ -9,7 +9,7 @@ import { Select } from 'src/components/form/select'
 import { Submit } from 'src/components/form/submit'
 import { FullBook } from 'src/models/full-book'
 import { v4 as uuid } from 'uuid'
-import { getSites } from './actions'
+import { websites } from 'shared/data/websites'
 import { linkLogos } from 'src/assets/link-logos'
 import Image from 'next/image'
 
@@ -59,7 +59,7 @@ function LinksForm({
     >
       <Header title="Add Links Member" />
       <Select
-        loadOptions={getSites}
+        options={websites.map((value) => ({ value }))}
         label="Website"
         name="site"
         render={(site) => site.value}
@@ -67,6 +67,7 @@ function LinksForm({
         valueKey="value"
         required
         onChange={(p) => setSite(p ? (p as { value: string }).value : null)}
+        allowCreate
       />
       <Input
         label="URL"
