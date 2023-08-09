@@ -2958,6 +2958,22 @@
         "validations": []
       },
       {
+        "defaultValue": "user",
+        "enums": ["user", "admin"],
+        "field": "role",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": null,
+        "type": "Enum",
+        "validations": []
+      },
+      {
         "defaultValue": null,
         "enums": null,
         "field": "sessions",

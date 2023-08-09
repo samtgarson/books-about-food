@@ -135,6 +135,7 @@ export type Schema = {
       'book:image:preview_for:publisher:user:created_at': string;
       'book:image:preview_for:publisher:user:updated_at': string;
       'book:image:preview_for:publisher:user:publisher_id': string;
+      'book:image:preview_for:publisher:user:role': 'user' | 'admin';
       'book:image:preview_for:submitter:id': string;
       'book:image:preview_for:submitter:name': string;
       'book:image:preview_for:submitter:email': string;
@@ -143,6 +144,7 @@ export type Schema = {
       'book:image:preview_for:submitter:created_at': string;
       'book:image:preview_for:submitter:updated_at': string;
       'book:image:preview_for:submitter:publisher_id': string;
+      'book:image:preview_for:submitter:role': 'user' | 'admin';
       'book:image:preview_for:submitter:publisher:id': string;
       'book:image:preview_for:submitter:publisher:created_at': string;
       'book:image:preview_for:submitter:publisher:updated_at': string;
@@ -187,6 +189,7 @@ export type Schema = {
       'book:image:publisher:user:created_at': string;
       'book:image:publisher:user:updated_at': string;
       'book:image:publisher:user:publisher_id': string;
+      'book:image:publisher:user:role': 'user' | 'admin';
       'book:image:publisher:user:profile:id': string;
       'book:image:publisher:user:profile:created_at': string;
       'book:image:publisher:user:profile:updated_at': string;
@@ -223,6 +226,7 @@ export type Schema = {
       'book:image:profile:user:created_at': string;
       'book:image:profile:user:updated_at': string;
       'book:image:profile:user:publisher_id': string;
+      'book:image:profile:user:role': 'user' | 'admin';
       'book:image:profile:user:publisher:id': string;
       'book:image:profile:user:publisher:created_at': string;
       'book:image:profile:user:publisher:updated_at': string;
@@ -291,6 +295,7 @@ export type Schema = {
       'book:publisher:image:cover_for:submitter:created_at': string;
       'book:publisher:image:cover_for:submitter:updated_at': string;
       'book:publisher:image:cover_for:submitter:publisher_id': string;
+      'book:publisher:image:cover_for:submitter:role': 'user' | 'admin';
       'book:publisher:image:preview_for:id': string;
       'book:publisher:image:preview_for:created_at': string;
       'book:publisher:image:preview_for:updated_at': string;
@@ -337,6 +342,7 @@ export type Schema = {
       'book:publisher:image:preview_for:submitter:created_at': string;
       'book:publisher:image:preview_for:submitter:updated_at': string;
       'book:publisher:image:preview_for:submitter:publisher_id': string;
+      'book:publisher:image:preview_for:submitter:role': 'user' | 'admin';
       'book:publisher:image:profile:id': string;
       'book:publisher:image:profile:created_at': string;
       'book:publisher:image:profile:updated_at': string;
@@ -359,6 +365,7 @@ export type Schema = {
       'book:publisher:image:profile:user:created_at': string;
       'book:publisher:image:profile:user:updated_at': string;
       'book:publisher:image:profile:user:publisher_id': string;
+      'book:publisher:image:profile:user:role': 'user' | 'admin';
       'book:publisher:user:id': string;
       'book:publisher:user:name': string;
       'book:publisher:user:email': string;
@@ -367,6 +374,7 @@ export type Schema = {
       'book:publisher:user:created_at': string;
       'book:publisher:user:updated_at': string;
       'book:publisher:user:publisher_id': string;
+      'book:publisher:user:role': 'user' | 'admin';
       'book:publisher:user:profile:id': string;
       'book:publisher:user:profile:created_at': string;
       'book:publisher:user:profile:updated_at': string;
@@ -401,6 +409,7 @@ export type Schema = {
       'book:submitter:created_at': string;
       'book:submitter:updated_at': string;
       'book:submitter:publisher_id': string;
+      'book:submitter:role': 'user' | 'admin';
       'book:submitter:publisher:id': string;
       'book:submitter:publisher:created_at': string;
       'book:submitter:publisher:updated_at': string;
@@ -607,6 +616,7 @@ export type Schema = {
       'profile:image:cover_for:publisher:user:created_at': string;
       'profile:image:cover_for:publisher:user:updated_at': string;
       'profile:image:cover_for:publisher:user:publisher_id': string;
+      'profile:image:cover_for:publisher:user:role': 'user' | 'admin';
       'profile:image:cover_for:submitter:id': string;
       'profile:image:cover_for:submitter:name': string;
       'profile:image:cover_for:submitter:email': string;
@@ -615,6 +625,7 @@ export type Schema = {
       'profile:image:cover_for:submitter:created_at': string;
       'profile:image:cover_for:submitter:updated_at': string;
       'profile:image:cover_for:submitter:publisher_id': string;
+      'profile:image:cover_for:submitter:role': 'user' | 'admin';
       'profile:image:cover_for:submitter:publisher:id': string;
       'profile:image:cover_for:submitter:publisher:created_at': string;
       'profile:image:cover_for:submitter:publisher:updated_at': string;
@@ -724,6 +735,7 @@ export type Schema = {
       'profile:image:preview_for:publisher:user:created_at': string;
       'profile:image:preview_for:publisher:user:updated_at': string;
       'profile:image:preview_for:publisher:user:publisher_id': string;
+      'profile:image:preview_for:publisher:user:role': 'user' | 'admin';
       'profile:image:preview_for:submitter:id': string;
       'profile:image:preview_for:submitter:name': string;
       'profile:image:preview_for:submitter:email': string;
@@ -732,6 +744,7 @@ export type Schema = {
       'profile:image:preview_for:submitter:created_at': string;
       'profile:image:preview_for:submitter:updated_at': string;
       'profile:image:preview_for:submitter:publisher_id': string;
+      'profile:image:preview_for:submitter:role': 'user' | 'admin';
       'profile:image:preview_for:submitter:publisher:id': string;
       'profile:image:preview_for:submitter:publisher:created_at': string;
       'profile:image:preview_for:submitter:publisher:updated_at': string;
@@ -776,6 +789,7 @@ export type Schema = {
       'profile:image:publisher:user:created_at': string;
       'profile:image:publisher:user:updated_at': string;
       'profile:image:publisher:user:publisher_id': string;
+      'profile:image:publisher:user:role': 'user' | 'admin';
       'profile:image:publisher:user:profile:id': string;
       'profile:image:publisher:user:profile:created_at': string;
       'profile:image:publisher:user:profile:updated_at': string;
@@ -798,6 +812,7 @@ export type Schema = {
       'profile:user:created_at': string;
       'profile:user:updated_at': string;
       'profile:user:publisher_id': string;
+      'profile:user:role': 'user' | 'admin';
       'profile:user:publisher:id': string;
       'profile:user:publisher:created_at': string;
       'profile:user:publisher:updated_at': string;
@@ -1002,6 +1017,7 @@ export type Schema = {
       'book:image:preview_for:publisher:user:created_at': string;
       'book:image:preview_for:publisher:user:updated_at': string;
       'book:image:preview_for:publisher:user:publisher_id': string;
+      'book:image:preview_for:publisher:user:role': 'user' | 'admin';
       'book:image:preview_for:submitter:id': string;
       'book:image:preview_for:submitter:name': string;
       'book:image:preview_for:submitter:email': string;
@@ -1010,6 +1026,7 @@ export type Schema = {
       'book:image:preview_for:submitter:created_at': string;
       'book:image:preview_for:submitter:updated_at': string;
       'book:image:preview_for:submitter:publisher_id': string;
+      'book:image:preview_for:submitter:role': 'user' | 'admin';
       'book:image:preview_for:submitter:publisher:id': string;
       'book:image:preview_for:submitter:publisher:created_at': string;
       'book:image:preview_for:submitter:publisher:updated_at': string;
@@ -1054,6 +1071,7 @@ export type Schema = {
       'book:image:publisher:user:created_at': string;
       'book:image:publisher:user:updated_at': string;
       'book:image:publisher:user:publisher_id': string;
+      'book:image:publisher:user:role': 'user' | 'admin';
       'book:image:publisher:user:profile:id': string;
       'book:image:publisher:user:profile:created_at': string;
       'book:image:publisher:user:profile:updated_at': string;
@@ -1090,6 +1108,7 @@ export type Schema = {
       'book:image:profile:user:created_at': string;
       'book:image:profile:user:updated_at': string;
       'book:image:profile:user:publisher_id': string;
+      'book:image:profile:user:role': 'user' | 'admin';
       'book:image:profile:user:publisher:id': string;
       'book:image:profile:user:publisher:created_at': string;
       'book:image:profile:user:publisher:updated_at': string;
@@ -1158,6 +1177,7 @@ export type Schema = {
       'book:publisher:image:cover_for:submitter:created_at': string;
       'book:publisher:image:cover_for:submitter:updated_at': string;
       'book:publisher:image:cover_for:submitter:publisher_id': string;
+      'book:publisher:image:cover_for:submitter:role': 'user' | 'admin';
       'book:publisher:image:preview_for:id': string;
       'book:publisher:image:preview_for:created_at': string;
       'book:publisher:image:preview_for:updated_at': string;
@@ -1204,6 +1224,7 @@ export type Schema = {
       'book:publisher:image:preview_for:submitter:created_at': string;
       'book:publisher:image:preview_for:submitter:updated_at': string;
       'book:publisher:image:preview_for:submitter:publisher_id': string;
+      'book:publisher:image:preview_for:submitter:role': 'user' | 'admin';
       'book:publisher:image:profile:id': string;
       'book:publisher:image:profile:created_at': string;
       'book:publisher:image:profile:updated_at': string;
@@ -1226,6 +1247,7 @@ export type Schema = {
       'book:publisher:image:profile:user:created_at': string;
       'book:publisher:image:profile:user:updated_at': string;
       'book:publisher:image:profile:user:publisher_id': string;
+      'book:publisher:image:profile:user:role': 'user' | 'admin';
       'book:publisher:user:id': string;
       'book:publisher:user:name': string;
       'book:publisher:user:email': string;
@@ -1234,6 +1256,7 @@ export type Schema = {
       'book:publisher:user:created_at': string;
       'book:publisher:user:updated_at': string;
       'book:publisher:user:publisher_id': string;
+      'book:publisher:user:role': 'user' | 'admin';
       'book:publisher:user:profile:id': string;
       'book:publisher:user:profile:created_at': string;
       'book:publisher:user:profile:updated_at': string;
@@ -1268,6 +1291,7 @@ export type Schema = {
       'book:submitter:created_at': string;
       'book:submitter:updated_at': string;
       'book:submitter:publisher_id': string;
+      'book:submitter:role': 'user' | 'admin';
       'book:submitter:publisher:id': string;
       'book:submitter:publisher:created_at': string;
       'book:submitter:publisher:updated_at': string;
@@ -1450,6 +1474,7 @@ export type Schema = {
       'user:created_at': string;
       'user:updated_at': string;
       'user:publisher_id': string;
+      'user:role': 'user' | 'admin';
       'user:publisher:id': string;
       'user:publisher:created_at': string;
       'user:publisher:updated_at': string;
@@ -1507,6 +1532,7 @@ export type Schema = {
       'user:publisher:image:cover_for:submitter:created_at': string;
       'user:publisher:image:cover_for:submitter:updated_at': string;
       'user:publisher:image:cover_for:submitter:publisher_id': string;
+      'user:publisher:image:cover_for:submitter:role': 'user' | 'admin';
       'user:publisher:image:preview_for:id': string;
       'user:publisher:image:preview_for:created_at': string;
       'user:publisher:image:preview_for:updated_at': string;
@@ -1553,6 +1579,7 @@ export type Schema = {
       'user:publisher:image:preview_for:submitter:created_at': string;
       'user:publisher:image:preview_for:submitter:updated_at': string;
       'user:publisher:image:preview_for:submitter:publisher_id': string;
+      'user:publisher:image:preview_for:submitter:role': 'user' | 'admin';
       'user:publisher:image:profile:id': string;
       'user:publisher:image:profile:created_at': string;
       'user:publisher:image:profile:updated_at': string;
@@ -1575,6 +1602,7 @@ export type Schema = {
       'user:publisher:image:profile:user:created_at': string;
       'user:publisher:image:profile:user:updated_at': string;
       'user:publisher:image:profile:user:publisher_id': string;
+      'user:publisher:image:profile:user:role': 'user' | 'admin';
       'user:profile:id': string;
       'user:profile:created_at': string;
       'user:profile:updated_at': string;
@@ -1635,6 +1663,7 @@ export type Schema = {
       'user:profile:image:cover_for:submitter:created_at': string;
       'user:profile:image:cover_for:submitter:updated_at': string;
       'user:profile:image:cover_for:submitter:publisher_id': string;
+      'user:profile:image:cover_for:submitter:role': 'user' | 'admin';
       'user:profile:image:preview_for:id': string;
       'user:profile:image:preview_for:created_at': string;
       'user:profile:image:preview_for:updated_at': string;
@@ -1681,6 +1710,7 @@ export type Schema = {
       'user:profile:image:preview_for:submitter:created_at': string;
       'user:profile:image:preview_for:submitter:updated_at': string;
       'user:profile:image:preview_for:submitter:publisher_id': string;
+      'user:profile:image:preview_for:submitter:role': 'user' | 'admin';
       'user:profile:image:publisher:id': string;
       'user:profile:image:publisher:created_at': string;
       'user:profile:image:publisher:updated_at': string;
@@ -1700,6 +1730,7 @@ export type Schema = {
       'user:profile:image:publisher:user:created_at': string;
       'user:profile:image:publisher:user:updated_at': string;
       'user:profile:image:publisher:user:publisher_id': string;
+      'user:profile:image:publisher:user:role': 'user' | 'admin';
     };
   };
   'books': {
@@ -1811,6 +1842,7 @@ export type Schema = {
       'image:preview_for:image:preview_for:submitter:created_at': string;
       'image:preview_for:image:preview_for:submitter:updated_at': string;
       'image:preview_for:image:preview_for:submitter:publisher_id': string;
+      'image:preview_for:image:preview_for:submitter:role': 'user' | 'admin';
       'image:preview_for:image:publisher:id': string;
       'image:preview_for:image:publisher:created_at': string;
       'image:preview_for:image:publisher:updated_at': string;
@@ -1830,6 +1862,7 @@ export type Schema = {
       'image:preview_for:image:publisher:user:created_at': string;
       'image:preview_for:image:publisher:user:updated_at': string;
       'image:preview_for:image:publisher:user:publisher_id': string;
+      'image:preview_for:image:publisher:user:role': 'user' | 'admin';
       'image:preview_for:image:profile:id': string;
       'image:preview_for:image:profile:created_at': string;
       'image:preview_for:image:profile:updated_at': string;
@@ -1852,6 +1885,7 @@ export type Schema = {
       'image:preview_for:image:profile:user:created_at': string;
       'image:preview_for:image:profile:user:updated_at': string;
       'image:preview_for:image:profile:user:publisher_id': string;
+      'image:preview_for:image:profile:user:role': 'user' | 'admin';
       'image:preview_for:publisher:id': string;
       'image:preview_for:publisher:created_at': string;
       'image:preview_for:publisher:updated_at': string;
@@ -1912,6 +1946,7 @@ export type Schema = {
       'image:preview_for:publisher:user:created_at': string;
       'image:preview_for:publisher:user:updated_at': string;
       'image:preview_for:publisher:user:publisher_id': string;
+      'image:preview_for:publisher:user:role': 'user' | 'admin';
       'image:preview_for:publisher:user:profile:id': string;
       'image:preview_for:publisher:user:profile:created_at': string;
       'image:preview_for:publisher:user:profile:updated_at': string;
@@ -1934,6 +1969,7 @@ export type Schema = {
       'image:preview_for:submitter:created_at': string;
       'image:preview_for:submitter:updated_at': string;
       'image:preview_for:submitter:publisher_id': string;
+      'image:preview_for:submitter:role': 'user' | 'admin';
       'image:preview_for:submitter:publisher:id': string;
       'image:preview_for:submitter:publisher:created_at': string;
       'image:preview_for:submitter:publisher:updated_at': string;
@@ -2002,6 +2038,7 @@ export type Schema = {
       'image:publisher:user:created_at': string;
       'image:publisher:user:updated_at': string;
       'image:publisher:user:publisher_id': string;
+      'image:publisher:user:role': 'user' | 'admin';
       'image:publisher:user:profile:id': string;
       'image:publisher:user:profile:created_at': string;
       'image:publisher:user:profile:updated_at': string;
@@ -2050,6 +2087,7 @@ export type Schema = {
       'image:profile:user:created_at': string;
       'image:profile:user:updated_at': string;
       'image:profile:user:publisher_id': string;
+      'image:profile:user:role': 'user' | 'admin';
       'image:profile:user:publisher:id': string;
       'image:profile:user:publisher:created_at': string;
       'image:profile:user:publisher:updated_at': string;
@@ -2142,6 +2180,7 @@ export type Schema = {
       'publisher:image:cover_for:publisher:user:created_at': string;
       'publisher:image:cover_for:publisher:user:updated_at': string;
       'publisher:image:cover_for:publisher:user:publisher_id': string;
+      'publisher:image:cover_for:publisher:user:role': 'user' | 'admin';
       'publisher:image:cover_for:submitter:id': string;
       'publisher:image:cover_for:submitter:name': string;
       'publisher:image:cover_for:submitter:email': string;
@@ -2150,6 +2189,7 @@ export type Schema = {
       'publisher:image:cover_for:submitter:created_at': string;
       'publisher:image:cover_for:submitter:updated_at': string;
       'publisher:image:cover_for:submitter:publisher_id': string;
+      'publisher:image:cover_for:submitter:role': 'user' | 'admin';
       'publisher:image:cover_for:submitter:publisher:id': string;
       'publisher:image:cover_for:submitter:publisher:created_at': string;
       'publisher:image:cover_for:submitter:publisher:updated_at': string;
@@ -2262,6 +2302,7 @@ export type Schema = {
       'publisher:image:preview_for:publisher:user:created_at': string;
       'publisher:image:preview_for:publisher:user:updated_at': string;
       'publisher:image:preview_for:publisher:user:publisher_id': string;
+      'publisher:image:preview_for:publisher:user:role': 'user' | 'admin';
       'publisher:image:preview_for:submitter:id': string;
       'publisher:image:preview_for:submitter:name': string;
       'publisher:image:preview_for:submitter:email': string;
@@ -2270,6 +2311,7 @@ export type Schema = {
       'publisher:image:preview_for:submitter:created_at': string;
       'publisher:image:preview_for:submitter:updated_at': string;
       'publisher:image:preview_for:submitter:publisher_id': string;
+      'publisher:image:preview_for:submitter:role': 'user' | 'admin';
       'publisher:image:preview_for:submitter:publisher:id': string;
       'publisher:image:preview_for:submitter:publisher:created_at': string;
       'publisher:image:preview_for:submitter:publisher:updated_at': string;
@@ -2317,6 +2359,7 @@ export type Schema = {
       'publisher:image:profile:user:created_at': string;
       'publisher:image:profile:user:updated_at': string;
       'publisher:image:profile:user:publisher_id': string;
+      'publisher:image:profile:user:role': 'user' | 'admin';
       'publisher:image:profile:user:publisher:id': string;
       'publisher:image:profile:user:publisher:created_at': string;
       'publisher:image:profile:user:publisher:updated_at': string;
@@ -2336,6 +2379,7 @@ export type Schema = {
       'publisher:user:created_at': string;
       'publisher:user:updated_at': string;
       'publisher:user:publisher_id': string;
+      'publisher:user:role': 'user' | 'admin';
       'publisher:user:profile:id': string;
       'publisher:user:profile:created_at': string;
       'publisher:user:profile:updated_at': string;
@@ -2411,6 +2455,7 @@ export type Schema = {
       'submitter:created_at': string;
       'submitter:updated_at': string;
       'submitter:publisher_id': string;
+      'submitter:role': 'user' | 'admin';
       'submitter:publisher:id': string;
       'submitter:publisher:created_at': string;
       'submitter:publisher:updated_at': string;
@@ -2468,6 +2513,7 @@ export type Schema = {
       'submitter:publisher:image:cover_for:submitter:created_at': string;
       'submitter:publisher:image:cover_for:submitter:updated_at': string;
       'submitter:publisher:image:cover_for:submitter:publisher_id': string;
+      'submitter:publisher:image:cover_for:submitter:role': 'user' | 'admin';
       'submitter:publisher:image:preview_for:id': string;
       'submitter:publisher:image:preview_for:created_at': string;
       'submitter:publisher:image:preview_for:updated_at': string;
@@ -2514,6 +2560,7 @@ export type Schema = {
       'submitter:publisher:image:preview_for:submitter:created_at': string;
       'submitter:publisher:image:preview_for:submitter:updated_at': string;
       'submitter:publisher:image:preview_for:submitter:publisher_id': string;
+      'submitter:publisher:image:preview_for:submitter:role': 'user' | 'admin';
       'submitter:publisher:image:profile:id': string;
       'submitter:publisher:image:profile:created_at': string;
       'submitter:publisher:image:profile:updated_at': string;
@@ -2536,6 +2583,7 @@ export type Schema = {
       'submitter:publisher:image:profile:user:created_at': string;
       'submitter:publisher:image:profile:user:updated_at': string;
       'submitter:publisher:image:profile:user:publisher_id': string;
+      'submitter:publisher:image:profile:user:role': 'user' | 'admin';
       'submitter:profile:id': string;
       'submitter:profile:created_at': string;
       'submitter:profile:updated_at': string;
@@ -2596,6 +2644,7 @@ export type Schema = {
       'submitter:profile:image:cover_for:submitter:created_at': string;
       'submitter:profile:image:cover_for:submitter:updated_at': string;
       'submitter:profile:image:cover_for:submitter:publisher_id': string;
+      'submitter:profile:image:cover_for:submitter:role': 'user' | 'admin';
       'submitter:profile:image:preview_for:id': string;
       'submitter:profile:image:preview_for:created_at': string;
       'submitter:profile:image:preview_for:updated_at': string;
@@ -2642,6 +2691,7 @@ export type Schema = {
       'submitter:profile:image:preview_for:submitter:created_at': string;
       'submitter:profile:image:preview_for:submitter:updated_at': string;
       'submitter:profile:image:preview_for:submitter:publisher_id': string;
+      'submitter:profile:image:preview_for:submitter:role': 'user' | 'admin';
       'submitter:profile:image:publisher:id': string;
       'submitter:profile:image:publisher:created_at': string;
       'submitter:profile:image:publisher:updated_at': string;
@@ -2661,6 +2711,7 @@ export type Schema = {
       'submitter:profile:image:publisher:user:created_at': string;
       'submitter:profile:image:publisher:user:updated_at': string;
       'submitter:profile:image:publisher:user:publisher_id': string;
+      'submitter:profile:image:publisher:user:role': 'user' | 'admin';
     };
   };
   'claims': {
@@ -2752,6 +2803,7 @@ export type Schema = {
       'profile:image:cover_for:publisher:user:created_at': string;
       'profile:image:cover_for:publisher:user:updated_at': string;
       'profile:image:cover_for:publisher:user:publisher_id': string;
+      'profile:image:cover_for:publisher:user:role': 'user' | 'admin';
       'profile:image:cover_for:submitter:id': string;
       'profile:image:cover_for:submitter:name': string;
       'profile:image:cover_for:submitter:email': string;
@@ -2760,6 +2812,7 @@ export type Schema = {
       'profile:image:cover_for:submitter:created_at': string;
       'profile:image:cover_for:submitter:updated_at': string;
       'profile:image:cover_for:submitter:publisher_id': string;
+      'profile:image:cover_for:submitter:role': 'user' | 'admin';
       'profile:image:cover_for:submitter:publisher:id': string;
       'profile:image:cover_for:submitter:publisher:created_at': string;
       'profile:image:cover_for:submitter:publisher:updated_at': string;
@@ -2869,6 +2922,7 @@ export type Schema = {
       'profile:image:preview_for:publisher:user:created_at': string;
       'profile:image:preview_for:publisher:user:updated_at': string;
       'profile:image:preview_for:publisher:user:publisher_id': string;
+      'profile:image:preview_for:publisher:user:role': 'user' | 'admin';
       'profile:image:preview_for:submitter:id': string;
       'profile:image:preview_for:submitter:name': string;
       'profile:image:preview_for:submitter:email': string;
@@ -2877,6 +2931,7 @@ export type Schema = {
       'profile:image:preview_for:submitter:created_at': string;
       'profile:image:preview_for:submitter:updated_at': string;
       'profile:image:preview_for:submitter:publisher_id': string;
+      'profile:image:preview_for:submitter:role': 'user' | 'admin';
       'profile:image:preview_for:submitter:publisher:id': string;
       'profile:image:preview_for:submitter:publisher:created_at': string;
       'profile:image:preview_for:submitter:publisher:updated_at': string;
@@ -2921,6 +2976,7 @@ export type Schema = {
       'profile:image:publisher:user:created_at': string;
       'profile:image:publisher:user:updated_at': string;
       'profile:image:publisher:user:publisher_id': string;
+      'profile:image:publisher:user:role': 'user' | 'admin';
       'profile:image:publisher:user:profile:id': string;
       'profile:image:publisher:user:profile:created_at': string;
       'profile:image:publisher:user:profile:updated_at': string;
@@ -2943,6 +2999,7 @@ export type Schema = {
       'profile:user:created_at': string;
       'profile:user:updated_at': string;
       'profile:user:publisher_id': string;
+      'profile:user:role': 'user' | 'admin';
       'profile:user:publisher:id': string;
       'profile:user:publisher:created_at': string;
       'profile:user:publisher:updated_at': string;
@@ -3079,6 +3136,7 @@ export type Schema = {
       'publisher:image:cover_for:publisher:user:created_at': string;
       'publisher:image:cover_for:publisher:user:updated_at': string;
       'publisher:image:cover_for:publisher:user:publisher_id': string;
+      'publisher:image:cover_for:publisher:user:role': 'user' | 'admin';
       'publisher:image:cover_for:submitter:id': string;
       'publisher:image:cover_for:submitter:name': string;
       'publisher:image:cover_for:submitter:email': string;
@@ -3087,6 +3145,7 @@ export type Schema = {
       'publisher:image:cover_for:submitter:created_at': string;
       'publisher:image:cover_for:submitter:updated_at': string;
       'publisher:image:cover_for:submitter:publisher_id': string;
+      'publisher:image:cover_for:submitter:role': 'user' | 'admin';
       'publisher:image:cover_for:submitter:publisher:id': string;
       'publisher:image:cover_for:submitter:publisher:created_at': string;
       'publisher:image:cover_for:submitter:publisher:updated_at': string;
@@ -3199,6 +3258,7 @@ export type Schema = {
       'publisher:image:preview_for:publisher:user:created_at': string;
       'publisher:image:preview_for:publisher:user:updated_at': string;
       'publisher:image:preview_for:publisher:user:publisher_id': string;
+      'publisher:image:preview_for:publisher:user:role': 'user' | 'admin';
       'publisher:image:preview_for:submitter:id': string;
       'publisher:image:preview_for:submitter:name': string;
       'publisher:image:preview_for:submitter:email': string;
@@ -3207,6 +3267,7 @@ export type Schema = {
       'publisher:image:preview_for:submitter:created_at': string;
       'publisher:image:preview_for:submitter:updated_at': string;
       'publisher:image:preview_for:submitter:publisher_id': string;
+      'publisher:image:preview_for:submitter:role': 'user' | 'admin';
       'publisher:image:preview_for:submitter:publisher:id': string;
       'publisher:image:preview_for:submitter:publisher:created_at': string;
       'publisher:image:preview_for:submitter:publisher:updated_at': string;
@@ -3254,6 +3315,7 @@ export type Schema = {
       'publisher:image:profile:user:created_at': string;
       'publisher:image:profile:user:updated_at': string;
       'publisher:image:profile:user:publisher_id': string;
+      'publisher:image:profile:user:role': 'user' | 'admin';
       'publisher:image:profile:user:publisher:id': string;
       'publisher:image:profile:user:publisher:created_at': string;
       'publisher:image:profile:user:publisher:updated_at': string;
@@ -3273,6 +3335,7 @@ export type Schema = {
       'publisher:user:created_at': string;
       'publisher:user:updated_at': string;
       'publisher:user:publisher_id': string;
+      'publisher:user:role': 'user' | 'admin';
       'publisher:user:profile:id': string;
       'publisher:user:profile:created_at': string;
       'publisher:user:profile:updated_at': string;
@@ -3348,6 +3411,7 @@ export type Schema = {
       'user:created_at': string;
       'user:updated_at': string;
       'user:publisher_id': string;
+      'user:role': 'user' | 'admin';
       'user:publisher:id': string;
       'user:publisher:created_at': string;
       'user:publisher:updated_at': string;
@@ -3405,6 +3469,7 @@ export type Schema = {
       'user:publisher:image:cover_for:submitter:created_at': string;
       'user:publisher:image:cover_for:submitter:updated_at': string;
       'user:publisher:image:cover_for:submitter:publisher_id': string;
+      'user:publisher:image:cover_for:submitter:role': 'user' | 'admin';
       'user:publisher:image:preview_for:id': string;
       'user:publisher:image:preview_for:created_at': string;
       'user:publisher:image:preview_for:updated_at': string;
@@ -3451,6 +3516,7 @@ export type Schema = {
       'user:publisher:image:preview_for:submitter:created_at': string;
       'user:publisher:image:preview_for:submitter:updated_at': string;
       'user:publisher:image:preview_for:submitter:publisher_id': string;
+      'user:publisher:image:preview_for:submitter:role': 'user' | 'admin';
       'user:publisher:image:profile:id': string;
       'user:publisher:image:profile:created_at': string;
       'user:publisher:image:profile:updated_at': string;
@@ -3473,6 +3539,7 @@ export type Schema = {
       'user:publisher:image:profile:user:created_at': string;
       'user:publisher:image:profile:user:updated_at': string;
       'user:publisher:image:profile:user:publisher_id': string;
+      'user:publisher:image:profile:user:role': 'user' | 'admin';
       'user:profile:id': string;
       'user:profile:created_at': string;
       'user:profile:updated_at': string;
@@ -3533,6 +3600,7 @@ export type Schema = {
       'user:profile:image:cover_for:submitter:created_at': string;
       'user:profile:image:cover_for:submitter:updated_at': string;
       'user:profile:image:cover_for:submitter:publisher_id': string;
+      'user:profile:image:cover_for:submitter:role': 'user' | 'admin';
       'user:profile:image:preview_for:id': string;
       'user:profile:image:preview_for:created_at': string;
       'user:profile:image:preview_for:updated_at': string;
@@ -3579,6 +3647,7 @@ export type Schema = {
       'user:profile:image:preview_for:submitter:created_at': string;
       'user:profile:image:preview_for:submitter:updated_at': string;
       'user:profile:image:preview_for:submitter:publisher_id': string;
+      'user:profile:image:preview_for:submitter:role': 'user' | 'admin';
       'user:profile:image:publisher:id': string;
       'user:profile:image:publisher:created_at': string;
       'user:profile:image:publisher:updated_at': string;
@@ -3598,6 +3667,7 @@ export type Schema = {
       'user:profile:image:publisher:user:created_at': string;
       'user:profile:image:publisher:user:updated_at': string;
       'user:profile:image:publisher:user:publisher_id': string;
+      'user:profile:image:publisher:user:role': 'user' | 'admin';
     };
   };
   'contributions': {
@@ -3688,6 +3758,7 @@ export type Schema = {
       'profile:image:cover_for:publisher:user:created_at': string;
       'profile:image:cover_for:publisher:user:updated_at': string;
       'profile:image:cover_for:publisher:user:publisher_id': string;
+      'profile:image:cover_for:publisher:user:role': 'user' | 'admin';
       'profile:image:cover_for:submitter:id': string;
       'profile:image:cover_for:submitter:name': string;
       'profile:image:cover_for:submitter:email': string;
@@ -3696,6 +3767,7 @@ export type Schema = {
       'profile:image:cover_for:submitter:created_at': string;
       'profile:image:cover_for:submitter:updated_at': string;
       'profile:image:cover_for:submitter:publisher_id': string;
+      'profile:image:cover_for:submitter:role': 'user' | 'admin';
       'profile:image:cover_for:submitter:publisher:id': string;
       'profile:image:cover_for:submitter:publisher:created_at': string;
       'profile:image:cover_for:submitter:publisher:updated_at': string;
@@ -3805,6 +3877,7 @@ export type Schema = {
       'profile:image:preview_for:publisher:user:created_at': string;
       'profile:image:preview_for:publisher:user:updated_at': string;
       'profile:image:preview_for:publisher:user:publisher_id': string;
+      'profile:image:preview_for:publisher:user:role': 'user' | 'admin';
       'profile:image:preview_for:submitter:id': string;
       'profile:image:preview_for:submitter:name': string;
       'profile:image:preview_for:submitter:email': string;
@@ -3813,6 +3886,7 @@ export type Schema = {
       'profile:image:preview_for:submitter:created_at': string;
       'profile:image:preview_for:submitter:updated_at': string;
       'profile:image:preview_for:submitter:publisher_id': string;
+      'profile:image:preview_for:submitter:role': 'user' | 'admin';
       'profile:image:preview_for:submitter:publisher:id': string;
       'profile:image:preview_for:submitter:publisher:created_at': string;
       'profile:image:preview_for:submitter:publisher:updated_at': string;
@@ -3857,6 +3931,7 @@ export type Schema = {
       'profile:image:publisher:user:created_at': string;
       'profile:image:publisher:user:updated_at': string;
       'profile:image:publisher:user:publisher_id': string;
+      'profile:image:publisher:user:role': 'user' | 'admin';
       'profile:image:publisher:user:profile:id': string;
       'profile:image:publisher:user:profile:created_at': string;
       'profile:image:publisher:user:profile:updated_at': string;
@@ -3879,6 +3954,7 @@ export type Schema = {
       'profile:user:created_at': string;
       'profile:user:updated_at': string;
       'profile:user:publisher_id': string;
+      'profile:user:role': 'user' | 'admin';
       'profile:user:publisher:id': string;
       'profile:user:publisher:created_at': string;
       'profile:user:publisher:updated_at': string;
@@ -4071,6 +4147,7 @@ export type Schema = {
       'book:image:preview_for:publisher:user:created_at': string;
       'book:image:preview_for:publisher:user:updated_at': string;
       'book:image:preview_for:publisher:user:publisher_id': string;
+      'book:image:preview_for:publisher:user:role': 'user' | 'admin';
       'book:image:preview_for:submitter:id': string;
       'book:image:preview_for:submitter:name': string;
       'book:image:preview_for:submitter:email': string;
@@ -4079,6 +4156,7 @@ export type Schema = {
       'book:image:preview_for:submitter:created_at': string;
       'book:image:preview_for:submitter:updated_at': string;
       'book:image:preview_for:submitter:publisher_id': string;
+      'book:image:preview_for:submitter:role': 'user' | 'admin';
       'book:image:preview_for:submitter:publisher:id': string;
       'book:image:preview_for:submitter:publisher:created_at': string;
       'book:image:preview_for:submitter:publisher:updated_at': string;
@@ -4123,6 +4201,7 @@ export type Schema = {
       'book:image:publisher:user:created_at': string;
       'book:image:publisher:user:updated_at': string;
       'book:image:publisher:user:publisher_id': string;
+      'book:image:publisher:user:role': 'user' | 'admin';
       'book:image:publisher:user:profile:id': string;
       'book:image:publisher:user:profile:created_at': string;
       'book:image:publisher:user:profile:updated_at': string;
@@ -4159,6 +4238,7 @@ export type Schema = {
       'book:image:profile:user:created_at': string;
       'book:image:profile:user:updated_at': string;
       'book:image:profile:user:publisher_id': string;
+      'book:image:profile:user:role': 'user' | 'admin';
       'book:image:profile:user:publisher:id': string;
       'book:image:profile:user:publisher:created_at': string;
       'book:image:profile:user:publisher:updated_at': string;
@@ -4227,6 +4307,7 @@ export type Schema = {
       'book:publisher:image:cover_for:submitter:created_at': string;
       'book:publisher:image:cover_for:submitter:updated_at': string;
       'book:publisher:image:cover_for:submitter:publisher_id': string;
+      'book:publisher:image:cover_for:submitter:role': 'user' | 'admin';
       'book:publisher:image:preview_for:id': string;
       'book:publisher:image:preview_for:created_at': string;
       'book:publisher:image:preview_for:updated_at': string;
@@ -4273,6 +4354,7 @@ export type Schema = {
       'book:publisher:image:preview_for:submitter:created_at': string;
       'book:publisher:image:preview_for:submitter:updated_at': string;
       'book:publisher:image:preview_for:submitter:publisher_id': string;
+      'book:publisher:image:preview_for:submitter:role': 'user' | 'admin';
       'book:publisher:image:profile:id': string;
       'book:publisher:image:profile:created_at': string;
       'book:publisher:image:profile:updated_at': string;
@@ -4295,6 +4377,7 @@ export type Schema = {
       'book:publisher:image:profile:user:created_at': string;
       'book:publisher:image:profile:user:updated_at': string;
       'book:publisher:image:profile:user:publisher_id': string;
+      'book:publisher:image:profile:user:role': 'user' | 'admin';
       'book:publisher:user:id': string;
       'book:publisher:user:name': string;
       'book:publisher:user:email': string;
@@ -4303,6 +4386,7 @@ export type Schema = {
       'book:publisher:user:created_at': string;
       'book:publisher:user:updated_at': string;
       'book:publisher:user:publisher_id': string;
+      'book:publisher:user:role': 'user' | 'admin';
       'book:publisher:user:profile:id': string;
       'book:publisher:user:profile:created_at': string;
       'book:publisher:user:profile:updated_at': string;
@@ -4337,6 +4421,7 @@ export type Schema = {
       'book:submitter:created_at': string;
       'book:submitter:updated_at': string;
       'book:submitter:publisher_id': string;
+      'book:submitter:role': 'user' | 'admin';
       'book:submitter:publisher:id': string;
       'book:submitter:publisher:created_at': string;
       'book:submitter:publisher:updated_at': string;
@@ -4562,6 +4647,7 @@ export type Schema = {
       'profile:image:cover_for:publisher:user:created_at': string;
       'profile:image:cover_for:publisher:user:updated_at': string;
       'profile:image:cover_for:publisher:user:publisher_id': string;
+      'profile:image:cover_for:publisher:user:role': 'user' | 'admin';
       'profile:image:cover_for:submitter:id': string;
       'profile:image:cover_for:submitter:name': string;
       'profile:image:cover_for:submitter:email': string;
@@ -4570,6 +4656,7 @@ export type Schema = {
       'profile:image:cover_for:submitter:created_at': string;
       'profile:image:cover_for:submitter:updated_at': string;
       'profile:image:cover_for:submitter:publisher_id': string;
+      'profile:image:cover_for:submitter:role': 'user' | 'admin';
       'profile:image:cover_for:submitter:publisher:id': string;
       'profile:image:cover_for:submitter:publisher:created_at': string;
       'profile:image:cover_for:submitter:publisher:updated_at': string;
@@ -4679,6 +4766,7 @@ export type Schema = {
       'profile:image:preview_for:publisher:user:created_at': string;
       'profile:image:preview_for:publisher:user:updated_at': string;
       'profile:image:preview_for:publisher:user:publisher_id': string;
+      'profile:image:preview_for:publisher:user:role': 'user' | 'admin';
       'profile:image:preview_for:submitter:id': string;
       'profile:image:preview_for:submitter:name': string;
       'profile:image:preview_for:submitter:email': string;
@@ -4687,6 +4775,7 @@ export type Schema = {
       'profile:image:preview_for:submitter:created_at': string;
       'profile:image:preview_for:submitter:updated_at': string;
       'profile:image:preview_for:submitter:publisher_id': string;
+      'profile:image:preview_for:submitter:role': 'user' | 'admin';
       'profile:image:preview_for:submitter:publisher:id': string;
       'profile:image:preview_for:submitter:publisher:created_at': string;
       'profile:image:preview_for:submitter:publisher:updated_at': string;
@@ -4731,6 +4820,7 @@ export type Schema = {
       'profile:image:publisher:user:created_at': string;
       'profile:image:publisher:user:updated_at': string;
       'profile:image:publisher:user:publisher_id': string;
+      'profile:image:publisher:user:role': 'user' | 'admin';
       'profile:image:publisher:user:profile:id': string;
       'profile:image:publisher:user:profile:created_at': string;
       'profile:image:publisher:user:profile:updated_at': string;
@@ -4753,6 +4843,7 @@ export type Schema = {
       'profile:user:created_at': string;
       'profile:user:updated_at': string;
       'profile:user:publisher_id': string;
+      'profile:user:role': 'user' | 'admin';
       'profile:user:publisher:id': string;
       'profile:user:publisher:created_at': string;
       'profile:user:publisher:updated_at': string;
@@ -4828,6 +4919,7 @@ export type Schema = {
       'user:created_at': string;
       'user:updated_at': string;
       'user:publisher_id': string;
+      'user:role': 'user' | 'admin';
       'user:publisher:id': string;
       'user:publisher:created_at': string;
       'user:publisher:updated_at': string;
@@ -4885,6 +4977,7 @@ export type Schema = {
       'user:publisher:image:cover_for:submitter:created_at': string;
       'user:publisher:image:cover_for:submitter:updated_at': string;
       'user:publisher:image:cover_for:submitter:publisher_id': string;
+      'user:publisher:image:cover_for:submitter:role': 'user' | 'admin';
       'user:publisher:image:preview_for:id': string;
       'user:publisher:image:preview_for:created_at': string;
       'user:publisher:image:preview_for:updated_at': string;
@@ -4931,6 +5024,7 @@ export type Schema = {
       'user:publisher:image:preview_for:submitter:created_at': string;
       'user:publisher:image:preview_for:submitter:updated_at': string;
       'user:publisher:image:preview_for:submitter:publisher_id': string;
+      'user:publisher:image:preview_for:submitter:role': 'user' | 'admin';
       'user:publisher:image:profile:id': string;
       'user:publisher:image:profile:created_at': string;
       'user:publisher:image:profile:updated_at': string;
@@ -4953,6 +5047,7 @@ export type Schema = {
       'user:publisher:image:profile:user:created_at': string;
       'user:publisher:image:profile:user:updated_at': string;
       'user:publisher:image:profile:user:publisher_id': string;
+      'user:publisher:image:profile:user:role': 'user' | 'admin';
       'user:profile:id': string;
       'user:profile:created_at': string;
       'user:profile:updated_at': string;
@@ -5013,6 +5108,7 @@ export type Schema = {
       'user:profile:image:cover_for:submitter:created_at': string;
       'user:profile:image:cover_for:submitter:updated_at': string;
       'user:profile:image:cover_for:submitter:publisher_id': string;
+      'user:profile:image:cover_for:submitter:role': 'user' | 'admin';
       'user:profile:image:preview_for:id': string;
       'user:profile:image:preview_for:created_at': string;
       'user:profile:image:preview_for:updated_at': string;
@@ -5059,6 +5155,7 @@ export type Schema = {
       'user:profile:image:preview_for:submitter:created_at': string;
       'user:profile:image:preview_for:submitter:updated_at': string;
       'user:profile:image:preview_for:submitter:publisher_id': string;
+      'user:profile:image:preview_for:submitter:role': 'user' | 'admin';
       'user:profile:image:publisher:id': string;
       'user:profile:image:publisher:created_at': string;
       'user:profile:image:publisher:updated_at': string;
@@ -5078,6 +5175,7 @@ export type Schema = {
       'user:profile:image:publisher:user:created_at': string;
       'user:profile:image:publisher:user:updated_at': string;
       'user:profile:image:publisher:user:publisher_id': string;
+      'user:profile:image:publisher:user:role': 'user' | 'admin';
     };
   };
   'features': {
@@ -5219,6 +5317,7 @@ export type Schema = {
       'book:image:preview_for:publisher:user:created_at': string;
       'book:image:preview_for:publisher:user:updated_at': string;
       'book:image:preview_for:publisher:user:publisher_id': string;
+      'book:image:preview_for:publisher:user:role': 'user' | 'admin';
       'book:image:preview_for:submitter:id': string;
       'book:image:preview_for:submitter:name': string;
       'book:image:preview_for:submitter:email': string;
@@ -5227,6 +5326,7 @@ export type Schema = {
       'book:image:preview_for:submitter:created_at': string;
       'book:image:preview_for:submitter:updated_at': string;
       'book:image:preview_for:submitter:publisher_id': string;
+      'book:image:preview_for:submitter:role': 'user' | 'admin';
       'book:image:preview_for:submitter:publisher:id': string;
       'book:image:preview_for:submitter:publisher:created_at': string;
       'book:image:preview_for:submitter:publisher:updated_at': string;
@@ -5271,6 +5371,7 @@ export type Schema = {
       'book:image:publisher:user:created_at': string;
       'book:image:publisher:user:updated_at': string;
       'book:image:publisher:user:publisher_id': string;
+      'book:image:publisher:user:role': 'user' | 'admin';
       'book:image:publisher:user:profile:id': string;
       'book:image:publisher:user:profile:created_at': string;
       'book:image:publisher:user:profile:updated_at': string;
@@ -5307,6 +5408,7 @@ export type Schema = {
       'book:image:profile:user:created_at': string;
       'book:image:profile:user:updated_at': string;
       'book:image:profile:user:publisher_id': string;
+      'book:image:profile:user:role': 'user' | 'admin';
       'book:image:profile:user:publisher:id': string;
       'book:image:profile:user:publisher:created_at': string;
       'book:image:profile:user:publisher:updated_at': string;
@@ -5375,6 +5477,7 @@ export type Schema = {
       'book:publisher:image:cover_for:submitter:created_at': string;
       'book:publisher:image:cover_for:submitter:updated_at': string;
       'book:publisher:image:cover_for:submitter:publisher_id': string;
+      'book:publisher:image:cover_for:submitter:role': 'user' | 'admin';
       'book:publisher:image:preview_for:id': string;
       'book:publisher:image:preview_for:created_at': string;
       'book:publisher:image:preview_for:updated_at': string;
@@ -5421,6 +5524,7 @@ export type Schema = {
       'book:publisher:image:preview_for:submitter:created_at': string;
       'book:publisher:image:preview_for:submitter:updated_at': string;
       'book:publisher:image:preview_for:submitter:publisher_id': string;
+      'book:publisher:image:preview_for:submitter:role': 'user' | 'admin';
       'book:publisher:image:profile:id': string;
       'book:publisher:image:profile:created_at': string;
       'book:publisher:image:profile:updated_at': string;
@@ -5443,6 +5547,7 @@ export type Schema = {
       'book:publisher:image:profile:user:created_at': string;
       'book:publisher:image:profile:user:updated_at': string;
       'book:publisher:image:profile:user:publisher_id': string;
+      'book:publisher:image:profile:user:role': 'user' | 'admin';
       'book:publisher:user:id': string;
       'book:publisher:user:name': string;
       'book:publisher:user:email': string;
@@ -5451,6 +5556,7 @@ export type Schema = {
       'book:publisher:user:created_at': string;
       'book:publisher:user:updated_at': string;
       'book:publisher:user:publisher_id': string;
+      'book:publisher:user:role': 'user' | 'admin';
       'book:publisher:user:profile:id': string;
       'book:publisher:user:profile:created_at': string;
       'book:publisher:user:profile:updated_at': string;
@@ -5485,6 +5591,7 @@ export type Schema = {
       'book:submitter:created_at': string;
       'book:submitter:updated_at': string;
       'book:submitter:publisher_id': string;
+      'book:submitter:role': 'user' | 'admin';
       'book:submitter:publisher:id': string;
       'book:submitter:publisher:created_at': string;
       'book:submitter:publisher:updated_at': string;
@@ -5715,6 +5822,7 @@ export type Schema = {
       'cover_for:publisher:image:cover_for:submitter:created_at': string;
       'cover_for:publisher:image:cover_for:submitter:updated_at': string;
       'cover_for:publisher:image:cover_for:submitter:publisher_id': string;
+      'cover_for:publisher:image:cover_for:submitter:role': 'user' | 'admin';
       'cover_for:publisher:image:preview_for:id': string;
       'cover_for:publisher:image:preview_for:created_at': string;
       'cover_for:publisher:image:preview_for:updated_at': string;
@@ -5749,6 +5857,7 @@ export type Schema = {
       'cover_for:publisher:image:preview_for:submitter:created_at': string;
       'cover_for:publisher:image:preview_for:submitter:updated_at': string;
       'cover_for:publisher:image:preview_for:submitter:publisher_id': string;
+      'cover_for:publisher:image:preview_for:submitter:role': 'user' | 'admin';
       'cover_for:publisher:image:profile:id': string;
       'cover_for:publisher:image:profile:created_at': string;
       'cover_for:publisher:image:profile:updated_at': string;
@@ -5771,6 +5880,7 @@ export type Schema = {
       'cover_for:publisher:image:profile:user:created_at': string;
       'cover_for:publisher:image:profile:user:updated_at': string;
       'cover_for:publisher:image:profile:user:publisher_id': string;
+      'cover_for:publisher:image:profile:user:role': 'user' | 'admin';
       'cover_for:publisher:user:id': string;
       'cover_for:publisher:user:name': string;
       'cover_for:publisher:user:email': string;
@@ -5779,6 +5889,7 @@ export type Schema = {
       'cover_for:publisher:user:created_at': string;
       'cover_for:publisher:user:updated_at': string;
       'cover_for:publisher:user:publisher_id': string;
+      'cover_for:publisher:user:role': 'user' | 'admin';
       'cover_for:publisher:user:profile:id': string;
       'cover_for:publisher:user:profile:created_at': string;
       'cover_for:publisher:user:profile:updated_at': string;
@@ -5813,6 +5924,7 @@ export type Schema = {
       'cover_for:submitter:created_at': string;
       'cover_for:submitter:updated_at': string;
       'cover_for:submitter:publisher_id': string;
+      'cover_for:submitter:role': 'user' | 'admin';
       'cover_for:submitter:publisher:id': string;
       'cover_for:submitter:publisher:created_at': string;
       'cover_for:submitter:publisher:updated_at': string;
@@ -6072,6 +6184,7 @@ export type Schema = {
       'preview_for:image:preview_for:publisher:user:created_at': string;
       'preview_for:image:preview_for:publisher:user:updated_at': string;
       'preview_for:image:preview_for:publisher:user:publisher_id': string;
+      'preview_for:image:preview_for:publisher:user:role': 'user' | 'admin';
       'preview_for:image:preview_for:submitter:id': string;
       'preview_for:image:preview_for:submitter:name': string;
       'preview_for:image:preview_for:submitter:email': string;
@@ -6080,6 +6193,7 @@ export type Schema = {
       'preview_for:image:preview_for:submitter:created_at': string;
       'preview_for:image:preview_for:submitter:updated_at': string;
       'preview_for:image:preview_for:submitter:publisher_id': string;
+      'preview_for:image:preview_for:submitter:role': 'user' | 'admin';
       'preview_for:image:preview_for:submitter:publisher:id': string;
       'preview_for:image:preview_for:submitter:publisher:created_at': string;
       'preview_for:image:preview_for:submitter:publisher:updated_at': string;
@@ -6124,6 +6238,7 @@ export type Schema = {
       'preview_for:image:publisher:user:created_at': string;
       'preview_for:image:publisher:user:updated_at': string;
       'preview_for:image:publisher:user:publisher_id': string;
+      'preview_for:image:publisher:user:role': 'user' | 'admin';
       'preview_for:image:publisher:user:profile:id': string;
       'preview_for:image:publisher:user:profile:created_at': string;
       'preview_for:image:publisher:user:profile:updated_at': string;
@@ -6160,6 +6275,7 @@ export type Schema = {
       'preview_for:image:profile:user:created_at': string;
       'preview_for:image:profile:user:updated_at': string;
       'preview_for:image:profile:user:publisher_id': string;
+      'preview_for:image:profile:user:role': 'user' | 'admin';
       'preview_for:image:profile:user:publisher:id': string;
       'preview_for:image:profile:user:publisher:created_at': string;
       'preview_for:image:profile:user:publisher:updated_at': string;
@@ -6228,6 +6344,7 @@ export type Schema = {
       'preview_for:publisher:image:cover_for:submitter:created_at': string;
       'preview_for:publisher:image:cover_for:submitter:updated_at': string;
       'preview_for:publisher:image:cover_for:submitter:publisher_id': string;
+      'preview_for:publisher:image:cover_for:submitter:role': 'user' | 'admin';
       'preview_for:publisher:image:preview_for:id': string;
       'preview_for:publisher:image:preview_for:created_at': string;
       'preview_for:publisher:image:preview_for:updated_at': string;
@@ -6274,6 +6391,7 @@ export type Schema = {
       'preview_for:publisher:image:preview_for:submitter:created_at': string;
       'preview_for:publisher:image:preview_for:submitter:updated_at': string;
       'preview_for:publisher:image:preview_for:submitter:publisher_id': string;
+      'preview_for:publisher:image:preview_for:submitter:role': 'user' | 'admin';
       'preview_for:publisher:image:profile:id': string;
       'preview_for:publisher:image:profile:created_at': string;
       'preview_for:publisher:image:profile:updated_at': string;
@@ -6296,6 +6414,7 @@ export type Schema = {
       'preview_for:publisher:image:profile:user:created_at': string;
       'preview_for:publisher:image:profile:user:updated_at': string;
       'preview_for:publisher:image:profile:user:publisher_id': string;
+      'preview_for:publisher:image:profile:user:role': 'user' | 'admin';
       'preview_for:publisher:user:id': string;
       'preview_for:publisher:user:name': string;
       'preview_for:publisher:user:email': string;
@@ -6304,6 +6423,7 @@ export type Schema = {
       'preview_for:publisher:user:created_at': string;
       'preview_for:publisher:user:updated_at': string;
       'preview_for:publisher:user:publisher_id': string;
+      'preview_for:publisher:user:role': 'user' | 'admin';
       'preview_for:publisher:user:profile:id': string;
       'preview_for:publisher:user:profile:created_at': string;
       'preview_for:publisher:user:profile:updated_at': string;
@@ -6338,6 +6458,7 @@ export type Schema = {
       'preview_for:submitter:created_at': string;
       'preview_for:submitter:updated_at': string;
       'preview_for:submitter:publisher_id': string;
+      'preview_for:submitter:role': 'user' | 'admin';
       'preview_for:submitter:publisher:id': string;
       'preview_for:submitter:publisher:created_at': string;
       'preview_for:submitter:publisher:updated_at': string;
@@ -6491,6 +6612,7 @@ export type Schema = {
       'publisher:user:created_at': string;
       'publisher:user:updated_at': string;
       'publisher:user:publisher_id': string;
+      'publisher:user:role': 'user' | 'admin';
       'publisher:user:profile:id': string;
       'publisher:user:profile:created_at': string;
       'publisher:user:profile:updated_at': string;
@@ -6580,6 +6702,7 @@ export type Schema = {
       'profile:user:created_at': string;
       'profile:user:updated_at': string;
       'profile:user:publisher_id': string;
+      'profile:user:role': 'user' | 'admin';
       'profile:user:publisher:id': string;
       'profile:user:publisher:created_at': string;
       'profile:user:publisher:updated_at': string;
@@ -6799,6 +6922,7 @@ export type Schema = {
       'book:image:preview_for:publisher:user:created_at': string;
       'book:image:preview_for:publisher:user:updated_at': string;
       'book:image:preview_for:publisher:user:publisher_id': string;
+      'book:image:preview_for:publisher:user:role': 'user' | 'admin';
       'book:image:preview_for:submitter:id': string;
       'book:image:preview_for:submitter:name': string;
       'book:image:preview_for:submitter:email': string;
@@ -6807,6 +6931,7 @@ export type Schema = {
       'book:image:preview_for:submitter:created_at': string;
       'book:image:preview_for:submitter:updated_at': string;
       'book:image:preview_for:submitter:publisher_id': string;
+      'book:image:preview_for:submitter:role': 'user' | 'admin';
       'book:image:preview_for:submitter:publisher:id': string;
       'book:image:preview_for:submitter:publisher:created_at': string;
       'book:image:preview_for:submitter:publisher:updated_at': string;
@@ -6851,6 +6976,7 @@ export type Schema = {
       'book:image:publisher:user:created_at': string;
       'book:image:publisher:user:updated_at': string;
       'book:image:publisher:user:publisher_id': string;
+      'book:image:publisher:user:role': 'user' | 'admin';
       'book:image:publisher:user:profile:id': string;
       'book:image:publisher:user:profile:created_at': string;
       'book:image:publisher:user:profile:updated_at': string;
@@ -6887,6 +7013,7 @@ export type Schema = {
       'book:image:profile:user:created_at': string;
       'book:image:profile:user:updated_at': string;
       'book:image:profile:user:publisher_id': string;
+      'book:image:profile:user:role': 'user' | 'admin';
       'book:image:profile:user:publisher:id': string;
       'book:image:profile:user:publisher:created_at': string;
       'book:image:profile:user:publisher:updated_at': string;
@@ -6955,6 +7082,7 @@ export type Schema = {
       'book:publisher:image:cover_for:submitter:created_at': string;
       'book:publisher:image:cover_for:submitter:updated_at': string;
       'book:publisher:image:cover_for:submitter:publisher_id': string;
+      'book:publisher:image:cover_for:submitter:role': 'user' | 'admin';
       'book:publisher:image:preview_for:id': string;
       'book:publisher:image:preview_for:created_at': string;
       'book:publisher:image:preview_for:updated_at': string;
@@ -7001,6 +7129,7 @@ export type Schema = {
       'book:publisher:image:preview_for:submitter:created_at': string;
       'book:publisher:image:preview_for:submitter:updated_at': string;
       'book:publisher:image:preview_for:submitter:publisher_id': string;
+      'book:publisher:image:preview_for:submitter:role': 'user' | 'admin';
       'book:publisher:image:profile:id': string;
       'book:publisher:image:profile:created_at': string;
       'book:publisher:image:profile:updated_at': string;
@@ -7023,6 +7152,7 @@ export type Schema = {
       'book:publisher:image:profile:user:created_at': string;
       'book:publisher:image:profile:user:updated_at': string;
       'book:publisher:image:profile:user:publisher_id': string;
+      'book:publisher:image:profile:user:role': 'user' | 'admin';
       'book:publisher:user:id': string;
       'book:publisher:user:name': string;
       'book:publisher:user:email': string;
@@ -7031,6 +7161,7 @@ export type Schema = {
       'book:publisher:user:created_at': string;
       'book:publisher:user:updated_at': string;
       'book:publisher:user:publisher_id': string;
+      'book:publisher:user:role': 'user' | 'admin';
       'book:publisher:user:profile:id': string;
       'book:publisher:user:profile:created_at': string;
       'book:publisher:user:profile:updated_at': string;
@@ -7065,6 +7196,7 @@ export type Schema = {
       'book:submitter:created_at': string;
       'book:submitter:updated_at': string;
       'book:submitter:publisher_id': string;
+      'book:submitter:role': 'user' | 'admin';
       'book:submitter:publisher:id': string;
       'book:submitter:publisher:created_at': string;
       'book:submitter:publisher:updated_at': string;
@@ -7221,6 +7353,7 @@ export type Schema = {
       'author:created_at': string;
       'author:updated_at': string;
       'author:publisher_id': string;
+      'author:role': 'user' | 'admin';
       'author:publisher:id': string;
       'author:publisher:created_at': string;
       'author:publisher:updated_at': string;
@@ -7278,6 +7411,7 @@ export type Schema = {
       'author:publisher:image:cover_for:submitter:created_at': string;
       'author:publisher:image:cover_for:submitter:updated_at': string;
       'author:publisher:image:cover_for:submitter:publisher_id': string;
+      'author:publisher:image:cover_for:submitter:role': 'user' | 'admin';
       'author:publisher:image:preview_for:id': string;
       'author:publisher:image:preview_for:created_at': string;
       'author:publisher:image:preview_for:updated_at': string;
@@ -7324,6 +7458,7 @@ export type Schema = {
       'author:publisher:image:preview_for:submitter:created_at': string;
       'author:publisher:image:preview_for:submitter:updated_at': string;
       'author:publisher:image:preview_for:submitter:publisher_id': string;
+      'author:publisher:image:preview_for:submitter:role': 'user' | 'admin';
       'author:publisher:image:profile:id': string;
       'author:publisher:image:profile:created_at': string;
       'author:publisher:image:profile:updated_at': string;
@@ -7346,6 +7481,7 @@ export type Schema = {
       'author:publisher:image:profile:user:created_at': string;
       'author:publisher:image:profile:user:updated_at': string;
       'author:publisher:image:profile:user:publisher_id': string;
+      'author:publisher:image:profile:user:role': 'user' | 'admin';
       'author:profile:id': string;
       'author:profile:created_at': string;
       'author:profile:updated_at': string;
@@ -7406,6 +7542,7 @@ export type Schema = {
       'author:profile:image:cover_for:submitter:created_at': string;
       'author:profile:image:cover_for:submitter:updated_at': string;
       'author:profile:image:cover_for:submitter:publisher_id': string;
+      'author:profile:image:cover_for:submitter:role': 'user' | 'admin';
       'author:profile:image:preview_for:id': string;
       'author:profile:image:preview_for:created_at': string;
       'author:profile:image:preview_for:updated_at': string;
@@ -7452,6 +7589,7 @@ export type Schema = {
       'author:profile:image:preview_for:submitter:created_at': string;
       'author:profile:image:preview_for:submitter:updated_at': string;
       'author:profile:image:preview_for:submitter:publisher_id': string;
+      'author:profile:image:preview_for:submitter:role': 'user' | 'admin';
       'author:profile:image:publisher:id': string;
       'author:profile:image:publisher:created_at': string;
       'author:profile:image:publisher:updated_at': string;
@@ -7471,6 +7609,7 @@ export type Schema = {
       'author:profile:image:publisher:user:created_at': string;
       'author:profile:image:publisher:user:updated_at': string;
       'author:profile:image:publisher:user:publisher_id': string;
+      'author:profile:image:publisher:user:role': 'user' | 'admin';
     };
   };
   'profiles': {
@@ -7583,6 +7722,7 @@ export type Schema = {
       'image:cover_for:publisher:user:created_at': string;
       'image:cover_for:publisher:user:updated_at': string;
       'image:cover_for:publisher:user:publisher_id': string;
+      'image:cover_for:publisher:user:role': 'user' | 'admin';
       'image:cover_for:publisher:user:profile:id': string;
       'image:cover_for:publisher:user:profile:created_at': string;
       'image:cover_for:publisher:user:profile:updated_at': string;
@@ -7605,6 +7745,7 @@ export type Schema = {
       'image:cover_for:submitter:created_at': string;
       'image:cover_for:submitter:updated_at': string;
       'image:cover_for:submitter:publisher_id': string;
+      'image:cover_for:submitter:role': 'user' | 'admin';
       'image:cover_for:submitter:publisher:id': string;
       'image:cover_for:submitter:publisher:created_at': string;
       'image:cover_for:submitter:publisher:updated_at': string;
@@ -7727,6 +7868,7 @@ export type Schema = {
       'image:preview_for:image:preview_for:submitter:created_at': string;
       'image:preview_for:image:preview_for:submitter:updated_at': string;
       'image:preview_for:image:preview_for:submitter:publisher_id': string;
+      'image:preview_for:image:preview_for:submitter:role': 'user' | 'admin';
       'image:preview_for:image:publisher:id': string;
       'image:preview_for:image:publisher:created_at': string;
       'image:preview_for:image:publisher:updated_at': string;
@@ -7746,6 +7888,7 @@ export type Schema = {
       'image:preview_for:image:publisher:user:created_at': string;
       'image:preview_for:image:publisher:user:updated_at': string;
       'image:preview_for:image:publisher:user:publisher_id': string;
+      'image:preview_for:image:publisher:user:role': 'user' | 'admin';
       'image:preview_for:publisher:id': string;
       'image:preview_for:publisher:created_at': string;
       'image:preview_for:publisher:updated_at': string;
@@ -7807,6 +7950,7 @@ export type Schema = {
       'image:preview_for:publisher:user:created_at': string;
       'image:preview_for:publisher:user:updated_at': string;
       'image:preview_for:publisher:user:publisher_id': string;
+      'image:preview_for:publisher:user:role': 'user' | 'admin';
       'image:preview_for:publisher:user:profile:id': string;
       'image:preview_for:publisher:user:profile:created_at': string;
       'image:preview_for:publisher:user:profile:updated_at': string;
@@ -7829,6 +7973,7 @@ export type Schema = {
       'image:preview_for:submitter:created_at': string;
       'image:preview_for:submitter:updated_at': string;
       'image:preview_for:submitter:publisher_id': string;
+      'image:preview_for:submitter:role': 'user' | 'admin';
       'image:preview_for:submitter:publisher:id': string;
       'image:preview_for:submitter:publisher:created_at': string;
       'image:preview_for:submitter:publisher:updated_at': string;
@@ -7897,6 +8042,7 @@ export type Schema = {
       'image:publisher:user:created_at': string;
       'image:publisher:user:updated_at': string;
       'image:publisher:user:publisher_id': string;
+      'image:publisher:user:role': 'user' | 'admin';
       'image:publisher:user:profile:id': string;
       'image:publisher:user:profile:created_at': string;
       'image:publisher:user:profile:updated_at': string;
@@ -7931,6 +8077,7 @@ export type Schema = {
       'user:created_at': string;
       'user:updated_at': string;
       'user:publisher_id': string;
+      'user:role': 'user' | 'admin';
       'user:publisher:id': string;
       'user:publisher:created_at': string;
       'user:publisher:updated_at': string;
@@ -7988,6 +8135,7 @@ export type Schema = {
       'user:publisher:image:cover_for:submitter:created_at': string;
       'user:publisher:image:cover_for:submitter:updated_at': string;
       'user:publisher:image:cover_for:submitter:publisher_id': string;
+      'user:publisher:image:cover_for:submitter:role': 'user' | 'admin';
       'user:publisher:image:preview_for:id': string;
       'user:publisher:image:preview_for:created_at': string;
       'user:publisher:image:preview_for:updated_at': string;
@@ -8034,6 +8182,7 @@ export type Schema = {
       'user:publisher:image:preview_for:submitter:created_at': string;
       'user:publisher:image:preview_for:submitter:updated_at': string;
       'user:publisher:image:preview_for:submitter:publisher_id': string;
+      'user:publisher:image:preview_for:submitter:role': 'user' | 'admin';
       'user:publisher:image:profile:id': string;
       'user:publisher:image:profile:created_at': string;
       'user:publisher:image:profile:updated_at': string;
@@ -8056,6 +8205,7 @@ export type Schema = {
       'user:publisher:image:profile:user:created_at': string;
       'user:publisher:image:profile:user:updated_at': string;
       'user:publisher:image:profile:user:publisher_id': string;
+      'user:publisher:image:profile:user:role': 'user' | 'admin';
     };
   };
   'publishers': {
@@ -8179,6 +8329,7 @@ export type Schema = {
       'image:cover_for:publisher:user:created_at': string;
       'image:cover_for:publisher:user:updated_at': string;
       'image:cover_for:publisher:user:publisher_id': string;
+      'image:cover_for:publisher:user:role': 'user' | 'admin';
       'image:cover_for:publisher:user:profile:id': string;
       'image:cover_for:publisher:user:profile:created_at': string;
       'image:cover_for:publisher:user:profile:updated_at': string;
@@ -8201,6 +8352,7 @@ export type Schema = {
       'image:cover_for:submitter:created_at': string;
       'image:cover_for:submitter:updated_at': string;
       'image:cover_for:submitter:publisher_id': string;
+      'image:cover_for:submitter:role': 'user' | 'admin';
       'image:cover_for:submitter:publisher:id': string;
       'image:cover_for:submitter:publisher:created_at': string;
       'image:cover_for:submitter:publisher:updated_at': string;
@@ -8323,6 +8475,7 @@ export type Schema = {
       'image:preview_for:image:preview_for:submitter:created_at': string;
       'image:preview_for:image:preview_for:submitter:updated_at': string;
       'image:preview_for:image:preview_for:submitter:publisher_id': string;
+      'image:preview_for:image:preview_for:submitter:role': 'user' | 'admin';
       'image:preview_for:image:profile:id': string;
       'image:preview_for:image:profile:created_at': string;
       'image:preview_for:image:profile:updated_at': string;
@@ -8345,6 +8498,7 @@ export type Schema = {
       'image:preview_for:image:profile:user:created_at': string;
       'image:preview_for:image:profile:user:updated_at': string;
       'image:preview_for:image:profile:user:publisher_id': string;
+      'image:preview_for:image:profile:user:role': 'user' | 'admin';
       'image:preview_for:publisher:id': string;
       'image:preview_for:publisher:created_at': string;
       'image:preview_for:publisher:updated_at': string;
@@ -8420,6 +8574,7 @@ export type Schema = {
       'image:preview_for:publisher:user:created_at': string;
       'image:preview_for:publisher:user:updated_at': string;
       'image:preview_for:publisher:user:publisher_id': string;
+      'image:preview_for:publisher:user:role': 'user' | 'admin';
       'image:preview_for:publisher:user:profile:id': string;
       'image:preview_for:publisher:user:profile:created_at': string;
       'image:preview_for:publisher:user:profile:updated_at': string;
@@ -8442,6 +8597,7 @@ export type Schema = {
       'image:preview_for:submitter:created_at': string;
       'image:preview_for:submitter:updated_at': string;
       'image:preview_for:submitter:publisher_id': string;
+      'image:preview_for:submitter:role': 'user' | 'admin';
       'image:preview_for:submitter:publisher:id': string;
       'image:preview_for:submitter:publisher:created_at': string;
       'image:preview_for:submitter:publisher:updated_at': string;
@@ -8513,6 +8669,7 @@ export type Schema = {
       'image:profile:user:created_at': string;
       'image:profile:user:updated_at': string;
       'image:profile:user:publisher_id': string;
+      'image:profile:user:role': 'user' | 'admin';
       'image:profile:user:publisher:id': string;
       'image:profile:user:publisher:created_at': string;
       'image:profile:user:publisher:updated_at': string;
@@ -8544,6 +8701,7 @@ export type Schema = {
       'user:created_at': string;
       'user:updated_at': string;
       'user:publisher_id': string;
+      'user:role': 'user' | 'admin';
       'user:profile:id': string;
       'user:profile:created_at': string;
       'user:profile:updated_at': string;
@@ -8604,6 +8762,7 @@ export type Schema = {
       'user:profile:image:cover_for:submitter:created_at': string;
       'user:profile:image:cover_for:submitter:updated_at': string;
       'user:profile:image:cover_for:submitter:publisher_id': string;
+      'user:profile:image:cover_for:submitter:role': 'user' | 'admin';
       'user:profile:image:preview_for:id': string;
       'user:profile:image:preview_for:created_at': string;
       'user:profile:image:preview_for:updated_at': string;
@@ -8650,6 +8809,7 @@ export type Schema = {
       'user:profile:image:preview_for:submitter:created_at': string;
       'user:profile:image:preview_for:submitter:updated_at': string;
       'user:profile:image:preview_for:submitter:publisher_id': string;
+      'user:profile:image:preview_for:submitter:role': 'user' | 'admin';
       'user:profile:image:publisher:id': string;
       'user:profile:image:publisher:created_at': string;
       'user:profile:image:publisher:updated_at': string;
@@ -8669,6 +8829,7 @@ export type Schema = {
       'user:profile:image:publisher:user:created_at': string;
       'user:profile:image:publisher:user:updated_at': string;
       'user:profile:image:publisher:user:publisher_id': string;
+      'user:profile:image:publisher:user:role': 'user' | 'admin';
     };
   };
   'sessions': {
@@ -8690,6 +8851,7 @@ export type Schema = {
       'user:created_at': string;
       'user:updated_at': string;
       'user:publisher_id': string;
+      'user:role': 'user' | 'admin';
       'user:publisher:id': string;
       'user:publisher:created_at': string;
       'user:publisher:updated_at': string;
@@ -8747,6 +8909,7 @@ export type Schema = {
       'user:publisher:image:cover_for:submitter:created_at': string;
       'user:publisher:image:cover_for:submitter:updated_at': string;
       'user:publisher:image:cover_for:submitter:publisher_id': string;
+      'user:publisher:image:cover_for:submitter:role': 'user' | 'admin';
       'user:publisher:image:preview_for:id': string;
       'user:publisher:image:preview_for:created_at': string;
       'user:publisher:image:preview_for:updated_at': string;
@@ -8793,6 +8956,7 @@ export type Schema = {
       'user:publisher:image:preview_for:submitter:created_at': string;
       'user:publisher:image:preview_for:submitter:updated_at': string;
       'user:publisher:image:preview_for:submitter:publisher_id': string;
+      'user:publisher:image:preview_for:submitter:role': 'user' | 'admin';
       'user:publisher:image:profile:id': string;
       'user:publisher:image:profile:created_at': string;
       'user:publisher:image:profile:updated_at': string;
@@ -8815,6 +8979,7 @@ export type Schema = {
       'user:publisher:image:profile:user:created_at': string;
       'user:publisher:image:profile:user:updated_at': string;
       'user:publisher:image:profile:user:publisher_id': string;
+      'user:publisher:image:profile:user:role': 'user' | 'admin';
       'user:profile:id': string;
       'user:profile:created_at': string;
       'user:profile:updated_at': string;
@@ -8875,6 +9040,7 @@ export type Schema = {
       'user:profile:image:cover_for:submitter:created_at': string;
       'user:profile:image:cover_for:submitter:updated_at': string;
       'user:profile:image:cover_for:submitter:publisher_id': string;
+      'user:profile:image:cover_for:submitter:role': 'user' | 'admin';
       'user:profile:image:preview_for:id': string;
       'user:profile:image:preview_for:created_at': string;
       'user:profile:image:preview_for:updated_at': string;
@@ -8921,6 +9087,7 @@ export type Schema = {
       'user:profile:image:preview_for:submitter:created_at': string;
       'user:profile:image:preview_for:submitter:updated_at': string;
       'user:profile:image:preview_for:submitter:publisher_id': string;
+      'user:profile:image:preview_for:submitter:role': 'user' | 'admin';
       'user:profile:image:publisher:id': string;
       'user:profile:image:publisher:created_at': string;
       'user:profile:image:publisher:updated_at': string;
@@ -8940,6 +9107,7 @@ export type Schema = {
       'user:profile:image:publisher:user:created_at': string;
       'user:profile:image:publisher:user:updated_at': string;
       'user:profile:image:publisher:user:publisher_id': string;
+      'user:profile:image:publisher:user:role': 'user' | 'admin';
     };
   };
   'tags': {
@@ -8962,6 +9130,7 @@ export type Schema = {
       'created_at': string;
       'updated_at': string;
       'publisher_id': string;
+      'role': 'user' | 'admin';
     };
     nested: {
       'publisher': Schema['publishers']['plain'] & Schema['publishers']['nested'];
@@ -9037,6 +9206,7 @@ export type Schema = {
       'publisher:image:cover_for:submitter:created_at': string;
       'publisher:image:cover_for:submitter:updated_at': string;
       'publisher:image:cover_for:submitter:publisher_id': string;
+      'publisher:image:cover_for:submitter:role': 'user' | 'admin';
       'publisher:image:cover_for:submitter:publisher:id': string;
       'publisher:image:cover_for:submitter:publisher:created_at': string;
       'publisher:image:cover_for:submitter:publisher:updated_at': string;
@@ -9149,6 +9319,7 @@ export type Schema = {
       'publisher:image:preview_for:submitter:created_at': string;
       'publisher:image:preview_for:submitter:updated_at': string;
       'publisher:image:preview_for:submitter:publisher_id': string;
+      'publisher:image:preview_for:submitter:role': 'user' | 'admin';
       'publisher:image:preview_for:submitter:publisher:id': string;
       'publisher:image:preview_for:submitter:publisher:created_at': string;
       'publisher:image:preview_for:submitter:publisher:updated_at': string;
@@ -9196,6 +9367,7 @@ export type Schema = {
       'publisher:image:profile:user:created_at': string;
       'publisher:image:profile:user:updated_at': string;
       'publisher:image:profile:user:publisher_id': string;
+      'publisher:image:profile:user:role': 'user' | 'admin';
       'publisher:image:profile:user:publisher:id': string;
       'publisher:image:profile:user:publisher:created_at': string;
       'publisher:image:profile:user:publisher:updated_at': string;
@@ -9279,6 +9451,7 @@ export type Schema = {
       'profile:image:cover_for:publisher:user:created_at': string;
       'profile:image:cover_for:publisher:user:updated_at': string;
       'profile:image:cover_for:publisher:user:publisher_id': string;
+      'profile:image:cover_for:publisher:user:role': 'user' | 'admin';
       'profile:image:cover_for:submitter:id': string;
       'profile:image:cover_for:submitter:name': string;
       'profile:image:cover_for:submitter:email': string;
@@ -9287,6 +9460,7 @@ export type Schema = {
       'profile:image:cover_for:submitter:created_at': string;
       'profile:image:cover_for:submitter:updated_at': string;
       'profile:image:cover_for:submitter:publisher_id': string;
+      'profile:image:cover_for:submitter:role': 'user' | 'admin';
       'profile:image:cover_for:submitter:publisher:id': string;
       'profile:image:cover_for:submitter:publisher:created_at': string;
       'profile:image:cover_for:submitter:publisher:updated_at': string;
@@ -9396,6 +9570,7 @@ export type Schema = {
       'profile:image:preview_for:publisher:user:created_at': string;
       'profile:image:preview_for:publisher:user:updated_at': string;
       'profile:image:preview_for:publisher:user:publisher_id': string;
+      'profile:image:preview_for:publisher:user:role': 'user' | 'admin';
       'profile:image:preview_for:submitter:id': string;
       'profile:image:preview_for:submitter:name': string;
       'profile:image:preview_for:submitter:email': string;
@@ -9404,6 +9579,7 @@ export type Schema = {
       'profile:image:preview_for:submitter:created_at': string;
       'profile:image:preview_for:submitter:updated_at': string;
       'profile:image:preview_for:submitter:publisher_id': string;
+      'profile:image:preview_for:submitter:role': 'user' | 'admin';
       'profile:image:preview_for:submitter:publisher:id': string;
       'profile:image:preview_for:submitter:publisher:created_at': string;
       'profile:image:preview_for:submitter:publisher:updated_at': string;
@@ -9448,6 +9624,7 @@ export type Schema = {
       'profile:image:publisher:user:created_at': string;
       'profile:image:publisher:user:updated_at': string;
       'profile:image:publisher:user:publisher_id': string;
+      'profile:image:publisher:user:role': 'user' | 'admin';
       'profile:image:publisher:user:profile:id': string;
       'profile:image:publisher:user:profile:created_at': string;
       'profile:image:publisher:user:profile:updated_at': string;
