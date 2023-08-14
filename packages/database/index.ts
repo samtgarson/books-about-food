@@ -1,19 +1,28 @@
 import { PrismaClient } from '@prisma/client'
-let prisma: PrismaClient
+import { withAccelerate } from '@prisma/extension-accelerate'
+
+const extendClient = (client: PrismaClient) => client.$extends(withAccelerate())
+let prisma: ReturnType<typeof extendClient>
+let unextended: PrismaClient
 
 if (process.env.NODE_ENV === 'production') {
-  prisma = new PrismaClient()
+  unextended = new PrismaClient()
+  prisma = extendClient(unextended)
 } else {
   const globalWithPrisma = global as typeof globalThis & {
-    prisma: PrismaClient
+    prisma: ReturnType<typeof extendClient>
+    unextendedPrisma: PrismaClient
+  }
+  if (!globalWithPrisma.unextendedPrisma) {
+    globalWithPrisma.unextendedPrisma = new PrismaClient()
   }
   if (!globalWithPrisma.prisma) {
-    const devPrisma = new PrismaClient()
-
-    globalWithPrisma.prisma = devPrisma
+    globalWithPrisma.prisma = extendClient(globalWithPrisma.unextendedPrisma)
   }
   prisma = globalWithPrisma.prisma
+  unextended = globalWithPrisma.unextendedPrisma
 }
 
 export default prisma
+export { unextended }
 export * from '@prisma/client'
