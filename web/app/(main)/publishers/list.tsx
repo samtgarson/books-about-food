@@ -1,4 +1,3 @@
-import { FilterBar } from 'src/components/lists/filter-bar'
 import { Pagination } from 'src/components/lists/pagination'
 import {
   FetchPublishersInput,
@@ -21,12 +20,6 @@ export async function PublishersList({ filters = {} }: PublishersListProps) {
       page={filters?.page ?? 0}
       filteredTotal={filteredTotal}
     >
-      <FilterBar
-        title="Publishers"
-        search={{
-          value: filters?.search
-        }}
-      />
       <PublisherGrid publishers={publishers} />
       {publishers.length === 0 && <p>No publishers found</p>}
     </Pagination>

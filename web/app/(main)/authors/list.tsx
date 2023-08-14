@@ -4,7 +4,6 @@ import {
   fetchProfiles
 } from 'src/services/profiles/fetch-profiles'
 import { AuthorsGrid } from './grid'
-import { AuthorFilters } from './filters'
 
 export type AuthorListProps = {
   filters?: FetchProfilesInput
@@ -24,7 +23,6 @@ export async function AuthorsList({ filters = {} }: AuthorListProps) {
       page={filters.page ?? 0}
       filteredTotal={filteredTotal}
     >
-      <AuthorFilters filters={filters} />
       <AuthorsGrid profiles={profiles} />
       {profiles.length === 0 && <p>No authors found</p>}
     </Pagination>

@@ -3,7 +3,6 @@ import {
   FetchProfilesInput,
   fetchProfiles
 } from 'src/services/profiles/fetch-profiles'
-import { PeopleFilters } from './filters'
 import { PeopleGrid } from './grid'
 
 export type PeopleListProps = {
@@ -23,7 +22,6 @@ export const PeopleList = async ({ filters = {} }: PeopleListProps) => {
       page={filters.page ?? 0}
       filteredTotal={filteredTotal}
     >
-      <PeopleFilters filters={filters} />
       <PeopleGrid profiles={profiles} />
       {profiles.length === 0 && <p>No profiles found</p>}
     </Pagination>

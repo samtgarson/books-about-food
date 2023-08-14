@@ -31,3 +31,11 @@ export const PeopleGrid: FC<PeopleListProps> = ({
     )}
   </GridContainer>
 )
+
+export const SkeletonPeopleGrid = () => (
+  <GridContainer>
+    {Array.from({ length: 30 }, (_, i) => (
+      <ProfileItem key={i} index={i} />
+    ))}
+  </GridContainer>
+)

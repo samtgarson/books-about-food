@@ -1,21 +1,17 @@
 import { Pagination } from 'src/components/lists/pagination'
 import { FetchBooksInput, fetchBooks } from 'src/services/books/fetch-books'
-import cn from 'classnames'
 import { GridContainer } from '../lists/grid-container'
-import { BookFilters } from './filters'
-import { Item } from './item'
+import { Item, Skeleton } from './item'
 import { NewBookButton } from './new-book-button'
 
 export type BookListProps = {
   filters?: FetchBooksInput
-  showFilters?: boolean
   showEmpty?: boolean
   showCreate?: boolean
 }
 
 export const BookList = async ({
   filters = {},
-  showFilters = true,
   showEmpty = true,
   showCreate = false
 }: BookListProps) => {
@@ -30,8 +26,7 @@ export const BookList = async ({
       page={filters.page ?? 0}
       filteredTotal={filteredTotal}
     >
-      {showFilters && <BookFilters filters={filters} />}
-      <GridContainer className={cn('sm:gap-y-16')}>
+      <GridContainer className={'sm:gap-y-16'}>
         {books.map((book) => (
           <Item key={book.id} book={book} />
         ))}
@@ -41,3 +36,11 @@ export const BookList = async ({
     </Pagination>
   )
 }
+
+export const SkeletonBookList = () => (
+  <GridContainer className={'sm:gap-y-16'}>
+    {Array.from({ length: 10 }, (_, i) => (
+      <Skeleton key={i} index={i} />
+    ))}
+  </GridContainer>
+)

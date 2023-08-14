@@ -94,11 +94,7 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
               Cookbook Portfolio
             </h2>
             <Suspense fallback={<Loader />}>
-              <BookList
-                showFilters={false}
-                showEmpty={false}
-                filters={bookFilters}
-              />
+              <BookList showEmpty={false} filters={bookFilters} />
             </Suspense>
           </>
         )}

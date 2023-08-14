@@ -48,3 +48,11 @@ export const AuthorsGrid: FC<AuthorListProps> = ({
     )}
   </AuthorGridContainer>
 )
+
+export const SkeletonAuthorsGrid = () => (
+  <AuthorGridContainer>
+    {Array.from({ length: 30 }, (_, i) => (
+      <AuthorItem key={i} index={i} />
+    ))}
+  </AuthorGridContainer>
+)

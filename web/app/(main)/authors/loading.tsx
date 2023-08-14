@@ -1,17 +1,13 @@
 import { Container } from 'src/components/atoms/container'
+import { FetchProfilesInput } from 'src/services/profiles/fetch-profiles'
 import { AuthorFilters } from './filters'
-import { AuthorGridContainer } from './grid'
-import { AuthorItem } from './item'
+import { SkeletonAuthorsGrid } from './grid'
 
-export default async () => {
+export default async ({ filters = {} }: { filters?: FetchProfilesInput }) => {
   return (
     <Container belowNav>
-      <AuthorFilters filters={{}} />
-      <AuthorGridContainer>
-        {Array.from({ length: 30 }, (_, i) => (
-          <AuthorItem key={i} index={i} />
-        ))}
-      </AuthorGridContainer>
+      <AuthorFilters filters={filters} />
+      <SkeletonAuthorsGrid />
     </Container>
   )
 }

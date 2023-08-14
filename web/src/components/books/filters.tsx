@@ -8,10 +8,10 @@ import { processArray } from 'src/services/utils/inputs'
 
 type Filters = Omit<FetchBooksInput, 'page' | 'perPage'>
 type BookFiltersProps = {
-  filters: Filters
+  filters?: Filters
 }
 
-export function BookFilters({ filters }: BookFiltersProps) {
+export function BookFilters({ filters = {} }: BookFiltersProps) {
   return (
     <FilterBar
       title="Cookbooks"

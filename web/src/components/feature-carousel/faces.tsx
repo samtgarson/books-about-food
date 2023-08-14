@@ -15,7 +15,7 @@ export const Faces: FC<FacesProps> = ({ features }) => {
 
   return (
     <motion.div
-      className="hidden lg:flex right-[15vw] left-[40vw] border-red absolute inset-y-0 justify-center items-center z-30"
+      className="hidden lg:flex right-[15vw] left-[42vw] border-red absolute inset-y-0 justify-center items-center z-30"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, transition: { delay: 0.3 } }}
       exit={{ opacity: 0, transition: { duration: 0.2 } }}
@@ -35,7 +35,7 @@ const FloatingFace: FC<{ face: Face; i: number }> = ({
 }) => (
   <motion.div
     key={profile.id}
-    className="absolute"
+    className="absolute pointer-events-none"
     style={{ left: `${point.x + 10}%`, top: `${point.y + 10}%` }}
     initial={{ y: 0 }}
     animate={{ y: -10 }}
@@ -52,7 +52,7 @@ const FloatingFace: FC<{ face: Face; i: number }> = ({
       style={face.nameStyle}
       className="inline-block absolute text-32 px-4 py-2"
       initial={{ y: 0 }}
-      animate={{ y: 3 }}
+      animate={{ y: 5 }}
       transition={{
         repeat: Infinity,
         duration: 3,

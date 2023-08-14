@@ -1,5 +1,6 @@
 'use client'
 
+import { useDebouncedCallback } from 'use-debounce'
 import cn from 'classnames'
 import { FC, startTransition, useState } from 'react'
 import { X } from 'react-feather'
@@ -27,6 +28,12 @@ export const Search: FC<SearchProps> = ({
   const [internalValue, setInternalValue] = useState(value)
   const loading = value !== internalValue
 
+  const debouncedOnChange = useDebouncedCallback((value: string) => {
+    startTransition(() => {
+      onChange?.(value)
+    })
+  }, 500)
+
   return (
     <div className={cn('relative group flex items-center', className)}>
       <input
@@ -35,17 +42,18 @@ export const Search: FC<SearchProps> = ({
         value={internalValue}
         onChange={(e) => {
           setInternalValue(e.target.value)
-          startTransition(() => {
-            onChange?.(e.target.value)
-          })
+          debouncedOnChange(e.target.value)
         }}
-        onBlur={onBlur}
+        onBlur={() => {
+          onBlur?.()
+          debouncedOnChange.flush()
+        }}
         placeholder={placeholder}
         className={cn(
           'text-24 sm:text-32 flex-grow flex-shrink-0 bg-transparent placeholder-black placeholder-opacity-40 focus:outline-0 p-2 -mx-2 transition-colors focus-visible:bg-black focus-visible:bg-opacity-5 w-full'
         )}
       />
-      {loading ? (
+      {debouncedOnChange.isPending() || loading ? (
         <div className="absolute right-0 inset-y-0 flex items-center">
           <Loader />
         </div>

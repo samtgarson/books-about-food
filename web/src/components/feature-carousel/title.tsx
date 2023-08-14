@@ -2,7 +2,6 @@ import { motion } from 'framer-motion'
 import { useFeatureCarouselItem } from './use-feature-carousel-item'
 import cn from 'classnames'
 import format from 'date-fns/format'
-import { CircleLogo } from '../atoms/circle-logo'
 
 export function Title({
   index,

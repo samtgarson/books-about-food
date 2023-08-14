@@ -1,10 +1,12 @@
 import { fetchProfiles } from 'src/services/profiles/fetch-profiles'
 import { PeopleList } from './list'
-import Loading from './loading'
 import { createIndexPage } from 'src/components/pages/index-page'
+import { PeopleFilters } from './filters'
+import { SkeletonPeopleGrid } from './grid'
 
 export default createIndexPage({
   content: PeopleList,
   svc: fetchProfiles,
-  loading: <Loading />
+  loading: SkeletonPeopleGrid,
+  filters: PeopleFilters
 })

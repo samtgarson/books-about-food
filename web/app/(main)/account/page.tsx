@@ -19,7 +19,6 @@ const Page = async () => {
       </Suspense>
       <BookList
         showCreate
-        showFilters={false}
         filters={{ status: 'draft', submitterId: user.id }}
       />
       <SignOutButton />
