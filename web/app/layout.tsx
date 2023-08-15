@@ -4,6 +4,7 @@ import 'src/utils/superjson'
 import { fontClassname } from 'src/style/font'
 import 'src/style/globals.css' // eslint-disable-line import/extensions
 import { GlobalSheetProvider } from 'src/components/sheets/global-sheet'
+import { Mouse } from 'src/components/atoms/mouse'
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -13,6 +14,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <AuthProvider>
           <GlobalSheetProvider>{children}</GlobalSheetProvider>
         </AuthProvider>
+        <Mouse />
       </body>
     </html>
   )

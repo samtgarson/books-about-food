@@ -70,12 +70,12 @@ const NavContent = () => {
   useScrollLock()
   return (
     <div className="fixed inset-0 bg-white z-40 flex flex-col items-center justify-center gap-4 animate-fade-in pt-20 max-h-screen overflow-auto">
-      <Dialog.Close>
-        <Container className="absolute top-0 inset-x-0 gap-8 flex py-5 border-b border-black all-caps items-center">
+      <Container className="absolute top-0 inset-x-0 py-5 border-b border-black">
+        <Dialog.Close className="gap-8 flex items-center all-caps">
           <X strokeWidth={1} />
           Close
-        </Container>
-      </Dialog.Close>
+        </Dialog.Close>
+      </Container>
       <TopNavItem path={null}>Home</TopNavItem>
       <TopNavItem path="cookbooks">Cookbooks</TopNavItem>
       <TopNavItem index={1} path="authors">

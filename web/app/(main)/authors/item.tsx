@@ -6,10 +6,15 @@ import cn from 'classnames'
 export type AuthorItemProps = {
   profile?: Profile
   index?: number
+  className?: string
 }
 
-export const AuthorItem = ({ profile, index = 0 }: AuthorItemProps) => (
-  <li>
+export const AuthorItem = ({
+  profile,
+  index = 0,
+  className
+}: AuthorItemProps) => (
+  <li className={className}>
     <Link
       href={profile ? `/authors/${profile?.slug}` : '#'}
       className={cn(

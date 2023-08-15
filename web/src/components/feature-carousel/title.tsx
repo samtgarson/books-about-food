@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { useFeatureCarouselItem } from './use-feature-carousel-item'
 import cn from 'classnames'
 import format from 'date-fns/format'
+import { mouseAttrs } from '../atoms/mouse'
 
 export function Title({
   index,
@@ -14,12 +15,13 @@ export function Title({
   id: string
   onClick?: () => void
 }) {
-  const { display, attrs, current, className } = useFeatureCarouselItem({
-    index,
-    currentIndex,
-    centered: false,
-    imageWidth: 100
-  })
+  const { display, attrs, current, className, mouseProps } =
+    useFeatureCarouselItem({
+      index,
+      currentIndex,
+      centered: false,
+      imageWidth: 100
+    })
 
   if (!display) return null
   const date = format(new Date(), 'EEE d MMM')
@@ -32,16 +34,18 @@ export function Title({
       className={cn(
         className,
         '!pointer-events-auto justify-center lg:justify-between min-w-[65vw]',
-        current && 'lg:-ml-[7vw]'
+        current && 'lg:-ml-[7vw]',
+        !current && 'cursor-pointer'
       )}
       onClick={(e) => {
         e.preventDefault()
         if (!current) onClick?.()
       }}
+      {...mouseAttrs(mouseProps)}
     >
       <div
         className={cn(
-          'flex flex-col gap-4 transition',
+          'flex flex-col gap-4 transition pointer-events-none',
           current ? 'text-white' : 'opacity-10'
         )}
       >

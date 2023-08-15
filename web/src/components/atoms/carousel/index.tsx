@@ -2,69 +2,32 @@ import cn from 'classnames'
 import {
   cloneElement,
   ComponentProps,
-  createContext,
   FC,
   ReactNode,
-  RefObject,
   useCallback,
   useContext,
   useRef,
   useState
 } from 'react'
-import { ChevronLeft, ChevronRight } from 'react-feather'
-import { containerClasses, ContainerProps } from './container'
-
-type CarouselAlginment = 'left' | 'center'
-type CarouselContext = {
-  currentIndex: number
-  totalItems: number
-  setCurrentIndex: (index: number) => void
-  scrollTo(index: number): void
-  scrollerRef: RefObject<HTMLUListElement>
-  alignment: CarouselAlginment
-  canGoLeft: boolean
-  canGoRight: boolean
-  setCanGoLeft: (canGoLeft: boolean) => void
-  setCanGoRight: (canGoRight: boolean) => void
-}
-
-const CarouselContext = createContext({} as CarouselContext)
+import { containerClasses, ContainerProps } from '../container'
+import { CarouselContext } from './context'
+import { CarouselAlginment, getCurrentIndex } from './utils'
+import { mouseAttrs } from '../mouse'
 
 export type CarouselRootProps = {
   children: ReactNode
   alignment?: CarouselAlginment
   totalItems: number
-}
+} & ComponentProps<'div'>
 
-const getCurrentIndex = (
-  el: HTMLElement | null,
-  alignment: CarouselAlginment
-) => {
-  if (!el) return
-  const parent = el.parentElement
-  if (!parent) return
-  const rect = parent.getBoundingClientRect()
-
-  let x: number
-  if (alignment === 'left') {
-    const styleMap = getComputedStyle(el)
-    const padding = parseInt(styleMap.getPropertyValue('padding-left'))
-    x = rect.left + padding
-  } else {
-    x = rect.left + rect.width / 2
-  }
-
-  const y = rect.top + rect.height / 2
-  const elAtPoint = document.elementFromPoint(x, y)?.closest('li')
-
-  if (!elAtPoint || !elAtPoint.parentElement) return
-  return Array.from(elAtPoint.parentElement.children).indexOf(elAtPoint)
-}
+export { Centerer } from './centerer'
 
 export const Root = ({
   alignment = 'center',
   totalItems,
-  children
+  children,
+  className,
+  ...props
 }: CarouselRootProps) => {
   const scrollerRef = useRef<HTMLUListElement>(null)
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -75,14 +38,11 @@ export const Root = ({
     (index: number) => {
       if (!scrollerRef.current) return
       const item = scrollerRef.current.children[index] as HTMLElement
-      const itemLeft = item.offsetLeft
-      const wrapperWidth = scrollerRef.current.parentElement
-        ?.clientWidth as number
-      const left =
-        alignment === 'left'
-          ? itemLeft
-          : itemLeft + wrapperWidth / 2 - item.offsetWidth / 2
-      scrollerRef.current.scrollTo({ left, behavior: 'smooth' })
+      item.scrollIntoView({
+        behavior: 'smooth',
+        inline: alignment === 'left' ? 'start' : 'center',
+        block: 'nearest'
+      })
     },
     [alignment]
   )
@@ -102,7 +62,9 @@ export const Root = ({
         setCanGoRight
       }}
     >
-      {children}
+      <div className={cn('relative', className)} {...props}>
+        {children}
+      </div>
     </CarouselContext.Provider>
   )
 }
@@ -111,7 +73,7 @@ export interface CarouselScrollerProps
   extends Omit<ComponentProps<'ul'>, 'children'> {
   children: ReactNode
   padded?: boolean
-  containerProps?: ContainerProps
+  containerProps?: ContainerProps | false
 }
 
 export const Scroller = ({
@@ -129,6 +91,7 @@ export const Scroller = ({
     setCanGoLeft
   } = useContext(CarouselContext)
   const timer = useRef<number>()
+
   const onScrollEnd = useCallback(() => {
     if (!scrollerRef.current) return
     const scroller = scrollerRef.current
@@ -139,6 +102,7 @@ export const Scroller = ({
     setCanGoLeft(scroller.scrollLeft > 0)
     setCanGoRight(scroller.scrollLeft < maxScroll)
   }, [alignment, setCurrentIndex, scrollerRef, setCanGoLeft, setCanGoRight])
+
   return (
     <ul
       ref={scrollerRef}
@@ -147,8 +111,12 @@ export const Scroller = ({
         className,
         padded &&
         cn(
-          containerClasses(containerProps),
-          containerClasses({ ...containerProps, scroll: true })
+          containerProps === false
+            ? null
+            : [
+              containerClasses(containerProps),
+              containerClasses({ ...containerProps, scroll: true })
+            ]
         )
       )}
       onScroll={() => {
@@ -192,26 +160,33 @@ export const Item: FC<CarouselItemProps> = ({
   })
 }
 
-export const Buttons: FC<ComponentProps<'div'>> = ({ className, ...props }) => {
+export const Buttons: FC = () => {
   const { currentIndex, totalItems, scrollTo, canGoLeft, canGoRight } =
     useContext(CarouselContext)
 
+  const prevDisabled = currentIndex === 0 || !canGoLeft
+  const nextDisabled = currentIndex === totalItems - 1 || !canGoRight
+
   return (
-    <div className={cn('hidden md:flex', className)} {...props}>
+    <>
       <button
-        className="w-14 h-14 border border-black bg-white flex items-center justify-center -mr-px group"
+        className={cn(
+          'w-1/4 inset-y-0 left-0 absolute bg-transparent [@media(any-hover:none)]:hidden',
+          prevDisabled && 'pointer-events-none'
+        )}
         onClick={() => scrollTo(currentIndex - 1)}
-        disabled={currentIndex === 0 || !canGoLeft}
-      >
-        <ChevronLeft className="group-disabled:opacity-50 transition-opacity" />
-      </button>
+        disabled={prevDisabled}
+        {...mouseAttrs({ mode: 'prev', enabled: !prevDisabled })}
+      ></button>
       <button
-        className="w-14 h-14 border border-black bg-white flex items-center justify-center group"
+        className={cn(
+          'w-1/4 inset-y-0 right-0 absolute bg-transparent [@media(any-hover:none)]:hidden',
+          nextDisabled && 'pointer-events-none'
+        )}
         onClick={() => scrollTo(currentIndex + 1)}
-        disabled={currentIndex === totalItems - 1 || !canGoRight}
-      >
-        <ChevronRight className="group-disabled:opacity-50 transition-opacity" />
-      </button>
-    </div>
+        disabled={nextDisabled}
+        {...mouseAttrs({ mode: 'next', enabled: !nextDisabled })}
+      ></button>
+    </>
   )
 }

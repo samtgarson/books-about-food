@@ -5,6 +5,8 @@ import { fetchFeatures } from 'src/services/features/fetch-features'
 import { fetchHome } from 'src/services/home/fetch'
 import { PeopleGrid } from './people/grid'
 import { PublisherGrid } from './publishers/grid'
+import { HomepageModule } from 'src/components/home/module'
+import { ProfileCarousel } from 'src/components/profiles/profile-carousel'
 
 export * from 'app/default-static-config'
 
@@ -18,14 +20,31 @@ const Page = async () => {
     <>
       <FeatureCarousel features={features} data-superjson />
       <Container mobile={false} desktop={false} belowNav={!features.length}>
-        <ItemCarousel
-          items={home.comingSoon}
-          title="Coming Soon"
-          size="xl"
-          readMoreLink="/cookbooks"
-          className="pt-12 md:pt-20 md:pb-2"
-          data-superjson
-        />
+        <div className="flex flex-wrap">
+          <HomepageModule
+            title="Coming Soon"
+            action={{ href: '/cookbooks', label: 'View More' }}
+          >
+            <ItemCarousel
+              items={home.comingSoon}
+              size="xl"
+              readMoreLink="/cookbooks"
+              className="lg:py-10 -mx-8 lg:-mx-16"
+              centered
+              data-superjson
+            />
+          </HomepageModule>
+          <HomepageModule
+            title="Author Spotlight"
+            action={{ href: '/authors', label: 'View More' }}
+          >
+            <ProfileCarousel
+              items={home.authors}
+              data-superjson
+              className="-mx-8 lg:-mx-16 py-12 lg:py-24"
+            />
+          </HomepageModule>
+        </div>
         <ItemCarousel
           items={home.newlyAdded}
           title="On The Pass"
@@ -34,12 +53,6 @@ const Page = async () => {
           className="pt-12 md:pt-20"
           data-superjson
         />
-        <p className="pt-8 md:pt-24 mb-24 md:mb-40 text-32 md:text-48 md:text-justify indent-28 md:indent-40">
-          An independent creative platform showcasing a curated collection of
-          books about food. A single space for publishers and authors to promote
-          their published cookbooks and new releases—alongside a directory of
-          the people involved in making them.
-        </p>
       </Container>
       <Container className="py-12 md:py-20">
         <h3 className="all-caps mb-6 md:mb-8">Featured People</h3>

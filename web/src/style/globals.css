@@ -19,6 +19,12 @@
   [type='button'] {
     @apply appearance-none cursor-pointer;
   }
+
+  a *,
+  button *,
+  [role='menuitem'] * {
+    @apply pointer-events-none;
+  }
 }
 
 @layer utilities {

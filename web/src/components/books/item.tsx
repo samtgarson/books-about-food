@@ -8,6 +8,7 @@ export type CookbookItemProps = ComponentProps<'li'> & {
   mobileGrid?: boolean
   index?: number
   book?: Book
+  centered?: boolean
 }
 
 export const Container = ({
@@ -25,9 +26,10 @@ export const Container = ({
       <WrapperEl
         href={book?.href || '#'}
         className={cn(
-          '-mb-px group-last:mb-0 sm:mb-0 sm:-mr-px sm:w-auto h-full flex sm:flex-col sm:items-start sm:gap-0 p-4 sm:p-0 border relative items-center gap-6 border-black sm:border-none',
-          mobileGrid &&
-          'mb-0 -mr-px w-auto flex-col items-start gap-0 p-0 border-none',
+          '-mb-px group-last:mb-0 sm:mb-0 sm:-mr-px sm:w-auto h-full flex sm:flex-col sm:items-start sm:gap-0 sm:p-0 border relative items-center gap-6 border-black sm:border-none',
+          mobileGrid
+            ? 'mb-0 -mr-px w-auto flex-col items-start gap-0 p-0 border-none'
+            : 'p-4',
           skeleton && `animate-pulse`
         )}
         style={{ animationDelay: `${index * 150}ms` }}
@@ -42,19 +44,22 @@ export const Box = ({
   children,
   mobileGrid,
   skeleton,
-  className
+  className,
+  bordered = true
 }: {
   children: ReactNode
   mobileGrid?: boolean
   skeleton?: boolean
   className?: string
+  bordered?: boolean
 }) => (
   <div
     className={cn(
       className,
-      'sm:aspect-square sm:border border-black sm:mb-6 relative flex items-center justify-center sm:w-full',
-      mobileGrid ? 'aspect-square border mb-6 w-full' : 'w-24',
-      skeleton && 'border-darkSand'
+      'sm:aspect-square border-black sm:mb-6 relative flex items-center justify-center sm:w-full',
+      mobileGrid ? 'aspect-square mb-6 w-full' : 'w-24',
+      skeleton && 'border-darkSand',
+      bordered && (mobileGrid ? 'border' : 'sm:border')
     )}
   >
     {children}
@@ -64,12 +69,13 @@ export const Box = ({
 export const Item = ({
   book,
   mobileGrid,
+  centered,
   ...props
 }: CookbookItemProps & { book: Book }) => {
   return (
     <Container mobileGrid={mobileGrid} book={book} {...props}>
-      <Box mobileGrid={mobileGrid} skeleton={!book}>
-        {book?.publishedInFuture && (
+      <Box mobileGrid={mobileGrid} skeleton={!book} bordered={!centered}>
+        {book?.publishedInFuture && !centered && (
           <span className="absolute right-px top-px bg-white all-caps-sm px-3 py-1.5">
             {book.shortReleaseDate}
           </span>
@@ -94,7 +100,13 @@ export const Item = ({
         )}
       </Box>
 
-      <div className={cn('sm:pr-4 w-full', mobileGrid && 'pr-4')}>
+      <div
+        className={cn(
+          'sm:pr-4 w-full',
+          mobileGrid && 'pr-4',
+          centered && 'text-center'
+        )}
+      >
         <p className="font-medium text-16 mb-1">{book.title}</p>
         <p className="text-14">{book.authorNames}</p>
       </div>

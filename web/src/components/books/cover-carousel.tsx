@@ -1,6 +1,5 @@
 'use client'
 
-import cn from 'classnames'
 import Image from 'next/image'
 import { FC } from 'react'
 import * as Carousel from 'src/components/atoms/carousel'
@@ -21,55 +20,31 @@ export const CoverCarousel: FC<CoverCarouselProps> = ({ book, className }) => {
   const lastImage = images[images.length - 1]
   return (
     <>
-      <Carousel.Root totalItems={images.length}>
-        <div className={cn('relative', className)}>
-          <Carousel.Scroller id={id} className="gap-24 w-full py-16 sm:py-36">
-            {images.map((image, i) => (
-              <Carousel.Item key={image.id} index={i}>
-                <li>
-                  <Image
-                    {...image.imageAttrs(440)}
-                    loading="eager"
-                    className="max-w-none h-[210px] md:h-[310px] xl:h-[440px] w-auto book-shadow"
-                  />
-                </li>
-              </Carousel.Item>
-            ))}
-          </Carousel.Scroller>
-          {images.length > 1 && (
-            <Carousel.Buttons className="absolute right-0 top-1/2 -translate-y-1/2 -mr-px" />
-          )}
-        </div>
+      <Carousel.Root totalItems={images.length} className={className}>
+        <Carousel.Scroller id={id} className="gap-24 w-full py-16 sm:py-36">
+          {images.map((image, i) => (
+            <Carousel.Item key={image.id} index={i}>
+              <li>
+                <Image
+                  {...image.imageAttrs(440)}
+                  loading="eager"
+                  className="max-w-none h-[210px] md:h-[310px] xl:h-[440px] w-auto book-shadow"
+                />
+              </li>
+            </Carousel.Item>
+          ))}
+        </Carousel.Scroller>
+        {images.length > 1 && <Carousel.Buttons />}
       </Carousel.Root>
-      <style>{`
-        #${id} li:first-child {
-          padding-left: calc(50% - ${firstImage.widthFor(220) / 2}px);
-        }
-
-        #${id} li:last-child {
-          padding-right: calc(50% - ${lastImage.widthFor(220) / 2}px);
-        }
-
-        @media (min-width: 768px) {
-          #${id} li:first-child {
-            padding-left: calc(50% - ${firstImage.widthFor(310) / 2}px);
-          }
-
-          #${id} li:last-child {
-            padding-right: calc(50% - ${lastImage.widthFor(310) / 2}px);
-          }
-        }
-
-        @media (min-width: 1280px) {
-          #${id} li:first-child {
-            padding-left: calc(50% - ${firstImage.widthFor(440) / 2}px);
-          }
-
-          #${id} li:last-child {
-            padding-right: calc(50% - ${lastImage.widthFor(440) / 2}px);
-          }
-        }
-      `}</style>
+      <Carousel.Centerer
+        id={id}
+        slideWidth={firstImage.widthFor(220)}
+        lastSlideWidth={lastImage.widthFor(220)}
+        mdSlideWidth={firstImage.widthFor(310)}
+        mdLastSlideWidth={lastImage.widthFor(310)}
+        lgSlideWidth={firstImage.widthFor(440)}
+        lgLastSlideWidth={lastImage.widthFor(440)}
+      />
     </>
   )
 }

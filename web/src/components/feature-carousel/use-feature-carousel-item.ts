@@ -2,18 +2,21 @@
 import cn from 'classnames'
 import { MotionProps } from 'framer-motion'
 import { CSSProperties } from 'react'
+import { MouseState } from '../atoms/mouse/utils'
 
 export function useFeatureCarouselItem({
   index,
   currentIndex,
   centered = true,
   preTitle = false,
+  postTitle = false,
   imageWidth = 260
 }: {
   index: number
   currentIndex: number
   centered?: boolean
   preTitle?: boolean
+  postTitle?: boolean
   imageWidth?: number
 }) {
   const pos = {
@@ -28,10 +31,9 @@ export function useFeatureCarouselItem({
     'flex items-start lg:items-center justify-center gap-8 lg:gap-20 flex-col lg:flex-row h-[770px] lg:h-[800px] top-0 w-[calc(85vw-10rem)]',
     {
       [`relative flex-grow z-10`]: pos.current,
-      'absolute right-full lg:right-auto lg:ml-[7vw] lg:left-[var(--imageWidth)] cursor-prev':
+      'absolute right-full lg:right-auto lg:ml-[7vw] lg:left-[var(--imageWidth)]':
         pos.prev,
-      'absolute left-full lg:-ml-[10.5rem] lg:pl-[7rem] sm:-ml-24 cursor-next':
-        pos.next,
+      'absolute left-full lg:-ml-[10.5rem] lg:pl-[7rem] sm:-ml-24': pos.next,
       'absolute right-full': pos.offPrev,
       'absolute left-full': pos.offNext,
       'lg:justify-center': centered
@@ -52,12 +54,18 @@ export function useFeatureCarouselItem({
   const display =
     pos.prev || pos.current || pos.next || pos.offNext || pos.offPrev
 
+  const mouseProps: MouseState = {
+    mode: pos.next ? 'next' : pos.prev ? 'prev' : 'default',
+    theme: postTitle || preTitle ? 'dark' : 'light'
+  }
+
   return {
     current: pos.current,
     attrs,
     display,
     className,
     next: pos.next,
-    prev: pos.prev
+    prev: pos.prev,
+    mouseProps
   }
 }

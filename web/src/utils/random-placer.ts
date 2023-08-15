@@ -67,7 +67,7 @@ export class RandomPlacer {
 
   private notCentered(dot: Dot) {
     const x = dot.x <= this.width * 0.4 || dot.x > this.width * 0.5
-    const y = dot.y <= this.height * 0.4 || dot.y > this.height * 0.5
+    const y = dot.y <= this.height * 0.3 || dot.y > this.height * 0.5
     return x && y
   }
 }

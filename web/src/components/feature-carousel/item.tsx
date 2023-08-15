@@ -7,6 +7,7 @@ import { Avatar } from '../atoms/avatar'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useFeatureCarouselItem } from './use-feature-carousel-item'
+import { mouseAttrs } from '../atoms/mouse'
 
 const MotionLink = motion(Link)
 
@@ -16,7 +17,8 @@ export function FeatureCarouselItem({
   currentIndex,
   onClick,
   id,
-  preTitle
+  preTitle,
+  postTitle
 }: {
   feature: Feature
   index: number
@@ -24,12 +26,14 @@ export function FeatureCarouselItem({
   onClick?: () => void
   id: string
   preTitle: boolean
+  postTitle: boolean
 }) {
-  const { current, attrs, display, className, next, prev } =
+  const { current, attrs, display, className, next, prev, mouseProps } =
     useFeatureCarouselItem({
       index,
       currentIndex,
       preTitle,
+      postTitle,
       imageWidth: feature.book.cover?.widthFor(360)
     })
 
@@ -47,11 +51,12 @@ export function FeatureCarouselItem({
         onClick?.()
       }}
       title={next ? 'Next' : prev ? 'Previous' : undefined}
+      {...mouseAttrs(mouseProps)}
     >
       {feature.book.cover && (
         <Image
           {...feature.book.cover?.imageAttrs(360)}
-          className="book-shadow max-w-none h-[250px] sm:h-[360px] w-auto pointer-events-auto"
+          className="book-shadow max-w-none h-[250px] sm:h-[360px] w-auto pointer-events-none"
         />
       )}
       <div

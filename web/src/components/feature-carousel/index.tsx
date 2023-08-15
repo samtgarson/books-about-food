@@ -17,6 +17,7 @@ export type FeatureCarouselProps = {
 type Item =
   | { feature: Feature; title?: never }
   | { feature?: never; title: true }
+
 const createLoop = (features: Feature[]): Item[] => {
   const featureItems = features.map((feature) => ({ feature }))
   const title = { title: true } as const
@@ -57,7 +58,7 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({ features }) => {
     <motion.div
       layout
       className={cn(
-        'transition-colors relative',
+        'transition-colors relative overflow-x-clip',
         showingTitle ? 'bg-black' : 'bg-white'
       )}
     >
@@ -97,6 +98,7 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({ features }) => {
               id={id}
               onClick={() => onClick(virtualIndex)}
               preTitle={index % totalSlides === totalSlides - 1}
+              postTitle={index % totalSlides === 1}
             />
           )
         })}
