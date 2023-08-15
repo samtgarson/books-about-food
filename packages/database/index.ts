@@ -31,6 +31,6 @@ export { unextended }
 export * from '@prisma/client'
 
 export const cacheStrategy = {
-  ttl: 60 * 5,
-  swr: 24 * 60 * 60
+  ttl: 60 * 5, // 5 minutes
+  swr: 24 * 60 * 60 // 24 hours
 } satisfies PrismaCacheStrategy['cacheStrategy']
