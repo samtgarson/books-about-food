@@ -96,7 +96,7 @@ export const Mouse = () => {
 export const mouseAttrs = ({
   theme,
   mode,
-  enabled
+  enabled = true
 }: Partial<MouseState> & { enabled?: boolean }) => ({
   'data-mouse-theme': theme,
   'data-mouse-mode': enabled ? mode : undefined

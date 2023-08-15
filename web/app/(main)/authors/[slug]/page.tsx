@@ -4,7 +4,7 @@ export * from 'app/default-static-config'
 
 export const generateStaticParams = async () => {
   const { profiles } = await fetchProfiles.call({
-    perPage: 80,
+    perPage: 0,
     onlyAuthors: true,
     sort: 'trending'
   })

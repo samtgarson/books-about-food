@@ -34,7 +34,7 @@ export const ProfileCarousel: FC<ProfileCarouselProps> = ({
       >
         {items.map((item, index) => (
           <Carousel.Item key={item.id} index={index}>
-            <AuthorItem profile={item} className="w-56 lg:w-72" />
+            <AuthorItem profile={item} className="!w-56 lg:!w-72" />
           </Carousel.Item>
         ))}
       </Carousel.Scroller>

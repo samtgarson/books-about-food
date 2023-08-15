@@ -15,7 +15,7 @@ import { BookOverflow } from 'src/components/books/book-overflow'
 export * from 'app/default-static-config'
 
 export const generateStaticParams = async () => {
-  const { books } = await fetchBooks.call({ perPage: 100, sort: 'releaseDate' })
+  const { books } = await fetchBooks.call({ perPage: 0, sort: 'releaseDate' })
 
   return books.map((book) => ({
     slug: book.slug
