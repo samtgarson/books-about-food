@@ -1,5 +1,8 @@
 import { PrismaClient } from '@prisma/client'
-import { withAccelerate } from '@prisma/extension-accelerate'
+import {
+  PrismaCacheStrategy,
+  withAccelerate
+} from '@prisma/extension-accelerate'
 
 const extendClient = (client: PrismaClient) => client.$extends(withAccelerate())
 let prisma: ReturnType<typeof extendClient>
@@ -26,3 +29,8 @@ if (process.env.NODE_ENV === 'production') {
 export default prisma
 export { unextended }
 export * from '@prisma/client'
+
+export const cacheStrategy = {
+  ttl: 60 * 5,
+  swr: 24 * 60 * 60
+} satisfies PrismaCacheStrategy['cacheStrategy']

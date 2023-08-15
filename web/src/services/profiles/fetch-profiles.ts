@@ -1,4 +1,4 @@
-import prisma, { Prisma } from 'database'
+import prisma, { Prisma, cacheStrategy } from 'database'
 import { Profile } from 'src/models/profile'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
@@ -73,10 +73,11 @@ export const fetchProfiles = new Service(
         where,
         take: perPage === 0 ? undefined : perPage,
         skip: perPage * page,
-        include: profileIncludes
+        include: profileIncludes,
+        cacheStrategy
       }),
-      prisma.profile.count({ where: baseWhere }),
-      prisma.profile.count({ where })
+      prisma.profile.count({ where: baseWhere, cacheStrategy }),
+      prisma.profile.count({ where, cacheStrategy })
     ])
 
     const profiles = raw.map((profile) => new Profile(profile))

@@ -1,4 +1,4 @@
-import prisma, { BookStatus, Prisma } from 'database'
+import prisma, { BookStatus, Prisma, cacheStrategy } from 'database'
 import { Book } from 'src/models/book'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
@@ -90,10 +90,11 @@ export const fetchBooks = new Service(
         skip: perPage * page,
         orderBy: { [sort]: sort === 'title' ? 'asc' : 'desc' },
         include: bookIncludes,
-        where
+        where,
+        cacheStrategy
       }),
-      prisma.book.count({ where }),
-      prisma.book.count()
+      prisma.book.count({ where, cacheStrategy }),
+      prisma.book.count({ cacheStrategy })
     ])
     const books = rawBooks.map((book) => new Book(book))
     return { books, filteredTotal, total, perPage }

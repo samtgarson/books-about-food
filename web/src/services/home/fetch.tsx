@@ -1,4 +1,4 @@
-import prisma from 'database'
+import prisma, { cacheStrategy } from 'database'
 import { Book } from 'src/models/book'
 import { Profile } from 'src/models/profile'
 import { Service } from 'src/utils/service'
@@ -9,6 +9,7 @@ export const fetchHome = new Service(z.object({}), async () => {
   const [comingSoon, newlyAdded, people, publishers] = await Promise.all([
     prisma.book
       .findMany({
+        cacheStrategy,
         where: { releaseDate: { gte: new Date() } },
         orderBy: { releaseDate: 'asc' },
         take: 10,
@@ -18,6 +19,7 @@ export const fetchHome = new Service(z.object({}), async () => {
 
     prisma.book
       .findMany({
+        cacheStrategy,
         where: { releaseDate: { lt: new Date() } },
         orderBy: { createdAt: 'desc' },
         take: 10,
@@ -27,6 +29,7 @@ export const fetchHome = new Service(z.object({}), async () => {
 
     prisma.profile
       .findMany({
+        cacheStrategy,
         orderBy: { createdAt: 'desc' },
         take: 14,
         include: profileIncludes
@@ -34,6 +37,7 @@ export const fetchHome = new Service(z.object({}), async () => {
       .then((profiles) => profiles.map((profile) => new Profile(profile))),
 
     prisma.publisher.findMany({
+      cacheStrategy,
       orderBy: { createdAt: 'desc' },
       take: 12,
       include: { logo: true }

@@ -1,4 +1,4 @@
-import prisma from 'database'
+import prisma, { cacheStrategy } from 'database'
 import { Profile } from 'src/models/profile'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
@@ -10,7 +10,8 @@ export const fetchProfile = new Service(
     if (!slug) return null
     const raw = await prisma.profile.findUnique({
       where: { slug },
-      include: profileIncludes
+      include: profileIncludes,
+      cacheStrategy
     })
 
     return raw && new Profile(raw)

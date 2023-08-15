@@ -1,4 +1,4 @@
-import prisma from 'database'
+import prisma, { cacheStrategy } from 'database'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
 
@@ -7,6 +7,7 @@ export const fetchJobs = new Service(
   async ({ search } = {}) =>
     prisma.job.findMany({
       orderBy: { name: 'asc' },
-      where: { name: { contains: search, mode: 'insensitive' } }
+      where: { name: { contains: search, mode: 'insensitive' } },
+      cacheStrategy
     })
 )

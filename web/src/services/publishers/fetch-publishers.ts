@@ -1,4 +1,4 @@
-import prisma, { Prisma } from 'database'
+import prisma, { Prisma, cacheStrategy } from 'database'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
 import { paginationInput } from '../utils/inputs'
@@ -24,10 +24,11 @@ export const fetchPublishers = new Service(
         where,
         orderBy: { name: 'asc' },
         take: perPage === 0 ? undefined : perPage,
-        skip: perPage * page
+        skip: perPage * page,
+        cacheStrategy
       }),
-      prisma.publisher.count(),
-      prisma.publisher.count({ where })
+      prisma.publisher.count({ cacheStrategy }),
+      prisma.publisher.count({ where, cacheStrategy })
     ])
 
     return { publishers, total, filteredTotal, perPage }
