@@ -12,8 +12,9 @@ import {
 } from 'react'
 import { containerClasses, ContainerProps } from '../container'
 import { CarouselContext } from './context'
-import { CarouselAlginment, getCurrentIndex } from './utils'
+import { canScroll, CarouselAlginment, getCurrentIndex } from './utils'
 import { mouseAttrs } from '../mouse'
+import { useDebouncedCallback } from 'use-debounce'
 
 export type CarouselRootProps = {
   children: ReactNode
@@ -53,8 +54,13 @@ export const Root = ({
   useEffect(() => {
     if (startOn === 0 || !scrollerRef.current) return
     const child = scrollerRef.current.children.item(startOn - 1)
-    if (child instanceof HTMLElement)
-      scrollerRef.current.scrollLeft = child.offsetLeft
+    if (!(child instanceof HTMLElement)) return
+
+    scrollerRef.current.scrollLeft = child.offsetLeft
+    setCurrentIndex(startOn)
+    const { left, right } = canScroll(scrollerRef.current)
+    setCanGoLeft(left)
+    setCanGoRight(right)
   }, [startOn, scrollTo])
 
   return (
@@ -100,18 +106,16 @@ export const Scroller = ({
     setCanGoRight,
     setCanGoLeft
   } = useContext(CarouselContext)
-  const timer = useRef<number>()
-
-  const onScrollEnd = useCallback(() => {
+  const onScrollEnd = useDebouncedCallback(() => {
     if (!scrollerRef.current) return
     const scroller = scrollerRef.current
     const currentIndex = getCurrentIndex(scroller, alignment)
     if (typeof currentIndex !== 'undefined') setCurrentIndex(currentIndex)
 
-    const maxScroll = scroller.scrollWidth - scroller.clientWidth
-    setCanGoLeft(scroller.scrollLeft > 0)
-    setCanGoRight(scroller.scrollLeft < maxScroll)
-  }, [alignment, setCurrentIndex, scrollerRef, setCanGoLeft, setCanGoRight])
+    const { left, right } = canScroll(scroller)
+    setCanGoLeft(left)
+    setCanGoRight(right)
+  }, 100)
 
   return (
     <ul
@@ -129,10 +133,7 @@ export const Scroller = ({
             ]
         )
       )}
-      onScroll={() => {
-        if (timer.current) window.clearTimeout(timer.current)
-        timer.current = window.setTimeout(onScrollEnd, 100)
-      }}
+      onScroll={onScrollEnd}
       {...props}
     >
       {children}

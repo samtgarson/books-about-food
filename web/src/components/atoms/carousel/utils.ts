@@ -25,4 +25,11 @@ export const getCurrentIndex = (
   return Array.from(elAtPoint.parentElement.children).indexOf(elAtPoint)
 }
 
+export const canScroll = (scroller: HTMLElement) => {
+  const maxScroll = scroller.scrollWidth - scroller.clientWidth
+  const left = scroller.scrollLeft > 0
+  const right = scroller.scrollLeft < maxScroll
+  return { left, right }
+}
+
 export type CarouselAlginment = 'left' | 'center'
