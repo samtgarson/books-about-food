@@ -25,6 +25,7 @@ export const ProfileCarousel: FC<ProfileCarouselProps> = ({
       className={cn('overflow-x-hidden', className)}
       totalItems={total}
       alignment="center"
+      startOn={1}
     >
       <Carousel.Scroller
         id="profile-carousel"
@@ -34,7 +35,11 @@ export const ProfileCarousel: FC<ProfileCarouselProps> = ({
       >
         {items.map((item, index) => (
           <Carousel.Item key={item.id} index={index}>
-            <AuthorItem profile={item} className="!w-56 lg:!w-72" />
+            <AuthorItem
+              profile={item}
+              className="!w-[245px]"
+              bordered={false}
+            />
           </Carousel.Item>
         ))}
       </Carousel.Scroller>

@@ -6,6 +6,7 @@ import {
   ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useRef,
   useState
 } from 'react'
@@ -18,6 +19,7 @@ export type CarouselRootProps = {
   children: ReactNode
   alignment?: CarouselAlginment
   totalItems: number
+  startOn?: number
 } & ComponentProps<'div'>
 
 export { Centerer } from './centerer'
@@ -27,6 +29,7 @@ export const Root = ({
   totalItems,
   children,
   className,
+  startOn = 0,
   ...props
 }: CarouselRootProps) => {
   const scrollerRef = useRef<HTMLUListElement>(null)
@@ -35,17 +38,24 @@ export const Root = ({
   const [canGoRight, setCanGoRight] = useState(true)
 
   const scrollTo = useCallback(
-    (index: number) => {
+    (index: number, behavior: ScrollBehavior = 'smooth') => {
       if (!scrollerRef.current) return
       const item = scrollerRef.current.children[index] as HTMLElement
       item.scrollIntoView({
-        behavior: 'smooth',
+        behavior,
         inline: alignment === 'left' ? 'start' : 'center',
         block: 'nearest'
       })
     },
     [alignment]
   )
+
+  useEffect(() => {
+    if (startOn === 0 || !scrollerRef.current) return
+    const child = scrollerRef.current.children.item(startOn - 1)
+    if (child instanceof HTMLElement)
+      scrollerRef.current.scrollLeft = child.offsetLeft
+  }, [startOn, scrollTo])
 
   return (
     <CarouselContext.Provider

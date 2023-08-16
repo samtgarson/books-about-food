@@ -56,7 +56,7 @@ export function useFeatureCarouselItem({
 
   const mouseProps: MouseState = {
     mode: pos.next ? 'next' : pos.prev ? 'prev' : 'default',
-    theme: postTitle || preTitle ? 'dark' : 'light'
+    theme: (postTitle && pos.next) || (preTitle && pos.prev) ? 'dark' : 'light'
   }
 
   return {

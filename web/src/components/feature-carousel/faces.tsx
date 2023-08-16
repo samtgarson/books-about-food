@@ -1,6 +1,6 @@
 import cn from 'classnames'
 import { motion } from 'framer-motion'
-import { FC, useMemo } from 'react'
+import { FC, useEffect, useMemo, useState } from 'react'
 import { Feature } from 'src/services/features/fetch-features'
 import { Avatar } from '../atoms/avatar'
 import { CircleLogo } from '../atoms/circle-logo'
@@ -11,8 +11,14 @@ export type FacesProps = {
 }
 
 export const Faces: FC<FacesProps> = ({ features }) => {
+  const [display, setDisplay] = useState(false)
   const faces = useMemo(() => Face.forFeatures(features), [features])
 
+  useEffect(() => {
+    setDisplay(true)
+  }, [])
+
+  if (!display) return null
   return (
     <motion.div
       className="hidden lg:flex right-[15vw] left-[42vw] border-red absolute inset-y-0 justify-center items-center z-30"

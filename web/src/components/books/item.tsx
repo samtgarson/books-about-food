@@ -104,7 +104,7 @@ export const Item = ({
         className={cn(
           'sm:pr-4 w-full',
           mobileGrid && 'pr-4',
-          centered && 'text-center'
+          centered && 'text-center -mt-[50px]'
         )}
       >
         <p className="font-medium text-16 mb-1">{book.title}</p>

@@ -7,31 +7,36 @@ export type AuthorItemProps = {
   profile?: Profile
   index?: number
   className?: string
+  bordered?: boolean
 }
 
 export const AuthorItem = ({
   profile,
   index = 0,
-  className
+  className,
+  bordered = true
 }: AuthorItemProps) => (
-  <li className={className}>
+  <li>
     <Link
       href={profile ? `/authors/${profile?.slug}` : '#'}
       className={cn(
         'flex flex-col text-center gap-6 h-full',
-        !profile && 'pointer-events-none animate-pulse'
+        !profile && 'pointer-events-none animate-pulse',
+        className
       )}
       style={{ animationDelay: `${index * 150}ms` }}
     >
       <Avatar
         profile={profile}
         size="fill"
-        className={cn('border', profile ? 'border-black' : 'border-darkSand')}
+        className={cn(
+          bordered && ['border', profile ? 'border-black' : 'border-khaki']
+        )}
       />
       {profile ? (
         <p className="font-medium mt-auto">{profile.name}</p>
       ) : (
-        <p className="bg-darkSand w-30 h-4" />
+        <p className="bg-khaki w-30 h-4" />
       )}
     </Link>
   </li>

@@ -7,6 +7,7 @@ import { PeopleGrid } from './people/grid'
 import { PublisherGrid } from './publishers/grid'
 import { HomepageModule } from 'src/components/home/module'
 import { ProfileCarousel } from 'src/components/profiles/profile-carousel'
+import { Marquee } from 'src/components/atoms/marquee'
 
 export * from 'app/default-static-config'
 
@@ -19,18 +20,30 @@ const Page = async () => {
   return (
     <>
       <FeatureCarousel features={features} data-superjson />
-      <Container mobile={false} desktop={false} belowNav={!features.length}>
+      <Marquee>
+        Welcome to the cookbook industry’s new digital home—a creative platform
+        showcasing the work of authors and publishers alongside the network of
+        people essential in the creation of cookbooks.
+      </Marquee>
+      <Container
+        mobile={false}
+        desktop={false}
+        belowNav={!features.length}
+        className="-mt-px"
+      >
         <div className="flex flex-wrap">
           <HomepageModule
             title="Coming Soon"
             action={{ href: '/cookbooks', label: 'View More' }}
+            className="-mr-px"
           >
             <ItemCarousel
               items={home.comingSoon}
               size="xl"
               readMoreLink="/cookbooks"
-              className="lg:py-10 -mx-8 lg:-mx-16"
+              className="lg:py-10 -mx-8 lg:-mx-12 xl:-mx-16"
               centered
+              startOn={1}
               data-superjson
             />
           </HomepageModule>
@@ -41,7 +54,7 @@ const Page = async () => {
             <ProfileCarousel
               items={home.authors}
               data-superjson
-              className="-mx-8 lg:-mx-16 py-12 lg:py-24"
+              className="-mx-8 lg:-mx-12 xl:-mx-16 py-12 lg:pb-20 lg:pt-[93px]"
             />
           </HomepageModule>
         </div>
