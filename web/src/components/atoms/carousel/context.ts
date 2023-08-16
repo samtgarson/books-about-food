@@ -2,6 +2,7 @@ import { RefObject, createContext } from 'react'
 import { CarouselAlginment } from './utils'
 
 export type CarouselContext = {
+  id: string
   currentIndex: number
   totalItems: number
   setCurrentIndex: (index: number) => void

@@ -28,7 +28,6 @@ export const ProfileCarousel: FC<ProfileCarouselProps> = ({
       startOn={1}
     >
       <Carousel.Scroller
-        id="profile-carousel"
         padded
         containerProps={false}
         className="-mr-px gap-12 lg:gap-24"
@@ -44,11 +43,7 @@ export const ProfileCarousel: FC<ProfileCarouselProps> = ({
         ))}
       </Carousel.Scroller>
       <Carousel.Buttons />
-      <Carousel.Centerer
-        id="profile-carousel"
-        slideWidth={224}
-        lgSlideWidth={288}
-      />
+      <Carousel.Centerer slideWidth={224} lgSlideWidth={288} />
     </Carousel.Root>
   )
 }

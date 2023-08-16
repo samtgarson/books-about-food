@@ -50,7 +50,6 @@ export const ItemCarousel: FC<ItemCarouselProps> = ({
         className="overflow-x-hidden"
       >
         <Carousel.Scroller
-          id="item-carousel"
           padded
           containerProps={{ right: false }}
           className="-mr-px"
@@ -84,11 +83,7 @@ export const ItemCarousel: FC<ItemCarouselProps> = ({
         </Carousel.Scroller>
         <Carousel.Buttons />
         {centered && (
-          <Carousel.Centerer
-            id="item-carousel"
-            slideWidth={width}
-            lastSlideWidth={false}
-          />
+          <Carousel.Centerer slideWidth={width} lastSlideWidth={false} />
         )}
       </Carousel.Root>
     </div>

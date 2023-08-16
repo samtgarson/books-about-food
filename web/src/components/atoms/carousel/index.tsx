@@ -7,6 +7,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useId,
   useRef,
   useState
 } from 'react'
@@ -37,6 +38,7 @@ export const Root = ({
   const [currentIndex, setCurrentIndex] = useState(0)
   const [canGoLeft, setCanGoLeft] = useState(false)
   const [canGoRight, setCanGoRight] = useState(true)
+  const id = useId()
 
   const scrollTo = useCallback(
     (index: number, behavior: ScrollBehavior = 'smooth') => {
@@ -66,6 +68,7 @@ export const Root = ({
   return (
     <CarouselContext.Provider
       value={{
+        id,
         currentIndex,
         setCurrentIndex,
         totalItems,
@@ -86,7 +89,7 @@ export const Root = ({
 }
 
 export interface CarouselScrollerProps
-  extends Omit<ComponentProps<'ul'>, 'children'> {
+  extends Omit<ComponentProps<'ul'>, 'children' | 'id'> {
   children: ReactNode
   padded?: boolean
   containerProps?: ContainerProps | false
@@ -104,7 +107,8 @@ export const Scroller = ({
     setCurrentIndex,
     alignment,
     setCanGoRight,
-    setCanGoLeft
+    setCanGoLeft,
+    id
   } = useContext(CarouselContext)
   const onScrollEnd = useDebouncedCallback(() => {
     if (!scrollerRef.current) return
@@ -119,6 +123,7 @@ export const Scroller = ({
 
   return (
     <ul
+      id={id}
       ref={scrollerRef}
       className={cn(
         'relative flex overflow-y-hidden overflow-x-auto snap-x snap-mandatory whitespace-nowrap items-center scrollbar-hidden justify-start pb-16',

@@ -15,13 +15,12 @@ export const CoverCarousel: FC<CoverCarouselProps> = ({ book, className }) => {
   if (book.cover) images = [book.cover, ...images]
   if (images.length === 0) return null
 
-  const id = `cover-carousel-${book.id}`
   const firstImage = images[0]
   const lastImage = images[images.length - 1]
   return (
     <>
       <Carousel.Root totalItems={images.length} className={className}>
-        <Carousel.Scroller id={id} className="gap-24 w-full py-16 sm:py-36">
+        <Carousel.Scroller className="gap-24 w-full py-16 sm:py-36">
           {images.map((image, i) => (
             <Carousel.Item key={image.id} index={i}>
               <li>
@@ -37,7 +36,6 @@ export const CoverCarousel: FC<CoverCarouselProps> = ({ book, className }) => {
         {images.length > 1 && <Carousel.Buttons />}
       </Carousel.Root>
       <Carousel.Centerer
-        id={id}
         slideWidth={firstImage.widthFor(220)}
         lastSlideWidth={lastImage.widthFor(220)}
         mdSlideWidth={firstImage.widthFor(310)}

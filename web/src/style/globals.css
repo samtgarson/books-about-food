@@ -20,6 +20,12 @@
     @apply appearance-none cursor-pointer;
   }
 
+  a,
+  button,
+  [role='menuitem'] {
+    @apply cursor-pointer;
+  }
+
   a *,
   button *,
   [role='menuitem'] * {
