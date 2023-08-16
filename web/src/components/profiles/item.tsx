@@ -20,7 +20,7 @@ export const ProfileItem = ({
     className={cn(
       'border sm:-mr-px -mb-px last:mb-0 sm:last:-mb-px list-none',
       className,
-      !profile && 'border-darkSand animate-pulse'
+      !profile && 'border-khaki animate-pulse'
     )}
     style={{ animationDelay: `${index * 150}ms` }}
   >
@@ -46,8 +46,8 @@ export const ProfileItem = ({
           </>
         ) : (
           <>
-            <p className="h-4 w-40 mb-1 bg-darkSand"></p>
-            <p className="h-3.5 w-30 bg-darkSand"></p>
+            <p className="h-4 w-40 mb-1 bg-khaki"></p>
+            <p className="h-3.5 w-30 bg-khaki"></p>
           </>
         )}
       </div>

@@ -58,7 +58,7 @@ export const Box = ({
       className,
       'sm:aspect-square border-black sm:mb-6 relative flex items-center justify-center sm:w-full',
       mobileGrid ? 'aspect-square mb-6 w-full' : 'w-24',
-      skeleton && 'border-darkSand',
+      skeleton && 'border-khaki',
       bordered && (mobileGrid ? 'border' : 'sm:border')
     )}
   >
@@ -92,7 +92,7 @@ export const Item = ({
           <div
             aria-hidden
             className={cn(
-              'sm:absolute h-24 sm:!h-[70%] sm:!top-[15%] sm:mx-auto sm:inset-x-0 w-16 sm:w-[60%] bg-opacity-50 bg-darkSand',
+              'sm:absolute h-24 sm:!h-[70%] sm:!top-[15%] sm:mx-auto sm:inset-x-0 w-16 sm:w-[60%] bg-opacity-50 bg-khaki',
               mobileGrid &&
               'absolute h-[70%] top-[15%] mx-auto inset-x-0 w-[60%]'
             )}
@@ -131,14 +131,14 @@ export const Skeleton = ({
       <div
         aria-hidden
         className={cn(
-          'sm:absolute h-24 sm:!h-[70%] sm:!top-[15%] sm:mx-auto sm:inset-x-0 w-16 sm:w-[60%] bg-opacity-50 bg-darkSand',
+          'sm:absolute h-24 sm:!h-[70%] sm:!top-[15%] sm:mx-auto sm:inset-x-0 w-16 sm:w-[60%] bg-opacity-50 bg-khaki',
           mobileGrid && 'absolute h-[70%] top-[15%] mx-auto inset-x-0 w-[60%]'
         )}
       />
     </Box>
     <div className={cn('sm:pr-4 w-full opacity-50', mobileGrid && 'pr-4')}>
-      <p className="h-4 w-40 mb-1 bg-darkSand"></p>
-      <p className="h-3.5 w-30 bg-darkSand"></p>
+      <p className="h-4 w-40 mb-1 bg-khaki"></p>
+      <p className="h-3.5 w-30 bg-khaki"></p>
     </div>
   </Container>
 )
