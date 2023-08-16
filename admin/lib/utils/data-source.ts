@@ -3,7 +3,7 @@ import pg from 'pg'
 import { parse } from 'pg-connection-string'
 import { getEnv } from 'shared/utils/get-env'
 
-const parsed = parse(getEnv('DATABASE_URL'))
+const parsed = parse(getEnv('DATABASE_URL', process.env.DIRECT_DATABASE_URL))
 
 export const datasource = createSqlDataSource({
   username: parsed.user ?? undefined,
