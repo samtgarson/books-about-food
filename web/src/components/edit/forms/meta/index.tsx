@@ -30,7 +30,7 @@ export const EditMetaForm = async ({ book }: { book: FullBook }) => {
       <Submit variant="dark">Save and Continue</Submit>
       <p className="text-14 mt-8">
         Note: If the tag you would like to add isn’t listed, please{' '}
-        <ContactLink>get in touch</ContactLink>.
+        <ContactLink subject="I need a new tag">get in touch</ContactLink>.
       </p>
     </Form>
   )

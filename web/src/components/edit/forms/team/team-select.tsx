@@ -113,8 +113,8 @@ function TeamForm({
       <Submit variant="dark">Save</Submit>
       <p className="text-14 mt-8">
         Note: If the role you would like to assign to this team member isn’t
-        listed please choose “Other” and <ContactLink>get in touch</ContactLink>
-        .
+        listed please choose “Other” and{' '}
+        <ContactLink subject="I need a new job role">get in touch</ContactLink>.
       </p>
     </Form>
   )

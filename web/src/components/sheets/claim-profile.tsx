@@ -107,7 +107,10 @@ export const ClaimProfileSheet: FC<ClaimProfileSheetProps> = ({ profile }) => {
                 start managing it.
               </p>
               <p className="text-14">
-                Don&apos;t have Instagram? <ContactLink>Email us</ContactLink>{' '}
+                Don&apos;t have Instagram?{' '}
+                <ContactLink subject="Claim without Instgram">
+                  Email us
+                </ContactLink>{' '}
                 and we&apos;ll sort it out.
               </p>
               <button
