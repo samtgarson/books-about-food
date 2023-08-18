@@ -1,12 +1,12 @@
 'use client'
 
 import * as Form from '@radix-ui/react-form'
-import { ComponentProps } from 'react'
+import { ComponentProps, InputHTMLAttributes } from 'react'
 import cn from 'classnames'
 
 export type MessagesProps = {
   label: string
-} & React.InputHTMLAttributes<any> // eslint-disable-line @typescript-eslint/no-explicit-any
+} & Pick<InputHTMLAttributes<any>, 'minLength' | 'maxLength'> // eslint-disable-line @typescript-eslint/no-explicit-any
 
 export const FormMessage = ({
   className,

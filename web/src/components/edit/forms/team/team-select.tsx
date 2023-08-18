@@ -3,6 +3,7 @@
 import { Job } from 'database'
 import { useState } from 'react'
 import { BaseAvatar } from 'src/components/atoms/avatar'
+import { ContactLink } from 'src/components/atoms/contact-link'
 import { Header } from 'src/components/atoms/sheet'
 import { Form } from 'src/components/form'
 import { CollectionInput } from 'src/components/form/collection-input'
@@ -110,6 +111,11 @@ function TeamForm({
         onChange={(j) => setJob(j as Job)}
       />
       <Submit variant="dark">Save</Submit>
+      <p className="text-14 mt-8">
+        Note: If the role you would like to assign to this team member isn’t
+        listed please choose “Other” and <ContactLink>get in touch</ContactLink>
+        .
+      </p>
     </Form>
   )
 }

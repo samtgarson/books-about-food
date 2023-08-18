@@ -4,41 +4,49 @@ import * as Form from '@radix-ui/react-form'
 import { Label } from '../label'
 import { Messages } from '../messages'
 import * as Carousel from 'src/components/atoms/carousel'
-import { ComponentProps, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { X } from 'react-feather'
 import { Image } from 'src/models/image'
 import { ImageUploadButton } from './upload-button'
 import Img from 'next/image'
 import cn from 'classnames'
+import { InputProps, useRequired } from '../input-props'
+import { mouseAttrs } from 'src/components/atoms/mouse'
 
 export type ImageUploadProps<Multi extends boolean> = {
-  label: string
-  name: string
-  value?: Multi extends true ? Array<Image> : Image
+  defaultValue?: Multi extends true ? Array<Image> : Image
   multi?: Multi
   prefix: string
-} & Omit<ComponentProps<'input'>, 'type' | 'multiple' | 'value'>
+} & Omit<InputProps<'input'>, 'multiple' | 'value' | 'defaultValue'>
 
 export function ImageUpload<Multi extends boolean = false>({
   label,
   name,
   multi,
-  value,
+  defaultValue,
   prefix,
+  className,
   ...props
 }: ImageUploadProps<Multi>) {
   const input = useRef<HTMLInputElement>(null)
+  const uploadButton = useRef<HTMLInputElement>(null)
   const [images, setImages] = useState<Image[]>(
-    Array.isArray(value) ? value : !value ? [] : [value]
+    Array.isArray(defaultValue)
+      ? defaultValue
+      : !defaultValue
+        ? []
+        : [defaultValue]
   )
+  const required = useRequired(props.required)
 
   return (
-    <Form.Field name={name} className="flex flex-col gap-2">
-      <Label required={props.required}>{label}</Label>
+    <Form.Field name={name} className={cn('flex flex-col gap-2', className)}>
+      <Label required={required}>{label}</Label>
       <Form.Control asChild>
         <input
           name={name}
           {...props}
+          required={required}
           type="text"
           className="opacity-0 h-0"
           ref={input}
@@ -46,7 +54,18 @@ export function ImageUpload<Multi extends boolean = false>({
         />
       </Form.Control>
       <Carousel.Root totalItems={multi ? images?.length + 1 || 1 : 1}>
-        <Carousel.Scroller className="w-full py-12 bg-sand gap-6" padded>
+        <Carousel.Scroller
+          className={cn(
+            'w-full py-12 bg-sand gap-6',
+            !images.length && 'cursor-pointer'
+          )}
+          {...mouseAttrs({ mode: 'clickable', enabled: !images.length })}
+          padded
+          onClick={() => {
+            if (images.length) return
+            uploadButton.current?.click()
+          }}
+        >
           {images.map((image) => (
             <Carousel.Item index={0} key={image.id}>
               <li
@@ -80,10 +99,16 @@ export function ImageUpload<Multi extends boolean = false>({
                 )}
               >
                 <ImageUploadButton
+                  ref={uploadButton}
                   multi={multi}
                   prefix={prefix}
                   onSuccess={(images) => {
                     setImages((existing) => [...existing, ...images])
+                    setTimeout(() => {
+                      input.current?.dispatchEvent(
+                        new Event('change', { bubbles: true })
+                      )
+                    }, 10)
                   }}
                 />
               </li>

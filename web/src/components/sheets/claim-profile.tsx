@@ -7,6 +7,7 @@ import { Button } from '../atoms/button'
 import { Body, Content, Header } from '../atoms/sheet'
 import { ProfileItem } from '../profiles/item'
 import { useSheet } from './global-sheet'
+import { ContactLink } from '../atoms/contact-link'
 
 export type ClaimProfileSheetProps = {
   profile: Profile
@@ -106,15 +107,7 @@ export const ClaimProfileSheet: FC<ClaimProfileSheetProps> = ({ profile }) => {
                 start managing it.
               </p>
               <p className="text-14">
-                Don&apos;t have Instagram?{' '}
-                <a
-                  href="mailto:aboutcookbooks@gmail.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="font-medium"
-                >
-                  Email us
-                </a>{' '}
+                Don&apos;t have Instagram? <ContactLink>Email us</ContactLink>{' '}
                 and we&apos;ll sort it out.
               </p>
               <button

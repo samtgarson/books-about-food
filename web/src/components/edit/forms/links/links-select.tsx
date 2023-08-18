@@ -77,6 +77,11 @@ function LinksForm({
         onChange={(e) => setUrl(e.target.value)}
       />
       <Submit variant="dark">Save</Submit>
+      <p className="text-14 mt-8">
+        Note: If the website you would like to add isn’t listed please choose
+        “Other” and give it a title in the form field that appears (eg:
+        “Portfolio”, “New York Times”, “The Grocer” etc).
+      </p>
     </Form>
   )
 }

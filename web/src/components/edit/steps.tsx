@@ -50,8 +50,8 @@ export const Steps: FC<{ book: FullBook }> = ({ book }) => {
       />
       <Step
         disabled={state.inReview}
-        title="Add Further Information"
-        completeTitle="Further Information"
+        title="Add More Information"
+        completeTitle="More Information"
         href={state.link('meta')}
         complete={state.furtherInformationComplete}
       />

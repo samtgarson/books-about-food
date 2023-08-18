@@ -6,6 +6,7 @@ import { FullBook } from 'src/models/full-book'
 import { fetchPublishers } from 'src/services/publishers/fetch-publishers'
 import { stringify } from 'src/utils/superjson'
 import { createAction } from '../action'
+import { ContactLink } from 'src/components/atoms/contact-link'
 
 export const EditPublisherForm = async ({ book }: { book: FullBook }) => {
   const options = async (search: string) => {
@@ -29,6 +30,10 @@ export const EditPublisherForm = async ({ book }: { book: FullBook }) => {
         data-superjson
       />
       <Submit variant="dark">Save and Continue</Submit>
+      <p className="text-14 mt-8">
+        Note: If the publisher you would like to add isn’t listed, please{' '}
+        <ContactLink>get in touch</ContactLink>.
+      </p>
     </Form>
   )
 }

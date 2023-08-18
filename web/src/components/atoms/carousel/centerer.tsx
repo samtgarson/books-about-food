@@ -1,4 +1,4 @@
-import { FC, useContext } from 'react'
+import { FC, memo, useContext } from 'react'
 import { CarouselContext } from './context'
 
 export type CentererProps = {
@@ -10,67 +10,66 @@ export type CentererProps = {
   lgLastSlideWidth?: number | false
 }
 
-export const Centerer: FC<CentererProps> = ({
+export const Centerer: FC<CentererProps> = memo(function Centerer({
   slideWidth,
   mdSlideWidth,
   lgSlideWidth,
   lastSlideWidth = slideWidth,
   mdLastSlideWidth = mdSlideWidth,
-  lgLastSlideWidth
-}) => {
+  lgLastSlideWidth = lgSlideWidth
+}) {
   const { id } = useContext(CarouselContext)
-  return (
-    <>
-      {slideWidth && (
-        <style>{`
+  let __html = ''
+  if (slideWidth) {
+    __html += `
         [id="${id}"] li:first-child {
           margin-left: calc(50% - ${slideWidth / 2}px);
         }
-      `}</style>
-      )}
-      {lastSlideWidth && (
-        <style>{`
+      `
+  }
+  if (lastSlideWidth) {
+    __html += `
         [id="${id}"] li:last-child {
           margin-right: calc(50% - ${lastSlideWidth / 2}px);
         }
-      `}</style>
-      )}
-      {mdSlideWidth && (
-        <style>{`
+      `
+  }
+  if (mdSlideWidth) {
+    __html += `
         @media (min-width: 768px) {
           [id="${id}"] li:first-child {
             margin-left: calc(50% - ${mdSlideWidth / 2}px);
           }
         }
-      `}</style>
-      )}
-      {mdLastSlideWidth && (
-        <style>{`
+      `
+  }
+  if (mdLastSlideWidth) {
+    __html += `
         @media (min-width: 768px) {
           [id="${id}"] li:last-child {
             margin-right: calc(50% - ${mdLastSlideWidth / 2}px);
           }
         }
-      `}</style>
-      )}
-      {lgSlideWidth && (
-        <style>{`
+      `
+  }
+  if (lgSlideWidth) {
+    __html += `
         @media (min-width: 1280px) {
           [id="${id}"] li:first-child {
             margin-left: calc(50% - ${lgSlideWidth / 2}px);
           }
         }
-      `}</style>
-      )}
-      {lgLastSlideWidth && (
-        <style>{`
+      `
+  }
+  if (lgLastSlideWidth) {
+    __html += `
         @media (min-width: 1280px) {
           [id="${id}"] li:last-child {
             margin-right: calc(50% - ${lgLastSlideWidth / 2}px);
           }
         }
-      `}</style>
-      )}
-    </>
-  )
-}
+      `
+  }
+
+  return <style dangerouslySetInnerHTML={{ __html }} />
+})

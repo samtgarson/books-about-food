@@ -146,6 +146,7 @@ model Contribution {
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
   bookId    String   @map("book_id") @db.Uuid
   jobId     String   @map("job_id") @db.Uuid
+  tag       String?
 
   job     Job     @relation(fields: [jobId], references: [id])
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
@@ -186,6 +187,7 @@ model Book {
   slug        String     @unique
   status      BookStatus @default(draft)
   submitterId String?    @map("submitter_id") @db.Uuid
+  draftCover  Boolean    @default(false) @map("draft_cover")
 
   coverImage    Image?         @relation("cover_for")
   previewImages Image[]        @relation("preview_for")

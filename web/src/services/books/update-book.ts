@@ -17,6 +17,7 @@ export const updateBook = new Service(
     previewImageIds: array(z.string()).optional(),
     publisherId: z.string().optional(),
     releaseDate: z.coerce.date().optional(),
+    draftCover: z.coerce.boolean().optional(),
     pages: z.coerce
       .number()
       .optional()
@@ -42,6 +43,7 @@ export const updateBook = new Service(
       ...attrs
     } = data
 
+    console.log({ coverImageId })
     const authors = await getAuthors(authorNames)
     const result = await prisma.book.update({
       where: { slug },
@@ -51,12 +53,11 @@ export const updateBook = new Service(
         authors: authors
           ? { set: authors.map(({ id }) => ({ id })) }
           : undefined,
-        coverImage:
-          'coverImageId' in data
-            ? coverImageId
-              ? { connect: { id: coverImageId } }
-              : { delete: true }
-            : undefined,
+        coverImage: data.coverImageId?.length
+          ? coverImageId
+            ? { connect: { id: coverImageId } }
+            : { delete: true }
+          : undefined,
         previewImages:
           'previewImageIds' in data
             ? { set: previewImageIds?.map((id) => ({ id })) }

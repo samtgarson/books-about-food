@@ -1,4 +1,4 @@
-import { useTransition } from 'react'
+import { forwardRef, useTransition } from 'react'
 import { Plus } from 'react-feather'
 import { Image } from 'src/models/image'
 import { uploadImage } from './action'
@@ -11,11 +11,10 @@ export type ImageUploadButtonProps = {
   onSuccess: (images: Image[]) => void
 }
 
-export function ImageUploadButton({
-  prefix,
-  multi,
-  onSuccess
-}: ImageUploadButtonProps) {
+export const ImageUploadButton = forwardRef<
+  HTMLInputElement,
+  ImageUploadButtonProps
+>(function ImageUploadButton({ prefix, multi, onSuccess }, ref) {
   const [isPending, startTransition] = useTransition()
 
   return (
@@ -31,6 +30,8 @@ export function ImageUploadButton({
         type="file"
         className="hidden"
         multiple={multi}
+        ref={ref}
+        form={''}
         onChange={async (e) =>
           startTransition(async () => {
             if (!e.target.files?.length) return
@@ -48,4 +49,4 @@ export function ImageUploadButton({
       />
     </label>
   )
-}
+})
