@@ -3,10 +3,9 @@
 import { signIn } from 'next-auth/react'
 import { FC } from 'react'
 import { Button } from '../atoms/button'
-import google from 'src/assets/auth-logos/google.svg'
-import Image from 'next/image'
 import { Logo } from '../nav/logo'
 import Link from 'next/link'
+import { Google } from './logos'
 
 export const SignInButtons: FC<{ callbackUrl?: string }> = ({
   callbackUrl
@@ -19,7 +18,7 @@ export const SignInButtons: FC<{ callbackUrl?: string }> = ({
       onClick={() => signIn('google', { callbackUrl })}
       className="flex gap-3 items-center"
     >
-      <Image src={google} width={30} height={30} alt="Google" />
+      <Google />
       Continue with Google
     </Button>
   </>

@@ -1,28 +1,42 @@
-import { redirect } from 'next/navigation'
-import { Suspense } from 'react'
-import { Container } from 'src/components/atoms/container'
-import { PageTitle } from 'src/components/atoms/page-title'
-import { SignOutButton } from 'src/components/auth/sign-out-button'
-import { BookList } from 'src/components/books/list'
-import { FavouritesList } from 'src/components/favourites/favourites-list'
+import { ContactLink } from 'src/components/atoms/contact-link'
+import { Google } from 'src/components/auth/logos'
+import { Form, FormAction } from 'src/components/form'
+import { Input } from 'src/components/form/input'
+import { Submit } from 'src/components/form/submit'
 import { getUser } from 'src/services/auth/get-user'
+import { updateUser } from 'src/services/users/update-user'
+import { callWithUser } from 'src/utils/call-with-user'
+
+const action: FormAction = async (input) => {
+  'use server'
+  await callWithUser(updateUser, input)
+}
 
 const Page = async () => {
   const user = await getUser.call()
-  if (!user) redirect('auth/sign-in')
 
+  if (!user) return null
   return (
-    <Container belowNav>
-      <PageTitle>Account</PageTitle>
-      <Suspense fallback="Loading favourites">
-        <FavouritesList user={user} />
-      </Suspense>
-      <BookList
-        showCreate
-        filters={{ status: 'draft', submitterId: user.id }}
+    <Form action={action}>
+      <h3 className="text-20">Account Details</h3>
+      <Input label="Name" name="name" defaultValue={user.name ?? ''} />
+      <Input
+        label="Email"
+        name="email"
+        defaultValue={user.email ?? ''}
+        disabled
       />
-      <SignOutButton />
-    </Container>
+      <div className="flex gap-4 text-14 items-center">
+        <Google size={18} /> Signed in with Google
+      </div>
+      <Submit variant="dark">Save</Submit>
+
+      <h3 className="text-20 mt-16">Delete your account</h3>
+      <p>
+        If you would like to delete your account, please{' '}
+        <ContactLink>get in touch</ContactLink>.
+      </p>
+    </Form>
   )
 }
 

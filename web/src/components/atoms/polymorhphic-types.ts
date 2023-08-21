@@ -9,7 +9,7 @@ type AsProp<C extends React.ElementType> = {
 
 type PropsToOmit<C extends React.ElementType, P> = keyof (AsProp<C> & P)
 
-type PolymorphicComponentProp<
+export type PolymorphicComponentProp<
   C extends React.ElementType,
   Props
 > = React.PropsWithChildren<Props & AsProp<C>> &

@@ -48,7 +48,8 @@ module.exports = {
       grey: '#F0EEEB',
       sand: '#E7E5E2',
       khaki: '#DDD8D1',
-      warning: '#FF6D4B'
+      warning: '#FF6D4B',
+      'neutral-grey': '#BDBFC2'
     },
     fontWeight: {
       normal: 400,

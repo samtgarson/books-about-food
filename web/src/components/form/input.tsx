@@ -3,6 +3,7 @@
 import * as Form from '@radix-ui/react-form'
 import { Label } from './label'
 import { Messages } from './messages'
+import cn from 'classnames'
 
 export type InputProps = {
   label: string
@@ -17,7 +18,10 @@ export function Input({ label, name, ...props }: InputProps) {
         <input
           name={name}
           {...props}
-          className="bg-white transition-colors bg-opacity-60 focus:bg-opacity-100 focus:outline-none p-4 placeholder:text-black/20"
+          className={cn(
+            'bg-white transition-colors bg-opacity-60 focus:bg-opacity-100 focus:outline-none p-4 placeholder:text-black/20',
+            props.disabled && 'text-neutral-grey'
+          )}
         />
       </Form.Control>
       <Messages label={label} {...props} />

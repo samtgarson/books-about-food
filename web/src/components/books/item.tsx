@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Book } from 'src/models/book'
 import cn from 'classnames'
-import { ComponentProps, ReactNode } from 'react'
+import { ComponentProps, ReactNode, forwardRef } from 'react'
 
 export type CookbookItemProps = ComponentProps<'li'> & {
   mobileGrid?: boolean
@@ -11,18 +11,16 @@ export type CookbookItemProps = ComponentProps<'li'> & {
   centered?: boolean
 }
 
-export const Container = ({
-  className,
-  mobileGrid,
-  book,
-  index = 0,
-  skeleton,
-  children,
-  ...props
-}: CookbookItemProps & { skeleton?: boolean }) => {
+export const Container = forwardRef<
+  HTMLLIElement,
+  CookbookItemProps & { skeleton?: boolean }
+>(function Container(
+  { className, mobileGrid, book, index = 0, skeleton, children, ...props },
+  ref
+) {
   const WrapperEl = book?.href ? Link : 'div'
   return (
-    <li className={cn('group', className)} {...props}>
+    <li className={cn('group', className)} {...props} ref={ref}>
       <WrapperEl
         href={book?.href || '#'}
         className={cn(
@@ -38,7 +36,7 @@ export const Container = ({
       </WrapperEl>
     </li>
   )
-}
+})
 
 export const Box = ({
   children,
@@ -66,14 +64,12 @@ export const Box = ({
   </div>
 )
 
-export const Item = ({
-  book,
-  mobileGrid,
-  centered,
-  ...props
-}: CookbookItemProps & { book: Book }) => {
+export const Item = forwardRef<
+  HTMLLIElement,
+  CookbookItemProps & { book: Book }
+>(function Item({ book, mobileGrid, centered, ...props }, ref) {
   return (
-    <Container mobileGrid={mobileGrid} book={book} {...props}>
+    <Container mobileGrid={mobileGrid} book={book} {...props} ref={ref}>
       <Box mobileGrid={mobileGrid} skeleton={!book} bordered={!centered}>
         {book?.publishedInFuture && !centered && (
           <span className="absolute right-px top-px bg-white all-caps-sm px-3 py-1.5">
@@ -112,33 +108,34 @@ export const Item = ({
       </div>
     </Container>
   )
-}
+})
 
-export const Skeleton = ({
-  className,
-  mobileGrid,
-  index = 0,
-  ...props
-}: CookbookItemProps) => (
-  <Container
-    className={className}
-    mobileGrid={mobileGrid}
-    index={index}
-    skeleton
-    {...props}
-  >
-    <Box mobileGrid={mobileGrid} skeleton>
-      <div
-        aria-hidden
-        className={cn(
-          'sm:absolute h-24 sm:!h-[70%] sm:!top-[15%] sm:mx-auto sm:inset-x-0 w-16 sm:w-[60%] bg-opacity-50 bg-khaki',
-          mobileGrid && 'absolute h-[70%] top-[15%] mx-auto inset-x-0 w-[60%]'
-        )}
-      />
-    </Box>
-    <div className={cn('sm:pr-4 w-full opacity-50', mobileGrid && 'pr-4')}>
-      <p className="h-4 w-40 mb-1 bg-khaki"></p>
-      <p className="h-3.5 w-30 bg-khaki"></p>
-    </div>
-  </Container>
+export const Skeleton = forwardRef<HTMLLIElement, CookbookItemProps>(
+  function Skeleton({ className, mobileGrid, index = 0, ...props }, ref) {
+    return (
+      <Container
+        className={className}
+        mobileGrid={mobileGrid}
+        index={index}
+        skeleton
+        {...props}
+        ref={ref}
+      >
+        <Box mobileGrid={mobileGrid} skeleton>
+          <div
+            aria-hidden
+            className={cn(
+              'sm:absolute h-24 sm:!h-[70%] sm:!top-[15%] sm:mx-auto sm:inset-x-0 w-16 sm:w-[60%] bg-opacity-50 bg-khaki',
+              mobileGrid &&
+              'absolute h-[70%] top-[15%] mx-auto inset-x-0 w-[60%]'
+            )}
+          />
+        </Box>
+        <div className={cn('sm:pr-4 w-full opacity-50', mobileGrid && 'pr-4')}>
+          <p className="h-4 w-40 mb-1 bg-khaki"></p>
+          <p className="h-3.5 w-30 bg-khaki"></p>
+        </div>
+      </Container>
+    )
+  }
 )
