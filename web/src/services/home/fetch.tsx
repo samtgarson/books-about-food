@@ -8,6 +8,7 @@ import { bookIncludes, profileIncludes } from '../utils'
 export const fetchHome = new Service(z.object({}), async () => {
   const [comingSoon, newlyAdded, authors, people, publishers] =
     await Promise.all([
+      // coming soon
       prisma.book
         .findMany({
           cacheStrategy,
@@ -18,6 +19,7 @@ export const fetchHome = new Service(z.object({}), async () => {
         })
         .then((books) => books.map((book) => new Book(book))),
 
+      // newly added
       prisma.book
         .findMany({
           cacheStrategy,
@@ -28,16 +30,23 @@ export const fetchHome = new Service(z.object({}), async () => {
         })
         .then((books) => books.map((book) => new Book(book))),
 
+      // featured profiles
       prisma.profile
         .findMany({
           cacheStrategy,
           orderBy: { createdAt: 'desc' },
-          where: { authoredBooks: { some: {} } },
+          where: {
+            OR: [
+              { features: { some: { until: null } } },
+              { features: { some: { until: { gte: new Date() } } } }
+            ]
+          },
           take: 10,
           include: profileIncludes
         })
         .then((profiles) => profiles.map((profile) => new Profile(profile))),
 
+      // recent profiles
       prisma.profile
         .findMany({
           cacheStrategy,
@@ -48,6 +57,7 @@ export const fetchHome = new Service(z.object({}), async () => {
         })
         .then((profiles) => profiles.map((profile) => new Profile(profile))),
 
+      // publishers
       prisma.publisher.findMany({
         cacheStrategy,
         orderBy: { createdAt: 'desc' },

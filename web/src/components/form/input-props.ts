@@ -1,5 +1,5 @@
 import { ComponentProps, JSX } from 'react'
-import { useForm } from '.'
+import { useForm } from './context'
 
 export type Required = boolean | { ifNot: string | string[] }
 export type InputProps<T extends keyof JSX.IntrinsicElements> = {

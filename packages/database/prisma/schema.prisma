@@ -118,12 +118,13 @@ model Profile {
   mostRecentlyPublishedOn DateTime? @map("most_recently_published_on") @db.Date
   jobTitle                String?   @map("job_title")
 
-  user          User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
+  user          User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
   contributions Contribution[]
   favourite     Favourite[]
-  avatar        Image?         @relation("profile_for")
+  avatar        Image?            @relation("profile_for")
   claims        Claim[]
-  authoredBooks Book[]         @relation("authored_books")
+  authoredBooks Book[]            @relation("authored_books")
+  features      FeaturedProfile[]
 
   @@map("profiles")
 }
@@ -259,6 +260,18 @@ model Feature {
   book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
 
   @@map("features")
+}
+
+model FeaturedProfile {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @default(now()) @updatedAt @map("updated_at")
+  profileId String    @map("profile_id") @db.Uuid
+  until     DateTime? @db.Date
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@map("featured_profiles")
 }
 
 model Claim {
