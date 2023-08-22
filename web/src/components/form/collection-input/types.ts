@@ -6,12 +6,15 @@ export type CollectionInputItemProps = {
   subtitle?: string
 }
 
-export type CollectionInputProps<Value extends { id: string }> = {
+export type CollectionInputProps<
+  Value extends { id: string },
+  Serialized extends Record<string, string | boolean | number | null>
+> = {
   label: string
   name: string
   defaultValue?: Value[]
   render: (value: Value) => CollectionInputItemProps
-  serialize?: (value: Value) => Record<string, string>
+  serialize?: (value: Value) => Serialized
   form: ComponentType<{
     onSubmit: (e: Value) => void
     value?: Value

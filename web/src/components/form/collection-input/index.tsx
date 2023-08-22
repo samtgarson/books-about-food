@@ -11,16 +11,20 @@ import { SheetContent } from './sheet-content'
 import { CollectionInputProps } from './types'
 import { CollectionInputItem } from './item'
 import { stringify } from 'superjson'
+import { Serializable } from 'src/utils/types'
 
-export function CollectionInput<Value extends { id: string }>({
+export function CollectionInput<
+  Value extends { id: string },
+  Serialized extends Serializable = Value
+>({
   label,
   name,
   defaultValue = [],
   render,
   form: FormComponent,
-  serialize = (v) => v,
+  serialize,
   ...props
-}: CollectionInputProps<Value>) {
+}: CollectionInputProps<Value, Serialized>) {
   const [value, setValue] = useState<Value[]>(defaultValue)
   const Context = createCollectionInputContext<Value>()
 
@@ -51,7 +55,9 @@ export function CollectionInput<Value extends { id: string }>({
             {...props}
             className="h-0"
             value={
-              value.length ? stringify(value.map((v) => serialize(v))) : ''
+              value.length
+                ? stringify(value.map((v) => (serialize ? serialize(v) : v)))
+                : ''
             }
           />
         </Form.Control>

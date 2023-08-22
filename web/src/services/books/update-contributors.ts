@@ -1,17 +1,20 @@
-import prisma, { Job, Profile } from 'database'
+import prisma from 'database'
 import { slugify } from 'shared/utils/slugify'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
 
+const contributorSchema = z.object({
+  profileName: z.string(),
+  jobName: z.string(),
+  assistant: z.boolean().optional()
+})
+
+export type ContributorAttrs = z.infer<typeof contributorSchema>
+
 export const updateContributors = new Service(
   z.object({
     slug: z.string(),
-    contributors: z
-      .object({
-        profileName: z.string(),
-        jobName: z.string()
-      })
-      .array()
+    contributors: contributorSchema.array()
   }),
   async ({ slug, contributors } = [], user) => {
     if (!user) throw new Error('User is required')
@@ -20,11 +23,10 @@ export const updateContributors = new Service(
       include: { contributions: true }
     })
     if (!book) throw new Error('Book not found')
+    const bookId = book.id
 
     const resources = await Promise.all(contributors.map(createProfileAndJob))
-    const contributions = await Promise.all(
-      resources.map(createContributions(book.id))
-    )
+    const contributions = await Promise.all(resources.map(createContributions))
 
     await prisma.book.update({
       where: { slug },
@@ -37,35 +39,33 @@ export const updateContributors = new Service(
         }
       }
     })
-  }
-)
 
-const createProfileAndJob = async ({
-  profileName,
-  jobName
-}: {
-  profileName: string
-  jobName: string
-}) => {
-  const [profile, job] = await Promise.all([
-    prisma.profile.upsert({
-      where: { name: profileName },
-      create: { name: profileName, slug: slugify(profileName) },
-      update: {}
-    }),
-    prisma.job.upsert({
-      where: { name: jobName },
-      create: { name: jobName },
-      update: {}
-    })
-  ])
-  return { profile, job }
-}
+    async function createProfileAndJob({
+      profileName,
+      jobName,
+      assistant = false
+    }: z.infer<typeof contributorSchema>) {
+      const [profile, job] = await Promise.all([
+        prisma.profile.upsert({
+          where: { name: profileName },
+          create: { name: profileName, slug: slugify(profileName) },
+          update: {}
+        }),
+        prisma.job.upsert({
+          where: { name: jobName },
+          create: { name: jobName },
+          update: {}
+        })
+      ])
+      return { profile, job, assistant }
+    }
 
-const createContributions =
-  (bookId: string) =>
-    ({ profile, job }: { profile: Profile; job: Job }) =>
-      prisma.contribution.upsert({
+    async function createContributions({
+      profile,
+      job,
+      assistant
+    }: Awaited<ReturnType<typeof createProfileAndJob>>) {
+      return prisma.contribution.upsert({
         where: {
           profileId_bookId_jobId: {
             profileId: profile.id,
@@ -76,7 +76,11 @@ const createContributions =
         create: {
           profile: { connect: { id: profile.id } },
           book: { connect: { id: bookId } },
-          job: { connect: { id: job.id } }
+          job: { connect: { id: job.id } },
+          tag: assistant ? 'Assistant' : undefined
         },
-        update: {}
+        update: { tag: assistant ? 'Assistant' : undefined }
       })
+    }
+  }
+)

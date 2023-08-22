@@ -1,26 +1,14 @@
 'use client'
 
 import { Root } from '@radix-ui/react-form'
-import {
-  ComponentProps,
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  useState
-} from 'react'
+import { ComponentProps, useEffect, useRef, useState } from 'react'
 import cn from 'classnames'
+import { FormContext } from './context'
 
 export type FormAction = (values: Record<string, unknown>) => Promise<void>
 export type FormProps = Omit<ComponentProps<typeof Root>, 'action'> & {
   action?: FormAction
 }
-
-type FormContext = {
-  state: Record<string, unknown>
-}
-const FormContext = createContext({} as FormContext)
-export const useForm = () => useContext(FormContext)
 
 export function Form({ className, action, ...props }: FormProps) {
   const [state, setState] = useState({})
