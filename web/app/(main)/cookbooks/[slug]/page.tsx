@@ -27,7 +27,7 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
   if (!book) notFound()
 
   return (
-    <div className="lg:pr-[50vw] relative">
+    <div className="lg:pr-[50vw] relative flex-grow">
       <Container className="pt-6 sm:pt-20" key="header" belowNav>
         <h1 className="font-style-title flex items-center mb-6 sm:mb-4">
           {book.title}
@@ -35,11 +35,11 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
         </h1>
         {book.subtitle && <Detail className="md:mb-8">{book.subtitle}</Detail>}
         <AntiContainer className="border-t border-black sm:border-t-0">
-          <div className="lg:absolute lg:w-[50vw] lg:inset-y-0 lg:right-0 flex flex-col lg:h-full">
+          <div className="lg:absolute lg:w-[50vw] lg:top-0 lg:-bottom-20 lg:right-0 flex flex-col">
             <CoverCarousel
               data-superjson
               book={book}
-              className="lg:sticky lg:top-0 lg:-mt-32 lg:h-full lg:max-h-screen lg:flex lg:items-stretch"
+              className="lg:sticky lg:top-0 lg:-mt-16 lg:pt-16 lg:h-full lg:max-h-screen lg:flex lg:items-stretch"
             />
           </div>
         </AntiContainer>
@@ -72,7 +72,7 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
           </Container>
           <Container
             desktop={false}
-            className={cn('mb-4 sm:mb-8 flex gap-x-4 flex-wrap sm:pt-16')}
+            className={cn('flex gap-x-4 flex-wrap sm:pt-16')}
           >
             <BookLinks
               links={book.links}

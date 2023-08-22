@@ -3,7 +3,7 @@ import { Prisma } from 'database'
 export const profileIncludes = {
   user: { select: { image: true } },
   avatar: true
-} satisfies Prisma.ProfileArgs['include']
+} satisfies Prisma.ProfileDefaultArgs['include']
 
 export const bookIncludes = {
   coverImage: true,
@@ -14,9 +14,10 @@ export const bookIncludes = {
   authors: { include: profileIncludes },
   contributions: {
     distinct: ['profileId'],
+    where: { NOT: { job: { name: { startsWith: 'Author' } } } },
     include: {
       profile: { include: profileIncludes },
       job: true
     }
   }
-} satisfies Prisma.BookArgs['include']
+} satisfies Prisma.BookDefaultArgs['include']

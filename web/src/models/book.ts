@@ -45,9 +45,7 @@ export class Book {
   }
 
   get team(): Profile[] {
-    return this.contributions
-      .filter((contribution) => contribution.job?.name !== 'Author')
-      .map((contribution) => contribution.profile)
+    return this.contributions.map((contribution) => contribution.profile)
   }
 
   get authorNames() {
