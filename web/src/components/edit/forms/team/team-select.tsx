@@ -10,6 +10,7 @@ import { Checkbox } from 'src/components/form/checkbox'
 import { CollectionInput } from 'src/components/form/collection-input'
 import { Select } from 'src/components/form/select'
 import { Submit } from 'src/components/form/submit'
+import { useCurrentUser } from 'src/hooks/use-current-user'
 import { FullBook } from 'src/models/full-book'
 import { Image } from 'src/models/image'
 import { Profile } from 'src/models/profile'
@@ -40,11 +41,13 @@ const toValue = (
 })
 
 export function TeamSelect({ book }: { book: FullBook }) {
+  const user = useCurrentUser()
+
   return (
     <CollectionInput<TeamSelectValue, ContributorAttrs>
       name="contributors"
       label="Team"
-      required
+      required={user?.role !== 'admin'}
       defaultValue={book.contributions.map((contribution) =>
         toValue(
           contribution.id,
