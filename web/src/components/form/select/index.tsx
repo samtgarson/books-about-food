@@ -15,10 +15,12 @@ import * as Form from '@radix-ui/react-form'
 import { Label } from '../label'
 import { Messages } from '../messages'
 import { Stringified } from 'src/utils/superjson'
-import { selectProps } from './default-props'
+import { SelectValue, selectProps } from './default-props'
+
+export type { SelectValue }
 
 export interface SelectProps<
-  Value extends { [key in ValueKey]: string } & { __new?: true },
+  Value extends SelectValue<ValueKey>,
   Multi extends boolean,
   ValueKey extends string
 > extends Omit<
@@ -29,12 +31,15 @@ export interface SelectProps<
   label: string
   options?: Value[]
   loadOptions?: (query: string) => Promise<Stringified<Value[]>>
-  render: keyof Value | ((value: Value) => ReactNode)
+  render: keyof Value | ((value: Value & SelectValue<ValueKey>) => ReactNode)
   valueKey: ValueKey
   multi?: Multi
   defaultValue?: OnChangeValue<Value, Multi>
   allowCreate?: boolean
-  onChange?: (value: OnChangeValue<Value, Multi>) => void
+  onChange?: (
+    value: OnChangeValue<Value & SelectValue<ValueKey>, Multi>
+  ) => void
+  onCreate?: (value: string) => void
 }
 
 const isMultiValue = <Value,>(
@@ -58,6 +63,7 @@ export const Select = function Select<
   multi,
   allowCreate,
   onChange: externalOnChange,
+  onCreate,
   ...props
 }: SelectProps<Value, Multi, ValueKey>) {
   const input = useRef<HTMLInputElement>(null)
@@ -97,8 +103,14 @@ export const Select = function Select<
   )
 
   useEffect(() => {
-    setProps(selectProps({ valueKey, allowCreate }))
-  }, [valueKey, allowCreate])
+    setProps(
+      selectProps({
+        valueKey,
+        allowCreate,
+        unstyled: false
+      })
+    )
+  }, [valueKey, allowCreate, render])
 
   return (
     <Form.Field name={name} className="flex flex-col gap-2">
@@ -128,6 +140,7 @@ export const Select = function Select<
             defaultValue={defaultValue}
             defaultOptions
             isMulti={multi}
+            onCreateOption={onCreate}
           />
         )}
       </Form.ValidityState>

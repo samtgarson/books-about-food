@@ -1,7 +1,7 @@
 import { MotionProps } from 'framer-motion'
 import { NavTheme } from 'src/components/nav/context'
 
-export type MouseMode = 'default' | 'next' | 'prev' | 'clickable'
+export type MouseMode = 'default' | 'next' | 'prev' | 'clickable' | 'typeable'
 export type Point = { x: number; y: number }
 export type MouseState = {
   mode: MouseMode
@@ -34,7 +34,13 @@ export const getMode = ({ x, y }: Point): MouseState => {
     }
   const anchor =
     el.tagName === 'A' || el.tagName === 'BUTTON' || el.role === 'menuitem'
-  if (anchor) return { mode: 'clickable' }
+  if (anchor && !(el as HTMLButtonElement).disabled)
+    return { mode: 'clickable' }
+
+  const typeable = el.tagName === 'INPUT' || el.tagName === 'TEXTAREA'
+  if (typeable && !(el as HTMLInputElement).disabled)
+    return { mode: 'typeable' }
+
   return { mode: 'default' }
 }
 

@@ -1,7 +1,7 @@
 import { forwardRef, useTransition } from 'react'
 import { Plus } from 'react-feather'
 import { Image } from 'src/models/image'
-import { uploadImage } from './action'
+import { action } from './action'
 import { Loader } from 'src/components/atoms/loader'
 import cn from 'classnames'
 
@@ -39,7 +39,7 @@ export const ImageUploadButton = forwardRef<
             Array.from(e.target.files).forEach((file) =>
               fd.append('image', file, file.name)
             )
-            const result = await uploadImage(prefix, fd)
+            const result = await action(prefix, fd)
             const images = result.map(
               (image) => new Image(image, 'Uploaded image')
             )

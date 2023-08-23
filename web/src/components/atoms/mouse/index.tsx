@@ -60,8 +60,9 @@ export const Mouse = () => {
     >
       <div
         className={cn(
-          'border w-4 h-4 rounded-full transition duration-500 ease-out items-center justify-center hidden md:flex',
+          'w-4 h-4 rounded-full border transition duration-500 ease-out items-center justify-center hidden md:flex',
           {
+            'opacity-0 scale-x-0 transition-200': mode === 'typeable',
             'scale-[5]': mode === 'next' || mode === 'prev',
             'scale-150 !bg-transparent !duration-200': mode === 'clickable',
             'bg-white border-white text-black':

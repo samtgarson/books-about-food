@@ -8,16 +8,22 @@ import { MouseEvent } from 'react'
 const pillClasses =
   'text-14 rounded-full px-4 py-2 flex items-center gap-2 leading-none'
 
+export type SelectValue<ValueKey extends string> =
+  | ({ [key in ValueKey]: string } & { __new?: never })
+  | ({ [key in ValueKey]: string } & { __new: true })
+
 export const selectProps = <
-  Value extends { [key in ValueKey]: string } & { __new?: true },
+  Value extends SelectValue<ValueKey>,
   Multi extends boolean,
   ValueKey extends string
 >({
   allowCreate,
-  valueKey
+  valueKey,
+  unstyled
 }: {
   allowCreate?: boolean
   valueKey: ValueKey
+  unstyled?: boolean
 }) =>
 ({
   unstyled: true,
@@ -42,14 +48,19 @@ export const selectProps = <
         state.isMulti ? 'px-4 py-3' : 'p-4'
       ),
     menuPortal: () => '!z-50',
-    menu: () => cn('bg-white mt-1'),
+    menu: (state) =>
+      unstyled && state.options.length && !state.isLoading
+        ? 'bg-grey'
+        : cn('bg-white mt-1'),
     noOptionsMessage: () => 'p-5 text-black/50',
     loadingMessage: () => 'p-5 text-black/50',
     option: (state) =>
-      cn(
-        'px-5 py-2.5 transition-colors hover:bg-grey/50 flex justify-start',
-        state.isFocused && 'bg-grey/50'
-      ),
+      unstyled
+        ? 'mb-0.5 last:mb-0'
+        : cn(
+          'px-5 py-2.5 transition-colors hover:bg-grey/50 flex justify-start',
+          state.isFocused && 'bg-grey/50'
+        ),
     placeholder: () => 'text-black/20',
     multiValue: () => cn('bg-grey mr-2', pillClasses)
   },

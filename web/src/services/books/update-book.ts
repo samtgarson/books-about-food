@@ -43,7 +43,6 @@ export const updateBook = new Service(
       ...attrs
     } = data
 
-    console.log({ coverImageId })
     const authors = await getAuthors(authorNames)
     const result = await prisma.book.update({
       where: { slug },

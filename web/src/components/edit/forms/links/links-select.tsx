@@ -62,7 +62,7 @@ function LinksForm({
         options={websites.map((value) => ({ value }))}
         label="Website"
         name="site"
-        render={(site) => site.value}
+        render="value"
         defaultValue={value?.site ? { value: value.site } : undefined}
         valueKey="value"
         required

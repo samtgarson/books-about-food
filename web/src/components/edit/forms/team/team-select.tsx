@@ -113,7 +113,7 @@ function TeamForm({
         label="Name"
         name="profileName"
         valueKey="name"
-        render={(profile) => profile.name}
+        render="name"
         defaultValue={defaultProfile}
         required
         allowCreate
@@ -124,7 +124,7 @@ function TeamForm({
         label="Job"
         name="jobName"
         valueKey="name"
-        render={(job) => job.name}
+        render="name"
         defaultValue={defaultJob}
         required
         onChange={(j) => setJob(j as Job)}
