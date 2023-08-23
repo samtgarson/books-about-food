@@ -12,10 +12,10 @@
     "seed": "./dump"
   },
   "devDependencies": {
-    "prisma": "^5.1.0"
+    "prisma": "^5.2.0"
   },
   "dependencies": {
-    "@prisma/client": "^5.1.1",
+    "@prisma/client": "^5.2.0",
     "@prisma/extension-accelerate": "^0.5.0",
     "shared": "*"
   }
