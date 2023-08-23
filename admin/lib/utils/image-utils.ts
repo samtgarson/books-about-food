@@ -43,12 +43,12 @@ export const uploadImage = async (
   return id
 }
 
-export const deleteImage = async (query: Prisma.ImageWhereInput) => {
-  const images = await prisma.image.findMany({ where: query })
+export const deleteImage = async (where: Prisma.ImageWhereInput) => {
+  const images = await prisma.image.findMany({ where })
   if (!images.length) return
 
   await Promise.all(images.map((image) => s3.delete(image.path)))
-  await prisma.image.deleteMany({ where: query })
+  await prisma.image.deleteMany({ where })
 }
 
 const deleteExisting = async (
