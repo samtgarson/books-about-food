@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@prisma/client": "^5.2.0",
-    "@prisma/extension-accelerate": "^0.5.0",
+    "@prisma/extension-accelerate": "^0.6.0",
     "shared": "*"
   }
 }

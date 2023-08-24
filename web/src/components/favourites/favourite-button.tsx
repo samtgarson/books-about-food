@@ -6,6 +6,7 @@ import { useFetcher } from 'src/contexts/fetcher'
 import cn from 'classnames'
 import { Button } from '../atoms/button'
 import { AuthedButton } from '../auth/authed-button'
+import { useEditProfile } from '../profiles/edit/context'
 
 export type FavouriteButtonProps = {
   profileId: string
@@ -22,9 +23,11 @@ export const FavouriteButton: FC<FavouriteButtonProps> = ({
     { authorized: true }
   )
   const value = !!data
+  const { editMode } = useEditProfile()
   const setFavourite = (isFavourite: boolean) =>
     mutate({ profileId, isFavourite })
 
+  if (editMode) return null
   return (
     <AuthedButton redirect={false}>
       <Button

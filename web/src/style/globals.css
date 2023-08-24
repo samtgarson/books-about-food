@@ -4,7 +4,7 @@
 
 @layer base {
   html {
-    @apply overflow-x-hidden;
+    @apply overflow-x-hidden bg-grey;
   }
 
   html,
@@ -12,7 +12,7 @@
   input,
   select,
   textarea {
-    @apply bg-grey text-black antialiased;
+    @apply text-black antialiased;
   }
 
   button,

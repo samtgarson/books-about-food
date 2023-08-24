@@ -29,10 +29,10 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
   return (
     <div className="lg:pr-[50vw] relative flex-grow">
       <Container className="pt-6 sm:pt-20" key="header" belowNav>
-        <h1 className="font-style-title flex items-center mb-6 sm:mb-4">
-          {book.title}
+        <div className="font-style-title flex items-center mb-6 sm:mb-4">
+          <h1 contentEditable>{book.title}</h1>
           <BookOverflow book={book} className="ml-auto" />
-        </h1>
+        </div>
         {book.subtitle && <Detail className="md:mb-8">{book.subtitle}</Detail>}
         <AntiContainer className="border-t border-black sm:border-t-0">
           <div className="lg:absolute lg:w-[50vw] lg:top-0 lg:-bottom-20 lg:right-0 flex flex-col">

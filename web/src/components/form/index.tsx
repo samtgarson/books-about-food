@@ -8,9 +8,15 @@ import { FormContext } from './context'
 export type FormAction = (values: Record<string, unknown>) => Promise<void>
 export type FormProps = Omit<ComponentProps<typeof Root>, 'action'> & {
   action?: FormAction
+  naked?: boolean
 }
 
-export function Form({ className, action, ...props }: FormProps) {
+export function Form({
+  className,
+  action,
+  naked = false,
+  ...props
+}: FormProps) {
   const [state, setState] = useState({})
   const formRef = useRef<HTMLFormElement>(null)
 
@@ -39,7 +45,10 @@ export function Form({ className, action, ...props }: FormProps) {
           const values = Object.fromEntries(data.entries())
           await action(values)
         }}
-        className={cn('flex flex-col w-full max-w-xl gap-4', className)}
+        className={cn(
+          !naked && 'flex flex-col w-full max-w-xl gap-4',
+          className
+        )}
       />
     </FormContext.Provider>
   )

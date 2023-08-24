@@ -1,3 +1,4 @@
+'use client'
 import { Claim } from 'database'
 import { FC, useCallback, useState } from 'react'
 import { ArrowRight, Check, Copy, Loader } from 'react-feather'

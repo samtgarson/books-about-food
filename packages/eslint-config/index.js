@@ -19,6 +19,10 @@ module.exports = {
   ],
   rules: {
     '@next/next/no-html-link-for-pages': ['error', 'web'],
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      { destructuredArrayIgnorePattern: '^_' }
+    ],
     'import/extensions': [
       'error',
       {

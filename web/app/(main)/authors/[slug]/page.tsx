@@ -1,17 +1,19 @@
-import { fetchProfiles } from 'src/services/profiles/fetch-profiles'
+// import { fetchProfiles } from 'src/services/profiles/fetch-profiles'
+
+import { createProfilePage } from 'app/(main)/people/[slug]/page'
 
 export * from 'app/default-static-config'
 
-export const generateStaticParams = async () => {
-  const { profiles } = await fetchProfiles.call({
-    perPage: 0,
-    onlyAuthors: true,
-    sort: 'trending'
-  })
+// export const generateStaticParams = async () => {
+//   const { profiles } = await fetchProfiles.call({
+//     perPage: 0,
+//     onlyAuthors: true,
+//     sort: 'trending'
+//   })
+//
+//   return profiles.map((profile) => ({
+//     slug: profile.slug
+//   }))
+// }
 
-  return profiles.map((profile) => ({
-    slug: profile.slug
-  }))
-}
-
-export { default } from 'app/(main)/people/[slug]/page'
+export default createProfilePage('authors')

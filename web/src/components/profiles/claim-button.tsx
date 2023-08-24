@@ -7,6 +7,8 @@ import { useFetcher } from 'src/contexts/fetcher'
 import { Profile } from 'src/models/profile'
 import { Button } from '../atoms/button'
 import { useParamSheet, useSheet } from '../sheets/global-sheet'
+import { EditProfileButton } from './edit/edit-profile-button'
+import { useCurrentUser } from 'src/hooks/use-current-user'
 
 export type ClaimProfileButtonProps = {
   profile: Profile
@@ -24,9 +26,10 @@ export const ClaimProfileButton: FC<ClaimProfileButtonProps> = ({
     { authorized: true }
   )
   useParamSheet('claim', 'claimProfile', { profile })
+  const currentUser = useCurrentUser()
 
-  if (profile.userId) return null
-
+  if (profile.userId === currentUser?.id || currentUser?.role === 'admin')
+    return <EditProfileButton className={className} />
   return (
     <Button
       className={cn(
