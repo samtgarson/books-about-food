@@ -1,6 +1,5 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import {
   UpdateProfileInput,
@@ -15,5 +14,4 @@ export const action = async (
   const { slug } = await callWithUser(updateProfile, data)
   const path = `/${segment}/${slug}`
   if (slug !== data.slug) redirect(path)
-  else revalidatePath(path)
 }
