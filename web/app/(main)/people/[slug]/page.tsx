@@ -8,6 +8,7 @@ import { BookList } from 'src/components/books/list'
 import { FavouriteButton } from 'src/components/favourites/favourite-button'
 import { ClaimProfileButton } from 'src/components/profiles/claim-button'
 import { EditProfileProvider } from 'src/components/profiles/edit/context'
+import { EditableAvatar } from 'src/components/profiles/edit/editable-avatar'
 import { Field } from 'src/components/profiles/edit/field'
 import { LinkList } from 'src/components/profiles/link-list'
 import { ProfileListSection } from 'src/components/profiles/list-section'
@@ -73,7 +74,7 @@ export const createProfilePage = (segment: 'authors' | 'people') =>
                 </div>
               </div>
               <div className="order-first lg:order-last flex lg:flex-col flex-shrink-0 items-start lg:items-end gap-5 justify-between">
-                <Avatar profile={profile} size="xl" mobileSize="md" />
+                <EditableAvatar />
                 <div className="flex gap-2 items-center">
                   <FavouriteButton profileId={profile.id} />
                   <ClaimProfileButton

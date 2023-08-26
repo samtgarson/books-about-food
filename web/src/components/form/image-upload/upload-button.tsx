@@ -1,5 +1,4 @@
-import { forwardRef, useTransition } from 'react'
-import { Plus } from 'react-feather'
+import { ReactNode, forwardRef, useTransition } from 'react'
 import { Image } from 'src/models/image'
 import { action } from './action'
 import { Loader } from 'src/components/atoms/loader'
@@ -9,22 +8,27 @@ export type ImageUploadButtonProps = {
   prefix: string
   multi?: boolean
   onSuccess: (images: Image[]) => void
+  children: ReactNode
+  className?: string
 }
 
 export const ImageUploadButton = forwardRef<
   HTMLInputElement,
   ImageUploadButtonProps
->(function ImageUploadButton({ prefix, multi, onSuccess }, ref) {
+>(function ImageUploadButton(
+  { prefix, multi, onSuccess, children, className },
+  ref
+) {
   const [isPending, startTransition] = useTransition()
 
   return (
     <label
       className={cn(
-        'bg-white w-11 h-11 flex justify-center items-center my-20 mx-12',
-        isPending ? 'pointer-events-none' : 'cursor-pointer'
+        isPending ? 'pointer-events-none' : 'cursor-pointer',
+        className
       )}
     >
-      {isPending ? <Loader /> : <Plus strokeWidth={1} size={28} />}
+      {isPending ? <Loader /> : children}
 
       <input
         type="file"

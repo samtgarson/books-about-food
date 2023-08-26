@@ -5,7 +5,7 @@ import { Label } from '../label'
 import { Messages } from '../messages'
 import * as Carousel from 'src/components/atoms/carousel'
 import { useRef, useState } from 'react'
-import { X } from 'react-feather'
+import { Plus, X } from 'react-feather'
 import { Image } from 'src/models/image'
 import { ImageUploadButton } from './upload-button'
 import Img from 'next/image'
@@ -110,7 +110,10 @@ export function ImageUpload<Multi extends boolean = false>({
                       )
                     }, 10)
                   }}
-                />
+                  className="bg-white w-11 h-11 flex justify-center items-center my-20 mx-12"
+                >
+                  <Plus strokeWidth={1} size={28} />
+                </ImageUploadButton>
               </li>
             </Carousel.Item>
           )}

@@ -22,12 +22,14 @@
 
   a,
   button,
+  label:has(input),
   [role='menuitem'] {
     @apply cursor-pointer;
   }
 
   a *,
   button *,
+  label:has(input) *,
   [role='menuitem'] * {
     @apply pointer-events-none;
   }

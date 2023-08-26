@@ -33,7 +33,10 @@ export const getMode = ({ x, y }: Point): MouseState => {
       theme: el.dataset.mouseTheme as NavTheme
     }
   const anchor =
-    el.tagName === 'A' || el.tagName === 'BUTTON' || el.role === 'menuitem'
+    el.tagName === 'A' ||
+    el.tagName === 'BUTTON' ||
+    el.role === 'menuitem' ||
+    el.tagName === 'LABEL'
   if (anchor && !(el as HTMLButtonElement).disabled)
     return { mode: 'clickable' }
 
