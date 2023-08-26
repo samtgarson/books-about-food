@@ -41,13 +41,13 @@ export const ProfileItem = ({
       <div className="flex flex-col gap-2">
         {profile ? (
           <>
-            <p className="font-medium text-16">{profile.name}</p>
-            <p className="text-14">{profile.jobTitle}</p>
+            <p className="leading-none font-medium text-16">{profile.name}</p>
+            <p className="leading-none text-14">{profile.jobTitle}</p>
           </>
         ) : (
           <>
-            <p className="h-4 w-40 mb-1 bg-khaki"></p>
-            <p className="h-3.5 w-30 bg-khaki"></p>
+            <p className="leading-none h-4 w-40 mb-1 bg-khaki"></p>
+            <p className="leading-none h-3.5 w-30 bg-khaki"></p>
           </>
         )}
       </div>

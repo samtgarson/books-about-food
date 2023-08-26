@@ -17,4 +17,8 @@ export const stringify = <T>(value: T): Stringified<T> => {
   return superjson.stringify(value) as Stringified<T>
 }
 
+export const parse = <T>(value: Stringified<T>): T => {
+  return superjson.parse(value)
+}
+
 export type Stringified<T> = string & { __type: T }

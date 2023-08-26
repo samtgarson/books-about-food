@@ -1,14 +1,14 @@
-import { ButtonHTMLAttributes, forwardRef } from 'react'
+import { ComponentProps, forwardRef } from 'react'
 import cn from 'classnames'
 
 export type PillProps = {
   selected?: boolean
   disabled?: boolean
-} & ButtonHTMLAttributes<HTMLButtonElement>
+} & ComponentProps<'span'>
 
-export const Pill = forwardRef<HTMLButtonElement, PillProps>(
+export const Pill = forwardRef<HTMLSpanElement, PillProps>(
   ({ children, selected, className, disabled, ...props }, ref) => (
-    <button
+    <span
       ref={ref}
       {...props}
       className={cn(
@@ -19,7 +19,7 @@ export const Pill = forwardRef<HTMLButtonElement, PillProps>(
       )}
     >
       {children}
-    </button>
+    </span>
   )
 )
 

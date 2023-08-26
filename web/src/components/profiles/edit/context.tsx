@@ -6,18 +6,18 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useState,
-  useTransition
+  useState
 } from 'react'
 import { Profile } from 'src/models/profile'
 import { UpdateProfileInput } from 'src/services/profiles/update-profile'
 import { action } from './action'
+import { parse } from 'src/utils/superjson'
 
 export type EditProfileContext = {
   profile: Profile
   editMode: boolean
   setEditMode: (editMode: boolean) => void
-  onSave: (data: Omit<UpdateProfileInput, 'slug'>) => void
+  onSave: (data: Omit<UpdateProfileInput, 'slug'>) => Promise<boolean>
 }
 
 const EditProfileContext = createContext({} as EditProfileContext)
@@ -27,14 +27,14 @@ export const useEditProfile = () => useContext(EditProfileContext)
 export const EditProfileProvider = ({
   children,
   segment,
-  profile
+  profile: initialProfile
 }: {
   children: ReactNode
   profile: Profile
   segment: 'authors' | 'people'
 }) => {
+  const [profile, setProfile] = useState(initialProfile)
   const [editMode, setEditMode] = useState(false)
-  const [_pending, startTransition] = useTransition()
 
   useEffect(() => {
     console.log('rendering')
@@ -50,15 +50,16 @@ export const EditProfileProvider = ({
 
   const onSave: EditProfileContext['onSave'] = useCallback(
     async (data) => {
-      startTransition(async () => {
-        console.log('saving', data)
-        try {
+      try {
+        const updated = parse(
           await action(segment, { ...data, slug: profile.slug })
-          console.log('saved')
-        } catch (error) {
-          console.error(error)
-        }
-      })
+        )
+        console.log('updated', updated)
+        setProfile(updated)
+        return true
+      } catch (error) {
+        return false
+      }
     },
     [profile, segment]
   )

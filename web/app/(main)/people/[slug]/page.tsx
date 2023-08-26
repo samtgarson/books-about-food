@@ -3,13 +3,13 @@ import { Suspense } from 'react'
 import { Avatar } from 'src/components/atoms/avatar'
 import { Container } from 'src/components/atoms/container'
 import { Detail } from 'src/components/atoms/detail'
-import { LinkList } from 'src/components/atoms/link-list'
 import { Loader } from 'src/components/atoms/loader'
 import { BookList } from 'src/components/books/list'
 import { FavouriteButton } from 'src/components/favourites/favourite-button'
 import { ClaimProfileButton } from 'src/components/profiles/claim-button'
 import { EditProfileProvider } from 'src/components/profiles/edit/context'
 import { Field } from 'src/components/profiles/edit/field'
+import { LinkList } from 'src/components/profiles/link-list'
 import { ProfileListSection } from 'src/components/profiles/list-section'
 import { ProfileOverflow } from 'src/components/profiles/profile-overflow'
 import { PageProps } from 'src/components/types'
@@ -60,32 +60,27 @@ export const createProfilePage = (segment: 'authors' | 'people') =>
                   profile={profile}
                   className="sm:hidden mb-10 mt-6 w-full"
                 />
-                {profile.description && (
-                  <Field
-                    attr="description"
-                    className="text-16 mt-4 max-w-prose"
-                  />
-                )}
+                <Field
+                  attr="description"
+                  className="text-16 mt-4 max-w-prose"
+                  placeholder="Add a description"
+                />
                 <div className="mt-8">
                   <Detail maxWidth>
                     <Field attr="jobTitle" />
                   </Detail>
-                  {profile.links.length > 0 && (
-                    <Detail maxWidth>
-                      <LinkList links={profile.links} />
-                    </Detail>
-                  )}
+                  <LinkList />
                 </div>
               </div>
               <div className="order-first lg:order-last flex lg:flex-col flex-shrink-0 items-start lg:items-end gap-5 justify-between">
                 <Avatar profile={profile} size="xl" mobileSize="md" />
                 <div className="flex gap-2 items-center">
+                  <FavouriteButton profileId={profile.id} />
                   <ClaimProfileButton
                     data-superjson
                     profile={profile}
                     className="hidden sm:flex"
                   />
-                  <FavouriteButton profileId={profile.id} />
                   <ProfileOverflow profile={profile} data-superjson />
                 </div>
               </div>

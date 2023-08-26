@@ -9,12 +9,11 @@ import {
   useState
 } from 'react'
 import ReactSelect, { AsyncCreatableProps } from 'react-select/async-creatable'
-import SuperJSON from 'superjson'
 import { MultiValue, OnChangeValue } from 'react-select'
 import * as Form from '@radix-ui/react-form'
 import { Label } from '../label'
 import { Messages } from '../messages'
-import { Stringified } from 'src/utils/superjson'
+import { Stringified, parse } from 'src/utils/superjson'
 import { SelectValue, selectProps } from './default-props'
 
 export type { SelectValue }
@@ -78,7 +77,7 @@ export const Select = function Select<
       loadOptions
         ? async (search: string) => {
           const data = await loadOptions(search)
-          return SuperJSON.parse<Value[]>(data)
+          return parse(data)
         }
         : undefined,
     [loadOptions]

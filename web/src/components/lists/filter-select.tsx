@@ -106,7 +106,7 @@ function FilterSelectContent<Value extends string | number = string>({
 
   return (
     <>
-      <Sheet.Trigger asChild>
+      <Sheet.Trigger disabled={loading}>
         <Pill className="gap-1.5" disabled={loading}>
           <span className={cn('transition-opacity', loading && 'opacity-50')}>
             {label}
