@@ -37,10 +37,6 @@ export const EditProfileProvider = ({
   const [editMode, setEditMode] = useState(false)
 
   useEffect(() => {
-    console.log('rendering')
-  }, [])
-
-  useEffect(() => {
     if (!editMode) {
       document.body.classList.remove('bg-blue-grey')
     } else {
@@ -54,14 +50,14 @@ export const EditProfileProvider = ({
         const updated = parse(
           await action(segment, { ...data, slug: profile.slug })
         )
-        console.log('updated', updated)
         setProfile(updated)
+        console.log(updated)
         return true
       } catch (error) {
         return false
       }
     },
-    [profile, segment]
+    [profile.slug, segment]
   )
 
   return (

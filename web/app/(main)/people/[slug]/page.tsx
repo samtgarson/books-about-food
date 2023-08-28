@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
-import { Container } from 'src/components/atoms/container'
+import { AntiContainer, Container } from 'src/components/atoms/container'
 import { Detail } from 'src/components/atoms/detail'
 import { Loader } from 'src/components/atoms/loader'
 import { FavouriteButton } from 'src/components/favourites/favourite-button'
@@ -9,8 +9,8 @@ import { ContributionList } from 'src/components/profiles/contribution-list'
 import { EditProfileProvider } from 'src/components/profiles/edit/context'
 import { EditableAvatar } from 'src/components/profiles/edit/editable-avatar'
 import { Field } from 'src/components/profiles/edit/field'
+import { FrequentCollaborators } from 'src/components/profiles/edit/frequent-collaborators'
 import { LinkList } from 'src/components/profiles/link-list'
-import { ProfileListSection } from 'src/components/profiles/list-section'
 import { ProfileOverflow } from 'src/components/profiles/profile-overflow'
 import { PageProps } from 'src/components/types'
 import { fetchFrequentCollaborators } from 'src/services/books/fetch-frequent-collaborators'
@@ -82,24 +82,28 @@ export const createProfilePage = (segment: 'authors' | 'people') =>
               </div>
             </div>
             {collaborators.length > 0 && (
-              <ProfileListSection
+              <FrequentCollaborators
                 data-superjson
                 profiles={collaborators}
-                title="Frequent collaborators"
                 className="mt-4 sm:mt-20"
               />
             )}
           </div>
-          <div className="mt-8 sm:mt-20 border-t border-black sm:border-t-0">
+          <div className="mt-8 sm:mt-20">
             {1 > 0 && (
-              <>
-                <h2 className="all-caps my-4 sm:mt-0 sm:mb-8 ">
-                  Cookbook Portfolio
-                </h2>
-                <Suspense fallback={<Loader />}>
-                  <ContributionList profile={profile} />
-                </Suspense>
-              </>
+              <AntiContainer
+                desktop={false}
+                className="border-t border-black sm:border-t-0"
+              >
+                <Container desktop={false}>
+                  <h2 className="all-caps my-4 sm:mt-0 sm:mb-8 ">
+                    Cookbook Portfolio
+                  </h2>
+                  <Suspense fallback={<Loader />}>
+                    <ContributionList profile={profile} />
+                  </Suspense>
+                </Container>
+              </AntiContainer>
             )}
           </div>
         </Container>

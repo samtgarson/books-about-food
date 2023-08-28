@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 export const usePromise = <
   T extends Record<string, unknown> | unknown[] | boolean | string | number
 >(
   input: T | (() => Promise<T>),
-  defaultValue: T
+  defaultValue: T,
+  deps: unknown[] = [input]
 ) => {
   const [loading, setLoading] = useState(
     typeof input === 'function' ? true : false
@@ -23,7 +24,13 @@ export const usePromise = <
     }
 
     fetchData()
-  }, [input])
+  }, deps) // eslint-disable-line react-hooks/exhaustive-deps
 
-  return { loading, value: value || defaultValue }
+  const revalidate = useCallback(async () => {
+    if (typeof input !== 'function') return
+    const data = await input()
+    setValue(data)
+  }, deps) // eslint-disable-line react-hooks/exhaustive-deps
+
+  return { loading, value: value ?? defaultValue, revalidate }
 }

@@ -117,6 +117,7 @@ model Profile {
   description             String?
   mostRecentlyPublishedOn DateTime? @map("most_recently_published_on") @db.Date
   jobTitle                String?   @map("job_title")
+  hiddenCollaborators     String[]  @map("hidden_collaborators")
 
   user          User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
   contributions Contribution[]

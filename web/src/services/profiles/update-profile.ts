@@ -19,7 +19,8 @@ export const updateProfile = new Service(
     jobTitle: z.string().optional(),
     website: z.string().regex(basicUrl).nullish(),
     instagram: z.string().regex(instagramHandle).nullish(),
-    avatarId: z.string().nullish()
+    avatarId: z.string().nullish(),
+    hiddenCollaborators: z.array(z.string()).optional()
   }),
   async ({ slug, avatarId, ...data } = {}, user) => {
     const profile = await prisma.profile.findUnique({ where: { slug } })

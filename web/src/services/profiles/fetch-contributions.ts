@@ -10,7 +10,7 @@ export type FetchContributionsOutput = Awaited<
 export const fetchContributions = new Service(
   z.object({
     profileId: z.string(),
-    bookId: z.string()
+    bookId: z.string().optional()
   }),
   async ({ profileId, bookId } = {}) => {
     const contributions = await prisma.contribution.findMany({

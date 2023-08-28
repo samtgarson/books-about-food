@@ -16,6 +16,7 @@ export class Profile {
   jobTitle?: string
   mostRecentlyPublishedOn?: Date
   userId?: string
+  hiddenCollaborators: string[]
 
   constructor({
     id,
@@ -27,7 +28,8 @@ export class Profile {
     avatar,
     description,
     mostRecentlyPublishedOn,
-    userId
+    userId,
+    hiddenCollaborators
   }: ProfileAttrs) {
     this.id = id
     this.name = name
@@ -39,6 +41,7 @@ export class Profile {
     this.jobTitle = jobTitle ?? undefined
     this.mostRecentlyPublishedOn = mostRecentlyPublishedOn ?? undefined
     this.userId = userId ?? undefined
+    this.hiddenCollaborators = hiddenCollaborators
   }
 
   get initials() {
@@ -70,7 +73,8 @@ export class NullProfile extends Profile {
       mostRecentlyPublishedOn: new Date(),
       location: '',
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
+      hiddenCollaborators: []
     })
   }
 
