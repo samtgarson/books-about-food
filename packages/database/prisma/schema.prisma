@@ -148,6 +148,7 @@ model Contribution {
   bookId    String   @map("book_id") @db.Uuid
   jobId     String   @map("job_id") @db.Uuid
   tag       String?
+  hidden    Boolean  @default(false)
 
   job     Job     @relation(fields: [jobId], references: [id])
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)

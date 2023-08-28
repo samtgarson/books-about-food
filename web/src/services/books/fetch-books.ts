@@ -91,6 +91,7 @@ export const fetchBooks = new Service(
         orderBy: { [sort]: sort === 'title' ? 'asc' : 'desc' },
         include: bookIncludes,
         where,
+        distinct: ['id'],
         cacheStrategy
       }),
       prisma.book.count({ where, cacheStrategy }),

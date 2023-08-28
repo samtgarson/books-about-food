@@ -1,12 +1,11 @@
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
-import { Avatar } from 'src/components/atoms/avatar'
 import { Container } from 'src/components/atoms/container'
 import { Detail } from 'src/components/atoms/detail'
 import { Loader } from 'src/components/atoms/loader'
-import { BookList } from 'src/components/books/list'
 import { FavouriteButton } from 'src/components/favourites/favourite-button'
 import { ClaimProfileButton } from 'src/components/profiles/claim-button'
+import { ContributionList } from 'src/components/profiles/contribution-list'
 import { EditProfileProvider } from 'src/components/profiles/edit/context'
 import { EditableAvatar } from 'src/components/profiles/edit/editable-avatar'
 import { Field } from 'src/components/profiles/edit/field'
@@ -14,10 +13,8 @@ import { LinkList } from 'src/components/profiles/link-list'
 import { ProfileListSection } from 'src/components/profiles/list-section'
 import { ProfileOverflow } from 'src/components/profiles/profile-overflow'
 import { PageProps } from 'src/components/types'
-import { fetchBooks, FetchBooksInput } from 'src/services/books/fetch-books'
 import { fetchFrequentCollaborators } from 'src/services/books/fetch-frequent-collaborators'
 import { fetchProfile } from 'src/services/profiles/fetch-profile'
-import { fetchProfiles } from 'src/services/profiles/fetch-profiles'
 
 // export * from 'app/default-static-config'
 // export const dynamic = 'force-dynamic'
@@ -37,10 +34,8 @@ export const createProfilePage = (segment: 'authors' | 'people') =>
   async function ProfilePage({
     params: { slug }
   }: PageProps<{ slug: string }>) {
-    const bookFilters = { profile: slug, perPage: 8 } satisfies FetchBooksInput
-    const [profile, books, collaborators] = await Promise.all([
+    const [profile, collaborators] = await Promise.all([
       fetchProfile.call({ slug }),
-      fetchBooks.call(bookFilters),
       fetchFrequentCollaborators.call({ slug })
     ])
     if (!profile) return notFound()
@@ -96,13 +91,13 @@ export const createProfilePage = (segment: 'authors' | 'people') =>
             )}
           </div>
           <div className="mt-8 sm:mt-20 border-t border-black sm:border-t-0">
-            {books.filteredTotal > 0 && (
+            {1 > 0 && (
               <>
                 <h2 className="all-caps my-4 sm:mt-0 sm:mb-8 ">
                   Cookbook Portfolio
                 </h2>
                 <Suspense fallback={<Loader />}>
-                  <BookList showEmpty={false} filters={bookFilters} />
+                  <ContributionList profile={profile} />
                 </Suspense>
               </>
             )}
