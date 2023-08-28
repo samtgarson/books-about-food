@@ -4,6 +4,7 @@ import { Service } from 'src/utils/service'
 import { z } from 'zod'
 import { profileIncludes } from '../utils'
 import { Profile } from 'src/models/profile'
+import { array } from '../utils/inputs'
 
 export type UpdateProfileInput = z.infer<typeof updateProfile.input>
 
@@ -19,10 +20,10 @@ export const updateProfile = new Service(
     jobTitle: z.string().optional(),
     website: z.string().regex(basicUrl).nullish(),
     instagram: z.string().regex(instagramHandle).nullish(),
-    avatarId: z.string().nullish(),
-    hiddenCollaborators: z.array(z.string()).optional()
+    avatar: z.string().nullish(),
+    hiddenCollaborators: array(z.string()).optional()
   }),
-  async ({ slug, avatarId, ...data } = {}, user) => {
+  async ({ slug, avatar, ...data } = {}, user) => {
     const profile = await prisma.profile.findUnique({ where: { slug } })
     if (profile?.userId !== user?.id && user?.role !== 'admin') {
       throw new Error('You are not allowed to update this profile')
@@ -33,7 +34,7 @@ export const updateProfile = new Service(
       data: {
         ...data,
         slug: data.name ? slugify(data.name) : undefined,
-        avatar: avatarProps(avatarId)
+        avatar: avatarProps(avatar)
       },
       include: profileIncludes
     })

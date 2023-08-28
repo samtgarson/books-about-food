@@ -16,13 +16,13 @@ export const EditableAvatar = () => {
           <ImageUploadButton
             prefix="profile-avatars"
             className="bg-white w-10 h-10 flex items-center justify-center"
-            onSuccess={([{ id }]) => onSave({ avatarId: id })}
+            onSuccess={([{ id }]) => onSave({ avatar: id })}
           >
             <Edit2 strokeWidth={1} size={24} />
           </ImageUploadButton>
           <button
             className="bg-white w-10 h-10 flex items-center justify-center"
-            onClick={() => onSave({ avatarId: null })}
+            onClick={() => onSave({ avatar: null })}
           >
             <Trash2 strokeWidth={1} size={24} />
           </button>

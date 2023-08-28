@@ -5,11 +5,14 @@ import { useEditProfile } from './context'
 import ContentEditable from 'react-contenteditable'
 import cn from 'classnames'
 import { Edit2 } from 'react-feather'
+import { KeysMatching } from 'src/utils/types'
+import { Profile } from 'src/models/profile'
 import { UpdateProfileInput } from 'src/services/profiles/update-profile'
 
 export type FieldProps = {
   as?: keyof JSX.IntrinsicElements
-  attr: keyof UpdateProfileInput
+  attr: KeysMatching<Profile, string | null | undefined> &
+  keyof UpdateProfileInput
   className?: string
   placeholder?: string
   render?: (value: string) => JSX.Element
@@ -23,7 +26,7 @@ export const Field = ({
   render
 }: FieldProps) => {
   const { profile, editMode, onSave } = useEditProfile()
-  const value = useRef<string>(profile[attr] ?? '')
+  const value = useRef(profile[attr] ?? '')
   const ref = useRef<HTMLElement>(null)
   const [showPlaceholder, setShowPlaceholder] = useState(!profile[attr]?.length)
   const originalValue = useMemo(() => profile[attr], [profile, attr])
