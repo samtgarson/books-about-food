@@ -12,6 +12,7 @@ import cn from 'classnames'
 import { CorrectionButton } from 'src/components/books/correction-button'
 import { BookOverflow } from 'src/components/books/book-overflow'
 import { TeamList } from 'src/components/books/team-list'
+import { SimilarBooks } from 'src/components/books/similar-books'
 
 export * from 'app/default-static-config'
 
@@ -51,7 +52,6 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
               className="pt-4 md:pt-0 mb-4 sm:mb-8 border-t border-black sm:border-t-0"
             >
               <ProfileListSection
-                data-superjson
                 profiles={book.authors}
                 title={book.authors.length > 1 ? 'Authors' : 'Author'}
                 hideMeta
@@ -63,11 +63,7 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
             className="pt-4 md:pt-0 mb-4 sm:mb-0 border-t border-black sm:border-t-0"
           >
             {book.team.length > 0 && (
-              <TeamList
-                data-superjson
-                contributions={book.contributions}
-                className="mb-8"
-              />
+              <TeamList contributions={book.contributions} className="mb-8" />
             )}
             <CorrectionButton book={book} className="" />
           </Container>
@@ -109,6 +105,7 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
             )}
           </Container>
         </AntiContainer>
+        <SimilarBooks slug={book.slug} className="pt-8 sm:pt-20" />
       </Container>
     </div>
   )

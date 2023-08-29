@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
-import { AntiContainer, Container } from 'src/components/atoms/container'
+import { Container } from 'src/components/atoms/container'
 import { Detail } from 'src/components/atoms/detail'
 import { Loader } from 'src/components/atoms/loader'
 import { FavouriteButton } from 'src/components/favourites/favourite-button'
@@ -89,23 +89,9 @@ export const createProfilePage = (segment: 'authors' | 'people') =>
               />
             )}
           </div>
-          <div className="mt-8 sm:mt-20">
-            {1 > 0 && (
-              <AntiContainer
-                desktop={false}
-                className="border-t border-black sm:border-t-0"
-              >
-                <Container desktop={false}>
-                  <h2 className="all-caps my-4 sm:mt-0 sm:mb-8 ">
-                    Cookbook Portfolio
-                  </h2>
-                  <Suspense fallback={<Loader />}>
-                    <ContributionList profile={profile} />
-                  </Suspense>
-                </Container>
-              </AntiContainer>
-            )}
-          </div>
+          <Suspense fallback={<Loader />}>
+            <ContributionList profile={profile} className="mt-8 sm:mt-20" />
+          </Suspense>
         </Container>
       </EditProfileProvider>
     )

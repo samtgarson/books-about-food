@@ -1,5 +1,3 @@
-'use client'
-
 import { FC } from 'react'
 import { Profile } from 'src/models/profile'
 import { GridContainer } from '../lists/grid-container'
@@ -17,17 +15,20 @@ export const TeamList: FC<TeamListProps> = ({ contributions, className }) => {
   const profileMap = contributions.reduce<Map<Profile, Contribution[]>>(
     (map, contribution) => {
       const contributions = map.get(contribution.profile) || []
-      contributions.push(contribution)
-      map.set(contribution.profile, contributions)
+      map.set(contribution.profile, [...contributions, contribution])
       return map
     },
     new Map()
   )
-  console.log(profileMap)
   const profiles = Array.from(profileMap.keys())
 
   return (
-    <ProfileList profiles={profiles} title="Team" className={className}>
+    <ProfileList
+      profiles={profiles}
+      title="Team"
+      className={className}
+      data-superjson
+    >
       <GridContainer className={cn('-mt-px sm:mt-0')}>
         {profiles.map((profile) => (
           <ProfileItem

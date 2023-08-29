@@ -10,7 +10,7 @@ import Link from 'next/link'
 export type ItemCarouselProps = {
   items: Book[]
   title?: string
-  size: 'md' | 'lg' | 'xl'
+  size?: 'md' | 'lg' | 'xl'
   readMoreLink?: string
   className?: string
   centered?: boolean
@@ -27,7 +27,7 @@ export const itemCarouselWidths = {
 export const ItemCarousel: FC<ItemCarouselProps> = ({
   items,
   title,
-  size,
+  size = 'md',
   readMoreLink,
   className,
   centered,

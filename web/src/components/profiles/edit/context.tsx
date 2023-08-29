@@ -51,7 +51,6 @@ export const EditProfileProvider = ({
           await action(segment, { ...data, slug: profile.slug })
         )
         setProfile(updated)
-        console.log(updated)
         return true
       } catch (error) {
         return false
