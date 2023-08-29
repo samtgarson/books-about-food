@@ -54,6 +54,7 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
                 data-superjson
                 profiles={book.authors}
                 title={book.authors.length > 1 ? 'Authors' : 'Author'}
+                hideMeta
               />
             </Container>
           )}

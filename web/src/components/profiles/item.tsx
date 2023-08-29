@@ -9,7 +9,7 @@ export type ProfileItemProps = {
   display?: 'list' | 'grid'
   className?: string
   index?: number
-  meta?: string
+  meta?: string | false
 }
 
 export const Wrapper = ({
@@ -36,7 +36,7 @@ export const Content = ({
   profile,
   display = 'grid',
   className,
-  meta
+  meta = profile?.jobTitle
 }: Pick<ProfileItemProps, 'profile' | 'display' | 'className' | 'meta'>) => (
   <Link
     href={profile ? `/people/${profile.slug}` : '#'}
@@ -57,7 +57,7 @@ export const Content = ({
       {profile ? (
         <>
           <p className="leading-none font-medium text-16">{profile.name}</p>
-          <p className="leading-none text-14">{meta ?? profile?.jobTitle}</p>
+          {meta && <p className="leading-none text-14">{meta}</p>}
         </>
       ) : (
         <>

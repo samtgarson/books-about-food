@@ -11,18 +11,25 @@ export type ProfileListSectionProps = {
   profiles: Profile[]
   title: string
   className?: string
+  hideMeta?: boolean
 }
 
 export const ProfileListSection: FC<ProfileListSectionProps> = ({
   profiles,
   title,
-  className
+  className,
+  hideMeta = false
 }) => {
   return (
     <ProfileList profiles={profiles} title={title} className={className}>
       <GridContainer className={cn('-mt-px sm:mt-0')}>
         {profiles.map((profile) => (
-          <ProfileItem key={profile.id} profile={profile} display="list" />
+          <ProfileItem
+            key={profile.id}
+            profile={profile}
+            display="list"
+            meta={hideMeta ? false : undefined}
+          />
         ))}
       </GridContainer>
     </ProfileList>
