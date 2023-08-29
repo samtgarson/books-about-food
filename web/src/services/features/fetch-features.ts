@@ -1,10 +1,12 @@
 import prisma from 'database'
-import { Book } from 'src/models/book'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
 import { bookIncludes } from '../utils'
+import { FullBook } from 'src/models/full-book'
 
-export type Feature = Awaited<ReturnType<typeof fetchFeatures['call']>>[number]
+export type Feature = Awaited<
+  ReturnType<(typeof fetchFeatures)['call']>
+>[number]
 
 export const fetchFeatures = new Service(z.undefined(), async () => {
   const raw = await prisma.feature.findMany({
@@ -17,5 +19,5 @@ export const fetchFeatures = new Service(z.undefined(), async () => {
     }
   })
 
-  return raw.map((f) => ({ ...f, book: new Book(f.book) }))
+  return raw.map((f) => ({ ...f, book: new FullBook(f.book) }))
 })
