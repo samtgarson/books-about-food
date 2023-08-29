@@ -17,14 +17,7 @@ apiRouter.get('/tags', async (ctx) => {
 })
 
 apiRouter.get('/link-sites', async (ctx) => {
-  const sites = await prisma.link.findMany({
-    select: { site: true },
-    distinct: ['site']
-  })
-  const defaultLinkSites = websites
   ctx.body = {
-    data: Array.from(
-      new Set([...defaultLinkSites, ...sites.map((s) => s.site), 'Other'])
-    )
+    data: [...websites, 'Other']
   }
 })
