@@ -28,8 +28,12 @@ export const ClaimProfileButton: FC<ClaimProfileButtonProps> = ({
   useParamSheet('claim', 'claimProfile', { profile })
   const currentUser = useCurrentUser()
 
-  if (profile.userId === currentUser?.id || currentUser?.role === 'admin')
+  if (
+    (profile.userId && profile.userId === currentUser?.id) ||
+    currentUser?.role === 'admin'
+  ) {
     return <EditProfileButton className={className} />
+  }
   return (
     <Button
       className={cn(

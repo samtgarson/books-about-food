@@ -187,7 +187,7 @@ export const Buttons: FC = () => {
     <>
       <button
         className={cn(
-          'w-1/4 inset-y-0 left-0 absolute bg-transparent [@media(any-hover:none)]:hidden',
+          'w-1/6 inset-y-0 left-0 absolute bg-transparent [@media(any-hover:none)]:hidden',
           prevDisabled && 'pointer-events-none'
         )}
         onClick={() => scrollTo(currentIndex - 1)}
@@ -196,7 +196,7 @@ export const Buttons: FC = () => {
       ></button>
       <button
         className={cn(
-          'w-1/4 inset-y-0 right-0 absolute bg-transparent [@media(any-hover:none)]:hidden',
+          'w-1/6 inset-y-0 right-0 absolute bg-transparent [@media(any-hover:none)]:hidden',
           nextDisabled && 'pointer-events-none'
         )}
         onClick={() => scrollTo(currentIndex + 1)}

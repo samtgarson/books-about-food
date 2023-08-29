@@ -22,8 +22,7 @@ export function BookFilters({ filters = {} }: BookFiltersProps) {
       <Sort<NonNullable<Filters['sort']>>
         sorts={{
           releaseDate: 'Release Date',
-          createdAt: 'Recently Added',
-          title: 'Title'
+          createdAt: 'Recently Added'
         }}
         defaultValue="releaseDate"
         value={filters.sort ?? 'releaseDate'}

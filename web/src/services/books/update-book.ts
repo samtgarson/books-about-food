@@ -17,7 +17,6 @@ export const updateBook = new Service(
     previewImageIds: array(z.string()).optional(),
     publisherId: z.string().optional(),
     releaseDate: z.coerce.date().optional(),
-    draftCover: z.coerce.boolean().optional(),
     pages: z.coerce
       .number()
       .optional()
@@ -29,7 +28,7 @@ export const updateBook = new Service(
 
     // TODO Move this to where clause in Prisma 5
     const book = await fetchBook.call({ slug }, user)
-    if (book.submitterId !== user.id) {
+    if (book.submitterId !== user.id && user.role !== 'admin') {
       throw new Error('You do not have permission to edit this book')
     }
 
@@ -48,6 +47,7 @@ export const updateBook = new Service(
       where: { slug },
       data: {
         ...attrs,
+        title,
         slug: title ? slugify(title) : undefined,
         authors: authors
           ? { set: authors.map(({ id }) => ({ id })) }

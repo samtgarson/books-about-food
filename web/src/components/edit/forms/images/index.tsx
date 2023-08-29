@@ -27,11 +27,6 @@ export const UploadForm = async ({ book }: { book: FullBook }) => {
           name="noCover"
           label="This book doesn't have a cover design yet"
         />
-        <Checkbox
-          name="draftCover"
-          label="Mark this book's cover as draft"
-          defaultChecked={book.draftCover}
-        />
       </div>
       <ImageUpload
         label="Spreads"

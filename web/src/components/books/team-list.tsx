@@ -1,0 +1,46 @@
+'use client'
+
+import { FC } from 'react'
+import { Profile } from 'src/models/profile'
+import { GridContainer } from '../lists/grid-container'
+import cn from 'classnames'
+import { ProfileList } from '../atoms/profile-list'
+import { ProfileItem } from '../profiles/item'
+import { Contribution } from 'src/models/contribution'
+
+export type TeamListProps = {
+  contributions: Contribution[]
+  className?: string
+}
+
+export const TeamList: FC<TeamListProps> = ({ contributions, className }) => {
+  const profileMap = contributions.reduce<Map<Profile, Contribution[]>>(
+    (map, contribution) => {
+      const contributions = map.get(contribution.profile) || []
+      contributions.push(contribution)
+      map.set(contribution.profile, contributions)
+      return map
+    },
+    new Map()
+  )
+  console.log(profileMap)
+  const profiles = Array.from(profileMap.keys())
+
+  return (
+    <ProfileList profiles={profiles} title="Team" className={className}>
+      <GridContainer className={cn('-mt-px sm:mt-0')}>
+        {profiles.map((profile) => (
+          <ProfileItem
+            key={profile.id}
+            profile={profile}
+            display="list"
+            meta={profileMap
+              .get(profile)
+              ?.map((c) => c.jobName)
+              .join(' • ')}
+          />
+        ))}
+      </GridContainer>
+    </ProfileList>
+  )
+}

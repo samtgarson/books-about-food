@@ -21,7 +21,7 @@ export type FetchBooksOutput = Awaited<ReturnType<(typeof fetchBooks)['call']>>
 export const fetchBooks = new Service(
   z
     .object({
-      sort: z.enum(['title', 'releaseDate', 'createdAt']).optional(),
+      sort: z.enum(['releaseDate', 'createdAt']).optional(),
       tags: array(z.string()).optional(),
       search: z.string().optional(),
       profile: z.string().optional(),
@@ -88,7 +88,7 @@ export const fetchBooks = new Service(
       prisma.book.findMany({
         take: perPage === 0 ? undefined : perPage,
         skip: perPage * page,
-        orderBy: { [sort]: sort === 'title' ? 'asc' : 'desc' },
+        orderBy: { [sort]: 'desc' },
         include: bookIncludes,
         where,
         distinct: ['id'],

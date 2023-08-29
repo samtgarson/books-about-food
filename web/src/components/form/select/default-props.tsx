@@ -62,7 +62,8 @@ export const selectProps = <
           state.isFocused && 'bg-grey/50'
         ),
     placeholder: () => 'text-black/20',
-    multiValue: () => cn('bg-grey mr-2', pillClasses)
+    multiValue: () => cn('bg-grey mr-2', pillClasses),
+    valueContainer: () => 'gap-y-2'
   },
   components: {
     DropdownIndicator: (props) => (

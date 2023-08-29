@@ -27,10 +27,10 @@ export const BookList = async ({
       filteredTotal={filteredTotal}
     >
       <GridContainer className={'sm:gap-y-16'}>
+        {showCreate && <NewBookButton />}
         {books.map((book) => (
           <Item key={book.id} book={book} />
         ))}
-        {showCreate && <NewBookButton />}
       </GridContainer>
       {books.length === 0 && showEmpty && <p>No books found</p>}
     </Pagination>

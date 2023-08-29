@@ -11,6 +11,7 @@ import { fetchBooks } from 'src/services/books/fetch-books'
 import cn from 'classnames'
 import { CorrectionButton } from 'src/components/books/correction-button'
 import { BookOverflow } from 'src/components/books/book-overflow'
+import { TeamList } from 'src/components/books/team-list'
 
 export * from 'app/default-static-config'
 
@@ -30,7 +31,7 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
     <div className="lg:pr-[50vw] relative flex-grow">
       <Container className="pt-6 sm:pt-20" key="header" belowNav>
         <div className="font-style-title flex items-center mb-6 sm:mb-4">
-          <h1 contentEditable>{book.title}</h1>
+          <h1>{book.title}</h1>
           <BookOverflow book={book} className="ml-auto" />
         </div>
         {book.subtitle && <Detail className="md:mb-8">{book.subtitle}</Detail>}
@@ -61,10 +62,9 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
             className="pt-4 md:pt-0 mb-4 sm:mb-0 border-t border-black sm:border-t-0"
           >
             {book.team.length > 0 && (
-              <ProfileListSection
+              <TeamList
                 data-superjson
-                profiles={book.team}
-                title="Team"
+                contributions={book.contributions}
                 className="mb-8"
               />
             )}

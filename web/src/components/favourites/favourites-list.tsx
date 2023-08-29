@@ -18,5 +18,11 @@ export const FavouritesList = async ({ user }: FavouritesListProps) => {
       </p>
     )
 
-  return <ProfileListSection title="Favourites" profiles={favourites} />
+  return (
+    <ProfileListSection
+      title="Favourites"
+      profiles={favourites}
+      data-superjson
+    />
+  )
 }

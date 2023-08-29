@@ -24,7 +24,7 @@ type Button = <C extends 'a' | 'button'>(
 const variants = {
   primary: 'bg-white',
   secondary: 'bg-grey',
-  tertiary: 'bg-transparent',
+  tertiary: 'bg-khaki',
   dark: 'bg-black text-white',
   outline: 'bg-white border border-black'
 } as const

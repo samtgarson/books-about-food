@@ -50,7 +50,7 @@ export const Box = ({
     className={cn(
       className,
       'sm:aspect-square border-black sm:mb-6 relative flex items-center justify-center sm:w-full',
-      mobileGrid ? 'aspect-square mb-6 w-full' : 'w-24',
+      mobileGrid ? 'aspect-square w-full' : 'w-24',
       skeleton && 'border-khaki',
       bordered && (mobileGrid ? 'border' : 'sm:border')
     )}
@@ -124,8 +124,12 @@ export const Item = forwardRef<
     <Container mobileGrid={mobileGrid} book={book} {...rest} ref={ref}>
       <Cover book={book} mobileGrid={mobileGrid} centered={centered} />
       <Footer mobileGrid={mobileGrid} centered={centered}>
-        <p className="font-medium text-16 mb-1">{book.title}</p>
-        <p className="text-14">{book.authorNames}</p>
+        <p className="font-medium text-16 mb-1 whitespace-nowrap overflow-hidden overflow-ellipsis">
+          {book.title}
+        </p>
+        <p className="text-14 whitespace-nowrap overflow-hidden overflow-ellipsis">
+          {book.authorNames}
+        </p>
       </Footer>
     </Container>
   )

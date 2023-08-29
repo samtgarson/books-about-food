@@ -15,7 +15,7 @@ export default async function Page({
   const currentUser = await getUser.call()
 
   if (!book) notFound()
-  if (currentUser?.id !== book.submitterId || currentUser?.role !== 'admin')
+  if (currentUser?.id !== book.submitterId && currentUser?.role !== 'admin')
     notFound()
 
   return (

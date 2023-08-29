@@ -18,7 +18,6 @@ export class Book {
   authors: Profile[]
   status: BookStatus
   submitterId?: string
-  draftCover: boolean
 
   constructor(attrs: BookAttrs) {
     this.id = attrs.id
@@ -36,7 +35,6 @@ export class Book {
     this.status = attrs.status
     this.submitterId = attrs.submitterId ?? undefined
     this.authors = attrs.authors?.map((author) => new Profile(author)) ?? []
-    this.draftCover = attrs.draftCover
   }
 
   get href() {

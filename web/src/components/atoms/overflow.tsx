@@ -29,11 +29,11 @@ export const Root = ({ children, ...props }: RootProps) => (
 export type ItemVariant = 'default' | 'danger'
 
 const containerClasses =
-  'bg-white p-4 flex flex-col animate-scale-in origin-[var(--radix-dropdown-menu-content-transform-origin)]'
+  'bg-white flex flex-col animate-scale-in origin-[var(--radix-dropdown-menu-content-transform-origin)]'
 
 const itemClasses = (variant: ItemVariant) =>
   cn('px-4 py-3 flex gap-4 outline-none transition-colors cursor-pointer', {
-    'data-[highlighted]:bg-grey': variant === 'default',
+    'data-[highlighted]:bg-grey/20': variant === 'default',
     'text-warning data-[highlighted]:bg-warning/10': variant === 'danger'
   })
 
@@ -55,18 +55,14 @@ export const AdminArea: FC<{ children: ReactNode }> = ({ children }) => {
   if (currentUser?.role !== 'admin') return null
   return (
     <DropdownMenu.Sub>
-      <hr className="my-4 px-8 -mx-4 border-grey border-2" />
+      <hr className="px-8 -mx-4 border-grey border-2" />
       <DropdownMenu.SubTrigger className={itemClasses('default')}>
         <Lock strokeWidth={1} />
         Admin Tools
         <ChevronRight strokeWidth={1} />
       </DropdownMenu.SubTrigger>
       <DropdownMenu.Portal>
-        <DropdownMenu.SubContent
-          alignOffset={-16}
-          sideOffset={20}
-          className={containerClasses}
-        >
+        <DropdownMenu.SubContent sideOffset={6} className={containerClasses}>
           {children}
         </DropdownMenu.SubContent>
       </DropdownMenu.Portal>

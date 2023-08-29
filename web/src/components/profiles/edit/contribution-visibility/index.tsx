@@ -35,7 +35,7 @@ export const ContributionVisibility: FC<ContributionVisibilityProps> = ({
 
   if (hidden && !editMode) return null
   return (
-    <Container>
+    <Container book={book}>
       <Cover
         book={book}
         className={cn(

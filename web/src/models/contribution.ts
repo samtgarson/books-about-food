@@ -20,7 +20,8 @@ export class Contribution {
   }
 
   get jobName() {
-    return this.job.name
+    if (!this.assistant) return this.job.name
+    return `${this.job.name} (Assistant)`
   }
 
   get assistant() {

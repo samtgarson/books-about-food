@@ -6,7 +6,7 @@ import cn from 'classnames'
 
 export type MessagesProps = {
   label: string
-} & Pick<InputHTMLAttributes<any>, 'minLength' | 'maxLength'> // eslint-disable-line @typescript-eslint/no-explicit-any
+} & Pick<InputHTMLAttributes<any>, 'minLength' | 'maxLength' | 'type'> // eslint-disable-line @typescript-eslint/no-explicit-any
 
 export const FormMessage = ({
   className,
@@ -24,6 +24,9 @@ export function Messages({ label, ...props }: MessagesProps) {
       </FormMessage>
       <FormMessage match="tooLong">
         {label} must be at most {props.maxLength} characters
+      </FormMessage>
+      <FormMessage match="typeMismatch">
+        {label} must be a valid {props.type}
       </FormMessage>
     </>
   )
