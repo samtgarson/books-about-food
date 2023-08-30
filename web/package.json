@@ -46,6 +46,7 @@
     "zod": "^3.22.2"
   },
   "devDependencies": {
+    "@cloudflare/next-on-pages": "^1.6.0",
     "@types/color": "^3.0.3",
     "@types/node": "^20.5.4",
     "@types/randomcolor": "^0.5.7",
