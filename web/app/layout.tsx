@@ -6,6 +6,8 @@ import 'src/style/globals.css' // eslint-disable-line import/extensions
 import { GlobalSheetProvider } from 'src/components/sheets/global-sheet'
 import { Mouse } from 'src/components/atoms/mouse'
 
+export const runtime = 'edge'
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={fontClassname}>
