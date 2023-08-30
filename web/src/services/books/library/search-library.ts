@@ -1,12 +1,6 @@
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
-import { books } from '@googleapis/books'
-import { getEnv } from 'shared/utils/get-env'
-
-const client = books({
-  version: 'v1',
-  auth: getEnv('GOOGLE_BOOKS_API_KEY')
-})
+import { GoogleBooksGateway } from 'src/gateways/google-books'
 
 export type BookLibrarySearchResult = {
   id: string
@@ -15,18 +9,17 @@ export type BookLibrarySearchResult = {
   image?: string
 }
 
+const client = new GoogleBooksGateway()
+
 export const searchLibrary = new Service(
   z.object({ query: z.string() }),
   async ({ query } = {}): Promise<BookLibrarySearchResult[]> => {
     if (!query.length) return []
 
-    const result = await client.volumes.list({
-      q: `intitle:"${query}" subject:Cooking`,
-      fields: 'items(id,volumeInfo(title,authors,imageLinks/smallThumbnail))'
-    })
+    const result = await client.search(`intitle:"${query}" subject:Cooking`)
 
-    if (!result.data.items) return []
-    return result.data.items.flatMap((item) => {
+    if (!result) return []
+    return result.flatMap((item) => {
       if (!item.id || !item.volumeInfo?.title) return []
 
       return {

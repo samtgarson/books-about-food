@@ -2,10 +2,7 @@ import { Service } from 'src/utils/service'
 import { z } from 'zod'
 import { GoogleBookResult, GoogleBooksGateway } from 'src/gateways/google-books'
 
-const client = books({
-  version: 'v1',
-  auth: getEnv('GOOGLE_BOOKS_API_KEY')
-})
+const client = new GoogleBooksGateway()
 
 export type BookLibrarySearchResult = {
   id: string
@@ -17,19 +14,19 @@ export type BookLibrarySearchResult = {
 export const fetchLibraryBook = new Service(
   z.object({ id: z.string() }),
   async ({ id } = {}) => {
-    const result = await client.volumes.get({ volumeId: id })
-    if (!result.data.id || !result.data.volumeInfo?.title) return
+    const result = await client.fetch(id)
+    if (!result?.id || !result.volumeInfo?.title) return
 
-    const date = result.data.volumeInfo.publishedDate
+    const date = result.volumeInfo.publishedDate
     return {
-      id: result.data.id,
-      title: result.data.volumeInfo.title,
-      subtitle: result.data.volumeInfo.subtitle,
-      authors: result.data.volumeInfo.authors ?? [],
-      cover: extractImage(result.data.volumeInfo),
-      publisher: result.data.volumeInfo.publisher,
+      id: result.id,
+      title: result.volumeInfo.title,
+      subtitle: result.volumeInfo.subtitle,
+      authors: result.volumeInfo.authors ?? [],
+      cover: extractImage(result.volumeInfo),
+      publisher: result.volumeInfo.publisher,
       releaseDate: date ? new Date(date) : undefined,
-      pages: result.data.volumeInfo.pageCount
+      pages: result.volumeInfo.pageCount
     }
   }
 )
