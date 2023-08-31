@@ -3,7 +3,17 @@
 set -e
 
 function dump () {
-  local tmpfile=$(mktemp -t baf-backup.XXXXXX.sql)
+  local prod_dump=$(mktemp -t baf-dump.XXXXXX.sql)
+  local saved_content=$(mktemp -t baf-saved.XXXXXX.sql)
+
+  pg_dump \
+    --inserts \
+    -t accounts \
+    -t users \
+    -t claims \
+    --data-only \
+    $DATABASE_URL > $saved_content
+
   pg_dump \
     --inserts \
     -t jobs \
@@ -20,9 +30,14 @@ function dump () {
     -t _authored_books \
     -t featured_profiles \
     --data-only \
-    $PROD_DATABASE_URL > $tmpfile \
-    && psql -d $DATABASE_URL -f $tmpfile || true
-  rm $tmpfile
+    $PROD_DATABASE_URL > $prod_dump
+
+  npx -w packages/database prisma migrate reset
+
+  psql -d $DATABASE_URL -f $prod_dump || true
+  psql -d $DATABASE_URL -f $saved_content || true
+  rm $prod_dump
+  rm $saved_content
 }
 
 db_dir=${0:a:h}

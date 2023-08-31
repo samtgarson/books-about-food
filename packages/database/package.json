@@ -8,8 +8,7 @@
     "db:build": "npx prisma generate --accelerate && npx prisma migrate deploy"
   },
   "prisma": {
-    "schema": "prisma/schema.prisma",
-    "seed": "./dump"
+    "schema": "prisma/schema.prisma"
   },
   "devDependencies": {
     "prisma": "^5.2.0"

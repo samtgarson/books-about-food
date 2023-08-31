@@ -10,7 +10,6 @@
   "dependencies": {
     "@googleapis/books": "^1.0.3",
     "@next-auth/prisma-adapter": "^1.0.7",
-    "@next/font": "^13.4.19",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-collapsible": "^1.0.3",
     "@radix-ui/react-dialog": "^1.0.4",
