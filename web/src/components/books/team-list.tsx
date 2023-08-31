@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useMemo } from 'react'
 import { Profile } from 'src/models/profile'
 import { GridContainer } from '../lists/grid-container'
 import cn from 'classnames'
@@ -12,15 +12,22 @@ export type TeamListProps = {
 }
 
 export const TeamList: FC<TeamListProps> = ({ contributions, className }) => {
-  const profileMap = contributions.reduce<Map<Profile, Contribution[]>>(
-    (map, contribution) => {
-      const contributions = map.get(contribution.profile) || []
-      map.set(contribution.profile, [...contributions, contribution])
-      return map
-    },
-    new Map()
-  )
-  const profiles = Array.from(profileMap.keys())
+  const [profiles, profileMap] = useMemo(() => {
+    const profiles: Profile[] = []
+    const profileMap = contributions.reduce<Map<string, string[]>>(
+      (map, { profile, jobName }) => {
+        if (!profiles.find((p) => p.id === profile.id)) {
+          profiles.push(profile)
+        }
+
+        const jobs = map.get(profile.id) || []
+        map.set(profile.id, [...jobs, jobName])
+        return map
+      },
+      new Map()
+    )
+    return [profiles, profileMap]
+  }, [contributions])
 
   return (
     <ProfileList
@@ -35,10 +42,7 @@ export const TeamList: FC<TeamListProps> = ({ contributions, className }) => {
             key={profile.id}
             profile={profile}
             display="list"
-            meta={profileMap
-              .get(profile)
-              ?.map((c) => c.jobName)
-              .join(' • ')}
+            meta={profileMap.get(profile.id)?.join(' • ')}
           />
         ))}
       </GridContainer>

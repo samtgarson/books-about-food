@@ -13,7 +13,6 @@ export const bookIncludes = {
   links: { orderBy: { site: 'asc' } },
   authors: { include: profileIncludes },
   contributions: {
-    distinct: ['profileId'],
     where: { NOT: { job: { name: { startsWith: 'Author' } } } },
     include: {
       profile: { include: profileIncludes },
