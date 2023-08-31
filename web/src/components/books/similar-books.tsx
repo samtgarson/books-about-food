@@ -21,6 +21,7 @@ export const SimilarBooks = async ({ slug, className }: SimilarBooksProps) => {
         items={books}
         size="lg"
         data-superjson
+        carouselClassName="pr-px"
       />
     </AntiContainer>
   )

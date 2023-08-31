@@ -15,6 +15,7 @@ export type ItemCarouselProps = {
   readMoreLink?: string
   className?: string
   centered?: boolean
+  carouselClassName?: string
 } & Partial<
   Omit<Carousel.CarouselRootProps, 'totalItems' | 'alignment' | 'children'>
 >
@@ -32,6 +33,7 @@ export const ItemCarousel: FC<ItemCarouselProps> = ({
   readMoreLink,
   className,
   centered,
+  carouselClassName,
   ...props
 }) => {
   const width = itemCarouselWidths[size]
@@ -41,14 +43,14 @@ export const ItemCarousel: FC<ItemCarouselProps> = ({
     <div className={className}>
       {title && (
         <Container>
-          <h3 className="all-caps mb-8">{title}</h3>
+          <h3 className="mb-8">{title}</h3>
         </Container>
       )}
       <Carousel.Root
         {...props}
         totalItems={total}
         alignment={centered ? 'center' : 'left'}
-        className="overflow-x-hidden"
+        className={cn('overflow-x-hidden', carouselClassName)}
       >
         <Carousel.Scroller
           padded
