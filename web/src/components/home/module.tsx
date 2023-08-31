@@ -22,7 +22,7 @@ export const HomepageModule: FC<HomepageModuleProps> = ({
       className
     )}
   >
-    <h2 className="text-24 lg:text-32 xl:text-48 pb-0 flex justify-between items-center">
+    <h2 className="text-24 lg:text-32 xl:text-48 pb-8 sm:pb-0 flex justify-between items-center">
       <span>{title}</span>
       <Link href={action.href} className="hidden lg:block">
         <Button variant="outline">{action.label}</Button>

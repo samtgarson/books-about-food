@@ -6,6 +6,7 @@ import * as Carousel from 'src/components/atoms/carousel'
 import { Item as BookItem } from './item'
 import { Container } from '../atoms/container'
 import Link from 'next/link'
+import cn from 'classnames'
 
 export type ItemCarouselProps = {
   items: Book[]
@@ -55,12 +56,16 @@ export const ItemCarousel: FC<ItemCarouselProps> = ({
           className="-mr-px"
         >
           {items.map((item, index) => (
-            <Carousel.Item key={item.id} index={index}>
+            <Carousel.Item
+              key={item.id}
+              index={index}
+              className={cn(centered && '-mx-[12%] sm:-mx-[5%]')}
+            >
               <BookItem
                 mobileGrid
                 book={item}
                 style={{ width }}
-                className="self-start max-w-[90vw]"
+                className={cn('self-start max-w-[90vw]')}
                 centered={centered}
               />
             </Carousel.Item>
@@ -69,7 +74,7 @@ export const ItemCarousel: FC<ItemCarouselProps> = ({
             <Carousel.Item index={items.length}>
               <li
                 style={{ width: width + 1 }}
-                className="max-w-[90vw] self-start"
+                className="max-w-[90vw] self-start mr-px"
               >
                 <Link
                   className="flex flex-col items-center justify-center aspect-square bg-white border border-black text-24"

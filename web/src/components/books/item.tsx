@@ -80,7 +80,7 @@ export const Cover = ({
       <Image
         {...book.cover.imageAttrs(200)}
         className={cn(
-          'sm:absolute h-24 sm:!h-[70%] sm:!top-[15%] sm:mx-auto sm:inset-x-0 !w-auto book-shadow',
+          'sm:absolute h-24 sm:h-[70%] sm:top-[15%] sm:mx-auto sm:inset-x-0 !w-auto book-shadow',
           mobileGrid && 'absolute h-[70%] top-[15%] mx-auto inset-x-0'
         )}
       />
