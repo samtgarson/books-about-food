@@ -21,7 +21,7 @@ export type Schema = {
       'book:slug': string;
       'book:status': 'draft' | 'inReview' | 'published';
       'book:submitter_id': string;
-      'book:draft_cover': boolean;
+      'book:google_books_id': string;
       'book:Cover': string;
       'book:Preview Images': Array<string>;
       'book:Tags': Array<string>;
@@ -49,7 +49,7 @@ export type Schema = {
       'book:image:preview_for:slug': string;
       'book:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:image:preview_for:submitter_id': string;
-      'book:image:preview_for:draft_cover': boolean;
+      'book:image:preview_for:google_books_id': string;
       'book:image:preview_for:Cover': string;
       'book:image:preview_for:Preview Images': Array<string>;
       'book:image:preview_for:Tags': Array<string>;
@@ -77,7 +77,7 @@ export type Schema = {
       'book:image:preview_for:image:preview_for:slug': string;
       'book:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:image:preview_for:image:preview_for:submitter_id': string;
-      'book:image:preview_for:image:preview_for:draft_cover': boolean;
+      'book:image:preview_for:image:preview_for:google_books_id': string;
       'book:image:preview_for:image:preview_for:Cover': string;
       'book:image:preview_for:image:preview_for:Preview Images': Array<string>;
       'book:image:preview_for:image:preview_for:Tags': Array<string>;
@@ -105,6 +105,7 @@ export type Schema = {
       'book:image:preview_for:image:profile:description': string;
       'book:image:preview_for:image:profile:most_recently_published_on': string;
       'book:image:preview_for:image:profile:job_title': string;
+      'book:image:preview_for:image:profile:hidden_collaborators': Array<string>;
       'book:image:preview_for:image:profile:Avatar': string;
       'book:image:preview_for:image:profile:Authored Books': Array<{Title: string}>;
       'book:image:preview_for:publisher:id': string;
@@ -138,7 +139,7 @@ export type Schema = {
       'book:image:preview_for:publisher:user:created_at': string;
       'book:image:preview_for:publisher:user:updated_at': string;
       'book:image:preview_for:publisher:user:publisher_id': string;
-      'book:image:preview_for:publisher:user:role': 'user' | 'admin';
+      'book:image:preview_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'book:image:preview_for:submitter:id': string;
       'book:image:preview_for:submitter:name': string;
       'book:image:preview_for:submitter:email': string;
@@ -147,7 +148,7 @@ export type Schema = {
       'book:image:preview_for:submitter:created_at': string;
       'book:image:preview_for:submitter:updated_at': string;
       'book:image:preview_for:submitter:publisher_id': string;
-      'book:image:preview_for:submitter:role': 'user' | 'admin';
+      'book:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'book:image:preview_for:submitter:publisher:id': string;
       'book:image:preview_for:submitter:publisher:created_at': string;
       'book:image:preview_for:submitter:publisher:updated_at': string;
@@ -171,6 +172,7 @@ export type Schema = {
       'book:image:preview_for:submitter:profile:description': string;
       'book:image:preview_for:submitter:profile:most_recently_published_on': string;
       'book:image:preview_for:submitter:profile:job_title': string;
+      'book:image:preview_for:submitter:profile:hidden_collaborators': Array<string>;
       'book:image:preview_for:submitter:profile:Avatar': string;
       'book:image:preview_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'book:image:publisher:id': string;
@@ -192,7 +194,7 @@ export type Schema = {
       'book:image:publisher:user:created_at': string;
       'book:image:publisher:user:updated_at': string;
       'book:image:publisher:user:publisher_id': string;
-      'book:image:publisher:user:role': 'user' | 'admin';
+      'book:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'book:image:publisher:user:profile:id': string;
       'book:image:publisher:user:profile:created_at': string;
       'book:image:publisher:user:profile:updated_at': string;
@@ -205,6 +207,7 @@ export type Schema = {
       'book:image:publisher:user:profile:description': string;
       'book:image:publisher:user:profile:most_recently_published_on': string;
       'book:image:publisher:user:profile:job_title': string;
+      'book:image:publisher:user:profile:hidden_collaborators': Array<string>;
       'book:image:publisher:user:profile:Avatar': string;
       'book:image:publisher:user:profile:Authored Books': Array<{Title: string}>;
       'book:image:profile:id': string;
@@ -219,6 +222,7 @@ export type Schema = {
       'book:image:profile:description': string;
       'book:image:profile:most_recently_published_on': string;
       'book:image:profile:job_title': string;
+      'book:image:profile:hidden_collaborators': Array<string>;
       'book:image:profile:Avatar': string;
       'book:image:profile:Authored Books': Array<{Title: string}>;
       'book:image:profile:user:id': string;
@@ -229,7 +233,7 @@ export type Schema = {
       'book:image:profile:user:created_at': string;
       'book:image:profile:user:updated_at': string;
       'book:image:profile:user:publisher_id': string;
-      'book:image:profile:user:role': 'user' | 'admin';
+      'book:image:profile:user:role': 'user' | 'admin' | 'waitlist';
       'book:image:profile:user:publisher:id': string;
       'book:image:profile:user:publisher:created_at': string;
       'book:image:profile:user:publisher:updated_at': string;
@@ -275,7 +279,7 @@ export type Schema = {
       'book:publisher:image:cover_for:slug': string;
       'book:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:image:cover_for:submitter_id': string;
-      'book:publisher:image:cover_for:draft_cover': boolean;
+      'book:publisher:image:cover_for:google_books_id': string;
       'book:publisher:image:cover_for:Cover': string;
       'book:publisher:image:cover_for:Preview Images': Array<string>;
       'book:publisher:image:cover_for:Tags': Array<string>;
@@ -299,7 +303,7 @@ export type Schema = {
       'book:publisher:image:cover_for:submitter:created_at': string;
       'book:publisher:image:cover_for:submitter:updated_at': string;
       'book:publisher:image:cover_for:submitter:publisher_id': string;
-      'book:publisher:image:cover_for:submitter:role': 'user' | 'admin';
+      'book:publisher:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'book:publisher:image:preview_for:id': string;
       'book:publisher:image:preview_for:created_at': string;
       'book:publisher:image:preview_for:updated_at': string;
@@ -311,7 +315,7 @@ export type Schema = {
       'book:publisher:image:preview_for:slug': string;
       'book:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:image:preview_for:submitter_id': string;
-      'book:publisher:image:preview_for:draft_cover': boolean;
+      'book:publisher:image:preview_for:google_books_id': string;
       'book:publisher:image:preview_for:Cover': string;
       'book:publisher:image:preview_for:Preview Images': Array<string>;
       'book:publisher:image:preview_for:Tags': Array<string>;
@@ -347,7 +351,7 @@ export type Schema = {
       'book:publisher:image:preview_for:submitter:created_at': string;
       'book:publisher:image:preview_for:submitter:updated_at': string;
       'book:publisher:image:preview_for:submitter:publisher_id': string;
-      'book:publisher:image:preview_for:submitter:role': 'user' | 'admin';
+      'book:publisher:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'book:publisher:image:profile:id': string;
       'book:publisher:image:profile:created_at': string;
       'book:publisher:image:profile:updated_at': string;
@@ -360,6 +364,7 @@ export type Schema = {
       'book:publisher:image:profile:description': string;
       'book:publisher:image:profile:most_recently_published_on': string;
       'book:publisher:image:profile:job_title': string;
+      'book:publisher:image:profile:hidden_collaborators': Array<string>;
       'book:publisher:image:profile:Avatar': string;
       'book:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'book:publisher:image:profile:user:id': string;
@@ -370,7 +375,7 @@ export type Schema = {
       'book:publisher:image:profile:user:created_at': string;
       'book:publisher:image:profile:user:updated_at': string;
       'book:publisher:image:profile:user:publisher_id': string;
-      'book:publisher:image:profile:user:role': 'user' | 'admin';
+      'book:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
       'book:publisher:user:id': string;
       'book:publisher:user:name': string;
       'book:publisher:user:email': string;
@@ -379,7 +384,7 @@ export type Schema = {
       'book:publisher:user:created_at': string;
       'book:publisher:user:updated_at': string;
       'book:publisher:user:publisher_id': string;
-      'book:publisher:user:role': 'user' | 'admin';
+      'book:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'book:publisher:user:profile:id': string;
       'book:publisher:user:profile:created_at': string;
       'book:publisher:user:profile:updated_at': string;
@@ -392,6 +397,7 @@ export type Schema = {
       'book:publisher:user:profile:description': string;
       'book:publisher:user:profile:most_recently_published_on': string;
       'book:publisher:user:profile:job_title': string;
+      'book:publisher:user:profile:hidden_collaborators': Array<string>;
       'book:publisher:user:profile:Avatar': string;
       'book:publisher:user:profile:Authored Books': Array<{Title: string}>;
       'book:publisher:user:profile:image:id': string;
@@ -414,7 +420,7 @@ export type Schema = {
       'book:submitter:created_at': string;
       'book:submitter:updated_at': string;
       'book:submitter:publisher_id': string;
-      'book:submitter:role': 'user' | 'admin';
+      'book:submitter:role': 'user' | 'admin' | 'waitlist';
       'book:submitter:publisher:id': string;
       'book:submitter:publisher:created_at': string;
       'book:submitter:publisher:updated_at': string;
@@ -449,7 +455,7 @@ export type Schema = {
       'book:submitter:publisher:image:cover_for:slug': string;
       'book:submitter:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:publisher:image:cover_for:submitter_id': string;
-      'book:submitter:publisher:image:cover_for:draft_cover': boolean;
+      'book:submitter:publisher:image:cover_for:google_books_id': string;
       'book:submitter:publisher:image:cover_for:Cover': string;
       'book:submitter:publisher:image:cover_for:Preview Images': Array<string>;
       'book:submitter:publisher:image:cover_for:Tags': Array<string>;
@@ -465,7 +471,7 @@ export type Schema = {
       'book:submitter:publisher:image:preview_for:slug': string;
       'book:submitter:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:publisher:image:preview_for:submitter_id': string;
-      'book:submitter:publisher:image:preview_for:draft_cover': boolean;
+      'book:submitter:publisher:image:preview_for:google_books_id': string;
       'book:submitter:publisher:image:preview_for:Cover': string;
       'book:submitter:publisher:image:preview_for:Preview Images': Array<string>;
       'book:submitter:publisher:image:preview_for:Tags': Array<string>;
@@ -482,6 +488,7 @@ export type Schema = {
       'book:submitter:publisher:image:profile:description': string;
       'book:submitter:publisher:image:profile:most_recently_published_on': string;
       'book:submitter:publisher:image:profile:job_title': string;
+      'book:submitter:publisher:image:profile:hidden_collaborators': Array<string>;
       'book:submitter:publisher:image:profile:Avatar': string;
       'book:submitter:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'book:submitter:profile:id': string;
@@ -496,6 +503,7 @@ export type Schema = {
       'book:submitter:profile:description': string;
       'book:submitter:profile:most_recently_published_on': string;
       'book:submitter:profile:job_title': string;
+      'book:submitter:profile:hidden_collaborators': Array<string>;
       'book:submitter:profile:Avatar': string;
       'book:submitter:profile:Authored Books': Array<{Title: string}>;
       'book:submitter:profile:image:id': string;
@@ -521,7 +529,7 @@ export type Schema = {
       'book:submitter:profile:image:cover_for:slug': string;
       'book:submitter:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:profile:image:cover_for:submitter_id': string;
-      'book:submitter:profile:image:cover_for:draft_cover': boolean;
+      'book:submitter:profile:image:cover_for:google_books_id': string;
       'book:submitter:profile:image:cover_for:Cover': string;
       'book:submitter:profile:image:cover_for:Preview Images': Array<string>;
       'book:submitter:profile:image:cover_for:Tags': Array<string>;
@@ -537,7 +545,7 @@ export type Schema = {
       'book:submitter:profile:image:preview_for:slug': string;
       'book:submitter:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:profile:image:preview_for:submitter_id': string;
-      'book:submitter:profile:image:preview_for:draft_cover': boolean;
+      'book:submitter:profile:image:preview_for:google_books_id': string;
       'book:submitter:profile:image:preview_for:Cover': string;
       'book:submitter:profile:image:preview_for:Preview Images': Array<string>;
       'book:submitter:profile:image:preview_for:Tags': Array<string>;
@@ -565,6 +573,7 @@ export type Schema = {
       'profile:description': string;
       'profile:most_recently_published_on': string;
       'profile:job_title': string;
+      'profile:hidden_collaborators': Array<string>;
       'profile:Avatar': string;
       'profile:Authored Books': Array<{Title: string}>;
       'profile:image:id': string;
@@ -590,7 +599,7 @@ export type Schema = {
       'profile:image:cover_for:slug': string;
       'profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:cover_for:submitter_id': string;
-      'profile:image:cover_for:draft_cover': boolean;
+      'profile:image:cover_for:google_books_id': string;
       'profile:image:cover_for:Cover': string;
       'profile:image:cover_for:Preview Images': Array<string>;
       'profile:image:cover_for:Tags': Array<string>;
@@ -626,7 +635,7 @@ export type Schema = {
       'profile:image:cover_for:publisher:user:created_at': string;
       'profile:image:cover_for:publisher:user:updated_at': string;
       'profile:image:cover_for:publisher:user:publisher_id': string;
-      'profile:image:cover_for:publisher:user:role': 'user' | 'admin';
+      'profile:image:cover_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'profile:image:cover_for:submitter:id': string;
       'profile:image:cover_for:submitter:name': string;
       'profile:image:cover_for:submitter:email': string;
@@ -635,7 +644,7 @@ export type Schema = {
       'profile:image:cover_for:submitter:created_at': string;
       'profile:image:cover_for:submitter:updated_at': string;
       'profile:image:cover_for:submitter:publisher_id': string;
-      'profile:image:cover_for:submitter:role': 'user' | 'admin';
+      'profile:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'profile:image:cover_for:submitter:publisher:id': string;
       'profile:image:cover_for:submitter:publisher:created_at': string;
       'profile:image:cover_for:submitter:publisher:updated_at': string;
@@ -659,6 +668,7 @@ export type Schema = {
       'profile:image:cover_for:submitter:profile:description': string;
       'profile:image:cover_for:submitter:profile:most_recently_published_on': string;
       'profile:image:cover_for:submitter:profile:job_title': string;
+      'profile:image:cover_for:submitter:profile:hidden_collaborators': Array<string>;
       'profile:image:cover_for:submitter:profile:Avatar': string;
       'profile:image:cover_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'profile:image:preview_for:id': string;
@@ -672,7 +682,7 @@ export type Schema = {
       'profile:image:preview_for:slug': string;
       'profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:preview_for:submitter_id': string;
-      'profile:image:preview_for:draft_cover': boolean;
+      'profile:image:preview_for:google_books_id': string;
       'profile:image:preview_for:Cover': string;
       'profile:image:preview_for:Preview Images': Array<string>;
       'profile:image:preview_for:Tags': Array<string>;
@@ -700,7 +710,7 @@ export type Schema = {
       'profile:image:preview_for:image:preview_for:slug': string;
       'profile:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:preview_for:image:preview_for:submitter_id': string;
-      'profile:image:preview_for:image:preview_for:draft_cover': boolean;
+      'profile:image:preview_for:image:preview_for:google_books_id': string;
       'profile:image:preview_for:image:preview_for:Cover': string;
       'profile:image:preview_for:image:preview_for:Preview Images': Array<string>;
       'profile:image:preview_for:image:preview_for:Tags': Array<string>;
@@ -747,7 +757,7 @@ export type Schema = {
       'profile:image:preview_for:publisher:user:created_at': string;
       'profile:image:preview_for:publisher:user:updated_at': string;
       'profile:image:preview_for:publisher:user:publisher_id': string;
-      'profile:image:preview_for:publisher:user:role': 'user' | 'admin';
+      'profile:image:preview_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'profile:image:preview_for:submitter:id': string;
       'profile:image:preview_for:submitter:name': string;
       'profile:image:preview_for:submitter:email': string;
@@ -756,7 +766,7 @@ export type Schema = {
       'profile:image:preview_for:submitter:created_at': string;
       'profile:image:preview_for:submitter:updated_at': string;
       'profile:image:preview_for:submitter:publisher_id': string;
-      'profile:image:preview_for:submitter:role': 'user' | 'admin';
+      'profile:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'profile:image:preview_for:submitter:publisher:id': string;
       'profile:image:preview_for:submitter:publisher:created_at': string;
       'profile:image:preview_for:submitter:publisher:updated_at': string;
@@ -780,6 +790,7 @@ export type Schema = {
       'profile:image:preview_for:submitter:profile:description': string;
       'profile:image:preview_for:submitter:profile:most_recently_published_on': string;
       'profile:image:preview_for:submitter:profile:job_title': string;
+      'profile:image:preview_for:submitter:profile:hidden_collaborators': Array<string>;
       'profile:image:preview_for:submitter:profile:Avatar': string;
       'profile:image:preview_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'profile:image:publisher:id': string;
@@ -801,7 +812,7 @@ export type Schema = {
       'profile:image:publisher:user:created_at': string;
       'profile:image:publisher:user:updated_at': string;
       'profile:image:publisher:user:publisher_id': string;
-      'profile:image:publisher:user:role': 'user' | 'admin';
+      'profile:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'profile:image:publisher:user:profile:id': string;
       'profile:image:publisher:user:profile:created_at': string;
       'profile:image:publisher:user:profile:updated_at': string;
@@ -814,6 +825,7 @@ export type Schema = {
       'profile:image:publisher:user:profile:description': string;
       'profile:image:publisher:user:profile:most_recently_published_on': string;
       'profile:image:publisher:user:profile:job_title': string;
+      'profile:image:publisher:user:profile:hidden_collaborators': Array<string>;
       'profile:image:publisher:user:profile:Avatar': string;
       'profile:image:publisher:user:profile:Authored Books': Array<{Title: string}>;
       'profile:user:id': string;
@@ -824,7 +836,7 @@ export type Schema = {
       'profile:user:created_at': string;
       'profile:user:updated_at': string;
       'profile:user:publisher_id': string;
-      'profile:user:role': 'user' | 'admin';
+      'profile:user:role': 'user' | 'admin' | 'waitlist';
       'profile:user:publisher:id': string;
       'profile:user:publisher:created_at': string;
       'profile:user:publisher:updated_at': string;
@@ -859,7 +871,7 @@ export type Schema = {
       'profile:user:publisher:image:cover_for:slug': string;
       'profile:user:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'profile:user:publisher:image:cover_for:submitter_id': string;
-      'profile:user:publisher:image:cover_for:draft_cover': boolean;
+      'profile:user:publisher:image:cover_for:google_books_id': string;
       'profile:user:publisher:image:cover_for:Cover': string;
       'profile:user:publisher:image:cover_for:Preview Images': Array<string>;
       'profile:user:publisher:image:cover_for:Tags': Array<string>;
@@ -875,7 +887,7 @@ export type Schema = {
       'profile:user:publisher:image:preview_for:slug': string;
       'profile:user:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:user:publisher:image:preview_for:submitter_id': string;
-      'profile:user:publisher:image:preview_for:draft_cover': boolean;
+      'profile:user:publisher:image:preview_for:google_books_id': string;
       'profile:user:publisher:image:preview_for:Cover': string;
       'profile:user:publisher:image:preview_for:Preview Images': Array<string>;
       'profile:user:publisher:image:preview_for:Tags': Array<string>;
@@ -892,6 +904,7 @@ export type Schema = {
       'profile:user:publisher:image:profile:description': string;
       'profile:user:publisher:image:profile:most_recently_published_on': string;
       'profile:user:publisher:image:profile:job_title': string;
+      'profile:user:publisher:image:profile:hidden_collaborators': Array<string>;
       'profile:user:publisher:image:profile:Avatar': string;
       'profile:user:publisher:image:profile:Authored Books': Array<{Title: string}>;
     };
@@ -917,7 +930,7 @@ export type Schema = {
       'book:slug': string;
       'book:status': 'draft' | 'inReview' | 'published';
       'book:submitter_id': string;
-      'book:draft_cover': boolean;
+      'book:google_books_id': string;
       'book:Cover': string;
       'book:Preview Images': Array<string>;
       'book:Tags': Array<string>;
@@ -945,7 +958,7 @@ export type Schema = {
       'book:image:preview_for:slug': string;
       'book:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:image:preview_for:submitter_id': string;
-      'book:image:preview_for:draft_cover': boolean;
+      'book:image:preview_for:google_books_id': string;
       'book:image:preview_for:Cover': string;
       'book:image:preview_for:Preview Images': Array<string>;
       'book:image:preview_for:Tags': Array<string>;
@@ -973,7 +986,7 @@ export type Schema = {
       'book:image:preview_for:image:preview_for:slug': string;
       'book:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:image:preview_for:image:preview_for:submitter_id': string;
-      'book:image:preview_for:image:preview_for:draft_cover': boolean;
+      'book:image:preview_for:image:preview_for:google_books_id': string;
       'book:image:preview_for:image:preview_for:Cover': string;
       'book:image:preview_for:image:preview_for:Preview Images': Array<string>;
       'book:image:preview_for:image:preview_for:Tags': Array<string>;
@@ -1001,6 +1014,7 @@ export type Schema = {
       'book:image:preview_for:image:profile:description': string;
       'book:image:preview_for:image:profile:most_recently_published_on': string;
       'book:image:preview_for:image:profile:job_title': string;
+      'book:image:preview_for:image:profile:hidden_collaborators': Array<string>;
       'book:image:preview_for:image:profile:Avatar': string;
       'book:image:preview_for:image:profile:Authored Books': Array<{Title: string}>;
       'book:image:preview_for:publisher:id': string;
@@ -1034,7 +1048,7 @@ export type Schema = {
       'book:image:preview_for:publisher:user:created_at': string;
       'book:image:preview_for:publisher:user:updated_at': string;
       'book:image:preview_for:publisher:user:publisher_id': string;
-      'book:image:preview_for:publisher:user:role': 'user' | 'admin';
+      'book:image:preview_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'book:image:preview_for:submitter:id': string;
       'book:image:preview_for:submitter:name': string;
       'book:image:preview_for:submitter:email': string;
@@ -1043,7 +1057,7 @@ export type Schema = {
       'book:image:preview_for:submitter:created_at': string;
       'book:image:preview_for:submitter:updated_at': string;
       'book:image:preview_for:submitter:publisher_id': string;
-      'book:image:preview_for:submitter:role': 'user' | 'admin';
+      'book:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'book:image:preview_for:submitter:publisher:id': string;
       'book:image:preview_for:submitter:publisher:created_at': string;
       'book:image:preview_for:submitter:publisher:updated_at': string;
@@ -1067,6 +1081,7 @@ export type Schema = {
       'book:image:preview_for:submitter:profile:description': string;
       'book:image:preview_for:submitter:profile:most_recently_published_on': string;
       'book:image:preview_for:submitter:profile:job_title': string;
+      'book:image:preview_for:submitter:profile:hidden_collaborators': Array<string>;
       'book:image:preview_for:submitter:profile:Avatar': string;
       'book:image:preview_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'book:image:publisher:id': string;
@@ -1088,7 +1103,7 @@ export type Schema = {
       'book:image:publisher:user:created_at': string;
       'book:image:publisher:user:updated_at': string;
       'book:image:publisher:user:publisher_id': string;
-      'book:image:publisher:user:role': 'user' | 'admin';
+      'book:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'book:image:publisher:user:profile:id': string;
       'book:image:publisher:user:profile:created_at': string;
       'book:image:publisher:user:profile:updated_at': string;
@@ -1101,6 +1116,7 @@ export type Schema = {
       'book:image:publisher:user:profile:description': string;
       'book:image:publisher:user:profile:most_recently_published_on': string;
       'book:image:publisher:user:profile:job_title': string;
+      'book:image:publisher:user:profile:hidden_collaborators': Array<string>;
       'book:image:publisher:user:profile:Avatar': string;
       'book:image:publisher:user:profile:Authored Books': Array<{Title: string}>;
       'book:image:profile:id': string;
@@ -1115,6 +1131,7 @@ export type Schema = {
       'book:image:profile:description': string;
       'book:image:profile:most_recently_published_on': string;
       'book:image:profile:job_title': string;
+      'book:image:profile:hidden_collaborators': Array<string>;
       'book:image:profile:Avatar': string;
       'book:image:profile:Authored Books': Array<{Title: string}>;
       'book:image:profile:user:id': string;
@@ -1125,7 +1142,7 @@ export type Schema = {
       'book:image:profile:user:created_at': string;
       'book:image:profile:user:updated_at': string;
       'book:image:profile:user:publisher_id': string;
-      'book:image:profile:user:role': 'user' | 'admin';
+      'book:image:profile:user:role': 'user' | 'admin' | 'waitlist';
       'book:image:profile:user:publisher:id': string;
       'book:image:profile:user:publisher:created_at': string;
       'book:image:profile:user:publisher:updated_at': string;
@@ -1171,7 +1188,7 @@ export type Schema = {
       'book:publisher:image:cover_for:slug': string;
       'book:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:image:cover_for:submitter_id': string;
-      'book:publisher:image:cover_for:draft_cover': boolean;
+      'book:publisher:image:cover_for:google_books_id': string;
       'book:publisher:image:cover_for:Cover': string;
       'book:publisher:image:cover_for:Preview Images': Array<string>;
       'book:publisher:image:cover_for:Tags': Array<string>;
@@ -1195,7 +1212,7 @@ export type Schema = {
       'book:publisher:image:cover_for:submitter:created_at': string;
       'book:publisher:image:cover_for:submitter:updated_at': string;
       'book:publisher:image:cover_for:submitter:publisher_id': string;
-      'book:publisher:image:cover_for:submitter:role': 'user' | 'admin';
+      'book:publisher:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'book:publisher:image:preview_for:id': string;
       'book:publisher:image:preview_for:created_at': string;
       'book:publisher:image:preview_for:updated_at': string;
@@ -1207,7 +1224,7 @@ export type Schema = {
       'book:publisher:image:preview_for:slug': string;
       'book:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:image:preview_for:submitter_id': string;
-      'book:publisher:image:preview_for:draft_cover': boolean;
+      'book:publisher:image:preview_for:google_books_id': string;
       'book:publisher:image:preview_for:Cover': string;
       'book:publisher:image:preview_for:Preview Images': Array<string>;
       'book:publisher:image:preview_for:Tags': Array<string>;
@@ -1243,7 +1260,7 @@ export type Schema = {
       'book:publisher:image:preview_for:submitter:created_at': string;
       'book:publisher:image:preview_for:submitter:updated_at': string;
       'book:publisher:image:preview_for:submitter:publisher_id': string;
-      'book:publisher:image:preview_for:submitter:role': 'user' | 'admin';
+      'book:publisher:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'book:publisher:image:profile:id': string;
       'book:publisher:image:profile:created_at': string;
       'book:publisher:image:profile:updated_at': string;
@@ -1256,6 +1273,7 @@ export type Schema = {
       'book:publisher:image:profile:description': string;
       'book:publisher:image:profile:most_recently_published_on': string;
       'book:publisher:image:profile:job_title': string;
+      'book:publisher:image:profile:hidden_collaborators': Array<string>;
       'book:publisher:image:profile:Avatar': string;
       'book:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'book:publisher:image:profile:user:id': string;
@@ -1266,7 +1284,7 @@ export type Schema = {
       'book:publisher:image:profile:user:created_at': string;
       'book:publisher:image:profile:user:updated_at': string;
       'book:publisher:image:profile:user:publisher_id': string;
-      'book:publisher:image:profile:user:role': 'user' | 'admin';
+      'book:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
       'book:publisher:user:id': string;
       'book:publisher:user:name': string;
       'book:publisher:user:email': string;
@@ -1275,7 +1293,7 @@ export type Schema = {
       'book:publisher:user:created_at': string;
       'book:publisher:user:updated_at': string;
       'book:publisher:user:publisher_id': string;
-      'book:publisher:user:role': 'user' | 'admin';
+      'book:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'book:publisher:user:profile:id': string;
       'book:publisher:user:profile:created_at': string;
       'book:publisher:user:profile:updated_at': string;
@@ -1288,6 +1306,7 @@ export type Schema = {
       'book:publisher:user:profile:description': string;
       'book:publisher:user:profile:most_recently_published_on': string;
       'book:publisher:user:profile:job_title': string;
+      'book:publisher:user:profile:hidden_collaborators': Array<string>;
       'book:publisher:user:profile:Avatar': string;
       'book:publisher:user:profile:Authored Books': Array<{Title: string}>;
       'book:publisher:user:profile:image:id': string;
@@ -1310,7 +1329,7 @@ export type Schema = {
       'book:submitter:created_at': string;
       'book:submitter:updated_at': string;
       'book:submitter:publisher_id': string;
-      'book:submitter:role': 'user' | 'admin';
+      'book:submitter:role': 'user' | 'admin' | 'waitlist';
       'book:submitter:publisher:id': string;
       'book:submitter:publisher:created_at': string;
       'book:submitter:publisher:updated_at': string;
@@ -1345,7 +1364,7 @@ export type Schema = {
       'book:submitter:publisher:image:cover_for:slug': string;
       'book:submitter:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:publisher:image:cover_for:submitter_id': string;
-      'book:submitter:publisher:image:cover_for:draft_cover': boolean;
+      'book:submitter:publisher:image:cover_for:google_books_id': string;
       'book:submitter:publisher:image:cover_for:Cover': string;
       'book:submitter:publisher:image:cover_for:Preview Images': Array<string>;
       'book:submitter:publisher:image:cover_for:Tags': Array<string>;
@@ -1361,7 +1380,7 @@ export type Schema = {
       'book:submitter:publisher:image:preview_for:slug': string;
       'book:submitter:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:publisher:image:preview_for:submitter_id': string;
-      'book:submitter:publisher:image:preview_for:draft_cover': boolean;
+      'book:submitter:publisher:image:preview_for:google_books_id': string;
       'book:submitter:publisher:image:preview_for:Cover': string;
       'book:submitter:publisher:image:preview_for:Preview Images': Array<string>;
       'book:submitter:publisher:image:preview_for:Tags': Array<string>;
@@ -1378,6 +1397,7 @@ export type Schema = {
       'book:submitter:publisher:image:profile:description': string;
       'book:submitter:publisher:image:profile:most_recently_published_on': string;
       'book:submitter:publisher:image:profile:job_title': string;
+      'book:submitter:publisher:image:profile:hidden_collaborators': Array<string>;
       'book:submitter:publisher:image:profile:Avatar': string;
       'book:submitter:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'book:submitter:profile:id': string;
@@ -1392,6 +1412,7 @@ export type Schema = {
       'book:submitter:profile:description': string;
       'book:submitter:profile:most_recently_published_on': string;
       'book:submitter:profile:job_title': string;
+      'book:submitter:profile:hidden_collaborators': Array<string>;
       'book:submitter:profile:Avatar': string;
       'book:submitter:profile:Authored Books': Array<{Title: string}>;
       'book:submitter:profile:image:id': string;
@@ -1417,7 +1438,7 @@ export type Schema = {
       'book:submitter:profile:image:cover_for:slug': string;
       'book:submitter:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:profile:image:cover_for:submitter_id': string;
-      'book:submitter:profile:image:cover_for:draft_cover': boolean;
+      'book:submitter:profile:image:cover_for:google_books_id': string;
       'book:submitter:profile:image:cover_for:Cover': string;
       'book:submitter:profile:image:cover_for:Preview Images': Array<string>;
       'book:submitter:profile:image:cover_for:Tags': Array<string>;
@@ -1433,7 +1454,7 @@ export type Schema = {
       'book:submitter:profile:image:preview_for:slug': string;
       'book:submitter:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:profile:image:preview_for:submitter_id': string;
-      'book:submitter:profile:image:preview_for:draft_cover': boolean;
+      'book:submitter:profile:image:preview_for:google_books_id': string;
       'book:submitter:profile:image:preview_for:Cover': string;
       'book:submitter:profile:image:preview_for:Preview Images': Array<string>;
       'book:submitter:profile:image:preview_for:Tags': Array<string>;
@@ -1497,7 +1518,7 @@ export type Schema = {
       'user:created_at': string;
       'user:updated_at': string;
       'user:publisher_id': string;
-      'user:role': 'user' | 'admin';
+      'user:role': 'user' | 'admin' | 'waitlist';
       'user:publisher:id': string;
       'user:publisher:created_at': string;
       'user:publisher:updated_at': string;
@@ -1532,7 +1553,7 @@ export type Schema = {
       'user:publisher:image:cover_for:slug': string;
       'user:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'user:publisher:image:cover_for:submitter_id': string;
-      'user:publisher:image:cover_for:draft_cover': boolean;
+      'user:publisher:image:cover_for:google_books_id': string;
       'user:publisher:image:cover_for:Cover': string;
       'user:publisher:image:cover_for:Preview Images': Array<string>;
       'user:publisher:image:cover_for:Tags': Array<string>;
@@ -1556,7 +1577,7 @@ export type Schema = {
       'user:publisher:image:cover_for:submitter:created_at': string;
       'user:publisher:image:cover_for:submitter:updated_at': string;
       'user:publisher:image:cover_for:submitter:publisher_id': string;
-      'user:publisher:image:cover_for:submitter:role': 'user' | 'admin';
+      'user:publisher:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'user:publisher:image:preview_for:id': string;
       'user:publisher:image:preview_for:created_at': string;
       'user:publisher:image:preview_for:updated_at': string;
@@ -1568,7 +1589,7 @@ export type Schema = {
       'user:publisher:image:preview_for:slug': string;
       'user:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'user:publisher:image:preview_for:submitter_id': string;
-      'user:publisher:image:preview_for:draft_cover': boolean;
+      'user:publisher:image:preview_for:google_books_id': string;
       'user:publisher:image:preview_for:Cover': string;
       'user:publisher:image:preview_for:Preview Images': Array<string>;
       'user:publisher:image:preview_for:Tags': Array<string>;
@@ -1604,7 +1625,7 @@ export type Schema = {
       'user:publisher:image:preview_for:submitter:created_at': string;
       'user:publisher:image:preview_for:submitter:updated_at': string;
       'user:publisher:image:preview_for:submitter:publisher_id': string;
-      'user:publisher:image:preview_for:submitter:role': 'user' | 'admin';
+      'user:publisher:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'user:publisher:image:profile:id': string;
       'user:publisher:image:profile:created_at': string;
       'user:publisher:image:profile:updated_at': string;
@@ -1617,6 +1638,7 @@ export type Schema = {
       'user:publisher:image:profile:description': string;
       'user:publisher:image:profile:most_recently_published_on': string;
       'user:publisher:image:profile:job_title': string;
+      'user:publisher:image:profile:hidden_collaborators': Array<string>;
       'user:publisher:image:profile:Avatar': string;
       'user:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'user:publisher:image:profile:user:id': string;
@@ -1627,7 +1649,7 @@ export type Schema = {
       'user:publisher:image:profile:user:created_at': string;
       'user:publisher:image:profile:user:updated_at': string;
       'user:publisher:image:profile:user:publisher_id': string;
-      'user:publisher:image:profile:user:role': 'user' | 'admin';
+      'user:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
       'user:profile:id': string;
       'user:profile:created_at': string;
       'user:profile:updated_at': string;
@@ -1640,6 +1662,7 @@ export type Schema = {
       'user:profile:description': string;
       'user:profile:most_recently_published_on': string;
       'user:profile:job_title': string;
+      'user:profile:hidden_collaborators': Array<string>;
       'user:profile:Avatar': string;
       'user:profile:Authored Books': Array<{Title: string}>;
       'user:profile:image:id': string;
@@ -1665,7 +1688,7 @@ export type Schema = {
       'user:profile:image:cover_for:slug': string;
       'user:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'user:profile:image:cover_for:submitter_id': string;
-      'user:profile:image:cover_for:draft_cover': boolean;
+      'user:profile:image:cover_for:google_books_id': string;
       'user:profile:image:cover_for:Cover': string;
       'user:profile:image:cover_for:Preview Images': Array<string>;
       'user:profile:image:cover_for:Tags': Array<string>;
@@ -1689,7 +1712,7 @@ export type Schema = {
       'user:profile:image:cover_for:submitter:created_at': string;
       'user:profile:image:cover_for:submitter:updated_at': string;
       'user:profile:image:cover_for:submitter:publisher_id': string;
-      'user:profile:image:cover_for:submitter:role': 'user' | 'admin';
+      'user:profile:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'user:profile:image:preview_for:id': string;
       'user:profile:image:preview_for:created_at': string;
       'user:profile:image:preview_for:updated_at': string;
@@ -1701,7 +1724,7 @@ export type Schema = {
       'user:profile:image:preview_for:slug': string;
       'user:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'user:profile:image:preview_for:submitter_id': string;
-      'user:profile:image:preview_for:draft_cover': boolean;
+      'user:profile:image:preview_for:google_books_id': string;
       'user:profile:image:preview_for:Cover': string;
       'user:profile:image:preview_for:Preview Images': Array<string>;
       'user:profile:image:preview_for:Tags': Array<string>;
@@ -1737,7 +1760,7 @@ export type Schema = {
       'user:profile:image:preview_for:submitter:created_at': string;
       'user:profile:image:preview_for:submitter:updated_at': string;
       'user:profile:image:preview_for:submitter:publisher_id': string;
-      'user:profile:image:preview_for:submitter:role': 'user' | 'admin';
+      'user:profile:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'user:profile:image:publisher:id': string;
       'user:profile:image:publisher:created_at': string;
       'user:profile:image:publisher:updated_at': string;
@@ -1757,7 +1780,7 @@ export type Schema = {
       'user:profile:image:publisher:user:created_at': string;
       'user:profile:image:publisher:user:updated_at': string;
       'user:profile:image:publisher:user:publisher_id': string;
-      'user:profile:image:publisher:user:role': 'user' | 'admin';
+      'user:profile:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
     };
   };
   'books': {
@@ -1773,7 +1796,7 @@ export type Schema = {
       'slug': string;
       'status': 'draft' | 'inReview' | 'published';
       'submitter_id': string;
-      'draft_cover': boolean;
+      'google_books_id': string;
       'Cover': string;
       'Preview Images': Array<string>;
       'Tags': Array<string>;
@@ -1808,7 +1831,7 @@ export type Schema = {
       'image:preview_for:slug': string;
       'image:preview_for:status': 'draft' | 'inReview' | 'published';
       'image:preview_for:submitter_id': string;
-      'image:preview_for:draft_cover': boolean;
+      'image:preview_for:google_books_id': string;
       'image:preview_for:Cover': string;
       'image:preview_for:Preview Images': Array<string>;
       'image:preview_for:Tags': Array<string>;
@@ -1836,7 +1859,7 @@ export type Schema = {
       'image:preview_for:image:preview_for:slug': string;
       'image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'image:preview_for:image:preview_for:submitter_id': string;
-      'image:preview_for:image:preview_for:draft_cover': boolean;
+      'image:preview_for:image:preview_for:google_books_id': string;
       'image:preview_for:image:preview_for:Cover': string;
       'image:preview_for:image:preview_for:Preview Images': Array<string>;
       'image:preview_for:image:preview_for:Tags': Array<string>;
@@ -1872,7 +1895,7 @@ export type Schema = {
       'image:preview_for:image:preview_for:submitter:created_at': string;
       'image:preview_for:image:preview_for:submitter:updated_at': string;
       'image:preview_for:image:preview_for:submitter:publisher_id': string;
-      'image:preview_for:image:preview_for:submitter:role': 'user' | 'admin';
+      'image:preview_for:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'image:preview_for:image:publisher:id': string;
       'image:preview_for:image:publisher:created_at': string;
       'image:preview_for:image:publisher:updated_at': string;
@@ -1892,7 +1915,7 @@ export type Schema = {
       'image:preview_for:image:publisher:user:created_at': string;
       'image:preview_for:image:publisher:user:updated_at': string;
       'image:preview_for:image:publisher:user:publisher_id': string;
-      'image:preview_for:image:publisher:user:role': 'user' | 'admin';
+      'image:preview_for:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'image:preview_for:image:profile:id': string;
       'image:preview_for:image:profile:created_at': string;
       'image:preview_for:image:profile:updated_at': string;
@@ -1905,6 +1928,7 @@ export type Schema = {
       'image:preview_for:image:profile:description': string;
       'image:preview_for:image:profile:most_recently_published_on': string;
       'image:preview_for:image:profile:job_title': string;
+      'image:preview_for:image:profile:hidden_collaborators': Array<string>;
       'image:preview_for:image:profile:Avatar': string;
       'image:preview_for:image:profile:Authored Books': Array<{Title: string}>;
       'image:preview_for:image:profile:user:id': string;
@@ -1915,7 +1939,7 @@ export type Schema = {
       'image:preview_for:image:profile:user:created_at': string;
       'image:preview_for:image:profile:user:updated_at': string;
       'image:preview_for:image:profile:user:publisher_id': string;
-      'image:preview_for:image:profile:user:role': 'user' | 'admin';
+      'image:preview_for:image:profile:user:role': 'user' | 'admin' | 'waitlist';
       'image:preview_for:publisher:id': string;
       'image:preview_for:publisher:created_at': string;
       'image:preview_for:publisher:updated_at': string;
@@ -1950,7 +1974,7 @@ export type Schema = {
       'image:preview_for:publisher:image:preview_for:slug': string;
       'image:preview_for:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'image:preview_for:publisher:image:preview_for:submitter_id': string;
-      'image:preview_for:publisher:image:preview_for:draft_cover': boolean;
+      'image:preview_for:publisher:image:preview_for:google_books_id': string;
       'image:preview_for:publisher:image:preview_for:Cover': string;
       'image:preview_for:publisher:image:preview_for:Preview Images': Array<string>;
       'image:preview_for:publisher:image:preview_for:Tags': Array<string>;
@@ -1967,6 +1991,7 @@ export type Schema = {
       'image:preview_for:publisher:image:profile:description': string;
       'image:preview_for:publisher:image:profile:most_recently_published_on': string;
       'image:preview_for:publisher:image:profile:job_title': string;
+      'image:preview_for:publisher:image:profile:hidden_collaborators': Array<string>;
       'image:preview_for:publisher:image:profile:Avatar': string;
       'image:preview_for:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'image:preview_for:publisher:user:id': string;
@@ -1977,7 +2002,7 @@ export type Schema = {
       'image:preview_for:publisher:user:created_at': string;
       'image:preview_for:publisher:user:updated_at': string;
       'image:preview_for:publisher:user:publisher_id': string;
-      'image:preview_for:publisher:user:role': 'user' | 'admin';
+      'image:preview_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'image:preview_for:publisher:user:profile:id': string;
       'image:preview_for:publisher:user:profile:created_at': string;
       'image:preview_for:publisher:user:profile:updated_at': string;
@@ -1990,6 +2015,7 @@ export type Schema = {
       'image:preview_for:publisher:user:profile:description': string;
       'image:preview_for:publisher:user:profile:most_recently_published_on': string;
       'image:preview_for:publisher:user:profile:job_title': string;
+      'image:preview_for:publisher:user:profile:hidden_collaborators': Array<string>;
       'image:preview_for:publisher:user:profile:Avatar': string;
       'image:preview_for:publisher:user:profile:Authored Books': Array<{Title: string}>;
       'image:preview_for:submitter:id': string;
@@ -2000,7 +2026,7 @@ export type Schema = {
       'image:preview_for:submitter:created_at': string;
       'image:preview_for:submitter:updated_at': string;
       'image:preview_for:submitter:publisher_id': string;
-      'image:preview_for:submitter:role': 'user' | 'admin';
+      'image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'image:preview_for:submitter:publisher:id': string;
       'image:preview_for:submitter:publisher:created_at': string;
       'image:preview_for:submitter:publisher:updated_at': string;
@@ -2036,6 +2062,7 @@ export type Schema = {
       'image:preview_for:submitter:profile:description': string;
       'image:preview_for:submitter:profile:most_recently_published_on': string;
       'image:preview_for:submitter:profile:job_title': string;
+      'image:preview_for:submitter:profile:hidden_collaborators': Array<string>;
       'image:preview_for:submitter:profile:Avatar': string;
       'image:preview_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'image:preview_for:submitter:profile:image:id': string;
@@ -2069,7 +2096,7 @@ export type Schema = {
       'image:publisher:user:created_at': string;
       'image:publisher:user:updated_at': string;
       'image:publisher:user:publisher_id': string;
-      'image:publisher:user:role': 'user' | 'admin';
+      'image:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'image:publisher:user:profile:id': string;
       'image:publisher:user:profile:created_at': string;
       'image:publisher:user:profile:updated_at': string;
@@ -2082,6 +2109,7 @@ export type Schema = {
       'image:publisher:user:profile:description': string;
       'image:publisher:user:profile:most_recently_published_on': string;
       'image:publisher:user:profile:job_title': string;
+      'image:publisher:user:profile:hidden_collaborators': Array<string>;
       'image:publisher:user:profile:Avatar': string;
       'image:publisher:user:profile:Authored Books': Array<{Title: string}>;
       'image:publisher:user:profile:image:id': string;
@@ -2108,6 +2136,7 @@ export type Schema = {
       'image:profile:description': string;
       'image:profile:most_recently_published_on': string;
       'image:profile:job_title': string;
+      'image:profile:hidden_collaborators': Array<string>;
       'image:profile:Avatar': string;
       'image:profile:Authored Books': Array<{Title: string}>;
       'image:profile:user:id': string;
@@ -2118,7 +2147,7 @@ export type Schema = {
       'image:profile:user:created_at': string;
       'image:profile:user:updated_at': string;
       'image:profile:user:publisher_id': string;
-      'image:profile:user:role': 'user' | 'admin';
+      'image:profile:user:role': 'user' | 'admin' | 'waitlist';
       'image:profile:user:publisher:id': string;
       'image:profile:user:publisher:created_at': string;
       'image:profile:user:publisher:updated_at': string;
@@ -2176,7 +2205,7 @@ export type Schema = {
       'publisher:image:cover_for:slug': string;
       'publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'publisher:image:cover_for:submitter_id': string;
-      'publisher:image:cover_for:draft_cover': boolean;
+      'publisher:image:cover_for:google_books_id': string;
       'publisher:image:cover_for:Cover': string;
       'publisher:image:cover_for:Preview Images': Array<string>;
       'publisher:image:cover_for:Tags': Array<string>;
@@ -2212,7 +2241,7 @@ export type Schema = {
       'publisher:image:cover_for:publisher:user:created_at': string;
       'publisher:image:cover_for:publisher:user:updated_at': string;
       'publisher:image:cover_for:publisher:user:publisher_id': string;
-      'publisher:image:cover_for:publisher:user:role': 'user' | 'admin';
+      'publisher:image:cover_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'publisher:image:cover_for:submitter:id': string;
       'publisher:image:cover_for:submitter:name': string;
       'publisher:image:cover_for:submitter:email': string;
@@ -2221,7 +2250,7 @@ export type Schema = {
       'publisher:image:cover_for:submitter:created_at': string;
       'publisher:image:cover_for:submitter:updated_at': string;
       'publisher:image:cover_for:submitter:publisher_id': string;
-      'publisher:image:cover_for:submitter:role': 'user' | 'admin';
+      'publisher:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'publisher:image:cover_for:submitter:publisher:id': string;
       'publisher:image:cover_for:submitter:publisher:created_at': string;
       'publisher:image:cover_for:submitter:publisher:updated_at': string;
@@ -2245,6 +2274,7 @@ export type Schema = {
       'publisher:image:cover_for:submitter:profile:description': string;
       'publisher:image:cover_for:submitter:profile:most_recently_published_on': string;
       'publisher:image:cover_for:submitter:profile:job_title': string;
+      'publisher:image:cover_for:submitter:profile:hidden_collaborators': Array<string>;
       'publisher:image:cover_for:submitter:profile:Avatar': string;
       'publisher:image:cover_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'publisher:image:preview_for:id': string;
@@ -2258,7 +2288,7 @@ export type Schema = {
       'publisher:image:preview_for:slug': string;
       'publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'publisher:image:preview_for:submitter_id': string;
-      'publisher:image:preview_for:draft_cover': boolean;
+      'publisher:image:preview_for:google_books_id': string;
       'publisher:image:preview_for:Cover': string;
       'publisher:image:preview_for:Preview Images': Array<string>;
       'publisher:image:preview_for:Tags': Array<string>;
@@ -2286,7 +2316,7 @@ export type Schema = {
       'publisher:image:preview_for:image:preview_for:slug': string;
       'publisher:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'publisher:image:preview_for:image:preview_for:submitter_id': string;
-      'publisher:image:preview_for:image:preview_for:draft_cover': boolean;
+      'publisher:image:preview_for:image:preview_for:google_books_id': string;
       'publisher:image:preview_for:image:preview_for:Cover': string;
       'publisher:image:preview_for:image:preview_for:Preview Images': Array<string>;
       'publisher:image:preview_for:image:preview_for:Tags': Array<string>;
@@ -2303,6 +2333,7 @@ export type Schema = {
       'publisher:image:preview_for:image:profile:description': string;
       'publisher:image:preview_for:image:profile:most_recently_published_on': string;
       'publisher:image:preview_for:image:profile:job_title': string;
+      'publisher:image:preview_for:image:profile:hidden_collaborators': Array<string>;
       'publisher:image:preview_for:image:profile:Avatar': string;
       'publisher:image:preview_for:image:profile:Authored Books': Array<{Title: string}>;
       'publisher:image:preview_for:publisher:id': string;
@@ -2336,7 +2367,7 @@ export type Schema = {
       'publisher:image:preview_for:publisher:user:created_at': string;
       'publisher:image:preview_for:publisher:user:updated_at': string;
       'publisher:image:preview_for:publisher:user:publisher_id': string;
-      'publisher:image:preview_for:publisher:user:role': 'user' | 'admin';
+      'publisher:image:preview_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'publisher:image:preview_for:submitter:id': string;
       'publisher:image:preview_for:submitter:name': string;
       'publisher:image:preview_for:submitter:email': string;
@@ -2345,7 +2376,7 @@ export type Schema = {
       'publisher:image:preview_for:submitter:created_at': string;
       'publisher:image:preview_for:submitter:updated_at': string;
       'publisher:image:preview_for:submitter:publisher_id': string;
-      'publisher:image:preview_for:submitter:role': 'user' | 'admin';
+      'publisher:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'publisher:image:preview_for:submitter:publisher:id': string;
       'publisher:image:preview_for:submitter:publisher:created_at': string;
       'publisher:image:preview_for:submitter:publisher:updated_at': string;
@@ -2369,6 +2400,7 @@ export type Schema = {
       'publisher:image:preview_for:submitter:profile:description': string;
       'publisher:image:preview_for:submitter:profile:most_recently_published_on': string;
       'publisher:image:preview_for:submitter:profile:job_title': string;
+      'publisher:image:preview_for:submitter:profile:hidden_collaborators': Array<string>;
       'publisher:image:preview_for:submitter:profile:Avatar': string;
       'publisher:image:preview_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'publisher:image:profile:id': string;
@@ -2383,6 +2415,7 @@ export type Schema = {
       'publisher:image:profile:description': string;
       'publisher:image:profile:most_recently_published_on': string;
       'publisher:image:profile:job_title': string;
+      'publisher:image:profile:hidden_collaborators': Array<string>;
       'publisher:image:profile:Avatar': string;
       'publisher:image:profile:Authored Books': Array<{Title: string}>;
       'publisher:image:profile:user:id': string;
@@ -2393,7 +2426,7 @@ export type Schema = {
       'publisher:image:profile:user:created_at': string;
       'publisher:image:profile:user:updated_at': string;
       'publisher:image:profile:user:publisher_id': string;
-      'publisher:image:profile:user:role': 'user' | 'admin';
+      'publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
       'publisher:image:profile:user:publisher:id': string;
       'publisher:image:profile:user:publisher:created_at': string;
       'publisher:image:profile:user:publisher:updated_at': string;
@@ -2413,7 +2446,7 @@ export type Schema = {
       'publisher:user:created_at': string;
       'publisher:user:updated_at': string;
       'publisher:user:publisher_id': string;
-      'publisher:user:role': 'user' | 'admin';
+      'publisher:user:role': 'user' | 'admin' | 'waitlist';
       'publisher:user:profile:id': string;
       'publisher:user:profile:created_at': string;
       'publisher:user:profile:updated_at': string;
@@ -2426,6 +2459,7 @@ export type Schema = {
       'publisher:user:profile:description': string;
       'publisher:user:profile:most_recently_published_on': string;
       'publisher:user:profile:job_title': string;
+      'publisher:user:profile:hidden_collaborators': Array<string>;
       'publisher:user:profile:Avatar': string;
       'publisher:user:profile:Authored Books': Array<{Title: string}>;
       'publisher:user:profile:image:id': string;
@@ -2451,7 +2485,7 @@ export type Schema = {
       'publisher:user:profile:image:cover_for:slug': string;
       'publisher:user:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'publisher:user:profile:image:cover_for:submitter_id': string;
-      'publisher:user:profile:image:cover_for:draft_cover': boolean;
+      'publisher:user:profile:image:cover_for:google_books_id': string;
       'publisher:user:profile:image:cover_for:Cover': string;
       'publisher:user:profile:image:cover_for:Preview Images': Array<string>;
       'publisher:user:profile:image:cover_for:Tags': Array<string>;
@@ -2467,7 +2501,7 @@ export type Schema = {
       'publisher:user:profile:image:preview_for:slug': string;
       'publisher:user:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'publisher:user:profile:image:preview_for:submitter_id': string;
-      'publisher:user:profile:image:preview_for:draft_cover': boolean;
+      'publisher:user:profile:image:preview_for:google_books_id': string;
       'publisher:user:profile:image:preview_for:Cover': string;
       'publisher:user:profile:image:preview_for:Preview Images': Array<string>;
       'publisher:user:profile:image:preview_for:Tags': Array<string>;
@@ -2491,7 +2525,7 @@ export type Schema = {
       'submitter:created_at': string;
       'submitter:updated_at': string;
       'submitter:publisher_id': string;
-      'submitter:role': 'user' | 'admin';
+      'submitter:role': 'user' | 'admin' | 'waitlist';
       'submitter:publisher:id': string;
       'submitter:publisher:created_at': string;
       'submitter:publisher:updated_at': string;
@@ -2526,7 +2560,7 @@ export type Schema = {
       'submitter:publisher:image:cover_for:slug': string;
       'submitter:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'submitter:publisher:image:cover_for:submitter_id': string;
-      'submitter:publisher:image:cover_for:draft_cover': boolean;
+      'submitter:publisher:image:cover_for:google_books_id': string;
       'submitter:publisher:image:cover_for:Cover': string;
       'submitter:publisher:image:cover_for:Preview Images': Array<string>;
       'submitter:publisher:image:cover_for:Tags': Array<string>;
@@ -2550,7 +2584,7 @@ export type Schema = {
       'submitter:publisher:image:cover_for:submitter:created_at': string;
       'submitter:publisher:image:cover_for:submitter:updated_at': string;
       'submitter:publisher:image:cover_for:submitter:publisher_id': string;
-      'submitter:publisher:image:cover_for:submitter:role': 'user' | 'admin';
+      'submitter:publisher:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'submitter:publisher:image:preview_for:id': string;
       'submitter:publisher:image:preview_for:created_at': string;
       'submitter:publisher:image:preview_for:updated_at': string;
@@ -2562,7 +2596,7 @@ export type Schema = {
       'submitter:publisher:image:preview_for:slug': string;
       'submitter:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'submitter:publisher:image:preview_for:submitter_id': string;
-      'submitter:publisher:image:preview_for:draft_cover': boolean;
+      'submitter:publisher:image:preview_for:google_books_id': string;
       'submitter:publisher:image:preview_for:Cover': string;
       'submitter:publisher:image:preview_for:Preview Images': Array<string>;
       'submitter:publisher:image:preview_for:Tags': Array<string>;
@@ -2598,7 +2632,7 @@ export type Schema = {
       'submitter:publisher:image:preview_for:submitter:created_at': string;
       'submitter:publisher:image:preview_for:submitter:updated_at': string;
       'submitter:publisher:image:preview_for:submitter:publisher_id': string;
-      'submitter:publisher:image:preview_for:submitter:role': 'user' | 'admin';
+      'submitter:publisher:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'submitter:publisher:image:profile:id': string;
       'submitter:publisher:image:profile:created_at': string;
       'submitter:publisher:image:profile:updated_at': string;
@@ -2611,6 +2645,7 @@ export type Schema = {
       'submitter:publisher:image:profile:description': string;
       'submitter:publisher:image:profile:most_recently_published_on': string;
       'submitter:publisher:image:profile:job_title': string;
+      'submitter:publisher:image:profile:hidden_collaborators': Array<string>;
       'submitter:publisher:image:profile:Avatar': string;
       'submitter:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'submitter:publisher:image:profile:user:id': string;
@@ -2621,7 +2656,7 @@ export type Schema = {
       'submitter:publisher:image:profile:user:created_at': string;
       'submitter:publisher:image:profile:user:updated_at': string;
       'submitter:publisher:image:profile:user:publisher_id': string;
-      'submitter:publisher:image:profile:user:role': 'user' | 'admin';
+      'submitter:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
       'submitter:profile:id': string;
       'submitter:profile:created_at': string;
       'submitter:profile:updated_at': string;
@@ -2634,6 +2669,7 @@ export type Schema = {
       'submitter:profile:description': string;
       'submitter:profile:most_recently_published_on': string;
       'submitter:profile:job_title': string;
+      'submitter:profile:hidden_collaborators': Array<string>;
       'submitter:profile:Avatar': string;
       'submitter:profile:Authored Books': Array<{Title: string}>;
       'submitter:profile:image:id': string;
@@ -2659,7 +2695,7 @@ export type Schema = {
       'submitter:profile:image:cover_for:slug': string;
       'submitter:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'submitter:profile:image:cover_for:submitter_id': string;
-      'submitter:profile:image:cover_for:draft_cover': boolean;
+      'submitter:profile:image:cover_for:google_books_id': string;
       'submitter:profile:image:cover_for:Cover': string;
       'submitter:profile:image:cover_for:Preview Images': Array<string>;
       'submitter:profile:image:cover_for:Tags': Array<string>;
@@ -2683,7 +2719,7 @@ export type Schema = {
       'submitter:profile:image:cover_for:submitter:created_at': string;
       'submitter:profile:image:cover_for:submitter:updated_at': string;
       'submitter:profile:image:cover_for:submitter:publisher_id': string;
-      'submitter:profile:image:cover_for:submitter:role': 'user' | 'admin';
+      'submitter:profile:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'submitter:profile:image:preview_for:id': string;
       'submitter:profile:image:preview_for:created_at': string;
       'submitter:profile:image:preview_for:updated_at': string;
@@ -2695,7 +2731,7 @@ export type Schema = {
       'submitter:profile:image:preview_for:slug': string;
       'submitter:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'submitter:profile:image:preview_for:submitter_id': string;
-      'submitter:profile:image:preview_for:draft_cover': boolean;
+      'submitter:profile:image:preview_for:google_books_id': string;
       'submitter:profile:image:preview_for:Cover': string;
       'submitter:profile:image:preview_for:Preview Images': Array<string>;
       'submitter:profile:image:preview_for:Tags': Array<string>;
@@ -2731,7 +2767,7 @@ export type Schema = {
       'submitter:profile:image:preview_for:submitter:created_at': string;
       'submitter:profile:image:preview_for:submitter:updated_at': string;
       'submitter:profile:image:preview_for:submitter:publisher_id': string;
-      'submitter:profile:image:preview_for:submitter:role': 'user' | 'admin';
+      'submitter:profile:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'submitter:profile:image:publisher:id': string;
       'submitter:profile:image:publisher:created_at': string;
       'submitter:profile:image:publisher:updated_at': string;
@@ -2751,7 +2787,7 @@ export type Schema = {
       'submitter:profile:image:publisher:user:created_at': string;
       'submitter:profile:image:publisher:user:updated_at': string;
       'submitter:profile:image:publisher:user:publisher_id': string;
-      'submitter:profile:image:publisher:user:role': 'user' | 'admin';
+      'submitter:profile:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
     };
   };
   'claims': {
@@ -2783,6 +2819,7 @@ export type Schema = {
       'profile:description': string;
       'profile:most_recently_published_on': string;
       'profile:job_title': string;
+      'profile:hidden_collaborators': Array<string>;
       'profile:Avatar': string;
       'profile:Authored Books': Array<{Title: string}>;
       'profile:image:id': string;
@@ -2808,7 +2845,7 @@ export type Schema = {
       'profile:image:cover_for:slug': string;
       'profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:cover_for:submitter_id': string;
-      'profile:image:cover_for:draft_cover': boolean;
+      'profile:image:cover_for:google_books_id': string;
       'profile:image:cover_for:Cover': string;
       'profile:image:cover_for:Preview Images': Array<string>;
       'profile:image:cover_for:Tags': Array<string>;
@@ -2844,7 +2881,7 @@ export type Schema = {
       'profile:image:cover_for:publisher:user:created_at': string;
       'profile:image:cover_for:publisher:user:updated_at': string;
       'profile:image:cover_for:publisher:user:publisher_id': string;
-      'profile:image:cover_for:publisher:user:role': 'user' | 'admin';
+      'profile:image:cover_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'profile:image:cover_for:submitter:id': string;
       'profile:image:cover_for:submitter:name': string;
       'profile:image:cover_for:submitter:email': string;
@@ -2853,7 +2890,7 @@ export type Schema = {
       'profile:image:cover_for:submitter:created_at': string;
       'profile:image:cover_for:submitter:updated_at': string;
       'profile:image:cover_for:submitter:publisher_id': string;
-      'profile:image:cover_for:submitter:role': 'user' | 'admin';
+      'profile:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'profile:image:cover_for:submitter:publisher:id': string;
       'profile:image:cover_for:submitter:publisher:created_at': string;
       'profile:image:cover_for:submitter:publisher:updated_at': string;
@@ -2877,6 +2914,7 @@ export type Schema = {
       'profile:image:cover_for:submitter:profile:description': string;
       'profile:image:cover_for:submitter:profile:most_recently_published_on': string;
       'profile:image:cover_for:submitter:profile:job_title': string;
+      'profile:image:cover_for:submitter:profile:hidden_collaborators': Array<string>;
       'profile:image:cover_for:submitter:profile:Avatar': string;
       'profile:image:cover_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'profile:image:preview_for:id': string;
@@ -2890,7 +2928,7 @@ export type Schema = {
       'profile:image:preview_for:slug': string;
       'profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:preview_for:submitter_id': string;
-      'profile:image:preview_for:draft_cover': boolean;
+      'profile:image:preview_for:google_books_id': string;
       'profile:image:preview_for:Cover': string;
       'profile:image:preview_for:Preview Images': Array<string>;
       'profile:image:preview_for:Tags': Array<string>;
@@ -2918,7 +2956,7 @@ export type Schema = {
       'profile:image:preview_for:image:preview_for:slug': string;
       'profile:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:preview_for:image:preview_for:submitter_id': string;
-      'profile:image:preview_for:image:preview_for:draft_cover': boolean;
+      'profile:image:preview_for:image:preview_for:google_books_id': string;
       'profile:image:preview_for:image:preview_for:Cover': string;
       'profile:image:preview_for:image:preview_for:Preview Images': Array<string>;
       'profile:image:preview_for:image:preview_for:Tags': Array<string>;
@@ -2965,7 +3003,7 @@ export type Schema = {
       'profile:image:preview_for:publisher:user:created_at': string;
       'profile:image:preview_for:publisher:user:updated_at': string;
       'profile:image:preview_for:publisher:user:publisher_id': string;
-      'profile:image:preview_for:publisher:user:role': 'user' | 'admin';
+      'profile:image:preview_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'profile:image:preview_for:submitter:id': string;
       'profile:image:preview_for:submitter:name': string;
       'profile:image:preview_for:submitter:email': string;
@@ -2974,7 +3012,7 @@ export type Schema = {
       'profile:image:preview_for:submitter:created_at': string;
       'profile:image:preview_for:submitter:updated_at': string;
       'profile:image:preview_for:submitter:publisher_id': string;
-      'profile:image:preview_for:submitter:role': 'user' | 'admin';
+      'profile:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'profile:image:preview_for:submitter:publisher:id': string;
       'profile:image:preview_for:submitter:publisher:created_at': string;
       'profile:image:preview_for:submitter:publisher:updated_at': string;
@@ -2998,6 +3036,7 @@ export type Schema = {
       'profile:image:preview_for:submitter:profile:description': string;
       'profile:image:preview_for:submitter:profile:most_recently_published_on': string;
       'profile:image:preview_for:submitter:profile:job_title': string;
+      'profile:image:preview_for:submitter:profile:hidden_collaborators': Array<string>;
       'profile:image:preview_for:submitter:profile:Avatar': string;
       'profile:image:preview_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'profile:image:publisher:id': string;
@@ -3019,7 +3058,7 @@ export type Schema = {
       'profile:image:publisher:user:created_at': string;
       'profile:image:publisher:user:updated_at': string;
       'profile:image:publisher:user:publisher_id': string;
-      'profile:image:publisher:user:role': 'user' | 'admin';
+      'profile:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'profile:image:publisher:user:profile:id': string;
       'profile:image:publisher:user:profile:created_at': string;
       'profile:image:publisher:user:profile:updated_at': string;
@@ -3032,6 +3071,7 @@ export type Schema = {
       'profile:image:publisher:user:profile:description': string;
       'profile:image:publisher:user:profile:most_recently_published_on': string;
       'profile:image:publisher:user:profile:job_title': string;
+      'profile:image:publisher:user:profile:hidden_collaborators': Array<string>;
       'profile:image:publisher:user:profile:Avatar': string;
       'profile:image:publisher:user:profile:Authored Books': Array<{Title: string}>;
       'profile:user:id': string;
@@ -3042,7 +3082,7 @@ export type Schema = {
       'profile:user:created_at': string;
       'profile:user:updated_at': string;
       'profile:user:publisher_id': string;
-      'profile:user:role': 'user' | 'admin';
+      'profile:user:role': 'user' | 'admin' | 'waitlist';
       'profile:user:publisher:id': string;
       'profile:user:publisher:created_at': string;
       'profile:user:publisher:updated_at': string;
@@ -3077,7 +3117,7 @@ export type Schema = {
       'profile:user:publisher:image:cover_for:slug': string;
       'profile:user:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'profile:user:publisher:image:cover_for:submitter_id': string;
-      'profile:user:publisher:image:cover_for:draft_cover': boolean;
+      'profile:user:publisher:image:cover_for:google_books_id': string;
       'profile:user:publisher:image:cover_for:Cover': string;
       'profile:user:publisher:image:cover_for:Preview Images': Array<string>;
       'profile:user:publisher:image:cover_for:Tags': Array<string>;
@@ -3093,7 +3133,7 @@ export type Schema = {
       'profile:user:publisher:image:preview_for:slug': string;
       'profile:user:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:user:publisher:image:preview_for:submitter_id': string;
-      'profile:user:publisher:image:preview_for:draft_cover': boolean;
+      'profile:user:publisher:image:preview_for:google_books_id': string;
       'profile:user:publisher:image:preview_for:Cover': string;
       'profile:user:publisher:image:preview_for:Preview Images': Array<string>;
       'profile:user:publisher:image:preview_for:Tags': Array<string>;
@@ -3110,6 +3150,7 @@ export type Schema = {
       'profile:user:publisher:image:profile:description': string;
       'profile:user:publisher:image:profile:most_recently_published_on': string;
       'profile:user:publisher:image:profile:job_title': string;
+      'profile:user:publisher:image:profile:hidden_collaborators': Array<string>;
       'profile:user:publisher:image:profile:Avatar': string;
       'profile:user:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'publisher:id': string;
@@ -3146,7 +3187,7 @@ export type Schema = {
       'publisher:image:cover_for:slug': string;
       'publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'publisher:image:cover_for:submitter_id': string;
-      'publisher:image:cover_for:draft_cover': boolean;
+      'publisher:image:cover_for:google_books_id': string;
       'publisher:image:cover_for:Cover': string;
       'publisher:image:cover_for:Preview Images': Array<string>;
       'publisher:image:cover_for:Tags': Array<string>;
@@ -3182,7 +3223,7 @@ export type Schema = {
       'publisher:image:cover_for:publisher:user:created_at': string;
       'publisher:image:cover_for:publisher:user:updated_at': string;
       'publisher:image:cover_for:publisher:user:publisher_id': string;
-      'publisher:image:cover_for:publisher:user:role': 'user' | 'admin';
+      'publisher:image:cover_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'publisher:image:cover_for:submitter:id': string;
       'publisher:image:cover_for:submitter:name': string;
       'publisher:image:cover_for:submitter:email': string;
@@ -3191,7 +3232,7 @@ export type Schema = {
       'publisher:image:cover_for:submitter:created_at': string;
       'publisher:image:cover_for:submitter:updated_at': string;
       'publisher:image:cover_for:submitter:publisher_id': string;
-      'publisher:image:cover_for:submitter:role': 'user' | 'admin';
+      'publisher:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'publisher:image:cover_for:submitter:publisher:id': string;
       'publisher:image:cover_for:submitter:publisher:created_at': string;
       'publisher:image:cover_for:submitter:publisher:updated_at': string;
@@ -3215,6 +3256,7 @@ export type Schema = {
       'publisher:image:cover_for:submitter:profile:description': string;
       'publisher:image:cover_for:submitter:profile:most_recently_published_on': string;
       'publisher:image:cover_for:submitter:profile:job_title': string;
+      'publisher:image:cover_for:submitter:profile:hidden_collaborators': Array<string>;
       'publisher:image:cover_for:submitter:profile:Avatar': string;
       'publisher:image:cover_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'publisher:image:preview_for:id': string;
@@ -3228,7 +3270,7 @@ export type Schema = {
       'publisher:image:preview_for:slug': string;
       'publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'publisher:image:preview_for:submitter_id': string;
-      'publisher:image:preview_for:draft_cover': boolean;
+      'publisher:image:preview_for:google_books_id': string;
       'publisher:image:preview_for:Cover': string;
       'publisher:image:preview_for:Preview Images': Array<string>;
       'publisher:image:preview_for:Tags': Array<string>;
@@ -3256,7 +3298,7 @@ export type Schema = {
       'publisher:image:preview_for:image:preview_for:slug': string;
       'publisher:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'publisher:image:preview_for:image:preview_for:submitter_id': string;
-      'publisher:image:preview_for:image:preview_for:draft_cover': boolean;
+      'publisher:image:preview_for:image:preview_for:google_books_id': string;
       'publisher:image:preview_for:image:preview_for:Cover': string;
       'publisher:image:preview_for:image:preview_for:Preview Images': Array<string>;
       'publisher:image:preview_for:image:preview_for:Tags': Array<string>;
@@ -3273,6 +3315,7 @@ export type Schema = {
       'publisher:image:preview_for:image:profile:description': string;
       'publisher:image:preview_for:image:profile:most_recently_published_on': string;
       'publisher:image:preview_for:image:profile:job_title': string;
+      'publisher:image:preview_for:image:profile:hidden_collaborators': Array<string>;
       'publisher:image:preview_for:image:profile:Avatar': string;
       'publisher:image:preview_for:image:profile:Authored Books': Array<{Title: string}>;
       'publisher:image:preview_for:publisher:id': string;
@@ -3306,7 +3349,7 @@ export type Schema = {
       'publisher:image:preview_for:publisher:user:created_at': string;
       'publisher:image:preview_for:publisher:user:updated_at': string;
       'publisher:image:preview_for:publisher:user:publisher_id': string;
-      'publisher:image:preview_for:publisher:user:role': 'user' | 'admin';
+      'publisher:image:preview_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'publisher:image:preview_for:submitter:id': string;
       'publisher:image:preview_for:submitter:name': string;
       'publisher:image:preview_for:submitter:email': string;
@@ -3315,7 +3358,7 @@ export type Schema = {
       'publisher:image:preview_for:submitter:created_at': string;
       'publisher:image:preview_for:submitter:updated_at': string;
       'publisher:image:preview_for:submitter:publisher_id': string;
-      'publisher:image:preview_for:submitter:role': 'user' | 'admin';
+      'publisher:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'publisher:image:preview_for:submitter:publisher:id': string;
       'publisher:image:preview_for:submitter:publisher:created_at': string;
       'publisher:image:preview_for:submitter:publisher:updated_at': string;
@@ -3339,6 +3382,7 @@ export type Schema = {
       'publisher:image:preview_for:submitter:profile:description': string;
       'publisher:image:preview_for:submitter:profile:most_recently_published_on': string;
       'publisher:image:preview_for:submitter:profile:job_title': string;
+      'publisher:image:preview_for:submitter:profile:hidden_collaborators': Array<string>;
       'publisher:image:preview_for:submitter:profile:Avatar': string;
       'publisher:image:preview_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'publisher:image:profile:id': string;
@@ -3353,6 +3397,7 @@ export type Schema = {
       'publisher:image:profile:description': string;
       'publisher:image:profile:most_recently_published_on': string;
       'publisher:image:profile:job_title': string;
+      'publisher:image:profile:hidden_collaborators': Array<string>;
       'publisher:image:profile:Avatar': string;
       'publisher:image:profile:Authored Books': Array<{Title: string}>;
       'publisher:image:profile:user:id': string;
@@ -3363,7 +3408,7 @@ export type Schema = {
       'publisher:image:profile:user:created_at': string;
       'publisher:image:profile:user:updated_at': string;
       'publisher:image:profile:user:publisher_id': string;
-      'publisher:image:profile:user:role': 'user' | 'admin';
+      'publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
       'publisher:image:profile:user:publisher:id': string;
       'publisher:image:profile:user:publisher:created_at': string;
       'publisher:image:profile:user:publisher:updated_at': string;
@@ -3383,7 +3428,7 @@ export type Schema = {
       'publisher:user:created_at': string;
       'publisher:user:updated_at': string;
       'publisher:user:publisher_id': string;
-      'publisher:user:role': 'user' | 'admin';
+      'publisher:user:role': 'user' | 'admin' | 'waitlist';
       'publisher:user:profile:id': string;
       'publisher:user:profile:created_at': string;
       'publisher:user:profile:updated_at': string;
@@ -3396,6 +3441,7 @@ export type Schema = {
       'publisher:user:profile:description': string;
       'publisher:user:profile:most_recently_published_on': string;
       'publisher:user:profile:job_title': string;
+      'publisher:user:profile:hidden_collaborators': Array<string>;
       'publisher:user:profile:Avatar': string;
       'publisher:user:profile:Authored Books': Array<{Title: string}>;
       'publisher:user:profile:image:id': string;
@@ -3421,7 +3467,7 @@ export type Schema = {
       'publisher:user:profile:image:cover_for:slug': string;
       'publisher:user:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'publisher:user:profile:image:cover_for:submitter_id': string;
-      'publisher:user:profile:image:cover_for:draft_cover': boolean;
+      'publisher:user:profile:image:cover_for:google_books_id': string;
       'publisher:user:profile:image:cover_for:Cover': string;
       'publisher:user:profile:image:cover_for:Preview Images': Array<string>;
       'publisher:user:profile:image:cover_for:Tags': Array<string>;
@@ -3437,7 +3483,7 @@ export type Schema = {
       'publisher:user:profile:image:preview_for:slug': string;
       'publisher:user:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'publisher:user:profile:image:preview_for:submitter_id': string;
-      'publisher:user:profile:image:preview_for:draft_cover': boolean;
+      'publisher:user:profile:image:preview_for:google_books_id': string;
       'publisher:user:profile:image:preview_for:Cover': string;
       'publisher:user:profile:image:preview_for:Preview Images': Array<string>;
       'publisher:user:profile:image:preview_for:Tags': Array<string>;
@@ -3461,7 +3507,7 @@ export type Schema = {
       'user:created_at': string;
       'user:updated_at': string;
       'user:publisher_id': string;
-      'user:role': 'user' | 'admin';
+      'user:role': 'user' | 'admin' | 'waitlist';
       'user:publisher:id': string;
       'user:publisher:created_at': string;
       'user:publisher:updated_at': string;
@@ -3496,7 +3542,7 @@ export type Schema = {
       'user:publisher:image:cover_for:slug': string;
       'user:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'user:publisher:image:cover_for:submitter_id': string;
-      'user:publisher:image:cover_for:draft_cover': boolean;
+      'user:publisher:image:cover_for:google_books_id': string;
       'user:publisher:image:cover_for:Cover': string;
       'user:publisher:image:cover_for:Preview Images': Array<string>;
       'user:publisher:image:cover_for:Tags': Array<string>;
@@ -3520,7 +3566,7 @@ export type Schema = {
       'user:publisher:image:cover_for:submitter:created_at': string;
       'user:publisher:image:cover_for:submitter:updated_at': string;
       'user:publisher:image:cover_for:submitter:publisher_id': string;
-      'user:publisher:image:cover_for:submitter:role': 'user' | 'admin';
+      'user:publisher:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'user:publisher:image:preview_for:id': string;
       'user:publisher:image:preview_for:created_at': string;
       'user:publisher:image:preview_for:updated_at': string;
@@ -3532,7 +3578,7 @@ export type Schema = {
       'user:publisher:image:preview_for:slug': string;
       'user:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'user:publisher:image:preview_for:submitter_id': string;
-      'user:publisher:image:preview_for:draft_cover': boolean;
+      'user:publisher:image:preview_for:google_books_id': string;
       'user:publisher:image:preview_for:Cover': string;
       'user:publisher:image:preview_for:Preview Images': Array<string>;
       'user:publisher:image:preview_for:Tags': Array<string>;
@@ -3568,7 +3614,7 @@ export type Schema = {
       'user:publisher:image:preview_for:submitter:created_at': string;
       'user:publisher:image:preview_for:submitter:updated_at': string;
       'user:publisher:image:preview_for:submitter:publisher_id': string;
-      'user:publisher:image:preview_for:submitter:role': 'user' | 'admin';
+      'user:publisher:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'user:publisher:image:profile:id': string;
       'user:publisher:image:profile:created_at': string;
       'user:publisher:image:profile:updated_at': string;
@@ -3581,6 +3627,7 @@ export type Schema = {
       'user:publisher:image:profile:description': string;
       'user:publisher:image:profile:most_recently_published_on': string;
       'user:publisher:image:profile:job_title': string;
+      'user:publisher:image:profile:hidden_collaborators': Array<string>;
       'user:publisher:image:profile:Avatar': string;
       'user:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'user:publisher:image:profile:user:id': string;
@@ -3591,7 +3638,7 @@ export type Schema = {
       'user:publisher:image:profile:user:created_at': string;
       'user:publisher:image:profile:user:updated_at': string;
       'user:publisher:image:profile:user:publisher_id': string;
-      'user:publisher:image:profile:user:role': 'user' | 'admin';
+      'user:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
       'user:profile:id': string;
       'user:profile:created_at': string;
       'user:profile:updated_at': string;
@@ -3604,6 +3651,7 @@ export type Schema = {
       'user:profile:description': string;
       'user:profile:most_recently_published_on': string;
       'user:profile:job_title': string;
+      'user:profile:hidden_collaborators': Array<string>;
       'user:profile:Avatar': string;
       'user:profile:Authored Books': Array<{Title: string}>;
       'user:profile:image:id': string;
@@ -3629,7 +3677,7 @@ export type Schema = {
       'user:profile:image:cover_for:slug': string;
       'user:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'user:profile:image:cover_for:submitter_id': string;
-      'user:profile:image:cover_for:draft_cover': boolean;
+      'user:profile:image:cover_for:google_books_id': string;
       'user:profile:image:cover_for:Cover': string;
       'user:profile:image:cover_for:Preview Images': Array<string>;
       'user:profile:image:cover_for:Tags': Array<string>;
@@ -3653,7 +3701,7 @@ export type Schema = {
       'user:profile:image:cover_for:submitter:created_at': string;
       'user:profile:image:cover_for:submitter:updated_at': string;
       'user:profile:image:cover_for:submitter:publisher_id': string;
-      'user:profile:image:cover_for:submitter:role': 'user' | 'admin';
+      'user:profile:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'user:profile:image:preview_for:id': string;
       'user:profile:image:preview_for:created_at': string;
       'user:profile:image:preview_for:updated_at': string;
@@ -3665,7 +3713,7 @@ export type Schema = {
       'user:profile:image:preview_for:slug': string;
       'user:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'user:profile:image:preview_for:submitter_id': string;
-      'user:profile:image:preview_for:draft_cover': boolean;
+      'user:profile:image:preview_for:google_books_id': string;
       'user:profile:image:preview_for:Cover': string;
       'user:profile:image:preview_for:Preview Images': Array<string>;
       'user:profile:image:preview_for:Tags': Array<string>;
@@ -3701,7 +3749,7 @@ export type Schema = {
       'user:profile:image:preview_for:submitter:created_at': string;
       'user:profile:image:preview_for:submitter:updated_at': string;
       'user:profile:image:preview_for:submitter:publisher_id': string;
-      'user:profile:image:preview_for:submitter:role': 'user' | 'admin';
+      'user:profile:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'user:profile:image:publisher:id': string;
       'user:profile:image:publisher:created_at': string;
       'user:profile:image:publisher:updated_at': string;
@@ -3721,7 +3769,7 @@ export type Schema = {
       'user:profile:image:publisher:user:created_at': string;
       'user:profile:image:publisher:user:updated_at': string;
       'user:profile:image:publisher:user:publisher_id': string;
-      'user:profile:image:publisher:user:role': 'user' | 'admin';
+      'user:profile:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
     };
   };
   'contributions': {
@@ -3733,6 +3781,7 @@ export type Schema = {
       'book_id': string;
       'job_id': string;
       'tag': string;
+      'hidden': boolean;
       'Display Name': string;
     };
     nested: {
@@ -3753,6 +3802,7 @@ export type Schema = {
       'profile:description': string;
       'profile:most_recently_published_on': string;
       'profile:job_title': string;
+      'profile:hidden_collaborators': Array<string>;
       'profile:Avatar': string;
       'profile:Authored Books': Array<{Title: string}>;
       'profile:image:id': string;
@@ -3778,7 +3828,7 @@ export type Schema = {
       'profile:image:cover_for:slug': string;
       'profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:cover_for:submitter_id': string;
-      'profile:image:cover_for:draft_cover': boolean;
+      'profile:image:cover_for:google_books_id': string;
       'profile:image:cover_for:Cover': string;
       'profile:image:cover_for:Preview Images': Array<string>;
       'profile:image:cover_for:Tags': Array<string>;
@@ -3814,7 +3864,7 @@ export type Schema = {
       'profile:image:cover_for:publisher:user:created_at': string;
       'profile:image:cover_for:publisher:user:updated_at': string;
       'profile:image:cover_for:publisher:user:publisher_id': string;
-      'profile:image:cover_for:publisher:user:role': 'user' | 'admin';
+      'profile:image:cover_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'profile:image:cover_for:submitter:id': string;
       'profile:image:cover_for:submitter:name': string;
       'profile:image:cover_for:submitter:email': string;
@@ -3823,7 +3873,7 @@ export type Schema = {
       'profile:image:cover_for:submitter:created_at': string;
       'profile:image:cover_for:submitter:updated_at': string;
       'profile:image:cover_for:submitter:publisher_id': string;
-      'profile:image:cover_for:submitter:role': 'user' | 'admin';
+      'profile:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'profile:image:cover_for:submitter:publisher:id': string;
       'profile:image:cover_for:submitter:publisher:created_at': string;
       'profile:image:cover_for:submitter:publisher:updated_at': string;
@@ -3847,6 +3897,7 @@ export type Schema = {
       'profile:image:cover_for:submitter:profile:description': string;
       'profile:image:cover_for:submitter:profile:most_recently_published_on': string;
       'profile:image:cover_for:submitter:profile:job_title': string;
+      'profile:image:cover_for:submitter:profile:hidden_collaborators': Array<string>;
       'profile:image:cover_for:submitter:profile:Avatar': string;
       'profile:image:cover_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'profile:image:preview_for:id': string;
@@ -3860,7 +3911,7 @@ export type Schema = {
       'profile:image:preview_for:slug': string;
       'profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:preview_for:submitter_id': string;
-      'profile:image:preview_for:draft_cover': boolean;
+      'profile:image:preview_for:google_books_id': string;
       'profile:image:preview_for:Cover': string;
       'profile:image:preview_for:Preview Images': Array<string>;
       'profile:image:preview_for:Tags': Array<string>;
@@ -3888,7 +3939,7 @@ export type Schema = {
       'profile:image:preview_for:image:preview_for:slug': string;
       'profile:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:preview_for:image:preview_for:submitter_id': string;
-      'profile:image:preview_for:image:preview_for:draft_cover': boolean;
+      'profile:image:preview_for:image:preview_for:google_books_id': string;
       'profile:image:preview_for:image:preview_for:Cover': string;
       'profile:image:preview_for:image:preview_for:Preview Images': Array<string>;
       'profile:image:preview_for:image:preview_for:Tags': Array<string>;
@@ -3935,7 +3986,7 @@ export type Schema = {
       'profile:image:preview_for:publisher:user:created_at': string;
       'profile:image:preview_for:publisher:user:updated_at': string;
       'profile:image:preview_for:publisher:user:publisher_id': string;
-      'profile:image:preview_for:publisher:user:role': 'user' | 'admin';
+      'profile:image:preview_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'profile:image:preview_for:submitter:id': string;
       'profile:image:preview_for:submitter:name': string;
       'profile:image:preview_for:submitter:email': string;
@@ -3944,7 +3995,7 @@ export type Schema = {
       'profile:image:preview_for:submitter:created_at': string;
       'profile:image:preview_for:submitter:updated_at': string;
       'profile:image:preview_for:submitter:publisher_id': string;
-      'profile:image:preview_for:submitter:role': 'user' | 'admin';
+      'profile:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'profile:image:preview_for:submitter:publisher:id': string;
       'profile:image:preview_for:submitter:publisher:created_at': string;
       'profile:image:preview_for:submitter:publisher:updated_at': string;
@@ -3968,6 +4019,7 @@ export type Schema = {
       'profile:image:preview_for:submitter:profile:description': string;
       'profile:image:preview_for:submitter:profile:most_recently_published_on': string;
       'profile:image:preview_for:submitter:profile:job_title': string;
+      'profile:image:preview_for:submitter:profile:hidden_collaborators': Array<string>;
       'profile:image:preview_for:submitter:profile:Avatar': string;
       'profile:image:preview_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'profile:image:publisher:id': string;
@@ -3989,7 +4041,7 @@ export type Schema = {
       'profile:image:publisher:user:created_at': string;
       'profile:image:publisher:user:updated_at': string;
       'profile:image:publisher:user:publisher_id': string;
-      'profile:image:publisher:user:role': 'user' | 'admin';
+      'profile:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'profile:image:publisher:user:profile:id': string;
       'profile:image:publisher:user:profile:created_at': string;
       'profile:image:publisher:user:profile:updated_at': string;
@@ -4002,6 +4054,7 @@ export type Schema = {
       'profile:image:publisher:user:profile:description': string;
       'profile:image:publisher:user:profile:most_recently_published_on': string;
       'profile:image:publisher:user:profile:job_title': string;
+      'profile:image:publisher:user:profile:hidden_collaborators': Array<string>;
       'profile:image:publisher:user:profile:Avatar': string;
       'profile:image:publisher:user:profile:Authored Books': Array<{Title: string}>;
       'profile:user:id': string;
@@ -4012,7 +4065,7 @@ export type Schema = {
       'profile:user:created_at': string;
       'profile:user:updated_at': string;
       'profile:user:publisher_id': string;
-      'profile:user:role': 'user' | 'admin';
+      'profile:user:role': 'user' | 'admin' | 'waitlist';
       'profile:user:publisher:id': string;
       'profile:user:publisher:created_at': string;
       'profile:user:publisher:updated_at': string;
@@ -4047,7 +4100,7 @@ export type Schema = {
       'profile:user:publisher:image:cover_for:slug': string;
       'profile:user:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'profile:user:publisher:image:cover_for:submitter_id': string;
-      'profile:user:publisher:image:cover_for:draft_cover': boolean;
+      'profile:user:publisher:image:cover_for:google_books_id': string;
       'profile:user:publisher:image:cover_for:Cover': string;
       'profile:user:publisher:image:cover_for:Preview Images': Array<string>;
       'profile:user:publisher:image:cover_for:Tags': Array<string>;
@@ -4063,7 +4116,7 @@ export type Schema = {
       'profile:user:publisher:image:preview_for:slug': string;
       'profile:user:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:user:publisher:image:preview_for:submitter_id': string;
-      'profile:user:publisher:image:preview_for:draft_cover': boolean;
+      'profile:user:publisher:image:preview_for:google_books_id': string;
       'profile:user:publisher:image:preview_for:Cover': string;
       'profile:user:publisher:image:preview_for:Preview Images': Array<string>;
       'profile:user:publisher:image:preview_for:Tags': Array<string>;
@@ -4080,6 +4133,7 @@ export type Schema = {
       'profile:user:publisher:image:profile:description': string;
       'profile:user:publisher:image:profile:most_recently_published_on': string;
       'profile:user:publisher:image:profile:job_title': string;
+      'profile:user:publisher:image:profile:hidden_collaborators': Array<string>;
       'profile:user:publisher:image:profile:Avatar': string;
       'profile:user:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'book:id': string;
@@ -4093,7 +4147,7 @@ export type Schema = {
       'book:slug': string;
       'book:status': 'draft' | 'inReview' | 'published';
       'book:submitter_id': string;
-      'book:draft_cover': boolean;
+      'book:google_books_id': string;
       'book:Cover': string;
       'book:Preview Images': Array<string>;
       'book:Tags': Array<string>;
@@ -4121,7 +4175,7 @@ export type Schema = {
       'book:image:preview_for:slug': string;
       'book:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:image:preview_for:submitter_id': string;
-      'book:image:preview_for:draft_cover': boolean;
+      'book:image:preview_for:google_books_id': string;
       'book:image:preview_for:Cover': string;
       'book:image:preview_for:Preview Images': Array<string>;
       'book:image:preview_for:Tags': Array<string>;
@@ -4149,7 +4203,7 @@ export type Schema = {
       'book:image:preview_for:image:preview_for:slug': string;
       'book:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:image:preview_for:image:preview_for:submitter_id': string;
-      'book:image:preview_for:image:preview_for:draft_cover': boolean;
+      'book:image:preview_for:image:preview_for:google_books_id': string;
       'book:image:preview_for:image:preview_for:Cover': string;
       'book:image:preview_for:image:preview_for:Preview Images': Array<string>;
       'book:image:preview_for:image:preview_for:Tags': Array<string>;
@@ -4177,6 +4231,7 @@ export type Schema = {
       'book:image:preview_for:image:profile:description': string;
       'book:image:preview_for:image:profile:most_recently_published_on': string;
       'book:image:preview_for:image:profile:job_title': string;
+      'book:image:preview_for:image:profile:hidden_collaborators': Array<string>;
       'book:image:preview_for:image:profile:Avatar': string;
       'book:image:preview_for:image:profile:Authored Books': Array<{Title: string}>;
       'book:image:preview_for:publisher:id': string;
@@ -4210,7 +4265,7 @@ export type Schema = {
       'book:image:preview_for:publisher:user:created_at': string;
       'book:image:preview_for:publisher:user:updated_at': string;
       'book:image:preview_for:publisher:user:publisher_id': string;
-      'book:image:preview_for:publisher:user:role': 'user' | 'admin';
+      'book:image:preview_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'book:image:preview_for:submitter:id': string;
       'book:image:preview_for:submitter:name': string;
       'book:image:preview_for:submitter:email': string;
@@ -4219,7 +4274,7 @@ export type Schema = {
       'book:image:preview_for:submitter:created_at': string;
       'book:image:preview_for:submitter:updated_at': string;
       'book:image:preview_for:submitter:publisher_id': string;
-      'book:image:preview_for:submitter:role': 'user' | 'admin';
+      'book:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'book:image:preview_for:submitter:publisher:id': string;
       'book:image:preview_for:submitter:publisher:created_at': string;
       'book:image:preview_for:submitter:publisher:updated_at': string;
@@ -4243,6 +4298,7 @@ export type Schema = {
       'book:image:preview_for:submitter:profile:description': string;
       'book:image:preview_for:submitter:profile:most_recently_published_on': string;
       'book:image:preview_for:submitter:profile:job_title': string;
+      'book:image:preview_for:submitter:profile:hidden_collaborators': Array<string>;
       'book:image:preview_for:submitter:profile:Avatar': string;
       'book:image:preview_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'book:image:publisher:id': string;
@@ -4264,7 +4320,7 @@ export type Schema = {
       'book:image:publisher:user:created_at': string;
       'book:image:publisher:user:updated_at': string;
       'book:image:publisher:user:publisher_id': string;
-      'book:image:publisher:user:role': 'user' | 'admin';
+      'book:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'book:image:publisher:user:profile:id': string;
       'book:image:publisher:user:profile:created_at': string;
       'book:image:publisher:user:profile:updated_at': string;
@@ -4277,6 +4333,7 @@ export type Schema = {
       'book:image:publisher:user:profile:description': string;
       'book:image:publisher:user:profile:most_recently_published_on': string;
       'book:image:publisher:user:profile:job_title': string;
+      'book:image:publisher:user:profile:hidden_collaborators': Array<string>;
       'book:image:publisher:user:profile:Avatar': string;
       'book:image:publisher:user:profile:Authored Books': Array<{Title: string}>;
       'book:image:profile:id': string;
@@ -4291,6 +4348,7 @@ export type Schema = {
       'book:image:profile:description': string;
       'book:image:profile:most_recently_published_on': string;
       'book:image:profile:job_title': string;
+      'book:image:profile:hidden_collaborators': Array<string>;
       'book:image:profile:Avatar': string;
       'book:image:profile:Authored Books': Array<{Title: string}>;
       'book:image:profile:user:id': string;
@@ -4301,7 +4359,7 @@ export type Schema = {
       'book:image:profile:user:created_at': string;
       'book:image:profile:user:updated_at': string;
       'book:image:profile:user:publisher_id': string;
-      'book:image:profile:user:role': 'user' | 'admin';
+      'book:image:profile:user:role': 'user' | 'admin' | 'waitlist';
       'book:image:profile:user:publisher:id': string;
       'book:image:profile:user:publisher:created_at': string;
       'book:image:profile:user:publisher:updated_at': string;
@@ -4347,7 +4405,7 @@ export type Schema = {
       'book:publisher:image:cover_for:slug': string;
       'book:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:image:cover_for:submitter_id': string;
-      'book:publisher:image:cover_for:draft_cover': boolean;
+      'book:publisher:image:cover_for:google_books_id': string;
       'book:publisher:image:cover_for:Cover': string;
       'book:publisher:image:cover_for:Preview Images': Array<string>;
       'book:publisher:image:cover_for:Tags': Array<string>;
@@ -4371,7 +4429,7 @@ export type Schema = {
       'book:publisher:image:cover_for:submitter:created_at': string;
       'book:publisher:image:cover_for:submitter:updated_at': string;
       'book:publisher:image:cover_for:submitter:publisher_id': string;
-      'book:publisher:image:cover_for:submitter:role': 'user' | 'admin';
+      'book:publisher:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'book:publisher:image:preview_for:id': string;
       'book:publisher:image:preview_for:created_at': string;
       'book:publisher:image:preview_for:updated_at': string;
@@ -4383,7 +4441,7 @@ export type Schema = {
       'book:publisher:image:preview_for:slug': string;
       'book:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:image:preview_for:submitter_id': string;
-      'book:publisher:image:preview_for:draft_cover': boolean;
+      'book:publisher:image:preview_for:google_books_id': string;
       'book:publisher:image:preview_for:Cover': string;
       'book:publisher:image:preview_for:Preview Images': Array<string>;
       'book:publisher:image:preview_for:Tags': Array<string>;
@@ -4419,7 +4477,7 @@ export type Schema = {
       'book:publisher:image:preview_for:submitter:created_at': string;
       'book:publisher:image:preview_for:submitter:updated_at': string;
       'book:publisher:image:preview_for:submitter:publisher_id': string;
-      'book:publisher:image:preview_for:submitter:role': 'user' | 'admin';
+      'book:publisher:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'book:publisher:image:profile:id': string;
       'book:publisher:image:profile:created_at': string;
       'book:publisher:image:profile:updated_at': string;
@@ -4432,6 +4490,7 @@ export type Schema = {
       'book:publisher:image:profile:description': string;
       'book:publisher:image:profile:most_recently_published_on': string;
       'book:publisher:image:profile:job_title': string;
+      'book:publisher:image:profile:hidden_collaborators': Array<string>;
       'book:publisher:image:profile:Avatar': string;
       'book:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'book:publisher:image:profile:user:id': string;
@@ -4442,7 +4501,7 @@ export type Schema = {
       'book:publisher:image:profile:user:created_at': string;
       'book:publisher:image:profile:user:updated_at': string;
       'book:publisher:image:profile:user:publisher_id': string;
-      'book:publisher:image:profile:user:role': 'user' | 'admin';
+      'book:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
       'book:publisher:user:id': string;
       'book:publisher:user:name': string;
       'book:publisher:user:email': string;
@@ -4451,7 +4510,7 @@ export type Schema = {
       'book:publisher:user:created_at': string;
       'book:publisher:user:updated_at': string;
       'book:publisher:user:publisher_id': string;
-      'book:publisher:user:role': 'user' | 'admin';
+      'book:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'book:publisher:user:profile:id': string;
       'book:publisher:user:profile:created_at': string;
       'book:publisher:user:profile:updated_at': string;
@@ -4464,6 +4523,7 @@ export type Schema = {
       'book:publisher:user:profile:description': string;
       'book:publisher:user:profile:most_recently_published_on': string;
       'book:publisher:user:profile:job_title': string;
+      'book:publisher:user:profile:hidden_collaborators': Array<string>;
       'book:publisher:user:profile:Avatar': string;
       'book:publisher:user:profile:Authored Books': Array<{Title: string}>;
       'book:publisher:user:profile:image:id': string;
@@ -4486,7 +4546,7 @@ export type Schema = {
       'book:submitter:created_at': string;
       'book:submitter:updated_at': string;
       'book:submitter:publisher_id': string;
-      'book:submitter:role': 'user' | 'admin';
+      'book:submitter:role': 'user' | 'admin' | 'waitlist';
       'book:submitter:publisher:id': string;
       'book:submitter:publisher:created_at': string;
       'book:submitter:publisher:updated_at': string;
@@ -4521,7 +4581,7 @@ export type Schema = {
       'book:submitter:publisher:image:cover_for:slug': string;
       'book:submitter:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:publisher:image:cover_for:submitter_id': string;
-      'book:submitter:publisher:image:cover_for:draft_cover': boolean;
+      'book:submitter:publisher:image:cover_for:google_books_id': string;
       'book:submitter:publisher:image:cover_for:Cover': string;
       'book:submitter:publisher:image:cover_for:Preview Images': Array<string>;
       'book:submitter:publisher:image:cover_for:Tags': Array<string>;
@@ -4537,7 +4597,7 @@ export type Schema = {
       'book:submitter:publisher:image:preview_for:slug': string;
       'book:submitter:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:publisher:image:preview_for:submitter_id': string;
-      'book:submitter:publisher:image:preview_for:draft_cover': boolean;
+      'book:submitter:publisher:image:preview_for:google_books_id': string;
       'book:submitter:publisher:image:preview_for:Cover': string;
       'book:submitter:publisher:image:preview_for:Preview Images': Array<string>;
       'book:submitter:publisher:image:preview_for:Tags': Array<string>;
@@ -4554,6 +4614,7 @@ export type Schema = {
       'book:submitter:publisher:image:profile:description': string;
       'book:submitter:publisher:image:profile:most_recently_published_on': string;
       'book:submitter:publisher:image:profile:job_title': string;
+      'book:submitter:publisher:image:profile:hidden_collaborators': Array<string>;
       'book:submitter:publisher:image:profile:Avatar': string;
       'book:submitter:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'book:submitter:profile:id': string;
@@ -4568,6 +4629,7 @@ export type Schema = {
       'book:submitter:profile:description': string;
       'book:submitter:profile:most_recently_published_on': string;
       'book:submitter:profile:job_title': string;
+      'book:submitter:profile:hidden_collaborators': Array<string>;
       'book:submitter:profile:Avatar': string;
       'book:submitter:profile:Authored Books': Array<{Title: string}>;
       'book:submitter:profile:image:id': string;
@@ -4593,7 +4655,7 @@ export type Schema = {
       'book:submitter:profile:image:cover_for:slug': string;
       'book:submitter:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:profile:image:cover_for:submitter_id': string;
-      'book:submitter:profile:image:cover_for:draft_cover': boolean;
+      'book:submitter:profile:image:cover_for:google_books_id': string;
       'book:submitter:profile:image:cover_for:Cover': string;
       'book:submitter:profile:image:cover_for:Preview Images': Array<string>;
       'book:submitter:profile:image:cover_for:Tags': Array<string>;
@@ -4609,7 +4671,7 @@ export type Schema = {
       'book:submitter:profile:image:preview_for:slug': string;
       'book:submitter:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:profile:image:preview_for:submitter_id': string;
-      'book:submitter:profile:image:preview_for:draft_cover': boolean;
+      'book:submitter:profile:image:preview_for:google_books_id': string;
       'book:submitter:profile:image:preview_for:Cover': string;
       'book:submitter:profile:image:preview_for:Preview Images': Array<string>;
       'book:submitter:profile:image:preview_for:Tags': Array<string>;
@@ -4656,6 +4718,7 @@ export type Schema = {
       'profile:description': string;
       'profile:most_recently_published_on': string;
       'profile:job_title': string;
+      'profile:hidden_collaborators': Array<string>;
       'profile:Avatar': string;
       'profile:Authored Books': Array<{Title: string}>;
       'profile:image:id': string;
@@ -4681,7 +4744,7 @@ export type Schema = {
       'profile:image:cover_for:slug': string;
       'profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:cover_for:submitter_id': string;
-      'profile:image:cover_for:draft_cover': boolean;
+      'profile:image:cover_for:google_books_id': string;
       'profile:image:cover_for:Cover': string;
       'profile:image:cover_for:Preview Images': Array<string>;
       'profile:image:cover_for:Tags': Array<string>;
@@ -4717,7 +4780,7 @@ export type Schema = {
       'profile:image:cover_for:publisher:user:created_at': string;
       'profile:image:cover_for:publisher:user:updated_at': string;
       'profile:image:cover_for:publisher:user:publisher_id': string;
-      'profile:image:cover_for:publisher:user:role': 'user' | 'admin';
+      'profile:image:cover_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'profile:image:cover_for:submitter:id': string;
       'profile:image:cover_for:submitter:name': string;
       'profile:image:cover_for:submitter:email': string;
@@ -4726,7 +4789,7 @@ export type Schema = {
       'profile:image:cover_for:submitter:created_at': string;
       'profile:image:cover_for:submitter:updated_at': string;
       'profile:image:cover_for:submitter:publisher_id': string;
-      'profile:image:cover_for:submitter:role': 'user' | 'admin';
+      'profile:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'profile:image:cover_for:submitter:publisher:id': string;
       'profile:image:cover_for:submitter:publisher:created_at': string;
       'profile:image:cover_for:submitter:publisher:updated_at': string;
@@ -4750,6 +4813,7 @@ export type Schema = {
       'profile:image:cover_for:submitter:profile:description': string;
       'profile:image:cover_for:submitter:profile:most_recently_published_on': string;
       'profile:image:cover_for:submitter:profile:job_title': string;
+      'profile:image:cover_for:submitter:profile:hidden_collaborators': Array<string>;
       'profile:image:cover_for:submitter:profile:Avatar': string;
       'profile:image:cover_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'profile:image:preview_for:id': string;
@@ -4763,7 +4827,7 @@ export type Schema = {
       'profile:image:preview_for:slug': string;
       'profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:preview_for:submitter_id': string;
-      'profile:image:preview_for:draft_cover': boolean;
+      'profile:image:preview_for:google_books_id': string;
       'profile:image:preview_for:Cover': string;
       'profile:image:preview_for:Preview Images': Array<string>;
       'profile:image:preview_for:Tags': Array<string>;
@@ -4791,7 +4855,7 @@ export type Schema = {
       'profile:image:preview_for:image:preview_for:slug': string;
       'profile:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:preview_for:image:preview_for:submitter_id': string;
-      'profile:image:preview_for:image:preview_for:draft_cover': boolean;
+      'profile:image:preview_for:image:preview_for:google_books_id': string;
       'profile:image:preview_for:image:preview_for:Cover': string;
       'profile:image:preview_for:image:preview_for:Preview Images': Array<string>;
       'profile:image:preview_for:image:preview_for:Tags': Array<string>;
@@ -4838,7 +4902,7 @@ export type Schema = {
       'profile:image:preview_for:publisher:user:created_at': string;
       'profile:image:preview_for:publisher:user:updated_at': string;
       'profile:image:preview_for:publisher:user:publisher_id': string;
-      'profile:image:preview_for:publisher:user:role': 'user' | 'admin';
+      'profile:image:preview_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'profile:image:preview_for:submitter:id': string;
       'profile:image:preview_for:submitter:name': string;
       'profile:image:preview_for:submitter:email': string;
@@ -4847,7 +4911,7 @@ export type Schema = {
       'profile:image:preview_for:submitter:created_at': string;
       'profile:image:preview_for:submitter:updated_at': string;
       'profile:image:preview_for:submitter:publisher_id': string;
-      'profile:image:preview_for:submitter:role': 'user' | 'admin';
+      'profile:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'profile:image:preview_for:submitter:publisher:id': string;
       'profile:image:preview_for:submitter:publisher:created_at': string;
       'profile:image:preview_for:submitter:publisher:updated_at': string;
@@ -4871,6 +4935,7 @@ export type Schema = {
       'profile:image:preview_for:submitter:profile:description': string;
       'profile:image:preview_for:submitter:profile:most_recently_published_on': string;
       'profile:image:preview_for:submitter:profile:job_title': string;
+      'profile:image:preview_for:submitter:profile:hidden_collaborators': Array<string>;
       'profile:image:preview_for:submitter:profile:Avatar': string;
       'profile:image:preview_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'profile:image:publisher:id': string;
@@ -4892,7 +4957,7 @@ export type Schema = {
       'profile:image:publisher:user:created_at': string;
       'profile:image:publisher:user:updated_at': string;
       'profile:image:publisher:user:publisher_id': string;
-      'profile:image:publisher:user:role': 'user' | 'admin';
+      'profile:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'profile:image:publisher:user:profile:id': string;
       'profile:image:publisher:user:profile:created_at': string;
       'profile:image:publisher:user:profile:updated_at': string;
@@ -4905,6 +4970,7 @@ export type Schema = {
       'profile:image:publisher:user:profile:description': string;
       'profile:image:publisher:user:profile:most_recently_published_on': string;
       'profile:image:publisher:user:profile:job_title': string;
+      'profile:image:publisher:user:profile:hidden_collaborators': Array<string>;
       'profile:image:publisher:user:profile:Avatar': string;
       'profile:image:publisher:user:profile:Authored Books': Array<{Title: string}>;
       'profile:user:id': string;
@@ -4915,7 +4981,7 @@ export type Schema = {
       'profile:user:created_at': string;
       'profile:user:updated_at': string;
       'profile:user:publisher_id': string;
-      'profile:user:role': 'user' | 'admin';
+      'profile:user:role': 'user' | 'admin' | 'waitlist';
       'profile:user:publisher:id': string;
       'profile:user:publisher:created_at': string;
       'profile:user:publisher:updated_at': string;
@@ -4950,7 +5016,7 @@ export type Schema = {
       'profile:user:publisher:image:cover_for:slug': string;
       'profile:user:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'profile:user:publisher:image:cover_for:submitter_id': string;
-      'profile:user:publisher:image:cover_for:draft_cover': boolean;
+      'profile:user:publisher:image:cover_for:google_books_id': string;
       'profile:user:publisher:image:cover_for:Cover': string;
       'profile:user:publisher:image:cover_for:Preview Images': Array<string>;
       'profile:user:publisher:image:cover_for:Tags': Array<string>;
@@ -4966,7 +5032,7 @@ export type Schema = {
       'profile:user:publisher:image:preview_for:slug': string;
       'profile:user:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:user:publisher:image:preview_for:submitter_id': string;
-      'profile:user:publisher:image:preview_for:draft_cover': boolean;
+      'profile:user:publisher:image:preview_for:google_books_id': string;
       'profile:user:publisher:image:preview_for:Cover': string;
       'profile:user:publisher:image:preview_for:Preview Images': Array<string>;
       'profile:user:publisher:image:preview_for:Tags': Array<string>;
@@ -4983,6 +5049,7 @@ export type Schema = {
       'profile:user:publisher:image:profile:description': string;
       'profile:user:publisher:image:profile:most_recently_published_on': string;
       'profile:user:publisher:image:profile:job_title': string;
+      'profile:user:publisher:image:profile:hidden_collaborators': Array<string>;
       'profile:user:publisher:image:profile:Avatar': string;
       'profile:user:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'user:id': string;
@@ -4993,7 +5060,7 @@ export type Schema = {
       'user:created_at': string;
       'user:updated_at': string;
       'user:publisher_id': string;
-      'user:role': 'user' | 'admin';
+      'user:role': 'user' | 'admin' | 'waitlist';
       'user:publisher:id': string;
       'user:publisher:created_at': string;
       'user:publisher:updated_at': string;
@@ -5028,7 +5095,7 @@ export type Schema = {
       'user:publisher:image:cover_for:slug': string;
       'user:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'user:publisher:image:cover_for:submitter_id': string;
-      'user:publisher:image:cover_for:draft_cover': boolean;
+      'user:publisher:image:cover_for:google_books_id': string;
       'user:publisher:image:cover_for:Cover': string;
       'user:publisher:image:cover_for:Preview Images': Array<string>;
       'user:publisher:image:cover_for:Tags': Array<string>;
@@ -5052,7 +5119,7 @@ export type Schema = {
       'user:publisher:image:cover_for:submitter:created_at': string;
       'user:publisher:image:cover_for:submitter:updated_at': string;
       'user:publisher:image:cover_for:submitter:publisher_id': string;
-      'user:publisher:image:cover_for:submitter:role': 'user' | 'admin';
+      'user:publisher:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'user:publisher:image:preview_for:id': string;
       'user:publisher:image:preview_for:created_at': string;
       'user:publisher:image:preview_for:updated_at': string;
@@ -5064,7 +5131,7 @@ export type Schema = {
       'user:publisher:image:preview_for:slug': string;
       'user:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'user:publisher:image:preview_for:submitter_id': string;
-      'user:publisher:image:preview_for:draft_cover': boolean;
+      'user:publisher:image:preview_for:google_books_id': string;
       'user:publisher:image:preview_for:Cover': string;
       'user:publisher:image:preview_for:Preview Images': Array<string>;
       'user:publisher:image:preview_for:Tags': Array<string>;
@@ -5100,7 +5167,7 @@ export type Schema = {
       'user:publisher:image:preview_for:submitter:created_at': string;
       'user:publisher:image:preview_for:submitter:updated_at': string;
       'user:publisher:image:preview_for:submitter:publisher_id': string;
-      'user:publisher:image:preview_for:submitter:role': 'user' | 'admin';
+      'user:publisher:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'user:publisher:image:profile:id': string;
       'user:publisher:image:profile:created_at': string;
       'user:publisher:image:profile:updated_at': string;
@@ -5113,6 +5180,7 @@ export type Schema = {
       'user:publisher:image:profile:description': string;
       'user:publisher:image:profile:most_recently_published_on': string;
       'user:publisher:image:profile:job_title': string;
+      'user:publisher:image:profile:hidden_collaborators': Array<string>;
       'user:publisher:image:profile:Avatar': string;
       'user:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'user:publisher:image:profile:user:id': string;
@@ -5123,7 +5191,7 @@ export type Schema = {
       'user:publisher:image:profile:user:created_at': string;
       'user:publisher:image:profile:user:updated_at': string;
       'user:publisher:image:profile:user:publisher_id': string;
-      'user:publisher:image:profile:user:role': 'user' | 'admin';
+      'user:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
       'user:profile:id': string;
       'user:profile:created_at': string;
       'user:profile:updated_at': string;
@@ -5136,6 +5204,7 @@ export type Schema = {
       'user:profile:description': string;
       'user:profile:most_recently_published_on': string;
       'user:profile:job_title': string;
+      'user:profile:hidden_collaborators': Array<string>;
       'user:profile:Avatar': string;
       'user:profile:Authored Books': Array<{Title: string}>;
       'user:profile:image:id': string;
@@ -5161,7 +5230,7 @@ export type Schema = {
       'user:profile:image:cover_for:slug': string;
       'user:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'user:profile:image:cover_for:submitter_id': string;
-      'user:profile:image:cover_for:draft_cover': boolean;
+      'user:profile:image:cover_for:google_books_id': string;
       'user:profile:image:cover_for:Cover': string;
       'user:profile:image:cover_for:Preview Images': Array<string>;
       'user:profile:image:cover_for:Tags': Array<string>;
@@ -5185,7 +5254,7 @@ export type Schema = {
       'user:profile:image:cover_for:submitter:created_at': string;
       'user:profile:image:cover_for:submitter:updated_at': string;
       'user:profile:image:cover_for:submitter:publisher_id': string;
-      'user:profile:image:cover_for:submitter:role': 'user' | 'admin';
+      'user:profile:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'user:profile:image:preview_for:id': string;
       'user:profile:image:preview_for:created_at': string;
       'user:profile:image:preview_for:updated_at': string;
@@ -5197,7 +5266,7 @@ export type Schema = {
       'user:profile:image:preview_for:slug': string;
       'user:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'user:profile:image:preview_for:submitter_id': string;
-      'user:profile:image:preview_for:draft_cover': boolean;
+      'user:profile:image:preview_for:google_books_id': string;
       'user:profile:image:preview_for:Cover': string;
       'user:profile:image:preview_for:Preview Images': Array<string>;
       'user:profile:image:preview_for:Tags': Array<string>;
@@ -5233,7 +5302,7 @@ export type Schema = {
       'user:profile:image:preview_for:submitter:created_at': string;
       'user:profile:image:preview_for:submitter:updated_at': string;
       'user:profile:image:preview_for:submitter:publisher_id': string;
-      'user:profile:image:preview_for:submitter:role': 'user' | 'admin';
+      'user:profile:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'user:profile:image:publisher:id': string;
       'user:profile:image:publisher:created_at': string;
       'user:profile:image:publisher:updated_at': string;
@@ -5253,7 +5322,7 @@ export type Schema = {
       'user:profile:image:publisher:user:created_at': string;
       'user:profile:image:publisher:user:updated_at': string;
       'user:profile:image:publisher:user:publisher_id': string;
-      'user:profile:image:publisher:user:role': 'user' | 'admin';
+      'user:profile:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
     };
   };
   'featured_profiles': {
@@ -5280,6 +5349,7 @@ export type Schema = {
       'profile:description': string;
       'profile:most_recently_published_on': string;
       'profile:job_title': string;
+      'profile:hidden_collaborators': Array<string>;
       'profile:Avatar': string;
       'profile:Authored Books': Array<{Title: string}>;
       'profile:image:id': string;
@@ -5305,7 +5375,7 @@ export type Schema = {
       'profile:image:cover_for:slug': string;
       'profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:cover_for:submitter_id': string;
-      'profile:image:cover_for:draft_cover': boolean;
+      'profile:image:cover_for:google_books_id': string;
       'profile:image:cover_for:Cover': string;
       'profile:image:cover_for:Preview Images': Array<string>;
       'profile:image:cover_for:Tags': Array<string>;
@@ -5341,7 +5411,7 @@ export type Schema = {
       'profile:image:cover_for:publisher:user:created_at': string;
       'profile:image:cover_for:publisher:user:updated_at': string;
       'profile:image:cover_for:publisher:user:publisher_id': string;
-      'profile:image:cover_for:publisher:user:role': 'user' | 'admin';
+      'profile:image:cover_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'profile:image:cover_for:submitter:id': string;
       'profile:image:cover_for:submitter:name': string;
       'profile:image:cover_for:submitter:email': string;
@@ -5350,7 +5420,7 @@ export type Schema = {
       'profile:image:cover_for:submitter:created_at': string;
       'profile:image:cover_for:submitter:updated_at': string;
       'profile:image:cover_for:submitter:publisher_id': string;
-      'profile:image:cover_for:submitter:role': 'user' | 'admin';
+      'profile:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'profile:image:cover_for:submitter:publisher:id': string;
       'profile:image:cover_for:submitter:publisher:created_at': string;
       'profile:image:cover_for:submitter:publisher:updated_at': string;
@@ -5374,6 +5444,7 @@ export type Schema = {
       'profile:image:cover_for:submitter:profile:description': string;
       'profile:image:cover_for:submitter:profile:most_recently_published_on': string;
       'profile:image:cover_for:submitter:profile:job_title': string;
+      'profile:image:cover_for:submitter:profile:hidden_collaborators': Array<string>;
       'profile:image:cover_for:submitter:profile:Avatar': string;
       'profile:image:cover_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'profile:image:preview_for:id': string;
@@ -5387,7 +5458,7 @@ export type Schema = {
       'profile:image:preview_for:slug': string;
       'profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:preview_for:submitter_id': string;
-      'profile:image:preview_for:draft_cover': boolean;
+      'profile:image:preview_for:google_books_id': string;
       'profile:image:preview_for:Cover': string;
       'profile:image:preview_for:Preview Images': Array<string>;
       'profile:image:preview_for:Tags': Array<string>;
@@ -5415,7 +5486,7 @@ export type Schema = {
       'profile:image:preview_for:image:preview_for:slug': string;
       'profile:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:preview_for:image:preview_for:submitter_id': string;
-      'profile:image:preview_for:image:preview_for:draft_cover': boolean;
+      'profile:image:preview_for:image:preview_for:google_books_id': string;
       'profile:image:preview_for:image:preview_for:Cover': string;
       'profile:image:preview_for:image:preview_for:Preview Images': Array<string>;
       'profile:image:preview_for:image:preview_for:Tags': Array<string>;
@@ -5462,7 +5533,7 @@ export type Schema = {
       'profile:image:preview_for:publisher:user:created_at': string;
       'profile:image:preview_for:publisher:user:updated_at': string;
       'profile:image:preview_for:publisher:user:publisher_id': string;
-      'profile:image:preview_for:publisher:user:role': 'user' | 'admin';
+      'profile:image:preview_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'profile:image:preview_for:submitter:id': string;
       'profile:image:preview_for:submitter:name': string;
       'profile:image:preview_for:submitter:email': string;
@@ -5471,7 +5542,7 @@ export type Schema = {
       'profile:image:preview_for:submitter:created_at': string;
       'profile:image:preview_for:submitter:updated_at': string;
       'profile:image:preview_for:submitter:publisher_id': string;
-      'profile:image:preview_for:submitter:role': 'user' | 'admin';
+      'profile:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'profile:image:preview_for:submitter:publisher:id': string;
       'profile:image:preview_for:submitter:publisher:created_at': string;
       'profile:image:preview_for:submitter:publisher:updated_at': string;
@@ -5495,6 +5566,7 @@ export type Schema = {
       'profile:image:preview_for:submitter:profile:description': string;
       'profile:image:preview_for:submitter:profile:most_recently_published_on': string;
       'profile:image:preview_for:submitter:profile:job_title': string;
+      'profile:image:preview_for:submitter:profile:hidden_collaborators': Array<string>;
       'profile:image:preview_for:submitter:profile:Avatar': string;
       'profile:image:preview_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'profile:image:publisher:id': string;
@@ -5516,7 +5588,7 @@ export type Schema = {
       'profile:image:publisher:user:created_at': string;
       'profile:image:publisher:user:updated_at': string;
       'profile:image:publisher:user:publisher_id': string;
-      'profile:image:publisher:user:role': 'user' | 'admin';
+      'profile:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'profile:image:publisher:user:profile:id': string;
       'profile:image:publisher:user:profile:created_at': string;
       'profile:image:publisher:user:profile:updated_at': string;
@@ -5529,6 +5601,7 @@ export type Schema = {
       'profile:image:publisher:user:profile:description': string;
       'profile:image:publisher:user:profile:most_recently_published_on': string;
       'profile:image:publisher:user:profile:job_title': string;
+      'profile:image:publisher:user:profile:hidden_collaborators': Array<string>;
       'profile:image:publisher:user:profile:Avatar': string;
       'profile:image:publisher:user:profile:Authored Books': Array<{Title: string}>;
       'profile:user:id': string;
@@ -5539,7 +5612,7 @@ export type Schema = {
       'profile:user:created_at': string;
       'profile:user:updated_at': string;
       'profile:user:publisher_id': string;
-      'profile:user:role': 'user' | 'admin';
+      'profile:user:role': 'user' | 'admin' | 'waitlist';
       'profile:user:publisher:id': string;
       'profile:user:publisher:created_at': string;
       'profile:user:publisher:updated_at': string;
@@ -5574,7 +5647,7 @@ export type Schema = {
       'profile:user:publisher:image:cover_for:slug': string;
       'profile:user:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'profile:user:publisher:image:cover_for:submitter_id': string;
-      'profile:user:publisher:image:cover_for:draft_cover': boolean;
+      'profile:user:publisher:image:cover_for:google_books_id': string;
       'profile:user:publisher:image:cover_for:Cover': string;
       'profile:user:publisher:image:cover_for:Preview Images': Array<string>;
       'profile:user:publisher:image:cover_for:Tags': Array<string>;
@@ -5590,7 +5663,7 @@ export type Schema = {
       'profile:user:publisher:image:preview_for:slug': string;
       'profile:user:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:user:publisher:image:preview_for:submitter_id': string;
-      'profile:user:publisher:image:preview_for:draft_cover': boolean;
+      'profile:user:publisher:image:preview_for:google_books_id': string;
       'profile:user:publisher:image:preview_for:Cover': string;
       'profile:user:publisher:image:preview_for:Preview Images': Array<string>;
       'profile:user:publisher:image:preview_for:Tags': Array<string>;
@@ -5607,6 +5680,7 @@ export type Schema = {
       'profile:user:publisher:image:profile:description': string;
       'profile:user:publisher:image:profile:most_recently_published_on': string;
       'profile:user:publisher:image:profile:job_title': string;
+      'profile:user:publisher:image:profile:hidden_collaborators': Array<string>;
       'profile:user:publisher:image:profile:Avatar': string;
       'profile:user:publisher:image:profile:Authored Books': Array<{Title: string}>;
     };
@@ -5636,7 +5710,7 @@ export type Schema = {
       'book:slug': string;
       'book:status': 'draft' | 'inReview' | 'published';
       'book:submitter_id': string;
-      'book:draft_cover': boolean;
+      'book:google_books_id': string;
       'book:Cover': string;
       'book:Preview Images': Array<string>;
       'book:Tags': Array<string>;
@@ -5664,7 +5738,7 @@ export type Schema = {
       'book:image:preview_for:slug': string;
       'book:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:image:preview_for:submitter_id': string;
-      'book:image:preview_for:draft_cover': boolean;
+      'book:image:preview_for:google_books_id': string;
       'book:image:preview_for:Cover': string;
       'book:image:preview_for:Preview Images': Array<string>;
       'book:image:preview_for:Tags': Array<string>;
@@ -5692,7 +5766,7 @@ export type Schema = {
       'book:image:preview_for:image:preview_for:slug': string;
       'book:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:image:preview_for:image:preview_for:submitter_id': string;
-      'book:image:preview_for:image:preview_for:draft_cover': boolean;
+      'book:image:preview_for:image:preview_for:google_books_id': string;
       'book:image:preview_for:image:preview_for:Cover': string;
       'book:image:preview_for:image:preview_for:Preview Images': Array<string>;
       'book:image:preview_for:image:preview_for:Tags': Array<string>;
@@ -5720,6 +5794,7 @@ export type Schema = {
       'book:image:preview_for:image:profile:description': string;
       'book:image:preview_for:image:profile:most_recently_published_on': string;
       'book:image:preview_for:image:profile:job_title': string;
+      'book:image:preview_for:image:profile:hidden_collaborators': Array<string>;
       'book:image:preview_for:image:profile:Avatar': string;
       'book:image:preview_for:image:profile:Authored Books': Array<{Title: string}>;
       'book:image:preview_for:publisher:id': string;
@@ -5753,7 +5828,7 @@ export type Schema = {
       'book:image:preview_for:publisher:user:created_at': string;
       'book:image:preview_for:publisher:user:updated_at': string;
       'book:image:preview_for:publisher:user:publisher_id': string;
-      'book:image:preview_for:publisher:user:role': 'user' | 'admin';
+      'book:image:preview_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'book:image:preview_for:submitter:id': string;
       'book:image:preview_for:submitter:name': string;
       'book:image:preview_for:submitter:email': string;
@@ -5762,7 +5837,7 @@ export type Schema = {
       'book:image:preview_for:submitter:created_at': string;
       'book:image:preview_for:submitter:updated_at': string;
       'book:image:preview_for:submitter:publisher_id': string;
-      'book:image:preview_for:submitter:role': 'user' | 'admin';
+      'book:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'book:image:preview_for:submitter:publisher:id': string;
       'book:image:preview_for:submitter:publisher:created_at': string;
       'book:image:preview_for:submitter:publisher:updated_at': string;
@@ -5786,6 +5861,7 @@ export type Schema = {
       'book:image:preview_for:submitter:profile:description': string;
       'book:image:preview_for:submitter:profile:most_recently_published_on': string;
       'book:image:preview_for:submitter:profile:job_title': string;
+      'book:image:preview_for:submitter:profile:hidden_collaborators': Array<string>;
       'book:image:preview_for:submitter:profile:Avatar': string;
       'book:image:preview_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'book:image:publisher:id': string;
@@ -5807,7 +5883,7 @@ export type Schema = {
       'book:image:publisher:user:created_at': string;
       'book:image:publisher:user:updated_at': string;
       'book:image:publisher:user:publisher_id': string;
-      'book:image:publisher:user:role': 'user' | 'admin';
+      'book:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'book:image:publisher:user:profile:id': string;
       'book:image:publisher:user:profile:created_at': string;
       'book:image:publisher:user:profile:updated_at': string;
@@ -5820,6 +5896,7 @@ export type Schema = {
       'book:image:publisher:user:profile:description': string;
       'book:image:publisher:user:profile:most_recently_published_on': string;
       'book:image:publisher:user:profile:job_title': string;
+      'book:image:publisher:user:profile:hidden_collaborators': Array<string>;
       'book:image:publisher:user:profile:Avatar': string;
       'book:image:publisher:user:profile:Authored Books': Array<{Title: string}>;
       'book:image:profile:id': string;
@@ -5834,6 +5911,7 @@ export type Schema = {
       'book:image:profile:description': string;
       'book:image:profile:most_recently_published_on': string;
       'book:image:profile:job_title': string;
+      'book:image:profile:hidden_collaborators': Array<string>;
       'book:image:profile:Avatar': string;
       'book:image:profile:Authored Books': Array<{Title: string}>;
       'book:image:profile:user:id': string;
@@ -5844,7 +5922,7 @@ export type Schema = {
       'book:image:profile:user:created_at': string;
       'book:image:profile:user:updated_at': string;
       'book:image:profile:user:publisher_id': string;
-      'book:image:profile:user:role': 'user' | 'admin';
+      'book:image:profile:user:role': 'user' | 'admin' | 'waitlist';
       'book:image:profile:user:publisher:id': string;
       'book:image:profile:user:publisher:created_at': string;
       'book:image:profile:user:publisher:updated_at': string;
@@ -5890,7 +5968,7 @@ export type Schema = {
       'book:publisher:image:cover_for:slug': string;
       'book:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:image:cover_for:submitter_id': string;
-      'book:publisher:image:cover_for:draft_cover': boolean;
+      'book:publisher:image:cover_for:google_books_id': string;
       'book:publisher:image:cover_for:Cover': string;
       'book:publisher:image:cover_for:Preview Images': Array<string>;
       'book:publisher:image:cover_for:Tags': Array<string>;
@@ -5914,7 +5992,7 @@ export type Schema = {
       'book:publisher:image:cover_for:submitter:created_at': string;
       'book:publisher:image:cover_for:submitter:updated_at': string;
       'book:publisher:image:cover_for:submitter:publisher_id': string;
-      'book:publisher:image:cover_for:submitter:role': 'user' | 'admin';
+      'book:publisher:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'book:publisher:image:preview_for:id': string;
       'book:publisher:image:preview_for:created_at': string;
       'book:publisher:image:preview_for:updated_at': string;
@@ -5926,7 +6004,7 @@ export type Schema = {
       'book:publisher:image:preview_for:slug': string;
       'book:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:image:preview_for:submitter_id': string;
-      'book:publisher:image:preview_for:draft_cover': boolean;
+      'book:publisher:image:preview_for:google_books_id': string;
       'book:publisher:image:preview_for:Cover': string;
       'book:publisher:image:preview_for:Preview Images': Array<string>;
       'book:publisher:image:preview_for:Tags': Array<string>;
@@ -5962,7 +6040,7 @@ export type Schema = {
       'book:publisher:image:preview_for:submitter:created_at': string;
       'book:publisher:image:preview_for:submitter:updated_at': string;
       'book:publisher:image:preview_for:submitter:publisher_id': string;
-      'book:publisher:image:preview_for:submitter:role': 'user' | 'admin';
+      'book:publisher:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'book:publisher:image:profile:id': string;
       'book:publisher:image:profile:created_at': string;
       'book:publisher:image:profile:updated_at': string;
@@ -5975,6 +6053,7 @@ export type Schema = {
       'book:publisher:image:profile:description': string;
       'book:publisher:image:profile:most_recently_published_on': string;
       'book:publisher:image:profile:job_title': string;
+      'book:publisher:image:profile:hidden_collaborators': Array<string>;
       'book:publisher:image:profile:Avatar': string;
       'book:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'book:publisher:image:profile:user:id': string;
@@ -5985,7 +6064,7 @@ export type Schema = {
       'book:publisher:image:profile:user:created_at': string;
       'book:publisher:image:profile:user:updated_at': string;
       'book:publisher:image:profile:user:publisher_id': string;
-      'book:publisher:image:profile:user:role': 'user' | 'admin';
+      'book:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
       'book:publisher:user:id': string;
       'book:publisher:user:name': string;
       'book:publisher:user:email': string;
@@ -5994,7 +6073,7 @@ export type Schema = {
       'book:publisher:user:created_at': string;
       'book:publisher:user:updated_at': string;
       'book:publisher:user:publisher_id': string;
-      'book:publisher:user:role': 'user' | 'admin';
+      'book:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'book:publisher:user:profile:id': string;
       'book:publisher:user:profile:created_at': string;
       'book:publisher:user:profile:updated_at': string;
@@ -6007,6 +6086,7 @@ export type Schema = {
       'book:publisher:user:profile:description': string;
       'book:publisher:user:profile:most_recently_published_on': string;
       'book:publisher:user:profile:job_title': string;
+      'book:publisher:user:profile:hidden_collaborators': Array<string>;
       'book:publisher:user:profile:Avatar': string;
       'book:publisher:user:profile:Authored Books': Array<{Title: string}>;
       'book:publisher:user:profile:image:id': string;
@@ -6029,7 +6109,7 @@ export type Schema = {
       'book:submitter:created_at': string;
       'book:submitter:updated_at': string;
       'book:submitter:publisher_id': string;
-      'book:submitter:role': 'user' | 'admin';
+      'book:submitter:role': 'user' | 'admin' | 'waitlist';
       'book:submitter:publisher:id': string;
       'book:submitter:publisher:created_at': string;
       'book:submitter:publisher:updated_at': string;
@@ -6064,7 +6144,7 @@ export type Schema = {
       'book:submitter:publisher:image:cover_for:slug': string;
       'book:submitter:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:publisher:image:cover_for:submitter_id': string;
-      'book:submitter:publisher:image:cover_for:draft_cover': boolean;
+      'book:submitter:publisher:image:cover_for:google_books_id': string;
       'book:submitter:publisher:image:cover_for:Cover': string;
       'book:submitter:publisher:image:cover_for:Preview Images': Array<string>;
       'book:submitter:publisher:image:cover_for:Tags': Array<string>;
@@ -6080,7 +6160,7 @@ export type Schema = {
       'book:submitter:publisher:image:preview_for:slug': string;
       'book:submitter:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:publisher:image:preview_for:submitter_id': string;
-      'book:submitter:publisher:image:preview_for:draft_cover': boolean;
+      'book:submitter:publisher:image:preview_for:google_books_id': string;
       'book:submitter:publisher:image:preview_for:Cover': string;
       'book:submitter:publisher:image:preview_for:Preview Images': Array<string>;
       'book:submitter:publisher:image:preview_for:Tags': Array<string>;
@@ -6097,6 +6177,7 @@ export type Schema = {
       'book:submitter:publisher:image:profile:description': string;
       'book:submitter:publisher:image:profile:most_recently_published_on': string;
       'book:submitter:publisher:image:profile:job_title': string;
+      'book:submitter:publisher:image:profile:hidden_collaborators': Array<string>;
       'book:submitter:publisher:image:profile:Avatar': string;
       'book:submitter:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'book:submitter:profile:id': string;
@@ -6111,6 +6192,7 @@ export type Schema = {
       'book:submitter:profile:description': string;
       'book:submitter:profile:most_recently_published_on': string;
       'book:submitter:profile:job_title': string;
+      'book:submitter:profile:hidden_collaborators': Array<string>;
       'book:submitter:profile:Avatar': string;
       'book:submitter:profile:Authored Books': Array<{Title: string}>;
       'book:submitter:profile:image:id': string;
@@ -6136,7 +6218,7 @@ export type Schema = {
       'book:submitter:profile:image:cover_for:slug': string;
       'book:submitter:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:profile:image:cover_for:submitter_id': string;
-      'book:submitter:profile:image:cover_for:draft_cover': boolean;
+      'book:submitter:profile:image:cover_for:google_books_id': string;
       'book:submitter:profile:image:cover_for:Cover': string;
       'book:submitter:profile:image:cover_for:Preview Images': Array<string>;
       'book:submitter:profile:image:cover_for:Tags': Array<string>;
@@ -6152,7 +6234,7 @@ export type Schema = {
       'book:submitter:profile:image:preview_for:slug': string;
       'book:submitter:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:profile:image:preview_for:submitter_id': string;
-      'book:submitter:profile:image:preview_for:draft_cover': boolean;
+      'book:submitter:profile:image:preview_for:google_books_id': string;
       'book:submitter:profile:image:preview_for:Cover': string;
       'book:submitter:profile:image:preview_for:Preview Images': Array<string>;
       'book:submitter:profile:image:preview_for:Tags': Array<string>;
@@ -6203,7 +6285,7 @@ export type Schema = {
       'cover_for:slug': string;
       'cover_for:status': 'draft' | 'inReview' | 'published';
       'cover_for:submitter_id': string;
-      'cover_for:draft_cover': boolean;
+      'cover_for:google_books_id': string;
       'cover_for:Cover': string;
       'cover_for:Preview Images': Array<string>;
       'cover_for:Tags': Array<string>;
@@ -6242,7 +6324,7 @@ export type Schema = {
       'cover_for:publisher:image:cover_for:slug': string;
       'cover_for:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'cover_for:publisher:image:cover_for:submitter_id': string;
-      'cover_for:publisher:image:cover_for:draft_cover': boolean;
+      'cover_for:publisher:image:cover_for:google_books_id': string;
       'cover_for:publisher:image:cover_for:Cover': string;
       'cover_for:publisher:image:cover_for:Preview Images': Array<string>;
       'cover_for:publisher:image:cover_for:Tags': Array<string>;
@@ -6266,7 +6348,7 @@ export type Schema = {
       'cover_for:publisher:image:cover_for:submitter:created_at': string;
       'cover_for:publisher:image:cover_for:submitter:updated_at': string;
       'cover_for:publisher:image:cover_for:submitter:publisher_id': string;
-      'cover_for:publisher:image:cover_for:submitter:role': 'user' | 'admin';
+      'cover_for:publisher:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'cover_for:publisher:image:preview_for:id': string;
       'cover_for:publisher:image:preview_for:created_at': string;
       'cover_for:publisher:image:preview_for:updated_at': string;
@@ -6278,7 +6360,7 @@ export type Schema = {
       'cover_for:publisher:image:preview_for:slug': string;
       'cover_for:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'cover_for:publisher:image:preview_for:submitter_id': string;
-      'cover_for:publisher:image:preview_for:draft_cover': boolean;
+      'cover_for:publisher:image:preview_for:google_books_id': string;
       'cover_for:publisher:image:preview_for:Cover': string;
       'cover_for:publisher:image:preview_for:Preview Images': Array<string>;
       'cover_for:publisher:image:preview_for:Tags': Array<string>;
@@ -6302,7 +6384,7 @@ export type Schema = {
       'cover_for:publisher:image:preview_for:submitter:created_at': string;
       'cover_for:publisher:image:preview_for:submitter:updated_at': string;
       'cover_for:publisher:image:preview_for:submitter:publisher_id': string;
-      'cover_for:publisher:image:preview_for:submitter:role': 'user' | 'admin';
+      'cover_for:publisher:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'cover_for:publisher:image:profile:id': string;
       'cover_for:publisher:image:profile:created_at': string;
       'cover_for:publisher:image:profile:updated_at': string;
@@ -6315,6 +6397,7 @@ export type Schema = {
       'cover_for:publisher:image:profile:description': string;
       'cover_for:publisher:image:profile:most_recently_published_on': string;
       'cover_for:publisher:image:profile:job_title': string;
+      'cover_for:publisher:image:profile:hidden_collaborators': Array<string>;
       'cover_for:publisher:image:profile:Avatar': string;
       'cover_for:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'cover_for:publisher:image:profile:user:id': string;
@@ -6325,7 +6408,7 @@ export type Schema = {
       'cover_for:publisher:image:profile:user:created_at': string;
       'cover_for:publisher:image:profile:user:updated_at': string;
       'cover_for:publisher:image:profile:user:publisher_id': string;
-      'cover_for:publisher:image:profile:user:role': 'user' | 'admin';
+      'cover_for:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
       'cover_for:publisher:user:id': string;
       'cover_for:publisher:user:name': string;
       'cover_for:publisher:user:email': string;
@@ -6334,7 +6417,7 @@ export type Schema = {
       'cover_for:publisher:user:created_at': string;
       'cover_for:publisher:user:updated_at': string;
       'cover_for:publisher:user:publisher_id': string;
-      'cover_for:publisher:user:role': 'user' | 'admin';
+      'cover_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'cover_for:publisher:user:profile:id': string;
       'cover_for:publisher:user:profile:created_at': string;
       'cover_for:publisher:user:profile:updated_at': string;
@@ -6347,6 +6430,7 @@ export type Schema = {
       'cover_for:publisher:user:profile:description': string;
       'cover_for:publisher:user:profile:most_recently_published_on': string;
       'cover_for:publisher:user:profile:job_title': string;
+      'cover_for:publisher:user:profile:hidden_collaborators': Array<string>;
       'cover_for:publisher:user:profile:Avatar': string;
       'cover_for:publisher:user:profile:Authored Books': Array<{Title: string}>;
       'cover_for:publisher:user:profile:image:id': string;
@@ -6369,7 +6453,7 @@ export type Schema = {
       'cover_for:submitter:created_at': string;
       'cover_for:submitter:updated_at': string;
       'cover_for:submitter:publisher_id': string;
-      'cover_for:submitter:role': 'user' | 'admin';
+      'cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'cover_for:submitter:publisher:id': string;
       'cover_for:submitter:publisher:created_at': string;
       'cover_for:submitter:publisher:updated_at': string;
@@ -6404,7 +6488,7 @@ export type Schema = {
       'cover_for:submitter:publisher:image:cover_for:slug': string;
       'cover_for:submitter:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'cover_for:submitter:publisher:image:cover_for:submitter_id': string;
-      'cover_for:submitter:publisher:image:cover_for:draft_cover': boolean;
+      'cover_for:submitter:publisher:image:cover_for:google_books_id': string;
       'cover_for:submitter:publisher:image:cover_for:Cover': string;
       'cover_for:submitter:publisher:image:cover_for:Preview Images': Array<string>;
       'cover_for:submitter:publisher:image:cover_for:Tags': Array<string>;
@@ -6420,7 +6504,7 @@ export type Schema = {
       'cover_for:submitter:publisher:image:preview_for:slug': string;
       'cover_for:submitter:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'cover_for:submitter:publisher:image:preview_for:submitter_id': string;
-      'cover_for:submitter:publisher:image:preview_for:draft_cover': boolean;
+      'cover_for:submitter:publisher:image:preview_for:google_books_id': string;
       'cover_for:submitter:publisher:image:preview_for:Cover': string;
       'cover_for:submitter:publisher:image:preview_for:Preview Images': Array<string>;
       'cover_for:submitter:publisher:image:preview_for:Tags': Array<string>;
@@ -6437,6 +6521,7 @@ export type Schema = {
       'cover_for:submitter:publisher:image:profile:description': string;
       'cover_for:submitter:publisher:image:profile:most_recently_published_on': string;
       'cover_for:submitter:publisher:image:profile:job_title': string;
+      'cover_for:submitter:publisher:image:profile:hidden_collaborators': Array<string>;
       'cover_for:submitter:publisher:image:profile:Avatar': string;
       'cover_for:submitter:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'cover_for:submitter:profile:id': string;
@@ -6451,6 +6536,7 @@ export type Schema = {
       'cover_for:submitter:profile:description': string;
       'cover_for:submitter:profile:most_recently_published_on': string;
       'cover_for:submitter:profile:job_title': string;
+      'cover_for:submitter:profile:hidden_collaborators': Array<string>;
       'cover_for:submitter:profile:Avatar': string;
       'cover_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'cover_for:submitter:profile:image:id': string;
@@ -6476,7 +6562,7 @@ export type Schema = {
       'cover_for:submitter:profile:image:cover_for:slug': string;
       'cover_for:submitter:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'cover_for:submitter:profile:image:cover_for:submitter_id': string;
-      'cover_for:submitter:profile:image:cover_for:draft_cover': boolean;
+      'cover_for:submitter:profile:image:cover_for:google_books_id': string;
       'cover_for:submitter:profile:image:cover_for:Cover': string;
       'cover_for:submitter:profile:image:cover_for:Preview Images': Array<string>;
       'cover_for:submitter:profile:image:cover_for:Tags': Array<string>;
@@ -6492,7 +6578,7 @@ export type Schema = {
       'cover_for:submitter:profile:image:preview_for:slug': string;
       'cover_for:submitter:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'cover_for:submitter:profile:image:preview_for:submitter_id': string;
-      'cover_for:submitter:profile:image:preview_for:draft_cover': boolean;
+      'cover_for:submitter:profile:image:preview_for:google_books_id': string;
       'cover_for:submitter:profile:image:preview_for:Cover': string;
       'cover_for:submitter:profile:image:preview_for:Preview Images': Array<string>;
       'cover_for:submitter:profile:image:preview_for:Tags': Array<string>;
@@ -6519,7 +6605,7 @@ export type Schema = {
       'preview_for:slug': string;
       'preview_for:status': 'draft' | 'inReview' | 'published';
       'preview_for:submitter_id': string;
-      'preview_for:draft_cover': boolean;
+      'preview_for:google_books_id': string;
       'preview_for:Cover': string;
       'preview_for:Preview Images': Array<string>;
       'preview_for:Tags': Array<string>;
@@ -6547,7 +6633,7 @@ export type Schema = {
       'preview_for:image:preview_for:slug': string;
       'preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'preview_for:image:preview_for:submitter_id': string;
-      'preview_for:image:preview_for:draft_cover': boolean;
+      'preview_for:image:preview_for:google_books_id': string;
       'preview_for:image:preview_for:Cover': string;
       'preview_for:image:preview_for:Preview Images': Array<string>;
       'preview_for:image:preview_for:Tags': Array<string>;
@@ -6575,7 +6661,7 @@ export type Schema = {
       'preview_for:image:preview_for:image:preview_for:slug': string;
       'preview_for:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'preview_for:image:preview_for:image:preview_for:submitter_id': string;
-      'preview_for:image:preview_for:image:preview_for:draft_cover': boolean;
+      'preview_for:image:preview_for:image:preview_for:google_books_id': string;
       'preview_for:image:preview_for:image:preview_for:Cover': string;
       'preview_for:image:preview_for:image:preview_for:Preview Images': Array<string>;
       'preview_for:image:preview_for:image:preview_for:Tags': Array<string>;
@@ -6603,6 +6689,7 @@ export type Schema = {
       'preview_for:image:preview_for:image:profile:description': string;
       'preview_for:image:preview_for:image:profile:most_recently_published_on': string;
       'preview_for:image:preview_for:image:profile:job_title': string;
+      'preview_for:image:preview_for:image:profile:hidden_collaborators': Array<string>;
       'preview_for:image:preview_for:image:profile:Avatar': string;
       'preview_for:image:preview_for:image:profile:Authored Books': Array<{Title: string}>;
       'preview_for:image:preview_for:publisher:id': string;
@@ -6636,7 +6723,7 @@ export type Schema = {
       'preview_for:image:preview_for:publisher:user:created_at': string;
       'preview_for:image:preview_for:publisher:user:updated_at': string;
       'preview_for:image:preview_for:publisher:user:publisher_id': string;
-      'preview_for:image:preview_for:publisher:user:role': 'user' | 'admin';
+      'preview_for:image:preview_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'preview_for:image:preview_for:submitter:id': string;
       'preview_for:image:preview_for:submitter:name': string;
       'preview_for:image:preview_for:submitter:email': string;
@@ -6645,7 +6732,7 @@ export type Schema = {
       'preview_for:image:preview_for:submitter:created_at': string;
       'preview_for:image:preview_for:submitter:updated_at': string;
       'preview_for:image:preview_for:submitter:publisher_id': string;
-      'preview_for:image:preview_for:submitter:role': 'user' | 'admin';
+      'preview_for:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'preview_for:image:preview_for:submitter:publisher:id': string;
       'preview_for:image:preview_for:submitter:publisher:created_at': string;
       'preview_for:image:preview_for:submitter:publisher:updated_at': string;
@@ -6669,6 +6756,7 @@ export type Schema = {
       'preview_for:image:preview_for:submitter:profile:description': string;
       'preview_for:image:preview_for:submitter:profile:most_recently_published_on': string;
       'preview_for:image:preview_for:submitter:profile:job_title': string;
+      'preview_for:image:preview_for:submitter:profile:hidden_collaborators': Array<string>;
       'preview_for:image:preview_for:submitter:profile:Avatar': string;
       'preview_for:image:preview_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'preview_for:image:publisher:id': string;
@@ -6690,7 +6778,7 @@ export type Schema = {
       'preview_for:image:publisher:user:created_at': string;
       'preview_for:image:publisher:user:updated_at': string;
       'preview_for:image:publisher:user:publisher_id': string;
-      'preview_for:image:publisher:user:role': 'user' | 'admin';
+      'preview_for:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'preview_for:image:publisher:user:profile:id': string;
       'preview_for:image:publisher:user:profile:created_at': string;
       'preview_for:image:publisher:user:profile:updated_at': string;
@@ -6703,6 +6791,7 @@ export type Schema = {
       'preview_for:image:publisher:user:profile:description': string;
       'preview_for:image:publisher:user:profile:most_recently_published_on': string;
       'preview_for:image:publisher:user:profile:job_title': string;
+      'preview_for:image:publisher:user:profile:hidden_collaborators': Array<string>;
       'preview_for:image:publisher:user:profile:Avatar': string;
       'preview_for:image:publisher:user:profile:Authored Books': Array<{Title: string}>;
       'preview_for:image:profile:id': string;
@@ -6717,6 +6806,7 @@ export type Schema = {
       'preview_for:image:profile:description': string;
       'preview_for:image:profile:most_recently_published_on': string;
       'preview_for:image:profile:job_title': string;
+      'preview_for:image:profile:hidden_collaborators': Array<string>;
       'preview_for:image:profile:Avatar': string;
       'preview_for:image:profile:Authored Books': Array<{Title: string}>;
       'preview_for:image:profile:user:id': string;
@@ -6727,7 +6817,7 @@ export type Schema = {
       'preview_for:image:profile:user:created_at': string;
       'preview_for:image:profile:user:updated_at': string;
       'preview_for:image:profile:user:publisher_id': string;
-      'preview_for:image:profile:user:role': 'user' | 'admin';
+      'preview_for:image:profile:user:role': 'user' | 'admin' | 'waitlist';
       'preview_for:image:profile:user:publisher:id': string;
       'preview_for:image:profile:user:publisher:created_at': string;
       'preview_for:image:profile:user:publisher:updated_at': string;
@@ -6773,7 +6863,7 @@ export type Schema = {
       'preview_for:publisher:image:cover_for:slug': string;
       'preview_for:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'preview_for:publisher:image:cover_for:submitter_id': string;
-      'preview_for:publisher:image:cover_for:draft_cover': boolean;
+      'preview_for:publisher:image:cover_for:google_books_id': string;
       'preview_for:publisher:image:cover_for:Cover': string;
       'preview_for:publisher:image:cover_for:Preview Images': Array<string>;
       'preview_for:publisher:image:cover_for:Tags': Array<string>;
@@ -6797,7 +6887,7 @@ export type Schema = {
       'preview_for:publisher:image:cover_for:submitter:created_at': string;
       'preview_for:publisher:image:cover_for:submitter:updated_at': string;
       'preview_for:publisher:image:cover_for:submitter:publisher_id': string;
-      'preview_for:publisher:image:cover_for:submitter:role': 'user' | 'admin';
+      'preview_for:publisher:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'preview_for:publisher:image:preview_for:id': string;
       'preview_for:publisher:image:preview_for:created_at': string;
       'preview_for:publisher:image:preview_for:updated_at': string;
@@ -6809,7 +6899,7 @@ export type Schema = {
       'preview_for:publisher:image:preview_for:slug': string;
       'preview_for:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'preview_for:publisher:image:preview_for:submitter_id': string;
-      'preview_for:publisher:image:preview_for:draft_cover': boolean;
+      'preview_for:publisher:image:preview_for:google_books_id': string;
       'preview_for:publisher:image:preview_for:Cover': string;
       'preview_for:publisher:image:preview_for:Preview Images': Array<string>;
       'preview_for:publisher:image:preview_for:Tags': Array<string>;
@@ -6845,7 +6935,7 @@ export type Schema = {
       'preview_for:publisher:image:preview_for:submitter:created_at': string;
       'preview_for:publisher:image:preview_for:submitter:updated_at': string;
       'preview_for:publisher:image:preview_for:submitter:publisher_id': string;
-      'preview_for:publisher:image:preview_for:submitter:role': 'user' | 'admin';
+      'preview_for:publisher:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'preview_for:publisher:image:profile:id': string;
       'preview_for:publisher:image:profile:created_at': string;
       'preview_for:publisher:image:profile:updated_at': string;
@@ -6858,6 +6948,7 @@ export type Schema = {
       'preview_for:publisher:image:profile:description': string;
       'preview_for:publisher:image:profile:most_recently_published_on': string;
       'preview_for:publisher:image:profile:job_title': string;
+      'preview_for:publisher:image:profile:hidden_collaborators': Array<string>;
       'preview_for:publisher:image:profile:Avatar': string;
       'preview_for:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'preview_for:publisher:image:profile:user:id': string;
@@ -6868,7 +6959,7 @@ export type Schema = {
       'preview_for:publisher:image:profile:user:created_at': string;
       'preview_for:publisher:image:profile:user:updated_at': string;
       'preview_for:publisher:image:profile:user:publisher_id': string;
-      'preview_for:publisher:image:profile:user:role': 'user' | 'admin';
+      'preview_for:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
       'preview_for:publisher:user:id': string;
       'preview_for:publisher:user:name': string;
       'preview_for:publisher:user:email': string;
@@ -6877,7 +6968,7 @@ export type Schema = {
       'preview_for:publisher:user:created_at': string;
       'preview_for:publisher:user:updated_at': string;
       'preview_for:publisher:user:publisher_id': string;
-      'preview_for:publisher:user:role': 'user' | 'admin';
+      'preview_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'preview_for:publisher:user:profile:id': string;
       'preview_for:publisher:user:profile:created_at': string;
       'preview_for:publisher:user:profile:updated_at': string;
@@ -6890,6 +6981,7 @@ export type Schema = {
       'preview_for:publisher:user:profile:description': string;
       'preview_for:publisher:user:profile:most_recently_published_on': string;
       'preview_for:publisher:user:profile:job_title': string;
+      'preview_for:publisher:user:profile:hidden_collaborators': Array<string>;
       'preview_for:publisher:user:profile:Avatar': string;
       'preview_for:publisher:user:profile:Authored Books': Array<{Title: string}>;
       'preview_for:publisher:user:profile:image:id': string;
@@ -6912,7 +7004,7 @@ export type Schema = {
       'preview_for:submitter:created_at': string;
       'preview_for:submitter:updated_at': string;
       'preview_for:submitter:publisher_id': string;
-      'preview_for:submitter:role': 'user' | 'admin';
+      'preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'preview_for:submitter:publisher:id': string;
       'preview_for:submitter:publisher:created_at': string;
       'preview_for:submitter:publisher:updated_at': string;
@@ -6947,7 +7039,7 @@ export type Schema = {
       'preview_for:submitter:publisher:image:cover_for:slug': string;
       'preview_for:submitter:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'preview_for:submitter:publisher:image:cover_for:submitter_id': string;
-      'preview_for:submitter:publisher:image:cover_for:draft_cover': boolean;
+      'preview_for:submitter:publisher:image:cover_for:google_books_id': string;
       'preview_for:submitter:publisher:image:cover_for:Cover': string;
       'preview_for:submitter:publisher:image:cover_for:Preview Images': Array<string>;
       'preview_for:submitter:publisher:image:cover_for:Tags': Array<string>;
@@ -6963,7 +7055,7 @@ export type Schema = {
       'preview_for:submitter:publisher:image:preview_for:slug': string;
       'preview_for:submitter:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'preview_for:submitter:publisher:image:preview_for:submitter_id': string;
-      'preview_for:submitter:publisher:image:preview_for:draft_cover': boolean;
+      'preview_for:submitter:publisher:image:preview_for:google_books_id': string;
       'preview_for:submitter:publisher:image:preview_for:Cover': string;
       'preview_for:submitter:publisher:image:preview_for:Preview Images': Array<string>;
       'preview_for:submitter:publisher:image:preview_for:Tags': Array<string>;
@@ -6980,6 +7072,7 @@ export type Schema = {
       'preview_for:submitter:publisher:image:profile:description': string;
       'preview_for:submitter:publisher:image:profile:most_recently_published_on': string;
       'preview_for:submitter:publisher:image:profile:job_title': string;
+      'preview_for:submitter:publisher:image:profile:hidden_collaborators': Array<string>;
       'preview_for:submitter:publisher:image:profile:Avatar': string;
       'preview_for:submitter:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'preview_for:submitter:profile:id': string;
@@ -6994,6 +7087,7 @@ export type Schema = {
       'preview_for:submitter:profile:description': string;
       'preview_for:submitter:profile:most_recently_published_on': string;
       'preview_for:submitter:profile:job_title': string;
+      'preview_for:submitter:profile:hidden_collaborators': Array<string>;
       'preview_for:submitter:profile:Avatar': string;
       'preview_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'preview_for:submitter:profile:image:id': string;
@@ -7019,7 +7113,7 @@ export type Schema = {
       'preview_for:submitter:profile:image:cover_for:slug': string;
       'preview_for:submitter:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'preview_for:submitter:profile:image:cover_for:submitter_id': string;
-      'preview_for:submitter:profile:image:cover_for:draft_cover': boolean;
+      'preview_for:submitter:profile:image:cover_for:google_books_id': string;
       'preview_for:submitter:profile:image:cover_for:Cover': string;
       'preview_for:submitter:profile:image:cover_for:Preview Images': Array<string>;
       'preview_for:submitter:profile:image:cover_for:Tags': Array<string>;
@@ -7035,7 +7129,7 @@ export type Schema = {
       'preview_for:submitter:profile:image:preview_for:slug': string;
       'preview_for:submitter:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'preview_for:submitter:profile:image:preview_for:submitter_id': string;
-      'preview_for:submitter:profile:image:preview_for:draft_cover': boolean;
+      'preview_for:submitter:profile:image:preview_for:google_books_id': string;
       'preview_for:submitter:profile:image:preview_for:Cover': string;
       'preview_for:submitter:profile:image:preview_for:Preview Images': Array<string>;
       'preview_for:submitter:profile:image:preview_for:Tags': Array<string>;
@@ -7070,7 +7164,7 @@ export type Schema = {
       'publisher:user:created_at': string;
       'publisher:user:updated_at': string;
       'publisher:user:publisher_id': string;
-      'publisher:user:role': 'user' | 'admin';
+      'publisher:user:role': 'user' | 'admin' | 'waitlist';
       'publisher:user:profile:id': string;
       'publisher:user:profile:created_at': string;
       'publisher:user:profile:updated_at': string;
@@ -7083,6 +7177,7 @@ export type Schema = {
       'publisher:user:profile:description': string;
       'publisher:user:profile:most_recently_published_on': string;
       'publisher:user:profile:job_title': string;
+      'publisher:user:profile:hidden_collaborators': Array<string>;
       'publisher:user:profile:Avatar': string;
       'publisher:user:profile:Authored Books': Array<{Title: string}>;
       'publisher:user:profile:image:id': string;
@@ -7108,7 +7203,7 @@ export type Schema = {
       'publisher:user:profile:image:cover_for:slug': string;
       'publisher:user:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'publisher:user:profile:image:cover_for:submitter_id': string;
-      'publisher:user:profile:image:cover_for:draft_cover': boolean;
+      'publisher:user:profile:image:cover_for:google_books_id': string;
       'publisher:user:profile:image:cover_for:Cover': string;
       'publisher:user:profile:image:cover_for:Preview Images': Array<string>;
       'publisher:user:profile:image:cover_for:Tags': Array<string>;
@@ -7124,7 +7219,7 @@ export type Schema = {
       'publisher:user:profile:image:preview_for:slug': string;
       'publisher:user:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'publisher:user:profile:image:preview_for:submitter_id': string;
-      'publisher:user:profile:image:preview_for:draft_cover': boolean;
+      'publisher:user:profile:image:preview_for:google_books_id': string;
       'publisher:user:profile:image:preview_for:Cover': string;
       'publisher:user:profile:image:preview_for:Preview Images': Array<string>;
       'publisher:user:profile:image:preview_for:Tags': Array<string>;
@@ -7152,6 +7247,7 @@ export type Schema = {
       'profile:description': string;
       'profile:most_recently_published_on': string;
       'profile:job_title': string;
+      'profile:hidden_collaborators': Array<string>;
       'profile:Avatar': string;
       'profile:Authored Books': Array<{Title: string}>;
       'profile:user:id': string;
@@ -7162,7 +7258,7 @@ export type Schema = {
       'profile:user:created_at': string;
       'profile:user:updated_at': string;
       'profile:user:publisher_id': string;
-      'profile:user:role': 'user' | 'admin';
+      'profile:user:role': 'user' | 'admin' | 'waitlist';
       'profile:user:publisher:id': string;
       'profile:user:publisher:created_at': string;
       'profile:user:publisher:updated_at': string;
@@ -7197,7 +7293,7 @@ export type Schema = {
       'profile:user:publisher:image:cover_for:slug': string;
       'profile:user:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'profile:user:publisher:image:cover_for:submitter_id': string;
-      'profile:user:publisher:image:cover_for:draft_cover': boolean;
+      'profile:user:publisher:image:cover_for:google_books_id': string;
       'profile:user:publisher:image:cover_for:Cover': string;
       'profile:user:publisher:image:cover_for:Preview Images': Array<string>;
       'profile:user:publisher:image:cover_for:Tags': Array<string>;
@@ -7213,7 +7309,7 @@ export type Schema = {
       'profile:user:publisher:image:preview_for:slug': string;
       'profile:user:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:user:publisher:image:preview_for:submitter_id': string;
-      'profile:user:publisher:image:preview_for:draft_cover': boolean;
+      'profile:user:publisher:image:preview_for:google_books_id': string;
       'profile:user:publisher:image:preview_for:Cover': string;
       'profile:user:publisher:image:preview_for:Preview Images': Array<string>;
       'profile:user:publisher:image:preview_for:Tags': Array<string>;
@@ -7230,6 +7326,7 @@ export type Schema = {
       'profile:user:publisher:image:profile:description': string;
       'profile:user:publisher:image:profile:most_recently_published_on': string;
       'profile:user:publisher:image:profile:job_title': string;
+      'profile:user:publisher:image:profile:hidden_collaborators': Array<string>;
       'profile:user:publisher:image:profile:Avatar': string;
       'profile:user:publisher:image:profile:Authored Books': Array<{Title: string}>;
     };
@@ -7270,7 +7367,7 @@ export type Schema = {
       'book:slug': string;
       'book:status': 'draft' | 'inReview' | 'published';
       'book:submitter_id': string;
-      'book:draft_cover': boolean;
+      'book:google_books_id': string;
       'book:Cover': string;
       'book:Preview Images': Array<string>;
       'book:Tags': Array<string>;
@@ -7298,7 +7395,7 @@ export type Schema = {
       'book:image:preview_for:slug': string;
       'book:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:image:preview_for:submitter_id': string;
-      'book:image:preview_for:draft_cover': boolean;
+      'book:image:preview_for:google_books_id': string;
       'book:image:preview_for:Cover': string;
       'book:image:preview_for:Preview Images': Array<string>;
       'book:image:preview_for:Tags': Array<string>;
@@ -7326,7 +7423,7 @@ export type Schema = {
       'book:image:preview_for:image:preview_for:slug': string;
       'book:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:image:preview_for:image:preview_for:submitter_id': string;
-      'book:image:preview_for:image:preview_for:draft_cover': boolean;
+      'book:image:preview_for:image:preview_for:google_books_id': string;
       'book:image:preview_for:image:preview_for:Cover': string;
       'book:image:preview_for:image:preview_for:Preview Images': Array<string>;
       'book:image:preview_for:image:preview_for:Tags': Array<string>;
@@ -7354,6 +7451,7 @@ export type Schema = {
       'book:image:preview_for:image:profile:description': string;
       'book:image:preview_for:image:profile:most_recently_published_on': string;
       'book:image:preview_for:image:profile:job_title': string;
+      'book:image:preview_for:image:profile:hidden_collaborators': Array<string>;
       'book:image:preview_for:image:profile:Avatar': string;
       'book:image:preview_for:image:profile:Authored Books': Array<{Title: string}>;
       'book:image:preview_for:publisher:id': string;
@@ -7387,7 +7485,7 @@ export type Schema = {
       'book:image:preview_for:publisher:user:created_at': string;
       'book:image:preview_for:publisher:user:updated_at': string;
       'book:image:preview_for:publisher:user:publisher_id': string;
-      'book:image:preview_for:publisher:user:role': 'user' | 'admin';
+      'book:image:preview_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'book:image:preview_for:submitter:id': string;
       'book:image:preview_for:submitter:name': string;
       'book:image:preview_for:submitter:email': string;
@@ -7396,7 +7494,7 @@ export type Schema = {
       'book:image:preview_for:submitter:created_at': string;
       'book:image:preview_for:submitter:updated_at': string;
       'book:image:preview_for:submitter:publisher_id': string;
-      'book:image:preview_for:submitter:role': 'user' | 'admin';
+      'book:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'book:image:preview_for:submitter:publisher:id': string;
       'book:image:preview_for:submitter:publisher:created_at': string;
       'book:image:preview_for:submitter:publisher:updated_at': string;
@@ -7420,6 +7518,7 @@ export type Schema = {
       'book:image:preview_for:submitter:profile:description': string;
       'book:image:preview_for:submitter:profile:most_recently_published_on': string;
       'book:image:preview_for:submitter:profile:job_title': string;
+      'book:image:preview_for:submitter:profile:hidden_collaborators': Array<string>;
       'book:image:preview_for:submitter:profile:Avatar': string;
       'book:image:preview_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'book:image:publisher:id': string;
@@ -7441,7 +7540,7 @@ export type Schema = {
       'book:image:publisher:user:created_at': string;
       'book:image:publisher:user:updated_at': string;
       'book:image:publisher:user:publisher_id': string;
-      'book:image:publisher:user:role': 'user' | 'admin';
+      'book:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'book:image:publisher:user:profile:id': string;
       'book:image:publisher:user:profile:created_at': string;
       'book:image:publisher:user:profile:updated_at': string;
@@ -7454,6 +7553,7 @@ export type Schema = {
       'book:image:publisher:user:profile:description': string;
       'book:image:publisher:user:profile:most_recently_published_on': string;
       'book:image:publisher:user:profile:job_title': string;
+      'book:image:publisher:user:profile:hidden_collaborators': Array<string>;
       'book:image:publisher:user:profile:Avatar': string;
       'book:image:publisher:user:profile:Authored Books': Array<{Title: string}>;
       'book:image:profile:id': string;
@@ -7468,6 +7568,7 @@ export type Schema = {
       'book:image:profile:description': string;
       'book:image:profile:most_recently_published_on': string;
       'book:image:profile:job_title': string;
+      'book:image:profile:hidden_collaborators': Array<string>;
       'book:image:profile:Avatar': string;
       'book:image:profile:Authored Books': Array<{Title: string}>;
       'book:image:profile:user:id': string;
@@ -7478,7 +7579,7 @@ export type Schema = {
       'book:image:profile:user:created_at': string;
       'book:image:profile:user:updated_at': string;
       'book:image:profile:user:publisher_id': string;
-      'book:image:profile:user:role': 'user' | 'admin';
+      'book:image:profile:user:role': 'user' | 'admin' | 'waitlist';
       'book:image:profile:user:publisher:id': string;
       'book:image:profile:user:publisher:created_at': string;
       'book:image:profile:user:publisher:updated_at': string;
@@ -7524,7 +7625,7 @@ export type Schema = {
       'book:publisher:image:cover_for:slug': string;
       'book:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:image:cover_for:submitter_id': string;
-      'book:publisher:image:cover_for:draft_cover': boolean;
+      'book:publisher:image:cover_for:google_books_id': string;
       'book:publisher:image:cover_for:Cover': string;
       'book:publisher:image:cover_for:Preview Images': Array<string>;
       'book:publisher:image:cover_for:Tags': Array<string>;
@@ -7548,7 +7649,7 @@ export type Schema = {
       'book:publisher:image:cover_for:submitter:created_at': string;
       'book:publisher:image:cover_for:submitter:updated_at': string;
       'book:publisher:image:cover_for:submitter:publisher_id': string;
-      'book:publisher:image:cover_for:submitter:role': 'user' | 'admin';
+      'book:publisher:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'book:publisher:image:preview_for:id': string;
       'book:publisher:image:preview_for:created_at': string;
       'book:publisher:image:preview_for:updated_at': string;
@@ -7560,7 +7661,7 @@ export type Schema = {
       'book:publisher:image:preview_for:slug': string;
       'book:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:image:preview_for:submitter_id': string;
-      'book:publisher:image:preview_for:draft_cover': boolean;
+      'book:publisher:image:preview_for:google_books_id': string;
       'book:publisher:image:preview_for:Cover': string;
       'book:publisher:image:preview_for:Preview Images': Array<string>;
       'book:publisher:image:preview_for:Tags': Array<string>;
@@ -7596,7 +7697,7 @@ export type Schema = {
       'book:publisher:image:preview_for:submitter:created_at': string;
       'book:publisher:image:preview_for:submitter:updated_at': string;
       'book:publisher:image:preview_for:submitter:publisher_id': string;
-      'book:publisher:image:preview_for:submitter:role': 'user' | 'admin';
+      'book:publisher:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'book:publisher:image:profile:id': string;
       'book:publisher:image:profile:created_at': string;
       'book:publisher:image:profile:updated_at': string;
@@ -7609,6 +7710,7 @@ export type Schema = {
       'book:publisher:image:profile:description': string;
       'book:publisher:image:profile:most_recently_published_on': string;
       'book:publisher:image:profile:job_title': string;
+      'book:publisher:image:profile:hidden_collaborators': Array<string>;
       'book:publisher:image:profile:Avatar': string;
       'book:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'book:publisher:image:profile:user:id': string;
@@ -7619,7 +7721,7 @@ export type Schema = {
       'book:publisher:image:profile:user:created_at': string;
       'book:publisher:image:profile:user:updated_at': string;
       'book:publisher:image:profile:user:publisher_id': string;
-      'book:publisher:image:profile:user:role': 'user' | 'admin';
+      'book:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
       'book:publisher:user:id': string;
       'book:publisher:user:name': string;
       'book:publisher:user:email': string;
@@ -7628,7 +7730,7 @@ export type Schema = {
       'book:publisher:user:created_at': string;
       'book:publisher:user:updated_at': string;
       'book:publisher:user:publisher_id': string;
-      'book:publisher:user:role': 'user' | 'admin';
+      'book:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'book:publisher:user:profile:id': string;
       'book:publisher:user:profile:created_at': string;
       'book:publisher:user:profile:updated_at': string;
@@ -7641,6 +7743,7 @@ export type Schema = {
       'book:publisher:user:profile:description': string;
       'book:publisher:user:profile:most_recently_published_on': string;
       'book:publisher:user:profile:job_title': string;
+      'book:publisher:user:profile:hidden_collaborators': Array<string>;
       'book:publisher:user:profile:Avatar': string;
       'book:publisher:user:profile:Authored Books': Array<{Title: string}>;
       'book:publisher:user:profile:image:id': string;
@@ -7663,7 +7766,7 @@ export type Schema = {
       'book:submitter:created_at': string;
       'book:submitter:updated_at': string;
       'book:submitter:publisher_id': string;
-      'book:submitter:role': 'user' | 'admin';
+      'book:submitter:role': 'user' | 'admin' | 'waitlist';
       'book:submitter:publisher:id': string;
       'book:submitter:publisher:created_at': string;
       'book:submitter:publisher:updated_at': string;
@@ -7698,7 +7801,7 @@ export type Schema = {
       'book:submitter:publisher:image:cover_for:slug': string;
       'book:submitter:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:publisher:image:cover_for:submitter_id': string;
-      'book:submitter:publisher:image:cover_for:draft_cover': boolean;
+      'book:submitter:publisher:image:cover_for:google_books_id': string;
       'book:submitter:publisher:image:cover_for:Cover': string;
       'book:submitter:publisher:image:cover_for:Preview Images': Array<string>;
       'book:submitter:publisher:image:cover_for:Tags': Array<string>;
@@ -7714,7 +7817,7 @@ export type Schema = {
       'book:submitter:publisher:image:preview_for:slug': string;
       'book:submitter:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:publisher:image:preview_for:submitter_id': string;
-      'book:submitter:publisher:image:preview_for:draft_cover': boolean;
+      'book:submitter:publisher:image:preview_for:google_books_id': string;
       'book:submitter:publisher:image:preview_for:Cover': string;
       'book:submitter:publisher:image:preview_for:Preview Images': Array<string>;
       'book:submitter:publisher:image:preview_for:Tags': Array<string>;
@@ -7731,6 +7834,7 @@ export type Schema = {
       'book:submitter:publisher:image:profile:description': string;
       'book:submitter:publisher:image:profile:most_recently_published_on': string;
       'book:submitter:publisher:image:profile:job_title': string;
+      'book:submitter:publisher:image:profile:hidden_collaborators': Array<string>;
       'book:submitter:publisher:image:profile:Avatar': string;
       'book:submitter:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'book:submitter:profile:id': string;
@@ -7745,6 +7849,7 @@ export type Schema = {
       'book:submitter:profile:description': string;
       'book:submitter:profile:most_recently_published_on': string;
       'book:submitter:profile:job_title': string;
+      'book:submitter:profile:hidden_collaborators': Array<string>;
       'book:submitter:profile:Avatar': string;
       'book:submitter:profile:Authored Books': Array<{Title: string}>;
       'book:submitter:profile:image:id': string;
@@ -7770,7 +7875,7 @@ export type Schema = {
       'book:submitter:profile:image:cover_for:slug': string;
       'book:submitter:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:profile:image:cover_for:submitter_id': string;
-      'book:submitter:profile:image:cover_for:draft_cover': boolean;
+      'book:submitter:profile:image:cover_for:google_books_id': string;
       'book:submitter:profile:image:cover_for:Cover': string;
       'book:submitter:profile:image:cover_for:Preview Images': Array<string>;
       'book:submitter:profile:image:cover_for:Tags': Array<string>;
@@ -7786,7 +7891,7 @@ export type Schema = {
       'book:submitter:profile:image:preview_for:slug': string;
       'book:submitter:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:profile:image:preview_for:submitter_id': string;
-      'book:submitter:profile:image:preview_for:draft_cover': boolean;
+      'book:submitter:profile:image:preview_for:google_books_id': string;
       'book:submitter:profile:image:preview_for:Cover': string;
       'book:submitter:profile:image:preview_for:Preview Images': Array<string>;
       'book:submitter:profile:image:preview_for:Tags': Array<string>;
@@ -7824,7 +7929,7 @@ export type Schema = {
       'author:created_at': string;
       'author:updated_at': string;
       'author:publisher_id': string;
-      'author:role': 'user' | 'admin';
+      'author:role': 'user' | 'admin' | 'waitlist';
       'author:publisher:id': string;
       'author:publisher:created_at': string;
       'author:publisher:updated_at': string;
@@ -7859,7 +7964,7 @@ export type Schema = {
       'author:publisher:image:cover_for:slug': string;
       'author:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'author:publisher:image:cover_for:submitter_id': string;
-      'author:publisher:image:cover_for:draft_cover': boolean;
+      'author:publisher:image:cover_for:google_books_id': string;
       'author:publisher:image:cover_for:Cover': string;
       'author:publisher:image:cover_for:Preview Images': Array<string>;
       'author:publisher:image:cover_for:Tags': Array<string>;
@@ -7883,7 +7988,7 @@ export type Schema = {
       'author:publisher:image:cover_for:submitter:created_at': string;
       'author:publisher:image:cover_for:submitter:updated_at': string;
       'author:publisher:image:cover_for:submitter:publisher_id': string;
-      'author:publisher:image:cover_for:submitter:role': 'user' | 'admin';
+      'author:publisher:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'author:publisher:image:preview_for:id': string;
       'author:publisher:image:preview_for:created_at': string;
       'author:publisher:image:preview_for:updated_at': string;
@@ -7895,7 +8000,7 @@ export type Schema = {
       'author:publisher:image:preview_for:slug': string;
       'author:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'author:publisher:image:preview_for:submitter_id': string;
-      'author:publisher:image:preview_for:draft_cover': boolean;
+      'author:publisher:image:preview_for:google_books_id': string;
       'author:publisher:image:preview_for:Cover': string;
       'author:publisher:image:preview_for:Preview Images': Array<string>;
       'author:publisher:image:preview_for:Tags': Array<string>;
@@ -7931,7 +8036,7 @@ export type Schema = {
       'author:publisher:image:preview_for:submitter:created_at': string;
       'author:publisher:image:preview_for:submitter:updated_at': string;
       'author:publisher:image:preview_for:submitter:publisher_id': string;
-      'author:publisher:image:preview_for:submitter:role': 'user' | 'admin';
+      'author:publisher:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'author:publisher:image:profile:id': string;
       'author:publisher:image:profile:created_at': string;
       'author:publisher:image:profile:updated_at': string;
@@ -7944,6 +8049,7 @@ export type Schema = {
       'author:publisher:image:profile:description': string;
       'author:publisher:image:profile:most_recently_published_on': string;
       'author:publisher:image:profile:job_title': string;
+      'author:publisher:image:profile:hidden_collaborators': Array<string>;
       'author:publisher:image:profile:Avatar': string;
       'author:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'author:publisher:image:profile:user:id': string;
@@ -7954,7 +8060,7 @@ export type Schema = {
       'author:publisher:image:profile:user:created_at': string;
       'author:publisher:image:profile:user:updated_at': string;
       'author:publisher:image:profile:user:publisher_id': string;
-      'author:publisher:image:profile:user:role': 'user' | 'admin';
+      'author:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
       'author:profile:id': string;
       'author:profile:created_at': string;
       'author:profile:updated_at': string;
@@ -7967,6 +8073,7 @@ export type Schema = {
       'author:profile:description': string;
       'author:profile:most_recently_published_on': string;
       'author:profile:job_title': string;
+      'author:profile:hidden_collaborators': Array<string>;
       'author:profile:Avatar': string;
       'author:profile:Authored Books': Array<{Title: string}>;
       'author:profile:image:id': string;
@@ -7992,7 +8099,7 @@ export type Schema = {
       'author:profile:image:cover_for:slug': string;
       'author:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'author:profile:image:cover_for:submitter_id': string;
-      'author:profile:image:cover_for:draft_cover': boolean;
+      'author:profile:image:cover_for:google_books_id': string;
       'author:profile:image:cover_for:Cover': string;
       'author:profile:image:cover_for:Preview Images': Array<string>;
       'author:profile:image:cover_for:Tags': Array<string>;
@@ -8016,7 +8123,7 @@ export type Schema = {
       'author:profile:image:cover_for:submitter:created_at': string;
       'author:profile:image:cover_for:submitter:updated_at': string;
       'author:profile:image:cover_for:submitter:publisher_id': string;
-      'author:profile:image:cover_for:submitter:role': 'user' | 'admin';
+      'author:profile:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'author:profile:image:preview_for:id': string;
       'author:profile:image:preview_for:created_at': string;
       'author:profile:image:preview_for:updated_at': string;
@@ -8028,7 +8135,7 @@ export type Schema = {
       'author:profile:image:preview_for:slug': string;
       'author:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'author:profile:image:preview_for:submitter_id': string;
-      'author:profile:image:preview_for:draft_cover': boolean;
+      'author:profile:image:preview_for:google_books_id': string;
       'author:profile:image:preview_for:Cover': string;
       'author:profile:image:preview_for:Preview Images': Array<string>;
       'author:profile:image:preview_for:Tags': Array<string>;
@@ -8064,7 +8171,7 @@ export type Schema = {
       'author:profile:image:preview_for:submitter:created_at': string;
       'author:profile:image:preview_for:submitter:updated_at': string;
       'author:profile:image:preview_for:submitter:publisher_id': string;
-      'author:profile:image:preview_for:submitter:role': 'user' | 'admin';
+      'author:profile:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'author:profile:image:publisher:id': string;
       'author:profile:image:publisher:created_at': string;
       'author:profile:image:publisher:updated_at': string;
@@ -8084,7 +8191,7 @@ export type Schema = {
       'author:profile:image:publisher:user:created_at': string;
       'author:profile:image:publisher:user:updated_at': string;
       'author:profile:image:publisher:user:publisher_id': string;
-      'author:profile:image:publisher:user:role': 'user' | 'admin';
+      'author:profile:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
     };
   };
   'profiles': {
@@ -8101,6 +8208,7 @@ export type Schema = {
       'description': string;
       'most_recently_published_on': string;
       'job_title': string;
+      'hidden_collaborators': Array<string>;
       'Avatar': string;
       'Authored Books': Array<{Title: string}>;
     };
@@ -8132,7 +8240,7 @@ export type Schema = {
       'image:cover_for:slug': string;
       'image:cover_for:status': 'draft' | 'inReview' | 'published';
       'image:cover_for:submitter_id': string;
-      'image:cover_for:draft_cover': boolean;
+      'image:cover_for:google_books_id': string;
       'image:cover_for:Cover': string;
       'image:cover_for:Preview Images': Array<string>;
       'image:cover_for:Tags': Array<string>;
@@ -8171,7 +8279,7 @@ export type Schema = {
       'image:cover_for:publisher:image:cover_for:slug': string;
       'image:cover_for:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'image:cover_for:publisher:image:cover_for:submitter_id': string;
-      'image:cover_for:publisher:image:cover_for:draft_cover': boolean;
+      'image:cover_for:publisher:image:cover_for:google_books_id': string;
       'image:cover_for:publisher:image:cover_for:Cover': string;
       'image:cover_for:publisher:image:cover_for:Preview Images': Array<string>;
       'image:cover_for:publisher:image:cover_for:Tags': Array<string>;
@@ -8187,7 +8295,7 @@ export type Schema = {
       'image:cover_for:publisher:image:preview_for:slug': string;
       'image:cover_for:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'image:cover_for:publisher:image:preview_for:submitter_id': string;
-      'image:cover_for:publisher:image:preview_for:draft_cover': boolean;
+      'image:cover_for:publisher:image:preview_for:google_books_id': string;
       'image:cover_for:publisher:image:preview_for:Cover': string;
       'image:cover_for:publisher:image:preview_for:Preview Images': Array<string>;
       'image:cover_for:publisher:image:preview_for:Tags': Array<string>;
@@ -8200,7 +8308,7 @@ export type Schema = {
       'image:cover_for:publisher:user:created_at': string;
       'image:cover_for:publisher:user:updated_at': string;
       'image:cover_for:publisher:user:publisher_id': string;
-      'image:cover_for:publisher:user:role': 'user' | 'admin';
+      'image:cover_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'image:cover_for:publisher:user:profile:id': string;
       'image:cover_for:publisher:user:profile:created_at': string;
       'image:cover_for:publisher:user:profile:updated_at': string;
@@ -8213,6 +8321,7 @@ export type Schema = {
       'image:cover_for:publisher:user:profile:description': string;
       'image:cover_for:publisher:user:profile:most_recently_published_on': string;
       'image:cover_for:publisher:user:profile:job_title': string;
+      'image:cover_for:publisher:user:profile:hidden_collaborators': Array<string>;
       'image:cover_for:publisher:user:profile:Avatar': string;
       'image:cover_for:publisher:user:profile:Authored Books': Array<{Title: string}>;
       'image:cover_for:submitter:id': string;
@@ -8223,7 +8332,7 @@ export type Schema = {
       'image:cover_for:submitter:created_at': string;
       'image:cover_for:submitter:updated_at': string;
       'image:cover_for:submitter:publisher_id': string;
-      'image:cover_for:submitter:role': 'user' | 'admin';
+      'image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'image:cover_for:submitter:publisher:id': string;
       'image:cover_for:submitter:publisher:created_at': string;
       'image:cover_for:submitter:publisher:updated_at': string;
@@ -8259,6 +8368,7 @@ export type Schema = {
       'image:cover_for:submitter:profile:description': string;
       'image:cover_for:submitter:profile:most_recently_published_on': string;
       'image:cover_for:submitter:profile:job_title': string;
+      'image:cover_for:submitter:profile:hidden_collaborators': Array<string>;
       'image:cover_for:submitter:profile:Avatar': string;
       'image:cover_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'image:cover_for:submitter:profile:image:id': string;
@@ -8284,7 +8394,7 @@ export type Schema = {
       'image:preview_for:slug': string;
       'image:preview_for:status': 'draft' | 'inReview' | 'published';
       'image:preview_for:submitter_id': string;
-      'image:preview_for:draft_cover': boolean;
+      'image:preview_for:google_books_id': string;
       'image:preview_for:Cover': string;
       'image:preview_for:Preview Images': Array<string>;
       'image:preview_for:Tags': Array<string>;
@@ -8312,7 +8422,7 @@ export type Schema = {
       'image:preview_for:image:preview_for:slug': string;
       'image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'image:preview_for:image:preview_for:submitter_id': string;
-      'image:preview_for:image:preview_for:draft_cover': boolean;
+      'image:preview_for:image:preview_for:google_books_id': string;
       'image:preview_for:image:preview_for:Cover': string;
       'image:preview_for:image:preview_for:Preview Images': Array<string>;
       'image:preview_for:image:preview_for:Tags': Array<string>;
@@ -8348,7 +8458,7 @@ export type Schema = {
       'image:preview_for:image:preview_for:submitter:created_at': string;
       'image:preview_for:image:preview_for:submitter:updated_at': string;
       'image:preview_for:image:preview_for:submitter:publisher_id': string;
-      'image:preview_for:image:preview_for:submitter:role': 'user' | 'admin';
+      'image:preview_for:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'image:preview_for:image:publisher:id': string;
       'image:preview_for:image:publisher:created_at': string;
       'image:preview_for:image:publisher:updated_at': string;
@@ -8368,7 +8478,7 @@ export type Schema = {
       'image:preview_for:image:publisher:user:created_at': string;
       'image:preview_for:image:publisher:user:updated_at': string;
       'image:preview_for:image:publisher:user:publisher_id': string;
-      'image:preview_for:image:publisher:user:role': 'user' | 'admin';
+      'image:preview_for:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'image:preview_for:publisher:id': string;
       'image:preview_for:publisher:created_at': string;
       'image:preview_for:publisher:updated_at': string;
@@ -8403,7 +8513,7 @@ export type Schema = {
       'image:preview_for:publisher:image:cover_for:slug': string;
       'image:preview_for:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'image:preview_for:publisher:image:cover_for:submitter_id': string;
-      'image:preview_for:publisher:image:cover_for:draft_cover': boolean;
+      'image:preview_for:publisher:image:cover_for:google_books_id': string;
       'image:preview_for:publisher:image:cover_for:Cover': string;
       'image:preview_for:publisher:image:cover_for:Preview Images': Array<string>;
       'image:preview_for:publisher:image:cover_for:Tags': Array<string>;
@@ -8419,7 +8529,7 @@ export type Schema = {
       'image:preview_for:publisher:image:preview_for:slug': string;
       'image:preview_for:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'image:preview_for:publisher:image:preview_for:submitter_id': string;
-      'image:preview_for:publisher:image:preview_for:draft_cover': boolean;
+      'image:preview_for:publisher:image:preview_for:google_books_id': string;
       'image:preview_for:publisher:image:preview_for:Cover': string;
       'image:preview_for:publisher:image:preview_for:Preview Images': Array<string>;
       'image:preview_for:publisher:image:preview_for:Tags': Array<string>;
@@ -8432,7 +8542,7 @@ export type Schema = {
       'image:preview_for:publisher:user:created_at': string;
       'image:preview_for:publisher:user:updated_at': string;
       'image:preview_for:publisher:user:publisher_id': string;
-      'image:preview_for:publisher:user:role': 'user' | 'admin';
+      'image:preview_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'image:preview_for:publisher:user:profile:id': string;
       'image:preview_for:publisher:user:profile:created_at': string;
       'image:preview_for:publisher:user:profile:updated_at': string;
@@ -8445,6 +8555,7 @@ export type Schema = {
       'image:preview_for:publisher:user:profile:description': string;
       'image:preview_for:publisher:user:profile:most_recently_published_on': string;
       'image:preview_for:publisher:user:profile:job_title': string;
+      'image:preview_for:publisher:user:profile:hidden_collaborators': Array<string>;
       'image:preview_for:publisher:user:profile:Avatar': string;
       'image:preview_for:publisher:user:profile:Authored Books': Array<{Title: string}>;
       'image:preview_for:submitter:id': string;
@@ -8455,7 +8566,7 @@ export type Schema = {
       'image:preview_for:submitter:created_at': string;
       'image:preview_for:submitter:updated_at': string;
       'image:preview_for:submitter:publisher_id': string;
-      'image:preview_for:submitter:role': 'user' | 'admin';
+      'image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'image:preview_for:submitter:publisher:id': string;
       'image:preview_for:submitter:publisher:created_at': string;
       'image:preview_for:submitter:publisher:updated_at': string;
@@ -8491,6 +8602,7 @@ export type Schema = {
       'image:preview_for:submitter:profile:description': string;
       'image:preview_for:submitter:profile:most_recently_published_on': string;
       'image:preview_for:submitter:profile:job_title': string;
+      'image:preview_for:submitter:profile:hidden_collaborators': Array<string>;
       'image:preview_for:submitter:profile:Avatar': string;
       'image:preview_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'image:preview_for:submitter:profile:image:id': string;
@@ -8524,7 +8636,7 @@ export type Schema = {
       'image:publisher:user:created_at': string;
       'image:publisher:user:updated_at': string;
       'image:publisher:user:publisher_id': string;
-      'image:publisher:user:role': 'user' | 'admin';
+      'image:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'image:publisher:user:profile:id': string;
       'image:publisher:user:profile:created_at': string;
       'image:publisher:user:profile:updated_at': string;
@@ -8537,6 +8649,7 @@ export type Schema = {
       'image:publisher:user:profile:description': string;
       'image:publisher:user:profile:most_recently_published_on': string;
       'image:publisher:user:profile:job_title': string;
+      'image:publisher:user:profile:hidden_collaborators': Array<string>;
       'image:publisher:user:profile:Avatar': string;
       'image:publisher:user:profile:Authored Books': Array<{Title: string}>;
       'image:publisher:user:profile:image:id': string;
@@ -8559,7 +8672,7 @@ export type Schema = {
       'user:created_at': string;
       'user:updated_at': string;
       'user:publisher_id': string;
-      'user:role': 'user' | 'admin';
+      'user:role': 'user' | 'admin' | 'waitlist';
       'user:publisher:id': string;
       'user:publisher:created_at': string;
       'user:publisher:updated_at': string;
@@ -8594,7 +8707,7 @@ export type Schema = {
       'user:publisher:image:cover_for:slug': string;
       'user:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'user:publisher:image:cover_for:submitter_id': string;
-      'user:publisher:image:cover_for:draft_cover': boolean;
+      'user:publisher:image:cover_for:google_books_id': string;
       'user:publisher:image:cover_for:Cover': string;
       'user:publisher:image:cover_for:Preview Images': Array<string>;
       'user:publisher:image:cover_for:Tags': Array<string>;
@@ -8618,7 +8731,7 @@ export type Schema = {
       'user:publisher:image:cover_for:submitter:created_at': string;
       'user:publisher:image:cover_for:submitter:updated_at': string;
       'user:publisher:image:cover_for:submitter:publisher_id': string;
-      'user:publisher:image:cover_for:submitter:role': 'user' | 'admin';
+      'user:publisher:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'user:publisher:image:preview_for:id': string;
       'user:publisher:image:preview_for:created_at': string;
       'user:publisher:image:preview_for:updated_at': string;
@@ -8630,7 +8743,7 @@ export type Schema = {
       'user:publisher:image:preview_for:slug': string;
       'user:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'user:publisher:image:preview_for:submitter_id': string;
-      'user:publisher:image:preview_for:draft_cover': boolean;
+      'user:publisher:image:preview_for:google_books_id': string;
       'user:publisher:image:preview_for:Cover': string;
       'user:publisher:image:preview_for:Preview Images': Array<string>;
       'user:publisher:image:preview_for:Tags': Array<string>;
@@ -8666,7 +8779,7 @@ export type Schema = {
       'user:publisher:image:preview_for:submitter:created_at': string;
       'user:publisher:image:preview_for:submitter:updated_at': string;
       'user:publisher:image:preview_for:submitter:publisher_id': string;
-      'user:publisher:image:preview_for:submitter:role': 'user' | 'admin';
+      'user:publisher:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'user:publisher:image:profile:id': string;
       'user:publisher:image:profile:created_at': string;
       'user:publisher:image:profile:updated_at': string;
@@ -8679,6 +8792,7 @@ export type Schema = {
       'user:publisher:image:profile:description': string;
       'user:publisher:image:profile:most_recently_published_on': string;
       'user:publisher:image:profile:job_title': string;
+      'user:publisher:image:profile:hidden_collaborators': Array<string>;
       'user:publisher:image:profile:Avatar': string;
       'user:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'user:publisher:image:profile:user:id': string;
@@ -8689,7 +8803,7 @@ export type Schema = {
       'user:publisher:image:profile:user:created_at': string;
       'user:publisher:image:profile:user:updated_at': string;
       'user:publisher:image:profile:user:publisher_id': string;
-      'user:publisher:image:profile:user:role': 'user' | 'admin';
+      'user:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
     };
   };
   'publishers': {
@@ -8734,7 +8848,7 @@ export type Schema = {
       'image:cover_for:slug': string;
       'image:cover_for:status': 'draft' | 'inReview' | 'published';
       'image:cover_for:submitter_id': string;
-      'image:cover_for:draft_cover': boolean;
+      'image:cover_for:google_books_id': string;
       'image:cover_for:Cover': string;
       'image:cover_for:Preview Images': Array<string>;
       'image:cover_for:Tags': Array<string>;
@@ -8773,7 +8887,7 @@ export type Schema = {
       'image:cover_for:publisher:image:cover_for:slug': string;
       'image:cover_for:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'image:cover_for:publisher:image:cover_for:submitter_id': string;
-      'image:cover_for:publisher:image:cover_for:draft_cover': boolean;
+      'image:cover_for:publisher:image:cover_for:google_books_id': string;
       'image:cover_for:publisher:image:cover_for:Cover': string;
       'image:cover_for:publisher:image:cover_for:Preview Images': Array<string>;
       'image:cover_for:publisher:image:cover_for:Tags': Array<string>;
@@ -8789,7 +8903,7 @@ export type Schema = {
       'image:cover_for:publisher:image:preview_for:slug': string;
       'image:cover_for:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'image:cover_for:publisher:image:preview_for:submitter_id': string;
-      'image:cover_for:publisher:image:preview_for:draft_cover': boolean;
+      'image:cover_for:publisher:image:preview_for:google_books_id': string;
       'image:cover_for:publisher:image:preview_for:Cover': string;
       'image:cover_for:publisher:image:preview_for:Preview Images': Array<string>;
       'image:cover_for:publisher:image:preview_for:Tags': Array<string>;
@@ -8806,6 +8920,7 @@ export type Schema = {
       'image:cover_for:publisher:image:profile:description': string;
       'image:cover_for:publisher:image:profile:most_recently_published_on': string;
       'image:cover_for:publisher:image:profile:job_title': string;
+      'image:cover_for:publisher:image:profile:hidden_collaborators': Array<string>;
       'image:cover_for:publisher:image:profile:Avatar': string;
       'image:cover_for:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'image:cover_for:publisher:user:id': string;
@@ -8816,7 +8931,7 @@ export type Schema = {
       'image:cover_for:publisher:user:created_at': string;
       'image:cover_for:publisher:user:updated_at': string;
       'image:cover_for:publisher:user:publisher_id': string;
-      'image:cover_for:publisher:user:role': 'user' | 'admin';
+      'image:cover_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'image:cover_for:publisher:user:profile:id': string;
       'image:cover_for:publisher:user:profile:created_at': string;
       'image:cover_for:publisher:user:profile:updated_at': string;
@@ -8829,6 +8944,7 @@ export type Schema = {
       'image:cover_for:publisher:user:profile:description': string;
       'image:cover_for:publisher:user:profile:most_recently_published_on': string;
       'image:cover_for:publisher:user:profile:job_title': string;
+      'image:cover_for:publisher:user:profile:hidden_collaborators': Array<string>;
       'image:cover_for:publisher:user:profile:Avatar': string;
       'image:cover_for:publisher:user:profile:Authored Books': Array<{Title: string}>;
       'image:cover_for:submitter:id': string;
@@ -8839,7 +8955,7 @@ export type Schema = {
       'image:cover_for:submitter:created_at': string;
       'image:cover_for:submitter:updated_at': string;
       'image:cover_for:submitter:publisher_id': string;
-      'image:cover_for:submitter:role': 'user' | 'admin';
+      'image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'image:cover_for:submitter:publisher:id': string;
       'image:cover_for:submitter:publisher:created_at': string;
       'image:cover_for:submitter:publisher:updated_at': string;
@@ -8875,6 +8991,7 @@ export type Schema = {
       'image:cover_for:submitter:profile:description': string;
       'image:cover_for:submitter:profile:most_recently_published_on': string;
       'image:cover_for:submitter:profile:job_title': string;
+      'image:cover_for:submitter:profile:hidden_collaborators': Array<string>;
       'image:cover_for:submitter:profile:Avatar': string;
       'image:cover_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'image:cover_for:submitter:profile:image:id': string;
@@ -8900,7 +9017,7 @@ export type Schema = {
       'image:preview_for:slug': string;
       'image:preview_for:status': 'draft' | 'inReview' | 'published';
       'image:preview_for:submitter_id': string;
-      'image:preview_for:draft_cover': boolean;
+      'image:preview_for:google_books_id': string;
       'image:preview_for:Cover': string;
       'image:preview_for:Preview Images': Array<string>;
       'image:preview_for:Tags': Array<string>;
@@ -8928,7 +9045,7 @@ export type Schema = {
       'image:preview_for:image:preview_for:slug': string;
       'image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'image:preview_for:image:preview_for:submitter_id': string;
-      'image:preview_for:image:preview_for:draft_cover': boolean;
+      'image:preview_for:image:preview_for:google_books_id': string;
       'image:preview_for:image:preview_for:Cover': string;
       'image:preview_for:image:preview_for:Preview Images': Array<string>;
       'image:preview_for:image:preview_for:Tags': Array<string>;
@@ -8964,7 +9081,7 @@ export type Schema = {
       'image:preview_for:image:preview_for:submitter:created_at': string;
       'image:preview_for:image:preview_for:submitter:updated_at': string;
       'image:preview_for:image:preview_for:submitter:publisher_id': string;
-      'image:preview_for:image:preview_for:submitter:role': 'user' | 'admin';
+      'image:preview_for:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'image:preview_for:image:profile:id': string;
       'image:preview_for:image:profile:created_at': string;
       'image:preview_for:image:profile:updated_at': string;
@@ -8977,6 +9094,7 @@ export type Schema = {
       'image:preview_for:image:profile:description': string;
       'image:preview_for:image:profile:most_recently_published_on': string;
       'image:preview_for:image:profile:job_title': string;
+      'image:preview_for:image:profile:hidden_collaborators': Array<string>;
       'image:preview_for:image:profile:Avatar': string;
       'image:preview_for:image:profile:Authored Books': Array<{Title: string}>;
       'image:preview_for:image:profile:user:id': string;
@@ -8987,7 +9105,7 @@ export type Schema = {
       'image:preview_for:image:profile:user:created_at': string;
       'image:preview_for:image:profile:user:updated_at': string;
       'image:preview_for:image:profile:user:publisher_id': string;
-      'image:preview_for:image:profile:user:role': 'user' | 'admin';
+      'image:preview_for:image:profile:user:role': 'user' | 'admin' | 'waitlist';
       'image:preview_for:publisher:id': string;
       'image:preview_for:publisher:created_at': string;
       'image:preview_for:publisher:updated_at': string;
@@ -9022,7 +9140,7 @@ export type Schema = {
       'image:preview_for:publisher:image:cover_for:slug': string;
       'image:preview_for:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'image:preview_for:publisher:image:cover_for:submitter_id': string;
-      'image:preview_for:publisher:image:cover_for:draft_cover': boolean;
+      'image:preview_for:publisher:image:cover_for:google_books_id': string;
       'image:preview_for:publisher:image:cover_for:Cover': string;
       'image:preview_for:publisher:image:cover_for:Preview Images': Array<string>;
       'image:preview_for:publisher:image:cover_for:Tags': Array<string>;
@@ -9038,7 +9156,7 @@ export type Schema = {
       'image:preview_for:publisher:image:preview_for:slug': string;
       'image:preview_for:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'image:preview_for:publisher:image:preview_for:submitter_id': string;
-      'image:preview_for:publisher:image:preview_for:draft_cover': boolean;
+      'image:preview_for:publisher:image:preview_for:google_books_id': string;
       'image:preview_for:publisher:image:preview_for:Cover': string;
       'image:preview_for:publisher:image:preview_for:Preview Images': Array<string>;
       'image:preview_for:publisher:image:preview_for:Tags': Array<string>;
@@ -9055,6 +9173,7 @@ export type Schema = {
       'image:preview_for:publisher:image:profile:description': string;
       'image:preview_for:publisher:image:profile:most_recently_published_on': string;
       'image:preview_for:publisher:image:profile:job_title': string;
+      'image:preview_for:publisher:image:profile:hidden_collaborators': Array<string>;
       'image:preview_for:publisher:image:profile:Avatar': string;
       'image:preview_for:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'image:preview_for:publisher:user:id': string;
@@ -9065,7 +9184,7 @@ export type Schema = {
       'image:preview_for:publisher:user:created_at': string;
       'image:preview_for:publisher:user:updated_at': string;
       'image:preview_for:publisher:user:publisher_id': string;
-      'image:preview_for:publisher:user:role': 'user' | 'admin';
+      'image:preview_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'image:preview_for:publisher:user:profile:id': string;
       'image:preview_for:publisher:user:profile:created_at': string;
       'image:preview_for:publisher:user:profile:updated_at': string;
@@ -9078,6 +9197,7 @@ export type Schema = {
       'image:preview_for:publisher:user:profile:description': string;
       'image:preview_for:publisher:user:profile:most_recently_published_on': string;
       'image:preview_for:publisher:user:profile:job_title': string;
+      'image:preview_for:publisher:user:profile:hidden_collaborators': Array<string>;
       'image:preview_for:publisher:user:profile:Avatar': string;
       'image:preview_for:publisher:user:profile:Authored Books': Array<{Title: string}>;
       'image:preview_for:submitter:id': string;
@@ -9088,7 +9208,7 @@ export type Schema = {
       'image:preview_for:submitter:created_at': string;
       'image:preview_for:submitter:updated_at': string;
       'image:preview_for:submitter:publisher_id': string;
-      'image:preview_for:submitter:role': 'user' | 'admin';
+      'image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'image:preview_for:submitter:publisher:id': string;
       'image:preview_for:submitter:publisher:created_at': string;
       'image:preview_for:submitter:publisher:updated_at': string;
@@ -9124,6 +9244,7 @@ export type Schema = {
       'image:preview_for:submitter:profile:description': string;
       'image:preview_for:submitter:profile:most_recently_published_on': string;
       'image:preview_for:submitter:profile:job_title': string;
+      'image:preview_for:submitter:profile:hidden_collaborators': Array<string>;
       'image:preview_for:submitter:profile:Avatar': string;
       'image:preview_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'image:preview_for:submitter:profile:image:id': string;
@@ -9150,6 +9271,7 @@ export type Schema = {
       'image:profile:description': string;
       'image:profile:most_recently_published_on': string;
       'image:profile:job_title': string;
+      'image:profile:hidden_collaborators': Array<string>;
       'image:profile:Avatar': string;
       'image:profile:Authored Books': Array<{Title: string}>;
       'image:profile:user:id': string;
@@ -9160,7 +9282,7 @@ export type Schema = {
       'image:profile:user:created_at': string;
       'image:profile:user:updated_at': string;
       'image:profile:user:publisher_id': string;
-      'image:profile:user:role': 'user' | 'admin';
+      'image:profile:user:role': 'user' | 'admin' | 'waitlist';
       'image:profile:user:publisher:id': string;
       'image:profile:user:publisher:created_at': string;
       'image:profile:user:publisher:updated_at': string;
@@ -9192,7 +9314,7 @@ export type Schema = {
       'user:created_at': string;
       'user:updated_at': string;
       'user:publisher_id': string;
-      'user:role': 'user' | 'admin';
+      'user:role': 'user' | 'admin' | 'waitlist';
       'user:profile:id': string;
       'user:profile:created_at': string;
       'user:profile:updated_at': string;
@@ -9205,6 +9327,7 @@ export type Schema = {
       'user:profile:description': string;
       'user:profile:most_recently_published_on': string;
       'user:profile:job_title': string;
+      'user:profile:hidden_collaborators': Array<string>;
       'user:profile:Avatar': string;
       'user:profile:Authored Books': Array<{Title: string}>;
       'user:profile:image:id': string;
@@ -9230,7 +9353,7 @@ export type Schema = {
       'user:profile:image:cover_for:slug': string;
       'user:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'user:profile:image:cover_for:submitter_id': string;
-      'user:profile:image:cover_for:draft_cover': boolean;
+      'user:profile:image:cover_for:google_books_id': string;
       'user:profile:image:cover_for:Cover': string;
       'user:profile:image:cover_for:Preview Images': Array<string>;
       'user:profile:image:cover_for:Tags': Array<string>;
@@ -9254,7 +9377,7 @@ export type Schema = {
       'user:profile:image:cover_for:submitter:created_at': string;
       'user:profile:image:cover_for:submitter:updated_at': string;
       'user:profile:image:cover_for:submitter:publisher_id': string;
-      'user:profile:image:cover_for:submitter:role': 'user' | 'admin';
+      'user:profile:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'user:profile:image:preview_for:id': string;
       'user:profile:image:preview_for:created_at': string;
       'user:profile:image:preview_for:updated_at': string;
@@ -9266,7 +9389,7 @@ export type Schema = {
       'user:profile:image:preview_for:slug': string;
       'user:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'user:profile:image:preview_for:submitter_id': string;
-      'user:profile:image:preview_for:draft_cover': boolean;
+      'user:profile:image:preview_for:google_books_id': string;
       'user:profile:image:preview_for:Cover': string;
       'user:profile:image:preview_for:Preview Images': Array<string>;
       'user:profile:image:preview_for:Tags': Array<string>;
@@ -9302,7 +9425,7 @@ export type Schema = {
       'user:profile:image:preview_for:submitter:created_at': string;
       'user:profile:image:preview_for:submitter:updated_at': string;
       'user:profile:image:preview_for:submitter:publisher_id': string;
-      'user:profile:image:preview_for:submitter:role': 'user' | 'admin';
+      'user:profile:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'user:profile:image:publisher:id': string;
       'user:profile:image:publisher:created_at': string;
       'user:profile:image:publisher:updated_at': string;
@@ -9322,7 +9445,7 @@ export type Schema = {
       'user:profile:image:publisher:user:created_at': string;
       'user:profile:image:publisher:user:updated_at': string;
       'user:profile:image:publisher:user:publisher_id': string;
-      'user:profile:image:publisher:user:role': 'user' | 'admin';
+      'user:profile:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
     };
   };
   'sessions': {
@@ -9344,7 +9467,7 @@ export type Schema = {
       'user:created_at': string;
       'user:updated_at': string;
       'user:publisher_id': string;
-      'user:role': 'user' | 'admin';
+      'user:role': 'user' | 'admin' | 'waitlist';
       'user:publisher:id': string;
       'user:publisher:created_at': string;
       'user:publisher:updated_at': string;
@@ -9379,7 +9502,7 @@ export type Schema = {
       'user:publisher:image:cover_for:slug': string;
       'user:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'user:publisher:image:cover_for:submitter_id': string;
-      'user:publisher:image:cover_for:draft_cover': boolean;
+      'user:publisher:image:cover_for:google_books_id': string;
       'user:publisher:image:cover_for:Cover': string;
       'user:publisher:image:cover_for:Preview Images': Array<string>;
       'user:publisher:image:cover_for:Tags': Array<string>;
@@ -9403,7 +9526,7 @@ export type Schema = {
       'user:publisher:image:cover_for:submitter:created_at': string;
       'user:publisher:image:cover_for:submitter:updated_at': string;
       'user:publisher:image:cover_for:submitter:publisher_id': string;
-      'user:publisher:image:cover_for:submitter:role': 'user' | 'admin';
+      'user:publisher:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'user:publisher:image:preview_for:id': string;
       'user:publisher:image:preview_for:created_at': string;
       'user:publisher:image:preview_for:updated_at': string;
@@ -9415,7 +9538,7 @@ export type Schema = {
       'user:publisher:image:preview_for:slug': string;
       'user:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'user:publisher:image:preview_for:submitter_id': string;
-      'user:publisher:image:preview_for:draft_cover': boolean;
+      'user:publisher:image:preview_for:google_books_id': string;
       'user:publisher:image:preview_for:Cover': string;
       'user:publisher:image:preview_for:Preview Images': Array<string>;
       'user:publisher:image:preview_for:Tags': Array<string>;
@@ -9451,7 +9574,7 @@ export type Schema = {
       'user:publisher:image:preview_for:submitter:created_at': string;
       'user:publisher:image:preview_for:submitter:updated_at': string;
       'user:publisher:image:preview_for:submitter:publisher_id': string;
-      'user:publisher:image:preview_for:submitter:role': 'user' | 'admin';
+      'user:publisher:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'user:publisher:image:profile:id': string;
       'user:publisher:image:profile:created_at': string;
       'user:publisher:image:profile:updated_at': string;
@@ -9464,6 +9587,7 @@ export type Schema = {
       'user:publisher:image:profile:description': string;
       'user:publisher:image:profile:most_recently_published_on': string;
       'user:publisher:image:profile:job_title': string;
+      'user:publisher:image:profile:hidden_collaborators': Array<string>;
       'user:publisher:image:profile:Avatar': string;
       'user:publisher:image:profile:Authored Books': Array<{Title: string}>;
       'user:publisher:image:profile:user:id': string;
@@ -9474,7 +9598,7 @@ export type Schema = {
       'user:publisher:image:profile:user:created_at': string;
       'user:publisher:image:profile:user:updated_at': string;
       'user:publisher:image:profile:user:publisher_id': string;
-      'user:publisher:image:profile:user:role': 'user' | 'admin';
+      'user:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
       'user:profile:id': string;
       'user:profile:created_at': string;
       'user:profile:updated_at': string;
@@ -9487,6 +9611,7 @@ export type Schema = {
       'user:profile:description': string;
       'user:profile:most_recently_published_on': string;
       'user:profile:job_title': string;
+      'user:profile:hidden_collaborators': Array<string>;
       'user:profile:Avatar': string;
       'user:profile:Authored Books': Array<{Title: string}>;
       'user:profile:image:id': string;
@@ -9512,7 +9637,7 @@ export type Schema = {
       'user:profile:image:cover_for:slug': string;
       'user:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'user:profile:image:cover_for:submitter_id': string;
-      'user:profile:image:cover_for:draft_cover': boolean;
+      'user:profile:image:cover_for:google_books_id': string;
       'user:profile:image:cover_for:Cover': string;
       'user:profile:image:cover_for:Preview Images': Array<string>;
       'user:profile:image:cover_for:Tags': Array<string>;
@@ -9536,7 +9661,7 @@ export type Schema = {
       'user:profile:image:cover_for:submitter:created_at': string;
       'user:profile:image:cover_for:submitter:updated_at': string;
       'user:profile:image:cover_for:submitter:publisher_id': string;
-      'user:profile:image:cover_for:submitter:role': 'user' | 'admin';
+      'user:profile:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'user:profile:image:preview_for:id': string;
       'user:profile:image:preview_for:created_at': string;
       'user:profile:image:preview_for:updated_at': string;
@@ -9548,7 +9673,7 @@ export type Schema = {
       'user:profile:image:preview_for:slug': string;
       'user:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'user:profile:image:preview_for:submitter_id': string;
-      'user:profile:image:preview_for:draft_cover': boolean;
+      'user:profile:image:preview_for:google_books_id': string;
       'user:profile:image:preview_for:Cover': string;
       'user:profile:image:preview_for:Preview Images': Array<string>;
       'user:profile:image:preview_for:Tags': Array<string>;
@@ -9584,7 +9709,7 @@ export type Schema = {
       'user:profile:image:preview_for:submitter:created_at': string;
       'user:profile:image:preview_for:submitter:updated_at': string;
       'user:profile:image:preview_for:submitter:publisher_id': string;
-      'user:profile:image:preview_for:submitter:role': 'user' | 'admin';
+      'user:profile:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'user:profile:image:publisher:id': string;
       'user:profile:image:publisher:created_at': string;
       'user:profile:image:publisher:updated_at': string;
@@ -9604,7 +9729,7 @@ export type Schema = {
       'user:profile:image:publisher:user:created_at': string;
       'user:profile:image:publisher:user:updated_at': string;
       'user:profile:image:publisher:user:publisher_id': string;
-      'user:profile:image:publisher:user:role': 'user' | 'admin';
+      'user:profile:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
     };
   };
   'tags': {
@@ -9627,7 +9752,7 @@ export type Schema = {
       'created_at': string;
       'updated_at': string;
       'publisher_id': string;
-      'role': 'user' | 'admin';
+      'role': 'user' | 'admin' | 'waitlist';
     };
     nested: {
       'publisher': Schema['publishers']['plain'] & Schema['publishers']['nested'];
@@ -9668,7 +9793,7 @@ export type Schema = {
       'publisher:image:cover_for:slug': string;
       'publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'publisher:image:cover_for:submitter_id': string;
-      'publisher:image:cover_for:draft_cover': boolean;
+      'publisher:image:cover_for:google_books_id': string;
       'publisher:image:cover_for:Cover': string;
       'publisher:image:cover_for:Preview Images': Array<string>;
       'publisher:image:cover_for:Tags': Array<string>;
@@ -9704,7 +9829,7 @@ export type Schema = {
       'publisher:image:cover_for:submitter:created_at': string;
       'publisher:image:cover_for:submitter:updated_at': string;
       'publisher:image:cover_for:submitter:publisher_id': string;
-      'publisher:image:cover_for:submitter:role': 'user' | 'admin';
+      'publisher:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'publisher:image:cover_for:submitter:publisher:id': string;
       'publisher:image:cover_for:submitter:publisher:created_at': string;
       'publisher:image:cover_for:submitter:publisher:updated_at': string;
@@ -9728,6 +9853,7 @@ export type Schema = {
       'publisher:image:cover_for:submitter:profile:description': string;
       'publisher:image:cover_for:submitter:profile:most_recently_published_on': string;
       'publisher:image:cover_for:submitter:profile:job_title': string;
+      'publisher:image:cover_for:submitter:profile:hidden_collaborators': Array<string>;
       'publisher:image:cover_for:submitter:profile:Avatar': string;
       'publisher:image:cover_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'publisher:image:preview_for:id': string;
@@ -9741,7 +9867,7 @@ export type Schema = {
       'publisher:image:preview_for:slug': string;
       'publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'publisher:image:preview_for:submitter_id': string;
-      'publisher:image:preview_for:draft_cover': boolean;
+      'publisher:image:preview_for:google_books_id': string;
       'publisher:image:preview_for:Cover': string;
       'publisher:image:preview_for:Preview Images': Array<string>;
       'publisher:image:preview_for:Tags': Array<string>;
@@ -9769,7 +9895,7 @@ export type Schema = {
       'publisher:image:preview_for:image:preview_for:slug': string;
       'publisher:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'publisher:image:preview_for:image:preview_for:submitter_id': string;
-      'publisher:image:preview_for:image:preview_for:draft_cover': boolean;
+      'publisher:image:preview_for:image:preview_for:google_books_id': string;
       'publisher:image:preview_for:image:preview_for:Cover': string;
       'publisher:image:preview_for:image:preview_for:Preview Images': Array<string>;
       'publisher:image:preview_for:image:preview_for:Tags': Array<string>;
@@ -9786,6 +9912,7 @@ export type Schema = {
       'publisher:image:preview_for:image:profile:description': string;
       'publisher:image:preview_for:image:profile:most_recently_published_on': string;
       'publisher:image:preview_for:image:profile:job_title': string;
+      'publisher:image:preview_for:image:profile:hidden_collaborators': Array<string>;
       'publisher:image:preview_for:image:profile:Avatar': string;
       'publisher:image:preview_for:image:profile:Authored Books': Array<{Title: string}>;
       'publisher:image:preview_for:publisher:id': string;
@@ -9819,7 +9946,7 @@ export type Schema = {
       'publisher:image:preview_for:submitter:created_at': string;
       'publisher:image:preview_for:submitter:updated_at': string;
       'publisher:image:preview_for:submitter:publisher_id': string;
-      'publisher:image:preview_for:submitter:role': 'user' | 'admin';
+      'publisher:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'publisher:image:preview_for:submitter:publisher:id': string;
       'publisher:image:preview_for:submitter:publisher:created_at': string;
       'publisher:image:preview_for:submitter:publisher:updated_at': string;
@@ -9843,6 +9970,7 @@ export type Schema = {
       'publisher:image:preview_for:submitter:profile:description': string;
       'publisher:image:preview_for:submitter:profile:most_recently_published_on': string;
       'publisher:image:preview_for:submitter:profile:job_title': string;
+      'publisher:image:preview_for:submitter:profile:hidden_collaborators': Array<string>;
       'publisher:image:preview_for:submitter:profile:Avatar': string;
       'publisher:image:preview_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'publisher:image:profile:id': string;
@@ -9857,6 +9985,7 @@ export type Schema = {
       'publisher:image:profile:description': string;
       'publisher:image:profile:most_recently_published_on': string;
       'publisher:image:profile:job_title': string;
+      'publisher:image:profile:hidden_collaborators': Array<string>;
       'publisher:image:profile:Avatar': string;
       'publisher:image:profile:Authored Books': Array<{Title: string}>;
       'publisher:image:profile:user:id': string;
@@ -9867,7 +9996,7 @@ export type Schema = {
       'publisher:image:profile:user:created_at': string;
       'publisher:image:profile:user:updated_at': string;
       'publisher:image:profile:user:publisher_id': string;
-      'publisher:image:profile:user:role': 'user' | 'admin';
+      'publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
       'publisher:image:profile:user:publisher:id': string;
       'publisher:image:profile:user:publisher:created_at': string;
       'publisher:image:profile:user:publisher:updated_at': string;
@@ -9891,6 +10020,7 @@ export type Schema = {
       'profile:description': string;
       'profile:most_recently_published_on': string;
       'profile:job_title': string;
+      'profile:hidden_collaborators': Array<string>;
       'profile:Avatar': string;
       'profile:Authored Books': Array<{Title: string}>;
       'profile:image:id': string;
@@ -9916,7 +10046,7 @@ export type Schema = {
       'profile:image:cover_for:slug': string;
       'profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:cover_for:submitter_id': string;
-      'profile:image:cover_for:draft_cover': boolean;
+      'profile:image:cover_for:google_books_id': string;
       'profile:image:cover_for:Cover': string;
       'profile:image:cover_for:Preview Images': Array<string>;
       'profile:image:cover_for:Tags': Array<string>;
@@ -9952,7 +10082,7 @@ export type Schema = {
       'profile:image:cover_for:publisher:user:created_at': string;
       'profile:image:cover_for:publisher:user:updated_at': string;
       'profile:image:cover_for:publisher:user:publisher_id': string;
-      'profile:image:cover_for:publisher:user:role': 'user' | 'admin';
+      'profile:image:cover_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'profile:image:cover_for:submitter:id': string;
       'profile:image:cover_for:submitter:name': string;
       'profile:image:cover_for:submitter:email': string;
@@ -9961,7 +10091,7 @@ export type Schema = {
       'profile:image:cover_for:submitter:created_at': string;
       'profile:image:cover_for:submitter:updated_at': string;
       'profile:image:cover_for:submitter:publisher_id': string;
-      'profile:image:cover_for:submitter:role': 'user' | 'admin';
+      'profile:image:cover_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'profile:image:cover_for:submitter:publisher:id': string;
       'profile:image:cover_for:submitter:publisher:created_at': string;
       'profile:image:cover_for:submitter:publisher:updated_at': string;
@@ -9985,6 +10115,7 @@ export type Schema = {
       'profile:image:cover_for:submitter:profile:description': string;
       'profile:image:cover_for:submitter:profile:most_recently_published_on': string;
       'profile:image:cover_for:submitter:profile:job_title': string;
+      'profile:image:cover_for:submitter:profile:hidden_collaborators': Array<string>;
       'profile:image:cover_for:submitter:profile:Avatar': string;
       'profile:image:cover_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'profile:image:preview_for:id': string;
@@ -9998,7 +10129,7 @@ export type Schema = {
       'profile:image:preview_for:slug': string;
       'profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:preview_for:submitter_id': string;
-      'profile:image:preview_for:draft_cover': boolean;
+      'profile:image:preview_for:google_books_id': string;
       'profile:image:preview_for:Cover': string;
       'profile:image:preview_for:Preview Images': Array<string>;
       'profile:image:preview_for:Tags': Array<string>;
@@ -10026,7 +10157,7 @@ export type Schema = {
       'profile:image:preview_for:image:preview_for:slug': string;
       'profile:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:preview_for:image:preview_for:submitter_id': string;
-      'profile:image:preview_for:image:preview_for:draft_cover': boolean;
+      'profile:image:preview_for:image:preview_for:google_books_id': string;
       'profile:image:preview_for:image:preview_for:Cover': string;
       'profile:image:preview_for:image:preview_for:Preview Images': Array<string>;
       'profile:image:preview_for:image:preview_for:Tags': Array<string>;
@@ -10073,7 +10204,7 @@ export type Schema = {
       'profile:image:preview_for:publisher:user:created_at': string;
       'profile:image:preview_for:publisher:user:updated_at': string;
       'profile:image:preview_for:publisher:user:publisher_id': string;
-      'profile:image:preview_for:publisher:user:role': 'user' | 'admin';
+      'profile:image:preview_for:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'profile:image:preview_for:submitter:id': string;
       'profile:image:preview_for:submitter:name': string;
       'profile:image:preview_for:submitter:email': string;
@@ -10082,7 +10213,7 @@ export type Schema = {
       'profile:image:preview_for:submitter:created_at': string;
       'profile:image:preview_for:submitter:updated_at': string;
       'profile:image:preview_for:submitter:publisher_id': string;
-      'profile:image:preview_for:submitter:role': 'user' | 'admin';
+      'profile:image:preview_for:submitter:role': 'user' | 'admin' | 'waitlist';
       'profile:image:preview_for:submitter:publisher:id': string;
       'profile:image:preview_for:submitter:publisher:created_at': string;
       'profile:image:preview_for:submitter:publisher:updated_at': string;
@@ -10106,6 +10237,7 @@ export type Schema = {
       'profile:image:preview_for:submitter:profile:description': string;
       'profile:image:preview_for:submitter:profile:most_recently_published_on': string;
       'profile:image:preview_for:submitter:profile:job_title': string;
+      'profile:image:preview_for:submitter:profile:hidden_collaborators': Array<string>;
       'profile:image:preview_for:submitter:profile:Avatar': string;
       'profile:image:preview_for:submitter:profile:Authored Books': Array<{Title: string}>;
       'profile:image:publisher:id': string;
@@ -10127,7 +10259,7 @@ export type Schema = {
       'profile:image:publisher:user:created_at': string;
       'profile:image:publisher:user:updated_at': string;
       'profile:image:publisher:user:publisher_id': string;
-      'profile:image:publisher:user:role': 'user' | 'admin';
+      'profile:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
       'profile:image:publisher:user:profile:id': string;
       'profile:image:publisher:user:profile:created_at': string;
       'profile:image:publisher:user:profile:updated_at': string;
@@ -10140,6 +10272,7 @@ export type Schema = {
       'profile:image:publisher:user:profile:description': string;
       'profile:image:publisher:user:profile:most_recently_published_on': string;
       'profile:image:publisher:user:profile:job_title': string;
+      'profile:image:publisher:user:profile:hidden_collaborators': Array<string>;
       'profile:image:publisher:user:profile:Avatar': string;
       'profile:image:publisher:user:profile:Authored Books': Array<{Title: string}>;
     };

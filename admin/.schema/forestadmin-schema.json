@@ -637,24 +637,6 @@
         "validations": []
       },
       {
-        "defaultValue": false,
-        "enums": null,
-        "field": "draft_cover",
-        "integration": null,
-        "inverseOf": null,
-        "isFilterable": true,
-        "isPrimaryKey": false,
-        "isReadOnly": false,
-        "isRequired": true,
-        "isSortable": true,
-        "isVirtual": false,
-        "reference": null,
-        "type": "Boolean",
-        "validations": [
-          {"type": "is present", "message": "Failed validation rule: 'Present'"}
-        ]
-      },
-      {
         "defaultValue": null,
         "enums": null,
         "field": "features",
@@ -669,6 +651,22 @@
         "reference": "features.id",
         "relationship": "HasMany",
         "type": ["Uuid"],
+        "validations": []
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
+        "field": "google_books_id",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": null,
+        "type": "String",
         "validations": []
       },
       {
@@ -1114,6 +1112,24 @@
         "reference": null,
         "type": "Date",
         "validations": []
+      },
+      {
+        "defaultValue": false,
+        "enums": null,
+        "field": "hidden",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": true,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": null,
+        "type": "Boolean",
+        "validations": [
+          {"type": "is present", "message": "Failed validation rule: 'Present'"}
+        ]
       },
       {
         "defaultValue": null,
@@ -2251,6 +2267,22 @@
       {
         "defaultValue": null,
         "enums": null,
+        "field": "hidden_collaborators",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": null,
+        "type": ["String"],
+        "validations": []
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
         "field": "id",
         "integration": null,
         "inverseOf": null,
@@ -3107,7 +3139,7 @@
       },
       {
         "defaultValue": "user",
-        "enums": ["user", "admin"],
+        "enums": ["user", "admin", "waitlist"],
         "field": "role",
         "integration": null,
         "inverseOf": null,
