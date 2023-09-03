@@ -28,7 +28,8 @@ export const fetchProfiles = new Service(
       sort: z.enum(['name', 'trending']).optional(),
       onlyAuthors: z.boolean().optional(),
       search: z.string().optional(),
-      jobs: array(z.string()).optional()
+      jobs: array(z.string()).optional(),
+      onlyPublished: z.boolean().optional()
     })
     .merge(paginationInput),
   async ({
@@ -37,7 +38,8 @@ export const fetchProfiles = new Service(
     jobs,
     onlyAuthors,
     sort = 'name',
-    search
+    search,
+    onlyPublished = true
   } = {}) => {
     const contains = search?.trim()
     const hasSearch = (contains && contains.length > 0) || undefined
@@ -58,7 +60,15 @@ export const fetchProfiles = new Service(
           OR: hasJob && [
             { contributions: { some: { job: { id: { in: jobs } } } } }
           ]
-        }
+        },
+        onlyPublished
+          ? {
+            OR: [
+              { authoredBooks: { some: { status: 'published' } } },
+              { contributions: { some: { book: { status: 'published' } } } }
+            ]
+          }
+          : {}
       ]
     }
 

@@ -499,7 +499,8 @@
         "download": false,
         "fields": [
           {"field": "Name", "type": "String"},
-          {"field": "Job", "type": "Uuid", "reference": "jobs.id"}
+          {"field": "Job", "type": "Uuid", "reference": "jobs.id"},
+          {"field": "Assistant", "type": "Boolean"}
         ],
         "hooks": {"load": false, "change": ["changeHook"]}
       }
@@ -1065,6 +1066,22 @@
       {
         "defaultValue": null,
         "enums": null,
+        "field": "Assistant",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": false,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": false,
+        "isVirtual": false,
+        "reference": null,
+        "type": "Boolean",
+        "validations": []
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
         "field": "Display Name",
         "integration": null,
         "inverseOf": null,
@@ -1184,22 +1201,6 @@
         "validations": [
           {"type": "is present", "message": "Failed validation rule: 'Present'"}
         ]
-      },
-      {
-        "defaultValue": null,
-        "enums": null,
-        "field": "tag",
-        "integration": null,
-        "inverseOf": null,
-        "isFilterable": true,
-        "isPrimaryKey": false,
-        "isReadOnly": false,
-        "isRequired": false,
-        "isSortable": true,
-        "isVirtual": false,
-        "reference": null,
-        "type": "String",
-        "validations": []
       },
       {
         "defaultValue": null,

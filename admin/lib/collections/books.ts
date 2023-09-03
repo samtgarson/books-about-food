@@ -179,12 +179,14 @@ export const customiseBooks = (
         label: 'Name',
         type: 'String'
       },
-      { label: 'Job', type: 'Collection', collectionName: 'jobs' }
+      { label: 'Job', type: 'Collection', collectionName: 'jobs' },
+      { label: 'Assistant', type: 'Boolean' }
     ],
     execute: async (context, result) => {
       const bookId = await context.getRecordId()
       const jobId = context.formValues.Job[0]
       const job = await prisma.job.findUnique({ where: { id: jobId } })
+      const tag = context.formValues.Assistant ? 'Assistant' : undefined
       await prisma.profile.create({
         data: {
           name: context.formValues['Name'],
@@ -195,7 +197,8 @@ export const customiseBooks = (
               book: {
                 connect: { id: bookId.toString() }
               },
-              job: { connect: { id: jobId } }
+              job: { connect: { id: jobId } },
+              tag
             }
           }
         }

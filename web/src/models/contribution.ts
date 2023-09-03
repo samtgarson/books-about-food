@@ -20,8 +20,8 @@ export class Contribution {
   }
 
   get jobName() {
-    if (!this.assistant) return this.job.name
-    return `${this.job.name} (Assistant)`
+    if (!this.tag) return this.job.name
+    return `${this.job.name} (${this.tag})`
   }
 
   get assistant() {

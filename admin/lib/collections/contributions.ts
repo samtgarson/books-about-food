@@ -11,4 +11,18 @@ export const customiseContributions = (
     },
     columnType: 'String'
   })
+
+  collection.removeField('tag')
+
+  collection
+    .addField('Assistant', {
+      columnType: 'Boolean',
+      getValues(records) {
+        return records.map((r) => r.tag === 'Assistant')
+      },
+      dependencies: ['tag']
+    })
+    .replaceFieldWriting('Assistant', (value, context) => {
+      context.record.tag = value ? 'Assistant' : undefined
+    })
 }
