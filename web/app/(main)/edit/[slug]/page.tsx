@@ -6,6 +6,9 @@ import { getUser } from 'src/services/auth/get-user'
 import { fetchBook } from 'src/services/books/fetch-book'
 import { callWithUser } from 'src/utils/call-with-user'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export default async function Page({
   params: { slug }
 }: {
