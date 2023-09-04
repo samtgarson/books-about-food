@@ -14,6 +14,7 @@ export class Profile {
   instagram?: string
   avatar?: Image
   jobTitle?: string
+  location?: string
   mostRecentlyPublishedOn?: Date
   userId?: string
   hiddenCollaborators: string[]
@@ -25,6 +26,7 @@ export class Profile {
     website,
     instagram,
     jobTitle,
+    location,
     avatar,
     description,
     mostRecentlyPublishedOn,
@@ -42,6 +44,7 @@ export class Profile {
     this.mostRecentlyPublishedOn = mostRecentlyPublishedOn ?? undefined
     this.userId = userId ?? undefined
     this.hiddenCollaborators = hiddenCollaborators
+    this.location = location ?? undefined
   }
 
   get initials() {

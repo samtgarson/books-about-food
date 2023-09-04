@@ -8,6 +8,7 @@ import { Edit2 } from 'react-feather'
 import { KeysMatching } from 'src/utils/types'
 import { Profile } from 'src/models/profile'
 import { UpdateProfileInput } from 'src/services/profiles/update-profile'
+import { Detail } from 'src/components/atoms/detail'
 
 export type FieldProps = {
   as?: keyof JSX.IntrinsicElements
@@ -16,6 +17,7 @@ export type FieldProps = {
   className?: string
   placeholder?: string
   render?: (value: string) => JSX.Element
+  detail?: boolean
 }
 
 export const Field = ({
@@ -23,7 +25,8 @@ export const Field = ({
   className,
   attr,
   placeholder,
-  render
+  render,
+  detail
 }: FieldProps) => {
   const { profile, editMode, onSave } = useEditProfile()
   const value = useRef(profile[attr] ?? '')
@@ -38,7 +41,7 @@ export const Field = ({
   }, [originalValue])
 
   if (showPlaceholder && !editMode) return null
-  return (
+  const content = (
     <div className={cn(className, 'flex justify-start', editMode && 'mr-10')}>
       <div
         className={cn('flex gap-4 items-center', editMode && 'bg-white -mr-10')}
@@ -78,4 +81,8 @@ export const Field = ({
       </div>
     </div>
   )
+
+  if (!detail) return content
+
+  return <Detail maxWidth>{content}</Detail>
 }

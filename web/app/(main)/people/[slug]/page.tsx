@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { Container } from 'src/components/atoms/container'
-import { Detail } from 'src/components/atoms/detail'
 import { Loader } from 'src/components/atoms/loader'
 import { FavouriteButton } from 'src/components/favourites/favourite-button'
 import { ClaimProfileButton } from 'src/components/profiles/claim-button'
@@ -62,10 +61,9 @@ export const createProfilePage = (segment: 'authors' | 'people') =>
                   placeholder="Add a description"
                 />
                 <div className="mt-8">
-                  <Detail maxWidth>
-                    <Field attr="jobTitle" />
-                  </Detail>
+                  <Field attr="jobTitle" detail />
                   <LinkList />
+                  <Field attr="location" placeholder="Add a location" detail />
                 </div>
               </div>
               <div className="order-first lg:order-last flex lg:flex-col flex-shrink-0 items-start lg:items-end gap-5 justify-between">

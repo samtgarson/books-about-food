@@ -20,6 +20,7 @@ export const updateProfile = new Service(
     jobTitle: z.string().optional(),
     website: z.string().regex(basicUrl).nullish(),
     instagram: z.string().regex(instagramHandle).nullish(),
+    location: z.string().optional(),
     avatar: z.string().nullish(),
     hiddenCollaborators: array(z.string()).optional()
   }),
