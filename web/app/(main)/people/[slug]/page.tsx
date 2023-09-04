@@ -81,13 +81,11 @@ export const createProfilePage = (segment: 'authors' | 'people') =>
                 </div>
               </div>
             </div>
-            {collaborators.length > 0 && (
-              <FrequentCollaborators
-                data-superjson
-                profiles={collaborators}
-                className="mt-4 sm:mt-20"
-              />
-            )}
+            <FrequentCollaborators
+              data-superjson
+              profiles={collaborators}
+              className="mt-4 sm:mt-20"
+            />
           </div>
           <Suspense fallback={<Loader />}>
             <ContributionList profile={profile} className="mt-8 sm:mt-20" />
