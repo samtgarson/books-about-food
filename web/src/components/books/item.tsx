@@ -14,12 +14,21 @@ export type CookbookItemProps = ComponentProps<'li'> & {
 
 export const Container = forwardRef<
   HTMLLIElement,
-  CookbookItemProps & { skeleton?: boolean }
+  CookbookItemProps & { skeleton?: boolean; link?: boolean }
 >(function Container(
-  { className, mobileGrid, book, index = 0, skeleton, children, ...props },
+  {
+    className,
+    mobileGrid,
+    book,
+    index = 0,
+    skeleton,
+    children,
+    link = true,
+    ...props
+  },
   ref
 ) {
-  const WrapperEl = book?.href ? Link : 'div'
+  const WrapperEl = book?.href && link ? Link : 'div'
   return (
     <li className={cn('group', className)} {...props} ref={ref}>
       <WrapperEl

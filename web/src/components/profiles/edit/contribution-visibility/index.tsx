@@ -35,12 +35,12 @@ export const ContributionVisibility: FC<ContributionVisibilityProps> = ({
 
   if (hidden && !editMode) return null
   return (
-    <Container book={book}>
+    <Container book={book} link={!editMode}>
       <Cover
         book={book}
         className={cn(
           'transition',
-          hidden ? 'opacity-30 saturate-0' : 'opacity-80'
+          editMode && hidden && 'opacity-30 saturate-0'
         )}
       />
       <Footer
