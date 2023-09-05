@@ -65,4 +65,19 @@ export const customiseProfiles = (
       records.map((record) => deleteImage({ profileId: record.id }))
     )
   })
+
+  collection.addAction('Feature this profile', {
+    scope: 'Single',
+    async execute(ctx, result) {
+      const profileId = `${await ctx.getRecordId()}`
+
+      await prisma.featuredProfile.upsert({
+        where: { profileId },
+        create: { profileId },
+        update: {}
+      })
+
+      return result.success(`Profile ${profileId} featured`)
+    }
+  })
 }

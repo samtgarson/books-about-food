@@ -269,7 +269,7 @@ model FeaturedProfile {
   id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @default(now()) @updatedAt @map("updated_at")
-  profileId String    @map("profile_id") @db.Uuid
+  profileId String    @unique @map("profile_id") @db.Uuid
   until     DateTime? @db.Date
 
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)

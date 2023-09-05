@@ -23,14 +23,14 @@ export const Centerer: FC<CentererProps> = memo(function Centerer({
   if (slideWidth) {
     __html += `
         [id="${id}"] li:first-child {
-          margin-left: calc(50% - ${slideWidth / 2}px);
+          margin-left: max(45vw, calc(50% - ${slideWidth / 2}px));
         }
       `
   }
   if (lastSlideWidth) {
     __html += `
         [id="${id}"] li:last-child {
-          margin-right: calc(50% - ${lastSlideWidth / 2}px);
+          margin-right: max(45vw, calc(50% - ${lastSlideWidth / 2}px));
         }
       `
   }
