@@ -33,15 +33,15 @@
   "devDependencies": {
     "@books-about-food/eslint-config": "*",
     "husky": "^8.0.3",
-    "lint-staged": "^13.2.3",
-    "prettier": "^2.8.8",
-    "prettier-plugin-prisma": "^4.13.0",
+    "lint-staged": "^14.0.1",
+    "prettier": "^3.0.3",
+    "prettier-plugin-prisma": "^5.0.0",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "5.1.6"
+    "typescript": "5.2.2"
   },
   "dependencies": {
-    "turbo": "1.10.11"
+    "turbo": "1.10.13"
   },
   "eslintConfig": {
     "root": true,

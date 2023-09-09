@@ -1,9 +1,10 @@
 {
   "name": "@books-about-food/eslint-config",
+  "version": "0.0.1",
   "main": "index.js",
   "devDependencies": {
-    "@eslint/js": "^8.41.0",
-    "@samtgarson/eslint-config": "^2.10.0",
+    "@eslint/js": "^8.49.0",
+    "@samtgarson/eslint-config": "^2.10.1",
     "eslint": "latest",
     "eslint-config-next": "latest"
   }
