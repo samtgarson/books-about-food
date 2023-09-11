@@ -1,14 +1,9 @@
-import { redirect } from 'next/navigation'
 import { ReactNode } from 'react'
-import { AccountNavItem } from 'src/components/accounts/nav-item'
+import { AccountNavItem, SignOutButton } from 'src/components/accounts/nav-item'
 import { Container } from 'src/components/atoms/container'
 import { PageTitle } from 'src/components/atoms/page-title'
-import { getUser } from 'src/services/auth/get-user'
 
 const Layout = async ({ children }: { children: ReactNode }) => {
-  const user = await getUser.call()
-  if (!user) redirect('auth/sign-in')
-
   return (
     <Container belowNav>
       <PageTitle>Account</PageTitle>
@@ -17,6 +12,7 @@ const Layout = async ({ children }: { children: ReactNode }) => {
           <AccountNavItem label="Account Details" href="" />
           <AccountNavItem label="Favourites" href="favourites" />
           <AccountNavItem label="Submitted Cookooks" href="books" />
+          <SignOutButton />
         </div>
         <div className="flex-grow min-w-[350px]">{children}</div>
       </div>

@@ -28,3 +28,11 @@ export const AccountNavItem: FC<AccountNavItemProps> = ({ label, href }) => {
     </Link>
   )
 }
+
+export const SignOutButton: FC = () => (
+  <form action="/api/auth/signout" method="post" className="w-full">
+    <button className="p-3 text-left hover:bg-sand transition-colors w-full">
+      Sign Out
+    </button>
+  </form>
+)

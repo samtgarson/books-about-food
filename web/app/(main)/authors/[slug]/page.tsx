@@ -1,6 +1,6 @@
 // import { fetchProfiles } from 'src/services/profiles/fetch-profiles'
 
-import { createProfilePage } from 'app/(main)/people/[slug]/page'
+import { createProfilePage } from 'src/components/pages/profile-page'
 
 export * from 'app/default-static-config'
 

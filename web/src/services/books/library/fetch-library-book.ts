@@ -1,8 +1,6 @@
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
-import * as g from '@googleapis/books'
-import { books } from '@googleapis/books'
-import { getEnv } from 'shared/utils/get-env'
+import { GoogleBookResult, GoogleBooksGateway } from 'src/gateways/google-books'
 
 const client = books({
   version: 'v1',
@@ -36,9 +34,7 @@ export const fetchLibraryBook = new Service(
   }
 )
 
-const extractImage = ({
-  imageLinks
-}: Exclude<g.books_v1.Schema$Volume['volumeInfo'], undefined | null>) => {
+const extractImage = ({ imageLinks }: GoogleBookResult['volumeInfo']) => {
   if (imageLinks?.extraLarge) return imageLinks.extraLarge
   if (imageLinks?.large) return imageLinks.large
   if (imageLinks?.medium) return imageLinks.medium

@@ -5,7 +5,7 @@
   "main": "index.ts",
   "types": "index.ts",
   "scripts": {
-    "db:build": "npx prisma generate --accelerate && npx prisma migrate deploy"
+    "db:build": "npx prisma generate --no-engine && npx prisma migrate deploy"
   },
   "prisma": {
     "schema": "prisma/schema.prisma"
