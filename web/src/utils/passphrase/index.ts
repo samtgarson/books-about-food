@@ -6,14 +6,7 @@
  * @author Reinaldy Rafli <aldy505@tutanota.com>
  * @license MIT
  */
-import crypto from 'crypto'
-import { readFileSync } from 'fs'
-import { resolve, dirname } from 'path'
-import { fileURLToPath } from 'url'
 import { words } from './words'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
 
 export interface generateOptions {
   length?: number
@@ -25,51 +18,9 @@ export interface generateOptions {
   fast?: boolean
 }
 
-let randomBytes: Buffer
-let randomIndex: number
-
-function getRandomValue(): number {
-  if (randomIndex === undefined || randomIndex >= randomBytes.length) {
-    randomBytes = crypto.randomBytes(256)
-    randomIndex = 0
-  }
-
-  randomIndex += 1
-  return randomBytes[randomIndex]
-}
-
-function getRandomNumber(max: number, fast = false): number {
-  if (fast) {
-    return Math.floor(Math.random() * max)
-  }
-
-  let rand = getRandomValue()
-  while (rand === undefined || rand >= 256 - (256 % max)) {
-    rand = getRandomValue()
-  }
-
-  return rand % max
-}
-
-function getRandomPattern(
-  length: number,
-  numbers: boolean,
-  fast = false
-): string {
-  const pool = numbers ? 'NWW' : 'WWW'
-  let pattern = ''
-  for (let i = 0; i < length; i++) {
-    pattern += pool[getRandomNumber(2, fast)]
-  }
-
-  return pattern
-}
-
 const wordArray = words.split('\n')
-function getRandomWord(fast = false): string {
-  const randomInt = fast
-    ? Math.floor(Math.random() * wordArray.length)
-    : crypto.randomInt(0, wordArray.length)
+function getRandomWord(): string {
+  const randomInt = Math.floor(Math.random() * wordArray.length)
   return wordArray[randomInt]
 }
 
@@ -100,19 +51,12 @@ export function generate(options: generateOptions = {}): string {
 
   const passphraseArray: Array<string | number> = []
 
-  let pattern: string
-  if (opts.pattern) {
-    pattern = opts.pattern.toUpperCase()
-  } else {
-    pattern = getRandomPattern(opts.length, !!opts.numbers, opts.fast)
-  }
+  const pattern = 'WWW'
 
   const eachPattern = pattern.split('')
   for (let i = 0; i < eachPattern.length; i += 1) {
-    if (eachPattern[i] === 'N') {
-      passphraseArray.push(getRandomValue())
-    } else if (eachPattern[i] === 'W') {
-      const word = getRandomWord(opts.fast)
+    if (eachPattern[i] === 'W') {
+      const word = getRandomWord()
       if (opts.uppercase) {
         passphraseArray.push(word.toUpperCase())
       } else if (opts.titlecase) {
@@ -120,7 +64,7 @@ export function generate(options: generateOptions = {}): string {
           word.replace(
             /\w\S*/g,
             (text) =>
-              text.charAt(0).toUpperCase() + text.substr(1).toLowerCase()
+              text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
           )
         )
       } else {
