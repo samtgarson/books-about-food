@@ -5,6 +5,7 @@ import { v4 as uuid } from 'uuid'
 
 const defaultClient = new S3({
   endpoint: getEnv('AWS_S3_ENDPOINT'),
+  region: process.env.AWS_REGION || 'auto',
   signatureVersion: 'v4',
   credentials: {
     accessKeyId: getEnv('AWS_ACCESS_KEY_ID'),
@@ -16,7 +17,7 @@ export class FileUploader {
   constructor(
     private client: S3 = defaultClient,
     private bucket: string = getEnv('AWS_S3_BUCKET')
-  ) {}
+  ) { }
 
   async upload(contents: Buffer, mimeType: string, path: string) {
     const ext = extension(mimeType)
