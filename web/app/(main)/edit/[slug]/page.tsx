@@ -14,7 +14,7 @@ export default async function Page({
 }: {
   params: { slug: string }
 }) {
-  const book = await callWithUser(fetchBook, { slug })
+  const book = await callWithUser(fetchBook, { slug, cache: false })
   const currentUser = await getUser.call()
 
   if (!book) notFound()

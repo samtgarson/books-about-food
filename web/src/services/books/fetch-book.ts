@@ -5,13 +5,13 @@ import { z } from 'zod'
 import { bookIncludes } from '../utils'
 
 export const fetchBook = new Service(
-  z.object({ slug: z.string() }),
-  async ({ slug } = {}) => {
+  z.object({ slug: z.string(), cache: z.boolean().optional() }),
+  async ({ slug, cache = true } = {}) => {
     if (!slug) throw new Error('Slug is required')
     const raw = await prisma.book.findUnique({
       where: { slug },
       include: bookIncludes,
-      cacheStrategy
+      cacheStrategy: cache ? cacheStrategy : undefined
     })
 
     if (!raw) {
