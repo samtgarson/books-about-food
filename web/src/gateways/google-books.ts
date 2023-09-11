@@ -26,10 +26,10 @@ const volumeSchema = z.object({
 
 export class GoogleBooksGateway {
   private key = getEnv('GOOGLE_BOOKS_API_KEY')
-  private baseUrl = 'https://www.googleapis.com/books/v1/volumes'
+  private baseUrl = 'https://www.googleapis.com'
 
   async search(query: string) {
-    const url = new URL(this.baseUrl)
+    const url = new URL('/books/v1/volumes', this.baseUrl)
     url.searchParams.append('q', `intitle:"${query}" subject:Cooking`)
     url.searchParams.append('key', this.key)
 
@@ -41,9 +41,10 @@ export class GoogleBooksGateway {
   }
 
   async fetch(id: string) {
-    const url = new URL(`/${id}`, this.baseUrl)
+    const url = new URL(`/books/v1/volumes/${id}`, this.baseUrl)
     url.searchParams.append('key', this.key)
 
+    console.log(url.toString())
     const response = await fetch(url)
     if (!response.ok) return
     const result = await response.json()
