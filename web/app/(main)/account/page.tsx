@@ -34,7 +34,10 @@ const Page = async () => {
       <h3 className="text-20 mt-16">Delete your account</h3>
       <p>
         If you would like to delete your account, please{' '}
-        <ContactLink>get in touch</ContactLink>.
+        <ContactLink subject="I'd like to delete my BAF account">
+          get in touch
+        </ContactLink>
+        .
       </p>
     </Form>
   )
