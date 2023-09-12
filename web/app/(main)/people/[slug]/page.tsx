@@ -1,4 +1,4 @@
-import { ProfilePage } from 'src/components/pages/profile-page'
+import { ProfilePage } from './profile-page'
 import { PageProps } from 'src/components/types'
 
 export * from 'app/default-static-config'
