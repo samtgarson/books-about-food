@@ -59,6 +59,16 @@ export const customiseProfiles = (
     })
   })
 
+  collection.addHook('After', 'Create', async (context) => {
+    await Promise.all(
+      context.records.map(async (record, i) => {
+        const data = context.data[i]
+
+        await uploadAvatar(data.Avatar, record.id)
+      })
+    )
+  })
+
   collection.addHook('Before', 'Delete', async (context) => {
     const records = await context.collection.list(context.filter, ['id'])
     await Promise.all(
