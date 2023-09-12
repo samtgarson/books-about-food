@@ -58,6 +58,12 @@
       "eslint --fix",
       "prettier --write"
     ],
+    "web/**/*.(ts|tsx)": [
+      "npx -w web tsc --noEmit"
+    ],
+    "admin/**/*.(ts|tsx)": [
+      "npx -w admin tsc --noEmit"
+    ],
     "web/prisma/schema.prisma": [
       "prettier --write",
       "prisma format"

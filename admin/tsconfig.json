@@ -6,8 +6,18 @@
     "sourceMap": false,
     "target": "es2017",
     "baseUrl": ".",
-    "types": ["node", "express", "forest-express-sequelize", "sequelize"]
+    "types": [
+      "node",
+      "express",
+      "sequelize"
+    ]
   },
-  "include": ["./**/*", ".env"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "./**/*",
+    ".env"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
