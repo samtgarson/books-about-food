@@ -35,7 +35,6 @@ const Page = async () => {
           <HomepageModule
             title="Coming Soon"
             action={{ href: '/cookbooks', label: 'View More' }}
-            className="-mr-px"
           >
             <ItemCarousel
               items={home.comingSoon}
