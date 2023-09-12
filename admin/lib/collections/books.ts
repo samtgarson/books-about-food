@@ -220,10 +220,16 @@ export const customiseBooks = (
       context.records.map(async (record, i) => {
         const data = context.data[i]
 
-        await updateTags(record.id, data.Tags)
-        await uploadCover(data.Cover, record.id)
-        await uploadPreviews(data['Preview Images'], record.id)
-        await updateProfiles(record.id)
+        await Promise.all([
+          prisma.book.update({
+            where: { id: record.id },
+            data: { authors: { set: data.Authors.map((name) => ({ name })) } }
+          }),
+          updateTags(record.id, data.Tags),
+          uploadCover(data.Cover, record.id),
+          uploadPreviews(data['Preview Images'], record.id),
+          updateProfiles(record.id)
+        ])
       })
     )
   })

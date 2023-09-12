@@ -62,7 +62,7 @@
       "cd web && npx tsc --noEmit"
     ],
     "admin/**/*.(ts|tsx)": [
-      "npx -w admin tsc --noEmit"
+      "cd admin && npx tsc --noEmit"
     ],
     "web/prisma/schema.prisma": [
       "prettier --write",
