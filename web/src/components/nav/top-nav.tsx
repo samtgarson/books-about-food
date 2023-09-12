@@ -35,6 +35,7 @@ const TopNavItem: FC<{
   const active = segment === path
   const href = `/${path || ''}`
   const [loading, setLoading] = useState(false)
+  const { setOpen } = useNav()
 
   return (
     <Link
@@ -42,7 +43,9 @@ const TopNavItem: FC<{
       href={href}
       className={cn(className, navItemClassNames(), loading && '!opacity-50')}
       style={{ animationDelay: `${index * 50}ms` }}
-      onClick={() => setLoading(true)}
+      onClick={() => {
+        active ? setOpen(false) : setLoading(true)
+      }}
     >
       {children}
       {loading && <Loader className="animate-fade-slide-in" />}
@@ -101,14 +104,7 @@ const NavContent = () => {
 }
 
 export const TopNav: FC = () => {
-  const [open, setOpen] = useState(false)
-  const path = usePathname()
-  const { theme, setTheme } = useNav()
-
-  useEffect(() => {
-    setOpen(false)
-    setTheme(path === '/' ? 'dark' : 'light')
-  }, [path, setTheme])
+  const { theme, open, setOpen } = useNav()
 
   return (
     <nav className="z-30 absolute top-0 inset-x-0">
