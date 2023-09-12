@@ -11,49 +11,37 @@ export const Steps: FC<{ book: FullBook }> = ({ book }) => {
     <div className="flex flex-col gap-2 max-w-lg w-full">
       <Step
         disabled={state.inReview}
-        title="Add Title and Author(s)"
-        completeTitle="Title and Author(s)"
+        title="General Information"
         href={state.link('title')}
         required
         complete={state.titleComplete}
       />
       <Step
         disabled={state.inReview}
-        title="Upload Images"
-        completeTitle="Images"
+        title="Cover & Spreads"
         href={state.link('images')}
         required
         complete={state.imagesComplete}
       />
       <Step
         disabled={state.inReview}
-        title="Add Publisher"
-        completeTitle="Publisher"
+        title="Publishing Information"
         href={state.link('publisher')}
         required
         complete={state.publisherComplete}
       />
       <Step
         disabled={state.inReview}
-        title="Add Team"
-        completeTitle="Team"
+        title="Team"
         href={state.link('team')}
         required
         complete={state.teamComplete}
       />
       <Step
         disabled={state.inReview}
-        title="Add Links"
-        completeTitle="Links"
+        title="Links"
         href={state.link('links')}
         complete={state.linksComplete}
-      />
-      <Step
-        disabled={state.inReview}
-        title="Add More Information"
-        completeTitle="More Information"
-        href={state.link('meta')}
-        complete={state.furtherInformationComplete}
       />
       {state.inReview ? null : (
         <SubmitForReviewButton book={book} disabled={!state.valid} />

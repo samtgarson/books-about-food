@@ -61,12 +61,4 @@ export class BookEditState {
     const complete = !!this.book.links.length
     if (complete) return { text: `${this.book.links.length}` }
   }
-
-  get furtherInformationComplete(): StepCompletionMeta {
-    const complete =
-      !!this.book.releaseDate &&
-      typeof this.book.pages === 'number' &&
-      !!this.book.tags.length
-    if (complete) return {}
-  }
 }

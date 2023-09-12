@@ -36,7 +36,7 @@ export const EditLinksForm = async ({ book }: { book: FullBook }) => {
         redirect(`/edit/${book.slug}`)
       }}
     >
-      <PageBackLink href={`/edit/${book.slug}`}>Add Links</PageBackLink>
+      <PageBackLink href={`/edit/${book.slug}`}>Links</PageBackLink>
       <LinksSelect book={book} data-superjson />
       <Submit variant="dark">Save and Continue</Submit>
     </Form>

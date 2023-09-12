@@ -9,7 +9,7 @@ import { Checkbox } from 'src/components/form/checkbox'
 export const UploadForm = async ({ book }: { book: FullBook }) => {
   return (
     <Form action={createAction(book.slug)}>
-      <PageBackLink href={`/edit/${book.slug}`}>Upload Images</PageBackLink>
+      <PageBackLink href={`/edit/${book.slug}`}>Cover & Spreads</PageBackLink>
       <p className="mb-4">
         Only upload good quality flat images of the cover and spreads—not
         photographs of them.

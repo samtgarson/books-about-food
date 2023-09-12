@@ -25,11 +25,7 @@ export const SubmitForReviewButton: FC<{
         disabled={disabled}
       >
         <span>Submit for Review</span>
-        {disabled && (
-          <span className="ml-auto text-14 opacity-50 flex gap-2 items-center">
-            Complete the required steps to submit <ArrowRight strokeWidth={1} />
-          </span>
-        )}
+        <ArrowRight strokeWidth={1} className="ml-auto" />
       </Submit>
     </form>
   )

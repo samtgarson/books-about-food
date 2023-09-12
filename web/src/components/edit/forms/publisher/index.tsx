@@ -7,6 +7,7 @@ import { fetchPublishers } from 'src/services/publishers/fetch-publishers'
 import { stringify } from 'src/utils/superjson'
 import { createAction } from '../action'
 import { ContactLink } from 'src/components/atoms/contact-link'
+import { Input } from 'src/components/form/input'
 
 export const EditPublisherForm = async ({ book }: { book: FullBook }) => {
   const options = async (search: string) => {
@@ -18,7 +19,9 @@ export const EditPublisherForm = async ({ book }: { book: FullBook }) => {
 
   return (
     <Form action={createAction(book.slug)}>
-      <PageBackLink href={`/edit/${book.slug}`}>Add Publisher</PageBackLink>
+      <PageBackLink href={`/edit/${book.slug}`}>
+        Publishing Information
+      </PageBackLink>
       <Select
         loadOptions={options}
         label="Publisher"
@@ -28,6 +31,19 @@ export const EditPublisherForm = async ({ book }: { book: FullBook }) => {
         defaultValue={book.publisher}
         required
         data-superjson
+      />
+      <Input
+        label="Release Date"
+        defaultValue={book.releaseDate?.toISOString().split('T')[0]}
+        name="releaseDate"
+        type="date"
+      />
+      <Input
+        label="No. of Pages"
+        defaultValue={book.pages}
+        name="pages"
+        type="number"
+        min={0}
       />
       <Submit variant="dark">Save and Continue</Submit>
       <p className="text-14 mt-8">

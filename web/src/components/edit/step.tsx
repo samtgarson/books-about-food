@@ -7,7 +7,6 @@ import { StepCompletionMeta } from './state'
 
 export interface StepProps {
   title: string
-  completeTitle?: string
   required?: boolean
   href: string
   complete?: StepCompletionMeta
@@ -16,7 +15,6 @@ export interface StepProps {
 
 export const Step: FC<StepProps> = ({
   title,
-  completeTitle = title,
   required,
   href,
   complete,
@@ -32,7 +30,7 @@ export const Step: FC<StepProps> = ({
         disabled && 'pointer-events-none'
       )}
     >
-      <p className="mr-auto">{complete ? completeTitle : title}</p>
+      <p className="mr-auto">{title}</p>
       {complete?.text && (
         <p className="bg-white px-2 py-1 rounded-full min-w-[1rem] text-center text-12">
           {complete.text}
