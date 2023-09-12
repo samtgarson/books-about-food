@@ -1369,7 +1369,7 @@
         "enums": null,
         "field": "profile",
         "integration": null,
-        "inverseOf": "featured_profiles",
+        "inverseOf": "featured_profile",
         "isFilterable": true,
         "isPrimaryKey": false,
         "isReadOnly": false,
@@ -2114,7 +2114,20 @@
     "segments": []
   },
   {
-    "actions": [],
+    "actions": [
+      {
+        "id": "profiles-0-feature-this-profile",
+        "name": "Feature this profile",
+        "type": "single",
+        "baseUrl": null,
+        "endpoint": "/forest/_actions/profiles/0/feature-this-profile",
+        "httpMethod": "POST",
+        "redirect": null,
+        "download": false,
+        "fields": [],
+        "hooks": {"load": false, "change": ["changeHook"]}
+      }
+    ],
     "fields": [
       {
         "defaultValue": null,
@@ -2251,18 +2264,18 @@
       {
         "defaultValue": null,
         "enums": null,
-        "field": "featured_profiles",
+        "field": "featured_profile",
         "integration": null,
         "inverseOf": "profile",
-        "isFilterable": false,
+        "isFilterable": true,
         "isPrimaryKey": false,
         "isReadOnly": false,
         "isRequired": false,
         "isSortable": true,
         "isVirtual": false,
         "reference": "featured_profiles.id",
-        "relationship": "HasMany",
-        "type": ["Uuid"],
+        "relationship": "HasOne",
+        "type": "Uuid",
         "validations": []
       },
       {

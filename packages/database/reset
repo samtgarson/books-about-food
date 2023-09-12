@@ -3,19 +3,18 @@
 set -e
 
 function dump () {
-  local prod_dump=$(mktemp -t baf-dump.XXXXXX.sql)
-  local saved_content=$(mktemp -t baf-saved.XXXXXX.sql)
+  local dir=$(mktemp -d)
+  local prod_dump="$dir/baf-dump"
+  local saved_content="$dir/baf-saved-content"
 
   pg_dump \
-    --inserts \
     -t accounts \
     -t users \
     -t claims \
-    --data-only \
+    --data-only -Fc \
     $DATABASE_URL > $saved_content
 
   pg_dump \
-    --inserts \
     -t jobs \
     -t books \
     -t contributions \
@@ -29,19 +28,18 @@ function dump () {
     -t _profiles_jobs \
     -t _authored_books \
     -t featured_profiles \
-    --data-only \
+    --data-only -Fc \
     $PROD_DATABASE_URL > $prod_dump
 
   npx -w packages/database prisma migrate reset
 
-  psql -d $DATABASE_URL -f $prod_dump || true
-  psql -d $DATABASE_URL -f $saved_content || true
-  rm $prod_dump
-  rm $saved_content
+  pg_restore --disable-triggers -d $DATABASE_URL $prod_dump || true
+  pg_restore --disable-triggers -d $DATABASE_URL $saved_content || true
+  rm -rf $dir
 }
 
 db_dir=${0:a:h}
-export $(cat "$db_dir/.env" | xargs)
+export $(cat "$db_dir/.env" | grep -v '^#' | xargs)
 if [[ -z "$DATABASE_URL" ]]; then
   echo "DATABASE_URL not set"
   exit 1
@@ -50,4 +48,5 @@ if [[ -z "$PROD_DATABASE_URL" ]]; then
   echo "PROD_DATABASE_URL not set"
   exit 1
 fi
+
 dump

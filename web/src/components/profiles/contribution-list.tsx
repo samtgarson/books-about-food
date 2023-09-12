@@ -2,7 +2,6 @@ import { fetchBooks } from 'src/services/books/fetch-books'
 import { GridContainer } from 'src/components/lists/grid-container'
 import { ContributionVisibility } from './edit/contribution-visibility'
 import { Profile } from 'src/models/profile'
-import { fetchContributions } from 'src/services/profiles/fetch-contributions'
 import { AntiContainer, Container } from '../atoms/container'
 import cn from 'classnames'
 
@@ -15,13 +14,10 @@ export const ContributionList = async ({
   profile,
   className
 }: ContributionListProps) => {
-  const [{ books, filteredTotal }, contributions] = await Promise.all([
-    fetchBooks.call({
-      profile: profile.slug,
-      perPage: 0
-    }),
-    fetchContributions.call({ profileId: profile.id })
-  ])
+  const { books, filteredTotal } = await fetchBooks.call({
+    profile: profile.slug,
+    perPage: 0
+  })
 
   if (filteredTotal === 0) return null
   return (
@@ -37,7 +33,10 @@ export const ContributionList = async ({
               key={book.id}
               book={book}
               data-superjson
-              hidden={!!contributions.find((c) => c.bookId === book.id)?.hidden}
+              hidden={
+                !!book.contributions.find((c) => c.profile.id === profile.id)
+                  ?.hidden
+              }
             />
           ))}
         </GridContainer>

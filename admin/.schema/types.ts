@@ -73,6 +73,11 @@ export type Schema = {
       'book:publisher:user:profile:image:profile_id': string;
       'book:publisher:user:profile:image:placeholder_url': string;
       'book:publisher:user:profile:image:path': string;
+      'book:publisher:user:profile:featured_profile:id': string;
+      'book:publisher:user:profile:featured_profile:created_at': string;
+      'book:publisher:user:profile:featured_profile:updated_at': string;
+      'book:publisher:user:profile:featured_profile:profile_id': string;
+      'book:publisher:user:profile:featured_profile:until': string;
       'book:publisher:image:id': string;
       'book:publisher:image:width': number;
       'book:publisher:image:height': number;
@@ -193,6 +198,11 @@ export type Schema = {
       'book:publisher:image:profile:user:updated_at': string;
       'book:publisher:image:profile:user:publisher_id': string;
       'book:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
+      'book:publisher:image:profile:featured_profile:id': string;
+      'book:publisher:image:profile:featured_profile:created_at': string;
+      'book:publisher:image:profile:featured_profile:updated_at': string;
+      'book:publisher:image:profile:featured_profile:profile_id': string;
+      'book:publisher:image:profile:featured_profile:until': string;
       'book:submitter:id': string;
       'book:submitter:name': string;
       'book:submitter:email': string;
@@ -342,6 +352,11 @@ export type Schema = {
       'book:submitter:profile:image:publisher:imprint': string;
       'book:submitter:profile:image:publisher:slug': string;
       'book:submitter:profile:image:publisher:Logo': string;
+      'book:submitter:profile:featured_profile:id': string;
+      'book:submitter:profile:featured_profile:created_at': string;
+      'book:submitter:profile:featured_profile:updated_at': string;
+      'book:submitter:profile:featured_profile:profile_id': string;
+      'book:submitter:profile:featured_profile:until': string;
       'book:image:id': string;
       'book:image:width': number;
       'book:image:height': number;
@@ -561,6 +576,11 @@ export type Schema = {
       'book:image:profile:user:publisher:imprint': string;
       'book:image:profile:user:publisher:slug': string;
       'book:image:profile:user:publisher:Logo': string;
+      'book:image:profile:featured_profile:id': string;
+      'book:image:profile:featured_profile:created_at': string;
+      'book:image:profile:featured_profile:updated_at': string;
+      'book:image:profile:featured_profile:profile_id': string;
+      'book:image:profile:featured_profile:until': string;
       'profile:id': string;
       'profile:created_at': string;
       'profile:updated_at': string;
@@ -907,6 +927,11 @@ export type Schema = {
       'profile:image:publisher:user:profile:hidden_collaborators': Array<string>;
       'profile:image:publisher:user:profile:Avatar': string;
       'profile:image:publisher:user:profile:Authored Books': Array<{Title: string}>;
+      'profile:featured_profile:id': string;
+      'profile:featured_profile:created_at': string;
+      'profile:featured_profile:updated_at': string;
+      'profile:featured_profile:profile_id': string;
+      'profile:featured_profile:until': string;
     };
   };
   '_books_tags': {
@@ -982,6 +1007,11 @@ export type Schema = {
       'book:publisher:user:profile:image:profile_id': string;
       'book:publisher:user:profile:image:placeholder_url': string;
       'book:publisher:user:profile:image:path': string;
+      'book:publisher:user:profile:featured_profile:id': string;
+      'book:publisher:user:profile:featured_profile:created_at': string;
+      'book:publisher:user:profile:featured_profile:updated_at': string;
+      'book:publisher:user:profile:featured_profile:profile_id': string;
+      'book:publisher:user:profile:featured_profile:until': string;
       'book:publisher:image:id': string;
       'book:publisher:image:width': number;
       'book:publisher:image:height': number;
@@ -1102,6 +1132,11 @@ export type Schema = {
       'book:publisher:image:profile:user:updated_at': string;
       'book:publisher:image:profile:user:publisher_id': string;
       'book:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
+      'book:publisher:image:profile:featured_profile:id': string;
+      'book:publisher:image:profile:featured_profile:created_at': string;
+      'book:publisher:image:profile:featured_profile:updated_at': string;
+      'book:publisher:image:profile:featured_profile:profile_id': string;
+      'book:publisher:image:profile:featured_profile:until': string;
       'book:submitter:id': string;
       'book:submitter:name': string;
       'book:submitter:email': string;
@@ -1251,6 +1286,11 @@ export type Schema = {
       'book:submitter:profile:image:publisher:imprint': string;
       'book:submitter:profile:image:publisher:slug': string;
       'book:submitter:profile:image:publisher:Logo': string;
+      'book:submitter:profile:featured_profile:id': string;
+      'book:submitter:profile:featured_profile:created_at': string;
+      'book:submitter:profile:featured_profile:updated_at': string;
+      'book:submitter:profile:featured_profile:profile_id': string;
+      'book:submitter:profile:featured_profile:until': string;
       'book:image:id': string;
       'book:image:width': number;
       'book:image:height': number;
@@ -1470,6 +1510,11 @@ export type Schema = {
       'book:image:profile:user:publisher:imprint': string;
       'book:image:profile:user:publisher:slug': string;
       'book:image:profile:user:publisher:Logo': string;
+      'book:image:profile:featured_profile:id': string;
+      'book:image:profile:featured_profile:created_at': string;
+      'book:image:profile:featured_profile:updated_at': string;
+      'book:image:profile:featured_profile:profile_id': string;
+      'book:image:profile:featured_profile:until': string;
       'tag:id': string;
       'tag:created_at': string;
       'tag:updated_at': string;
@@ -1650,6 +1695,11 @@ export type Schema = {
       'user:publisher:image:profile:user:updated_at': string;
       'user:publisher:image:profile:user:publisher_id': string;
       'user:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
+      'user:publisher:image:profile:featured_profile:id': string;
+      'user:publisher:image:profile:featured_profile:created_at': string;
+      'user:publisher:image:profile:featured_profile:updated_at': string;
+      'user:publisher:image:profile:featured_profile:profile_id': string;
+      'user:publisher:image:profile:featured_profile:until': string;
       'user:profile:id': string;
       'user:profile:created_at': string;
       'user:profile:updated_at': string;
@@ -1781,6 +1831,11 @@ export type Schema = {
       'user:profile:image:publisher:user:updated_at': string;
       'user:profile:image:publisher:user:publisher_id': string;
       'user:profile:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
+      'user:profile:featured_profile:id': string;
+      'user:profile:featured_profile:created_at': string;
+      'user:profile:featured_profile:updated_at': string;
+      'user:profile:featured_profile:profile_id': string;
+      'user:profile:featured_profile:until': string;
     };
   };
   'books': {
@@ -1898,6 +1953,11 @@ export type Schema = {
       'publisher:user:profile:image:publisher:imprint': string;
       'publisher:user:profile:image:publisher:slug': string;
       'publisher:user:profile:image:publisher:Logo': string;
+      'publisher:user:profile:featured_profile:id': string;
+      'publisher:user:profile:featured_profile:created_at': string;
+      'publisher:user:profile:featured_profile:updated_at': string;
+      'publisher:user:profile:featured_profile:profile_id': string;
+      'publisher:user:profile:featured_profile:until': string;
       'publisher:image:id': string;
       'publisher:image:width': number;
       'publisher:image:height': number;
@@ -2154,6 +2214,11 @@ export type Schema = {
       'publisher:image:profile:user:publisher:imprint': string;
       'publisher:image:profile:user:publisher:slug': string;
       'publisher:image:profile:user:publisher:Logo': string;
+      'publisher:image:profile:featured_profile:id': string;
+      'publisher:image:profile:featured_profile:created_at': string;
+      'publisher:image:profile:featured_profile:updated_at': string;
+      'publisher:image:profile:featured_profile:profile_id': string;
+      'publisher:image:profile:featured_profile:until': string;
       'submitter:id': string;
       'submitter:name': string;
       'submitter:email': string;
@@ -2294,6 +2359,11 @@ export type Schema = {
       'submitter:publisher:image:profile:user:updated_at': string;
       'submitter:publisher:image:profile:user:publisher_id': string;
       'submitter:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
+      'submitter:publisher:image:profile:featured_profile:id': string;
+      'submitter:publisher:image:profile:featured_profile:created_at': string;
+      'submitter:publisher:image:profile:featured_profile:updated_at': string;
+      'submitter:publisher:image:profile:featured_profile:profile_id': string;
+      'submitter:publisher:image:profile:featured_profile:until': string;
       'submitter:profile:id': string;
       'submitter:profile:created_at': string;
       'submitter:profile:updated_at': string;
@@ -2425,6 +2495,11 @@ export type Schema = {
       'submitter:profile:image:publisher:user:updated_at': string;
       'submitter:profile:image:publisher:user:publisher_id': string;
       'submitter:profile:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
+      'submitter:profile:featured_profile:id': string;
+      'submitter:profile:featured_profile:created_at': string;
+      'submitter:profile:featured_profile:updated_at': string;
+      'submitter:profile:featured_profile:profile_id': string;
+      'submitter:profile:featured_profile:until': string;
       'image:id': string;
       'image:width': number;
       'image:height': number;
@@ -2590,6 +2665,11 @@ export type Schema = {
       'image:preview_for:submitter:profile:image:profile_id': string;
       'image:preview_for:submitter:profile:image:placeholder_url': string;
       'image:preview_for:submitter:profile:image:path': string;
+      'image:preview_for:submitter:profile:featured_profile:id': string;
+      'image:preview_for:submitter:profile:featured_profile:created_at': string;
+      'image:preview_for:submitter:profile:featured_profile:updated_at': string;
+      'image:preview_for:submitter:profile:featured_profile:profile_id': string;
+      'image:preview_for:submitter:profile:featured_profile:until': string;
       'image:preview_for:image:id': string;
       'image:preview_for:image:width': number;
       'image:preview_for:image:height': number;
@@ -2694,6 +2774,11 @@ export type Schema = {
       'image:preview_for:image:profile:user:updated_at': string;
       'image:preview_for:image:profile:user:publisher_id': string;
       'image:preview_for:image:profile:user:role': 'user' | 'admin' | 'waitlist';
+      'image:preview_for:image:profile:featured_profile:id': string;
+      'image:preview_for:image:profile:featured_profile:created_at': string;
+      'image:preview_for:image:profile:featured_profile:updated_at': string;
+      'image:preview_for:image:profile:featured_profile:profile_id': string;
+      'image:preview_for:image:profile:featured_profile:until': string;
       'image:publisher:id': string;
       'image:publisher:created_at': string;
       'image:publisher:updated_at': string;
@@ -2741,6 +2826,11 @@ export type Schema = {
       'image:publisher:user:profile:image:profile_id': string;
       'image:publisher:user:profile:image:placeholder_url': string;
       'image:publisher:user:profile:image:path': string;
+      'image:publisher:user:profile:featured_profile:id': string;
+      'image:publisher:user:profile:featured_profile:created_at': string;
+      'image:publisher:user:profile:featured_profile:updated_at': string;
+      'image:publisher:user:profile:featured_profile:profile_id': string;
+      'image:publisher:user:profile:featured_profile:until': string;
       'image:profile:id': string;
       'image:profile:created_at': string;
       'image:profile:updated_at': string;
@@ -2788,6 +2878,11 @@ export type Schema = {
       'image:profile:user:publisher:image:profile_id': string;
       'image:profile:user:publisher:image:placeholder_url': string;
       'image:profile:user:publisher:image:path': string;
+      'image:profile:featured_profile:id': string;
+      'image:profile:featured_profile:created_at': string;
+      'image:profile:featured_profile:updated_at': string;
+      'image:profile:featured_profile:profile_id': string;
+      'image:profile:featured_profile:until': string;
     };
   };
   'claims': {
@@ -3153,6 +3248,11 @@ export type Schema = {
       'profile:image:publisher:user:profile:hidden_collaborators': Array<string>;
       'profile:image:publisher:user:profile:Avatar': string;
       'profile:image:publisher:user:profile:Authored Books': Array<{Title: string}>;
+      'profile:featured_profile:id': string;
+      'profile:featured_profile:created_at': string;
+      'profile:featured_profile:updated_at': string;
+      'profile:featured_profile:profile_id': string;
+      'profile:featured_profile:until': string;
       'publisher:id': string;
       'publisher:created_at': string;
       'publisher:updated_at': string;
@@ -3243,6 +3343,11 @@ export type Schema = {
       'publisher:user:profile:image:publisher:imprint': string;
       'publisher:user:profile:image:publisher:slug': string;
       'publisher:user:profile:image:publisher:Logo': string;
+      'publisher:user:profile:featured_profile:id': string;
+      'publisher:user:profile:featured_profile:created_at': string;
+      'publisher:user:profile:featured_profile:updated_at': string;
+      'publisher:user:profile:featured_profile:profile_id': string;
+      'publisher:user:profile:featured_profile:until': string;
       'publisher:image:id': string;
       'publisher:image:width': number;
       'publisher:image:height': number;
@@ -3499,6 +3604,11 @@ export type Schema = {
       'publisher:image:profile:user:publisher:imprint': string;
       'publisher:image:profile:user:publisher:slug': string;
       'publisher:image:profile:user:publisher:Logo': string;
+      'publisher:image:profile:featured_profile:id': string;
+      'publisher:image:profile:featured_profile:created_at': string;
+      'publisher:image:profile:featured_profile:updated_at': string;
+      'publisher:image:profile:featured_profile:profile_id': string;
+      'publisher:image:profile:featured_profile:until': string;
       'user:id': string;
       'user:name': string;
       'user:email': string;
@@ -3639,6 +3749,11 @@ export type Schema = {
       'user:publisher:image:profile:user:updated_at': string;
       'user:publisher:image:profile:user:publisher_id': string;
       'user:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
+      'user:publisher:image:profile:featured_profile:id': string;
+      'user:publisher:image:profile:featured_profile:created_at': string;
+      'user:publisher:image:profile:featured_profile:updated_at': string;
+      'user:publisher:image:profile:featured_profile:profile_id': string;
+      'user:publisher:image:profile:featured_profile:until': string;
       'user:profile:id': string;
       'user:profile:created_at': string;
       'user:profile:updated_at': string;
@@ -3770,6 +3885,11 @@ export type Schema = {
       'user:profile:image:publisher:user:updated_at': string;
       'user:profile:image:publisher:user:publisher_id': string;
       'user:profile:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
+      'user:profile:featured_profile:id': string;
+      'user:profile:featured_profile:created_at': string;
+      'user:profile:featured_profile:updated_at': string;
+      'user:profile:featured_profile:profile_id': string;
+      'user:profile:featured_profile:until': string;
     };
   };
   'contributions': {
@@ -4137,6 +4257,11 @@ export type Schema = {
       'profile:image:publisher:user:profile:hidden_collaborators': Array<string>;
       'profile:image:publisher:user:profile:Avatar': string;
       'profile:image:publisher:user:profile:Authored Books': Array<{Title: string}>;
+      'profile:featured_profile:id': string;
+      'profile:featured_profile:created_at': string;
+      'profile:featured_profile:updated_at': string;
+      'profile:featured_profile:profile_id': string;
+      'profile:featured_profile:until': string;
       'book:id': string;
       'book:created_at': string;
       'book:updated_at': string;
@@ -4200,6 +4325,11 @@ export type Schema = {
       'book:publisher:user:profile:image:profile_id': string;
       'book:publisher:user:profile:image:placeholder_url': string;
       'book:publisher:user:profile:image:path': string;
+      'book:publisher:user:profile:featured_profile:id': string;
+      'book:publisher:user:profile:featured_profile:created_at': string;
+      'book:publisher:user:profile:featured_profile:updated_at': string;
+      'book:publisher:user:profile:featured_profile:profile_id': string;
+      'book:publisher:user:profile:featured_profile:until': string;
       'book:publisher:image:id': string;
       'book:publisher:image:width': number;
       'book:publisher:image:height': number;
@@ -4320,6 +4450,11 @@ export type Schema = {
       'book:publisher:image:profile:user:updated_at': string;
       'book:publisher:image:profile:user:publisher_id': string;
       'book:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
+      'book:publisher:image:profile:featured_profile:id': string;
+      'book:publisher:image:profile:featured_profile:created_at': string;
+      'book:publisher:image:profile:featured_profile:updated_at': string;
+      'book:publisher:image:profile:featured_profile:profile_id': string;
+      'book:publisher:image:profile:featured_profile:until': string;
       'book:submitter:id': string;
       'book:submitter:name': string;
       'book:submitter:email': string;
@@ -4469,6 +4604,11 @@ export type Schema = {
       'book:submitter:profile:image:publisher:imprint': string;
       'book:submitter:profile:image:publisher:slug': string;
       'book:submitter:profile:image:publisher:Logo': string;
+      'book:submitter:profile:featured_profile:id': string;
+      'book:submitter:profile:featured_profile:created_at': string;
+      'book:submitter:profile:featured_profile:updated_at': string;
+      'book:submitter:profile:featured_profile:profile_id': string;
+      'book:submitter:profile:featured_profile:until': string;
       'book:image:id': string;
       'book:image:width': number;
       'book:image:height': number;
@@ -4688,6 +4828,11 @@ export type Schema = {
       'book:image:profile:user:publisher:imprint': string;
       'book:image:profile:user:publisher:slug': string;
       'book:image:profile:user:publisher:Logo': string;
+      'book:image:profile:featured_profile:id': string;
+      'book:image:profile:featured_profile:created_at': string;
+      'book:image:profile:featured_profile:updated_at': string;
+      'book:image:profile:featured_profile:profile_id': string;
+      'book:image:profile:featured_profile:until': string;
       'job:id': string;
       'job:created_at': string;
       'job:updated_at': string;
@@ -5053,6 +5198,11 @@ export type Schema = {
       'profile:image:publisher:user:profile:hidden_collaborators': Array<string>;
       'profile:image:publisher:user:profile:Avatar': string;
       'profile:image:publisher:user:profile:Authored Books': Array<{Title: string}>;
+      'profile:featured_profile:id': string;
+      'profile:featured_profile:created_at': string;
+      'profile:featured_profile:updated_at': string;
+      'profile:featured_profile:profile_id': string;
+      'profile:featured_profile:until': string;
       'user:id': string;
       'user:name': string;
       'user:email': string;
@@ -5193,6 +5343,11 @@ export type Schema = {
       'user:publisher:image:profile:user:updated_at': string;
       'user:publisher:image:profile:user:publisher_id': string;
       'user:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
+      'user:publisher:image:profile:featured_profile:id': string;
+      'user:publisher:image:profile:featured_profile:created_at': string;
+      'user:publisher:image:profile:featured_profile:updated_at': string;
+      'user:publisher:image:profile:featured_profile:profile_id': string;
+      'user:publisher:image:profile:featured_profile:until': string;
       'user:profile:id': string;
       'user:profile:created_at': string;
       'user:profile:updated_at': string;
@@ -5324,6 +5479,11 @@ export type Schema = {
       'user:profile:image:publisher:user:updated_at': string;
       'user:profile:image:publisher:user:publisher_id': string;
       'user:profile:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
+      'user:profile:featured_profile:id': string;
+      'user:profile:featured_profile:created_at': string;
+      'user:profile:featured_profile:updated_at': string;
+      'user:profile:featured_profile:profile_id': string;
+      'user:profile:featured_profile:until': string;
     };
   };
   'featured_profiles': {
@@ -5763,6 +5923,11 @@ export type Schema = {
       'book:publisher:user:profile:image:profile_id': string;
       'book:publisher:user:profile:image:placeholder_url': string;
       'book:publisher:user:profile:image:path': string;
+      'book:publisher:user:profile:featured_profile:id': string;
+      'book:publisher:user:profile:featured_profile:created_at': string;
+      'book:publisher:user:profile:featured_profile:updated_at': string;
+      'book:publisher:user:profile:featured_profile:profile_id': string;
+      'book:publisher:user:profile:featured_profile:until': string;
       'book:publisher:image:id': string;
       'book:publisher:image:width': number;
       'book:publisher:image:height': number;
@@ -5883,6 +6048,11 @@ export type Schema = {
       'book:publisher:image:profile:user:updated_at': string;
       'book:publisher:image:profile:user:publisher_id': string;
       'book:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
+      'book:publisher:image:profile:featured_profile:id': string;
+      'book:publisher:image:profile:featured_profile:created_at': string;
+      'book:publisher:image:profile:featured_profile:updated_at': string;
+      'book:publisher:image:profile:featured_profile:profile_id': string;
+      'book:publisher:image:profile:featured_profile:until': string;
       'book:submitter:id': string;
       'book:submitter:name': string;
       'book:submitter:email': string;
@@ -6032,6 +6202,11 @@ export type Schema = {
       'book:submitter:profile:image:publisher:imprint': string;
       'book:submitter:profile:image:publisher:slug': string;
       'book:submitter:profile:image:publisher:Logo': string;
+      'book:submitter:profile:featured_profile:id': string;
+      'book:submitter:profile:featured_profile:created_at': string;
+      'book:submitter:profile:featured_profile:updated_at': string;
+      'book:submitter:profile:featured_profile:profile_id': string;
+      'book:submitter:profile:featured_profile:until': string;
       'book:image:id': string;
       'book:image:width': number;
       'book:image:height': number;
@@ -6251,6 +6426,11 @@ export type Schema = {
       'book:image:profile:user:publisher:imprint': string;
       'book:image:profile:user:publisher:slug': string;
       'book:image:profile:user:publisher:Logo': string;
+      'book:image:profile:featured_profile:id': string;
+      'book:image:profile:featured_profile:created_at': string;
+      'book:image:profile:featured_profile:updated_at': string;
+      'book:image:profile:featured_profile:profile_id': string;
+      'book:image:profile:featured_profile:until': string;
     };
   };
   'images': {
@@ -6338,6 +6518,11 @@ export type Schema = {
       'cover_for:publisher:user:profile:image:profile_id': string;
       'cover_for:publisher:user:profile:image:placeholder_url': string;
       'cover_for:publisher:user:profile:image:path': string;
+      'cover_for:publisher:user:profile:featured_profile:id': string;
+      'cover_for:publisher:user:profile:featured_profile:created_at': string;
+      'cover_for:publisher:user:profile:featured_profile:updated_at': string;
+      'cover_for:publisher:user:profile:featured_profile:profile_id': string;
+      'cover_for:publisher:user:profile:featured_profile:until': string;
       'cover_for:publisher:image:id': string;
       'cover_for:publisher:image:width': number;
       'cover_for:publisher:image:height': number;
@@ -6446,6 +6631,11 @@ export type Schema = {
       'cover_for:publisher:image:profile:user:updated_at': string;
       'cover_for:publisher:image:profile:user:publisher_id': string;
       'cover_for:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
+      'cover_for:publisher:image:profile:featured_profile:id': string;
+      'cover_for:publisher:image:profile:featured_profile:created_at': string;
+      'cover_for:publisher:image:profile:featured_profile:updated_at': string;
+      'cover_for:publisher:image:profile:featured_profile:profile_id': string;
+      'cover_for:publisher:image:profile:featured_profile:until': string;
       'cover_for:submitter:id': string;
       'cover_for:submitter:name': string;
       'cover_for:submitter:email': string;
@@ -6595,6 +6785,11 @@ export type Schema = {
       'cover_for:submitter:profile:image:publisher:imprint': string;
       'cover_for:submitter:profile:image:publisher:slug': string;
       'cover_for:submitter:profile:image:publisher:Logo': string;
+      'cover_for:submitter:profile:featured_profile:id': string;
+      'cover_for:submitter:profile:featured_profile:created_at': string;
+      'cover_for:submitter:profile:featured_profile:updated_at': string;
+      'cover_for:submitter:profile:featured_profile:profile_id': string;
+      'cover_for:submitter:profile:featured_profile:until': string;
       'preview_for:id': string;
       'preview_for:created_at': string;
       'preview_for:updated_at': string;
@@ -6658,6 +6853,11 @@ export type Schema = {
       'preview_for:publisher:user:profile:image:profile_id': string;
       'preview_for:publisher:user:profile:image:placeholder_url': string;
       'preview_for:publisher:user:profile:image:path': string;
+      'preview_for:publisher:user:profile:featured_profile:id': string;
+      'preview_for:publisher:user:profile:featured_profile:created_at': string;
+      'preview_for:publisher:user:profile:featured_profile:updated_at': string;
+      'preview_for:publisher:user:profile:featured_profile:profile_id': string;
+      'preview_for:publisher:user:profile:featured_profile:until': string;
       'preview_for:publisher:image:id': string;
       'preview_for:publisher:image:width': number;
       'preview_for:publisher:image:height': number;
@@ -6778,6 +6978,11 @@ export type Schema = {
       'preview_for:publisher:image:profile:user:updated_at': string;
       'preview_for:publisher:image:profile:user:publisher_id': string;
       'preview_for:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
+      'preview_for:publisher:image:profile:featured_profile:id': string;
+      'preview_for:publisher:image:profile:featured_profile:created_at': string;
+      'preview_for:publisher:image:profile:featured_profile:updated_at': string;
+      'preview_for:publisher:image:profile:featured_profile:profile_id': string;
+      'preview_for:publisher:image:profile:featured_profile:until': string;
       'preview_for:submitter:id': string;
       'preview_for:submitter:name': string;
       'preview_for:submitter:email': string;
@@ -6927,6 +7132,11 @@ export type Schema = {
       'preview_for:submitter:profile:image:publisher:imprint': string;
       'preview_for:submitter:profile:image:publisher:slug': string;
       'preview_for:submitter:profile:image:publisher:Logo': string;
+      'preview_for:submitter:profile:featured_profile:id': string;
+      'preview_for:submitter:profile:featured_profile:created_at': string;
+      'preview_for:submitter:profile:featured_profile:updated_at': string;
+      'preview_for:submitter:profile:featured_profile:profile_id': string;
+      'preview_for:submitter:profile:featured_profile:until': string;
       'preview_for:image:id': string;
       'preview_for:image:width': number;
       'preview_for:image:height': number;
@@ -7146,6 +7356,11 @@ export type Schema = {
       'preview_for:image:profile:user:publisher:imprint': string;
       'preview_for:image:profile:user:publisher:slug': string;
       'preview_for:image:profile:user:publisher:Logo': string;
+      'preview_for:image:profile:featured_profile:id': string;
+      'preview_for:image:profile:featured_profile:created_at': string;
+      'preview_for:image:profile:featured_profile:updated_at': string;
+      'preview_for:image:profile:featured_profile:profile_id': string;
+      'preview_for:image:profile:featured_profile:until': string;
       'publisher:id': string;
       'publisher:created_at': string;
       'publisher:updated_at': string;
@@ -7236,6 +7451,11 @@ export type Schema = {
       'publisher:user:profile:image:publisher:imprint': string;
       'publisher:user:profile:image:publisher:slug': string;
       'publisher:user:profile:image:publisher:Logo': string;
+      'publisher:user:profile:featured_profile:id': string;
+      'publisher:user:profile:featured_profile:created_at': string;
+      'publisher:user:profile:featured_profile:updated_at': string;
+      'publisher:user:profile:featured_profile:profile_id': string;
+      'publisher:user:profile:featured_profile:until': string;
       'profile:id': string;
       'profile:created_at': string;
       'profile:updated_at': string;
@@ -7330,6 +7550,11 @@ export type Schema = {
       'profile:user:publisher:image:profile:hidden_collaborators': Array<string>;
       'profile:user:publisher:image:profile:Avatar': string;
       'profile:user:publisher:image:profile:Authored Books': Array<{Title: string}>;
+      'profile:featured_profile:id': string;
+      'profile:featured_profile:created_at': string;
+      'profile:featured_profile:updated_at': string;
+      'profile:featured_profile:profile_id': string;
+      'profile:featured_profile:until': string;
     };
   };
   'jobs': {
@@ -7420,6 +7645,11 @@ export type Schema = {
       'book:publisher:user:profile:image:profile_id': string;
       'book:publisher:user:profile:image:placeholder_url': string;
       'book:publisher:user:profile:image:path': string;
+      'book:publisher:user:profile:featured_profile:id': string;
+      'book:publisher:user:profile:featured_profile:created_at': string;
+      'book:publisher:user:profile:featured_profile:updated_at': string;
+      'book:publisher:user:profile:featured_profile:profile_id': string;
+      'book:publisher:user:profile:featured_profile:until': string;
       'book:publisher:image:id': string;
       'book:publisher:image:width': number;
       'book:publisher:image:height': number;
@@ -7540,6 +7770,11 @@ export type Schema = {
       'book:publisher:image:profile:user:updated_at': string;
       'book:publisher:image:profile:user:publisher_id': string;
       'book:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
+      'book:publisher:image:profile:featured_profile:id': string;
+      'book:publisher:image:profile:featured_profile:created_at': string;
+      'book:publisher:image:profile:featured_profile:updated_at': string;
+      'book:publisher:image:profile:featured_profile:profile_id': string;
+      'book:publisher:image:profile:featured_profile:until': string;
       'book:submitter:id': string;
       'book:submitter:name': string;
       'book:submitter:email': string;
@@ -7689,6 +7924,11 @@ export type Schema = {
       'book:submitter:profile:image:publisher:imprint': string;
       'book:submitter:profile:image:publisher:slug': string;
       'book:submitter:profile:image:publisher:Logo': string;
+      'book:submitter:profile:featured_profile:id': string;
+      'book:submitter:profile:featured_profile:created_at': string;
+      'book:submitter:profile:featured_profile:updated_at': string;
+      'book:submitter:profile:featured_profile:profile_id': string;
+      'book:submitter:profile:featured_profile:until': string;
       'book:image:id': string;
       'book:image:width': number;
       'book:image:height': number;
@@ -7908,6 +8148,11 @@ export type Schema = {
       'book:image:profile:user:publisher:imprint': string;
       'book:image:profile:user:publisher:slug': string;
       'book:image:profile:user:publisher:Logo': string;
+      'book:image:profile:featured_profile:id': string;
+      'book:image:profile:featured_profile:created_at': string;
+      'book:image:profile:featured_profile:updated_at': string;
+      'book:image:profile:featured_profile:profile_id': string;
+      'book:image:profile:featured_profile:until': string;
     };
   };
   'pitches': {
@@ -8062,6 +8307,11 @@ export type Schema = {
       'author:publisher:image:profile:user:updated_at': string;
       'author:publisher:image:profile:user:publisher_id': string;
       'author:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
+      'author:publisher:image:profile:featured_profile:id': string;
+      'author:publisher:image:profile:featured_profile:created_at': string;
+      'author:publisher:image:profile:featured_profile:updated_at': string;
+      'author:publisher:image:profile:featured_profile:profile_id': string;
+      'author:publisher:image:profile:featured_profile:until': string;
       'author:profile:id': string;
       'author:profile:created_at': string;
       'author:profile:updated_at': string;
@@ -8193,6 +8443,11 @@ export type Schema = {
       'author:profile:image:publisher:user:updated_at': string;
       'author:profile:image:publisher:user:publisher_id': string;
       'author:profile:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
+      'author:profile:featured_profile:id': string;
+      'author:profile:featured_profile:created_at': string;
+      'author:profile:featured_profile:updated_at': string;
+      'author:profile:featured_profile:profile_id': string;
+      'author:profile:featured_profile:until': string;
     };
   };
   'profiles': {
@@ -8216,6 +8471,7 @@ export type Schema = {
     nested: {
       'user': Schema['users']['plain'] & Schema['users']['nested'];
       'image': Schema['images']['plain'] & Schema['images']['nested'];
+      'featured_profile': Schema['featured_profiles']['plain'] & Schema['featured_profiles']['nested'];
     };
     flat: {
       'user:id': string;
@@ -8358,6 +8614,11 @@ export type Schema = {
       'user:publisher:image:profile:user:updated_at': string;
       'user:publisher:image:profile:user:publisher_id': string;
       'user:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
+      'user:publisher:image:profile:featured_profile:id': string;
+      'user:publisher:image:profile:featured_profile:created_at': string;
+      'user:publisher:image:profile:featured_profile:updated_at': string;
+      'user:publisher:image:profile:featured_profile:profile_id': string;
+      'user:publisher:image:profile:featured_profile:until': string;
       'image:id': string;
       'image:width': number;
       'image:height': number;
@@ -8524,6 +8785,11 @@ export type Schema = {
       'image:cover_for:submitter:profile:image:profile_id': string;
       'image:cover_for:submitter:profile:image:placeholder_url': string;
       'image:cover_for:submitter:profile:image:path': string;
+      'image:cover_for:submitter:profile:featured_profile:id': string;
+      'image:cover_for:submitter:profile:featured_profile:created_at': string;
+      'image:cover_for:submitter:profile:featured_profile:updated_at': string;
+      'image:cover_for:submitter:profile:featured_profile:profile_id': string;
+      'image:cover_for:submitter:profile:featured_profile:until': string;
       'image:preview_for:id': string;
       'image:preview_for:created_at': string;
       'image:preview_for:updated_at': string;
@@ -8678,6 +8944,11 @@ export type Schema = {
       'image:preview_for:submitter:profile:image:profile_id': string;
       'image:preview_for:submitter:profile:image:placeholder_url': string;
       'image:preview_for:submitter:profile:image:path': string;
+      'image:preview_for:submitter:profile:featured_profile:id': string;
+      'image:preview_for:submitter:profile:featured_profile:created_at': string;
+      'image:preview_for:submitter:profile:featured_profile:updated_at': string;
+      'image:preview_for:submitter:profile:featured_profile:profile_id': string;
+      'image:preview_for:submitter:profile:featured_profile:until': string;
       'image:preview_for:image:id': string;
       'image:preview_for:image:width': number;
       'image:preview_for:image:height': number;
@@ -8805,6 +9076,16 @@ export type Schema = {
       'image:publisher:user:profile:image:profile_id': string;
       'image:publisher:user:profile:image:placeholder_url': string;
       'image:publisher:user:profile:image:path': string;
+      'image:publisher:user:profile:featured_profile:id': string;
+      'image:publisher:user:profile:featured_profile:created_at': string;
+      'image:publisher:user:profile:featured_profile:updated_at': string;
+      'image:publisher:user:profile:featured_profile:profile_id': string;
+      'image:publisher:user:profile:featured_profile:until': string;
+      'featured_profile:id': string;
+      'featured_profile:created_at': string;
+      'featured_profile:updated_at': string;
+      'featured_profile:profile_id': string;
+      'featured_profile:until': string;
     };
   };
   'publishers': {
@@ -8966,6 +9247,11 @@ export type Schema = {
       'user:profile:image:publisher:user:updated_at': string;
       'user:profile:image:publisher:user:publisher_id': string;
       'user:profile:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
+      'user:profile:featured_profile:id': string;
+      'user:profile:featured_profile:created_at': string;
+      'user:profile:featured_profile:updated_at': string;
+      'user:profile:featured_profile:profile_id': string;
+      'user:profile:featured_profile:until': string;
       'image:id': string;
       'image:width': number;
       'image:height': number;
@@ -9147,6 +9433,11 @@ export type Schema = {
       'image:cover_for:submitter:profile:image:profile_id': string;
       'image:cover_for:submitter:profile:image:placeholder_url': string;
       'image:cover_for:submitter:profile:image:path': string;
+      'image:cover_for:submitter:profile:featured_profile:id': string;
+      'image:cover_for:submitter:profile:featured_profile:created_at': string;
+      'image:cover_for:submitter:profile:featured_profile:updated_at': string;
+      'image:cover_for:submitter:profile:featured_profile:profile_id': string;
+      'image:cover_for:submitter:profile:featured_profile:until': string;
       'image:preview_for:id': string;
       'image:preview_for:created_at': string;
       'image:preview_for:updated_at': string;
@@ -9316,6 +9607,11 @@ export type Schema = {
       'image:preview_for:submitter:profile:image:profile_id': string;
       'image:preview_for:submitter:profile:image:placeholder_url': string;
       'image:preview_for:submitter:profile:image:path': string;
+      'image:preview_for:submitter:profile:featured_profile:id': string;
+      'image:preview_for:submitter:profile:featured_profile:created_at': string;
+      'image:preview_for:submitter:profile:featured_profile:updated_at': string;
+      'image:preview_for:submitter:profile:featured_profile:profile_id': string;
+      'image:preview_for:submitter:profile:featured_profile:until': string;
       'image:preview_for:image:id': string;
       'image:preview_for:image:width': number;
       'image:preview_for:image:height': number;
@@ -9400,6 +9696,11 @@ export type Schema = {
       'image:preview_for:image:profile:user:updated_at': string;
       'image:preview_for:image:profile:user:publisher_id': string;
       'image:preview_for:image:profile:user:role': 'user' | 'admin' | 'waitlist';
+      'image:preview_for:image:profile:featured_profile:id': string;
+      'image:preview_for:image:profile:featured_profile:created_at': string;
+      'image:preview_for:image:profile:featured_profile:updated_at': string;
+      'image:preview_for:image:profile:featured_profile:profile_id': string;
+      'image:preview_for:image:profile:featured_profile:until': string;
       'image:profile:id': string;
       'image:profile:created_at': string;
       'image:profile:updated_at': string;
@@ -9447,6 +9748,11 @@ export type Schema = {
       'image:profile:user:publisher:image:profile_id': string;
       'image:profile:user:publisher:image:placeholder_url': string;
       'image:profile:user:publisher:image:path': string;
+      'image:profile:featured_profile:id': string;
+      'image:profile:featured_profile:created_at': string;
+      'image:profile:featured_profile:updated_at': string;
+      'image:profile:featured_profile:profile_id': string;
+      'image:profile:featured_profile:until': string;
     };
   };
   'sessions': {
@@ -9600,6 +9906,11 @@ export type Schema = {
       'user:publisher:image:profile:user:updated_at': string;
       'user:publisher:image:profile:user:publisher_id': string;
       'user:publisher:image:profile:user:role': 'user' | 'admin' | 'waitlist';
+      'user:publisher:image:profile:featured_profile:id': string;
+      'user:publisher:image:profile:featured_profile:created_at': string;
+      'user:publisher:image:profile:featured_profile:updated_at': string;
+      'user:publisher:image:profile:featured_profile:profile_id': string;
+      'user:publisher:image:profile:featured_profile:until': string;
       'user:profile:id': string;
       'user:profile:created_at': string;
       'user:profile:updated_at': string;
@@ -9731,6 +10042,11 @@ export type Schema = {
       'user:profile:image:publisher:user:updated_at': string;
       'user:profile:image:publisher:user:publisher_id': string;
       'user:profile:image:publisher:user:role': 'user' | 'admin' | 'waitlist';
+      'user:profile:featured_profile:id': string;
+      'user:profile:featured_profile:created_at': string;
+      'user:profile:featured_profile:updated_at': string;
+      'user:profile:featured_profile:profile_id': string;
+      'user:profile:featured_profile:until': string;
     };
   };
   'tags': {
@@ -10009,6 +10325,11 @@ export type Schema = {
       'publisher:image:profile:user:publisher:imprint': string;
       'publisher:image:profile:user:publisher:slug': string;
       'publisher:image:profile:user:publisher:Logo': string;
+      'publisher:image:profile:featured_profile:id': string;
+      'publisher:image:profile:featured_profile:created_at': string;
+      'publisher:image:profile:featured_profile:updated_at': string;
+      'publisher:image:profile:featured_profile:profile_id': string;
+      'publisher:image:profile:featured_profile:until': string;
       'profile:id': string;
       'profile:created_at': string;
       'profile:updated_at': string;
@@ -10276,6 +10597,11 @@ export type Schema = {
       'profile:image:publisher:user:profile:hidden_collaborators': Array<string>;
       'profile:image:publisher:user:profile:Avatar': string;
       'profile:image:publisher:user:profile:Authored Books': Array<{Title: string}>;
+      'profile:featured_profile:id': string;
+      'profile:featured_profile:created_at': string;
+      'profile:featured_profile:updated_at': string;
+      'profile:featured_profile:profile_id': string;
+      'profile:featured_profile:until': string;
     };
   };
   'verification_tokens': {

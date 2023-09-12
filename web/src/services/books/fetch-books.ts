@@ -60,7 +60,13 @@ export const fetchBooks = new Service(
     if (submitterId) AND.push({ submitterId })
     if (hasTag) AND.push({ tags: { some: { name: { in: tags } } } })
     if (profile) {
-      AND.push({ contributions: { some: { profile: { slug: profile } } } })
+      const query = {
+        OR: [
+          { contributions: { some: { profile: { slug: profile } } } },
+          { authors: { some: { slug: profile } } }
+        ]
+      } satisfies Prisma.BookWhereInput['AND']
+      AND.push(query)
     }
 
     if (pageCount) {

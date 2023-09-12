@@ -37,6 +37,11 @@ export class Book {
     this.authors = attrs.authors?.map((author) => new Profile(author)) ?? []
   }
 
+  get ariaLabel() {
+    return `${this.title} by ${this.authorNames} ${this.releaseDate ? `(${this.formattedReleaseDate})` : ''
+      }`
+  }
+
   get href() {
     if (this.status !== 'published') return `/edit/${this.slug}`
     return `/cookbooks/${this.slug}`

@@ -7,12 +7,14 @@ export class Contribution {
   job: Job
   profile: Profile
   tag?: string
+  hidden: boolean
 
   constructor(attrs: BookAttrs['contributions'][number]) {
     this.id = attrs.id
     this.job = attrs.job
     this.profile = new Profile(attrs.profile)
     this.tag = attrs.tag || undefined
+    this.hidden = !!attrs.hidden
   }
 
   get profileName() {
