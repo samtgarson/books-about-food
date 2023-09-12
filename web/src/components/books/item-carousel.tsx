@@ -61,7 +61,7 @@ export const ItemCarousel: FC<ItemCarouselProps> = ({
             <Carousel.Item
               key={item.id}
               index={index}
-              className={cn(centered && '-mx-[12%] sm:-mx-[5%]')}
+              className={cn(centered && '-mx-[45px]')}
             >
               <BookItem
                 mobileGrid

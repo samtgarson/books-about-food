@@ -45,6 +45,11 @@ export const Container = forwardRef<
         title={book?.title}
       >
         {children}
+        {book?.publishedInFuture && !props.centered && (
+          <span className="absolute right-0 top-0 bg-white all-caps-sm px-3 py-1.5">
+            {book.shortReleaseDate}
+          </span>
+        )}
       </WrapperEl>
     </li>
   )
@@ -60,7 +65,7 @@ export const Box = ({
   <div
     className={cn(
       className,
-      'sm:aspect-square border-black sm:mb-6 flex items-center justify-center sm:w-full sm:relative',
+      'sm:aspect-square border-black sm:mb-6 flex items-center justify-center sm:w-full relative',
       mobileGrid ? 'aspect-square w-full' : 'w-24',
       skeleton && 'border-khaki',
       bordered && (mobileGrid ? 'border' : 'sm:border')
@@ -82,11 +87,6 @@ export const Cover = ({
     bordered={!centered}
     className={className}
   >
-    {book?.publishedInFuture && !centered && (
-      <span className="absolute right-0 top-0 bg-white all-caps-sm px-3 py-1.5">
-        {book.shortReleaseDate}
-      </span>
-    )}
     {book?.cover ? (
       <Image
         {...book.cover.imageAttrs(200)}
@@ -132,7 +132,13 @@ export const Item = forwardRef<
   if (skeleton) return <Skeleton {...props} ref={ref} />
   const { book, mobileGrid, centered, ...rest } = props
   return (
-    <Container mobileGrid={mobileGrid} book={book} {...rest} ref={ref}>
+    <Container
+      mobileGrid={mobileGrid}
+      book={book}
+      centered={centered}
+      {...rest}
+      ref={ref}
+    >
       <Cover book={book} mobileGrid={mobileGrid} centered={centered} />
       <Footer mobileGrid={mobileGrid} centered={centered}>
         <p className="font-medium text-16 mb-1 whitespace-nowrap overflow-hidden overflow-ellipsis">
