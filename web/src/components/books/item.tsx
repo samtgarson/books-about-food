@@ -58,7 +58,7 @@ export const Box = ({
   <div
     className={cn(
       className,
-      'sm:aspect-square border-black sm:mb-6 relative flex items-center justify-center sm:w-full',
+      'sm:aspect-square border-black sm:mb-6 flex items-center justify-center sm:w-full sm:relative',
       mobileGrid ? 'aspect-square w-full' : 'w-24',
       skeleton && 'border-khaki',
       bordered && (mobileGrid ? 'border' : 'sm:border')
