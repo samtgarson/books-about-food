@@ -23,9 +23,9 @@ export interface SelectProps<
   Multi extends boolean,
   ValueKey extends string
 > extends Omit<
-  React.ComponentProps<'input'>,
-  'onChange' | 'defaultValue' | 'multiple' | 'value'
-> {
+    React.ComponentProps<'input'>,
+    'onChange' | 'defaultValue' | 'multiple' | 'value'
+  > {
   name: string
   label: string
   options?: Value[]
@@ -39,6 +39,7 @@ export interface SelectProps<
     value: OnChangeValue<Value & SelectValue<ValueKey>, Multi>
   ) => void
   onCreate?: (value: string) => void
+  showChevron?: boolean
 }
 
 const isMultiValue = <Value,>(
@@ -63,6 +64,7 @@ export const Select = function Select<
   allowCreate,
   onChange: externalOnChange,
   onCreate,
+  showChevron = false,
   ...props
 }: SelectProps<Value, Multi, ValueKey>) {
   const input = useRef<HTMLInputElement>(null)
@@ -76,9 +78,9 @@ export const Select = function Select<
     () =>
       loadOptions
         ? async (search: string) => {
-          const data = await loadOptions(search)
-          return parse(data)
-        }
+            const data = await loadOptions(search)
+            return parse(data)
+          }
         : undefined,
     [loadOptions]
   )
@@ -106,10 +108,11 @@ export const Select = function Select<
       selectProps({
         valueKey,
         allowCreate,
-        unstyled: false
+        unstyled: false,
+        showChevron
       })
     )
-  }, [valueKey, allowCreate, render])
+  }, [valueKey, allowCreate, render, showChevron])
 
   return (
     <Form.Field name={name} className="flex flex-col gap-2">

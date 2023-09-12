@@ -19,87 +19,90 @@ export const selectProps = <
 >({
   allowCreate,
   valueKey,
-  unstyled
+  unstyled,
+  showChevron = false
 }: {
   allowCreate?: boolean
   valueKey: ValueKey
   unstyled?: boolean
+  showChevron?: boolean
 }) =>
-({
-  unstyled: true,
-  isClearable: true,
-  allowCreateWhileLoading: false,
-  menuShouldScrollIntoView: true,
-  menuPortalTarget: document.querySelector(
-    '[role=dialog][data-state=open]'
-  ) as HTMLElement | null,
-  menuPosition: 'fixed',
-  getNewOptionData(inputValue) {
-    return {
-      [valueKey]: inputValue,
-      __new: true
-    } as Value
-  },
-  classNames: {
-    control: (state) =>
-      cn(
-        'bg-white transition-colors',
-        state.isFocused ? 'bg-opacity-100' : 'bg-opacity-60',
-        state.isMulti ? 'px-4 py-3' : 'p-4'
-      ),
-    menuPortal: () => '!z-50',
-    menu: (state) =>
-      unstyled && state.options.length && !state.isLoading
-        ? 'bg-grey'
-        : cn('bg-white mt-1'),
-    noOptionsMessage: () => 'p-5 text-black/50',
-    loadingMessage: () => 'p-5 text-black/50',
-    option: (state) =>
-      unstyled
-        ? 'mb-0.5 last:mb-0'
-        : cn(
-          'px-5 py-2.5 transition-colors hover:bg-grey/50 flex justify-start',
-          state.isFocused && 'bg-grey/50'
+  ({
+    unstyled: true,
+    isClearable: true,
+    allowCreateWhileLoading: false,
+    menuShouldScrollIntoView: true,
+    menuPortalTarget: document.querySelector(
+      '[role=dialog][data-state=open]'
+    ) as HTMLElement | null,
+    menuPosition: 'fixed',
+    getNewOptionData(inputValue) {
+      return {
+        [valueKey]: inputValue,
+        __new: true
+      } as Value
+    },
+    classNames: {
+      control: (state) =>
+        cn(
+          'bg-white transition-colors',
+          state.isFocused ? 'bg-opacity-100' : 'bg-opacity-60',
+          state.isMulti ? 'px-4 py-3' : 'p-4'
         ),
-    placeholder: () => 'text-black/20',
-    multiValue: () => cn('bg-grey mr-2', pillClasses),
-    valueContainer: () => 'gap-y-2'
-  },
-  components: {
-    DropdownIndicator: (props) => (
-      <components.DropdownIndicator {...props}>
-        <ChevronDown strokeWidth={1} />
-      </components.DropdownIndicator>
-    ),
-    LoadingIndicator: () => <Loader className="mr-2" />,
-    ClearIndicator: (props) => (
-      <components.ClearIndicator {...props}>
-        <X strokeWidth={1} className="cursor-pointer" />
-      </components.ClearIndicator>
-    ),
-    MultiValueRemove: (props) => (
-      <components.MultiValueRemove {...props}>
-        <X strokeWidth={1} size={16} />
-      </components.MultiValueRemove>
-    ),
-    Option: (props) => {
-      if (allowCreate && props.data.__new) {
-        return (
-          <CreateButton
-            value={props.selectProps.inputValue}
-            onClick={props.innerProps.onClick}
-          />
-        )
-      } else if (props.data.__new) {
-        if (props.options.length > 1) return null
-        const noOptionsProps = { ...props, children: undefined }
-        return <components.NoOptionsMessage {...noOptionsProps} />
-      }
+      menuPortal: () => '!z-50',
+      menu: (state) =>
+        unstyled && state.options.length && !state.isLoading
+          ? 'bg-grey'
+          : 'bg-white mt-1',
+      noOptionsMessage: () => 'p-5 text-black/50',
+      loadingMessage: () => 'p-5 text-black/50',
+      option: (state) =>
+        unstyled
+          ? 'mb-0.5 last:mb-0'
+          : cn(
+              'px-5 py-2.5 transition-colors hover:bg-grey/50 flex justify-start',
+              state.isFocused && 'bg-grey/50'
+            ),
+      placeholder: () => 'text-black/20',
+      multiValue: () => cn('bg-grey mr-2', pillClasses),
+      valueContainer: () => 'gap-y-2'
+    },
+    components: {
+      DropdownIndicator: (props) =>
+        showChevron ? (
+          <components.DropdownIndicator {...props}>
+            <ChevronDown strokeWidth={1} />
+          </components.DropdownIndicator>
+        ) : null,
+      LoadingIndicator: () => <Loader className="mr-2" />,
+      ClearIndicator: (props) => (
+        <components.ClearIndicator {...props}>
+          <X strokeWidth={1} className="cursor-pointer" />
+        </components.ClearIndicator>
+      ),
+      MultiValueRemove: (props) => (
+        <components.MultiValueRemove {...props}>
+          <X strokeWidth={1} size={16} />
+        </components.MultiValueRemove>
+      ),
+      Option: (props) => {
+        if (allowCreate && props.data.__new) {
+          return (
+            <CreateButton
+              value={props.selectProps.inputValue}
+              onClick={props.innerProps.onClick}
+            />
+          )
+        } else if (props.data.__new) {
+          if (props.options.length > 1) return null
+          const noOptionsProps = { ...props, children: undefined }
+          return <components.NoOptionsMessage {...noOptionsProps} />
+        }
 
-      return <components.Option {...props} />
+        return <components.Option {...props} />
+      }
     }
-  }
-} satisfies AsyncCreatableProps<Value, Multi, never>)
+  }) satisfies AsyncCreatableProps<Value, Multi, never>
 
 export const CreateButton = ({
   value,
