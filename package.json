@@ -59,7 +59,7 @@
       "prettier --write"
     ],
     "web/**/*.(ts|tsx)": [
-      "npx -w web tsc --noEmit"
+      "cd web && npx tsc --noEmit"
     ],
     "admin/**/*.(ts|tsx)": [
       "npx -w admin tsc --noEmit"

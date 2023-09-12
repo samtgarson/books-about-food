@@ -5,6 +5,7 @@ import { secure } from '../utils/secure'
 export const GET = secure(async () => {
   try {
     const count = await cleanImages.call()
+    console.log(`Deleted ${count} images`)
     return NextResponse.json({ ok: true, deletedImages: count })
   } catch (e) {
     console.error(e)
