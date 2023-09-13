@@ -4,7 +4,7 @@ import { AuthorsList } from './list'
 import { AuthorFilters } from './filters'
 import { SkeletonAuthorsGrid } from './grid'
 
-export const dynamic = 'force-dynamic'
+export * from 'app/default-static-config'
 
 export default createIndexPage({
   content: AuthorsList,

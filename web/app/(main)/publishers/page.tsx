@@ -6,7 +6,7 @@ import {
 import { PublishersList } from './list'
 import { FilterBar } from 'src/components/lists/filter-bar'
 
-export const dynamic = 'force-dynamic'
+export * from 'app/default-static-config'
 
 const filters = ({ filters = {} }: { filters?: FetchPublishersInput }) => (
   <FilterBar
