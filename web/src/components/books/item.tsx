@@ -24,6 +24,7 @@ export const Container = forwardRef<
     skeleton,
     children,
     link = true,
+    centered,
     ...props
   },
   ref
@@ -45,7 +46,7 @@ export const Container = forwardRef<
         title={book?.title}
       >
         {children}
-        {book?.publishedInFuture && !props.centered && (
+        {book?.publishedInFuture && !centered && (
           <span className="absolute right-px top-px bg-white all-caps-sm px-3 py-1.5">
             {book.shortReleaseDate}
           </span>

@@ -5,6 +5,7 @@ import { FC } from 'react'
 import cn from 'classnames'
 import { ChevronRight } from 'react-feather'
 import Link from 'next/link'
+import { signOut } from 'next-auth/react'
 
 export type AccountNavItemProps = {
   label: string
@@ -29,10 +30,13 @@ export const AccountNavItem: FC<AccountNavItemProps> = ({ label, href }) => {
   )
 }
 
-export const SignOutButton: FC = () => (
-  <form action="/api/auth/signout" method="post" className="w-full">
-    <button className="p-3 text-left hover:bg-sand transition-colors w-full">
+export const SignOutButton: FC = () => {
+  return (
+    <button
+      className="p-3 text-left hover:bg-sand transition-colors w-full"
+      onClick={() => signOut({ callbackUrl: '/' })}
+    >
       Sign Out
     </button>
-  </form>
-)
+  )
+}
