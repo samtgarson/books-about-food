@@ -34,7 +34,7 @@ export const FrequentCollaborators: FC<FrequentCollaboratorsProps> = ({
   )
 
   const allHidden = profiles.every((p) => ids.includes(p.id))
-  if (!profiles.length || allHidden) return null
+  if (!profiles.length || (allHidden && !editMode)) return null
   return (
     <ProfileList
       profiles={profiles}
@@ -56,6 +56,7 @@ export const FrequentCollaborators: FC<FrequentCollaboratorsProps> = ({
               <Content
                 profile={profile}
                 display="list"
+                disabled={editMode}
                 className={cn(
                   'transition',
                   hidden ? 'opacity-30 saturate-0' : 'opacity-80'
@@ -65,7 +66,9 @@ export const FrequentCollaborators: FC<FrequentCollaboratorsProps> = ({
                 <button
                   className="absolute inset-0 px-4 top-0 bottom-0 flex items-center justify-end sm:justify-center z-20"
                   title={
-                    hidden ? 'Show this collaborator' : 'Hide this collaborator'
+                    hidden
+                      ? `Show ${profile.name} on your public profile`
+                      : `Hide ${profile.name} on your public profile`
                   }
                   onClick={() => toggle(profile.id, !hidden)}
                 >

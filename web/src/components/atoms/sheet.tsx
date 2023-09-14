@@ -46,15 +46,20 @@ export const Content = ({
   children,
   authenticated
 }: {
-  children: ReactNode
+  children: ReactNode | (({ close }: { close: () => void }) => ReactNode)
   authenticated?: boolean
 }) => {
-  const { onCancel } = useSheetContext()
+  const { onCancel, close } = useSheetContext()
   const { openSheet } = useSheet()
   const { status } = useSession()
 
+  const nodes = useMemo(
+    () => (children instanceof Function ? children({ close }) : children),
+    [children, close]
+  )
+
   const content = useMemo(() => {
-    if (!authenticated || status === 'authenticated') return children
+    if (!authenticated || status === 'authenticated') return nodes
     if (status === 'loading')
       return (
         <Body>
@@ -63,7 +68,7 @@ export const Content = ({
       )
     openSheet('signIn')
     return null
-  }, [authenticated, children, openSheet, status])
+  }, [authenticated, nodes, openSheet, status])
 
   return (
     <Dialog.Portal>

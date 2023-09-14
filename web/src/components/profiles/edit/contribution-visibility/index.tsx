@@ -52,7 +52,11 @@ export const ContributionVisibility: FC<ContributionVisibilityProps> = ({
       {editMode && (
         <button
           className="absolute inset-x-0 top-0 bottom-0 sm:bottom-auto sm:aspect-square flex items-center justify-center z-20"
-          title={hidden ? 'Show this book' : 'Hide this book'}
+          title={
+            hidden
+              ? `Show ${book.title} on your public profile`
+              : `Hide ${book.title} on your public profile`
+          }
           onClick={() => updateVisibility(!hidden)}
         >
           <div className="w-10 h-10 bg-white flex items-center justify-center">

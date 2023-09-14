@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { Container } from 'src/components/atoms/container'
-import { Detail } from 'src/components/atoms/detail'
 import { Loader } from 'src/components/atoms/loader'
 import { FavouriteButton } from 'src/components/favourites/favourite-button'
 import { ClaimProfileButton } from 'src/components/profiles/claim-button'
@@ -11,6 +10,7 @@ import { EditableAvatar } from 'src/components/profiles/edit/editable-avatar'
 import { Field } from 'src/components/profiles/edit/field'
 import { FrequentCollaborators } from 'src/components/profiles/edit/frequent-collaborators'
 import { LinkList } from 'src/components/profiles/link-list'
+import { LocationField } from 'src/components/profiles/location-field'
 import { ProfileOverflow } from 'src/components/profiles/profile-overflow'
 import { fetchFrequentCollaborators } from 'src/services/books/fetch-frequent-collaborators'
 import { fetchProfile } from 'src/services/profiles/fetch-profile'
@@ -48,9 +48,8 @@ export async function ProfilePage({ segment, slug }: ProfilePageProps) {
                 placeholder="Add a description"
               />
               <div className="mt-8">
-                <Detail maxWidth>
-                  <Field attr="jobTitle" />
-                </Detail>
+                <Field attr="jobTitle" detail placeholder="Add a job title" />
+                <LocationField />
                 <LinkList />
               </div>
             </div>

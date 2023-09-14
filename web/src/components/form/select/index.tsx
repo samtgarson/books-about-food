@@ -40,6 +40,7 @@ export interface SelectProps<
   ) => void
   onCreate?: (value: string) => void
   showChevron?: boolean
+  separator?: string
 }
 
 const isMultiValue = <Value,>(
@@ -65,6 +66,7 @@ export const Select = function Select<
   onChange: externalOnChange,
   onCreate,
   showChevron = false,
+  separator = ',',
   ...props
 }: SelectProps<Value, Multi, ValueKey>) {
   const input = useRef<HTMLInputElement>(null)
@@ -88,9 +90,9 @@ export const Select = function Select<
   const stringifyValue = useCallback(
     (value?: OnChangeValue<Value, Multi>) =>
       isMultiValue(value)
-        ? value.map((v) => v[valueKey]).join(',')
+        ? value.map((v) => v[valueKey]).join(separator)
         : value?.[valueKey],
-    [valueKey]
+    [valueKey, separator]
   )
 
   const onChange = useCallback(

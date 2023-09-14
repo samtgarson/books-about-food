@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Link, { LinkProps } from 'next/link'
 import { Avatar } from 'src/components/atoms/avatar'
 import { Profile } from 'src/models/profile'
 import cn from 'classnames'
@@ -36,17 +36,21 @@ export const Content = ({
   profile,
   display = 'grid',
   className,
-  meta = profile?.jobTitle
-}: Pick<ProfileItemProps, 'profile' | 'display' | 'className' | 'meta'>) => (
+  meta = profile?.jobTitle,
+  disabled
+}: Pick<ProfileItemProps, 'profile' | 'display' | 'className' | 'meta'> & {
+  disabled?: boolean
+}) => (
   <Link
-    href={profile ? `/people/${profile.slug}` : '#'}
+    href={profile && !disabled ? `/people/${profile.slug}` : '#'}
     className={cn(
       className,
       'h-full flex p-4 items-center gap-4',
       display === 'grid' &&
-      'sm:items-stretch sm:flex-col sm:aspect-square sm:justify-between sm:p-8',
-      !profile && 'pointer-events-none'
+        'sm:items-stretch sm:flex-col sm:aspect-square sm:justify-between sm:p-8',
+      (!profile || disabled) && 'pointer-events-none'
     )}
+    tabIndex={disabled ? -1 : undefined}
   >
     <Avatar
       profile={profile}

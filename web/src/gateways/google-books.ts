@@ -1,5 +1,5 @@
-import { getEnv } from 'shared/utils/get-env'
 import { z } from 'zod'
+import { BaseGoogleGateway } from './google/base-gateway'
 
 export type GoogleBookResult = z.infer<typeof volumeSchema>
 
@@ -24,16 +24,13 @@ const volumeSchema = z.object({
   })
 })
 
-export class GoogleBooksGateway {
-  private key = getEnv('GOOGLE_BOOKS_API_KEY')
-  private baseUrl = 'https://www.googleapis.com'
+export class GoogleBooksGateway extends BaseGoogleGateway {
+  path = '/books/v1/volumes'
 
   async search(query: string) {
-    const url = new URL('/books/v1/volumes', this.baseUrl)
-    url.searchParams.append('q', `intitle:"${query}" subject:Cooking`)
-    url.searchParams.append('key', this.key)
-
-    const response = await fetch(url)
+    const response = await this.request('', {
+      q: `intitle:"${query}" subject:Cooking`
+    })
     if (!response.ok) return []
     const result = await response.json()
 
@@ -41,11 +38,7 @@ export class GoogleBooksGateway {
   }
 
   async fetch(id: string) {
-    const url = new URL(`/books/v1/volumes/${id}`, this.baseUrl)
-    url.searchParams.append('key', this.key)
-
-    console.log(url.toString())
-    const response = await fetch(url)
+    const response = await this.request(id)
     if (!response.ok) return
     const result = await response.json()
 

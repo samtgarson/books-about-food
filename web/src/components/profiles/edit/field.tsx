@@ -13,11 +13,13 @@ import { Detail } from 'src/components/atoms/detail'
 export type FieldProps = {
   as?: keyof JSX.IntrinsicElements
   attr: KeysMatching<Profile, string | null | undefined> &
-  keyof UpdateProfileInput
+    keyof UpdateProfileInput
   className?: string
   placeholder?: string
   render?: (value: string) => JSX.Element
   detail?: boolean
+  onClick?: () => void
+  disabled?: boolean
 }
 
 export const Field = ({
@@ -26,26 +28,33 @@ export const Field = ({
   attr,
   placeholder,
   render,
-  detail
+  detail,
+  onClick,
+  disabled
 }: FieldProps) => {
   const { profile, editMode, onSave } = useEditProfile()
   const value = useRef(profile[attr] ?? '')
   const ref = useRef<HTMLElement>(null)
   const [showPlaceholder, setShowPlaceholder] = useState(!profile[attr]?.length)
-  const originalValue = useMemo(() => profile[attr], [profile, attr])
+  const originalValue = useMemo(() => profile[attr] || '', [profile, attr])
 
   useEffect(() => {
-    if (!originalValue) return
     value.current = originalValue
     if (ref.current) ref.current.innerHTML = originalValue
+    setShowPlaceholder(!originalValue.length)
   }, [originalValue])
+
+  const onFocus = async () => {
+    if (!onClick) return ref.current?.focus()
+    onClick()
+  }
 
   if (showPlaceholder && !editMode) return null
   const content = (
     <div className={cn(className, 'flex justify-start', editMode && 'mr-10')}>
       <div
         className={cn('flex gap-4 items-center', editMode && 'bg-white -mr-10')}
-        onClick={() => ref.current?.focus()}
+        onClick={onFocus}
       >
         {!!render && !editMode && render(`${originalValue}`)}
         {(editMode || !render) && (
@@ -53,7 +62,7 @@ export const Field = ({
             innerRef={ref}
             html={value.current}
             tagName={as}
-            disabled={!editMode}
+            disabled={!editMode || disabled}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 e.preventDefault()
@@ -68,6 +77,8 @@ export const Field = ({
               if (value.current === originalValue) return
               await onSave({ [attr]: value.current || null })
             }}
+            onFocus={onFocus}
+            aria-label={placeholder}
           />
         )}
         {showPlaceholder && (
