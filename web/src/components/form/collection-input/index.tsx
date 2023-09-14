@@ -44,11 +44,11 @@ export function CollectionInput<
     >
       <Form.Field name={name} className="flex flex-col gap-2">
         <Label required={props.required}>{label}</Label>
-        <>
+        <div className="flex flex-col">
           {value.map((v, i) => (
             <CollectionInputItem key={i} value={v} {...render(v)} />
           ))}
-        </>
+        </div>
         <Form.Control asChild>
           <input
             name={name}

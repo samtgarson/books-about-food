@@ -14,7 +14,7 @@ export function CollectionInputItem<Value extends { id: string }>({
   const Provider = createCollectionInputContext<Value>()
   const { removeValue } = useContext(Provider)
   return (
-    <div className="flex items-center gap-4 border border-black p-5">
+    <div className="flex items-center gap-4 border border-black p-5 -mb-px">
       {avatar}
       <div className="flex flex-col">
         <p className="font-bold">{title}</p>
