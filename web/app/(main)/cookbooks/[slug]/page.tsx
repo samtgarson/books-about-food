@@ -105,7 +105,7 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
             )}
           </Container>
         </AntiContainer>
-        <SimilarBooks slug={book.slug} className="pt-8 sm:pt-20" />
+        <SimilarBooks slug={book.slug} className="pt-8 sm:pt-16" />
       </Container>
     </div>
   )

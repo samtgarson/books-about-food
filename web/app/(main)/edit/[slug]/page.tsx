@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import { Container } from 'src/components/atoms/container'
+import { AntiContainer, Container } from 'src/components/atoms/container'
 import { PageTitle } from 'src/components/atoms/page-title'
 import { Steps } from 'src/components/edit/steps'
 import { getUser } from 'src/services/auth/get-user'
@@ -24,8 +24,13 @@ export default async function Page({
   return (
     <Container belowNav>
       <PageTitle>{`Editing: ${book.title}`}</PageTitle>
-      <div className="flex gap-x-32 gap-y-12 flex-wrap">
-        <Steps book={book} />
+      <div className="flex gap-x-32 flex-wrap">
+        <AntiContainer
+          desktop={false}
+          className="flex-grow sm:flex-grow-0 sm:flex-shrink-0 mb-12 sm:max-w-lg sm:w-full"
+        >
+          <Steps book={book} />
+        </AntiContainer>
         <div className="flex flex-col gap-4 max-w-sm text-14/6">
           <h3 className="font-medium">Notes on submitting</h3>
           <ol className="list-outside pl-5 list-decimal">

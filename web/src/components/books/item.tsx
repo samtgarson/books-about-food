@@ -46,7 +46,7 @@ export const Container = forwardRef<
       >
         {children}
         {book?.publishedInFuture && !props.centered && (
-          <span className="absolute right-0 top-0 bg-white all-caps-sm px-3 py-1.5">
+          <span className="absolute right-px top-px bg-white all-caps-sm px-3 py-1.5">
             {book.shortReleaseDate}
           </span>
         )}

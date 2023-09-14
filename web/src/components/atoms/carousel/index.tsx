@@ -129,14 +129,14 @@ export const Scroller = ({
         'relative flex overflow-y-hidden overflow-x-auto snap-x snap-mandatory whitespace-nowrap items-center scrollbar-hidden justify-start pb-16',
         className,
         padded &&
-        cn(
-          containerProps === false
-            ? null
-            : [
-              containerClasses(containerProps),
-              containerClasses({ ...containerProps, scroll: true })
-            ]
-        )
+          cn(
+            containerProps === false
+              ? null
+              : [
+                  containerClasses(containerProps),
+                  containerClasses({ ...containerProps, scroll: true })
+                ]
+          )
       )}
       onScroll={onScrollEnd}
       {...props}
@@ -156,10 +156,9 @@ export type CarouselItemProps = {
 export const Item: FC<CarouselItemProps> = ({
   children,
   onClick,
-  index,
   className
 }) => {
-  const { scrollTo, alignment } = useContext(CarouselContext)
+  const { alignment } = useContext(CarouselContext)
 
   return cloneElement(children, {
     className: cn(
@@ -170,7 +169,6 @@ export const Item: FC<CarouselItemProps> = ({
       className
     ),
     onClick(e: MouseEvent) {
-      scrollTo(index)
       onClick?.(e)
     }
   })
