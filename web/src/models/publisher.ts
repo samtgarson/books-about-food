@@ -8,6 +8,7 @@ export class Publisher {
   website?: string
   instagram?: string
   logo?: Image
+  imprint?: string
 
   constructor(attrs: PublisherAttrs) {
     this.id = attrs.id
@@ -18,5 +19,6 @@ export class Publisher {
     this.logo = attrs.logo
       ? new Image(attrs.logo, `Logo for ${attrs.name}`)
       : undefined
+    this.imprint = attrs.imprint ?? undefined
   }
 }

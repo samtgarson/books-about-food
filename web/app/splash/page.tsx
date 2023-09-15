@@ -34,10 +34,10 @@ export default async function Splash() {
           <p className="text-32 lg:text-48 opacity-25 mb-16 lg:mb-auto">
             Coming soon.
           </p>
-          <p className="lg:text-24">
+          {/*<p className="lg:text-24">
             Register now to claim your profile and get early access.
           </p>
-          {/*<Form
+          <Form
             className="max-w-lg mb-16"
             action={register}
             successMessage="✅ You're on the waitlist! We'll be in touch soon."

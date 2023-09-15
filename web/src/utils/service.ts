@@ -17,9 +17,9 @@ export class Service<Input extends z.ZodTypeAny, Return> {
       user?: User | null
     ) => Promise<Return>,
     public requestMeta: RequestMeta = {}
-  ) { }
+  ) {}
 
-  public parseAndCall(input: unknown, user?: User | null) {
+  public parseAndCall(input: unknown | z.infer<Input>, user?: User | null) {
     const parsed = this.input.parse(input)
     return this.call(parsed, user)
   }

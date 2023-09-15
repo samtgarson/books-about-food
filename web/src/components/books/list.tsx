@@ -8,17 +8,19 @@ export type BookListProps = {
   filters?: FetchBooksInput
   showEmpty?: boolean
   showCreate?: boolean
+  title?: string
 }
 
 export const BookList = async ({
   filters = {},
   showEmpty = true,
-  showCreate = false
+  showCreate = false,
+  title
 }: BookListProps) => {
-  const { books, filteredTotal, total, perPage } = await fetchBooks.call(
-    filters
-  )
+  const { books, filteredTotal, total, perPage } =
+    await fetchBooks.call(filters)
 
+  if (!books.length && !showEmpty && !showCreate) return null
   return (
     <Pagination
       total={total}
@@ -26,6 +28,7 @@ export const BookList = async ({
       page={filters.page ?? 0}
       filteredTotal={filteredTotal}
     >
+      {title && <h3 className="my-4 sm:mt-0 sm:mb-8 ">{title}</h3>}
       <GridContainer className={'sm:gap-y-16'}>
         {showCreate && <NewBookButton />}
         {books.map((book) => (

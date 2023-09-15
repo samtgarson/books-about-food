@@ -44,10 +44,12 @@ export const Trigger: FC<
 
 export const Content = ({
   children,
-  authenticated
+  authenticated,
+  size = 'md'
 }: {
   children: ReactNode | (({ close }: { close: () => void }) => ReactNode)
   authenticated?: boolean
+  size?: 'md' | 'lg'
 }) => {
   const { onCancel, close } = useSheetContext()
   const { openSheet } = useSheet()
@@ -78,7 +80,13 @@ export const Content = ({
           onEscapeKeyDown={() => onCancel?.()}
           onPointerDownOutside={() => onCancel?.()}
           onInteractOutside={() => onCancel?.()}
-          className="animate-fade-in sm:max-w-lg flex-shrink-0 flex flex-col w-full pointer-events-none"
+          className={cn(
+            'animate-fade-in flex-shrink-0 flex flex-col w-full pointer-events-none',
+            {
+              'sm:max-w-lg': size === 'md',
+              'sm:max-w-xl': size === 'lg'
+            }
+          )}
           aria-describedby={undefined}
         >
           <Dialog.Close className="p-4 self-end pointer-events-auto">

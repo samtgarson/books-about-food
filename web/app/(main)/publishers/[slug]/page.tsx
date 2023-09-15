@@ -1,27 +1,92 @@
 import prisma from 'database'
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import { fetchPublishers } from 'src/services/publishers/fetch-publishers'
+import { Suspense } from 'react'
+import { Container } from 'src/components/atoms/container'
+import { Detail } from 'src/components/atoms/detail'
+import { Loader } from 'src/components/atoms/loader'
+import { BookList } from 'src/components/books/list'
+import { ClaimPublisherButton } from 'src/components/publishers/claim-button'
+import { PageProps } from 'src/components/types'
+import { Publisher } from 'src/models/publisher'
 
 export * from 'app/default-static-config'
 
-export const generateStaticParams = async () => {
-  const { publishers } = await fetchPublishers.call({
-    perPage: 0
+const fetchPublisher = async (slug: string) => {
+  const raw = await prisma.publisher.findUnique({
+    where: { slug },
+    include: { logo: true }
   })
 
-  return publishers.map((publisher) => ({
-    slug: publisher.slug
-  }))
+  if (raw) return new Publisher(raw)
 }
 
-const fetchPublisher = async (slug: string) =>
-  prisma.publisher.findUnique({
-    where: { slug }
-  })
-
-export default async ({ params: { slug } }: { params: { slug: string } }) => {
+export default async ({
+  params: { slug },
+  searchParams: { page }
+}: PageProps<{ slug: string }>) => {
   const publisher = await fetchPublisher(slug)
   if (!publisher) return notFound()
 
-  return <div>{publisher.name}</div>
+  return (
+    <Container belowNav>
+      <div className="py-8 md:py-20">
+        <div className="font-style-title flex justify-between items-center mb-6 sm:mb-4">
+          {publisher.logo ? (
+            <Image
+              {...publisher.logo.imageAttrs(80)}
+              className="mix-blend-darken w-[150px] h-[80px] object-contain object-left"
+            />
+          ) : (
+            <h1>{publisher.name}</h1>
+          )}
+          <ClaimPublisherButton publisherName={publisher.name} />
+        </div>
+      </div>
+      <Suspense fallback={<Loader className="mx-auto" />}>
+        <BookList
+          title="All Releases"
+          filters={{
+            publisherSlug: slug,
+            page: page ? parseInt(`${page}`) : 0,
+            perPage: 12
+          }}
+        />
+      </Suspense>
+      <div className="py-8 md:py-20">
+        {publisher.imprint && (
+          <Detail maxWidth>
+            Imprint
+            <br />
+            {publisher.imprint}
+          </Detail>
+        )}
+        {(publisher.website || publisher.instagram) && (
+          <Detail maxWidth>
+            {publisher.website && (
+              <a
+                className="underline"
+                href={publisher.website}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {publisher.website}
+              </a>
+            )}
+            {publisher.website && publisher.instagram && ' • '}
+            {publisher.instagram && (
+              <a
+                className="underline"
+                href={`https://instagram.com/${publisher.instagram}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                @{publisher.instagram}
+              </a>
+            )}
+          </Detail>
+        )}
+      </div>
+    </Container>
+  )
 }

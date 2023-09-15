@@ -26,7 +26,7 @@ export const ContributionList = async ({
       className={cn('border-t border-black sm:border-t-0', className)}
     >
       <Container desktop={false}>
-        <h2 className="all-caps my-4 sm:mt-0 sm:mb-8 ">Cookbook Portfolio</h2>
+        <h3 className="my-4 sm:mt-0 sm:mb-8 ">Cookbook Portfolio</h3>
         <GridContainer className={'sm:gap-y-16'}>
           {books.map((book) => (
             <ContributionVisibility

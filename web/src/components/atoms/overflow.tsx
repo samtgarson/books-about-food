@@ -34,7 +34,7 @@ const containerClasses =
 const itemClasses = (variant: ItemVariant) =>
   cn('px-4 py-3 flex gap-4 outline-none transition-colors cursor-pointer', {
     'data-[highlighted]:bg-grey/20': variant === 'default',
-    'text-warning data-[highlighted]:bg-warning/10': variant === 'danger'
+    'text-secondary-red data-[highlighted]:bg-warning/10': variant === 'danger'
   })
 
 export const Item: FC<

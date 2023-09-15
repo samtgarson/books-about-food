@@ -48,9 +48,15 @@ module.exports = {
       grey: '#F0EEEB',
       sand: '#E7E5E2',
       khaki: '#DDD8D1',
-      warning: '#FF6D4B',
       'neutral-grey': '#BDBFC2',
-      'blue-grey': '#EEF1F4'
+      'blue-grey': '#EEF1F4',
+      secondary: {
+        red: '#ED7656',
+        blue: '#C3D6FF'
+      },
+      tertiary: {
+        blue: '#E0EAFF'
+      }
     },
     fontWeight: {
       normal: 400,

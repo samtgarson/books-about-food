@@ -27,6 +27,7 @@ export const fetchBooks = new Service(
       profile: z.string().optional(),
       status: arrayOrSingle(dbEnum(BookStatus)).optional(),
       submitterId: z.string().optional(),
+      publisherSlug: z.string().optional(),
       pageCount: z
         .custom<FetchBooksPageFilters>((key) => {
           return fetchBooksPageFilterValues.includes(
@@ -47,6 +48,7 @@ export const fetchBooks = new Service(
     profile,
     status = 'published' as const,
     submitterId,
+    publisherSlug,
     pageCount
   } = {}) => {
     const contains = search?.trim()
@@ -77,6 +79,10 @@ export const fetchBooks = new Service(
         const { min, max } = pageCountFilter
         AND.push({ pages: { gte: min, lte: max } })
       }
+    }
+
+    if (publisherSlug) {
+      AND.push({ publisher: { slug: publisherSlug } })
     }
 
     const where = {
