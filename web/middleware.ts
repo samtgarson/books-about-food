@@ -6,7 +6,10 @@ const protectedPath = (pathname: string) =>
 
 export default withAuth(
   function middleware(request) {
-    if (process.env.ENABLE_SPLASH) {
+    if (
+      process.env.ENABLE_SPLASH ||
+      request.nextUrl.hostname === 'www.booksaboutfood.info'
+    ) {
       return NextResponse.rewrite(new URL('/splash', request.url))
     }
 
