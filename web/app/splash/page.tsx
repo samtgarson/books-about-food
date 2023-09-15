@@ -37,7 +37,7 @@ export default async function Splash() {
           <p className="lg:text-24">
             Register now to claim your profile and get early access.
           </p>
-          <Form
+          {/*<Form
             className="max-w-lg mb-16"
             action={register}
             successMessage="✅ You're on the waitlist! We'll be in touch soon."
@@ -51,7 +51,7 @@ export default async function Splash() {
             <Submit variant="tertiary" className="self-start">
               Register
             </Submit>
-          </Form>
+          </Form>*/}
         </Container>
       </Fader>
       <ul className="flex flex-col gap-16 w-96 max-w-[85vw] z-10 ml-auto lg:mr-[5vw] xl:mr-[15vw] pt-[85vh] lg:pt-[15vh] mb-16 pointer-events-none">
