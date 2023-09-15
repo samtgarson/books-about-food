@@ -35,8 +35,8 @@ export const CoverCarousel: FC<CoverCarouselProps> = ({ book, className }) => {
         </Carousel.Scroller>
         {images.length > 1 && <Carousel.Buttons />}
         <Carousel.Centerer
-          slideWidth={firstImage.widthFor(220)}
-          lastSlideWidth={lastImage.widthFor(220)}
+          slideWidth={firstImage.widthFor(210)}
+          lastSlideWidth={lastImage.widthFor(210)}
           mdSlideWidth={firstImage.widthFor(310)}
           mdLastSlideWidth={lastImage.widthFor(310)}
           lgSlideWidth={firstImage.widthFor(440)}

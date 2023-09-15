@@ -2,19 +2,25 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Book } from 'src/models/book'
 import cn from 'classnames'
-import { ComponentProps, forwardRef } from 'react'
+import { CSSProperties, forwardRef } from 'react'
 
-export type CookbookItemProps = ComponentProps<'li'> & {
+export interface CookbookItemProps {
   mobileGrid?: boolean
   index?: number
   book?: Book
   centered?: boolean
   skeleton?: boolean
+  children?: React.ReactNode
+  className?: string
+  style?: CSSProperties
 }
 
 export const Container = forwardRef<
   HTMLLIElement,
-  CookbookItemProps & { skeleton?: boolean; link?: boolean }
+  CookbookItemProps & {
+    skeleton?: boolean
+    link?: boolean
+  }
 >(function Container(
   {
     className,
@@ -25,13 +31,13 @@ export const Container = forwardRef<
     children,
     link = true,
     centered,
-    ...props
+    style
   },
   ref
 ) {
   const WrapperEl = book?.href && link ? Link : 'div'
   return (
-    <li className={cn('group', className)} {...props} ref={ref}>
+    <li className={cn('group', className)} ref={ref}>
       <WrapperEl
         href={book?.href || '#'}
         className={cn(
@@ -41,7 +47,7 @@ export const Container = forwardRef<
             : 'p-4',
           skeleton && `animate-pulse`
         )}
-        style={{ animationDelay: `${index * 150}ms` }}
+        style={{ ...style, animationDelay: `${index * 150}ms` }}
         aria-label={book?.ariaLabel}
         title={book?.title}
       >

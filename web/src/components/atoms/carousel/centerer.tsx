@@ -23,14 +23,14 @@ export const Centerer: FC<CentererProps> = memo(function Centerer({
   if (slideWidth) {
     __html += `
         [id="${id}"] li:first-child {
-          margin-left: max(45vw, calc(50% - ${slideWidth / 2}px));
+          padding-left: calc(50% - ${slideWidth / 2}px);
         }
       `
   }
   if (lastSlideWidth) {
     __html += `
         [id="${id}"] li:last-child {
-          margin-right: max(45vw, calc(50% - ${lastSlideWidth / 2}px));
+          padding-right: calc(50% - ${lastSlideWidth / 2}px);
         }
       `
   }
@@ -38,7 +38,7 @@ export const Centerer: FC<CentererProps> = memo(function Centerer({
     __html += `
         @media (min-width: 768px) {
           [id="${id}"] li:first-child {
-            margin-left: calc(50% - ${mdSlideWidth / 2}px);
+            padding-left: calc(50% - ${mdSlideWidth / 2}px);
           }
         }
       `
@@ -47,7 +47,7 @@ export const Centerer: FC<CentererProps> = memo(function Centerer({
     __html += `
         @media (min-width: 768px) {
           [id="${id}"] li:last-child {
-            margin-right: calc(50% - ${mdLastSlideWidth / 2}px);
+            padding-right: calc(50% - ${mdLastSlideWidth / 2}px);
           }
         }
       `
@@ -56,7 +56,7 @@ export const Centerer: FC<CentererProps> = memo(function Centerer({
     __html += `
         @media (min-width: 1280px) {
           [id="${id}"] li:first-child {
-            margin-left: calc(50% - ${lgSlideWidth / 2}px);
+            padding-left: calc(50% - ${lgSlideWidth / 2}px);
           }
         }
       `
@@ -65,7 +65,7 @@ export const Centerer: FC<CentererProps> = memo(function Centerer({
     __html += `
         @media (min-width: 1280px) {
           [id="${id}"] li:last-child {
-            margin-right: calc(50% - ${lgLastSlideWidth / 2}px);
+            padding-right: calc(50% - ${lgLastSlideWidth / 2}px);
           }
         }
       `
