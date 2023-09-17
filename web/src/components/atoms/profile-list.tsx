@@ -23,13 +23,16 @@ export const ProfileList: FC<ProfileListProps> = ({
   return (
     <div className={className}>
       <Sheet.Root mobileOnly>
-        <Sheet.Trigger
-          className={cn('w-full sm:mb-4 flex flex-wrap items-center')}
-        >
-          <div className={cn('flex flex-wrap gap-2 sm:hidden grow')}>
-            <h2 className="w-full text-left mb-4">{title}</h2>
+        <Sheet.Trigger className={cn('w-full flex flex-wrap items-center')}>
+          <div className={cn('flex flex-wrap gap-2 grow')}>
+            <h2 className="all-caps w-full text-left mb-4">{title}</h2>
             {profiles.map((profile) => (
-              <Avatar key={profile.id} profile={profile} size="xs" />
+              <Avatar
+                key={profile.id}
+                profile={profile}
+                size="xs"
+                className="sm:hidden"
+              />
             ))}
           </div>
           <Eye className="sm:hidden" size={22} strokeWidth={1}>

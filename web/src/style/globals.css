@@ -37,7 +37,7 @@
 
 @layer utilities {
   .all-caps {
-    @apply uppercase text-12 font-medium tracking-[0.12em];
+    @apply uppercase text-10 sm:text-12 font-medium tracking-[0.12em];
   }
 
   .all-caps-sm {

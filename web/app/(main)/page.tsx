@@ -59,7 +59,6 @@ const Page = async () => {
         </div>
         <ItemCarousel
           items={home.newlyAdded}
-          allCaps
           title="On The Pass"
           size="lg"
           readMoreLink="/cookbooks"

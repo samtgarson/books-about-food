@@ -16,7 +16,6 @@ export type ItemCarouselProps = {
   className?: string
   centered?: boolean
   carouselClassName?: string
-  allCaps?: boolean
 } & Partial<
   Omit<Carousel.CarouselRootProps, 'totalItems' | 'alignment' | 'children'>
 >
@@ -35,7 +34,6 @@ export const ItemCarousel: FC<ItemCarouselProps> = ({
   className,
   centered,
   carouselClassName,
-  allCaps,
   ...props
 }) => {
   const width = itemCarouselWidths[size]
@@ -45,7 +43,7 @@ export const ItemCarousel: FC<ItemCarouselProps> = ({
     <div className={className}>
       {title && (
         <Container>
-          <h3 className={cn('mb-8', allCaps && 'all-caps')}>{title}</h3>
+          <h3 className={cn('mb-8 all-caps')}>{title}</h3>
         </Container>
       )}
       <Carousel.Root
