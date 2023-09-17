@@ -49,7 +49,7 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
           {book.authors.length > 0 && (
             <Container
               desktop={false}
-              className="pt-4 md:pt-0 mb-4 sm:mb-8 border-t border-black sm:border-t-0"
+              className="pt-6 md:pt-0 mb-6 sm:mb-8 border-t border-black sm:border-t-0"
             >
               <ProfileListSection
                 profiles={book.authors}
@@ -60,7 +60,7 @@ export default async ({ params: { slug } }: { params: { slug: string } }) => {
           )}
           <Container
             desktop={false}
-            className="pt-4 md:pt-0 mb-4 sm:mb-0 border-t border-black sm:border-t-0"
+            className="pt-6 md:pt-0 mb-6 sm:mb-0 border-t border-black sm:border-t-0"
           >
             {book.team.length > 0 && (
               <TeamList contributions={book.contributions} className="mb-8" />
