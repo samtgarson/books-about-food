@@ -1,4 +1,6 @@
+import Link from 'next/link'
 import { SignInButtons } from 'src/components/auth/sign-in-buttons'
+import { Logo } from 'src/components/nav/logo'
 import { PageProps } from 'src/components/types'
 
 export default async function SignInPage({
@@ -8,6 +10,9 @@ export default async function SignInPage({
 
   return (
     <>
+      <Link href="/" className="block mb-20">
+        <Logo />
+      </Link>
       <SignInButtons callbackUrl={`${callbackUrl}`} />
     </>
   )

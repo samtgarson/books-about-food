@@ -218,10 +218,9 @@ model Publisher {
   imprint        String?
   slug           String   @unique
 
-  books  Book[]
-  logo   Image?  @relation("publisher_logo")
-  claims Claim[]
-  user   User?   @relation("publisher")
+  books Book[]
+  logo  Image? @relation("publisher_logo")
+  user  User?  @relation("publisher")
 
   @@map("publishers")
 }
@@ -278,21 +277,18 @@ model FeaturedProfile {
 }
 
 model Claim {
-  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at")
-  profileId   String?   @map("profile_id") @db.Uuid
-  publisherId String?   @map("publisher_id") @db.Uuid
-  secret      String
-  userId      String    @map("user_id") @db.Uuid
-  approvedAt  DateTime? @map("approved_at") @db.Date
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @default(now()) @updatedAt @map("updated_at")
+  profileId  String    @map("profile_id") @db.Uuid
+  secret     String
+  userId     String    @map("user_id") @db.Uuid
+  approvedAt DateTime? @map("approved_at") @db.Date
 
-  profile   Profile?   @relation(fields: [profileId], references: [id], onDelete: Cascade)
-  publisher Publisher? @relation(fields: [publisherId], references: [id], onDelete: Cascade)
-  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, profileId])
-  @@unique([userId, publisherId])
   @@map("claims")
 }
 

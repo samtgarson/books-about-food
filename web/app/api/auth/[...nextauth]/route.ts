@@ -1,5 +1,6 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { unextended } from 'database'
+import { send } from 'email'
 import type { NextAuthOptions } from 'next-auth'
 import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
@@ -20,7 +21,24 @@ export const authOptions: NextAuthOptions = {
           access_type: 'offline'
         }
       }
-    })
+    }),
+    {
+      id: 'email',
+      type: 'email',
+      name: 'Email',
+      from: '',
+      server: '',
+      maxAge: 60 * 10,
+      options: {},
+      async sendVerificationRequest({ url, identifier: email }) {
+        const user = await unextended.user.findUnique({
+          where: { email }
+        })
+        const newUser = !user?.emailVerified
+
+        send('verify-email', email, { url, newUser })
+      }
+    }
   ],
   callbacks: {
     async jwt({ token, user }) {
@@ -49,6 +67,14 @@ export const authOptions: NextAuthOptions = {
     signIn: '/auth/sign-in',
     signOut: '/account',
     error: '/auth/sign-in'
+  },
+  events: {
+    async createUser(message) {
+      await unextended.user.update({
+        where: { id: message.user.id },
+        data: { role: 'waitlist' }
+      })
+    }
   }
 }
 

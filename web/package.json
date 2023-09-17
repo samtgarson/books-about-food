@@ -21,6 +21,7 @@
     "color": "^4.2.3",
     "database": "*",
     "date-fns": "^2.30.0",
+    "email": "*",
     "fast-json-stable-stringify": "^2.1.0",
     "framer-motion": "^10.16.4",
     "generate-passphrase": "^1.3.0",

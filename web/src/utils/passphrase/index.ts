@@ -15,7 +15,6 @@ export interface generateOptions {
   uppercase?: boolean
   titlecase?: boolean
   pattern?: string
-  fast?: boolean
 }
 
 const wordArray = words.split('\n')
@@ -37,8 +36,7 @@ export function generate(options: generateOptions = {}): string {
     numbers: true,
     uppercase: false,
     titlecase: false,
-    pattern: undefined,
-    fast: false
+    pattern: undefined
   }
 
   const opts = { ...defaults, ...options }

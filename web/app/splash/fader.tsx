@@ -1,6 +1,11 @@
 'use client'
 
-import { motion, useScroll, useTransform } from 'framer-motion'
+import {
+  motion,
+  useMotionTemplate,
+  useScroll,
+  useTransform
+} from 'framer-motion'
 import cn from 'classnames'
 
 export const Fader = ({
@@ -11,12 +16,14 @@ export const Fader = ({
   className?: string
 }) => {
   const { scrollYProgress } = useScroll()
-  const opacity = useTransform(scrollYProgress, [0, 0.1], [1, 0.1])
+  const opacity = useTransform(scrollYProgress, [0, 0.1], [1, 0.3])
+  const blur = useTransform(scrollYProgress, [0, 0.1], [0, 2])
+  const filter = useMotionTemplate`blur(${blur}px)`
 
   return (
     <motion.div
-      style={{ opacity }}
-      className={cn(className, 'lg:!opacity-100')}
+      style={{ opacity, filter }}
+      className={cn(className, 'lg:!opacity-100 lg:!blur-none')}
     >
       {children}
     </motion.div>

@@ -11,7 +11,8 @@ const nextConfig = {
           excluded: []
         }
       ]
-    ]
+    ],
+    serverComponentsExternalPackages: ['mjml']
   },
   transpilePackages: ['shared', 'database', 'email'],
   swcMinify: true,

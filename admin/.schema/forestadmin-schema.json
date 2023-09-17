@@ -971,30 +971,15 @@
         "isFilterable": true,
         "isPrimaryKey": false,
         "isReadOnly": false,
-        "isRequired": false,
+        "isRequired": true,
         "isSortable": true,
         "isVirtual": false,
         "reference": "profiles.id",
         "relationship": "BelongsTo",
         "type": "Uuid",
-        "validations": []
-      },
-      {
-        "defaultValue": null,
-        "enums": null,
-        "field": "publisher",
-        "integration": null,
-        "inverseOf": "claims",
-        "isFilterable": true,
-        "isPrimaryKey": false,
-        "isReadOnly": false,
-        "isRequired": false,
-        "isSortable": true,
-        "isVirtual": false,
-        "reference": "publishers.id",
-        "relationship": "BelongsTo",
-        "type": "Uuid",
-        "validations": []
+        "validations": [
+          {"type": "is present", "message": "Failed validation rule: 'Present'"}
+        ]
       },
       {
         "defaultValue": null,
@@ -2519,23 +2504,6 @@
         "isSortable": true,
         "isVirtual": false,
         "reference": "books.id",
-        "relationship": "HasMany",
-        "type": ["Uuid"],
-        "validations": []
-      },
-      {
-        "defaultValue": null,
-        "enums": null,
-        "field": "claims",
-        "integration": null,
-        "inverseOf": "publisher",
-        "isFilterable": false,
-        "isPrimaryKey": false,
-        "isReadOnly": false,
-        "isRequired": false,
-        "isSortable": true,
-        "isVirtual": false,
-        "reference": "claims.id",
         "relationship": "HasMany",
         "type": ["Uuid"],
         "validations": []

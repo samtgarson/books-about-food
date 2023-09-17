@@ -3,23 +3,56 @@
 import { signIn } from 'next-auth/react'
 import { FC } from 'react'
 import { Button } from '../atoms/button'
-import { Logo } from '../nav/logo'
-import Link from 'next/link'
 import { Google } from './logos'
+import { Input } from '../form/input'
+import { Submit } from '../form/submit'
+import { Form } from '../form'
+import z from 'zod'
 
-export const SignInButtons: FC<{ callbackUrl?: string }> = ({
-  callbackUrl
-}) => (
-  <>
-    <Link href="/" className="block mb-20">
-      <Logo />
-    </Link>
-    <Button
-      onClick={() => signIn('google', { callbackUrl })}
-      className="flex gap-3 items-center"
+export type SignInButtonsProps = {
+  email?: boolean
+  google?: boolean
+  emailButtonLabel?: string
+  callbackUrl?: string
+  successMessage?: string
+}
+
+export const SignInButtons: FC<SignInButtonsProps> = ({
+  callbackUrl,
+  email = true,
+  google = true,
+  emailButtonLabel = 'Continue with Email',
+  successMessage = 'Check your email for a sign in link.'
+}) => {
+  return (
+    <Form
+      action={async ({ email }) => {
+        await signIn('email', { email, redirect: false, callbackUrl })
+      }}
+      schema={z.object({ email: z.string() })}
+      successMessage={successMessage}
     >
-      <Google />
-      Continue with Google
-    </Button>
-  </>
-)
+      {email && (
+        <>
+          <Input
+            name="email"
+            label="Email Address"
+            placeholder="author@cookbooks.com"
+          />
+          <Submit variant="dark">{emailButtonLabel}</Submit>
+        </>
+      )}
+      {email && google && <p className="text-center">or</p>}
+      {google && (
+        <Button
+          onClick={() => signIn('google', { callbackUrl })}
+          className="flex gap-3 items-center relative justify-center"
+          type="button"
+        >
+          <Google className="absolute left-4" size={20} />
+          Continue with Google
+        </Button>
+      )}
+    </Form>
+  )
+}
