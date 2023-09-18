@@ -20,9 +20,9 @@ type NavContext = {
 const NavContext = createContext({} as NavContext)
 
 export const NavProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [theme, setTheme] = useState<NavTheme>('light')
-  const [open, setOpen] = useState(false)
   const path = usePathname()
+  const [theme, setTheme] = useState<NavTheme>(path === '/' ? 'dark' : 'light')
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     setOpen(false)

@@ -27,7 +27,11 @@ export const SignInButtons: FC<SignInButtonsProps> = ({
   return (
     <Form
       action={async ({ email }) => {
-        await signIn('email', { email, redirect: false, callbackUrl })
+        await signIn('email', {
+          email,
+          redirect: false,
+          callbackUrl
+        })
       }}
       schema={z.object({ email: z.string() })}
       successMessage={successMessage}

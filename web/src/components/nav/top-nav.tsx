@@ -3,13 +3,13 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import cn from 'classnames'
 import Link from 'next/link'
-import { usePathname, useSelectedLayoutSegment } from 'next/navigation'
-import { FC, useEffect, useState } from 'react'
+import { useSelectedLayoutSegment } from 'next/navigation'
+import { FC, useState } from 'react'
 import { Menu, User, X } from 'react-feather'
 import { useScrollLock } from 'src/hooks/use-scroll-lock'
 import { Container } from '../atoms/container'
-import { AuthedButton } from '../auth/authed-button'
 import { Loader } from '../atoms/loader'
+import { AuthedButton } from '../auth/authed-button'
 import { useNav } from './context'
 
 const AccountLink = ({ className }: { className?: string }) => {
