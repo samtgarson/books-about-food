@@ -16,8 +16,8 @@ import { usePromise } from 'src/hooks/use-promise'
 
 type BaseFilterSelectProps<Value> = {
   options:
-  | { label: string; value: Value }[]
-  | (() => Promise<{ label: string; value: Value }[]>)
+    | { label: string; value: Value }[]
+    | (() => Promise<{ label: string; value: Value }[]>)
   placeholder: string
   search?: boolean
   param: string
@@ -142,7 +142,6 @@ function FilterSelectContent<Value extends string | number = string>({
                 value={searchValue}
                 onChange={setSearchValue}
                 className="text-20 sm:text-24 mb-4 sm:mb-6"
-                autoFocus
               />
             )}
             <ul className="flex flex-col gap-2 sm:gap-3">
