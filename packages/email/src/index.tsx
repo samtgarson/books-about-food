@@ -35,7 +35,11 @@ export function send<T extends keyof typeof templates>(
   return sendMail({
     to,
     // @ts-expect-error get this to work later
-    component: <Template {...props} />
+    component: <Template {...props} />,
+    subject:
+      Template.subject instanceof Function
+        ? Template.subject(props)
+        : Template.subject
   })
 }
 
