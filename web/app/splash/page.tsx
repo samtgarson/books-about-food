@@ -40,7 +40,7 @@ export default async function Splash() {
           )}
         </Container>
       </Fader>
-      <ul className="flex flex-col gap-16 w-96 max-w-[85vw] z-10 ml-auto lg:mr-[5vw] xl:mr-[15vw] pt-[85vh] xl:pt-[15vh] mb-16 pointer-events-none">
+      <ul className="flex flex-col gap-16 w-96 max-w-[85vw] z-10 ml-auto lg:mr-[5vw] xl:mr-[15vw] pt-[max(85vh,550px)] xl:pt-[15vh] mb-16 pointer-events-none">
         {features.map(({ book }) => (
           <BookItem.Container key={book.id} className="bg-grey" mobileGrid>
             <BookItem.Cover book={book} className="!-mb-px" mobileGrid />
