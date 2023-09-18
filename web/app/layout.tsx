@@ -5,6 +5,21 @@ import { fontClassname } from 'src/style/font'
 import 'src/style/globals.css' // eslint-disable-line import/extensions
 import { GlobalSheetProvider } from 'src/components/sheets/global-sheet'
 import { Mouse } from 'src/components/atoms/mouse'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    minimumScale: 1,
+    maximumScale: 1,
+    userScalable: false
+  },
+  title: {
+    template: '%s | Books About Food',
+    absolute: 'Books About Food'
+  }
+}
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

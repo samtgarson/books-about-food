@@ -7,24 +7,28 @@ import { BookLinks } from 'src/components/books/links'
 import { TagList } from 'src/components/books/tag-list'
 import { ProfileListSection } from 'src/components/profiles/list-section'
 import { fetchBook } from 'src/services/books/fetch-book'
-import { fetchBooks } from 'src/services/books/fetch-books'
 import cn from 'classnames'
 import { CorrectionButton } from 'src/components/books/correction-button'
 import { BookOverflow } from 'src/components/books/book-overflow'
 import { TeamList } from 'src/components/books/team-list'
 import { SimilarBooks } from 'src/components/books/similar-books'
+import { Metadata } from 'next'
+import { PageProps } from 'src/components/types'
+
+type CookbooksPageProps = PageProps<{ slug: string }>
+
+export async function generateMetadata({
+  params: { slug }
+}: CookbooksPageProps): Promise<Metadata> {
+  const book = await fetchBook.call({ slug })
+  if (!book) notFound()
+
+  return { title: book.title }
+}
 
 export * from 'app/default-static-config'
 
-export const generateStaticParams = async () => {
-  const { books } = await fetchBooks.call({ perPage: 0, sort: 'releaseDate' })
-
-  return books.map((book) => ({
-    slug: book.slug
-  }))
-}
-
-export default async ({ params: { slug } }: { params: { slug: string } }) => {
+export default async ({ params: { slug } }: CookbooksPageProps) => {
   const book = await fetchBook.call({ slug })
   if (!book) notFound()
 

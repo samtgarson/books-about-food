@@ -6,14 +6,13 @@ import { getUser } from 'src/services/auth/get-user'
 import { fetchBook } from 'src/services/books/fetch-book'
 import { callWithUser } from 'src/utils/call-with-user'
 
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+export * from 'app/default-static-config'
 
-export default async function Page({
-  params: { slug }
-}: {
+type EditPageProps = {
   params: { slug: string }
-}) {
+}
+
+export default async function Page({ params: { slug } }: EditPageProps) {
   const book = await callWithUser(fetchBook, { slug, cache: false })
   const currentUser = await getUser.call()
 

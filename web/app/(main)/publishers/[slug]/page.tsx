@@ -9,6 +9,18 @@ import { BookList } from 'src/components/books/list'
 import { ClaimPublisherButton } from 'src/components/publishers/claim-button'
 import { PageProps } from 'src/components/types'
 import { Publisher } from 'src/models/publisher'
+import { Metadata } from 'next'
+
+type PublisherPageProps = PageProps<{ slug: string }>
+
+export async function generateMetadata({
+  params: { slug }
+}: PublisherPageProps): Promise<Metadata> {
+  const publisher = await fetchPublisher(slug)
+  if (!publisher) notFound()
+
+  return { title: publisher.name }
+}
 
 export * from 'app/default-static-config'
 
@@ -24,7 +36,7 @@ const fetchPublisher = async (slug: string) => {
 export default async ({
   params: { slug },
   searchParams: { page }
-}: PageProps<{ slug: string }>) => {
+}: PublisherPageProps) => {
   const publisher = await fetchPublisher(slug)
   if (!publisher) return notFound()
 

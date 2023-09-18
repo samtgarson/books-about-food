@@ -5,6 +5,11 @@ import {
 } from 'src/services/publishers/fetch-publishers'
 import { PublishersList } from './list'
 import { FilterBar } from 'src/components/lists/filter-bar'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Publishers'
+}
 
 export * from 'app/default-static-config'
 

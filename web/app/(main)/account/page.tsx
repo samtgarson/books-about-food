@@ -6,6 +6,11 @@ import { Submit } from 'src/components/form/submit'
 import { getUser } from 'src/services/auth/get-user'
 import { updateUser } from 'src/services/users/update-user'
 import { callWithUser } from 'src/utils/call-with-user'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Account'
+}
 
 const action: FormAction = async (input) => {
   'use server'
