@@ -8,6 +8,8 @@ import { PublisherGrid } from './publishers/grid'
 import { HomepageModule } from 'src/components/home/module'
 import { ProfileCarousel } from 'src/components/profiles/profile-carousel'
 import { Marquee } from 'src/components/atoms/marquee'
+import { FeaturedJobsList } from 'src/components/jobs/featured-jobs-list'
+import { Suspense } from 'react'
 
 export * from 'app/default-static-config'
 
@@ -66,20 +68,28 @@ const Page = async () => {
           data-superjson
         />
       </Container>
-      <Container className="py-12 md:py-20">
-        <h3 className="all-caps mb-6 md:mb-8">Featured People</h3>
-        <PeopleGrid
-          profiles={home.people}
-          viewMoreLink={{ path: '/authors', label: 'View Others' }}
-        />
-      </Container>
-      <Container className="pt-12 md:pt-20 -mb-20 sm:mb-0">
-        <h3 className="all-caps mb-6 md:mb-8">Top Publishers</h3>
-        <PublisherGrid
-          publishers={home.publishers}
-          square={false}
-          viewMoreLink={{ path: '/publishers', label: 'View All' }}
-        />
+      <Container className="flex flex-col gap-24 md:gap-40 py-12 md:py-20">
+        <div>
+          <h3 className="all-caps mb-6 md:mb-8">People Directory</h3>
+          <Suspense fallback={null}>
+            <FeaturedJobsList />
+          </Suspense>
+        </div>
+        <div>
+          <h3 className="all-caps mb-6 md:mb-8">Featured People</h3>
+          <PeopleGrid
+            profiles={home.people}
+            viewMoreLink={{ path: '/authors', label: 'View Others' }}
+          />
+        </div>
+        <div>
+          <h3 className="all-caps mb-6 md:mb-8">Top Publishers</h3>
+          <PublisherGrid
+            publishers={home.publishers}
+            square={false}
+            viewMoreLink={{ path: '/publishers', label: 'View All' }}
+          />
+        </div>
       </Container>
     </>
   )

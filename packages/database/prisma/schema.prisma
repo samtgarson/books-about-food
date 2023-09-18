@@ -136,6 +136,7 @@ model Job {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
   name      String   @unique
+  featured  Boolean  @default(true)
 
   contributions Contribution[]
 

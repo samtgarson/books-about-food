@@ -25,7 +25,7 @@ export class GooglePlacesGateway extends BaseGoogleGateway {
       types: '(regions)',
       sessiontoken
     })
-    console.log(response.url)
+
     if (!response.ok) return []
     const result = await response.json()
 

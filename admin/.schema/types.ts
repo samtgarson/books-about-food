@@ -4479,6 +4479,7 @@ export type Schema = {
       'job:created_at': string;
       'job:updated_at': string;
       'job:name': string;
+      'job:featured': boolean;
     };
   };
   'favourites': {
@@ -7205,6 +7206,7 @@ export type Schema = {
       'created_at': string;
       'updated_at': string;
       'name': string;
+      'featured': boolean;
     };
     nested: {};
     flat: {};

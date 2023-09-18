@@ -19,7 +19,7 @@ export const updateLinks = new Service(
       include: { contributions: true }
     })
     if (!book) throw new Error('Book not found')
-    console.log('links', links)
+
     await prisma.book.update({
       where: { slug },
       data: {

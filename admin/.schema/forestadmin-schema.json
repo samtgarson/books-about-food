@@ -1806,6 +1806,22 @@
         "validations": []
       },
       {
+        "defaultValue": true,
+        "enums": null,
+        "field": "featured",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": null,
+        "type": "Boolean",
+        "validations": []
+      },
+      {
         "defaultValue": null,
         "enums": null,
         "field": "id",
