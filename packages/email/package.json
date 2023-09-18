@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "mailing preview"
+    "dev": "mailing preview --quiet"
   },
   "devDependencies": {
     "mailing": "^1.0.1"

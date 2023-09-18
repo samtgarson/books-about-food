@@ -10,5 +10,5 @@
     "strictNullChecks": true,
     "types": ["react/experimental"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"]
 }

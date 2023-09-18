@@ -36,11 +36,16 @@ export const authOptions: NextAuthOptions = {
         })
         const newUser = !user?.emailVerified
 
+        console.log('sendVerificationRequest', { url, email, newUser })
         send('verify-email', email, { url, newUser })
       }
     }
   ],
   callbacks: {
+    signIn({ user, account, profile, email, credentials }) {
+      console.log('signIn', { user, account, profile, email, credentials })
+      return true
+    },
     async jwt({ token, user }) {
       if (user) {
         token.userId = user.id
