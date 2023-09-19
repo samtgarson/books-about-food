@@ -22,7 +22,7 @@ export const customiseContributions = (
       },
       dependencies: ['tag']
     })
-    .replaceFieldWriting('Assistant', (value, context) => {
-      context.record.tag = value ? 'Assistant' : undefined
+    .replaceFieldWriting('Assistant', (value) => {
+      return { tag: value ? 'Assistant' : undefined }
     })
 }
