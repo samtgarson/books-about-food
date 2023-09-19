@@ -9,10 +9,12 @@
     "mailing": "^1.0.1"
   },
   "dependencies": {
-    "@faire/mjml-react": "^3.3.0",
+    "@faire/mjml-react": "main-alpha",
+    "@sendgrid/mail": "^7.7.0",
     "classnames": "^2.3.2",
     "mailing-core": "^1.0.1",
     "nodemailer": "^6.9.5",
-    "react": "^18.2.0"
+    "react": "^18.2.0",
+    "shared": "*"
   }
 }

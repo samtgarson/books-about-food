@@ -1,8 +1,9 @@
 import prisma from 'database'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
-import { send } from 'email'
+import { EmailTemplate } from 'email'
 import { generate } from 'src/utils/passphrase'
+import { sendEmail } from 'src/pages/api/email'
 
 export const createClaim = new Service(
   z.object({
@@ -33,7 +34,7 @@ export const createClaim = new Service(
 
     const resourceName = claim.profile.name
 
-    await send('new-claim', 'aboutcookbooks@gmail.com', {
+    await sendEmail(EmailTemplate.NewClaim, 'aboutcookbooks@gmail.com', {
       claimId: claim.id,
       recipientName: 'Admin',
       resourceName: resourceName as string,

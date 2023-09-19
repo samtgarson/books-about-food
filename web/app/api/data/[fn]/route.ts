@@ -50,8 +50,8 @@ const handler = async (
       return NextResponse.json(null, { status: 204 })
     }
   } catch (error) {
-    console.error(error)
-    if (error instanceof RequestException) {
+    console.error('DATA ERROR', error)
+    if (error instanceof RequestException && error.status) {
       return NextResponse.json(null, { status: error.status })
     }
     return NextResponse.json(

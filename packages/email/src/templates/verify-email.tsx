@@ -1,8 +1,8 @@
-import { MjmlColumn, MjmlSection } from '@faire/mjml-react'
+import { MjmlColumn, MjmlPreview, MjmlSection } from '@faire/mjml-react'
+import { Template } from 'mailing-core'
 import BaseLayout from '../components/base-layout'
 import Button from '../components/button'
 import Text from '../components/text'
-import { Template } from 'mailing-core'
 
 export type VerifyEmailProps = {
   url: string
@@ -12,6 +12,7 @@ export type VerifyEmailProps = {
 const VerifyEmail: Template<VerifyEmailProps> = ({ url, newUser }) => {
   return (
     <BaseLayout>
+      <MjmlPreview>Verify your email address</MjmlPreview>
       <MjmlSection>
         <MjmlColumn>
           {newUser ? (
@@ -30,15 +31,7 @@ const VerifyEmail: Template<VerifyEmailProps> = ({ url, newUser }) => {
             Or, copy and paste this URL into your browser:
           </Text>
           <Text fontFamily="monospace" fontSize="sm">
-            <span
-              style={{
-                backgroundColor: 'white',
-                paddingInline: 6,
-                paddingBlock: 4
-              }}
-            >
-              {url}
-            </span>
+            {url}
           </Text>
         </MjmlColumn>
       </MjmlSection>
