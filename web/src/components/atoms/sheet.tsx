@@ -112,7 +112,7 @@ export const Body = ({
 }) => (
   <div
     className={cn(
-      'book-shadow p-5 sm:p-8 max-h-[70vh] overflow-auto pointer-events-auto',
+      'book-shadow p-5 sm:p-8 max-h-[80vh] overflow-auto pointer-events-auto',
       grey ? 'bg-grey' : 'bg-white',
       className
     )}
