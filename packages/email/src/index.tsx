@@ -49,12 +49,17 @@ export async function send<T extends EmailTemplate>(
     return openPreview({ html }, { subject, to, from })
   }
 
-  await sendMail.send({
-    to,
-    from,
-    subject,
-    html
-  })
+  try {
+    await sendMail.send({
+      to,
+      from,
+      subject,
+      html
+    })
+    console.log(`Email sent to ${to} with subject ${subject}`)
+  } catch (e) {
+    console.error('Email delivery error', e)
+  }
 }
 
 export default function () {}

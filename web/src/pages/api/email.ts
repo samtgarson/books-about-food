@@ -25,10 +25,16 @@ export default async function EmailHandler(
   if (req.method !== 'POST') {
     return res.status(405).json({ ok: false })
   }
-  const { to, template, data } = schema.parse(req.body)
 
-  await send(template, to, data)
-  return res.status(200).json({ ok: true })
+  try {
+    const { to, template, data } = schema.parse(req.body)
+
+    await send(template, to, data)
+    return res.status(200).json({ ok: true })
+  } catch (error) {
+    console.error('Email API error', error)
+    return res.status(500).json({ ok: false, error })
+  }
 }
 
 export const sendEmail = async (
@@ -46,6 +52,7 @@ export const sendEmail = async (
   })
 
   if (!res.ok) {
+    console.error('Email send error', await res.text())
     throw new Error('Failed to send email')
   }
 }
