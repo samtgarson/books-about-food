@@ -2,7 +2,7 @@ import prisma, { cacheStrategy } from 'database'
 import { FullBook } from 'src/models/full-book'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
-import { bookIncludes } from '../utils'
+import { fullBookIncludes } from '../utils/includes'
 
 export const fetchBook = new Service(
   z.object({ slug: z.string(), cache: z.boolean().optional() }),
@@ -10,7 +10,7 @@ export const fetchBook = new Service(
     if (!slug) throw new Error('Slug is required')
     const raw = await prisma.book.findUnique({
       where: { slug },
-      include: bookIncludes,
+      include: fullBookIncludes,
       cacheStrategy: cache ? cacheStrategy : undefined
     })
 

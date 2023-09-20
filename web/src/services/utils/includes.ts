@@ -7,10 +7,6 @@ export const profileIncludes = {
 
 export const bookIncludes = {
   coverImage: true,
-  previewImages: { orderBy: { createdAt: 'asc' } },
-  publisher: { include: { logo: true } },
-  tags: true,
-  links: { orderBy: { site: 'asc' } },
   authors: { include: profileIncludes },
   contributions: {
     where: { NOT: { job: { name: { startsWith: 'Author' } } } },
@@ -19,4 +15,12 @@ export const bookIncludes = {
       job: true
     }
   }
+} satisfies Prisma.BookDefaultArgs['include']
+
+export const fullBookIncludes = {
+  ...bookIncludes,
+  previewImages: { orderBy: { createdAt: 'asc' } },
+  publisher: { include: { logo: true } },
+  tags: true,
+  links: { orderBy: { site: 'asc' } }
 } satisfies Prisma.BookDefaultArgs['include']

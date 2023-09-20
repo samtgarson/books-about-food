@@ -1,8 +1,8 @@
 import { Link } from 'database'
 import { Book } from './book'
 import { Image } from './image'
-import { Publisher } from 'database'
 import { FullBookAttrs } from './types'
+import { Publisher } from './publisher'
 
 export class FullBook extends Book {
   previewImages: Image[]
@@ -16,7 +16,9 @@ export class FullBook extends Book {
       (image, i) => new Image(image, `Preview ${i} for ${attrs.title}`)
     )
     this.tags = attrs.tags.map((tag) => tag.name)
-    this.publisher = attrs.publisher || undefined
+    this.publisher = attrs.publisher
+      ? new Publisher(attrs.publisher)
+      : undefined
     this.links = attrs.links
   }
 }

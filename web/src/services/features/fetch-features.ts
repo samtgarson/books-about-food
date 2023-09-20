@@ -1,8 +1,8 @@
 import prisma from 'database'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
-import { bookIncludes } from '../utils'
 import { FullBook } from 'src/models/full-book'
+import { fullBookIncludes } from '../utils/includes'
 
 export type Feature = Awaited<
   ReturnType<(typeof fetchFeatures)['call']>
@@ -15,7 +15,7 @@ export const fetchFeatures = new Service(z.undefined(), async () => {
       OR: [{ until: null }, { until: { gte: new Date() } }]
     },
     include: {
-      book: { include: bookIncludes }
+      book: { include: fullBookIncludes }
     }
   })
 

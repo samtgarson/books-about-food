@@ -3,7 +3,6 @@ import { ItemCarousel } from 'src/components/books/item-carousel'
 import { FeatureCarousel } from 'src/components/feature-carousel'
 import { fetchFeatures } from 'src/services/features/fetch-features'
 import { fetchHome } from 'src/services/home/fetch'
-import { PeopleGrid } from './people/grid'
 import { PublisherGrid } from './publishers/grid'
 import { HomepageModule } from 'src/components/home/module'
 import { ProfileCarousel } from 'src/components/profiles/profile-carousel'
@@ -74,13 +73,6 @@ const Page = async () => {
           <Suspense fallback={null}>
             <FeaturedJobsList />
           </Suspense>
-        </div>
-        <div>
-          <h3 className="all-caps mb-6 md:mb-8">Featured People</h3>
-          <PeopleGrid
-            profiles={home.people}
-            viewMoreLink={{ path: '/authors', label: 'View Others' }}
-          />
         </div>
         <div>
           <h3 className="all-caps mb-6 md:mb-8">Top Publishers</h3>

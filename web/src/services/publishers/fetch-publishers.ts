@@ -2,6 +2,7 @@ import prisma, { Prisma, cacheStrategy } from 'database'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
 import { paginationInput } from '../utils/inputs'
+import { Publisher } from 'src/models/publisher'
 
 export type FetchPublishersInput = z.infer<(typeof fetchPublishers)['input']>
 export type FetchPublishersOutput = Awaited<
@@ -19,17 +20,20 @@ export const fetchPublishers = new Service(
       name: { contains, mode: 'insensitive' }
     }
 
-    const [publishers, total, filteredTotal] = await Promise.all([
+    const [raw, total, filteredTotal] = await Promise.all([
       prisma.publisher.findMany({
         where,
         orderBy: { name: 'asc' },
         take: perPage === 0 ? undefined : perPage,
         skip: perPage * page,
+        include: { logo: true },
         cacheStrategy
       }),
       prisma.publisher.count({ cacheStrategy }),
       prisma.publisher.count({ where, cacheStrategy })
     ])
+
+    const publishers = raw.map((publisher) => new Publisher(publisher))
 
     return { publishers, total, filteredTotal, perPage }
   }
