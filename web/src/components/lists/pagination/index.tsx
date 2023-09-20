@@ -40,7 +40,7 @@ export const Pagination: FC<PaginationProps> = ({
                   <Pill
                     selected={page === p}
                     disabled={page === p}
-                    className="w-10 h-11 !p-0"
+                    className="w-10 h-10 !p-0"
                     title={`Page ${p + 1}`}
                   >
                     {p + 1}
@@ -49,7 +49,7 @@ export const Pagination: FC<PaginationProps> = ({
               ))}
               {i < displayPages.length - 1 && (
                 <li className="list-none" key={`ellipsis-${i}`}>
-                  <Pill className="w-10 h-11 !p-0" disabled>
+                  <Pill className="w-10 h-10 !p-0" disabled>
                     …
                   </Pill>
                 </li>
