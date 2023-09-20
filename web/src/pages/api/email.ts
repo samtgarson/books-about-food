@@ -1,6 +1,7 @@
 import { EmailData, EmailTemplate, send } from 'email'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getEnv } from 'shared/utils/get-env'
+import { appURl } from 'src/utils/app-url'
 import z from 'zod'
 
 export const schema = z.object({
@@ -35,7 +36,7 @@ export const sendEmail = async (
   to: string,
   data: EmailData
 ) => {
-  const res = await fetch(new URL('/api/email', getEnv('NEXTAUTH_URL')), {
+  const res = await fetch(new URL('/api/email', appURl), {
     method: 'POST',
     headers: {
       Authorization: getEnv('CRON_SECRET'),
