@@ -12,7 +12,7 @@ export const fetchHome = new Service(z.object({}), async () => {
       prisma.book
         .findMany({
           cacheStrategy,
-          where: { releaseDate: { gte: new Date() } },
+          where: { releaseDate: { gte: new Date() }, status: 'published' },
           orderBy: { releaseDate: 'asc' },
           take: 10,
           include: bookIncludes
@@ -23,7 +23,7 @@ export const fetchHome = new Service(z.object({}), async () => {
       prisma.book
         .findMany({
           cacheStrategy,
-          where: { releaseDate: { lt: new Date() } },
+          where: { releaseDate: { lt: new Date() }, status: 'published' },
           orderBy: { createdAt: 'desc' },
           take: 10,
           include: bookIncludes
