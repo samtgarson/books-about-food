@@ -72,7 +72,7 @@ export const Box = ({
   <div
     className={cn(
       className,
-      'sm:aspect-square border-black sm:mb-6 flex items-center justify-center sm:w-full relative',
+      'sm:aspect-square border-black sm:mb-6 flex items-center justify-center sm:w-full relative shrink-0',
       mobileGrid ? 'aspect-square w-full' : 'w-24',
       skeleton && 'border-khaki',
       bordered && (mobileGrid ? 'border' : 'sm:border')
@@ -123,7 +123,7 @@ export const Footer = ({
   <div
     className={cn(
       className,
-      'sm:pr-4 w-full',
+      'sm:pr-4 sm:w-full min-w-0',
       mobileGrid && 'pr-4',
       centered && 'text-center -mt-[50px]'
     )}
