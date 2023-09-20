@@ -5,6 +5,7 @@ import {
   MjmlBody,
   MjmlColumn,
   MjmlHead,
+  MjmlPreview,
   MjmlSection,
   MjmlStyle,
   MjmlWrapper
@@ -20,17 +21,20 @@ type BaseLayoutProps = {
   style?: string
   children: ReactNode
   recipientName?: string
+  preview?: string
 }
 
 export default function BaseLayout({
   width = 600,
   children,
   style,
-  recipientName
+  recipientName,
+  preview
 }: BaseLayoutProps) {
   return (
     <Mjml>
       <MjmlHead>
+        {preview && <MjmlPreview>{preview}</MjmlPreview>}
         <MjmlAttributes>
           <MjmlAll {...themeDefaults} />
         </MjmlAttributes>

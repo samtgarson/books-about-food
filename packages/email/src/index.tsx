@@ -25,12 +25,14 @@ function renderTemplate<T extends Template<any>>(
   Template: T,
   props: ComponentProps<T>
 ) {
+  const { html, errors } = render(<Template {...props} />)
+  if (errors) console.error('Email rendering error', errors)
   return {
     subject:
       Template.subject instanceof Function
         ? Template.subject(props)
         : Template.subject,
-    html: render(<Template {...props} />).html
+    html
   }
 }
 

@@ -1,4 +1,4 @@
-import { MjmlColumn, MjmlPreview, MjmlSection } from '@faire/mjml-react'
+import { MjmlColumn, MjmlSection } from '@faire/mjml-react'
 import { Template } from 'mailing-core'
 import BaseLayout from '../components/base-layout'
 import Button from '../components/button'
@@ -11,8 +11,7 @@ export type VerifyEmailProps = {
 
 const VerifyEmail: Template<VerifyEmailProps> = ({ url, newUser }) => {
   return (
-    <BaseLayout>
-      <MjmlPreview>Verify your email address</MjmlPreview>
+    <BaseLayout preview="Verify your email address">
       <MjmlSection>
         <MjmlColumn>
           {newUser ? (
