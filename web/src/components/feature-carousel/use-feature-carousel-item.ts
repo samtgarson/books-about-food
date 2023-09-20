@@ -55,7 +55,7 @@ export function useFeatureCarouselItem({
     pos.prev || pos.current || pos.next || pos.offNext || pos.offPrev
 
   const mouseProps: MouseState = {
-    mode: pos.next ? 'next' : pos.prev ? 'prev' : 'default',
+    mode: pos.next ? 'next' : pos.prev ? 'prev' : 'clickable',
     theme: (postTitle && pos.next) || (preTitle && pos.prev) ? 'dark' : 'light'
   }
 

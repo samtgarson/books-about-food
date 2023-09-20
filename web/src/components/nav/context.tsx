@@ -8,6 +8,7 @@ import {
   useEffect,
   useState
 } from 'react'
+import { Transition } from './transition'
 
 export type NavTheme = 'dark' | 'light'
 type NavContext = {
@@ -27,10 +28,11 @@ export const NavProvider: FC<{ children: ReactNode }> = ({ children }) => {
   useEffect(() => {
     setOpen(false)
     setTheme(path === '/' ? 'dark' : 'light')
-  }, [path, setTheme])
+  }, [path])
 
   return (
     <NavContext.Provider value={{ theme, setTheme, open, setOpen }}>
+      <Transition />
       {children}
     </NavContext.Provider>
   )

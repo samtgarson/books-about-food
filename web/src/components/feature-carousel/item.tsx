@@ -42,13 +42,14 @@ export function FeatureCarouselItem({
     <MotionLink
       layoutId={id}
       layout="position"
-      href={feature.book.href}
+      href={current ? feature.book.href : '#'}
       {...attrs}
       className={cn(className)}
       onClick={(e) => {
         if (current) return true
         e.preventDefault()
-        onClick?.()
+        if (onClick) setTimeout(onClick, 0)
+        return false
       }}
       title={next ? 'Next' : prev ? 'Previous' : undefined}
       {...mouseAttrs(mouseProps)}
