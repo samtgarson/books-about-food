@@ -97,12 +97,6 @@ export function Transition() {
           </motion.p>
         </motion.div>
       )}
-      <button
-        onClick={() => setShow(!show)}
-        className="fixed top-0 left-0 z-[60]"
-      >
-        Toggle
-      </button>
     </AnimatePresence>
   )
 }
