@@ -50,9 +50,16 @@ module.exports = {
       khaki: '#DDD8D1',
       'neutral-grey': '#BDBFC2',
       'blue-grey': '#EEF1F4',
-      secondary: {
+      primary: {
+        blue: '#839DFF',
+        lime: '#C7E171',
+        purple: '#C67CFF',
         red: '#ED7656',
-        blue: '#C3D6FF'
+        yellow: '#EACA36'
+      },
+      secondary: {
+        blue: '#C3D6FF',
+        yellow: '#FAE068'
       },
       tertiary: {
         blue: '#E0EAFF'
