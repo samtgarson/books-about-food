@@ -3,7 +3,6 @@ import { PageBackLink } from 'src/components/atoms/page-back-link'
 import { Form } from 'src/components/form'
 import { Submit } from 'src/components/form/submit'
 import { FullBook } from 'src/models/full-book'
-import { callWithUser } from 'src/utils/call-with-user'
 import SuperJSON from 'superjson'
 import { z } from 'zod'
 import { LinksSelect } from './links-select'
@@ -29,7 +28,7 @@ export const EditLinksForm = async ({ book }: { book: FullBook }) => {
           links = schema.parse(values).links
         }
 
-        await callWithUser(updateLinks, {
+        await updateLinks.call({
           slug: book.slug,
           links
         })

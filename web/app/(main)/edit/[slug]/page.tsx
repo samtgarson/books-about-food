@@ -6,7 +6,6 @@ import { EditNotes } from 'src/components/edit/notes'
 import { Steps } from 'src/components/edit/steps'
 import { getUser } from 'src/services/auth/get-user'
 import { fetchBook } from 'src/services/books/fetch-book'
-import { callWithUser } from 'src/utils/call-with-user'
 
 export * from 'app/default-static-config'
 
@@ -15,7 +14,7 @@ type EditPageProps = {
 }
 
 export default async function Page({ params: { slug } }: EditPageProps) {
-  const book = await callWithUser(fetchBook, { slug, cache: false })
+  const book = await fetchBook.call({ slug, cache: false })
   const currentUser = await getUser.call()
 
   if (!book) notFound()

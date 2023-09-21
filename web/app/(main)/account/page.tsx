@@ -5,7 +5,6 @@ import { Input } from 'src/components/form/input'
 import { Submit } from 'src/components/form/submit'
 import { getUser } from 'src/services/auth/get-user'
 import { updateUser } from 'src/services/users/update-user'
-import { callWithUser } from 'src/utils/call-with-user'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -14,7 +13,7 @@ export const metadata: Metadata = {
 
 const action: FormAction = async (input) => {
   'use server'
-  await callWithUser(updateUser, input)
+  await updateUser.parseAndCall(input)
 }
 
 const Page = async () => {

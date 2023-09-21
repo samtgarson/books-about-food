@@ -7,7 +7,6 @@ import { FullBook } from 'src/models/full-book'
 import { fetchBook } from 'src/services/books/fetch-book'
 import { Submit } from '../form/submit'
 import { BookEditState } from './state'
-import { callWithUser } from 'src/utils/call-with-user'
 
 export const SubmitForReviewButton: FC<{
   book: FullBook
@@ -34,7 +33,7 @@ export const SubmitForReviewButton: FC<{
 async function submit(data: FormData) {
   'use server'
 
-  const book = await callWithUser(fetchBook, Object.fromEntries(data.entries()))
+  const book = await fetchBook.parseAndCall(Object.fromEntries(data.entries()))
   await new BookEditState(book).submitForReview()
 
   redirect(`/edit/${book.slug}`, RedirectType.replace)

@@ -5,13 +5,12 @@ import { Form, FormAction } from 'src/components/form'
 import { Submit } from 'src/components/form/submit'
 import { TextArea } from 'src/components/form/textarea'
 import { createPitch } from 'src/services/pitches/create-pitch'
-import { callWithUser } from 'src/utils/call-with-user'
 
 export default function Page() {
   const action: FormAction = async (values) => {
     'use server'
 
-    const pitch = await callWithUser(createPitch, values)
+    const pitch = await createPitch.parseAndCall(values)
     if (pitch) redirect(`/pitches/${pitch.id}`)
   }
 

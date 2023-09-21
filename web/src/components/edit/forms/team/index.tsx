@@ -4,7 +4,6 @@ import { Form } from 'src/components/form'
 import { Submit } from 'src/components/form/submit'
 import { FullBook } from 'src/models/full-book'
 import { updateContributors } from 'src/services/books/update-contributors'
-import { callWithUser } from 'src/utils/call-with-user'
 import SuperJSON from 'superjson'
 import { z } from 'zod'
 import { TeamSelect } from './team-select'
@@ -24,7 +23,7 @@ export const EditTeamForm = async ({ book }: { book: FullBook }) => {
 
         const { contributors } = schema.parse(values)
 
-        await callWithUser(updateContributors, {
+        await updateContributors.call({
           slug: book.slug,
           contributors
         })
