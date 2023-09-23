@@ -3,7 +3,6 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import cn from 'classnames'
 import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
 import {
   createContext,
   FC,
@@ -16,14 +15,13 @@ import {
 import { X } from 'react-feather'
 import { useSheet } from '../sheets/global-sheet'
 import { Loader } from './loader'
+import { SheetMap } from '../sheets/types'
 
 type SheetContext = {
   mobileOnly?: boolean
   close: () => void
   open: () => void
   onCancel?: () => void
-  isOpen: boolean
-  action?: string
 }
 const SheetContext = createContext<SheetContext>({} as SheetContext)
 export const useSheetContext = () => useContext(SheetContext)
@@ -52,11 +50,11 @@ export const Content = ({
   loading
 }: {
   children: ReactNode | (({ close }: { close: () => void }) => ReactNode)
-  authenticated?: boolean
+  authenticated?: boolean | { action: keyof SheetMap }
   size?: 'md' | 'lg'
   loading?: boolean
 }) => {
-  const { onCancel, close, isOpen, action } = useSheetContext()
+  const { onCancel, close } = useSheetContext()
   const { openSheet } = useSheet()
   const { status } = useSession()
 
@@ -77,13 +75,13 @@ export const Content = ({
   }, [authenticated, nodes, status, loading])
 
   useEffect(() => {
-    if (!isOpen || !authenticated || status !== 'unauthenticated') return
+    if (!authenticated || status !== 'unauthenticated') return
     let redirect = location.pathname
-    if (action) redirect += `?action=${action}`
+    if (typeof authenticated !== 'boolean' && authenticated.action)
+      redirect += `?action=${authenticated.action}`
 
     openSheet('signIn', { redirect })
-    close()
-  }, [authenticated, openSheet, status, isOpen, close, action])
+  }, [authenticated, openSheet, status, close])
 
   return (
     <Dialog.Portal>
@@ -156,26 +154,10 @@ export type SheetProps = {
   children: ReactNode
   mobileOnly?: boolean
   onCancel?: () => void
-  action?: string
 }
 
-export const Root: FC<SheetProps> = ({
-  children,
-  mobileOnly,
-  onCancel,
-  action
-}) => {
-  const search = new URLSearchParams(global.location?.search)
-  const router = useRouter()
-  const [open, setOpen] = useState(
-    action && search?.get('action') === action ? true : false
-  )
-
-  useEffect(() => {
-    if (action && search?.get('action') === action)
-      router.replace(location.pathname)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [action, router])
+export const Root: FC<SheetProps> = ({ children, mobileOnly, onCancel }) => {
+  const [open, setOpen] = useState(false)
 
   return (
     <SheetContext.Provider
@@ -183,9 +165,7 @@ export const Root: FC<SheetProps> = ({
         mobileOnly,
         close: () => setOpen(false),
         open: () => setOpen(true),
-        onCancel,
-        isOpen: open,
-        action
+        onCancel
       }}
     >
       <Dialog.Root open={open} onOpenChange={setOpen}>

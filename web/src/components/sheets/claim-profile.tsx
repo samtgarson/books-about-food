@@ -55,7 +55,7 @@ export const ClaimProfileSheet: FC<ClaimProfileSheetProps> = ({ profile }) => {
   }, [])
 
   return (
-    <Content authenticated>
+    <Content authenticated={{ action: 'claimProfile' }}>
       <Body loading={loading}>
         <Header title="Claim your profile" />
         <div className="flex flex-col gap-6 items-start">
