@@ -1,9 +1,7 @@
 import type { Prisma } from 'database'
-import { bookIncludes } from 'src/services/utils'
+import { bookIncludes, profileIncludes } from 'src/services/utils'
 
-type ProfileIncludes = {
-  avatar: true
-}
+type ProfileIncludes = typeof profileIncludes
 
 export type BookAttrs = Prisma.BookGetPayload<{
   include: typeof bookIncludes

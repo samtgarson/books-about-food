@@ -8,7 +8,7 @@ export function PublishedNotes({ className }: { className?: string }) {
       </p>
       <p>
         If you’d like to suggest new edits to your submission, please hit the
-        Suggest an edit button above.
+        Suggest an Edit button above.
       </p>
     </div>
   )

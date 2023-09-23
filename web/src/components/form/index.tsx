@@ -3,18 +3,20 @@
 import { Root } from '@radix-ui/react-form'
 import { ComponentProps, ReactNode, useEffect, useRef, useState } from 'react'
 import cn from 'classnames'
-import { FormContext } from './context'
+import { FormContext, FormStyleVariant } from './context'
 import z from 'zod'
 
 export type FormAction<S = Record<string, unknown>> = (
   values: S
 ) => Promise<void>
+
 export interface FormProps<T extends z.ZodTypeAny | undefined = undefined>
   extends Omit<ComponentProps<typeof Root>, 'action'> {
   action?: T extends z.ZodTypeAny ? FormAction<z.infer<T>> : FormAction
   naked?: boolean
   successMessage?: ReactNode
   schema?: T
+  variant?: FormStyleVariant
 }
 
 export function Form<T extends z.ZodTypeAny | undefined = undefined>({
@@ -24,6 +26,7 @@ export function Form<T extends z.ZodTypeAny | undefined = undefined>({
   successMessage,
   children,
   schema,
+  variant = 'default',
   ...props
 }: FormProps<T>) {
   const [state, setState] = useState({})
@@ -32,7 +35,7 @@ export function Form<T extends z.ZodTypeAny | undefined = undefined>({
   const [success, setSuccess] = useState(false)
 
   useEffect(() => {
-    const handler = (event: Event) => {
+    const changeHandler = (event: Event) => {
       if (!(event.target instanceof HTMLInputElement)) return
       if (event.target.type === 'hidden') return
       const form = event.target.form
@@ -42,12 +45,23 @@ export function Form<T extends z.ZodTypeAny | undefined = undefined>({
       setState(formData)
     }
 
-    document.addEventListener('change', handler)
-    return () => document.removeEventListener('change', handler)
+    const keyHandler = (e: KeyboardEvent) => {
+      if (!formRef.current || !(e.target instanceof HTMLElement)) return
+      if (!formRef.current.contains(e.target)) return
+
+      if (e.key === 'Enter' && e.metaKey) formRef.current?.requestSubmit()
+    }
+
+    document.addEventListener('change', changeHandler)
+    document.addEventListener('keydown', keyHandler)
+    return () => {
+      document.removeEventListener('change', changeHandler)
+      document.removeEventListener('keydown', keyHandler)
+    }
   }, [])
 
   return (
-    <FormContext.Provider value={{ state, errors }}>
+    <FormContext.Provider value={{ state, errors, variant }}>
       <Root
         {...props}
         ref={formRef}

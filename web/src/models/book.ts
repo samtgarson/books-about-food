@@ -5,8 +5,10 @@ import { BookAttrs } from './types'
 import format from 'date-fns/format'
 import isFuture from 'date-fns/isFuture'
 import { Contribution } from './contribution'
+import { BaseModel } from '.'
 
-export class Book {
+export class Book extends BaseModel {
+  _type = 'book' as const
   id: string
   title: string
   subtitle?: string
@@ -20,6 +22,7 @@ export class Book {
   submitterId?: string
 
   constructor(attrs: BookAttrs) {
+    super()
     this.id = attrs.id
     this.title = attrs.title
     this.subtitle = attrs.subtitle ?? undefined
@@ -37,9 +40,14 @@ export class Book {
     this.authors = attrs.authors?.map((author) => new Profile(author)) ?? []
   }
 
+  get name() {
+    return this.title
+  }
+
   get ariaLabel() {
-    return `${this.title} by ${this.authorNames} ${this.releaseDate ? `(${this.formattedReleaseDate})` : ''
-      }`
+    return `${this.title} by ${this.authorNames} ${
+      this.releaseDate ? `(${this.formattedReleaseDate})` : ''
+    }`
   }
 
   get href() {

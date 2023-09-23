@@ -5,15 +5,15 @@ import { Profile } from 'src/models/profile'
 export type StepCompletionMeta =
   | undefined
   | {
-    text?: string
-    profiles?: Profile[]
-  }
+      text?: string
+      profiles?: Profile[]
+    }
 
 export class BookEditState {
-  constructor(private book: FullBook) { }
+  constructor(private book: FullBook) {}
 
-  get inReview() {
-    return this.book.status === 'inReview'
+  get complete() {
+    return this.book.status !== 'draft'
   }
 
   link(path: string) {

@@ -1,6 +1,9 @@
 import { notFound } from 'next/navigation'
+import { Edit, Eye } from 'react-feather'
+import { Button } from 'src/components/atoms/button'
 import { AntiContainer, Container } from 'src/components/atoms/container'
 import { PageTitle } from 'src/components/atoms/page-title'
+import { SheetButton } from 'src/components/atoms/sheet/button'
 import { StatusTag } from 'src/components/books/status-tag'
 import { EditNotes } from 'src/components/edit/notes'
 import { Steps } from 'src/components/edit/steps'
@@ -23,9 +26,25 @@ export default async function Page({ params: { slug } }: EditPageProps) {
 
   return (
     <Container belowNav>
-      <PageTitle>
-        {`Editing: ${book.title}`}
-        <StatusTag status={book.status} />
+      <PageTitle className="flex-wrap items-center">
+        <div className="flex gap-8 flex-nowrap items-center">
+          {`Editing: ${book.title}`}
+          <StatusTag status={book.status} />
+        </div>
+        <div className="flex gap-2 items-center">
+          <SheetButton
+            sheet="suggestEdit"
+            props={{ resource: book }}
+            data-superjson
+            variant="secondary"
+          >
+            <Edit strokeWidth={1} />
+            Suggest an Edit
+          </SheetButton>
+          <Button href={book.href}>
+            <Eye strokeWidth={1} /> View Your Cookbook
+          </Button>
+        </div>
       </PageTitle>
       <div className="flex gap-x-32 flex-wrap">
         <AntiContainer

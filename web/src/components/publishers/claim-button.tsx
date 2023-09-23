@@ -17,7 +17,7 @@ export const ClaimPublisherButton: FC<ClaimPublisherButtonProps> = ({
   publisherName
 }) => {
   return (
-    <Sheet.Root action="claim">
+    <Sheet.Root>
       <Sheet.Trigger asChild>
         <Button
           className={cn(

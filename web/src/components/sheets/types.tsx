@@ -2,11 +2,13 @@ import { ComponentProps } from 'react'
 import { ClaimProfileSheet } from './claim-profile'
 import { SignInSheet } from './sign-in'
 import { Body } from '../atoms/sheet'
+import { SuggestEditSheet } from './suggest-edit'
 
 export const SheetMap = {
   loading: () => <Body loading />,
   signIn: SignInSheet,
-  claimProfile: ClaimProfileSheet
+  claimProfile: ClaimProfileSheet,
+  suggestEdit: SuggestEditSheet
 } as const
 
 export type SheetMap = {

@@ -3,17 +3,20 @@ import NewClaim from './templates/new-claim'
 import { ComponentProps } from 'react'
 import VerifyEmail from './templates/verify-email'
 import sendMail from '@sendgrid/mail'
+import SuggestEdit from './templates/suggest-edit'
 
 sendMail.setApiKey(process.env.SMTP_PASS as string)
 
 export enum EmailTemplate {
-  NewClaim = 'new-claim',
-  VerifyEmail = 'verify-email'
+  NewClaim,
+  VerifyEmail,
+  SuggestEdit
 }
 
 const templates = {
   [EmailTemplate.NewClaim]: NewClaim,
-  [EmailTemplate.VerifyEmail]: VerifyEmail
+  [EmailTemplate.VerifyEmail]: VerifyEmail,
+  [EmailTemplate.SuggestEdit]: SuggestEdit
 } as const
 
 export type EmailData = ComponentProps<(typeof templates)[EmailTemplate]>
@@ -26,7 +29,7 @@ function renderTemplate<T extends Template<any>>(
   props: ComponentProps<T>
 ) {
   const { html, errors } = render(<Template {...props} />)
-  if (errors) console.error('Email rendering error', errors)
+  if (errors.length) console.error('Email rendering error', errors)
   return {
     subject:
       Template.subject instanceof Function

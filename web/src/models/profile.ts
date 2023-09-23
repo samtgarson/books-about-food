@@ -4,8 +4,10 @@ import { normalizeLink } from 'src/utils/url-helpers'
 import { Image } from './image'
 import { ProfileAttrs } from './types'
 import { colors } from 'theme'
+import { BaseModel } from '.'
 
-export class Profile {
+export class Profile extends BaseModel {
+  _type = 'profile' as const
   id: string
   name: string
   description?: string
@@ -18,33 +20,25 @@ export class Profile {
   mostRecentlyPublishedOn?: Date
   userId?: string
   hiddenCollaborators: string[]
+  role: 'author' | 'contributor'
 
-  constructor({
-    id,
-    name,
-    slug,
-    website,
-    instagram,
-    jobTitle,
-    location,
-    avatar,
-    description,
-    mostRecentlyPublishedOn,
-    userId,
-    hiddenCollaborators
-  }: ProfileAttrs) {
-    this.id = id
-    this.name = name
-    this.description = description ?? undefined
-    this.slug = slug
-    this.website = normalizeLink(website ?? undefined)
-    this.instagram = instagram ?? undefined
-    this.avatar = avatar ? new Image(avatar, `Avatar for ${name}`) : undefined
-    this.jobTitle = jobTitle ?? undefined
-    this.mostRecentlyPublishedOn = mostRecentlyPublishedOn ?? undefined
-    this.userId = userId ?? undefined
-    this.hiddenCollaborators = hiddenCollaborators
-    this.location = location ?? undefined
+  constructor(attrs: ProfileAttrs) {
+    super()
+    this.id = attrs.id
+    this.name = attrs.name
+    this.description = attrs.description ?? undefined
+    this.slug = attrs.slug
+    this.website = normalizeLink(attrs.website ?? undefined)
+    this.instagram = attrs.instagram ?? undefined
+    this.avatar = attrs.avatar
+      ? new Image(attrs.avatar, `Avatar for ${attrs.name}`)
+      : undefined
+    this.jobTitle = attrs.jobTitle ?? undefined
+    this.mostRecentlyPublishedOn = attrs.mostRecentlyPublishedOn ?? undefined
+    this.userId = attrs.userId ?? undefined
+    this.hiddenCollaborators = attrs.hiddenCollaborators
+    this.location = attrs.location ?? undefined
+    this.role = attrs._count.authoredBooks > 0 ? 'author' : 'contributor'
   }
 
   get initials() {
@@ -58,6 +52,10 @@ export class Profile {
 
   get foregroundColour() {
     return new Color(this.backgroundColour).isDark() ? '#fff' : '#000'
+  }
+
+  get href() {
+    return `/${this.role}s/${this.id}`
   }
 }
 
@@ -77,7 +75,9 @@ export class NullProfile extends Profile {
       location: '',
       createdAt: new Date(),
       updatedAt: new Date(),
-      hiddenCollaborators: []
+      hiddenCollaborators: [],
+      user: null,
+      _count: { authoredBooks: 0 }
     })
   }
 

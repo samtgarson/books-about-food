@@ -37,7 +37,7 @@ export default async ({ params: { slug } }: CookbooksPageProps) => {
       <Container className="pt-6 sm:pt-20" key="header" belowNav>
         <div className="font-style-title flex items-center mb-6 sm:mb-4">
           <h1>{book.title}</h1>
-          <BookOverflow book={book} className="ml-auto" />
+          <BookOverflow book={book} className="ml-auto" data-superjson />
         </div>
         {book.subtitle && <Detail className="md:mb-8">{book.subtitle}</Detail>}
         <AntiContainer className="border-t border-black sm:border-t-0">

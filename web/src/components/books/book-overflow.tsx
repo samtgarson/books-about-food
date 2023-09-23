@@ -1,15 +1,21 @@
+'use client'
+
 import Link from 'next/link'
 import { Edit } from 'react-feather'
 import * as Overflow from 'src/components/atoms/overflow'
 import { FullBook } from 'src/models/full-book'
+import { useSheet } from '../sheets/global-sheet'
 
 export const BookOverflow = ({
   book,
   ...props
 }: { book: FullBook } & Omit<Overflow.RootProps, 'children'>) => {
+  const { openSheet } = useSheet()
   return (
     <Overflow.Root {...props}>
-      <Overflow.Item>
+      <Overflow.Item
+        onClick={() => openSheet('suggestEdit', { resource: book })}
+      >
         <Edit strokeWidth={1} />
         Suggest an edit
       </Overflow.Item>
