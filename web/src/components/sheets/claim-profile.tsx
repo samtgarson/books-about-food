@@ -1,27 +1,30 @@
 'use client'
 import { Claim } from 'database'
 import { FC, useCallback, useState } from 'react'
-import { ArrowRight, Check, Copy, Loader } from 'react-feather'
-import { useFetcher } from 'src/contexts/fetcher'
+import { ArrowRight, Check, Copy } from 'react-feather'
 import { Profile } from 'src/models/profile'
 import { Button } from '../atoms/button'
 import { Body, Content, Header } from '../atoms/sheet'
 import { ProfileItem } from '../profiles/item'
-import { useSheet } from './global-sheet'
 import { ContactLink } from '../atoms/contact-link'
+import { usePromise } from 'src/hooks/use-promise'
+import { create, destroy, fetch } from '../profiles/claim-button/action'
+import { useRouter } from 'next/navigation'
+import { Loader } from '../atoms/loader'
+import { useSheet } from './global-sheet'
 
 export type ClaimProfileSheetProps = {
   profile: Profile
 }
 
 export const ClaimProfileSheet: FC<ClaimProfileSheetProps> = ({ profile }) => {
+  const router = useRouter()
   const { closeSheet } = useSheet()
   const {
-    isLoading,
-    data: claim,
-    mutate,
-    destroy
-  } = useFetcher('claim', { profileId: profile.id }, { authorized: true })
+    loading,
+    value: claim,
+    setValue
+  } = usePromise(() => fetch(profile.id), null, [profile.id])
   const [claiming, setClaiming] = useState(false)
   const [destroying, setDestroying] = useState(false)
   const [copied, setCopied] = useState(false)
@@ -29,11 +32,21 @@ export const ClaimProfileSheet: FC<ClaimProfileSheetProps> = ({ profile }) => {
   const createClaim = useCallback(async () => {
     setClaiming(true)
     try {
-      await mutate({ profileId: profile.id })
+      const newClaim = await create(profile.id)
+      setValue(newClaim)
     } finally {
       setClaiming(false)
+      router.refresh()
     }
-  }, [mutate, profile.id])
+  }, [profile.id, setValue, router])
+
+  const destroyClaim = useCallback(async () => {
+    if (!claim) return
+    setDestroying(true)
+    await destroy(claim.id)
+    router.refresh()
+    closeSheet()
+  }, [claim, closeSheet, router])
 
   const copySecret = useCallback(async (claim: Claim) => {
     await navigator.clipboard.writeText(claim.secret)
@@ -43,7 +56,7 @@ export const ClaimProfileSheet: FC<ClaimProfileSheetProps> = ({ profile }) => {
 
   return (
     <Content authenticated>
-      <Body loading={isLoading}>
+      <Body loading={loading}>
         <Header title="Claim your profile" />
         <div className="flex flex-col gap-6 items-start">
           {!claim ? (
@@ -66,8 +79,8 @@ export const ClaimProfileSheet: FC<ClaimProfileSheetProps> = ({ profile }) => {
               >
                 {claiming ? (
                   <>
-                    Creating Claim...{' '}
-                    <Loader className="animate-spin" strokeWidth={1} />
+                    <Loader />
+                    Creating Claim...
                   </>
                 ) : (
                   <>
@@ -115,18 +128,14 @@ export const ClaimProfileSheet: FC<ClaimProfileSheetProps> = ({ profile }) => {
                 and we&apos;ll sort it out.
               </p>
               <button
-                className="font-medium text-14 bg-transparent disabled:opacity-50"
+                className="font-medium text-14 bg-transparent disabled:opacity-50 flex gap-2"
                 disabled={destroying}
-                onClick={async () => {
-                  setDestroying(true)
-                  await destroy({ claimId: claim.id })
-                  closeSheet()
-                }}
+                onClick={destroyClaim}
               >
                 {destroying ? (
                   <>
-                    Loading...{' '}
-                    <Loader className="animate-spin" strokeWidth={1} />
+                    <Loader />
+                    Loading...
                   </>
                 ) : (
                   <>Cancel claim</>

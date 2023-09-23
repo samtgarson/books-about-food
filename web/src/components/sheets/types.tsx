@@ -1,13 +1,12 @@
 import { ComponentProps } from 'react'
-import { CancelClaimProfileSheet, ClaimProfileSheet } from './claim-profile'
+import { ClaimProfileSheet } from './claim-profile'
 import { SignInSheet } from './sign-in'
 import { Body } from '../atoms/sheet'
 
 export const SheetMap = {
   loading: () => <Body loading />,
   signIn: SignInSheet,
-  claimProfile: ClaimProfileSheet,
-  cancelClaimProfile: CancelClaimProfileSheet
+  claimProfile: ClaimProfileSheet
 } as const
 
 export type SheetMap = {
