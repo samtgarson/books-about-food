@@ -1,5 +1,9 @@
 'use client'
 
+import * as Dialog from '@radix-ui/react-dialog'
+import cn from 'classnames'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 import {
   createContext,
   FC,
@@ -9,18 +13,17 @@ import {
   useMemo,
   useState
 } from 'react'
-import cn from 'classnames'
-import * as Dialog from '@radix-ui/react-dialog'
-import { Loader, X } from 'react-feather'
-import { useRouter } from 'next/navigation'
-import { useSession } from 'next-auth/react'
+import { X } from 'react-feather'
 import { useSheet } from '../sheets/global-sheet'
+import { Loader } from './loader'
 
 type SheetContext = {
   mobileOnly?: boolean
   close: () => void
   open: () => void
   onCancel?: () => void
+  isOpen: boolean
+  action?: string
 }
 const SheetContext = createContext<SheetContext>({} as SheetContext)
 export const useSheetContext = () => useContext(SheetContext)
@@ -45,13 +48,15 @@ export const Trigger: FC<
 export const Content = ({
   children,
   authenticated,
-  size = 'md'
+  size = 'md',
+  loading
 }: {
   children: ReactNode | (({ close }: { close: () => void }) => ReactNode)
   authenticated?: boolean
   size?: 'md' | 'lg'
+  loading?: boolean
 }) => {
-  const { onCancel, close } = useSheetContext()
+  const { onCancel, close, isOpen, action } = useSheetContext()
   const { openSheet } = useSheet()
   const { status } = useSession()
 
@@ -61,16 +66,24 @@ export const Content = ({
   )
 
   const content = useMemo(() => {
-    if (!authenticated || status === 'authenticated') return nodes
-    if (status === 'loading')
+    if ((!loading && !authenticated) || status === 'authenticated') return nodes
+    if (status === 'loading' || loading)
       return (
         <Body>
           <Loader />
         </Body>
       )
-    openSheet('signIn')
     return null
-  }, [authenticated, nodes, openSheet, status])
+  }, [authenticated, nodes, status, loading])
+
+  useEffect(() => {
+    if (!isOpen || !authenticated || status !== 'unauthenticated') return
+    let redirect = location.pathname
+    if (action) redirect += `?action=${action}`
+
+    openSheet('signIn', { redirect })
+    close()
+  }, [authenticated, openSheet, status, isOpen, close, action])
 
   return (
     <Dialog.Portal>
@@ -103,12 +116,12 @@ export const Body = ({
   className,
   loading,
   grey,
-  children
+  children = null
 }: {
   className?: string
   loading?: boolean
   grey?: boolean
-  children: ReactNode
+  children?: ReactNode
 }) => (
   <div
     className={cn(
@@ -117,11 +130,7 @@ export const Body = ({
       className
     )}
   >
-    {loading ? (
-      <Loader strokeWidth={1} className="animate-spin text-32 mx-auto my-8" />
-    ) : (
-      children
-    )}
+    {loading ? <Loader /> : children}
   </div>
 )
 
@@ -156,16 +165,17 @@ export const Root: FC<SheetProps> = ({
   onCancel,
   action
 }) => {
-  const [open, setOpen] = useState(false)
+  const search = new URLSearchParams(global.location?.search)
   const router = useRouter()
+  const [open, setOpen] = useState(
+    action && search?.get('action') === action ? true : false
+  )
 
   useEffect(() => {
-    const search = new URLSearchParams(location.search)
-    if (action && search.get('action') === action) {
-      if (!open) setOpen(true)
+    if (action && search?.get('action') === action)
       router.replace(location.pathname)
-    }
-  }, [action, open, router])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [action, router])
 
   return (
     <SheetContext.Provider
@@ -173,7 +183,9 @@ export const Root: FC<SheetProps> = ({
         mobileOnly,
         close: () => setOpen(false),
         open: () => setOpen(true),
-        onCancel
+        onCancel,
+        isOpen: open,
+        action
       }}
     >
       <Dialog.Root open={open} onOpenChange={setOpen}>

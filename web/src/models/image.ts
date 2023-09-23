@@ -30,21 +30,27 @@ export class Image {
   }
 
   imageAttrs(height?: number): ImageProps {
-    const attrs = {
+    const attrs: Omit<ImageProps, 'width' | 'height'> & {
+      width?: number
+      height?: number
+    } = {
       src: this.src,
-      alt: this.caption,
-      placeholder: this.placeholderUrl ? 'blur' : undefined,
-      blurDataURL: this.placeholderUrl
-    } satisfies ImageProps
-
-    if (height) {
-      return {
-        width: this.widthFor(height),
-        height,
-        ...attrs
-      }
+      alt: this.caption
     }
 
-    return { ...attrs, fill: true }
+    if (height) {
+      attrs.width = this.widthFor(height)
+      attrs.height = height
+    }
+
+    if (
+      (!attrs.width || attrs.width > 40) &&
+      (!attrs.height || attrs.height > 40)
+    ) {
+      attrs.placeholder = this.placeholderUrl ? 'blur' : undefined
+      attrs.blurDataURL = this.placeholderUrl
+    }
+
+    return { ...attrs, fill: !attrs.width }
   }
 }

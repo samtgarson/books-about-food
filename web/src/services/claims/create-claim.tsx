@@ -21,7 +21,7 @@ export const createClaim = new Service(
       separator: ' '
     })
 
-    const claim = await prisma.claim.create({
+    const { profile, ...claim } = await prisma.claim.create({
       data: {
         profileId,
         userId,
@@ -32,7 +32,7 @@ export const createClaim = new Service(
       }
     })
 
-    const resourceName = claim.profile.name
+    const resourceName = profile.name
 
     await sendEmail(EmailTemplate.NewClaim, 'aboutcookbooks@gmail.com', {
       claimId: claim.id,

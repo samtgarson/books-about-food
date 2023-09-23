@@ -44,7 +44,12 @@ function FilterSelectContent<Value extends string | number = string>({
   search,
   param
 }: FilterSelectProps<Value>) {
-  const { loading, value: options } = usePromise(optionsProvider, [])
+  const { loading, value: options } = usePromise(
+    optionsProvider instanceof Function
+      ? optionsProvider
+      : async () => optionsProvider,
+    []
+  )
   const [value, setValue] = useState(initialValue)
   const [searchValue, setSearchValue] = useState('')
   const { close } = Sheet.useSheetContext()
