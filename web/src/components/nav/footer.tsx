@@ -34,11 +34,11 @@ const FooterItemExternal: FC<{
 )
 
 export const Footer = () => (
-  <footer className="bg-white mt-20 pt-12 md:pt-20 pb-6 md:pb-10">
+  <footer className="mt-20 bg-white pb-6 pt-12 md:pb-10 md:pt-20">
     <Container>
-      <div className="flex justify-between md:items-center flex-wrap gap-8">
+      <div className="flex flex-wrap justify-between gap-8 md:items-center">
         <Logo />
-        <div className="md:order-first flex gap-4 md:gap-8 flex-wrap md:flex-shrink-0">
+        <div className="flex flex-wrap gap-4 md:order-first md:flex-shrink-0 md:gap-8">
           <FooterItem path="/">Home</FooterItem>
           <FooterItem path="/cookbooks">Cookbooks</FooterItem>
           <FooterItem path="/authors">Authors</FooterItem>
@@ -49,7 +49,7 @@ export const Footer = () => (
           </FooterItemExternal>
         </div>
       </div>
-      <div className="flex lg:justify-end mt-16 md:mt-20 gap-4">
+      <div className="mt-16 flex gap-4 md:mt-20 lg:justify-end">
         <Button as="a" href="/" variant="outline">
           Submit
         </Button>
@@ -57,8 +57,8 @@ export const Footer = () => (
           Create Account
         </Button>
       </div>
-      <div className="flex flex-wrap gap-6 justify-between items-center mt-6 md:mt-10">
-        <div className="flex gap-4 md:gap-8 flex-wrap">
+      <div className="mt-6 flex flex-wrap items-center justify-between gap-6 md:mt-10">
+        <div className="flex flex-wrap gap-4 md:gap-8">
           <Link href="#" className="text-12 opacity-50">
             About
           </Link>

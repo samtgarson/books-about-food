@@ -21,13 +21,13 @@ export const Faces: FC<FacesProps> = ({ features }) => {
   if (!display) return null
   return (
     <motion.div
-      className="flex right-8 -left-1/4 sm:right-[15vw] sm:left-[42vw] absolute inset-y-0 justify-center items-center z-30"
+      className="absolute inset-y-0 -left-1/4 right-8 z-30 flex items-center justify-center sm:left-[42vw] sm:right-[15vw]"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, transition: { delay: 0.3 } }}
       exit={{ opacity: 0, transition: { duration: 0.2 } }}
       transition={{ ease: 'easeIn' }}
     >
-      <CircleLogo className={cn('hidden lg:block animate-slow-spin')} />
+      <CircleLogo className={cn('animate-slow-spin hidden lg:block')} />
       {faces.map((face, i) => (
         <FloatingFace face={face} i={i} key={face.profile.id} />
       ))}
@@ -41,7 +41,7 @@ const FloatingFace: FC<{ face: Face; i: number }> = ({
 }) => (
   <motion.div
     key={profile.id}
-    className="absolute pointer-events-none"
+    className="pointer-events-none absolute"
     style={{ left: `${point.x + 10}%`, top: `${point.y + 10}%` }}
     initial={{ y: 0 }}
     animate={{ y: -10 }}
@@ -56,11 +56,11 @@ const FloatingFace: FC<{ face: Face; i: number }> = ({
     <Avatar
       profile={profile}
       size={face.avatarSize}
-      className="scale-50 sm:scale-100 origin-left"
+      className="origin-left scale-50 sm:scale-100"
     />
     <motion.p
       style={face.nameStyle}
-      className="hidden sm:inline-block absolute text-32 px-4 py-2"
+      className="text-32 absolute hidden px-4 py-2 sm:inline-block"
       initial={{ y: 0 }}
       animate={{ y: 5 }}
       transition={{

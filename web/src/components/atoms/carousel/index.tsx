@@ -126,7 +126,7 @@ export const Scroller = ({
       id={id}
       ref={scrollerRef}
       className={cn(
-        'relative flex overflow-y-hidden overflow-x-auto snap-x snap-mandatory whitespace-nowrap items-center scrollbar-hidden justify-start pb-16',
+        'scrollbar-hidden relative flex snap-x snap-mandatory items-center justify-start overflow-x-auto overflow-y-hidden whitespace-nowrap pb-16',
         className,
         padded &&
           cn(
@@ -185,7 +185,7 @@ export const Buttons: FC = () => {
     <>
       <button
         className={cn(
-          'w-1/6 inset-y-0 left-0 absolute bg-transparent [@media(any-hover:none)]:hidden',
+          'absolute inset-y-0 left-0 w-1/6 bg-transparent [@media(any-hover:none)]:hidden',
           prevDisabled && 'pointer-events-none'
         )}
         onClick={() => scrollTo(currentIndex - 1)}
@@ -194,7 +194,7 @@ export const Buttons: FC = () => {
       ></button>
       <button
         className={cn(
-          'w-1/6 inset-y-0 right-0 absolute bg-transparent [@media(any-hover:none)]:hidden',
+          'absolute inset-y-0 right-0 w-1/6 bg-transparent [@media(any-hover:none)]:hidden',
           nextDisabled && 'pointer-events-none'
         )}
         onClick={() => scrollTo(currentIndex + 1)}

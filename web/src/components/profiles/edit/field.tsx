@@ -53,7 +53,7 @@ export const Field = ({
   const content = (
     <div className={cn(className, 'flex justify-start', editMode && 'mr-10')}>
       <div
-        className={cn('flex gap-4 items-center', editMode && 'bg-white -mr-10')}
+        className={cn('flex items-center gap-4', editMode && '-mr-10 bg-white')}
         onClick={onFocus}
       >
         {!!render && !editMode && render(`${originalValue}`)}
@@ -82,7 +82,7 @@ export const Field = ({
           />
         )}
         {showPlaceholder && (
-          <p className="-ml-4 text-black/60 pointer-events-none">
+          <p className="pointer-events-none -ml-4 text-black/60">
             {placeholder}
           </p>
         )}

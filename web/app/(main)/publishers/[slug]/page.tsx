@@ -43,11 +43,11 @@ export default async ({
   return (
     <Container belowNav>
       <div className="py-8 md:py-20">
-        <div className="font-style-title flex justify-between items-center mb-6 sm:mb-4">
+        <div className="font-style-title mb-6 flex items-center justify-between sm:mb-4">
           {publisher.logo ? (
             <Image
               {...publisher.logo.imageAttrs(80)}
-              className="mix-blend-darken w-[150px] h-[80px] object-contain object-left"
+              className="h-[80px] w-[150px] object-contain object-left mix-blend-darken"
             />
           ) : (
             <h1>{publisher.name}</h1>

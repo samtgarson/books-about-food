@@ -22,8 +22,8 @@ export function TextArea({ label, name, ...props }: InputProps) {
           name={name}
           {...props}
           className={cn(
-            'bg-white transition-colors bg-opacity-60 focus:bg-opacity-100 focus:outline-none p-4 placeholder:text-black/20',
-            variant === 'bordered' && 'border border-neutral-grey'
+            'bg-white bg-opacity-60 p-4 transition-colors placeholder:text-black/20 focus:bg-opacity-100 focus:outline-none',
+            variant === 'bordered' && 'border-neutral-grey border'
           )}
         />
       </Form.Control>

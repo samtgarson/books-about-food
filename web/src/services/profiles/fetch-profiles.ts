@@ -50,11 +50,11 @@ export const fetchProfiles = new Service(
         baseWhere,
         hasSearch
           ? {
-            OR: [
-              { name: { contains, mode: 'insensitive' } },
-              { jobTitle: { contains, mode: 'insensitive' } }
-            ]
-          }
+              OR: [
+                { name: { contains, mode: 'insensitive' } },
+                { jobTitle: { contains, mode: 'insensitive' } }
+              ]
+            }
           : {},
         {
           OR: hasJob && [
@@ -63,11 +63,11 @@ export const fetchProfiles = new Service(
         },
         onlyPublished
           ? {
-            OR: [
-              { authoredBooks: { some: { status: 'published' } } },
-              { contributions: { some: { book: { status: 'published' } } } }
-            ]
-          }
+              OR: [
+                { authoredBooks: { some: { status: 'published' } } },
+                { contributions: { some: { book: { status: 'published' } } } }
+              ]
+            }
           : {}
       ]
     }

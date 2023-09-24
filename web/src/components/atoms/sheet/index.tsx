@@ -85,14 +85,14 @@ export const Content = ({
 
   return (
     <Dialog.Portal>
-      <Dialog.Overlay className="fixed z-50 inset-0 bg-black bg-opacity-80 animate-fade-in" />
-      <div className="fixed inset-0 flex items-end sm:items-center justify-center z-50 pointer-events-none">
+      <Dialog.Overlay className="animate-fade-in fixed inset-0 z-50 bg-black bg-opacity-80" />
+      <div className="pointer-events-none fixed inset-0 z-50 flex items-end justify-center sm:items-center">
         <Dialog.Content
           onEscapeKeyDown={() => onCancel?.()}
           onPointerDownOutside={() => onCancel?.()}
           onInteractOutside={() => onCancel?.()}
           className={cn(
-            'animate-fade-in flex-shrink-0 flex flex-col w-full pointer-events-none',
+            'animate-fade-in pointer-events-none flex w-full flex-shrink-0 flex-col',
             {
               'sm:max-w-lg': size === 'md',
               'sm:max-w-xl': size === 'lg'
@@ -100,7 +100,7 @@ export const Content = ({
           )}
           aria-describedby={undefined}
         >
-          <Dialog.Close className="p-4 self-end pointer-events-auto">
+          <Dialog.Close className="pointer-events-auto self-end p-4">
             <X strokeWidth={1} size={24} className="stroke-white" />
           </Dialog.Close>
           {content}
@@ -123,7 +123,7 @@ export const Body = ({
 }) => (
   <div
     className={cn(
-      'book-shadow p-5 sm:p-8 max-h-[80vh] overflow-auto pointer-events-auto',
+      'book-shadow pointer-events-auto max-h-[80vh] overflow-auto p-5 sm:p-8',
       grey ? 'bg-grey' : 'bg-white',
       className
     )}
@@ -140,7 +140,7 @@ export const Header = ({
   children?: ReactNode
   title: string
 }) => (
-  <div className="flex justify-between mb-4 sm:mb-6">
+  <div className="mb-4 flex justify-between sm:mb-6">
     <Dialog.Title>{title}</Dialog.Title>
     {children}
   </div>

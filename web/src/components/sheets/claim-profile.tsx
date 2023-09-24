@@ -58,7 +58,7 @@ export const ClaimProfileSheet: FC<ClaimProfileSheetProps> = ({ profile }) => {
     <Content authenticated={{ action: 'claimProfile' }}>
       <Body loading={loading}>
         <Header title="Claim your profile" />
-        <div className="flex flex-col gap-6 items-start">
+        <div className="flex flex-col items-start gap-6">
           {!claim ? (
             <>
               <ProfileItem profile={profile} display="list" className="mb-6" />
@@ -105,7 +105,7 @@ export const ClaimProfileSheet: FC<ClaimProfileSheetProps> = ({ profile }) => {
                 with this secret passphrase:
               </p>
               <button
-                className="text-20 font-bold py-1.5 px-2.5 bg-grey flex gap-3 items-center"
+                className="text-20 bg-grey flex items-center gap-3 px-2.5 py-1.5 font-bold"
                 title="Copy the passphrase to your clipboard"
                 onClick={() => copySecret(claim)}
               >
@@ -128,7 +128,7 @@ export const ClaimProfileSheet: FC<ClaimProfileSheetProps> = ({ profile }) => {
                 and we&apos;ll sort it out.
               </p>
               <button
-                className="font-medium text-14 bg-transparent disabled:opacity-50 flex gap-2"
+                className="text-14 flex gap-2 bg-transparent font-medium disabled:opacity-50"
                 disabled={destroying}
                 onClick={destroyClaim}
               >

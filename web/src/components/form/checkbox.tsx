@@ -14,19 +14,19 @@ export function Checkbox({ label, name, ...props }: CheckboxProps) {
   return (
     <Form.Field name={name} className="flex flex-col gap-2">
       <Label required={props.required} className="!text-12">
-        <div className="w-6 h-6 p-0.5 border border-gray-300 rounded-sm flex items-center justify-center">
+        <div className="flex h-6 w-6 items-center justify-center rounded-sm border border-gray-300 p-0.5">
           <Form.Control asChild>
             <input
               name={name}
               {...props}
               type="checkbox"
-              className="opacity-0 h-0 w-0 peer"
+              className="peer h-0 w-0 opacity-0"
             />
           </Form.Control>
           <Check
             strokeWidth={1}
             size={24}
-            className="hidden peer-checked:block animate-fade-in"
+            className="animate-fade-in hidden peer-checked:block"
           />
         </div>
         {label}

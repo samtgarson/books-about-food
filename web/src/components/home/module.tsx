@@ -18,11 +18,11 @@ export const HomepageModule: FC<HomepageModuleProps> = ({
 }) => (
   <div
     className={cn(
-      'lg:border-y border-black w-full lg:w-1/2 p-8 lg:p-12 xl:p-16 peer peer-[&]:lg:border-l peer-[&]:border-y',
+      'peer w-full border-black p-8 peer-[&]:border-y lg:w-1/2 lg:border-y lg:p-12 peer-[&]:lg:border-l xl:p-16',
       className
     )}
   >
-    <h2 className="text-24 lg:text-32 xl:text-48 pb-8 sm:pb-0 flex justify-between items-center">
+    <h2 className="text-24 lg:text-32 xl:text-48 flex items-center justify-between pb-8 sm:pb-0">
       <span>{title}</span>
       <Link href={action.href} className="hidden lg:block">
         <Button variant="outline">{action.label}</Button>

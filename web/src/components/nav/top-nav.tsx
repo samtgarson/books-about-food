@@ -72,9 +72,9 @@ const TopNavItemExternal: FC<{
 const NavContent = () => {
   useScrollLock()
   return (
-    <div className="fixed inset-0 bg-white z-40 flex flex-col items-center justify-center gap-4 animate-fade-in pt-20 max-h-screen overflow-auto">
-      <Container className="absolute top-0 inset-x-0 py-5 border-b border-black">
-        <Dialog.Close className="gap-8 flex items-center all-caps">
+    <div className="animate-fade-in fixed inset-0 z-40 flex max-h-screen flex-col items-center justify-center gap-4 overflow-auto bg-white pt-20">
+      <Container className="absolute inset-x-0 top-0 border-b border-black py-5">
+        <Dialog.Close className="all-caps flex items-center gap-8">
           <X strokeWidth={1} />
           Close
         </Dialog.Close>
@@ -107,15 +107,15 @@ export const TopNav: FC = () => {
   const { theme, open, setOpen } = useNav()
 
   return (
-    <nav className="z-30 absolute top-0 inset-x-0">
+    <nav className="absolute inset-x-0 top-0 z-30">
       <Container
         className={cn(
-          'w-screen flex pr-4 items-stretch py-5 border-b border-black',
+          'flex w-screen items-stretch border-b border-black py-5 pr-4',
           theme === 'dark' && 'text-white'
         )}
       >
         <Dialog.Root modal open={open} onOpenChange={setOpen}>
-          <div className="flex gap-8 items-center">
+          <div className="flex items-center gap-8">
             <Dialog.Trigger>
               <Menu
                 strokeWidth={1}

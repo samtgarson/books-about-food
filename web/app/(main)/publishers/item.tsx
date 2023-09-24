@@ -12,18 +12,18 @@ export const PublishersItem = ({
   publisher,
   square = true
 }: PublishersItemProps) => (
-  <li className={cn('sm:-mr-px -mb-px last:mb-0 sm:last:-mb-px')}>
+  <li className={cn('-mb-px last:mb-0 sm:-mr-px sm:last:-mb-px')}>
     <Link
       href={`/publishers/${publisher.slug}`}
       className={cn(
-        'w-full border border-black flex justify-center items-center p-6 text-center text-18 sm:text-24',
+        'text-18 sm:text-24 flex w-full items-center justify-center border border-black p-6 text-center',
         square ? 'h-full sm:aspect-square' : 'h-20'
       )}
     >
       {publisher.logo ? (
         <Image
           {...publisher.logo.imageAttrs(40)}
-          className="mix-blend-darken w-[140px] h-[50px] object-contain object-center"
+          className="h-[50px] w-[140px] object-contain object-center mix-blend-darken"
         />
       ) : (
         <p>{publisher.name}</p>

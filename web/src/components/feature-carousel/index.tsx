@@ -66,7 +66,7 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({ features }) => {
         }
       }}
       className={cn(
-        'transition-colors relative overflow-x-clip',
+        'relative overflow-x-clip transition-colors',
         showingTitle ? 'bg-black' : 'bg-white'
       )}
     >
@@ -75,7 +75,7 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({ features }) => {
       </AnimatePresence>
       <div
         className={cn(
-          'w-full relative',
+          'relative w-full',
           containerClasses(),
           'lg:pl-[15vw] lg:pr-40'
         )}
@@ -111,14 +111,14 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({ features }) => {
           )
         })}
       </div>
-      <ul className="absolute flex sm:hidden bottom-8 left-8 gap-3">
+      <ul className="absolute bottom-8 left-8 flex gap-3 sm:hidden">
         {Array.from({ length: totalSlides }).map((_, index) => {
           const isActive = index === activeIndex
           return (
             <li
               key={index}
               className={cn(
-                'w-2 h-2 rounded-full transition-visible',
+                'transition-visible h-2 w-2 rounded-full',
                 isActive ? 'opacity-100' : 'opacity-40',
                 theme === 'dark' ? 'bg-white' : 'bg-black'
               )}

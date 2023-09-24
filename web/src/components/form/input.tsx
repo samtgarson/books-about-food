@@ -19,7 +19,7 @@ export function Input({ label, name, ...props }: InputProps) {
           name={name}
           {...props}
           className={cn(
-            'bg-white transition-colors bg-opacity-60 focus:bg-opacity-100 focus:outline-none p-4 placeholder:text-black/20',
+            'bg-white bg-opacity-60 p-4 transition-colors placeholder:text-black/20 focus:bg-opacity-100 focus:outline-none',
             props.disabled && 'text-neutral-grey'
           )}
         />

@@ -1,4 +1,4 @@
-import Link, { LinkProps } from 'next/link'
+import Link from 'next/link'
 import { Avatar } from 'src/components/atoms/avatar'
 import { Profile } from 'src/models/profile'
 import cn from 'classnames'
@@ -22,7 +22,7 @@ export const Wrapper = ({
 }) => (
   <li
     className={cn(
-      'relative border border-black sm:-mr-px -mb-px last:mb-0 sm:last:-mb-px list-none',
+      'relative -mb-px list-none border border-black last:mb-0 sm:-mr-px sm:last:-mb-px',
       className,
       !profile && 'border-khaki animate-pulse'
     )}
@@ -45,9 +45,9 @@ export const Content = ({
     href={profile && !disabled ? `/people/${profile.slug}` : '#'}
     className={cn(
       className,
-      'h-full flex p-4 items-center gap-4',
+      'flex h-full items-center gap-4 p-4',
       display === 'grid' &&
-        'sm:items-stretch sm:flex-col sm:aspect-square sm:justify-between sm:p-8',
+        'sm:aspect-square sm:flex-col sm:items-stretch sm:justify-between sm:p-8',
       (!profile || disabled) && 'pointer-events-none'
     )}
     tabIndex={disabled ? -1 : undefined}
@@ -60,13 +60,13 @@ export const Content = ({
     <div className="flex flex-col gap-2">
       {profile ? (
         <>
-          <p className="leading-none font-medium text-16">{profile.name}</p>
-          {meta && <p className="leading-none text-14">{meta}</p>}
+          <p className="text-16 font-medium leading-none">{profile.name}</p>
+          {meta && <p className="text-14 leading-none">{meta}</p>}
         </>
       ) : (
         <>
-          <p className="leading-none h-4 w-40 mb-1 bg-khaki"></p>
-          <p className="leading-none h-3.5 w-30 bg-khaki"></p>
+          <p className="bg-khaki mb-1 h-4 w-40 leading-none"></p>
+          <p className="w-30 bg-khaki h-3.5 leading-none"></p>
         </>
       )}
     </div>

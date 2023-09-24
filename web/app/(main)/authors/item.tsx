@@ -20,7 +20,7 @@ export const AuthorItem = ({
     <Link
       href={profile ? `/authors/${profile?.slug}` : '#'}
       className={cn(
-        'flex flex-col text-center gap-6 h-full',
+        'flex h-full flex-col gap-6 text-center',
         !profile && 'pointer-events-none animate-pulse',
         className
       )}
@@ -34,7 +34,7 @@ export const AuthorItem = ({
         )}
       />
       {profile ? (
-        <p className="font-medium mt-auto">{profile.name}</p>
+        <p className="mt-auto font-medium">{profile.name}</p>
       ) : (
         <p className="bg-khaki w-30 h-4" />
       )}

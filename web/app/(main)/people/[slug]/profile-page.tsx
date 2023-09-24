@@ -30,17 +30,17 @@ export async function ProfilePage({ segment, slug }: ProfilePageProps) {
     <EditProfileProvider profile={profile} segment={segment} data-superjson>
       <Container belowNav id="container">
         <div className="py-8 md:py-20">
-          <div className="flex items-stretch lg:items-start flex-col lg:flex-row relative gap-6">
-            <div className="flex-grow w-full">
+          <div className="relative flex flex-col items-stretch gap-6 lg:flex-row lg:items-start">
+            <div className="w-full flex-grow">
               <Field
                 as="h1"
                 attr="name"
-                className="font-style-title items-center mr-auto"
+                className="font-style-title mr-auto items-center"
               />
               <ClaimProfileButton
                 data-superjson
                 profile={profile}
-                className="sm:hidden mb-10 mt-6 w-full"
+                className="mb-10 mt-6 w-full sm:hidden"
               />
               <Field
                 attr="description"
@@ -53,9 +53,9 @@ export async function ProfilePage({ segment, slug }: ProfilePageProps) {
                 <LinkList />
               </div>
             </div>
-            <div className="order-first lg:order-last flex lg:flex-col flex-shrink-0 items-start lg:items-end gap-5 justify-between">
+            <div className="order-first flex flex-shrink-0 items-start justify-between gap-5 lg:order-last lg:flex-col lg:items-end">
               <EditableAvatar />
-              <div className="flex gap-2 items-center">
+              <div className="flex items-center gap-2">
                 <FavouriteButton profileId={profile.id} />
                 <ClaimProfileButton
                   data-superjson

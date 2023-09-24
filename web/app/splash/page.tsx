@@ -12,12 +12,12 @@ export default async function Splash() {
 
   return (
     <>
-      <Fader className="min-h-screen fixed left-0 top-0 flex flex-col justify-stretch">
-        <Container className="max-w-3xl flex flex-col gap-4 flex-grow py-16">
+      <Fader className="fixed left-0 top-0 flex min-h-screen flex-col justify-stretch">
+        <Container className="flex max-w-3xl flex-grow flex-col gap-4 py-16">
           <h1 className="text-32 lg:text-48">
             The cookbook industry&apos;s new digital home.
           </h1>
-          <p className="text-32 lg:text-48 opacity-25 mb-16 lg:mb-auto">
+          <p className="text-32 lg:text-48 mb-16 opacity-25 lg:mb-auto">
             Coming soon.
           </p>
           {user ? (
@@ -40,20 +40,20 @@ export default async function Splash() {
           )}
         </Container>
       </Fader>
-      <ul className="flex flex-col gap-16 w-96 max-w-[85vw] z-10 ml-auto lg:mr-[5vw] xl:mr-[15vw] pt-[max(85vh,550px)] xl:pt-[15vh] mb-16 pointer-events-none">
+      <ul className="pointer-events-none z-10 mb-16 ml-auto flex w-96 max-w-[85vw] flex-col gap-16 pt-[max(85vh,550px)] lg:mr-[5vw] xl:mr-[15vw] xl:pt-[15vh]">
         {features.map(({ book }) => (
           <BookItem.Container key={book.id} className="bg-grey" mobileGrid>
             <BookItem.Cover book={book} className="!-mb-px" mobileGrid />
-            <div className="-mt-6 sm:mt-0 w-full">
-              <div className="w-full border border-black py-4 px-6 -mb-px">
+            <div className="-mt-6 w-full sm:mt-0">
+              <div className="-mb-px w-full border border-black px-6 py-4">
                 <span className="font-medium">{book.title}</span>
                 <br />
                 {book.authorNames}
               </div>
               {!!book.team.length && (
-                <div className="w-full border border-black py-4 px-6 -mb-px">
+                <div className="-mb-px w-full border border-black px-6 py-4">
                   The Team
-                  <span className="flex flex-wrap gap-2 mt-2">
+                  <span className="mt-2 flex flex-wrap gap-2">
                     {book.team.map((profile) => (
                       <Avatar key={profile.id} profile={profile} size="xs" />
                     ))}
@@ -61,7 +61,7 @@ export default async function Splash() {
                 </div>
               )}
               {!!book.publisher && (
-                <div className="w-full border border-black py-4 px-6">
+                <div className="w-full border border-black px-6 py-4">
                   Publisher
                   <br />
                   <span className="font-medium">{book.publisher.name}</span>

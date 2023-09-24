@@ -43,7 +43,7 @@ export const ItemCarousel: FC<ItemCarouselProps> = ({
     <div className={className}>
       {title && (
         <Container>
-          <h3 className={cn('mb-8 all-caps')}>{title}</h3>
+          <h3 className={cn('all-caps mb-8')}>{title}</h3>
         </Container>
       )}
       <Carousel.Root
@@ -67,7 +67,7 @@ export const ItemCarousel: FC<ItemCarouselProps> = ({
                 mobileGrid
                 book={item}
                 style={{ width }}
-                className={cn('self-start max-w-[90vw]')}
+                className={cn('max-w-[90vw] self-start')}
                 centered={centered}
               />
             </Carousel.Item>
@@ -76,10 +76,10 @@ export const ItemCarousel: FC<ItemCarouselProps> = ({
             <Carousel.Item index={items.length}>
               <li
                 style={{ width: width + 1 }}
-                className="max-w-[90vw] self-start mr-px"
+                className="mr-px max-w-[90vw] self-start"
               >
                 <Link
-                  className="flex flex-col items-center justify-center aspect-square bg-white border border-black text-24"
+                  className="text-24 flex aspect-square flex-col items-center justify-center border border-black bg-white"
                   href={readMoreLink}
                 >
                   View More

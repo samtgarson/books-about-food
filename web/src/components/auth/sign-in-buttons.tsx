@@ -50,7 +50,7 @@ export const SignInButtons: FC<SignInButtonsProps> = ({
       {google && (
         <Button
           onClick={() => signIn('google', { callbackUrl })}
-          className="flex gap-3 items-center relative justify-center"
+          className="relative flex items-center justify-center gap-3"
           type="button"
         >
           <Google className="absolute left-4" size={20} />

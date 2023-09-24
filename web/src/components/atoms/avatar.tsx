@@ -41,7 +41,7 @@ export const BaseAvatar: FC<BaseAvatarProps> = ({
     {...props}
     className={cn(
       className,
-      'rounded-full flex items-center justify-center bg-white bg-opacity-50 aspect-square flex-shrink-0 relative overflow-hidden',
+      'relative flex aspect-square flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-white bg-opacity-50',
       {
         'w-16': mobileSize === 'md' || (!mobileSize && size === 'md'),
         'w-12': mobileSize === 'sm' || (!mobileSize && size === 'sm'),
@@ -49,8 +49,8 @@ export const BaseAvatar: FC<BaseAvatarProps> = ({
         'w-32': mobileSize === 'xl' || (!mobileSize && size === 'xl'),
         'w-48': mobileSize === '2xl' || (!mobileSize && size === '2xl'),
         'w-64': mobileSize === '3xl' || (!mobileSize && size === '3xl'),
-        'w-8 text-12': mobileSize === '2xs' || (!mobileSize && size === '2xs'),
-        'w-6 text-10': mobileSize === '3xs' || (!mobileSize && size === '3xs'),
+        'text-12 w-8': mobileSize === '2xs' || (!mobileSize && size === '2xs'),
+        'text-10 w-6': mobileSize === '3xs' || (!mobileSize && size === '3xs'),
         'w-full': mobileSize === 'fill' || (!mobileSize && size === 'fill'),
         'md:w-48': size === '3xl',
         'md:w-32': size === '2xl',
@@ -66,9 +66,9 @@ export const BaseAvatar: FC<BaseAvatarProps> = ({
       imgProps
         ? undefined
         : {
-          backgroundColor: backgroundColour,
-          color: foregroundColour
-        }
+            backgroundColor: backgroundColour,
+            color: foregroundColour
+          }
     }
   >
     {imgProps ? (

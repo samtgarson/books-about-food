@@ -82,7 +82,7 @@ export function Form<T extends z.ZodTypeAny | undefined = undefined>({
               }
         }
         className={cn(
-          !naked && 'flex flex-col w-full max-w-xl gap-4',
+          !naked && 'flex w-full max-w-xl flex-col gap-4',
           className
         )}
       >

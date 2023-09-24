@@ -33,7 +33,7 @@ export function Title({
       {...attrs}
       className={cn(
         className,
-        '!pointer-events-auto justify-center lg:justify-between min-w-[65vw]',
+        '!pointer-events-auto min-w-[65vw] justify-center lg:justify-between',
         current && 'lg:-ml-[7vw]',
         !current && 'cursor-pointer'
       )}
@@ -45,7 +45,7 @@ export function Title({
     >
       <div
         className={cn(
-          'flex flex-col gap-4 transition pointer-events-none',
+          'pointer-events-none flex flex-col gap-4 transition',
           current ? 'text-white' : 'opacity-10'
         )}
       >

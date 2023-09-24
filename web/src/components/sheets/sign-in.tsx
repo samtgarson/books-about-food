@@ -5,8 +5,8 @@ import { SignInButtons } from '../auth/sign-in-buttons'
 
 export type SignInSheetProps =
   | {
-    redirect?: string | null | false
-  }
+      redirect?: string | null | false
+    }
   | undefined
 
 export const SignInSheet: FC<SignInSheetProps> = ({

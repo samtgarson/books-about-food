@@ -57,7 +57,7 @@ export function Transition() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { delay: 0.1 } }}
-          className="fixed z-50 bg-grey flex flex-col gap-8 justify-center items-center inset-0"
+          className="bg-grey fixed inset-0 z-50 flex flex-col items-center justify-center gap-8"
         >
           <div className="relative">
             <LogoShape
@@ -66,7 +66,7 @@ export function Transition() {
               transition={{ duration: 0.4, ease: 'easeOut' }}
             />
             <LogoText
-              className="absolute mx-auto text-white inset-x-0 top-1/2"
+              className="absolute inset-x-0 top-1/2 mx-auto text-white"
               initial={{ y: '-40%' }}
               animate={{ y: '-50%' }}
               transition={{ duration: 0.4, ease: 'easeOut' }}

@@ -14,7 +14,7 @@ const Layout = async ({ children }: { children: ReactNode }) => {
           <AccountNavItem label="Submitted Cookooks" href="books" />
           <SignOutButton />
         </div>
-        <div className="flex-grow min-w-[350px]">{children}</div>
+        <div className="min-w-[350px] flex-grow">{children}</div>
       </div>
     </Container>
   )

@@ -22,7 +22,7 @@ export const PeopleGrid: FC<PeopleListProps> = ({
     {viewMoreLink && (
       <li>
         <Link
-          className="border border-black sm:aspect-square flex justify-center items-center bg-white text-16 sm:text-24 p-4 border-b text-center -mr-px sm:-mb-px"
+          className="text-16 sm:text-24 -mr-px flex items-center justify-center border border-b border-black bg-white p-4 text-center sm:-mb-px sm:aspect-square"
           href={viewMoreLink.path}
         >
           {viewMoreLink.label}

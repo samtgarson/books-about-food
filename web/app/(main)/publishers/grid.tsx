@@ -22,7 +22,7 @@ export const PublisherGrid: FC<PublisherListProps> = ({
     className={cn(
       'transition-opacity',
       className,
-      !square && 'sm:!flex sm:flex-row flex-wrap'
+      !square && 'flex-wrap sm:!flex sm:flex-row'
     )}
   >
     {publishers.map((publisher) => (
@@ -36,7 +36,7 @@ export const PublisherGrid: FC<PublisherListProps> = ({
       <li>
         <Link
           className={cn(
-            'border border-black flex justify-center items-center bg-white text-16 sm:text-24 p-6 border-b text-center -mr-px sm:-mb-px',
+            'text-16 sm:text-24 -mr-px flex items-center justify-center border border-b border-black bg-white p-6 text-center sm:-mb-px',
             square && 'sm:aspect-square'
           )}
           href={viewMoreLink.path}

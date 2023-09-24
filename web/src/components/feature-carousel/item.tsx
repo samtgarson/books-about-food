@@ -57,7 +57,7 @@ export function FeatureCarouselItem({
       {feature.book.cover && (
         <Image
           {...feature.book.cover?.imageAttrs(360)}
-          className="book-shadow max-w-none h-[250px] sm:h-[360px] w-auto pointer-events-none"
+          className="book-shadow pointer-events-none h-[250px] w-auto max-w-none sm:h-[360px]"
         />
       )}
       <div
@@ -67,11 +67,11 @@ export function FeatureCarouselItem({
         })}
       >
         {feature.tagLine && (
-          <p className="bg-black text-white all-caps-sm px-2.5 py-1.5 w-max mb-4">
+          <p className="all-caps-sm mb-4 w-max bg-black px-2.5 py-1.5 text-white">
             {feature.tagLine}
           </p>
         )}
-        <p className="text-14 lg:text-18 mb-4 lg:mb-8 max-w-xl">
+        <p className="text-14 lg:text-18 mb-4 max-w-xl lg:mb-8">
           {feature.description}
         </p>
         <div className="flex items-center gap-2">

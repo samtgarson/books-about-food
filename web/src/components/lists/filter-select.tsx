@@ -100,7 +100,7 @@ function FilterSelectContent<Value extends string | number = string>({
     <>
       {placeholder}{' '}
       {initialValue && initialValue.length > 0 && (
-        <span className="all-caps font-bold text-white bg-black rounded-full px-1.5 py-1 -my-1 leading-0">
+        <span className="all-caps leading-0 -my-1 rounded-full bg-black px-1.5 py-1 font-bold text-white">
           {initialValue.length}
         </span>
       )}
@@ -117,12 +117,12 @@ function FilterSelectContent<Value extends string | number = string>({
             {label}
           </span>
           {loading ? (
-            <Loader className="-my-2 ml-0.5 -mr-1" />
+            <Loader className="-my-2 -mr-1 ml-0.5" />
           ) : (
             <ChevronDown
               size={24}
               strokeWidth={1}
-              className="-my-2 ml-0.5 -mr-1"
+              className="-my-2 -mr-1 ml-0.5"
             />
           )}
         </Pill>
@@ -134,7 +134,7 @@ function FilterSelectContent<Value extends string | number = string>({
               <Link
                 scroll={false}
                 href=""
-                className="bg-transparent opacity-50 text-14"
+                className="text-14 bg-transparent opacity-50"
                 onClick={close}
               >
                 Reset
@@ -154,7 +154,7 @@ function FilterSelectContent<Value extends string | number = string>({
                 <motion.li
                   key={option.value}
                   className={cn(
-                    'flex justify-between items-center sm:text-18 overflow-hidden',
+                    'sm:text-18 flex items-center justify-between overflow-hidden',
                     matches[option.value] || 'pointer-events-none'
                   )}
                   animate={{ opacity: matches[option.value] ? 1 : 0.1 }}
@@ -178,7 +178,7 @@ function FilterSelectContent<Value extends string | number = string>({
                     }
                     id={`filter-${option.value}`}
                     name={`${option.value}`}
-                    className="w-6 h-6 border border-black rounded-sm data-[state=checked]:bg-black text-white flex items-center justify-center transition-all ease-out"
+                    className="flex h-6 w-6 items-center justify-center rounded-sm border border-black text-white transition-all ease-out data-[state=checked]:bg-black"
                   >
                     <Checkbox.Indicator asChild>
                       <Check size={16} strokeWidth={1.5} />
@@ -194,7 +194,7 @@ function FilterSelectContent<Value extends string | number = string>({
             <Button
               onClick={close}
               as="a"
-              className="w-full border-t border-black pt-4 pb-6 sm:pt-6"
+              className="w-full border-t border-black pb-6 pt-4 sm:pt-6"
               scroll={false}
             >
               Save

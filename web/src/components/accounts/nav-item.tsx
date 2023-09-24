@@ -20,7 +20,7 @@ export const AccountNavItem: FC<AccountNavItemProps> = ({ label, href }) => {
       scroll={false}
       href={`/account/${href}`}
       className={cn(
-        'flex justify-between items-center p-3 transition-colors',
+        'flex items-center justify-between p-3 transition-colors',
         active ? 'bg-white' : 'hover:bg-sand'
       )}
     >
@@ -33,7 +33,7 @@ export const AccountNavItem: FC<AccountNavItemProps> = ({ label, href }) => {
 export const SignOutButton: FC = () => {
   return (
     <button
-      className="p-3 text-left hover:bg-sand transition-colors w-full"
+      className="hover:bg-sand w-full p-3 text-left transition-colors"
       onClick={() => signOut({ callbackUrl: '/' })}
     >
       Sign Out

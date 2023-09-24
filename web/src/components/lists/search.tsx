@@ -35,7 +35,7 @@ export const Search: FC<SearchProps> = ({
   }, 500)
 
   return (
-    <div className={cn('relative group flex items-center', className)}>
+    <div className={cn('group relative flex items-center', className)}>
       <input
         autoFocus={autoFocus || internalValue.length > 0}
         type="text"
@@ -50,11 +50,11 @@ export const Search: FC<SearchProps> = ({
         }}
         placeholder={placeholder}
         className={cn(
-          'text-24 sm:text-32 flex-grow flex-shrink-0 bg-transparent placeholder-black placeholder-opacity-40 focus:outline-0 p-2 -mx-2 transition-colors focus-visible:bg-black focus-visible:bg-opacity-5 w-full'
+          'text-24 sm:text-32 -mx-2 w-full flex-shrink-0 flex-grow bg-transparent p-2 placeholder-black placeholder-opacity-40 transition-colors focus:outline-0 focus-visible:bg-black focus-visible:bg-opacity-5'
         )}
       />
       {debouncedOnChange.isPending() || loading ? (
-        <div className="absolute right-0 inset-y-0 flex items-center">
+        <div className="absolute inset-y-0 right-0 flex items-center">
           <Loader />
         </div>
       ) : (
@@ -65,7 +65,7 @@ export const Search: FC<SearchProps> = ({
             onReset?.()
           }}
           className={cn(
-            'absolute right-0 inset-y-0 flex items-center bg-transparent group-focus-within:opacity-100 opacity-0 transition-opacity',
+            'absolute inset-y-0 right-0 flex items-center bg-transparent opacity-0 transition-opacity group-focus-within:opacity-100',
             value?.length && 'opacity-100'
           )}
           aria-label="Reset"

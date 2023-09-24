@@ -64,7 +64,7 @@ export const FrequentCollaborators: FC<FrequentCollaboratorsProps> = ({
               />
               {editMode && (
                 <button
-                  className="absolute inset-0 px-4 top-0 bottom-0 flex items-center justify-end sm:justify-center z-20"
+                  className="absolute inset-0 bottom-0 top-0 z-20 flex items-center justify-end px-4 sm:justify-center"
                   title={
                     hidden
                       ? `Show ${profile.name} on your public profile`
@@ -72,7 +72,7 @@ export const FrequentCollaborators: FC<FrequentCollaboratorsProps> = ({
                   }
                   onClick={() => toggle(profile.id, !hidden)}
                 >
-                  <div className="w-10 h-10 bg-white flex items-center justify-center">
+                  <div className="flex h-10 w-10 items-center justify-center bg-white">
                     {profileLoading ? (
                       <Loader />
                     ) : hidden ? (

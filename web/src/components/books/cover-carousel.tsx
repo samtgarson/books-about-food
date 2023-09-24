@@ -20,14 +20,14 @@ export const CoverCarousel: FC<CoverCarouselProps> = ({ book, className }) => {
   return (
     <>
       <Carousel.Root totalItems={images.length} className={className}>
-        <Carousel.Scroller className="gap-24 w-full py-16 lg:py-4">
+        <Carousel.Scroller className="w-full gap-24 py-16 lg:py-4">
           {images.map((image, i) => (
             <Carousel.Item key={image.id} index={i}>
               <li>
                 <Image
                   {...image.imageAttrs(440)}
                   loading="eager"
-                  className="max-w-none h-[210px] md:h-[310px] xl:h-[440px] w-auto book-shadow"
+                  className="book-shadow h-[210px] w-auto max-w-none md:h-[310px] xl:h-[440px]"
                 />
               </li>
             </Carousel.Item>

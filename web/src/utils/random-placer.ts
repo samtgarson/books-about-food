@@ -1,11 +1,17 @@
 // https://jsfiddle.net/pendensproditor/2XyV5
 
 export class Dot {
-  constructor(public x: number, public y: number) { }
+  constructor(
+    public x: number,
+    public y: number
+  ) {}
 }
 
 export class RandomPlacer {
-  constructor(private width: number, private height: number) { }
+  constructor(
+    private width: number,
+    private height: number
+  ) {}
 
   private samples = 50 // candidate dots attempted, higher is better
   private placedDots: Dot[] = [] // a dot is represented as [x, y]

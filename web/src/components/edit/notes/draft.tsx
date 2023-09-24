@@ -2,7 +2,7 @@ export function DraftNotes({ className }: { className?: string }) {
   return (
     <div className={className}>
       <h3 className="font-medium">Notes on submitting</h3>
-      <ol className="list-outside pl-5 list-decimal">
+      <ol className="list-outside list-decimal pl-5">
         <li>
           Fill as much of the information as you can. We hope the wider
           community would then help complete the submission.

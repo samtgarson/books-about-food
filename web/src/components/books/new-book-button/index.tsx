@@ -50,7 +50,7 @@ export const NewBookButton = () => {
             />
           </Sheet.Body>
           <Sheet.Footer>
-            <Submit className="w-full pt-4 pb-6 sm:pt-6 -mt-4">Create</Submit>
+            <Submit className="-mt-4 w-full pb-6 pt-4 sm:pt-6">Create</Submit>
           </Sheet.Footer>
         </Form>
       </Sheet.Content>
@@ -64,17 +64,17 @@ const BookResult = (result: BookLibrarySearchResult & SelectValue<'title'>) => {
 
   return (
     <div className="flex items-center gap-3">
-      <div className="w-14 flex justify-center flex-grow-0 flex-shrink-0">
+      <div className="flex w-14 flex-shrink-0 flex-grow-0 justify-center">
         {result.image ? (
           <img src={result.image} alt={result.title} className="h-12" />
         ) : (
-          <div className="h-12 w-10 bg-sand" />
+          <div className="bg-sand h-12 w-10" />
         )}
       </div>
-      <div className="flex flex-col min-w-0 flex-1">
+      <div className="flex min-w-0 flex-1 flex-col">
         <p className="font-bold">{title}</p>
         {authors.length > 0 && (
-          <p className="opacity-50 whitespace-nowrap overflow-hidden overflow-ellipsis max-w-full">
+          <p className="max-w-full overflow-hidden overflow-ellipsis whitespace-nowrap opacity-50">
             {authors.join(', ')}
           </p>
         )}

@@ -47,7 +47,7 @@ export const Button = forwardRef(
       <Component
         ref={ref}
         className={cn(
-          'px-4 py-2.5 text-16 whitespace-nowrap flex-shrink-0 relative block',
+          'text-16 relative block flex-shrink-0 whitespace-nowrap px-4 py-2.5',
           variants[variant],
           className,
           loading && 'pointer-events-none'
@@ -56,13 +56,13 @@ export const Button = forwardRef(
       >
         <span
           className={cn(
-            'flex gap-2 items-center justify-center',
+            'flex items-center justify-center gap-2',
             loading && 'opacity-0'
           )}
         >
           {children}
         </span>
-        {loading && <Loader className="absolute m-auto inset-0" />}
+        {loading && <Loader className="absolute inset-0 m-auto" />}
       </Component>
     )
   }

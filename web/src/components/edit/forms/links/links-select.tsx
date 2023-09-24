@@ -96,5 +96,5 @@ const linkLogo = (site: string) =>
       className="rounded-full"
     />
   ) : (
-    <div className="w-10 h-10 rounded-full bg-white/50" />
+    <div className="h-10 w-10 rounded-full bg-white/50" />
   )

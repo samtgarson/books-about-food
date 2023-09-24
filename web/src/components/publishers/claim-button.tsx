@@ -21,7 +21,7 @@ export const ClaimPublisherButton: FC<ClaimPublisherButtonProps> = ({
       <Sheet.Trigger asChild>
         <Button
           className={cn(
-            'flex gap-2 items-center transition-opacity',
+            'flex items-center gap-2 transition-opacity',
             className
           )}
           title="Claim this profile"
@@ -39,11 +39,11 @@ export const ClaimPublisherButton: FC<ClaimPublisherButtonProps> = ({
             help you get set up.
           </p>
           <div>
-            <h3 className="text-center p-3 bg-secondary-blue font-medium">
+            <h3 className="bg-secondary-blue p-3 text-center font-medium">
               Benefits for Publishers
             </h3>
             <p className="bg-tertiary-blue px-4 py-6">
-              <ul className="list-disc pl-4 flex flex-col gap-2">
+              <ul className="flex list-disc flex-col gap-2 pl-4">
                 <li>
                   Forget the PDFs, announce seasonal new releases in the most
                   modern way currently available online

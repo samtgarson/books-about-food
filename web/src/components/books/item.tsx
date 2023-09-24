@@ -41,9 +41,9 @@ export const Container = forwardRef<
       <WrapperEl
         href={book?.href || '#'}
         className={cn(
-          '-mb-px group-last:mb-0 sm:mb-0 sm:-mr-px sm:w-auto h-full flex sm:flex-col sm:items-start sm:gap-0 sm:p-0 border relative items-center gap-6 border-black sm:border-none',
+          'relative -mb-px flex h-full items-center gap-6 border border-black group-last:mb-0 sm:-mr-px sm:mb-0 sm:w-auto sm:flex-col sm:items-start sm:gap-0 sm:border-none sm:p-0',
           mobileGrid
-            ? 'mb-0 -mr-px w-auto flex-col items-start gap-0 p-0 border-none'
+            ? '-mr-px mb-0 w-auto flex-col items-start gap-0 border-none p-0'
             : 'p-4',
           skeleton && `animate-pulse`
         )}
@@ -53,7 +53,7 @@ export const Container = forwardRef<
       >
         {children}
         {book?.publishedInFuture && !centered && (
-          <span className="absolute right-px top-px bg-white all-caps-sm px-3 py-1.5">
+          <span className="all-caps-sm absolute right-px top-px bg-white px-3 py-1.5">
             {book.shortReleaseDate}
           </span>
         )}
@@ -72,7 +72,7 @@ export const Box = ({
   <div
     className={cn(
       className,
-      'sm:aspect-square border-black sm:mb-6 flex items-center justify-center sm:w-full relative shrink-0',
+      'relative flex shrink-0 items-center justify-center border-black sm:mb-6 sm:aspect-square sm:w-full',
       mobileGrid ? 'aspect-square w-full' : 'w-24',
       skeleton && 'border-khaki',
       bordered && (mobileGrid ? 'border' : 'sm:border')
@@ -98,16 +98,16 @@ export const Cover = ({
       <Image
         {...book.cover.imageAttrs(200)}
         className={cn(
-          'sm:absolute h-24 sm:h-[70%] sm:top-[15%] sm:mx-auto sm:inset-x-0 !w-auto book-shadow',
-          mobileGrid && 'absolute h-[70%] top-[15%] mx-auto inset-x-0'
+          'book-shadow h-24 !w-auto sm:absolute sm:inset-x-0 sm:top-[15%] sm:mx-auto sm:h-[70%]',
+          mobileGrid && 'absolute inset-x-0 top-[15%] mx-auto h-[70%]'
         )}
       />
     ) : (
       <div
         aria-hidden
         className={cn(
-          'sm:absolute h-24 sm:!h-[70%] sm:!top-[15%] sm:mx-auto sm:inset-x-0 w-16 sm:w-[60%] bg-opacity-50 bg-khaki',
-          mobileGrid && 'absolute h-[70%] top-[15%] mx-auto inset-x-0 w-[60%]'
+          'bg-khaki h-24 w-16 bg-opacity-50 sm:absolute sm:inset-x-0 sm:!top-[15%] sm:mx-auto sm:!h-[70%] sm:w-[60%]',
+          mobileGrid && 'absolute inset-x-0 top-[15%] mx-auto h-[70%] w-[60%]'
         )}
       />
     )}
@@ -123,9 +123,9 @@ export const Footer = ({
   <div
     className={cn(
       className,
-      'sm:pr-4 sm:w-full min-w-0',
+      'min-w-0 sm:w-full sm:pr-4',
       mobileGrid && 'pr-4',
-      centered && 'text-center -mt-[50px]'
+      centered && '-mt-[50px] text-center'
     )}
   >
     {children}
@@ -148,10 +148,10 @@ export const Item = forwardRef<
     >
       <Cover book={book} mobileGrid={mobileGrid} centered={centered} />
       <Footer mobileGrid={mobileGrid} centered={centered}>
-        <p className="font-medium text-16 mb-1 whitespace-nowrap overflow-hidden overflow-ellipsis">
+        <p className="text-16 mb-1 overflow-hidden overflow-ellipsis whitespace-nowrap font-medium">
           {book.title}
         </p>
-        <p className="text-14 whitespace-nowrap overflow-hidden overflow-ellipsis">
+        <p className="text-14 overflow-hidden overflow-ellipsis whitespace-nowrap">
           {book.authorNames}
         </p>
       </Footer>
@@ -176,14 +176,14 @@ export const Skeleton = forwardRef<
         <div
           aria-hidden
           className={cn(
-            'sm:absolute h-24 sm:!h-[70%] sm:!top-[15%] sm:mx-auto sm:inset-x-0 w-16 sm:w-[60%] bg-opacity-50 bg-khaki',
-            mobileGrid && 'absolute h-[70%] top-[15%] mx-auto inset-x-0 w-[60%]'
+            'bg-khaki h-24 w-16 bg-opacity-50 sm:absolute sm:inset-x-0 sm:!top-[15%] sm:mx-auto sm:!h-[70%] sm:w-[60%]',
+            mobileGrid && 'absolute inset-x-0 top-[15%] mx-auto h-[70%] w-[60%]'
           )}
         />
       </Box>
-      <div className={cn('sm:pr-4 w-full opacity-50', mobileGrid && 'pr-4')}>
-        <p className="h-4 w-40 mb-1 bg-khaki"></p>
-        <p className="h-3.5 w-30 bg-khaki"></p>
+      <div className={cn('w-full opacity-50 sm:pr-4', mobileGrid && 'pr-4')}>
+        <p className="bg-khaki mb-1 h-4 w-40"></p>
+        <p className="w-30 bg-khaki h-3.5"></p>
       </div>
     </Container>
   )

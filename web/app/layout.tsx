@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={fontClassname}>
-      <body className="min-h-screen flex flex-col relative">
+      <body className="relative flex min-h-screen flex-col">
         <AuthProvider>
           <GlobalSheetProvider>{children}</GlobalSheetProvider>
         </AuthProvider>

@@ -9,7 +9,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <Suspense fallback={null}>
         <TopNav />
       </Suspense>
-      <main className="flex-grow flex flex-col justify-start">{children}</main>
+      <main className="flex flex-grow flex-col justify-start">{children}</main>
       <Footer />
     </NavProvider>
   )

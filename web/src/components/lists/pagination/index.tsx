@@ -32,7 +32,7 @@ export const Pagination: FC<PaginationProps> = ({
     <Wrapper>
       {children}
       {totalPages > 1 && (
-        <ul className="flex gap-2 mt-20 flex-wrap">
+        <ul className="mt-20 flex flex-wrap gap-2">
           {displayPages.map((pageGroup, i) => (
             <Fragment key={`group-${i}`}>
               {pageGroup.map((p) => (
@@ -40,7 +40,7 @@ export const Pagination: FC<PaginationProps> = ({
                   <Pill
                     selected={page === p}
                     disabled={page === p}
-                    className="w-10 h-10 !p-0"
+                    className="h-10 w-10 !p-0"
                     title={`Page ${p + 1}`}
                   >
                     {p + 1}
@@ -49,7 +49,7 @@ export const Pagination: FC<PaginationProps> = ({
               ))}
               {i < displayPages.length - 1 && (
                 <li className="list-none" key={`ellipsis-${i}`}>
-                  <Pill className="w-10 h-10 !p-0" disabled>
+                  <Pill className="h-10 w-10 !p-0" disabled>
                     …
                   </Pill>
                 </li>

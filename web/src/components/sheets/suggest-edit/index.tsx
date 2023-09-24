@@ -56,24 +56,24 @@ function ResourceDisplay({ resource }: SuggestEditSheetProps) {
   switch (resource._type) {
     case 'book':
       return (
-        <div className="bg-grey px-5 py-4 flex items-center gap-6">
+        <div className="bg-grey flex items-center gap-6 px-5 py-4">
           {resource.cover ? (
             <Image {...resource.cover.imageAttrs(72)} />
           ) : (
-            <div className="bg-sand w-14 h-[72px]" />
+            <div className="bg-sand h-[72px] w-14" />
           )}
           <div>
-            <p className="font-medium text-16 mb-1">{resource.title}</p>
+            <p className="text-16 mb-1 font-medium">{resource.title}</p>
             <p className="text-14">{resource.authorNames}</p>
           </div>
         </div>
       )
     case 'profile':
       return (
-        <div className="bg-grey px-5 py-4 flex items-center gap-6">
+        <div className="bg-grey flex items-center gap-6 px-5 py-4">
           <Avatar profile={resource} />
           <div>
-            <p className="font-medium text-16 mb-1">{resource.name}</p>
+            <p className="text-16 mb-1 font-medium">{resource.name}</p>
             <p className="text-14">{resource.jobTitle}</p>
           </div>
         </div>

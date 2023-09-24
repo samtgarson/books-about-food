@@ -41,7 +41,7 @@ const Page = async () => {
               items={home.comingSoon}
               size="xl"
               readMoreLink="/cookbooks"
-              className="lg:py-10 -mx-8 lg:-mx-12 xl:-mx-16"
+              className="-mx-8 lg:-mx-12 lg:py-10 xl:-mx-16"
               centered
               startOn={1}
               data-superjson
@@ -54,7 +54,7 @@ const Page = async () => {
             <ProfileCarousel
               items={home.authors}
               data-superjson
-              className="-mx-8 lg:-mx-12 xl:-mx-16 py-12 lg:pb-20 lg:pt-[93px]"
+              className="-mx-8 py-12 lg:-mx-12 lg:pb-20 lg:pt-[93px] xl:-mx-16"
             />
           </HomepageModule>
         </div>
@@ -67,7 +67,7 @@ const Page = async () => {
           data-superjson
         />
       </Container>
-      <Container className="flex flex-col gap-24 md:gap-40 py-12 md:py-20">
+      <Container className="flex flex-col gap-24 py-12 md:gap-40 md:py-20">
         <div>
           <h3 className="all-caps mb-6 md:mb-8">People Directory</h3>
           <Suspense fallback={null}>

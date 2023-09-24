@@ -12,16 +12,16 @@ export const EditableAvatar = () => {
     <div className="relative pr-5">
       <Avatar profile={profile} size="xl" mobileSize="md" />
       {editMode && (
-        <div className="absolute top-0 right-0 flex gap-1">
+        <div className="absolute right-0 top-0 flex gap-1">
           <ImageUploadButton
             prefix="profile-avatars"
-            className="bg-white w-10 h-10 flex items-center justify-center"
+            className="flex h-10 w-10 items-center justify-center bg-white"
             onSuccess={([{ id }]) => onSave({ avatar: id })}
           >
             <Edit2 strokeWidth={1} size={24} />
           </ImageUploadButton>
           <button
-            className="bg-white w-10 h-10 flex items-center justify-center"
+            className="flex h-10 w-10 items-center justify-center bg-white"
             onClick={() => onSave({ avatar: null })}
           >
             <Trash2 strokeWidth={1} size={24} />

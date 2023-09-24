@@ -27,11 +27,11 @@ export default async function Page({ params: { slug } }: EditPageProps) {
   return (
     <Container belowNav>
       <PageTitle className="flex-wrap items-center">
-        <div className="flex gap-8 flex-nowrap items-center">
+        <div className="flex flex-nowrap items-center gap-8">
           {`Editing: ${book.title}`}
           <StatusTag status={book.status} />
         </div>
-        <div className="flex gap-2 items-center">
+        <div className="flex items-center gap-2">
           <SheetButton
             sheet="suggestEdit"
             props={{ resource: book }}
@@ -46,16 +46,16 @@ export default async function Page({ params: { slug } }: EditPageProps) {
           </Button>
         </div>
       </PageTitle>
-      <div className="flex gap-x-32 flex-wrap">
+      <div className="flex flex-wrap gap-x-32">
         <AntiContainer
           desktop={false}
-          className="flex-grow sm:flex-grow-0 sm:flex-shrink-0 mb-12 sm:max-w-lg sm:w-full"
+          className="mb-12 flex-grow sm:w-full sm:max-w-lg sm:flex-shrink-0 sm:flex-grow-0"
         >
           <Steps book={book} />
         </AntiContainer>
         <EditNotes
           status={book.status}
-          className="flex flex-col gap-4 max-w-sm text-14/6"
+          className="text-14/6 flex max-w-sm flex-col gap-4"
         />
       </div>
     </Container>

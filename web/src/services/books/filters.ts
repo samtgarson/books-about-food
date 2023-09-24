@@ -14,7 +14,7 @@ export const fetchBooksPageFilters = [
 ]
 
 export type FetchBooksPageFilters =
-  typeof fetchBooksPageFilters[number]['value']
+  (typeof fetchBooksPageFilters)[number]['value']
 
 export const fetchBooksPageFilterValues = fetchBooksPageFilters.map(
   (f) => f.value

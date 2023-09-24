@@ -12,7 +12,7 @@ export const Pill = forwardRef<HTMLSpanElement, PillProps>(
       ref={ref}
       {...props}
       className={cn(
-        'px-4 py-3 rounded-full text-14 border border-black flex items-center justify-center leading-none flex-shrink-0',
+        'text-14 flex flex-shrink-0 items-center justify-center rounded-full border border-black px-4 py-3 leading-none',
         selected ? 'bg-black text-white' : 'text-black',
         disabled && 'pointer-events-none',
         className

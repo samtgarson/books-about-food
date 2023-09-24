@@ -7,7 +7,7 @@ export const normalizeLink = (link?: string) => {
 export const mergeParams = (
   newParams: Record<string, unknown>,
   path?: string,
-  params?: URLSearchParams,
+  params?: URLSearchParams
 ) => {
   let definedPath: string
   let definedParams: URLSearchParams

@@ -25,14 +25,14 @@ export const Step: FC<StepProps> = ({
     <Link
       href={href}
       className={cn(
-        'p-5 flex items-center gap-5',
+        'flex items-center gap-5 p-5',
         complete ? 'bg-sand' : 'bg-white',
         disabled && 'pointer-events-none'
       )}
     >
       <p className="mr-auto">{title}</p>
       {complete?.text && (
-        <p className="bg-white px-2 py-1 rounded-full min-w-[1rem] text-center text-12">
+        <p className="text-12 min-w-[1rem] rounded-full bg-white px-2 py-1 text-center">
           {complete.text}
         </p>
       )}

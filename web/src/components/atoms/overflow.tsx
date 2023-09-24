@@ -55,7 +55,7 @@ export const AdminArea: FC<{ children: ReactNode }> = ({ children }) => {
   if (currentUser?.role !== 'admin') return null
   return (
     <DropdownMenu.Sub>
-      <hr className="px-8 -mx-4 border-grey border-2" />
+      <hr className="border-grey -mx-4 border-2 px-8" />
       <DropdownMenu.SubTrigger className={itemClasses('default')}>
         <Lock strokeWidth={1} />
         Admin Tools

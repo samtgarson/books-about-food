@@ -46,12 +46,12 @@ export const ContributionVisibility: FC<ContributionVisibilityProps> = ({
       <Footer
         className={cn('transition', hidden ? 'opacity-30' : 'opacity-80')}
       >
-        <p className="font-medium text-16 mb-1">{book.title}</p>
+        <p className="text-16 mb-1 font-medium">{book.title}</p>
         <p className="text-14">{book.authorNames}</p>
       </Footer>
       {editMode && (
         <button
-          className="absolute inset-x-0 top-0 bottom-0 sm:bottom-auto sm:aspect-square flex items-center justify-center z-20"
+          className="absolute inset-x-0 bottom-0 top-0 z-20 flex items-center justify-center sm:bottom-auto sm:aspect-square"
           title={
             hidden
               ? `Show ${book.title} on your public profile`
@@ -59,7 +59,7 @@ export const ContributionVisibility: FC<ContributionVisibilityProps> = ({
           }
           onClick={() => updateVisibility(!hidden)}
         >
-          <div className="w-10 h-10 bg-white flex items-center justify-center">
+          <div className="flex h-10 w-10 items-center justify-center bg-white">
             {loading ? (
               <Loader />
             ) : hidden ? (

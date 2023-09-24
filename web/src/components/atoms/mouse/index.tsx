@@ -53,21 +53,21 @@ export const Mouse = () => {
   return (
     <div
       className={cn(
-        'fixed -top-2 -left-2 z-50 pointer-events-none will-change-transform',
+        'pointer-events-none fixed -left-2 -top-2 z-50 will-change-transform',
         { 'mix-blend-difference': differenceMode }
       )}
       ref={ref}
     >
       <div
         className={cn(
-          'w-4 h-4 rounded-full border transition duration-500 ease-out items-center justify-center hidden md:flex',
+          'hidden h-4 w-4 items-center justify-center rounded-full border transition duration-500 ease-out md:flex',
           {
-            'opacity-0 scale-x-0 transition-200': mode === 'typeable',
+            'transition-200 scale-x-0 opacity-0': mode === 'typeable',
             'scale-[5]': mode === 'next' || mode === 'prev',
             'scale-150 !bg-transparent !duration-200': mode === 'clickable',
-            'bg-white border-white text-black':
+            'border-white bg-white text-black':
               theme === 'dark' || differenceMode,
-            'bg-black border-black text-white':
+            'border-black bg-black text-white':
               theme === 'light' && !differenceMode
           }
         )}
@@ -77,14 +77,14 @@ export const Mouse = () => {
           {mode === 'prev' && (
             <MotionChevronLeft
               {...fadeProps}
-              className={cn('w-2 h-2')}
+              className={cn('h-2 w-2')}
               strokeWidth={1}
             />
           )}
           {mode === 'next' && (
             <MotionChevronRight
               {...fadeProps}
-              className={cn('w-2 h-2')}
+              className={cn('h-2 w-2')}
               strokeWidth={1}
             />
           )}

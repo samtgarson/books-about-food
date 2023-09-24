@@ -33,19 +33,19 @@ export default async ({ params: { slug } }: CookbooksPageProps) => {
   if (!book) notFound()
 
   return (
-    <div className="lg:pr-[50vw] relative flex-grow">
+    <div className="relative flex-grow lg:pr-[50vw]">
       <Container className="pt-6 sm:pt-20" key="header" belowNav>
-        <div className="font-style-title flex items-center mb-6 sm:mb-4">
+        <div className="font-style-title mb-6 flex items-center sm:mb-4">
           <h1>{book.title}</h1>
           <BookOverflow book={book} className="ml-auto" data-superjson />
         </div>
         {book.subtitle && <Detail className="md:mb-8">{book.subtitle}</Detail>}
         <AntiContainer className="border-t border-black sm:border-t-0">
-          <div className="lg:absolute lg:w-[50vw] lg:top-0 lg:-bottom-20 lg:right-0 flex flex-col">
+          <div className="flex flex-col lg:absolute lg:-bottom-20 lg:right-0 lg:top-0 lg:w-[50vw]">
             <CoverCarousel
               data-superjson
               book={book}
-              className="lg:sticky lg:top-0 lg:-mt-16 lg:pt-16 lg:h-full lg:max-h-screen lg:flex lg:items-stretch"
+              className="lg:sticky lg:top-0 lg:-mt-16 lg:flex lg:h-full lg:max-h-screen lg:items-stretch lg:pt-16"
             />
           </div>
         </AntiContainer>
@@ -53,7 +53,7 @@ export default async ({ params: { slug } }: CookbooksPageProps) => {
           {book.authors.length > 0 && (
             <Container
               desktop={false}
-              className="pt-6 md:pt-0 mb-6 sm:mb-8 border-t border-black sm:border-t-0"
+              className="mb-6 border-t border-black pt-6 sm:mb-8 sm:border-t-0 md:pt-0"
             >
               <ProfileListSection
                 profiles={book.authors}
@@ -64,7 +64,7 @@ export default async ({ params: { slug } }: CookbooksPageProps) => {
           )}
           <Container
             desktop={false}
-            className="pt-6 md:pt-0 mb-6 sm:mb-0 border-t border-black sm:border-t-0"
+            className="mb-6 border-t border-black pt-6 sm:mb-0 sm:border-t-0 md:pt-0"
           >
             {book.team.length > 0 && (
               <TeamList contributions={book.contributions} className="mb-8" />
@@ -73,11 +73,11 @@ export default async ({ params: { slug } }: CookbooksPageProps) => {
           </Container>
           <Container
             desktop={false}
-            className={cn('flex gap-x-4 flex-wrap sm:pt-16')}
+            className={cn('flex flex-wrap gap-x-4 sm:pt-16')}
           >
             <BookLinks
               links={book.links}
-              className="w-full mb-4 order-last sm:order-first pt-4 sm:pt-0 sm:mb-16"
+              className="order-last mb-4 w-full pt-4 sm:order-first sm:mb-16 sm:pt-0"
             />
             {book.publisher && (
               <Detail column>

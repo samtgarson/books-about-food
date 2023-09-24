@@ -19,7 +19,7 @@ export const AuthorGridContainer = ({
 }) => (
   <ul
     className={cn(
-      'grid auto-grid-md gap-x-8 gap-y-16 transition-opacity',
+      'auto-grid-md grid gap-x-8 gap-y-16 transition-opacity',
       className
     )}
   >
@@ -39,7 +39,7 @@ export const AuthorsGrid: FC<AuthorListProps> = ({
     {viewMoreLink && (
       <li>
         <Link
-          className="rounded-full border border-black aspect-square flex justify-center items-center bg-white text-16 sm:text-24 p-4 text-center"
+          className="text-16 sm:text-24 flex aspect-square items-center justify-center rounded-full border border-black bg-white p-4 text-center"
           href={viewMoreLink.path}
         >
           {viewMoreLink.label}

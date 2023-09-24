@@ -30,7 +30,7 @@ const Page = async () => {
         defaultValue={user.email ?? ''}
         disabled
       />
-      <div className="flex gap-4 text-14 items-center">
+      <div className="text-14 flex items-center gap-4">
         <Google size={18} /> Signed in with Google
       </div>
       <Submit variant="dark">Save</Submit>

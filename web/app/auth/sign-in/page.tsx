@@ -15,7 +15,7 @@ export default async function SignInPage({
 
   return (
     <>
-      <Link href="/" className="block mb-20">
+      <Link href="/" className="mb-20 block">
         <Logo />
       </Link>
       <SignInButtons callbackUrl={`${callbackUrl}`} />

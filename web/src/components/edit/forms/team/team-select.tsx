@@ -88,11 +88,11 @@ function TeamForm({
 }) {
   const defaultProfile = value
     ? ({
-      name: value.profileName,
-      foregroundColour: value.fg,
-      backgroundColour: value.bg,
-      avatar: value.avatar
-    } as Profile)
+        name: value.profileName,
+        foregroundColour: value.fg,
+        backgroundColour: value.bg,
+        avatar: value.avatar
+      } as Profile)
     : null
   const defaultJob = value ? ({ name: value?.jobName } as Job) : null
   const [profile, setProfile] = useState<Profile | null>(defaultProfile)

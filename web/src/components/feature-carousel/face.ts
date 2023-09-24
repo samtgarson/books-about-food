@@ -8,7 +8,10 @@ const placer = new RandomPlacer(80, 60)
 const sizes: AvatarSize[] = ['xl', '2xl', '2xl', '2xl', '3xl', '3xl']
 
 export class Face {
-  constructor(public point: Dot, public profile: Profile) { }
+  constructor(
+    public point: Dot,
+    public profile: Profile
+  ) {}
 
   static forFeatures(features: Feature[]) {
     const authors = features.reduce((arr, { book }) => {

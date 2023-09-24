@@ -17,11 +17,11 @@ export function Label({
     typeof children === 'string' ? <span>{children}</span> : children
   return (
     <Form.Label
-      className={cn('flex justify-start items-center gap-2 text-14', className)}
+      className={cn('text-14 flex items-center justify-start gap-2', className)}
     >
       {content}
       {required && (
-        <span className="opacity-50 ml-auto">
+        <span className="ml-auto opacity-50">
           <span className="sr-only"> (</span>
           Required
           <span className="sr-only">)</span>

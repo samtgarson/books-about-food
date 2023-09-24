@@ -19,7 +19,7 @@ export const LinkList: FC = () => {
 
   if (!editMode && !profile.website && !profile.instagram) return null
   return (
-    <Detail className="flex gap-2 items-center flex-wrap" maxWidth>
+    <Detail className="flex flex-wrap items-center gap-2" maxWidth>
       <Field
         attr="website"
         render={(value) => (

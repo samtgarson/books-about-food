@@ -38,7 +38,7 @@ export const ClaimProfileButton: FC<ClaimProfileButtonProps> = ({
   return (
     <Button
       className={cn(
-        'flex gap-2 items-center transition-opacity',
+        'flex items-center gap-2 transition-opacity',
         className,
         loading && 'text-opacity-50'
       )}

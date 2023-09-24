@@ -10,7 +10,7 @@ export type BookLinksProps = {
 }
 
 const DefaultLogo = () => (
-  <span className="bg-white w-10 h-10 flex items-center justify-center">
+  <span className="flex h-10 w-10 items-center justify-center bg-white">
     <ArrowUpRight strokeWidth={1} size={27} />
   </span>
 )
@@ -41,13 +41,13 @@ export const BookLinks: FC<BookLinksProps> = ({ links, className }) =>
         {links.map((link) => (
           <li
             key={link.id}
-            className="min-w-[250px] basis-[calc(50%-8px)] flex-grow"
+            className="min-w-[250px] flex-grow basis-[calc(50%-8px)]"
           >
             <a
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex gap-4 items-center"
+              className="flex items-center gap-4"
             >
               {linkLogos[link.site] ? (
                 <Image
