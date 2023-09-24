@@ -21,7 +21,7 @@ export const Faces: FC<FacesProps> = ({ features }) => {
   if (!display) return null
   return (
     <motion.div
-      className="hidden lg:flex right-[15vw] left-[42vw] border-red absolute inset-y-0 justify-center items-center z-30"
+      className="flex right-8 -left-1/4 sm:right-[15vw] sm:left-[42vw] absolute inset-y-0 justify-center items-center z-30"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, transition: { delay: 0.3 } }}
       exit={{ opacity: 0, transition: { duration: 0.2 } }}
@@ -53,10 +53,14 @@ const FloatingFace: FC<{ face: Face; i: number }> = ({
       delay: i * 0.4
     }}
   >
-    <Avatar profile={profile} size={face.avatarSize} />
+    <Avatar
+      profile={profile}
+      size={face.avatarSize}
+      className="scale-50 sm:scale-100 origin-left"
+    />
     <motion.p
       style={face.nameStyle}
-      className="inline-block absolute text-32 px-4 py-2"
+      className="hidden sm:inline-block absolute text-32 px-4 py-2"
       initial={{ y: 0 }}
       animate={{ y: 5 }}
       transition={{

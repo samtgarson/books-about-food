@@ -34,7 +34,8 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({ features }) => {
     () => currentIndex % totalSlides === 0,
     [currentIndex, totalSlides]
   )
-  const { setTheme } = useNav()
+  const { setTheme, theme } = useNav()
+  const activeIndex = currentIndex - (offset + 1) * totalSlides
 
   useEffect(() => {
     setTheme(showingTitle ? 'dark' : 'light')
@@ -47,8 +48,8 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({ features }) => {
       virtualIndex < rangeStart
         ? offset - 1
         : virtualIndex > rangeEnd
-          ? offset + 1
-          : offset
+        ? offset + 1
+        : offset
 
     setState([virtualIndex, newOffset])
   }
@@ -57,6 +58,13 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({ features }) => {
   return (
     <motion.div
       layout
+      onPanEnd={(_, { offset }) => {
+        if (offset.x > 0) {
+          onClick(currentIndex - 1)
+        } else if (offset.x < 0) {
+          onClick(currentIndex + 1)
+        }
+      }}
       className={cn(
         'transition-colors relative overflow-x-clip',
         showingTitle ? 'bg-black' : 'bg-white'
@@ -103,6 +111,21 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({ features }) => {
           )
         })}
       </div>
+      <ul className="absolute flex sm:hidden bottom-8 left-8 gap-3">
+        {Array.from({ length: totalSlides }).map((_, index) => {
+          const isActive = index === activeIndex
+          return (
+            <li
+              key={index}
+              className={cn(
+                'w-2 h-2 rounded-full transition-visible',
+                isActive ? 'opacity-100' : 'opacity-40',
+                theme === 'dark' ? 'bg-white' : 'bg-black'
+              )}
+            />
+          )
+        })}
+      </ul>
     </motion.div>
   )
 }

@@ -28,7 +28,7 @@ export function useFeatureCarouselItem({
   }
 
   const className = cn(
-    'flex items-start lg:items-center justify-center gap-8 lg:gap-20 flex-col lg:flex-row h-[770px] lg:h-[800px] top-0 w-[calc(85vw-10rem)]',
+    'flex items-start lg:items-center justify-center gap-8 lg:gap-20 flex-col lg:flex-row h-screen pt-[35px] sm:pt-0 sm:h-[770px] lg:h-[800px] top-0 w-[calc(100vw-40px)] sm:w-[calc(85vw-10rem)]',
     {
       [`relative flex-grow z-10`]: pos.current,
       'absolute right-full lg:right-auto lg:ml-[7vw] lg:left-[var(--imageWidth)]':
