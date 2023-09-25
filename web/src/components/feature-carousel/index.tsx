@@ -59,6 +59,7 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({ features }) => {
     <motion.div
       layout
       onPanEnd={(_, { offset }) => {
+        if (offset.y > 10) return
         if (offset.x > 0) {
           onClick(currentIndex - 1)
         } else if (offset.x < 0) {
