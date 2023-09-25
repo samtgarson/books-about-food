@@ -1,13 +1,13 @@
 'use client'
 import cn from 'classnames'
+import { motion } from 'framer-motion'
 import Image from 'next/image'
+import Link from 'next/link'
 import { Fragment } from 'react'
 import { Feature } from 'src/services/features/fetch-features'
 import { Avatar } from '../atoms/avatar'
-import { motion } from 'framer-motion'
-import Link from 'next/link'
-import { useFeatureCarouselItem } from './use-feature-carousel-item'
 import { mouseAttrs } from '../atoms/mouse'
+import { useFeatureCarouselItem } from './use-feature-carousel-item'
 
 const MotionLink = motion(Link)
 

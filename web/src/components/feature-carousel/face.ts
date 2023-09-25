@@ -1,8 +1,8 @@
-import { randomBelow, sample } from 'src/utils/array-helpers'
-import { RandomPlacer, Dot } from 'src/utils/random-placer'
-import { AvatarSize } from '../atoms/avatar'
-import { Feature } from 'src/services/features/fetch-features'
 import { Profile } from 'src/models/profile'
+import { Feature } from 'src/services/features/fetch-features'
+import { randomBelow, sample } from 'src/utils/array-helpers'
+import { Dot, RandomPlacer } from 'src/utils/random-placer'
+import { AvatarSize } from '../atoms/avatar'
 
 const placer = new RandomPlacer(80, 60)
 const sizes: AvatarSize[] = ['xl', '2xl', '2xl', '2xl', '3xl', '3xl']

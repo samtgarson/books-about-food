@@ -1,6 +1,6 @@
+import { pluralize } from 'inflection'
 import Link from 'next/link'
 import { fetchFeaturedJobs } from 'src/services/home/fetch-jobs'
-import { pluralize } from 'inflection'
 
 export async function FeaturedJobsList() {
   const jobs = await fetchFeaturedJobs.call()

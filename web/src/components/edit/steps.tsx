@@ -1,8 +1,8 @@
 import { FC } from 'react'
 import { FullBook } from 'src/models/full-book'
+import { BookEditState } from './state'
 import { Step } from './step'
 import { SubmitForReviewButton } from './submit-for-review-button'
-import { BookEditState } from './state'
 
 export const Steps: FC<{ book: FullBook }> = ({ book }) => {
   const state = new BookEditState(book)

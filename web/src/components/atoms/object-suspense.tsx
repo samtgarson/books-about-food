@@ -1,5 +1,5 @@
-import { FC, Suspense, SuspenseProps } from 'react'
 import stringify from 'fast-json-stable-stringify'
+import { FC, Suspense, SuspenseProps } from 'react'
 
 export type ObjectSuspenseProps = {
   obj: unknown

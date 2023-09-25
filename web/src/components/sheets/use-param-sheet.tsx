@@ -1,8 +1,8 @@
 'use client'
+import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useSheet } from './global-sheet'
 import { SheetMap } from './types'
-import { useRouter } from 'next/navigation'
 
 export function useParamSheet<K extends keyof SheetMap, P extends SheetMap[K]>(
   key: K,

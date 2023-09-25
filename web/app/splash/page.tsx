@@ -1,10 +1,10 @@
-import { Container } from 'src/components/atoms/container'
-import { fetchFeatures } from 'src/services/features/fetch-features'
-import * as BookItem from 'src/components/books/item'
 import { Avatar } from 'src/components/atoms/avatar'
-import { Fader } from './fader'
+import { Container } from 'src/components/atoms/container'
 import { SignInButtons } from 'src/components/auth/sign-in-buttons'
+import * as BookItem from 'src/components/books/item'
 import { getUser } from 'src/services/auth/get-user'
+import { fetchFeatures } from 'src/services/features/fetch-features'
+import { Fader } from './fader'
 
 export default async function Splash() {
   const features = await fetchFeatures.call()

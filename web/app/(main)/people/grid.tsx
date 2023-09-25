@@ -1,8 +1,8 @@
-import { Profile } from 'src/models/profile'
-import { FC } from 'react'
 import Link from 'next/link'
+import { FC } from 'react'
 import { GridContainer } from 'src/components/lists/grid-container'
 import { ProfileItem } from 'src/components/profiles/item'
+import { Profile } from 'src/models/profile'
 
 export type PeopleListProps = {
   profiles: Profile[]

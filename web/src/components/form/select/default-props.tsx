@@ -1,9 +1,9 @@
-import { components } from 'react-select'
 import cn from 'classnames'
-import { ChevronDown, X } from 'react-feather'
-import { Loader } from 'src/components/atoms/loader'
-import { AsyncCreatableProps } from 'react-select/async-creatable'
 import { MouseEvent } from 'react'
+import { ChevronDown, X } from 'react-feather'
+import { components } from 'react-select'
+import { AsyncCreatableProps } from 'react-select/async-creatable'
+import { Loader } from 'src/components/atoms/loader'
 
 const pillClasses =
   'text-14 rounded-full px-4 py-2 flex items-center gap-2 leading-none'

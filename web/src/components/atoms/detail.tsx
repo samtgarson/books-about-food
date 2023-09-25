@@ -1,5 +1,5 @@
-import { ComponentProps, FC } from 'react'
 import cn from 'classnames'
+import { ComponentProps, FC } from 'react'
 
 export type DetailProps = ComponentProps<'div'> & {
   maxWidth?: boolean

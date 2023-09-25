@@ -1,9 +1,9 @@
 import prisma from 'database'
+import { EmailTemplate } from 'email'
+import { sendEmail } from 'src/pages/api/email'
+import { generate } from 'src/utils/passphrase'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
-import { EmailTemplate } from 'email'
-import { generate } from 'src/utils/passphrase'
-import { sendEmail } from 'src/pages/api/email'
 
 export const createClaim = new Service(
   z.object({

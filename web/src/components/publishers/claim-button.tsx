@@ -3,8 +3,8 @@
 import cn from 'classnames'
 import { FC } from 'react'
 import { Loader } from 'react-feather'
-import { Button } from '../atoms/button'
 import * as Sheet from 'src/components/atoms/sheet'
+import { Button } from '../atoms/button'
 import { contactProps } from '../atoms/contact-link'
 
 export type ClaimPublisherButtonProps = {

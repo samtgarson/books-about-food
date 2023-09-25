@@ -14,8 +14,8 @@ import {
 } from 'react'
 import { X } from 'react-feather'
 import { useSheet } from '../../sheets/global-sheet'
-import { Loader } from '../loader'
 import { SheetMap } from '../../sheets/types'
+import { Loader } from '../loader'
 
 type SheetContext = {
   mobileOnly?: boolean

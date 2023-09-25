@@ -1,8 +1,8 @@
+import cn from 'classnames'
 import Link from 'next/link'
+import { ReactNode } from 'react'
 import { Avatar } from 'src/components/atoms/avatar'
 import { Profile } from 'src/models/profile'
-import cn from 'classnames'
-import { ReactNode } from 'react'
 
 export type ProfileItemProps = {
   profile?: Profile

@@ -1,12 +1,12 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { FC, ReactNode, useRef, useState } from 'react'
 import { Search as SearchIcon } from 'react-feather'
+import { mergeParams } from 'src/utils/url-helpers'
 import { AntiContainer, Container } from '../atoms/container'
 import { PageTitle } from '../atoms/page-title'
 import { Search, SearchProps } from './search'
-import { useRouter } from 'next/navigation'
-import { mergeParams } from 'src/utils/url-helpers'
 
 export type FilterBarProps = {
   children?: ReactNode

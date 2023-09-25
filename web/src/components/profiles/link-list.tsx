@@ -1,9 +1,9 @@
 'use client'
 
 import { FC } from 'react'
+import { Detail } from '../atoms/detail'
 import { useEditProfile } from '../profiles/edit/context'
 import { Field } from '../profiles/edit/field'
-import { Detail } from '../atoms/detail'
 
 export type Link = { name: string; url: string }
 

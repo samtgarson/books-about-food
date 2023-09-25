@@ -1,12 +1,12 @@
 'use client'
 
+import cn from 'classnames'
 import {
   motion,
   useMotionTemplate,
   useScroll,
   useTransform
 } from 'framer-motion'
-import cn from 'classnames'
 
 export const Fader = ({
   children,

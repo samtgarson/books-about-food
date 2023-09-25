@@ -1,7 +1,9 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
 import cn from 'classnames'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import { ChevronLeft, ChevronRight } from 'react-feather'
 import {
   MouseMode,
   MouseState,
@@ -9,8 +11,6 @@ import {
   fadeProps,
   getMode
 } from './utils'
-import { ChevronLeft, ChevronRight } from 'react-feather'
-import { AnimatePresence, motion } from 'framer-motion'
 
 export type { MouseMode }
 

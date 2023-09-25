@@ -3,13 +3,13 @@
 import cn from 'classnames'
 import { FC, useMemo } from 'react'
 import { Loader } from 'react-feather'
+import { useCurrentUser } from 'src/hooks/use-current-user'
+import { usePromise } from 'src/hooks/use-promise'
 import { Profile } from 'src/models/profile'
 import { Button } from '../../atoms/button'
 import { useSheet } from '../../sheets/global-sheet'
-import { EditProfileButton } from '../edit/edit-profile-button'
-import { useCurrentUser } from 'src/hooks/use-current-user'
 import { useParamSheet } from '../../sheets/use-param-sheet'
-import { usePromise } from 'src/hooks/use-promise'
+import { EditProfileButton } from '../edit/edit-profile-button'
 import { fetch } from './action'
 
 export type ClaimProfileButtonProps = {

@@ -8,7 +8,7 @@ import {
   useContext,
   useState
 } from 'react'
-import { GlobalSheetContext, SheetState, SheetMap } from './types'
+import { GlobalSheetContext, SheetMap, SheetState } from './types'
 
 const globalSheetContext = createContext<GlobalSheetContext>(
   {} as GlobalSheetContext

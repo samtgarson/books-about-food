@@ -1,4 +1,5 @@
 import prisma from 'database'
+import { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
@@ -9,7 +10,6 @@ import { BookList } from 'src/components/books/list'
 import { ClaimPublisherButton } from 'src/components/publishers/claim-button'
 import { PageProps } from 'src/components/types'
 import { Publisher } from 'src/models/publisher'
-import { Metadata } from 'next'
 
 type PublisherPageProps = PageProps<{ slug: string }>
 

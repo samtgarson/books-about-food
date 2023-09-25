@@ -1,9 +1,9 @@
+import { Metadata } from 'next'
 import { createIndexPage } from 'src/components/pages/index-page'
 import { fetchProfiles } from 'src/services/profiles/fetch-profiles'
-import { AuthorsList } from './list'
 import { AuthorFilters } from './filters'
 import { SkeletonAuthorsGrid } from './grid'
-import { Metadata } from 'next'
+import { AuthorsList } from './list'
 
 export const metadata: Metadata = {
   title: 'Authors'

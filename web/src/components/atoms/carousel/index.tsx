@@ -11,11 +11,11 @@ import {
   useRef,
   useState
 } from 'react'
+import { useDebouncedCallback } from 'use-debounce'
 import { containerClasses, ContainerProps } from '../container'
+import { mouseAttrs } from '../mouse'
 import { CarouselContext } from './context'
 import { canScroll, CarouselAlginment, getCurrentIndex } from './utils'
-import { mouseAttrs } from '../mouse'
-import { useDebouncedCallback } from 'use-debounce'
 
 export type CarouselRootProps = {
   children: ReactNode

@@ -4,14 +4,14 @@ import * as Form from '@radix-ui/react-form'
 import { useState } from 'react'
 import { Plus } from 'react-feather'
 import * as Sheet from 'src/components/atoms/sheet'
+import { Serializable } from 'src/utils/types'
+import { stringify } from 'superjson'
 import { Label } from '../label'
 import { Messages } from '../messages'
 import { createCollectionInputContext } from './context'
+import { CollectionInputItem } from './item'
 import { SheetContent } from './sheet-content'
 import { CollectionInputProps } from './types'
-import { CollectionInputItem } from './item'
-import { stringify } from 'superjson'
-import { Serializable } from 'src/utils/types'
 
 export function CollectionInput<
   Value extends { id: string },

@@ -1,7 +1,7 @@
+import cn from 'classnames'
 import Link from 'next/link'
 import { FC } from 'react'
 import { Plus } from 'react-feather'
-import cn from 'classnames'
 import { Book } from 'src/models/book'
 
 export type CorrectionButtonProps = {

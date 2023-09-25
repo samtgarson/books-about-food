@@ -1,12 +1,12 @@
 'use client'
 
-import { FC } from 'react'
-import { Book } from 'src/models/book'
-import * as Carousel from 'src/components/atoms/carousel'
-import { Item as BookItem } from './item'
-import { Container } from '../atoms/container'
-import Link from 'next/link'
 import cn from 'classnames'
+import Link from 'next/link'
+import { FC } from 'react'
+import * as Carousel from 'src/components/atoms/carousel'
+import { Book } from 'src/models/book'
+import { Container } from '../atoms/container'
+import { Item as BookItem } from './item'
 
 export type ItemCarouselProps = {
   items: Book[]

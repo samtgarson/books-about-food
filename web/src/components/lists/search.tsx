@@ -1,9 +1,9 @@
 'use client'
 
-import { useDebouncedCallback } from 'use-debounce'
 import cn from 'classnames'
 import { FC, startTransition, useState } from 'react'
 import { X } from 'react-feather'
+import { useDebouncedCallback } from 'use-debounce'
 import { Loader } from '../atoms/loader'
 
 export type SearchProps = {

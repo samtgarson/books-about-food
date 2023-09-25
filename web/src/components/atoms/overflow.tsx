@@ -1,9 +1,9 @@
 'use client'
 
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
+import cn from 'classnames'
 import { FC, ReactNode } from 'react'
 import { ChevronRight, Lock, MoreHorizontal } from 'react-feather'
-import cn from 'classnames'
 import { useCurrentUser } from 'src/hooks/use-current-user'
 
 export type RootProps = {

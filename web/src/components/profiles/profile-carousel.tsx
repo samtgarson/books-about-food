@@ -1,10 +1,10 @@
 'use client'
 
+import { AuthorItem } from 'app/(main)/authors/item'
+import cn from 'classnames'
 import { FC } from 'react'
 import * as Carousel from 'src/components/atoms/carousel'
 import { Profile } from 'src/models/profile'
-import { AuthorItem } from 'app/(main)/authors/item'
-import cn from 'classnames'
 
 export type ProfileCarouselProps = {
   items: Profile[]

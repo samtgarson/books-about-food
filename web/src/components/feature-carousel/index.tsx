@@ -1,14 +1,14 @@
 'use client'
 
+import cn from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FC, useEffect, useMemo, useState } from 'react'
 import { Feature } from 'src/services/features/fetch-features'
 import { containerClasses } from '../atoms/container'
+import { useNav } from '../nav/context'
+import { Faces } from './faces'
 import { FeatureCarouselItem } from './item'
 import { Title } from './title'
-import cn from 'classnames'
-import { Faces } from './faces'
-import { useNav } from '../nav/context'
 
 export type FeatureCarouselProps = {
   features: Feature[]

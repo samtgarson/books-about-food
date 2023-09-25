@@ -1,5 +1,6 @@
 'use client'
 
+import * as Form from '@radix-ui/react-form'
 import {
   ReactNode,
   useCallback,
@@ -8,12 +9,11 @@ import {
   useRef,
   useState
 } from 'react'
-import ReactSelect, { AsyncCreatableProps } from 'react-select/async-creatable'
 import { MultiValue, OnChangeValue } from 'react-select'
-import * as Form from '@radix-ui/react-form'
+import ReactSelect, { AsyncCreatableProps } from 'react-select/async-creatable'
+import { Stringified, parse } from 'src/utils/superjson'
 import { Label } from '../label'
 import { Messages } from '../messages'
-import { Stringified, parse } from 'src/utils/superjson'
 import { SelectValue, selectProps } from './default-props'
 
 export type { SelectValue }

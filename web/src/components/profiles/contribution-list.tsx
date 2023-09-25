@@ -1,9 +1,9 @@
-import { fetchBooks } from 'src/services/books/fetch-books'
-import { GridContainer } from 'src/components/lists/grid-container'
-import { ContributionVisibility } from './edit/contribution-visibility'
-import { Profile } from 'src/models/profile'
-import { AntiContainer, Container } from '../atoms/container'
 import cn from 'classnames'
+import { GridContainer } from 'src/components/lists/grid-container'
+import { Profile } from 'src/models/profile'
+import { fetchBooks } from 'src/services/books/fetch-books'
+import { AntiContainer, Container } from '../atoms/container'
+import { ContributionVisibility } from './edit/contribution-visibility'
 
 export type ContributionListProps = {
   profile: Profile

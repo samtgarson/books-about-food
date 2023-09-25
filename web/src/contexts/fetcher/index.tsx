@@ -1,21 +1,21 @@
 'use client'
 
-import {
-  FunctionArgs,
-  FetchKey,
-  FunctionReturn,
-  MutateKey,
-  FetchMap,
-  MutateMap,
-  DestroyMap,
-  DestroyKey
-} from 'src/services/map'
-import useSWR, { SWRConfiguration } from 'swr'
-import 'src/utils/superjson'
 import { signOut } from 'next-auth/react'
 import { useCurrentUser } from 'src/hooks/use-current-user'
-import { requester } from './requester'
+import {
+  DestroyKey,
+  DestroyMap,
+  FetchKey,
+  FetchMap,
+  FunctionArgs,
+  FunctionReturn,
+  MutateKey,
+  MutateMap
+} from 'src/services/map'
+import 'src/utils/superjson'
+import useSWR, { SWRConfiguration } from 'swr'
 import { RequestException } from './exceptions'
+import { requester } from './requester'
 
 export { prefetch } from './prefetch'
 

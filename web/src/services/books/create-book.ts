@@ -1,10 +1,10 @@
 import prisma from 'database'
+import { contentType } from 'mime-types'
 import { slugify } from 'shared/utils/slugify'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
-import { fetchLibraryBook } from './library/fetch-library-book'
-import { contentType } from 'mime-types'
 import { createImages } from '../images/create-images'
+import { fetchLibraryBook } from './library/fetch-library-book'
 
 export type CreateBookInput = z.infer<typeof createBook.input>
 

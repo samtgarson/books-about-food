@@ -1,8 +1,8 @@
+import { Metadata } from 'next'
+import { BookFilters } from 'src/components/books/filters'
 import { BookList, SkeletonBookList } from 'src/components/books/list'
 import { createIndexPage } from 'src/components/pages/index-page'
 import { fetchBooks } from 'src/services/books/fetch-books'
-import { BookFilters } from 'src/components/books/filters'
-import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Cookbooks'

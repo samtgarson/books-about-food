@@ -1,5 +1,5 @@
-import google from 'src/assets/auth-logos/google.svg'
 import Image from 'next/image'
+import google from 'src/assets/auth-logos/google.svg'
 
 export type LogoProps = { size?: number; className?: string }
 

@@ -1,9 +1,9 @@
 import prisma from 'database'
 import { slugify } from 'shared/utils/slugify'
+import { Profile } from 'src/models/profile'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
 import { profileIncludes } from '../utils'
-import { Profile } from 'src/models/profile'
 import { array } from '../utils/inputs'
 
 export type UpdateProfileInput = z.infer<typeof updateProfile.input>

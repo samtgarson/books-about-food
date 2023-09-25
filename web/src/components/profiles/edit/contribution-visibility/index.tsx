@@ -3,11 +3,11 @@
 import cn from 'classnames'
 import { FC, useCallback, useMemo, useState } from 'react'
 import { Eye, EyeOff } from 'react-feather'
+import { Loader } from 'src/components/atoms/loader'
 import { Container, Cover, Footer } from 'src/components/books/item'
 import { Book } from 'src/models/book'
 import { useEditProfile } from '../context'
 import { action } from './action'
-import { Loader } from 'src/components/atoms/loader'
 
 type ContributionVisibilityProps = {
   book: Book

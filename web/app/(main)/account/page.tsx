@@ -1,3 +1,4 @@
+import { Metadata } from 'next'
 import { ContactLink } from 'src/components/atoms/contact-link'
 import { Google } from 'src/components/auth/logos'
 import { Form, FormAction } from 'src/components/form'
@@ -5,7 +6,6 @@ import { Input } from 'src/components/form/input'
 import { Submit } from 'src/components/form/submit'
 import { getUser } from 'src/services/auth/get-user'
 import { updateUser } from 'src/services/users/update-user'
-import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Account'

@@ -1,8 +1,8 @@
 'use client'
 
+import { Check, Edit2 } from 'react-feather'
 import { Button } from 'src/components/atoms/button'
 import { useEditProfile } from './context'
-import { Check, Edit2 } from 'react-feather'
 
 export function EditProfileButton({ className }: { className?: string }) {
   const { editMode, setEditMode } = useEditProfile()

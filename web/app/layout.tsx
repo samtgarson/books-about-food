@@ -1,11 +1,11 @@
+import { Metadata } from 'next'
 import { ReactNode } from 'react'
+import { Mouse } from 'src/components/atoms/mouse'
 import { AuthProvider } from 'src/components/auth/auth-provider'
-import 'src/utils/superjson'
+import { GlobalSheetProvider } from 'src/components/sheets/global-sheet'
 import { fontClassname } from 'src/style/font'
 import 'src/style/globals.css' // eslint-disable-line import/extensions
-import { GlobalSheetProvider } from 'src/components/sheets/global-sheet'
-import { Mouse } from 'src/components/atoms/mouse'
-import { Metadata } from 'next'
+import 'src/utils/superjson'
 
 export const metadata: Metadata = {
   viewport: {

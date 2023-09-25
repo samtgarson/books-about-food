@@ -1,7 +1,7 @@
 import prisma from 'database'
+import { FullBook } from 'src/models/full-book'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
-import { FullBook } from 'src/models/full-book'
 import { fullBookIncludes } from '../utils/includes'
 
 export type Feature = Awaited<

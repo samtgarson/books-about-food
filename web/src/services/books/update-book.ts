@@ -1,11 +1,11 @@
 import prisma from 'database'
+import { slugify } from 'shared/utils/slugify'
+import { Book } from 'src/models/book'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
-import { fetchBook } from './fetch-book'
-import { slugify } from 'shared/utils/slugify'
-import { array } from '../utils/inputs'
 import { bookIncludes } from '../utils'
-import { Book } from 'src/models/book'
+import { array } from '../utils/inputs'
+import { fetchBook } from './fetch-book'
 
 export const updateBook = new Service(
   z.object({

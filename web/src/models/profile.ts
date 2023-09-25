@@ -1,10 +1,10 @@
 import Color from 'color'
 import randomColor from 'randomcolor'
 import { normalizeLink } from 'src/utils/url-helpers'
-import { Image } from './image'
-import { ProfileAttrs } from './types'
 import { colors } from 'theme'
 import { BaseModel } from '.'
+import { Image } from './image'
+import { ProfileAttrs } from './types'
 
 export class Profile extends BaseModel {
   _type = 'profile' as const

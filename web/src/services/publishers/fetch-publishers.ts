@@ -1,8 +1,8 @@
 import prisma, { Prisma, cacheStrategy } from 'database'
+import { Publisher } from 'src/models/publisher'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
 import { paginationInput } from '../utils/inputs'
-import { Publisher } from 'src/models/publisher'
 
 export type FetchPublishersInput = z.infer<(typeof fetchPublishers)['input']>
 export type FetchPublishersOutput = Awaited<

@@ -1,8 +1,8 @@
+import { Metadata } from 'next'
 import Link from 'next/link'
 import { SignInButtons } from 'src/components/auth/sign-in-buttons'
 import { Logo } from 'src/components/nav/logo'
 import { PageProps } from 'src/components/types'
-import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Sign In'

@@ -1,6 +1,6 @@
+import { GoogleBookResult, GoogleBooksGateway } from 'src/gateways/google-books'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
-import { GoogleBookResult, GoogleBooksGateway } from 'src/gateways/google-books'
 
 const client = new GoogleBooksGateway()
 

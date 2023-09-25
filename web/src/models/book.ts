@@ -1,11 +1,11 @@
 import { BookStatus } from 'database'
+import format from 'date-fns/format'
+import isFuture from 'date-fns/isFuture'
+import { BaseModel } from '.'
+import { Contribution } from './contribution'
 import { Image } from './image'
 import { Profile } from './profile'
 import { BookAttrs } from './types'
-import format from 'date-fns/format'
-import isFuture from 'date-fns/isFuture'
-import { Contribution } from './contribution'
-import { BaseModel } from '.'
 
 export class Book extends BaseModel {
   _type = 'book' as const

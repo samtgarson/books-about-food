@@ -1,14 +1,14 @@
 'use client'
 
-import { JSX, useEffect, useMemo, useRef, useState } from 'react'
-import { useEditProfile } from './context'
-import ContentEditable from 'react-contenteditable'
 import cn from 'classnames'
+import { JSX, useEffect, useMemo, useRef, useState } from 'react'
+import ContentEditable from 'react-contenteditable'
 import { Edit2 } from 'react-feather'
-import { KeysMatching } from 'src/utils/types'
+import { Detail } from 'src/components/atoms/detail'
 import { Profile } from 'src/models/profile'
 import { UpdateProfileInput } from 'src/services/profiles/update-profile'
-import { Detail } from 'src/components/atoms/detail'
+import { KeysMatching } from 'src/utils/types'
+import { useEditProfile } from './context'
 
 export type FieldProps = {
   as?: keyof JSX.IntrinsicElements

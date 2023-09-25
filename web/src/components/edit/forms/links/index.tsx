@@ -3,10 +3,10 @@ import { PageBackLink } from 'src/components/atoms/page-back-link'
 import { Form } from 'src/components/form'
 import { Submit } from 'src/components/form/submit'
 import { FullBook } from 'src/models/full-book'
+import { updateLinks } from 'src/services/books/update-links'
 import SuperJSON from 'superjson'
 import { z } from 'zod'
 import { LinksSelect } from './links-select'
-import { updateLinks } from 'src/services/books/update-links'
 
 const schema = z.object({
   links: z

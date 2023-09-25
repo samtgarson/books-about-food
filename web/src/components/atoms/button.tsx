@@ -1,11 +1,11 @@
 import cn from 'classnames'
 import Link from 'next/link'
 import { ElementType, forwardRef } from 'react'
+import { Loader } from './loader'
 import {
   PolymorphicComponentPropWithRef,
   PolymorphicRef
 } from './polymorhphic-types'
-import { Loader } from './loader'
 
 export type ButtonVariant = keyof typeof variants
 export type ButtonProps<C extends ElementType> =

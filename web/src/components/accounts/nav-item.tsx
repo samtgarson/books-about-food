@@ -1,11 +1,11 @@
 'use client'
 
+import cn from 'classnames'
+import { signOut } from 'next-auth/react'
+import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 import { FC } from 'react'
-import cn from 'classnames'
 import { ChevronRight } from 'react-feather'
-import Link from 'next/link'
-import { signOut } from 'next-auth/react'
 
 export type AccountNavItemProps = {
   label: string

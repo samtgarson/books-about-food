@@ -1,8 +1,8 @@
 'use client'
 
 import { useSheet } from 'src/components/sheets/global-sheet'
-import { Button, ButtonProps } from '../button'
 import { SheetMap } from 'src/components/sheets/types'
+import { Button, ButtonProps } from '../button'
 
 export type SheetButtonProps<
   K extends keyof SheetMap,

@@ -10,8 +10,8 @@ import {
 } from 'react'
 import { Profile } from 'src/models/profile'
 import { UpdateProfileInput } from 'src/services/profiles/update-profile'
-import { action } from './action'
 import { parse } from 'src/utils/superjson'
+import { action } from './action'
 
 export type EditProfileContext = {
   profile: Profile

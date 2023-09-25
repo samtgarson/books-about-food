@@ -1,5 +1,5 @@
-import { ComponentProps, forwardRef } from 'react'
 import cn from 'classnames'
+import { ComponentProps, forwardRef } from 'react'
 
 export type PillProps = {
   selected?: boolean

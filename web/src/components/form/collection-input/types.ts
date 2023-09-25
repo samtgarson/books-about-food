@@ -1,4 +1,4 @@
-import { ReactNode, ComponentType } from 'react'
+import { ComponentType, ReactNode } from 'react'
 import { Serializable } from 'src/utils/types'
 
 export type CollectionInputItemProps = {

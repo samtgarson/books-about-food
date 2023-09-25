@@ -1,5 +1,5 @@
-import { Loader as LoaderIcon } from 'react-feather'
 import cn from 'classnames'
+import { Loader as LoaderIcon } from 'react-feather'
 
 export const Loader = ({ className }: { className?: string }) => (
   <LoaderIcon

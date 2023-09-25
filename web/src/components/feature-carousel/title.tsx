@@ -1,8 +1,8 @@
-import { motion } from 'framer-motion'
-import { useFeatureCarouselItem } from './use-feature-carousel-item'
 import cn from 'classnames'
 import format from 'date-fns/format'
+import { motion } from 'framer-motion'
 import { mouseAttrs } from '../atoms/mouse'
+import { useFeatureCarouselItem } from './use-feature-carousel-item'
 
 export function Title({
   index,

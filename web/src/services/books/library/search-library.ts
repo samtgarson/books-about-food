@@ -1,6 +1,6 @@
+import { GoogleBooksGateway } from 'src/gateways/google-books'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
-import { GoogleBooksGateway } from 'src/gateways/google-books'
 
 export type BookLibrarySearchResult = {
   id: string

@@ -1,10 +1,10 @@
 import prisma, { cacheStrategy } from 'database'
 import { Book } from 'src/models/book'
 import { Profile } from 'src/models/profile'
+import { Publisher } from 'src/models/publisher'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
 import { bookIncludes, profileIncludes } from '../utils'
-import { Publisher } from 'src/models/publisher'
 
 export const fetchHome = new Service(z.object({}), async () => {
   const [comingSoon, newlyAdded, authors, publishers] = await Promise.all([

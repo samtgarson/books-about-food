@@ -1,9 +1,9 @@
 import cn from 'classnames'
-import { FC } from 'react'
 import Link from 'next/link'
+import { FC } from 'react'
 import { GridContainer } from 'src/components/lists/grid-container'
-import { PublishersItem } from './item'
 import { Publisher } from 'src/models/publisher'
+import { PublishersItem } from './item'
 
 export type PublisherListProps = {
   publishers: Publisher[]

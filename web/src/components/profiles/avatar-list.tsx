@@ -1,7 +1,7 @@
+import cn from 'classnames'
 import { FC } from 'react'
 import { Profile } from 'src/models/profile'
 import { Avatar, AvatarProps } from '../atoms/avatar'
-import cn from 'classnames'
 
 export const AvatarList: FC<{ profiles: Profile[] } & AvatarProps> = ({
   profiles,

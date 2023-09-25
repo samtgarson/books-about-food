@@ -2,12 +2,12 @@
 
 import { signIn } from 'next-auth/react'
 import { FC } from 'react'
+import z from 'zod'
 import { Button } from '../atoms/button'
-import { Google } from './logos'
+import { Form } from '../form'
 import { Input } from '../form/input'
 import { Submit } from '../form/submit'
-import { Form } from '../form'
-import z from 'zod'
+import { Google } from './logos'
 
 export type SignInButtonsProps = {
   email?: boolean

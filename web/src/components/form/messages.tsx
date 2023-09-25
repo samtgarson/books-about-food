@@ -1,8 +1,8 @@
 'use client'
 
 import * as Form from '@radix-ui/react-form'
-import { ComponentProps, InputHTMLAttributes } from 'react'
 import cn from 'classnames'
+import { ComponentProps, InputHTMLAttributes } from 'react'
 
 export type MessagesProps = {
   label: string

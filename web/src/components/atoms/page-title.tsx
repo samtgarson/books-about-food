@@ -1,5 +1,5 @@
-import { FC, ReactNode } from 'react'
 import cn from 'classnames'
+import { FC, ReactNode } from 'react'
 
 export type PageTitleType = {
   children: ReactNode

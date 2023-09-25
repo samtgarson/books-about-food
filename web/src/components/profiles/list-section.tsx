@@ -1,9 +1,9 @@
+import cn from 'classnames'
 import { FC } from 'react'
 import { Profile } from 'src/models/profile'
+import { ProfileList } from '../atoms/profile-list'
 import { GridContainer } from '../lists/grid-container'
 import { ProfileItem } from './item'
-import cn from 'classnames'
-import { ProfileList } from '../atoms/profile-list'
 
 export type ProfileListSectionProps = {
   profiles: Profile[]

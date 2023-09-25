@@ -1,9 +1,9 @@
 'use client'
 
+import cn from 'classnames'
 import { FC } from 'react'
 import { Heart, Loader } from 'react-feather'
 import { useFetcher } from 'src/contexts/fetcher'
-import cn from 'classnames'
 import { Button } from '../atoms/button'
 import { AuthedButton } from '../auth/authed-button'
 import { useEditProfile } from '../profiles/edit/context'

@@ -1,6 +1,6 @@
-import { FC } from 'react'
 import cn from 'classnames'
 import Link from 'next/link'
+import { FC } from 'react'
 import { ChevronLeft } from 'react-feather'
 
 export type PageBackLinkType = {

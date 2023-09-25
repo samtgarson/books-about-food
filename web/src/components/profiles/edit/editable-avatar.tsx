@@ -1,9 +1,9 @@
 'use client'
 
-import { Avatar } from 'src/components/atoms/avatar'
-import { useEditProfile } from './context'
 import { Edit2, Trash2 } from 'react-feather'
+import { Avatar } from 'src/components/atoms/avatar'
 import { ImageUploadButton } from 'src/components/form/image-upload/upload-button'
+import { useEditProfile } from './context'
 
 export const EditableAvatar = () => {
   const { editMode, profile, onSave } = useEditProfile()

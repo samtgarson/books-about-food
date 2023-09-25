@@ -1,8 +1,8 @@
+import cn from 'classnames'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Book } from 'src/models/book'
-import cn from 'classnames'
 import { CSSProperties, forwardRef } from 'react'
+import { Book } from 'src/models/book'
 
 export interface CookbookItemProps {
   mobileGrid?: boolean

@@ -1,8 +1,8 @@
+import cn from 'classnames'
 import { ReactNode, forwardRef, useTransition } from 'react'
+import { Loader } from 'src/components/atoms/loader'
 import { Image } from 'src/models/image'
 import { action } from './action'
-import { Loader } from 'src/components/atoms/loader'
-import cn from 'classnames'
 
 export type ImageUploadButtonProps = {
   prefix: string

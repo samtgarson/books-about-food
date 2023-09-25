@@ -1,10 +1,10 @@
 'use client'
 import type {
+  DestroyMap,
+  FetchMap,
   FunctionArgs,
   FunctionReturn,
-  FetchMap,
-  MutateMap,
-  DestroyMap
+  MutateMap
 } from 'src/services/map'
 import superjson from 'superjson'
 import { RequestException } from './exceptions'

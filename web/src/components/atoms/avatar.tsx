@@ -1,7 +1,7 @@
-import { ComponentProps, FC } from 'react'
-import { NullProfile, Profile } from 'src/models/profile'
 import cn from 'classnames'
 import Image, { ImageProps } from 'next/image'
+import { ComponentProps, FC } from 'react'
+import { NullProfile, Profile } from 'src/models/profile'
 
 export const avatarSize = [
   '3xs',

@@ -1,7 +1,7 @@
 import { ComponentProps } from 'react'
+import { Body } from '../atoms/sheet'
 import { ClaimProfileSheet } from './claim-profile'
 import { SignInSheet } from './sign-in'
-import { Body } from '../atoms/sheet'
 import { SuggestEditSheet } from './suggest-edit'
 
 export const SheetMap = {

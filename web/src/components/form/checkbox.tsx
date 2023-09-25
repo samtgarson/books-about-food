@@ -1,9 +1,9 @@
 'use client'
 
 import * as Form from '@radix-ui/react-form'
+import { Check } from 'react-feather'
 import { Label } from './label'
 import { Messages } from './messages'
-import { Check } from 'react-feather'
 
 export type CheckboxProps = {
   label: string

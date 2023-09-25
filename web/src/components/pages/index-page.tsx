@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentType, Suspense } from 'react'
 import { Service } from 'src/utils/service'
+import { z } from 'zod'
 import { Container } from '../atoms/container'
 import { PageProps } from '../types'
-import { z } from 'zod'
 
 export type IndexPageProps<Svc extends Service<any, any>> = {
   content: ComponentType<{ filters: z.infer<Svc['input']> }>

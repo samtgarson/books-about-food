@@ -1,7 +1,7 @@
 import { User } from 'database'
+import Link from 'next/link'
 import { fetchFavourites } from 'src/services/favourites/fetch-favourites'
 import { ProfileListSection } from '../profiles/list-section'
-import Link from 'next/link'
 
 export type FavouritesListProps = { user: User }
 

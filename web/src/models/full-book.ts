@@ -1,8 +1,8 @@
 import { Link } from 'database'
 import { Book } from './book'
 import { Image } from './image'
-import { FullBookAttrs } from './types'
 import { Publisher } from './publisher'
+import { FullBookAttrs } from './types'
 
 export class FullBook extends Book {
   previewImages: Image[]

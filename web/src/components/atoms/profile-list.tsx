@@ -1,11 +1,11 @@
 'use client'
 
+import cn from 'classnames'
 import { FC, ReactNode } from 'react'
+import { Eye } from 'react-feather'
 import { Profile } from 'src/models/profile'
 import { Avatar } from '../atoms/avatar'
-import cn from 'classnames'
 import * as Sheet from '../atoms/sheet'
-import { Eye } from 'react-feather'
 
 export type ProfileListProps = {
   profiles: Profile[]

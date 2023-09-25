@@ -1,8 +1,8 @@
-import { ProfilePage } from './profile-page'
+import { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 import { PageProps } from 'src/components/types'
 import { fetchProfile } from 'src/services/profiles/fetch-profile'
-import { notFound } from 'next/navigation'
-import { Metadata } from 'next'
+import { ProfilePage } from './profile-page'
 
 type ProfilePageProps = PageProps<{ slug: string }>
 

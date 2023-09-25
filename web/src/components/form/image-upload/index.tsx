@@ -1,17 +1,17 @@
 'use client'
 
 import * as Form from '@radix-ui/react-form'
-import { Label } from '../label'
-import { Messages } from '../messages'
-import * as Carousel from 'src/components/atoms/carousel'
+import cn from 'classnames'
+import Img from 'next/image'
 import { useRef, useState } from 'react'
 import { Plus, X } from 'react-feather'
-import { Image } from 'src/models/image'
-import { ImageUploadButton } from './upload-button'
-import Img from 'next/image'
-import cn from 'classnames'
-import { InputProps, useRequired } from '../input-props'
+import * as Carousel from 'src/components/atoms/carousel'
 import { mouseAttrs } from 'src/components/atoms/mouse'
+import { Image } from 'src/models/image'
+import { InputProps, useRequired } from '../input-props'
+import { Label } from '../label'
+import { Messages } from '../messages'
+import { ImageUploadButton } from './upload-button'
 
 export type ImageUploadProps<Multi extends boolean> = {
   defaultValue?: Multi extends true ? Array<Image> : Image

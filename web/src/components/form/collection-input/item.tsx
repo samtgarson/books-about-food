@@ -1,9 +1,9 @@
 import { useContext } from 'react'
+import { Trash } from 'react-feather'
+import * as Sheet from 'src/components/atoms/sheet'
 import { createCollectionInputContext } from './context'
 import { SheetContent } from './sheet-content'
 import { CollectionInputItemProps } from './types'
-import * as Sheet from 'src/components/atoms/sheet'
-import { Trash } from 'react-feather'
 
 export function CollectionInputItem<Value extends { id: string }>({
   avatar,

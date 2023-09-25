@@ -1,7 +1,7 @@
+import cn from 'classnames'
+import Link from 'next/link'
 import { FC, ReactNode } from 'react'
 import { Button } from '../atoms/button'
-import Link from 'next/link'
-import cn from 'classnames'
 
 export type HomepageModuleProps = {
   action: { href: string; label: string }

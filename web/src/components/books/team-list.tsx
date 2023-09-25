@@ -1,10 +1,10 @@
-import { FC, useMemo } from 'react'
-import { Profile } from 'src/models/profile'
-import { GridContainer } from '../lists/grid-container'
 import cn from 'classnames'
-import { ProfileList } from '../atoms/profile-list'
-import { ProfileItem } from '../profiles/item'
+import { FC, useMemo } from 'react'
 import { Contribution } from 'src/models/contribution'
+import { Profile } from 'src/models/profile'
+import { ProfileList } from '../atoms/profile-list'
+import { GridContainer } from '../lists/grid-container'
+import { ProfileItem } from '../profiles/item'
 
 export type TeamListProps = {
   contributions: Contribution[]

@@ -1,18 +1,18 @@
 'use client'
 
 import * as Checkbox from '@radix-ui/react-checkbox'
+import cn from 'classnames'
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 import { useCallback, useMemo, useState } from 'react'
 import { Check, ChevronDown } from 'react-feather'
+import { usePromise } from 'src/hooks/use-promise'
 import { Button } from '../atoms/button'
+import { Loader } from '../atoms/loader'
+import { ParamLink } from '../atoms/param-link'
 import { Pill } from '../atoms/pill'
 import * as Sheet from '../atoms/sheet'
 import { Search } from './search'
-import cn from 'classnames'
-import Link from 'next/link'
-import { ParamLink } from '../atoms/param-link'
-import { Loader } from '../atoms/loader'
-import { usePromise } from 'src/hooks/use-promise'
 
 type BaseFilterSelectProps<Value> = {
   options:
