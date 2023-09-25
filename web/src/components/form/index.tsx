@@ -43,6 +43,7 @@ export function Form<T extends z.ZodTypeAny | undefined = undefined>({
 
       const formData = Object.fromEntries(new FormData(form).entries())
       setState(formData)
+      setErrors(undefined)
     }
 
     const keyHandler = (e: KeyboardEvent) => {
@@ -70,21 +71,16 @@ export function Form<T extends z.ZodTypeAny | undefined = undefined>({
             ? action
             : async (data) => {
                 if (!action) return
+                let errors: FormErrors | void = undefined
                 const values = Object.fromEntries(data.entries())
                 if (schema) {
                   const parsed = schema.safeParse(values)
-                  if (parsed.success) await action(parsed.data)
-                  else
-                    setErrors(
-                      parsed.error.issues.reduce((acc, curr) => {
-                        acc[curr.path[0]] = { message: curr.message }
-                        return acc
-                      }, {} as FormErrors)
-                    )
+                  if (!parsed.success) setErrors(parseZodError(parsed.error))
+                  else errors = await action(parsed.data)
                 } else {
-                  const errors = await action(values)
-                  if (errors) setErrors(errors)
+                  errors = await action(values)
                 }
+                if (errors) setErrors(errors)
                 setSuccess(true)
               }
         }
@@ -92,9 +88,17 @@ export function Form<T extends z.ZodTypeAny | undefined = undefined>({
           !naked && 'flex w-full max-w-xl flex-col gap-4',
           className
         )}
+        onClearServerErrors={() => setErrors(undefined)}
       >
         {success && successMessage ? successMessage : children}
       </Root>
     </FormContext.Provider>
   )
+}
+
+function parseZodError(e: z.ZodError): FormErrors {
+  return e.issues.reduce((acc, curr) => {
+    acc[curr.path[0]] = { message: curr.message }
+    return acc
+  }, {} as FormErrors)
 }

@@ -28,9 +28,7 @@ export function Messages({ label, name, ...props }: MessagesProps) {
       <FormMessage match="typeMismatch">
         {label} must be a valid {props.type}
       </FormMessage>
-      <FormMessage match={() => !!errors?.[name]}>
-        {errors?.[name].message}
-      </FormMessage>
+      {errors?.[name] && <FormMessage>{errors[name].message}</FormMessage>}
     </>
   )
 }

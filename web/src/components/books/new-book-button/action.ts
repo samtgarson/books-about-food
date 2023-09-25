@@ -7,12 +7,20 @@ import { searchLibrary } from 'src/services/books/library/search-library'
 import { stringify } from 'src/utils/superjson'
 
 export const action: FormAction = async (values: unknown) => {
-  const book = await createBook.parseAndCall(values)
+  const result = await createBook.parseAndCall(values)
 
-  redirect(`/edit/${book.slug}`)
+  if (result.data) redirect(`/edit/${result.data.slug}`)
+  switch (result.error.type) {
+    case 'UniqueConstraintViolation':
+      return { title: { message: 'A book with this title already exists' } }
+    default:
+      return { title: { message: 'An unknown error occurred' } }
+  }
 }
 
 export const search = async (query: string) => {
   if (query.length < 3) return stringify([])
-  return stringify(await searchLibrary.call({ query }))
+  const result = await searchLibrary.call({ query })
+  if (result.success && result.data) return stringify(result.data)
+  return stringify([])
 }

@@ -28,7 +28,8 @@ export const NewBookButton = () => {
       <Sheet.Content>
         <Form
           action={async () => {
-            value && action(value)
+            if (!value) return
+            return action(value)
           }}
         >
           <Sheet.Body grey>
