@@ -111,18 +111,20 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({ features }) => {
           )
         })}
       </div>
-      <ul className="absolute bottom-8 left-8 flex gap-3 sm:hidden">
+      <ul className="absolute bottom-8 left-8 flex gap-3 sm:hidden z-20">
         {Array.from({ length: totalSlides }).map((_, index) => {
           const isActive = index === activeIndex
           return (
-            <li
-              key={index}
-              className={cn(
-                'transition-visible h-2 w-2 rounded-full',
-                isActive ? 'opacity-100' : 'opacity-40',
-                theme === 'dark' ? 'bg-white' : 'bg-black'
-              )}
-            />
+            <li key={index}>
+              <button
+                onClick={() => onClick(index)}
+                className={cn(
+                  'transition-visible h-2 w-2 rounded-full',
+                  isActive ? 'opacity-100' : 'opacity-40',
+                  theme === 'dark' ? 'bg-white' : 'bg-black'
+                )}
+              />
+            </li>
           )
         })}
       </ul>
