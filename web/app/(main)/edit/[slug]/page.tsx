@@ -31,20 +31,22 @@ export default async function Page({ params: { slug } }: EditPageProps) {
           {`Editing: ${book.title}`}
           <StatusTag status={book.status} />
         </div>
-        <div className="flex items-center gap-2">
-          <SheetButton
-            sheet="suggestEdit"
-            props={{ resource: book }}
-            data-superjson
-            variant="secondary"
-          >
-            <Edit strokeWidth={1} />
-            Suggest an Edit
-          </SheetButton>
-          <Button href={book.href}>
-            <Eye strokeWidth={1} /> View Your Cookbook
-          </Button>
-        </div>
+        {book.status === 'published' && (
+          <div className="flex items-center gap-2">
+            <SheetButton
+              sheet="suggestEdit"
+              props={{ resource: book }}
+              data-superjson
+              variant="secondary"
+            >
+              <Edit strokeWidth={1} />
+              Suggest an Edit
+            </SheetButton>
+            <Button href={book.href}>
+              <Eye strokeWidth={1} /> View Your Cookbook
+            </Button>
+          </div>
+        )}
       </PageTitle>
       <div className="flex flex-wrap gap-x-32">
         <AntiContainer
