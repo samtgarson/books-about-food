@@ -6,6 +6,7 @@ export abstract class BaseGoogleGateway {
   protected subdomain = 'www'
 
   protected request(path: string, params: Record<string, string> = {}) {
+    if (!path.startsWith('/')) path = `/${path}`
     const url = new URL(`${this.path}${path}`, this.baseUrl)
     Object.entries(params).forEach(([key, value]) => {
       url.searchParams.append(key, value)

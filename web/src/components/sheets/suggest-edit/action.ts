@@ -22,8 +22,8 @@ export async function action(
   slug: string,
   suggestion: string
 ) {
-  const user = await getUser.call()
-  const resource = await fetcher(resourceType).call({ slug })
+  const { data: user } = await getUser.call()
+  const { data: resource } = await fetcher(resourceType).call({ slug })
   if (!resource || !user?.email) return
 
   await sendEmail(EmailTemplate.SuggestEdit, 'aboutcookbooks@gmail.com', {

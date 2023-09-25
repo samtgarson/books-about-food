@@ -20,7 +20,7 @@ type CookbooksPageProps = PageProps<{ slug: string }>
 export async function generateMetadata({
   params: { slug }
 }: CookbooksPageProps): Promise<Metadata> {
-  const book = await fetchBook.call({ slug })
+  const { data: book } = await fetchBook.call({ slug })
   if (!book) notFound()
 
   return { title: book.title }
@@ -29,7 +29,7 @@ export async function generateMetadata({
 export * from 'app/default-static-config'
 
 export default async ({ params: { slug } }: CookbooksPageProps) => {
-  const book = await fetchBook.call({ slug })
+  const { data: book } = await fetchBook.call({ slug })
   if (!book) notFound()
 
   return (

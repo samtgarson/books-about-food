@@ -10,11 +10,13 @@ export type AuthorListProps = {
 }
 
 export async function AuthorsList({ filters = {} }: AuthorListProps) {
-  const { profiles, filteredTotal, total, perPage } = await fetchProfiles.call({
+  const { data } = await fetchProfiles.call({
     sort: 'trending',
     ...filters,
     onlyAuthors: true
   })
+  if (!data) return null
+  const { profiles, filteredTotal, total, perPage } = data
 
   return (
     <Pagination

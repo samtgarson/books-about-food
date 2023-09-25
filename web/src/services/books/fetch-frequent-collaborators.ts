@@ -12,7 +12,10 @@ export const fetchFrequentCollaborators = new Service(
     const raw = await execute(slug)
 
     const profiles = await Promise.all(
-      raw.map(({ slug }) => fetchProfile.call({ slug }))
+      raw.flatMap(async ({ slug }) => {
+        const { data } = await fetchProfile.call({ slug })
+        return data ? data : []
+      })
     )
 
     return profiles.filter((profile): profile is Profile => !!profile)

@@ -67,7 +67,7 @@ export function CollectionInput<
           </Sheet.Trigger>
           <SheetContent<Value> />
         </Sheet.Root>
-        <Messages label={label} {...props} />
+        <Messages label={label} name={name} {...props} />
       </Form.Field>
     </Context.Provider>
   )

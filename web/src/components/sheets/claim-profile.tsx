@@ -31,13 +31,10 @@ export const ClaimProfileSheet: FC<ClaimProfileSheetProps> = ({ profile }) => {
 
   const createClaim = useCallback(async () => {
     setClaiming(true)
-    try {
-      const newClaim = await create(profile.id)
-      setValue(newClaim)
-    } finally {
-      setClaiming(false)
-      router.refresh()
-    }
+    const newClaim = await create(profile.id)
+    if (newClaim) setValue(newClaim)
+    setClaiming(false)
+    router.refresh()
   }, [profile.id, setValue, router])
 
   const destroyClaim = useCallback(async () => {

@@ -9,7 +9,7 @@ type ProfilePageProps = PageProps<{ slug: string }>
 export async function generateMetadata({
   params: { slug }
 }: ProfilePageProps): Promise<Metadata> {
-  const profile = await fetchProfile.call({ slug })
+  const { data: profile } = await fetchProfile.call({ slug })
   if (!profile) notFound()
 
   return { title: profile.name }

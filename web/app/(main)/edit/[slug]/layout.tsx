@@ -10,7 +10,7 @@ type EditPageProps = {
 export async function generateMetadata({
   params: { slug }
 }: EditPageProps): Promise<Metadata> {
-  const book = await fetchBook.call({ slug })
+  const { data: book } = await fetchBook.call({ slug })
   if (!book) notFound()
 
   return { title: `Editing ${book.title}` }

@@ -19,7 +19,7 @@ const handler = async (
 ) => {
   const input = req.nextUrl.searchParams.get('input')
   const service = map[fn as keyof typeof map]
-  const user = await getUser.call()
+  const { data: user } = await getUser.call()
 
   if (!service) {
     return NextResponse.json({ error: 'Not found' }, { status: 404 })
@@ -34,7 +34,9 @@ const handler = async (
 
   try {
     const parsed = input && superjson.parse(input)
-    const data = await service.parseAndCall(parsed, user)
+    const result = await service.parseAndCall(parsed, user)
+    if (!result.success) throw result.originalError
+    const { data } = result
     const serialized = superjson.serialize(data)
 
     if (req.method === 'GET') {

@@ -31,7 +31,7 @@ export function BookFilters({ filters = {} }: BookFiltersProps) {
         search
         options={async () => {
           'use server'
-          const tags = await fetchTags.call()
+          const { data: tags = [] } = await fetchTags.call()
           return tags.map((tag) => ({
             label: tag.name,
             value: tag.name

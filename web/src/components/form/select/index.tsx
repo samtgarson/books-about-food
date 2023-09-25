@@ -148,7 +148,7 @@ export const Select = function Select<
           />
         )}
       </Form.ValidityState>
-      <Messages label={label} {...props} />
+      <Messages label={label} name={name} {...props} />
     </Form.Field>
   )
 }

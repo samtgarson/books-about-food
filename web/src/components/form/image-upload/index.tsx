@@ -119,7 +119,7 @@ export function ImageUpload<Multi extends boolean = false>({
           )}
         </Carousel.Scroller>
       </Carousel.Root>
-      <Messages label={label} {...props} />
+      <Messages label={label} name={name} {...props} />
     </Form.Field>
   )
 }

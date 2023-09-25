@@ -12,7 +12,7 @@ type PeopleFiltersProps = {
 export const PeopleFilters = ({ filters }: PeopleFiltersProps) => {
   const jobOptions = async () => {
     'use server'
-    const jobs = await fetchJobs.call()
+    const { data: jobs = [] } = await fetchJobs.call()
     return jobs
       .filter((job) => job.name !== 'Author')
       .map((job) => ({

@@ -13,10 +13,11 @@ import { PublisherGrid } from './publishers/grid'
 export * from 'app/default-static-config'
 
 const Page = async () => {
-  const [features, home] = await Promise.all([
+  const [{ data: features }, { data: home }] = await Promise.all([
     fetchFeatures.call(),
     fetchHome.call()
   ])
+  if (!features || !home) throw new Error('Server error')
 
   return (
     <>

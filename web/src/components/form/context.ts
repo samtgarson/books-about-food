@@ -1,11 +1,12 @@
 import { createContext, useContext } from 'react'
-import { ZodError } from 'zod'
 
 export type FormStyleVariant = 'default' | 'bordered'
+export type FormErrors = Record<string, FormError>
+export type FormError = { message: string }
 
 export type FormContext = {
   state: Record<string, unknown>
-  errors?: ZodError
+  errors?: FormErrors
   variant: FormStyleVariant
 }
 export const FormContext = createContext({} as FormContext)

@@ -10,7 +10,7 @@ export default function Page() {
   const action: FormAction = async (values) => {
     'use server'
 
-    const pitch = await createPitch.parseAndCall(values)
+    const { data: pitch } = await createPitch.parseAndCall(values)
     if (pitch) redirect(`/pitches/${pitch.id}`)
   }
 

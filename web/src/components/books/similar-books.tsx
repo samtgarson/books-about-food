@@ -9,9 +9,9 @@ export type SimilarBooksProps = {
 }
 
 export const SimilarBooks = async ({ slug, className }: SimilarBooksProps) => {
-  const books = await fetchSimilarBooks.call({ slug })
+  const { data: books } = await fetchSimilarBooks.call({ slug })
 
-  if (books.length === 0) return null
+  if (!books?.length) return null
   return (
     <AntiContainer
       className={cn('border-t border-black sm:border-t-0', className)}

@@ -17,7 +17,7 @@ const action: FormAction = async (input) => {
 }
 
 const Page = async () => {
-  const user = await getUser.call()
+  const { data: user } = await getUser.call()
 
   if (!user) return null
   return (

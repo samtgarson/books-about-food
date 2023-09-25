@@ -8,7 +8,9 @@ export const createAction =
   async (data) => {
     'use server'
 
-    const result = await updateBook.parseAndCall({ slug, ...data })
+    const { data: result } = await updateBook.parseAndCall({ slug, ...data })
+    if (!result) return
+
     const path = `/edit/${result.slug}`
     revalidatePath(path)
     redirect(path)

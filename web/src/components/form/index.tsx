@@ -4,11 +4,11 @@ import { Root } from '@radix-ui/react-form'
 import cn from 'classnames'
 import { ComponentProps, ReactNode, useEffect, useRef, useState } from 'react'
 import z from 'zod'
-import { FormContext, FormStyleVariant } from './context'
+import { FormContext, FormErrors, FormStyleVariant } from './context'
 
 export type FormAction<S = Record<string, unknown>> = (
   values: S
-) => Promise<void>
+) => Promise<FormErrors | void>
 
 export interface FormProps<T extends z.ZodTypeAny | undefined = undefined>
   extends Omit<ComponentProps<typeof Root>, 'action'> {
@@ -30,7 +30,7 @@ export function Form<T extends z.ZodTypeAny | undefined = undefined>({
   ...props
 }: FormProps<T>) {
   const [state, setState] = useState({})
-  const [errors, setErrors] = useState<z.ZodError>()
+  const [errors, setErrors] = useState<FormErrors>()
   const formRef = useRef<HTMLFormElement>(null)
   const [success, setSuccess] = useState(false)
 
@@ -74,9 +74,16 @@ export function Form<T extends z.ZodTypeAny | undefined = undefined>({
                 if (schema) {
                   const parsed = schema.safeParse(values)
                   if (parsed.success) await action(parsed.data)
-                  else setErrors(parsed.error)
+                  else
+                    setErrors(
+                      parsed.error.issues.reduce((acc, curr) => {
+                        acc[curr.path[0]] = { message: curr.message }
+                        return acc
+                      }, {} as FormErrors)
+                    )
                 } else {
-                  await action(values)
+                  const errors = await action(values)
+                  if (errors) setErrors(errors)
                 }
                 setSuccess(true)
               }

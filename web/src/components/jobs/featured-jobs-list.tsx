@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { fetchFeaturedJobs } from 'src/services/home/fetch-jobs'
 
 export async function FeaturedJobsList() {
-  const jobs = await fetchFeaturedJobs.call()
+  const { data: jobs = [] } = await fetchFeaturedJobs.call()
 
   return (
     <ul className="flex flex-wrap gap-2 md:gap-3">

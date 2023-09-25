@@ -6,16 +6,16 @@ import { fetchProfiles } from '../profiles/fetch-profiles'
 import { fetchTags } from '../tags/fetch'
 
 export const profiles = async (search: string) => {
-  const { profiles } = await fetchProfiles.call({ search })
-  return stringify(profiles)
+  const { data } = await fetchProfiles.call({ search })
+  return stringify(data?.profiles ?? [])
 }
 
 export const jobs = async (search?: string) => {
-  const jobs = await fetchJobs.call({ search })
-  return stringify(jobs)
+  const { data: jobs } = await fetchJobs.call({ search })
+  return stringify(jobs ?? [])
 }
 
 export const tags = async (search?: string) => {
-  const tags = await fetchTags.call({ search })
-  return stringify(tags)
+  const { data: tags } = await fetchTags.call({ search })
+  return stringify(tags ?? [])
 }

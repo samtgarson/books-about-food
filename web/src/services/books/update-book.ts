@@ -27,8 +27,8 @@ export const updateBook = new Service(
     if (!user) throw new Error('User is required')
 
     // TODO Move this to where clause in Prisma 5
-    const book = await fetchBook.call({ slug }, user)
-    if (book.submitterId !== user.id && user.role !== 'admin') {
+    const { data: book } = await fetchBook.call({ slug }, user)
+    if (book?.submitterId !== user.id && user.role !== 'admin') {
       throw new Error('You do not have permission to edit this book')
     }
 

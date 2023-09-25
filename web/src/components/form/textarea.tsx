@@ -27,7 +27,7 @@ export function TextArea({ label, name, ...props }: InputProps) {
           )}
         />
       </Form.Control>
-      <Messages label={label} {...props} />
+      <Messages label={label} name={name} {...props} />
     </Form.Field>
   )
 }

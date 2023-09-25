@@ -17,9 +17,10 @@ export const BookList = async ({
   showCreate = false,
   title
 }: BookListProps) => {
-  const { books, filteredTotal, total, perPage } =
-    await fetchBooks.call(filters)
+  const { data } = await fetchBooks.call(filters)
+  if (!data) return null
 
+  const { books, filteredTotal, total, perPage } = data
   if (!books.length && !showEmpty && !showCreate) return null
   return (
     <Pagination

@@ -17,8 +17,8 @@ type EditPageProps = {
 }
 
 export default async function Page({ params: { slug } }: EditPageProps) {
-  const book = await fetchBook.call({ slug, cache: false })
-  const currentUser = await getUser.call()
+  const { data: book } = await fetchBook.call({ slug, cache: false })
+  const { data: currentUser } = await getUser.call()
 
   if (!book) notFound()
   if (currentUser?.id !== book.submitterId && currentUser?.role !== 'admin')

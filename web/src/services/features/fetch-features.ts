@@ -4,8 +4,9 @@ import { Service } from 'src/utils/service'
 import { z } from 'zod'
 import { fullBookIncludes } from '../utils/includes'
 
-export type Feature = Awaited<
-  ReturnType<(typeof fetchFeatures)['call']>
+export type Feature = Exclude<
+  Awaited<ReturnType<(typeof fetchFeatures)['call']>>['data'],
+  undefined
 >[number]
 
 export const fetchFeatures = new Service(z.undefined(), async () => {

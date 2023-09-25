@@ -2,20 +2,20 @@
 
 import * as Form from '@radix-ui/react-form'
 import cn from 'classnames'
-import { ComponentProps, InputHTMLAttributes } from 'react'
+import { InputHTMLAttributes } from 'react'
+import { useForm } from './context'
 
 export type MessagesProps = {
+  name: string
   label: string
 } & Pick<InputHTMLAttributes<any>, 'minLength' | 'maxLength' | 'type'> // eslint-disable-line @typescript-eslint/no-explicit-any
 
-export const FormMessage = ({
-  className,
-  ...props
-}: ComponentProps<typeof Form.Message>) => {
+export const FormMessage = ({ className, ...props }: Form.FormMessageProps) => {
   return <Form.Message {...props} className={cn(className, 'text-14 mt-2')} />
 }
 
-export function Messages({ label, ...props }: MessagesProps) {
+export function Messages({ label, name, ...props }: MessagesProps) {
+  const { errors } = useForm()
   return (
     <>
       <FormMessage match="valueMissing">{label} is required</FormMessage>
@@ -27,6 +27,9 @@ export function Messages({ label, ...props }: MessagesProps) {
       </FormMessage>
       <FormMessage match="typeMismatch">
         {label} must be a valid {props.type}
+      </FormMessage>
+      <FormMessage match={() => !!errors?.[name]}>
+        {errors?.[name].message}
       </FormMessage>
     </>
   )

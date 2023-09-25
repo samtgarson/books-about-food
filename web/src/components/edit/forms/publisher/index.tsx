@@ -13,8 +13,10 @@ export const EditPublisherForm = async ({ book }: { book: FullBook }) => {
   const options = async (search: string) => {
     'use server'
 
-    const { publishers } = await fetchPublishers.call({ search })
-    return stringify(publishers)
+    const { data } = await fetchPublishers.call({ search })
+    if (!data) return stringify([])
+
+    return stringify(data.publishers)
   }
 
   return (

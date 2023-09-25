@@ -31,7 +31,7 @@ export function Checkbox({ label, name, ...props }: CheckboxProps) {
         </div>
         {label}
       </Label>
-      <Messages label={label} {...props} />
+      <Messages label={label} name={name} {...props} />
     </Form.Field>
   )
 }

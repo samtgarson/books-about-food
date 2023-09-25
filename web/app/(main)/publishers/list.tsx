@@ -10,8 +10,9 @@ export type PublishersListProps = {
 }
 
 export async function PublishersList({ filters = {} }: PublishersListProps) {
-  const { publishers, filteredTotal, total, perPage } =
-    await fetchPublishers.call(filters)
+  const { data } = await fetchPublishers.call(filters)
+  if (!data) return null
+  const { publishers, filteredTotal, total, perPage } = data
 
   return (
     <Pagination

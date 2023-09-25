@@ -6,7 +6,7 @@ import { ProfileListSection } from '../profiles/list-section'
 export type FavouritesListProps = { user: User }
 
 export const FavouritesList = async ({ user }: FavouritesListProps) => {
-  const favourites = await fetchFavourites.call(undefined, user)
+  const { data: favourites } = await fetchFavourites.call(undefined, user)
 
   if (!favourites?.length)
     return (

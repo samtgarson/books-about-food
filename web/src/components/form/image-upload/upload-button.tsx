@@ -43,7 +43,7 @@ export const ImageUploadButton = forwardRef<
             Array.from(e.target.files).forEach((file) =>
               fd.append('image', file, file.name)
             )
-            const result = await action(prefix, fd)
+            const { data: result = [] } = await action(prefix, fd)
             const images = result.map(
               (image) => new Image(image, 'Uploaded image')
             )

@@ -20,7 +20,7 @@ export type ProfilePageProps = {
   slug: string
 }
 export async function ProfilePage({ segment, slug }: ProfilePageProps) {
-  const [profile, collaborators] = await Promise.all([
+  const [{ data: profile }, { data: collaborators = [] }] = await Promise.all([
     fetchProfile.call({ slug }),
     fetchFrequentCollaborators.call({ slug })
   ])

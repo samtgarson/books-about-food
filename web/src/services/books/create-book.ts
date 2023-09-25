@@ -25,7 +25,9 @@ export const createBook = new Service(
 
     if (!googleBooksId) throw new Error('Title or Google Books ID is required')
 
-    const libraryBook = await fetchLibraryBook.call({ id: googleBooksId })
+    const { data: libraryBook } = await fetchLibraryBook.call({
+      id: googleBooksId
+    })
     if (!libraryBook) throw new Error('Book not found')
 
     const {
@@ -85,9 +87,9 @@ async function createImage(url?: string) {
   const buffer = Buffer.from(await res.arrayBuffer())
   const type =
     contentType(res.headers.get('content-type') || 'image/jpeg') || 'image/jpeg'
-  const [img] = await createImages.call({
+  const { data } = await createImages.call({
     files: [{ buffer, type }],
     prefix: 'book-covers'
   })
-  return img
+  if (data) return data[0]
 }

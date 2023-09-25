@@ -7,8 +7,8 @@ import { fetchFeatures } from 'src/services/features/fetch-features'
 import { Fader } from './fader'
 
 export default async function Splash() {
-  const features = await fetchFeatures.call()
-  const user = await getUser.call()
+  const { data: features = [] } = await fetchFeatures.call()
+  const { data: user } = await getUser.call()
 
   return (
     <>

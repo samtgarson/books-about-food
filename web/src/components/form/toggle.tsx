@@ -26,7 +26,7 @@ export function Toggle({ label, name, ...props }: ToggleProps) {
         </div>
         {label}
       </Label>
-      <Messages label={label} {...props} />
+      <Messages label={label} name={name} {...props} />
     </Form.Field>
   )
 }

@@ -33,7 +33,10 @@ export const SubmitForReviewButton: FC<{
 async function submit(data: FormData) {
   'use server'
 
-  const book = await fetchBook.parseAndCall(Object.fromEntries(data.entries()))
+  const { data: book } = await fetchBook.parseAndCall(
+    Object.fromEntries(data.entries())
+  )
+  if (!book) return
   await new BookEditState(book).submitForReview()
 
   redirect(`/edit/${book.slug}`, RedirectType.replace)

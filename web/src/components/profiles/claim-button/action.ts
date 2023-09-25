@@ -5,11 +5,13 @@ import { destroyClaim } from 'src/services/claims/destroy-claim'
 import { fetchClaim } from 'src/services/claims/fetch-claim'
 
 export async function fetch(profileId: string) {
-  return (await fetchClaim.call({ profileId })) || null
+  const { data } = await fetchClaim.call({ profileId })
+  return data || null
 }
 
 export async function create(profileId: string) {
-  return await createClaim.call({ profileId })
+  const { data } = await createClaim.call({ profileId })
+  return data
 }
 
 export async function destroy(claimId?: string) {

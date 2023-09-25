@@ -10,10 +10,12 @@ export type PeopleListProps = {
 }
 
 export const PeopleList = async ({ filters = {} }: PeopleListProps) => {
-  const { profiles, filteredTotal, total, perPage } = await fetchProfiles.call({
+  const { data } = await fetchProfiles.call({
     ...filters,
     onlyAuthors: false
   })
+  if (!data) return null
+  const { profiles, filteredTotal, total, perPage } = data
 
   return (
     <Pagination
