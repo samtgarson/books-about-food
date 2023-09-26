@@ -2,7 +2,8 @@
 
 import cn from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
-import { FC, useEffect, useMemo, useState } from 'react'
+import { FC, useEffect, useMemo, useRef, useState } from 'react'
+import { ChevronLeft, ChevronRight } from 'react-feather'
 import { Feature } from 'src/services/features/fetch-features'
 import { containerClasses } from '../atoms/container'
 import { useNav } from '../nav/context'
@@ -36,6 +37,7 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({ features }) => {
   )
   const { setTheme, theme } = useNav()
   const activeIndex = currentIndex - (offset + 1) * totalSlides
+  const mouseRef = useRef<[number, number][] | null>(null)
 
   useEffect(() => {
     setTheme(showingTitle ? 'dark' : 'light')
@@ -54,17 +56,40 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({ features }) => {
     setState([virtualIndex, newOffset])
   }
 
+  const onSwipe = () => {
+    if (!mouseRef.current) return
+    if (mouseRef.current.length < 2) return requestAnimationFrame(onSwipe)
+
+    const [[origX, origY], [recentX, recentY]] = mouseRef.current
+    if (Math.abs(origY - recentY) > 10) return (mouseRef.current = null)
+
+    const x = origX - recentX
+    if (Math.abs(x) < 50) return requestAnimationFrame(onSwipe)
+
+    if (x > 50) onClick(currentIndex + 1)
+    if (x < -50) onClick(currentIndex - 1)
+    mouseRef.current = null
+  }
+
   if (!features.length) return null
+  const color = theme === 'dark' ? 'white' : 'black'
+
   return (
     <motion.div
       layout
-      onPanEnd={(_, { offset }) => {
-        if (offset.y > 10) return
-        if (offset.x > 0) {
-          onClick(currentIndex - 1)
-        } else if (offset.x < 0) {
-          onClick(currentIndex + 1)
-        }
+      onTouchStart={(e) => {
+        mouseRef.current = [[e.touches[0].clientX, e.touches[0].clientY]]
+        requestAnimationFrame(onSwipe)
+      }}
+      onTouchMove={(e) => {
+        if (!mouseRef.current) return
+        mouseRef.current = [
+          mouseRef.current[0],
+          [e.touches[0].clientX, e.touches[0].clientY]
+        ]
+      }}
+      onTouchEnd={() => {
+        mouseRef.current = null
       }}
       className={cn(
         'relative overflow-x-clip transition-colors',
@@ -112,23 +137,37 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({ features }) => {
           )
         })}
       </div>
-      <ul className="absolute bottom-8 left-8 flex gap-3 sm:hidden z-20">
+      <div
+        className={cn(
+          'absolute bottom-8 inset-x-5 pl-3 flex items-center gap-3 sm:hidden z-20'
+        )}
+      >
         {Array.from({ length: totalSlides }).map((_, index) => {
           const isActive = index === activeIndex
+
           return (
-            <li key={index}>
-              <button
-                onClick={() => onClick(index)}
-                className={cn(
-                  'transition-visible h-2 w-2 rounded-full',
-                  isActive ? 'opacity-100' : 'opacity-40',
-                  theme === 'dark' ? 'bg-white' : 'bg-black'
-                )}
-              />
-            </li>
+            <button
+              onClick={() => onClick(index)}
+              className={cn(
+                'transition-visible h-2 w-2 rounded-full bg-current',
+                isActive ? 'opacity-100' : 'opacity-40'
+              )}
+              style={{ backgroundColor: color }}
+              key={index}
+            />
           )
         })}
-      </ul>
+        <button
+          onClick={() => onClick(currentIndex - 1)}
+          className="ml-auto"
+          style={{ color }}
+        >
+          <ChevronLeft size={40} strokeWidth={1} />
+        </button>
+        <button onClick={() => onClick(currentIndex + 1)} style={{ color }}>
+          <ChevronRight size={40} strokeWidth={1} />
+        </button>
+      </div>
     </motion.div>
   )
 }

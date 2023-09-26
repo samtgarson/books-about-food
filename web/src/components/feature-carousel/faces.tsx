@@ -21,7 +21,7 @@ export const Faces: FC<FacesProps> = ({ features }) => {
   if (!display) return null
   return (
     <motion.div
-      className="absolute inset-y-0 -left-1/4 right-8 z-30 flex items-center justify-center sm:left-[42vw] sm:right-[15vw] pointer-events-none"
+      className="absolute top-0 bottom-8 sm:bottom-0 -left-1/4 right-8 z-30 flex items-center justify-center sm:left-[42vw] sm:right-[15vw] pointer-events-none"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, transition: { delay: 0.3 } }}
       exit={{ opacity: 0, transition: { duration: 0.2 } }}
