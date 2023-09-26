@@ -7,6 +7,7 @@ import { Container } from 'src/components/atoms/container'
 import { Detail } from 'src/components/atoms/detail'
 import { Loader } from 'src/components/atoms/loader'
 import { BookList } from 'src/components/books/list'
+import { ListContainer } from 'src/components/lists/list-context'
 import { ClaimPublisherButton } from 'src/components/publishers/claim-button'
 import { PageProps } from 'src/components/types'
 import { Publisher } from 'src/models/publisher'
@@ -55,17 +56,18 @@ export default async ({
           <ClaimPublisherButton publisherName={publisher.name} />
         </div>
       </div>
-      <Suspense fallback={<Loader className="mx-auto" />}>
-        <BookList
-          title="All Releases"
-          filters={{
-            publisherSlug: slug,
-            page: page ? parseInt(`${page}`) : 0,
-            perPage: 12
-          }}
-        />
-      </Suspense>
-      <div className="py-8 md:py-20">
+      <ListContainer title="All Releases">
+        <Suspense fallback={<Loader className="mx-auto" />}>
+          <BookList
+            filters={{
+              publisherSlug: slug,
+              page: page ? parseInt(`${page}`) : 0,
+              perPage: 12
+            }}
+          />
+        </Suspense>
+      </ListContainer>
+      <div className="pb-8 sm:py-8 md:py-20">
         {publisher.imprint && (
           <Detail maxWidth>
             Imprint
