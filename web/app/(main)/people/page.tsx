@@ -13,7 +13,7 @@ export * from 'app/default-static-config'
 
 export default createIndexPage({
   content: PeopleList,
-  svc: fetchProfiles,
+  schema: fetchProfiles.input,
   loading: SkeletonPeopleGrid,
   filters: PeopleFilters
 })

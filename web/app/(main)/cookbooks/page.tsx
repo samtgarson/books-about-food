@@ -12,7 +12,7 @@ export * from 'app/default-static-config'
 
 export default createIndexPage({
   content: BookList,
-  svc: fetchBooks,
+  schema: fetchBooks.input,
   loading: SkeletonBookList,
   filters: BookFilters
 })

@@ -1,31 +1,31 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { ComponentType, Suspense } from 'react'
-import { Service } from 'src/utils/service'
+import { ComponentType } from 'react'
 import { z } from 'zod'
 import { Container } from '../atoms/container'
+import { ObjectSuspense } from '../atoms/object-suspense'
 import { PageProps } from '../types'
 
-export type IndexPageProps<Svc extends Service<any, any>> = {
-  content: ComponentType<{ filters: z.infer<Svc['input']> }>
-  filters?: ComponentType<{ filters: z.infer<Svc['input']> }>
+export type IndexPageProps<Input extends z.ZodTypeAny> = {
+  content: ComponentType<{ filters: z.infer<Input> }>
+  filters?: ComponentType<{ filters: z.infer<Input> }>
   loading?: ComponentType
-  svc: Svc
+  schema: Input
 }
 
-export const createIndexPage = <Svc extends Service<any, any>>({
+export const createIndexPage = <Input extends z.ZodTypeAny>({
   content: Content,
   filters: Filters,
   loading: Loading,
-  svc
-}: IndexPageProps<Svc>) => {
+  schema
+}: IndexPageProps<Input>) => {
   const IndexPage = ({ searchParams }: PageProps) => {
-    const filters = svc.input.parse(searchParams)
+    const filters = schema.parse(searchParams)
+
     return (
       <Container belowNav>
         {Filters && <Filters filters={filters} />}
-        <Suspense fallback={Loading ? <Loading /> : null}>
+        <ObjectSuspense fallback={Loading ? <Loading /> : null} obj={filters}>
           <Content filters={filters} />
-        </Suspense>
+        </ObjectSuspense>
       </Container>
     )
   }

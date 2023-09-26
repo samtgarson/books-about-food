@@ -6,7 +6,7 @@ export type PaginationProps = {
   filteredTotal?: number
   total: number
   perPage: number
-  page: number
+  page?: number
   children: ReactNode
 }
 
@@ -21,6 +21,8 @@ export const Pagination: FC<PaginationProps> = ({
 
   const displayPages = useMemo(() => {
     const pages = Array.from({ length: totalPages }, (_, i) => i)
+    if (!page) return [pages]
+
     if (totalPages <= 5) return [pages]
     if (page < 4) return [pages.slice(0, 5), pages.slice(-1)]
     if (page > totalPages - 5) return [pages.slice(0, 1), pages.slice(-5)]

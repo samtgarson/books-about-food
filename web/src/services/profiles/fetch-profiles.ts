@@ -22,6 +22,7 @@ export type FetchProfilesInput = NonNullable<
 export type FetchProfilesOutput = Awaited<
   ReturnType<(typeof fetchProfiles)['call']>
 >
+
 export const fetchProfiles = new Service(
   z
     .object({

@@ -24,6 +24,6 @@ const filters = ({ filters = {} }: { filters?: FetchPublishersInput }) => (
 
 export default createIndexPage({
   content: PublishersList,
-  svc: fetchPublishers,
+  schema: fetchPublishers.input,
   filters
 })

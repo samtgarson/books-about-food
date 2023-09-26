@@ -13,7 +13,7 @@ export * from 'app/default-static-config'
 
 export default createIndexPage({
   content: AuthorsList,
-  svc: fetchProfiles,
+  schema: fetchProfiles.input,
   loading: SkeletonAuthorsGrid,
   filters: AuthorFilters
 })
