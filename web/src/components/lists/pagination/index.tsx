@@ -21,7 +21,7 @@ export const Pagination: FC<PaginationProps> = ({
 
   const displayPages = useMemo(() => {
     const pages = Array.from({ length: totalPages }, (_, i) => i)
-    if (!page) return [pages]
+    if (typeof page === 'undefined') return [pages]
 
     if (totalPages <= 5) return [pages]
     if (page < 4) return [pages.slice(0, 5), pages.slice(-1)]
