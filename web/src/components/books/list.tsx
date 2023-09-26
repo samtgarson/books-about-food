@@ -33,7 +33,7 @@ export const BookList = async ({
       <GridContainer className={'sm:gap-y-16'}>
         {showCreate && <NewBookButton />}
         {books.map((book) => (
-          <Item key={book.id} book={book} />
+          <Item key={book.id} book={book} data-superjson />
         ))}
       </GridContainer>
       {books.length === 0 && showEmpty && <p>No books found</p>}

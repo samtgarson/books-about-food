@@ -29,7 +29,7 @@ export async function ProfilePage({ segment, slug }: ProfilePageProps) {
   return (
     <EditProfileProvider profile={profile} segment={segment} data-superjson>
       <Container belowNav id="container">
-        <div className="py-8 md:py-20">
+        <div className="pt-8 md:pt-20">
           <div className="relative flex flex-col items-stretch gap-6 lg:flex-row lg:items-start">
             <div className="w-full flex-grow">
               <Field

@@ -23,7 +23,7 @@ export const ProfileList: FC<ProfileListProps> = ({
   return (
     <div className={className}>
       <Sheet.Root mobileOnly>
-        <Sheet.Trigger className={cn('flex w-full flex-wrap items-center')}>
+        <Sheet.Trigger className={cn('flex w-full flex-nowrap items-center')}>
           <div className={cn('flex grow flex-wrap gap-2')}>
             <h2 className="all-caps mb-4 w-full text-left">{title}</h2>
             {profiles.map((profile) => (
@@ -35,7 +35,7 @@ export const ProfileList: FC<ProfileListProps> = ({
               />
             ))}
           </div>
-          <Eye className="sm:hidden" size={22} strokeWidth={1}>
+          <Eye className="sm:hidden shrink-0" size={22} strokeWidth={1}>
             Open
           </Eye>
         </Sheet.Trigger>

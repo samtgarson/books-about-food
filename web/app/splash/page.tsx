@@ -2,6 +2,7 @@ import { Avatar } from 'src/components/atoms/avatar'
 import { Container } from 'src/components/atoms/container'
 import { SignInButtons } from 'src/components/auth/sign-in-buttons'
 import * as BookItem from 'src/components/books/item'
+import { ListContainer } from 'src/components/lists/list-context'
 import { getUser } from 'src/services/auth/get-user'
 import { fetchFeatures } from 'src/services/features/fetch-features'
 import { Fader } from './fader'
@@ -41,35 +42,37 @@ export default async function Splash() {
         </Container>
       </Fader>
       <ul className="pointer-events-none z-10 mb-16 ml-auto flex w-96 max-w-[85vw] flex-col gap-16 pt-[max(85vh,550px)] lg:mr-[5vw] xl:mr-[15vw] xl:pt-[15vh]">
-        {features.map(({ book }) => (
-          <BookItem.Container key={book.id} className="bg-grey" mobileGrid>
-            <BookItem.Cover book={book} className="!-mb-px" mobileGrid />
-            <div className="-mt-6 w-full sm:mt-0">
-              <div className="-mb-px w-full border border-black px-6 py-4">
-                <span className="font-medium">{book.title}</span>
-                <br />
-                {book.authorNames}
-              </div>
-              {!!book.team.length && (
+        <ListContainer display="grid">
+          {features.map(({ book }) => (
+            <BookItem.Container key={book.id} className="bg-grey">
+              <BookItem.Cover book={book} className="!-mb-px" data-superjson />
+              <div className="-mt-6 w-full sm:mt-0">
                 <div className="-mb-px w-full border border-black px-6 py-4">
-                  The Team
-                  <span className="mt-2 flex flex-wrap gap-2">
-                    {book.team.map((profile) => (
-                      <Avatar key={profile.id} profile={profile} size="xs" />
-                    ))}
-                  </span>
-                </div>
-              )}
-              {!!book.publisher && (
-                <div className="w-full border border-black px-6 py-4">
-                  Publisher
+                  <span className="font-medium">{book.title}</span>
                   <br />
-                  <span className="font-medium">{book.publisher.name}</span>
+                  {book.authorNames}
                 </div>
-              )}
-            </div>
-          </BookItem.Container>
-        ))}
+                {!!book.team.length && (
+                  <div className="-mb-px w-full border border-black px-6 py-4">
+                    The Team
+                    <span className="mt-2 flex flex-wrap gap-2">
+                      {book.team.map((profile) => (
+                        <Avatar key={profile.id} profile={profile} size="xs" />
+                      ))}
+                    </span>
+                  </div>
+                )}
+                {!!book.publisher && (
+                  <div className="w-full border border-black px-6 py-4">
+                    Publisher
+                    <br />
+                    <span className="font-medium">{book.publisher.name}</span>
+                  </div>
+                )}
+              </div>
+            </BookItem.Container>
+          ))}
+        </ListContainer>
       </ul>
     </>
   )
