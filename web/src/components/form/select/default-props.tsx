@@ -20,12 +20,14 @@ export const selectProps = <
   allowCreate,
   valueKey,
   unstyled,
-  showChevron = false
+  showChevron = false,
+  bordered
 }: {
   allowCreate?: boolean
   valueKey: ValueKey
   unstyled?: boolean
   showChevron?: boolean
+  bordered?: boolean
 }) =>
   ({
     unstyled: true,
@@ -35,7 +37,6 @@ export const selectProps = <
     menuPortalTarget: document.querySelector(
       '[role=dialog][data-state=open]'
     ) as HTMLElement | null,
-    menuPosition: 'fixed',
     getNewOptionData(inputValue) {
       return {
         [valueKey]: inputValue,
@@ -47,7 +48,8 @@ export const selectProps = <
         cn(
           'bg-white transition-colors',
           state.isFocused ? 'bg-opacity-100' : 'bg-opacity-60',
-          state.isMulti ? 'px-4 py-3' : 'p-4'
+          state.isMulti ? 'px-4 py-3' : 'p-4',
+          bordered && 'border-neutral-grey border'
         ),
       menuPortal: () => '!z-50',
       menu: (state) =>

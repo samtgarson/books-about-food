@@ -129,7 +129,7 @@ function FilterSelectContent<Value extends string | number = string>({
       </Sheet.Trigger>
       <Sheet.Content>
         <Sheet.Body>
-          <Sheet.Header title={placeholder}>
+          <Sheet.Header title={placeholder} size="sm">
             <ParamLink {...{ [param]: null }}>
               <Link
                 scroll={false}

@@ -26,14 +26,15 @@ export const NewBookButton = () => {
         </Sheet.Trigger>
       </BookItem.Container>
       <Sheet.Content>
-        <Form
-          action={async () => {
-            if (!value) return
-            return action(value)
-          }}
-        >
-          <Sheet.Body grey>
-            <Sheet.Header title="Submit a new cookbook" />
+        <Sheet.Body>
+          <Sheet.Header title="Submit a new cookbook" />
+          <Form
+            action={async () => {
+              if (!value) return
+              return action(value)
+            }}
+            variant="bordered"
+          >
             <Select
               name="title"
               loadOptions={loadOptions}
@@ -49,11 +50,11 @@ export const NewBookButton = () => {
                 else setValue({ googleBooksId: value.id })
               }}
             />
-          </Sheet.Body>
-          <Sheet.Footer>
-            <Submit className="-mt-4 w-full pb-6 pt-4 sm:pt-6">Create</Submit>
-          </Sheet.Footer>
-        </Form>
+            <Submit variant="dark" className="w-full">
+              Create
+            </Submit>
+          </Form>
+        </Sheet.Body>
       </Sheet.Content>
     </Sheet.Root>
   )

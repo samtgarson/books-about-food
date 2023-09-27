@@ -134,13 +134,20 @@ export const Body = ({
 
 export const Header = ({
   children,
-  title
+  title,
+  size = 'lg'
 }: {
   className?: string
   children?: ReactNode
   title: string
+  size?: 'lg' | 'sm'
 }) => (
-  <div className="mb-4 flex justify-between sm:mb-6">
+  <div
+    className={cn(
+      'mb-4 flex justify-between sm:mb-6',
+      size == 'lg' && 'text-24'
+    )}
+  >
     <Dialog.Title>{title}</Dialog.Title>
     {children}
   </div>

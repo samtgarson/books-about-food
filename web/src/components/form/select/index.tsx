@@ -12,6 +12,7 @@ import {
 import { MultiValue, OnChangeValue } from 'react-select'
 import ReactSelect, { AsyncCreatableProps } from 'react-select/async-creatable'
 import { Stringified, parse } from 'src/utils/superjson'
+import { useForm } from '../context'
 import { Label } from '../label'
 import { Messages } from '../messages'
 import { SelectValue, selectProps } from './default-props'
@@ -75,6 +76,7 @@ export const Select = function Select<
   const [browserProps, setProps] = useState<
     AsyncCreatableProps<Value, Multi, never>
   >({})
+  const { variant } = useForm()
 
   const loadOptionsFn = useMemo(
     () =>
@@ -111,10 +113,11 @@ export const Select = function Select<
         valueKey,
         allowCreate,
         unstyled: false,
-        showChevron
+        showChevron,
+        bordered: variant === 'bordered'
       })
     )
-  }, [valueKey, allowCreate, render, showChevron])
+  }, [valueKey, allowCreate, render, showChevron, variant])
 
   return (
     <Form.Field name={name} className="flex flex-col gap-2">
@@ -126,7 +129,7 @@ export const Select = function Select<
           ref={input}
           {...props}
           name={name}
-          className="h-0"
+          className="h-0 absolute"
           defaultValue={stringifyValue(defaultValue)}
         />
       </Form.Control>

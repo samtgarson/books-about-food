@@ -58,15 +58,20 @@ export const ClaimProfileSheet: FC<ClaimProfileSheetProps> = ({ profile }) => {
         <div className="flex flex-col items-start gap-6">
           {!claim ? (
             <>
-              <ProfileItem profile={profile} display="list" className="mb-6" />
               <p>
-                If you&apos;re {profile.name}, you can claim this profile to
-                manage and promote it.
+                By claiming your profile you’ll be able to: secure your name,
+                edit your details, submit cookbooks and hide information you’re
+                not keen to have shown on your profile.
               </p>
+              <ProfileItem
+                profile={profile}
+                display="list"
+                className="mb-6 w-full"
+              />
               <p>
-                There&apos;s a couple of steps to go through so we know
-                it&apos;s you. Click the button below and we&apos;ll let you
-                know what&apos;s next.
+                If you’re {profile.name}, there&apos;s a couple of steps to go
+                through so we are able to verify it’s really you. Click below to
+                continue.
               </p>
               <Button
                 variant="secondary"
