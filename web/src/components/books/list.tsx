@@ -1,6 +1,7 @@
 import { Pagination } from 'src/components/lists/pagination'
 import { FetchBooksInput, fetchBooks } from 'src/services/books/fetch-books'
 import { GridContainer } from '../lists/grid-container'
+import { ClientDebug } from '../utils/client-debug'
 import { Item, Skeleton } from './item'
 import { NewBookButton } from './new-book-button'
 
@@ -43,8 +44,9 @@ export const BookList = async ({
 
 export const SkeletonBookList = () => (
   <Pagination total={100} perPage={18} filteredTotal={100}>
+    <ClientDebug source="skeleton book list" />
     <GridContainer className={'sm:gap-y-16'}>
-      {Array.from({ length: 10 }, (_, i) => (
+      {Array.from({ length: 18 }, (_, i) => (
         <Skeleton key={i} index={i} />
       ))}
     </GridContainer>
