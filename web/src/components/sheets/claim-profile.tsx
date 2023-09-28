@@ -52,10 +52,13 @@ export const ClaimProfileSheet: FC<ClaimProfileSheetProps> = ({ profile }) => {
   }, [])
 
   return (
-    <Content authenticated={{ action: 'claimProfile' }}>
+    <Content
+      authenticated={{ action: 'claimProfile' }}
+      size={claim ? 'lg' : 'md'}
+    >
       <Body loading={loading}>
         <Header title="Claim your profile" />
-        <div className="flex flex-col items-start gap-6">
+        <div className="flex flex-col items-start gap-8">
           {!claim ? (
             <>
               <p>
@@ -95,54 +98,72 @@ export const ClaimProfileSheet: FC<ClaimProfileSheetProps> = ({ profile }) => {
             <>
               <p>
                 Nice one! In order for us to verify your identity, please send
-                us an Instagram DM on{' '}
+                us an Instagram direct message on{' '}
                 <a
                   href="https://instagram.com/books.about.food"
-                  className="font-medium"
+                  className="font-medium underline"
                   target="_blank"
                   rel="noreferrer"
                 >
                   @books.about.food
                 </a>{' '}
-                with this secret passphrase:
+                with the three randomly generated words you see below:
               </p>
               <button
-                className="text-20 bg-grey flex items-center gap-3 px-2.5 py-1.5 font-bold"
+                className="text-20 border border-black font-mono justify-center flex relative items-center px-4 py-5 uppercase w-full"
                 title="Copy the passphrase to your clipboard"
                 onClick={() => copySecret(claim)}
               >
                 {claim.secret}
                 {copied ? (
-                  <Check strokeWidth={1} size={20} />
+                  <Check
+                    strokeWidth={1}
+                    size={20}
+                    className="absolute right-4"
+                  />
                 ) : (
-                  <Copy strokeWidth={1} size={20} />
+                  <Copy
+                    strokeWidth={1}
+                    size={20}
+                    className="absolute right-4"
+                  />
                 )}
               </button>
               <p>
-                Once we get that, we&apos;ll hook up your profile and you can
-                start managing it.
+                Once we receive them, we&apos;ll verify hook up your profile and
+                you can start managing it.
               </p>
-              <p className="text-14">
+              <p>
                 Don&apos;t have Instagram?{' '}
                 <ContactLink subject="Claim without Instgram">
                   Email us
                 </ContactLink>{' '}
-                and we&apos;ll sort it out.
+                and we&apos;ll sort it out that way.
               </p>
-              <button
-                className="text-14 flex gap-2 bg-transparent font-medium disabled:opacity-50"
-                disabled={destroying}
-                onClick={destroyClaim}
-              >
-                {destroying ? (
-                  <>
-                    <Loader />
-                    Loading...
-                  </>
-                ) : (
-                  <>Cancel claim</>
-                )}
-              </button>
+              <div className="flex flex-col gap-4 w-full">
+                <Button
+                  className="w-full"
+                  onClick={closeSheet}
+                  variant="tertiary"
+                >
+                  Close
+                </Button>
+
+                <Button
+                  className="w-full"
+                  disabled={destroying}
+                  onClick={destroyClaim}
+                >
+                  {destroying ? (
+                    <>
+                      <Loader />
+                      Loading...
+                    </>
+                  ) : (
+                    <>Cancel claim</>
+                  )}
+                </Button>
+              </div>
             </>
           )}
         </div>

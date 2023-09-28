@@ -27,7 +27,7 @@ export const updateFavourite = new Service(
       })
     }
 
-    return prisma.favourite.delete({
+    await prisma.favourite.delete({
       where: {
         profileId_userId: {
           profileId,
