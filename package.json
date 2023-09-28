@@ -34,6 +34,7 @@
     "@books-about-food/eslint-config": "*",
     "@books-about-food/prettier-config": "*",
     "husky": "^8.0.3",
+    "knip": "^2.30.0",
     "lint-staged": "^14.0.1",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
