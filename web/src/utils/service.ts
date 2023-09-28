@@ -2,7 +2,7 @@ import { authOptions } from 'app/api/auth/[...nextauth]/route'
 import prisma, { User } from 'database'
 import { getServerSession } from 'next-auth'
 import { cache } from 'react'
-import { AppError, ErrorParser } from 'src/services/utils/errors'
+import { AppError, AppErrorJSON } from 'src/services/utils/errors'
 import { z } from 'zod'
 
 export type RequestMeta = {
@@ -22,7 +22,7 @@ export type ServiceResult<T> =
   | {
       success: false
       data?: never
-      error: AppError
+      error: AppErrorJSON
       originalError?: unknown
     }
 
@@ -49,7 +49,7 @@ export class Service<Input extends z.ZodTypeAny, Return> {
     } catch (e) {
       return {
         success: false,
-        error: ErrorParser.fromError(e).toJSON(),
+        error: AppError.fromError(e).toJSON(),
         originalError: e
       }
     }

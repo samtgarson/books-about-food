@@ -1,17 +1,29 @@
-export type ErrorType = 'UniqueConstraintViolation' | 'ServerError'
+export type ErrorType =
+  | 'UniqueConstraintViolation'
+  | 'ServerError'
+  | 'Forbidden'
+  | 'NotFound'
+const ErrorTypeStatusMap: Record<ErrorType, number> = {
+  UniqueConstraintViolation: 400,
+  ServerError: 500,
+  Forbidden: 403,
+  NotFound: 404
+}
 
-export type AppError = ReturnType<ErrorParser['toJSON']>
+export type AppErrorJSON = ReturnType<AppError['toJSON']>
 
-export class ErrorParser extends Error {
+export class AppError extends Error {
   static fromError = (e: unknown) => {
+    if (e instanceof AppError) return e
+
     if (e instanceof Error && 'code' in e) {
       switch (e.code) {
         case 'P2002':
-          return new ErrorParser('UniqueConstraintViolation', e.message)
+          return new AppError('UniqueConstraintViolation', e.message)
       }
     }
 
-    return new ErrorParser(
+    return new AppError(
       'ServerError',
       e instanceof Error ? e.message : String(e)
     )
@@ -27,7 +39,12 @@ export class ErrorParser extends Error {
   toJSON() {
     return {
       type: this.type,
-      message: this.message
+      message: this.message,
+      status: this.status
     }
+  }
+
+  get status() {
+    return ErrorTypeStatusMap[this.type]
   }
 }

@@ -1,7 +1,7 @@
 import prisma from 'database'
-import { RequestException } from 'src/contexts/fetcher/exceptions'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
+import { AppError } from '../utils/errors'
 
 export const destroyClaim = new Service(
   z.object({
@@ -14,8 +14,9 @@ export const destroyClaim = new Service(
     const claim = await prisma.claim.findUnique({
       where: { id: claimId }
     })
-    if (!claim) throw new RequestException(404)
-    if (claim.userId !== user.id) throw new RequestException(403)
+    if (!claim) return null
+    if (claim.userId !== user.id)
+      throw new AppError('NotFound', 'No claim could be found with that ID')
 
     await prisma.claim.delete({ where: { id: claimId } })
     return null
