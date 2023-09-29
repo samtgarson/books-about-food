@@ -1,9 +1,9 @@
 'use server'
 
+import { fetchJobs } from 'src/services/jobs/fetch-jobs'
+import { fetchProfiles } from 'src/services/profiles/fetch-profiles'
+import { fetchTags } from 'src/services/tags/fetch'
 import { stringify } from 'src/utils/superjson'
-import { fetchJobs } from '../jobs/fetch-jobs'
-import { fetchProfiles } from '../profiles/fetch-profiles'
-import { fetchTags } from '../tags/fetch'
 
 export const profiles = async (search: string) => {
   const { data } = await fetchProfiles.call({ search })

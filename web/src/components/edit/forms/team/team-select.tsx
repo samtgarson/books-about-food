@@ -15,8 +15,8 @@ import { FullBook } from 'src/models/full-book'
 import { Image } from 'src/models/image'
 import { Profile } from 'src/models/profile'
 import { ContributorAttrs } from 'src/services/books/update-contributors'
-import { jobs, profiles } from 'src/services/server-actions'
 import { v4 as uuid } from 'uuid'
+import { jobs, profiles } from '../../server-actions'
 
 export type TeamSelectValue = ContributorAttrs & {
   id: string

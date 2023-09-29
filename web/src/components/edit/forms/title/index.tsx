@@ -5,7 +5,7 @@ import { Input } from 'src/components/form/input'
 import { Select } from 'src/components/form/select'
 import { Submit } from 'src/components/form/submit'
 import { FullBook } from 'src/models/full-book'
-import { profiles } from 'src/services/server-actions'
+import { profiles } from '../../server-actions'
 import { createAction } from '../action'
 import { TagSelect } from './tag-select'
 

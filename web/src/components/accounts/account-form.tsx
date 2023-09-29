@@ -7,8 +7,8 @@ import { ConnectAccountButton } from '../auth/connect-account-button'
 import { DestroyAccountButton } from '../auth/destroy-account-button'
 import { Google } from '../auth/logos'
 import { Form } from '../form'
-import { parseAppError } from '../form/context'
 import { Input } from '../form/input'
+import { parseAppError } from '../form/utils'
 import { action } from './form-action'
 
 export function AccountForm({

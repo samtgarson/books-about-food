@@ -2,7 +2,7 @@
 
 import { FC } from 'react'
 import { Select } from 'src/components/form/select'
-import { tags } from 'src/services/server-actions'
+import { tags } from '../../server-actions'
 
 export const TagSelect: FC<{ value: string[] }> = ({ value }) => (
   <Select
