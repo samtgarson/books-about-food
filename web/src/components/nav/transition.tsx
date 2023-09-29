@@ -25,6 +25,7 @@ export function Transition() {
   const timer = useRef<NodeJS.Timeout | null>(null)
 
   const handleClick = (e: MouseEvent) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey) return
     const anchor = findClosestAnchor(e.target)
     if (!anchor) return
     const targetHref = new URL(anchor.href).pathname
