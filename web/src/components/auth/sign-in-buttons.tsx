@@ -22,7 +22,7 @@ export const SignInButtons: FC<SignInButtonsProps> = ({
   email = true,
   google = true,
   emailButtonLabel = 'Continue with Email',
-  successMessage = 'Check your email for a sign in link.'
+  successMessage = 'We’ve just sent you a secure magic link to your inbox. When you click this link we’ll log you into your account automatically.'
 }) => {
   return (
     <Form

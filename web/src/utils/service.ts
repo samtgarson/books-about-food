@@ -17,12 +17,12 @@ export type ServiceResult<T> =
   | {
       success: true
       data: T
-      error?: never
+      errors?: never
     }
   | {
       success: false
       data?: never
-      error: AppErrorJSON
+      errors: AppErrorJSON[]
       originalError?: unknown
     }
 
@@ -36,12 +36,28 @@ export class Service<Input extends z.ZodTypeAny, Return> {
     this._call = cache(call)
   }
 
-  public parseAndCall(input: unknown | z.infer<Input>, user?: User | null) {
-    const parsed = this.input.parse(input)
-    return this.call(parsed, user)
+  public async parseAndCall(
+    input: unknown | z.infer<Input>,
+    user?: User | null
+  ): Promise<ServiceResult<Return>> {
+    const parsed = this.input.safeParse(input)
+    if (parsed.success) return this.call(parsed.data, user)
+    return {
+      success: false,
+      errors: parsed.error.issues.map((issue) =>
+        new AppError(
+          'InvalidInput',
+          issue.message,
+          issue.path.pop() as string
+        ).toJSON()
+      )
+    }
   }
 
-  public async call(input?: z.infer<Input>, user?: User | null) {
+  public async call(
+    input?: z.infer<Input>,
+    user?: User | null
+  ): Promise<ServiceResult<Return>> {
     const u = user || (await this.getUser())
 
     try {
@@ -49,7 +65,7 @@ export class Service<Input extends z.ZodTypeAny, Return> {
     } catch (e) {
       return {
         success: false,
-        error: AppError.fromError(e).toJSON(),
+        errors: [AppError.fromError(e).toJSON()],
         originalError: e
       }
     }

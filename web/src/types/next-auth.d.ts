@@ -21,3 +21,17 @@ declare module 'next-auth' {
     role: UserRole
   }
 }
+
+/** [Documentation](https://next-auth.js.org/configuration/pages#sign-in-page) */
+export type SignInErrorTypes =
+  | 'Signin'
+  | 'OAuthSignin'
+  | 'OAuthCallback'
+  | 'OAuthCreateAccount'
+  | 'EmailCreateAccount'
+  | 'Callback'
+  | 'OAuthAccountNotLinked'
+  | 'EmailSignin'
+  | 'CredentialsSignin'
+  | 'SessionRequired'
+  | 'default'

@@ -21,7 +21,8 @@ export const authOptions: NextAuthOptions = {
           scope: 'openid email profile',
           access_type: 'offline'
         }
-      }
+      },
+      allowDangerousEmailAccountLinking: true
     }),
     {
       id: 'email',
@@ -70,9 +71,10 @@ export const authOptions: NextAuthOptions = {
     error: '/auth/sign-in'
   },
   events: {
-    async createUser(message) {
+    async createUser({ user }) {
+      if (process.env.NODE_ENV !== 'production') return
       await unextended.user.update({
-        where: { id: message.user.id },
+        where: { id: user.id },
         data: { role: 'waitlist' }
       })
     }

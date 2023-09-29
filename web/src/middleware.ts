@@ -24,7 +24,7 @@ export default withAuth(
       request.nextauth.token?.role === 'waitlist' &&
       protectedPath(request.nextUrl.pathname)
     ) {
-      return NextResponse.rewrite(new URL('/waitlist', request.url))
+      return NextResponse.rewrite(new URL('/splash', request.url))
     }
   },
   {

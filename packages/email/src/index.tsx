@@ -1,9 +1,10 @@
-import { openPreview, render, Template } from 'mailing-core'
-import NewClaim from './templates/new-claim'
-import { ComponentProps } from 'react'
-import VerifyEmail from './templates/verify-email'
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import sendMail from '@sendgrid/mail'
+import { openPreview, render, Template } from 'mailing-core'
+import { ComponentProps } from 'react'
+import NewClaim from './templates/new-claim'
 import SuggestEdit from './templates/suggest-edit'
+import VerifyEmail from './templates/verify-email'
 
 sendMail.setApiKey(process.env.SMTP_PASS as string)
 
@@ -23,12 +24,18 @@ export type EmailData = ComponentProps<(typeof templates)[EmailTemplate]>
 
 const from = 'Books About Food <no-reply@booksaboutfood.info'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function renderComponent<T extends Template<any>>(
+  Template: T,
+  props: ComponentProps<T>
+) {
+  return <Template {...props} />
+}
+
 function renderTemplate<T extends Template<any>>(
   Template: T,
   props: ComponentProps<T>
 ) {
-  const { html, errors } = render(<Template {...props} />)
+  const { html, errors } = render(renderComponent(Template, props))
   if (errors.length) console.error('Email rendering error', errors)
   return {
     subject:
@@ -51,7 +58,8 @@ export async function send<T extends EmailTemplate>(
     process.env.NODE_ENV !== 'production' &&
     process.env.FORCE_SEND_EMAIL !== 'true'
   ) {
-    return openPreview({ html }, { subject, to, from })
+    const component = renderComponent(Template, props)
+    return openPreview({ component }, { subject, to, from })
   }
 
   try {

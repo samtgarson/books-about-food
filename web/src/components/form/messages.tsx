@@ -3,7 +3,7 @@
 import * as Form from '@radix-ui/react-form'
 import cn from 'classnames'
 import { InputHTMLAttributes } from 'react'
-import { useForm } from './context'
+import { useFormField } from './context'
 
 export type MessagesProps = {
   name: string
@@ -15,7 +15,7 @@ export const FormMessage = ({ className, ...props }: Form.FormMessageProps) => {
 }
 
 export function Messages({ label, name, ...props }: MessagesProps) {
-  const { errors } = useForm()
+  const { error } = useFormField(name)
   return (
     <>
       <FormMessage match="valueMissing">{label} is required</FormMessage>
@@ -28,7 +28,7 @@ export function Messages({ label, name, ...props }: MessagesProps) {
       <FormMessage match="typeMismatch">
         {label} must be a valid {props.type}
       </FormMessage>
-      {errors?.[name] && <FormMessage>{errors[name].message}</FormMessage>}
+      {error && <FormMessage>{error.message}</FormMessage>}
     </>
   )
 }

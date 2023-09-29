@@ -1,25 +1,33 @@
-export type ErrorType =
-  | 'UniqueConstraintViolation'
-  | 'ServerError'
-  | 'Forbidden'
-  | 'NotFound'
-const ErrorTypeStatusMap: Record<ErrorType, number> = {
+import type { Prisma } from '@prisma/client'
+export type ErrorType = keyof typeof ErrorTypeStatusMap
+const ErrorTypeStatusMap = {
   UniqueConstraintViolation: 400,
   ServerError: 500,
   Forbidden: 403,
-  NotFound: 404
+  NotFound: 404,
+  InvalidInput: 400
 }
 
 export type AppErrorJSON = ReturnType<AppError['toJSON']>
+
+const isPrismaError = (
+  e: unknown
+): e is Prisma.PrismaClientKnownRequestError => {
+  return typeof e === 'object' && e !== null && 'code' in e
+}
 
 export class AppError extends Error {
   static fromError = (e: unknown) => {
     if (e instanceof AppError) return e
 
-    if (e instanceof Error && 'code' in e) {
+    if (isPrismaError(e)) {
       switch (e.code) {
         case 'P2002':
-          return new AppError('UniqueConstraintViolation', e.message)
+          return new AppError(
+            'UniqueConstraintViolation',
+            e.message,
+            (e.meta?.target as string[] | undefined)?.[0]
+          )
       }
     }
 
@@ -31,7 +39,8 @@ export class AppError extends Error {
 
   constructor(
     public type: ErrorType,
-    message: string
+    message: string,
+    public field?: string
   ) {
     super(message)
   }
@@ -40,7 +49,8 @@ export class AppError extends Error {
     return {
       type: this.type,
       message: this.message,
-      status: this.status
+      status: this.status,
+      field: this.field
     }
   }
 

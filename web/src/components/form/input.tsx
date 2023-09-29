@@ -2,6 +2,7 @@
 
 import * as Form from '@radix-ui/react-form'
 import cn from 'classnames'
+import { useFormField } from './context'
 import { Label } from './label'
 import { Messages } from './messages'
 
@@ -11,8 +12,14 @@ export type InputProps = {
 } & React.ComponentProps<'input'>
 
 export function Input({ label, name, ...props }: InputProps) {
+  const { error } = useFormField(name)
+
   return (
-    <Form.Field name={name} className="flex flex-col gap-2">
+    <Form.Field
+      name={name}
+      className="flex flex-col gap-2"
+      serverInvalid={!!error}
+    >
       <Label required={props.required}>{label}</Label>
       <Form.Control asChild>
         <input

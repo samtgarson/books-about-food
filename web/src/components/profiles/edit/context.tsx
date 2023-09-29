@@ -8,6 +8,7 @@ import {
   useEffect,
   useState
 } from 'react'
+import { toast } from 'sonner'
 import { Profile } from 'src/models/profile'
 import { UpdateProfileInput } from 'src/services/profiles/update-profile'
 import { parse } from 'src/utils/superjson'
@@ -51,6 +52,7 @@ export const EditProfileProvider = ({
           await action(segment, { ...data, slug: profile.slug })
         )
         setProfile(updated)
+        toast('Profile updated')
         return true
       } catch (error) {
         return false
