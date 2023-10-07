@@ -14,8 +14,8 @@ const nextConfig = {
     serverComponentsExternalPackages: ['mjml']
   },
   transpilePackages: ['shared', 'database', 'email'],
-  swcMinify: true,
   images: {
+    unoptimized: true,
     minimumCacheTTL: 60 * 60 * 24 * 90, // 90 days
     remotePatterns: [
       {
