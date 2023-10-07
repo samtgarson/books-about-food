@@ -53,7 +53,8 @@ export const Content = ({
   size = 'md',
   loading,
   overlay = true,
-  focusTriggerOnClose = true
+  focusTriggerOnClose = true,
+  className
 }: {
   children: ReactNode | (({ close }: { close: () => void }) => ReactNode)
   authenticated?: boolean | { action: keyof SheetMap }
@@ -61,6 +62,7 @@ export const Content = ({
   loading?: boolean
   overlay?: boolean
   focusTriggerOnClose?: boolean
+  className?: string
 }) => {
   const { close } = useSheetContext()
   const { openSheet } = useSheet()
@@ -99,21 +101,22 @@ export const Content = ({
           overlay && 'bg-black bg-opacity-80'
         )}
       />
-      <div className="pointer-events-none fixed inset-0 z-50 flex items-end justify-center sm:items-center">
+      <div className="pointer-events-none fixed inset-0 z-50 flex items-end justify-center sm:items-center backdrop-filter">
         <Dialog.Content
           onCloseAutoFocus={(e) => {
             if (!focusTriggerOnClose) e.preventDefault()
           }}
           className={cn(
-            'animate-fade-in pointer-events-none flex w-full flex-shrink-0 flex-col',
+            'animate-fade-in pointer-events-none flex w-full flex-shrink-0 flex-col relative',
             {
               'sm:max-w-lg': size === 'md',
               'sm:max-w-xl': size === 'lg'
-            }
+            },
+            className
           )}
           aria-describedby={undefined}
         >
-          <Dialog.Close className="pointer-events-auto self-end p-4">
+          <Dialog.Close className="pointer-events-auto absolute p-4 right-0 -top-14">
             <X strokeWidth={1} size={24} className="stroke-white" />
           </Dialog.Close>
           {content}

@@ -318,6 +318,7 @@ view SearchResult {
   description String?
   image       Json?
   type        SearchResultType
+  slug        String
 
   @@map("search_results")
 }

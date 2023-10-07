@@ -1,6 +1,6 @@
-import prisma from "database"
-import { Service } from "src/utils/service"
-import z from "zod"
+import prisma from 'database'
+import { Service } from 'src/utils/service'
+import z from 'zod'
 
 export const quickSearch = new Service(
   z.object({ query: z.string() }),
@@ -10,11 +10,17 @@ export const quickSearch = new Service(
     return await prisma.searchResult.findMany({
       where: {
         OR: [
-          { name: { search: query, mode: 'insensitive' } },
-          { description: { search: query, mode: 'insensitive' } }
+          { name: { contains: query, mode: 'insensitive' } },
+          { description: { contains: query, mode: 'insensitive' } }
         ]
       },
-      orderBy: { _relevance: { fields: ['name', 'description'], search: query, sort: 'desc' } },
+      orderBy: {
+        _relevance: {
+          fields: ['name', 'description'],
+          search: query,
+          sort: 'desc'
+        }
+      },
       cacheStrategy: { ttl: 60, swr: 60 * 10 },
       take: 10
     })

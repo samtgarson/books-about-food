@@ -1,7 +1,7 @@
-import { z } from "zod"
-import { Image } from "./image"
-import { SearchResult as PrismaSearchResult } from "database"
-import { Colourful } from "./mixins/colourful"
+import { SearchResult as PrismaSearchResult, SearchResultType } from 'database'
+import { z } from 'zod'
+import { Image } from './image'
+import { Colourful } from './mixins/colourful'
 
 const imageSchema = z.object({
   id: z.string(),
@@ -9,34 +9,58 @@ const imageSchema = z.object({
   width: z.number(),
   height: z.number(),
   caption: z.string().nullable(),
-  placeholderUrl: z.string().nullish().transform((val) => val ?? null)
+  placeholderUrl: z
+    .string()
+    .nullish()
+    .transform((val) => val ?? null)
 })
 
-export class SearchResult extends Colourful(class {
-  id: string
-  name: string
-  type: string
-  image?: Image
-  description?: string
+export class SearchResult extends Colourful(
+  class {
+    id: string
+    name: string
+    type: SearchResultType
+    image?: Image
+    description?: string
+    slug: string
 
-  constructor(attrs: PrismaSearchResult) {
-    this.id = attrs.id
-    this.name = attrs.name
-    this.type = attrs.type
-    this.description = attrs.description ?? undefined
+    constructor(attrs: PrismaSearchResult) {
+      this.id = attrs.id
+      this.name = attrs.name
+      this.type = attrs.type
+      this.description = attrs.description ?? undefined
+      this.slug = attrs.slug
 
-    if (attrs.image) {
-      const imageAttrs = imageSchema.parse(attrs.image)
-      this.image = new Image(imageAttrs, `Preview image for ${this.name}`)
+      if (attrs.image) {
+        const imageAttrs = imageSchema.parse(attrs.image)
+        this.image = new Image(imageAttrs, `Preview image for ${this.name}`)
+      }
+    }
+
+    get domId() {
+      return `quick-search-result-${this.id}`
+    }
+
+    get isProfile() {
+      return ['contributor', 'author'].includes(this.type)
+    }
+
+    get initials() {
+      const names = this.name.split(' ')
+      return names.reduce((acc, name) => acc + name[0], '')
+    }
+
+    get href() {
+      switch (this.type) {
+        case 'book':
+          return `/cookbooks/${this.slug}`
+        case 'contributor':
+          return `/people/${this.slug}`
+        case 'author':
+          return `/authors/${this.slug}`
+        case 'publisher':
+          return `/publishers/${this.slug}`
+      }
     }
   }
-
-  get isProfile() {
-    return ['contributor', 'author'].includes(this.type)
-  }
-
-  get initials() {
-    const names = this.name.split(' ')
-    return names.reduce((acc, name) => acc + name[0], '')
-  }
-}) { }
+) {}
