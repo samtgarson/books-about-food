@@ -41,7 +41,7 @@ const Page = async () => {
             <ItemCarousel
               items={home.comingSoon}
               size="xl"
-              className="-mx-8 lg:-mx-12 lg:py-10 xl:-mx-16"
+              className="-mx-8 lg:-mx-12 lg:pt-10 lg:pb-6 xl:-mx-16"
               centered
               startOn={1}
               data-superjson
@@ -54,7 +54,7 @@ const Page = async () => {
             <ProfileCarousel
               items={home.authors}
               data-superjson
-              className="-mx-8 py-12 lg:-mx-12 lg:pb-20 lg:pt-[93px] xl:-mx-16"
+              className="-mx-8 py-12 lg:-mx-12 lg:pb-16 lg:pt-[93px] xl:-mx-16"
             />
           </HomepageModule>
         </div>

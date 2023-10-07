@@ -126,7 +126,7 @@ export const Scroller = ({
       id={id}
       ref={scrollerRef}
       className={cn(
-        'scrollbar-hidden relative flex snap-x snap-mandatory items-center justify-start overflow-x-auto overflow-y-hidden whitespace-nowrap pb-16',
+        'scrollbar-hidden relative flex snap-x snap-mandatory items-center justify-start overflow-x-auto overflow-y-visible whitespace-nowrap pb-16',
         className,
         padded &&
           cn(
