@@ -2,7 +2,7 @@
 
 import * as Form from '@radix-ui/react-form'
 import cn from 'classnames'
-import { useFormField } from './context'
+import { useForm, useFormField } from './context'
 import { Label } from './label'
 import { Messages } from './messages'
 
@@ -12,6 +12,7 @@ export type InputProps = {
 } & React.ComponentProps<'input'>
 
 export function Input({ label, name, ...props }: InputProps) {
+  const { variant } = useForm()
   const { error } = useFormField(name)
 
   return (
@@ -27,7 +28,8 @@ export function Input({ label, name, ...props }: InputProps) {
           {...props}
           className={cn(
             'bg-white bg-opacity-60 p-4 transition-colors placeholder:text-black/20 focus:bg-opacity-100 focus:outline-none',
-            props.disabled && 'text-neutral-grey'
+            props.disabled && 'text-neutral-grey',
+            variant === 'bordered' && 'border-neutral-grey border'
           )}
         />
       </Form.Control>

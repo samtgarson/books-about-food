@@ -4,6 +4,7 @@ import { Plus } from 'react-feather'
 import * as Sheet from 'src/components/atoms/sheet'
 import * as BookItem from 'src/components/books/item'
 import { Form } from 'src/components/form'
+import { Input } from 'src/components/form/input'
 import { Select, SelectValue } from 'src/components/form/select'
 import { Submit } from 'src/components/form/submit'
 import { useDebouncedPromise } from 'src/hooks/use-debounce-promise'
@@ -14,6 +15,7 @@ import { action, search } from './action'
 export const NewBookButton = () => {
   const loadOptions = useDebouncedPromise(search, 250)
   const [value, setValue] = useState<CreateBookInput | null>(null)
+  const searchDisabled = !!process.env.NEXT_PUBLIC_DISABLE_LIBRARY_SEARCH
 
   return (
     <Sheet.Root>
@@ -35,21 +37,32 @@ export const NewBookButton = () => {
             }}
             variant="bordered"
           >
-            <Select
-              name="title"
-              loadOptions={loadOptions}
-              valueKey="id"
-              label="Title"
-              render={BookResult}
-              required
-              allowCreate
-              multi={false}
-              onChange={(value) => {
-                if (!value) return
-                if (value.__new) setValue({ title: value.id })
-                else setValue({ googleBooksId: value.id })
-              }}
-            />
+            {searchDisabled ? (
+              <Input
+                name="title"
+                label="Title"
+                required
+                onChange={(e) => {
+                  setValue({ title: e.target.value })
+                }}
+              />
+            ) : (
+              <Select
+                name="title"
+                loadOptions={loadOptions}
+                valueKey="id"
+                label="Title"
+                render={BookResult}
+                required
+                allowCreate
+                multi={false}
+                onChange={(value) => {
+                  if (!value) return
+                  if (value.__new) setValue({ title: value.id })
+                  else setValue({ googleBooksId: value.id })
+                }}
+              />
+            )}
             <Submit variant="dark" className="w-full">
               Create
             </Submit>

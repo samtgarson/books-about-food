@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { FC, useState } from 'react'
+import { useState } from 'react'
 import { Avatar } from 'src/components/atoms/avatar'
 import { Body, Content, Header } from 'src/components/atoms/sheet'
 import { Form } from 'src/components/form'
@@ -8,6 +8,7 @@ import { TextArea } from 'src/components/form/textarea'
 import { Book } from 'src/models/book'
 import { Profile } from 'src/models/profile'
 import z from 'zod'
+import { SheetComponent } from '../types'
 import { action } from './action'
 
 export type SuggestEditSheetProps = {
@@ -18,7 +19,9 @@ const schema = z.object({
   suggestion: z.string()
 })
 
-export const SuggestEditSheet: FC<SuggestEditSheetProps> = ({ resource }) => {
+export const SuggestEditSheet: SheetComponent<SuggestEditSheetProps> = ({
+  resource
+}) => {
   const [success, setSuccess] = useState(false)
   return (
     <Content authenticated={{ action: 'claimProfile' }}>

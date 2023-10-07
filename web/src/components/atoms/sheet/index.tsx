@@ -25,7 +25,6 @@ type SheetContext = {
   mobileOnly?: boolean
   close: () => void
   open: () => void
-  onCancel?: () => void
   grey?: boolean
 }
 const SheetContext = createContext<SheetContext>({} as SheetContext)
@@ -63,7 +62,7 @@ export const Content = ({
   overlay?: boolean
   focusTriggerOnClose?: boolean
 }) => {
-  const { onCancel, close } = useSheetContext()
+  const { close } = useSheetContext()
   const { openSheet } = useSheet()
   const { status } = useSession()
 
@@ -102,9 +101,6 @@ export const Content = ({
       />
       <div className="pointer-events-none fixed inset-0 z-50 flex items-end justify-center sm:items-center">
         <Dialog.Content
-          onEscapeKeyDown={() => onCancel?.()}
-          onPointerDownOutside={() => onCancel?.()}
-          onInteractOutside={() => onCancel?.()}
           onCloseAutoFocus={(e) => {
             if (!focusTriggerOnClose) e.preventDefault()
           }}
@@ -130,20 +126,18 @@ export const Content = ({
 export const Body = ({
   className,
   loading,
-  children = null,
-  grey
+  children = null
 }: {
   className?: string
   loading?: boolean
   children?: ReactNode
-  grey?: boolean
 }) => {
-  const { grey: contextGrey } = useSheetContext()
+  const { grey } = useSheetContext()
   return (
     <div
       className={cn(
         'book-shadow pointer-events-auto max-h-[80vh] overflow-auto p-5 sm:p-8 isolate',
-        contextGrey || grey ? 'bg-grey' : 'bg-white',
+        grey ? 'bg-grey' : 'bg-white',
         className
       )}
     >
@@ -184,14 +178,14 @@ export const Footer = ({ children }: { children: ReactNode }) => (
 export type SheetProps = {
   children: ReactNode
   mobileOnly?: boolean
-  onCancel?: () => void
   grey?: boolean
+  onClose?: () => void
 }
 
 export type SheetControl = { setOpen: Dispatch<SetStateAction<boolean>> }
 
 export const Root = forwardRef<SheetControl, SheetProps>(function Root(
-  { children, mobileOnly, onCancel, grey },
+  { children, mobileOnly, grey, onClose },
   ref
 ) {
   const [open, setOpen] = useState(false)
@@ -202,9 +196,11 @@ export const Root = forwardRef<SheetControl, SheetProps>(function Root(
     <SheetContext.Provider
       value={{
         mobileOnly,
-        close: () => setOpen(false),
+        close: () => {
+          onClose?.()
+          setOpen(false)
+        },
         open: () => setOpen(true),
-        onCancel,
         grey
       }}
     >

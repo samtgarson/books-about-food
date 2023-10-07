@@ -1,7 +1,7 @@
 'use client'
 import { Claim } from 'database'
 import { useRouter } from 'next/navigation'
-import { FC, useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { ArrowRight, Check, Copy } from 'react-feather'
 import { usePromise } from 'src/hooks/use-promise'
 import { Profile } from 'src/models/profile'
@@ -12,12 +12,15 @@ import { Body, Content, Header } from '../atoms/sheet'
 import { create, destroy, fetch } from '../profiles/claim-button/action'
 import { ProfileItem } from '../profiles/item'
 import { useSheet } from './global-sheet'
+import { SheetComponent } from './types'
 
 export type ClaimProfileSheetProps = {
   profile: Profile
 }
 
-export const ClaimProfileSheet: FC<ClaimProfileSheetProps> = ({ profile }) => {
+export const ClaimProfileSheet: SheetComponent<ClaimProfileSheetProps> = ({
+  profile
+}) => {
   const router = useRouter()
   const { closeSheet } = useSheet()
   const {

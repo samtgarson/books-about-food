@@ -69,7 +69,7 @@ export default async ({ params: { slug } }: CookbooksPageProps) => {
             {book.team.length > 0 && (
               <TeamList contributions={book.contributions} className="mb-8" />
             )}
-            <CorrectionButton book={book} className="" />
+            <CorrectionButton book={book} data-superjson />
           </Container>
           <Container
             desktop={false}
