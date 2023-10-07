@@ -3,7 +3,7 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["fullTextSearch"]
+  previewFeatures = ["fullTextSearch", "views"]
 }
 
 datasource db {
@@ -303,4 +303,21 @@ model Pitch {
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
   @@map("pitches")
+}
+
+enum SearchResultType {
+  book
+  author
+  contributor
+  publisher
+}
+
+view SearchResult {
+  id          String           @unique
+  name        String
+  description String?
+  image       Json?
+  type        SearchResultType
+
+  @@map("search_results")
 }

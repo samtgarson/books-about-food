@@ -12,6 +12,7 @@ export const usePromise = <
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true)
       const data = await input()
       setValue(data)
       setLoading(false)

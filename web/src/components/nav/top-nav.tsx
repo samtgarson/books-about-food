@@ -11,6 +11,7 @@ import { Container } from '../atoms/container'
 import { Loader } from '../atoms/loader'
 import { AuthedButton } from '../auth/authed-button'
 import { useNav } from './context'
+import { QuickSearch } from './search'
 
 const AccountLink = ({ className }: { className?: string }) => {
   return (
@@ -110,7 +111,7 @@ export const TopNav: FC = () => {
     <nav className="absolute inset-x-0 top-0 z-30">
       <Container
         className={cn(
-          'flex w-screen items-stretch border-b border-black py-5 pr-4',
+          'flex w-screen gap-2 items-stretch border-b border-black py-5 pr-4',
           theme === 'dark' && 'text-white'
         )}
       >
@@ -132,7 +133,8 @@ export const TopNav: FC = () => {
             </Dialog.Content>
           </Dialog.Portal>
         </Dialog.Root>
-        <AccountLink className="ml-auto" />
+        <QuickSearch className="ml-auto" />
+        <AccountLink />
       </Container>
     </nav>
   )

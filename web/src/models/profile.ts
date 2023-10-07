@@ -1,12 +1,11 @@
-import Color from 'color'
-import randomColor from 'randomcolor'
 import { normalizeLink } from 'src/utils/url-helpers'
 import { colors } from 'theme'
 import { BaseModel } from '.'
 import { Image } from './image'
 import { ProfileAttrs } from './types'
+import { Colourful } from './mixins/colourful'
 
-export class Profile extends BaseModel {
+export class Profile extends Colourful(class extends BaseModel {
   _type = 'profile' as const
   id: string
   name: string
@@ -46,18 +45,10 @@ export class Profile extends BaseModel {
     return names.reduce((acc, name) => acc + name[0], '')
   }
 
-  get backgroundColour() {
-    return randomColor({ seed: this.id, luminosity: 'bright' })
-  }
-
-  get foregroundColour() {
-    return new Color(this.backgroundColour).isDark() ? '#fff' : '#000'
-  }
-
   get href() {
     return `/${this.role}s/${this.id}`
   }
-}
+}) { }
 
 export class NullProfile extends Profile {
   constructor() {

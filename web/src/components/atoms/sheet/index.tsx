@@ -5,10 +5,14 @@ import cn from 'classnames'
 import { useSession } from 'next-auth/react'
 import {
   createContext,
+  Dispatch,
   FC,
+  forwardRef,
   ReactNode,
+  SetStateAction,
   useContext,
   useEffect,
+  useImperativeHandle,
   useMemo,
   useState
 } from 'react'
@@ -47,12 +51,16 @@ export const Content = ({
   children,
   authenticated,
   size = 'md',
-  loading
+  loading,
+  overlay = true,
+  focusTriggerOnClose = true
 }: {
   children: ReactNode | (({ close }: { close: () => void }) => ReactNode)
   authenticated?: boolean | { action: keyof SheetMap }
   size?: 'md' | 'lg'
   loading?: boolean
+  overlay?: boolean
+  focusTriggerOnClose?: boolean
 }) => {
   const { onCancel, close } = useSheetContext()
   const { openSheet } = useSheet()
@@ -85,12 +93,15 @@ export const Content = ({
 
   return (
     <Dialog.Portal>
-      <Dialog.Overlay className="animate-fade-in fixed inset-0 z-50 bg-black bg-opacity-80" />
+      <Dialog.Overlay className={cn("animate-fade-in fixed inset-0 z-50", overlay && "bg-black bg-opacity-80")} />
       <div className="pointer-events-none fixed inset-0 z-50 flex items-end justify-center sm:items-center">
         <Dialog.Content
           onEscapeKeyDown={() => onCancel?.()}
           onPointerDownOutside={() => onCancel?.()}
           onInteractOutside={() => onCancel?.()}
+          onCloseAutoFocus={(e) => {
+            if (!focusTriggerOnClose) e.preventDefault()
+          }}
           className={cn(
             'animate-fade-in pointer-events-none flex w-full flex-shrink-0 flex-col',
             {
@@ -163,21 +174,27 @@ export type SheetProps = {
   onCancel?: () => void
 }
 
-export const Root: FC<SheetProps> = ({ children, mobileOnly, onCancel }) => {
-  const [open, setOpen] = useState(false)
+export type SheetControl = { setOpen: Dispatch<SetStateAction<boolean>> }
 
-  return (
-    <SheetContext.Provider
-      value={{
-        mobileOnly,
-        close: () => setOpen(false),
-        open: () => setOpen(true),
-        onCancel
-      }}
-    >
-      <Dialog.Root open={open} onOpenChange={setOpen}>
-        {children}
-      </Dialog.Root>
-    </SheetContext.Provider>
-  )
-}
+export const Root = forwardRef<SheetControl, SheetProps>(
+  function Root({ children, mobileOnly, onCancel }, ref) {
+    const [open, setOpen] = useState(false)
+
+    useImperativeHandle(ref, () => ({ setOpen }), [setOpen])
+
+    return (
+      <SheetContext.Provider
+        value={{
+          mobileOnly,
+          close: () => setOpen(false),
+          open: () => setOpen(true),
+          onCancel
+        }}
+      >
+        <Dialog.Root open={open} onOpenChange={setOpen}>
+          {children}
+        </Dialog.Root>
+      </SheetContext.Provider>
+    )
+  }
+)

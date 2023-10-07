@@ -10,7 +10,7 @@ export class Image {
   placeholderUrl?: string
 
   constructor(
-    { path, width, height, caption, placeholderUrl, id }: Prisma.Image,
+    { path, width, height, caption, placeholderUrl, id }: Pick<Prisma.Image, 'path' | 'width' | 'height' | 'caption' | 'placeholderUrl' | 'id'>,
     defaultCaption: string
   ) {
     this.id = id
