@@ -26,6 +26,7 @@ type SheetContext = {
   close: () => void
   open: () => void
   onCancel?: () => void
+  grey?: boolean
 }
 const SheetContext = createContext<SheetContext>({} as SheetContext)
 export const useSheetContext = () => useContext(SheetContext)
@@ -93,7 +94,12 @@ export const Content = ({
 
   return (
     <Dialog.Portal>
-      <Dialog.Overlay className={cn("animate-fade-in fixed inset-0 z-50", overlay && "bg-black bg-opacity-80")} />
+      <Dialog.Overlay
+        className={cn(
+          'animate-fade-in fixed inset-0 z-50',
+          overlay && 'bg-black bg-opacity-80'
+        )}
+      />
       <div className="pointer-events-none fixed inset-0 z-50 flex items-end justify-center sm:items-center">
         <Dialog.Content
           onEscapeKeyDown={() => onCancel?.()}
@@ -124,24 +130,27 @@ export const Content = ({
 export const Body = ({
   className,
   loading,
-  grey,
-  children = null
+  children = null,
+  grey
 }: {
   className?: string
   loading?: boolean
-  grey?: boolean
   children?: ReactNode
-}) => (
-  <div
-    className={cn(
-      'book-shadow pointer-events-auto max-h-[80vh] overflow-auto p-5 sm:p-8',
-      grey ? 'bg-grey' : 'bg-white',
-      className
-    )}
-  >
-    {loading ? <Loader /> : children}
-  </div>
-)
+  grey?: boolean
+}) => {
+  const { grey: contextGrey } = useSheetContext()
+  return (
+    <div
+      className={cn(
+        'book-shadow pointer-events-auto max-h-[80vh] overflow-auto p-5 sm:p-8 isolate',
+        contextGrey || grey ? 'bg-grey' : 'bg-white',
+        className
+      )}
+    >
+      {loading ? <Loader /> : children}
+    </div>
+  )
+}
 
 export const Header = ({
   children,
@@ -152,17 +161,21 @@ export const Header = ({
   children?: ReactNode
   title: string
   size?: 'lg' | 'sm'
-}) => (
-  <div
-    className={cn(
-      'mb-4 flex justify-between sm:mb-6',
-      size == 'lg' && 'text-24'
-    )}
-  >
-    <Dialog.Title>{title}</Dialog.Title>
-    {children}
-  </div>
-)
+}) => {
+  const { grey } = useSheetContext()
+  return (
+    <div
+      className={cn(
+        ' flex justify-between py-5 sm:py-8 sticky -top-5 -mt-5 sm:-top-8 sm:-mt-8 z-30',
+        size == 'lg' && 'text-24',
+        grey ? 'bg-grey' : 'bg-white'
+      )}
+    >
+      <Dialog.Title>{title}</Dialog.Title>
+      {children}
+    </div>
+  )
+}
 
 export const Footer = ({ children }: { children: ReactNode }) => (
   <div className="bg-white">{children}</div>
@@ -172,29 +185,32 @@ export type SheetProps = {
   children: ReactNode
   mobileOnly?: boolean
   onCancel?: () => void
+  grey?: boolean
 }
 
 export type SheetControl = { setOpen: Dispatch<SetStateAction<boolean>> }
 
-export const Root = forwardRef<SheetControl, SheetProps>(
-  function Root({ children, mobileOnly, onCancel }, ref) {
-    const [open, setOpen] = useState(false)
+export const Root = forwardRef<SheetControl, SheetProps>(function Root(
+  { children, mobileOnly, onCancel, grey },
+  ref
+) {
+  const [open, setOpen] = useState(false)
 
-    useImperativeHandle(ref, () => ({ setOpen }), [setOpen])
+  useImperativeHandle(ref, () => ({ setOpen }), [setOpen])
 
-    return (
-      <SheetContext.Provider
-        value={{
-          mobileOnly,
-          close: () => setOpen(false),
-          open: () => setOpen(true),
-          onCancel
-        }}
-      >
-        <Dialog.Root open={open} onOpenChange={setOpen}>
-          {children}
-        </Dialog.Root>
-      </SheetContext.Provider>
-    )
-  }
-)
+  return (
+    <SheetContext.Provider
+      value={{
+        mobileOnly,
+        close: () => setOpen(false),
+        open: () => setOpen(true),
+        onCancel,
+        grey
+      }}
+    >
+      <Dialog.Root open={open} onOpenChange={setOpen}>
+        {children}
+      </Dialog.Root>
+    </SheetContext.Provider>
+  )
+})

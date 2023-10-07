@@ -18,7 +18,7 @@ export function SheetContent<Value extends { id: string }>({
 
   return (
     <Sheet.Content>
-      <Sheet.Body grey>
+      <Sheet.Body>
         <FormComponent onSubmit={onSubmit} value={value} />
       </Sheet.Body>
     </Sheet.Content>

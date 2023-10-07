@@ -18,7 +18,7 @@ export const CorrectionButton: FC<CorrectionButtonProps> = ({
       href={`/submit?bookId=${book.id}`}
       className={cn('text-14 flex items-center gap-4', className)}
     >
-      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white">
         <Plus size={23} strokeWidth={1} />
       </div>
       <p>

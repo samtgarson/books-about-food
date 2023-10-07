@@ -69,7 +69,7 @@ export const ClaimProfileSheet: FC<ClaimProfileSheetProps> = ({ profile }) => {
               <ProfileItem
                 profile={profile}
                 display="list"
-                className="mb-6 w-full"
+                className="w-full"
               />
               <p>
                 If you’re {profile.name}, there&apos;s a couple of steps to go
@@ -78,7 +78,6 @@ export const ClaimProfileSheet: FC<ClaimProfileSheetProps> = ({ profile }) => {
               </p>
               <Button
                 variant="secondary"
-                className="mt-4"
                 disabled={claiming}
                 onClick={createClaim}
               >

@@ -61,7 +61,7 @@ export function CollectionInput<
             }
           />
         </Form.Control>
-        <Sheet.Root>
+        <Sheet.Root grey>
           <Sheet.Trigger className="flex items-center justify-center bg-white p-7">
             <Plus strokeWidth={1} size={24} />
           </Sheet.Trigger>

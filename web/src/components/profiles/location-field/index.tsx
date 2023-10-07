@@ -27,7 +27,7 @@ export const LocationField = () => {
   if (!editMode && !profile.location) return null
   return (
     <Detail maxWidth>
-      <Sheet.Root>
+      <Sheet.Root grey>
         <Sheet.Trigger
           className={cn(
             'w-full self-start',
@@ -50,7 +50,7 @@ export const LocationField = () => {
                 close()
               }}
             >
-              <Sheet.Body grey>
+              <Sheet.Body>
                 <Sheet.Header title="Choose a location" />
                 <Select
                   name="location"

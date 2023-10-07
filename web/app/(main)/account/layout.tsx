@@ -11,7 +11,7 @@ const Layout = async ({ children }: { children: ReactNode }) => {
         <div className="w-80">
           <AccountNavItem label="Account Details" href="" />
           <AccountNavItem label="Favourites" href="favourites" />
-          <AccountNavItem label="Submitted Cookooks" href="books" />
+          <AccountNavItem label="Submitted Cookbooks" href="books" />
           <SignOutButton />
         </div>
         <div className="min-w-[350px] flex-grow">{children}</div>
