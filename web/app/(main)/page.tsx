@@ -41,7 +41,6 @@ const Page = async () => {
             <ItemCarousel
               items={home.comingSoon}
               size="xl"
-              readMoreLink="/cookbooks"
               className="-mx-8 lg:-mx-12 lg:py-10 xl:-mx-16"
               centered
               startOn={1}
