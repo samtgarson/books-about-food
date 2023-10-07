@@ -23,7 +23,10 @@ export const fetchPublishers = new Service(
     const [raw, total, filteredTotal] = await Promise.all([
       prisma.publisher.findMany({
         where,
-        orderBy: { name: 'asc' },
+        orderBy: [
+          { logo: { publisher: { books: { _count: 'desc' } } } },
+          { name: 'asc' }
+        ],
         take: perPage === 0 ? undefined : perPage,
         skip: perPage * page,
         include: { logo: true },

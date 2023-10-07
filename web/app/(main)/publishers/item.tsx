@@ -23,7 +23,10 @@ export const PublishersItem = ({
       {publisher.logo ? (
         <Image
           {...publisher.logo.imageAttrs(40)}
-          className="h-[50px] w-[140px] object-contain object-center mix-blend-darken"
+          className={cn(
+            'w-[140px] object-contain object-center mix-blend-darken',
+            square ? 'h-[140px]' : 'h-full'
+          )}
         />
       ) : (
         <p>{publisher.name}</p>
