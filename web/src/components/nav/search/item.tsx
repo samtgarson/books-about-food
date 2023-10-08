@@ -10,12 +10,7 @@ type QuickSearchItemProps = {
   children: ReactNode
 }
 
-export function QuickSearchItem({
-  focused,
-  onHover,
-  children,
-  ...props
-}: QuickSearchItemProps) {
+function Root({ focused, onHover, children, ...props }: QuickSearchItemProps) {
   return (
     <Link
       className={cn(
@@ -29,3 +24,13 @@ export function QuickSearchItem({
     </Link>
   )
 }
+
+function Image({ children }: { children: ReactNode }) {
+  return (
+    <div className="w-12 flex flex-shrink-0 items-center justify-center">
+      {children}
+    </div>
+  )
+}
+
+export const QuickSearchItem = { Root, Image: Image }

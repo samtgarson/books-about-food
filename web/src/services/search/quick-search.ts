@@ -21,8 +21,7 @@ export const quickSearch = new Service(
           sort: 'desc'
         }
       },
-      cacheStrategy: { ttl: 60, swr: 60 * 10 },
-      take: 10
+      cacheStrategy: { ttl: 60, swr: 60 * 10 }
     })
   }
 )

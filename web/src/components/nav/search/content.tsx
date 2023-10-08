@@ -11,6 +11,7 @@ import * as Sheet from 'src/components/atoms/sheet'
 import { usePromise } from 'src/hooks/use-promise'
 import { SearchResult } from 'src/models/search-result'
 import { action } from './action'
+import { QuickSearchAction, SearchAction, quickSearchActions } from './actions'
 import { QuickSearchItem } from './item'
 
 export function QuickSearchContent({ onSelect }: { onSelect?: () => void }) {
@@ -21,9 +22,12 @@ export function QuickSearchContent({ onSelect }: { onSelect?: () => void }) {
     [],
     [query]
   )
-  const results = useMemo(
-    () => value.map((result) => new SearchResult(result)),
-    [value]
+  const results = useMemo<Array<SearchResult | SearchAction>>(
+    () => [
+      ...quickSearchActions(query),
+      ...value.map((result) => new SearchResult(result))
+    ],
+    [value, query]
   )
   const [focused, setFocused] = useState<number>(0)
   const router = useRouter()
@@ -84,18 +88,23 @@ export function QuickSearchContent({ onSelect }: { onSelect?: () => void }) {
         className="overflow-y-auto flex flex-col gap-1 pb-6 empty:pb-0 group"
         onClick={onSelect}
       >
-        {!!rawQuery.length && (
-          <>
-            {!loading && !results.length && <div>No Results</div>}
-            {results.map((result, index) => (
-              <QuickSearchResult
-                key={result.id}
-                item={result}
-                focused={focused === index}
-                onHover={() => setFocused(index)}
-              />
-            ))}
-          </>
+        {!loading && !results.length && <div>No Results</div>}
+        {results.map((result, index) =>
+          result instanceof SearchAction ? (
+            <QuickSearchAction
+              action={result}
+              key={result.id}
+              focused={focused === index}
+              onHover={() => setFocused(index)}
+            />
+          ) : (
+            <QuickSearchResult
+              key={result.id}
+              item={result}
+              focused={focused === index}
+              onHover={() => setFocused(index)}
+            />
+          )
         )}
       </div>
     </Sheet.Body>
@@ -110,29 +119,33 @@ type QuickSearchResultProps = {
 
 function QuickSearchResult({ item, focused, onHover }: QuickSearchResultProps) {
   return (
-    <QuickSearchItem
+    <QuickSearchItem.Root
       href={item.href}
       onHover={onHover}
       id={item.domId}
       focused={focused}
     >
-      {item.isProfile ? (
-        <BaseAvatar
-          size="sm"
-          backup={item.initials}
-          foregroundColour={item.foregroundColour}
-          backgroundColour={item.backgroundColour}
-          imgProps={item.image?.imageAttrs()}
-        />
-      ) : item.image ? (
-        <Image {...item.image.imageAttrs(50)} />
-      ) : (
-        <div className="h-[50px] w-[38px] bg-grey" />
-      )}
+      <QuickSearchItem.Image>
+        {item.isProfile ? (
+          <BaseAvatar
+            size="sm"
+            backup={item.initials}
+            foregroundColour={item.foregroundColour}
+            backgroundColour={item.backgroundColour}
+            imgProps={item.image?.imageAttrs()}
+          />
+        ) : item.image ? (
+          <Image {...item.image.imageAttrs(50)} />
+        ) : item.type === 'publisher' ? (
+          <div className="h-10 w-10 bg-grey rounded-full" />
+        ) : (
+          <div className="h-[50px] w-[38px] bg-grey" />
+        )}
+      </QuickSearchItem.Image>
       <div className="flex flex-col">
         <p className="text-16 font-medium">{item.name}</p>
         <p className="text-14">{item.description}</p>
       </div>
-    </QuickSearchItem>
+    </QuickSearchItem.Root>
   )
 }
