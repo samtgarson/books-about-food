@@ -18,7 +18,7 @@ export const HomepageModule: FC<HomepageModuleProps> = ({
 }) => (
   <div
     className={cn(
-      'peer w-full border-black p-8 peer-[&]:border-y lg:w-1/2 lg:border-y lg:p-12 peer-[&]:lg:border-l xl:p-16 !pb-0',
+      'peer w-full border-black p-8 peer-[&]:border-y lg:w-1/2 lg:border-y lg:p-12 peer-[&]:lg:border-l xl:p-16 lg:!pb-0',
       className
     )}
   >
