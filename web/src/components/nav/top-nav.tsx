@@ -44,7 +44,8 @@ const TopNavItem: FC<{
       href={href}
       className={cn(className, navItemClassNames(), loading && '!opacity-50')}
       style={{ animationDelay: `${index * 50}ms` }}
-      onClick={() => {
+      onClick={(e) => {
+        if (e.metaKey || e.ctrlKey) return
         active ? setOpen(false) : setLoading(true)
       }}
     >

@@ -11,11 +11,16 @@ export const action: FormAction = async (values: unknown) => {
   const result = await createBook.parseAndCall(values)
 
   if (result.data) redirect(`/edit/${result.data.slug}`)
-  return parseAppError(result.errors, {
-    title: {
-      UniqueConstraintViolation: 'A book with this title already exists'
-    }
-  })
+  console.log(result.errors)
+  return parseAppError(
+    result.errors,
+    {
+      title: {
+        UniqueConstraintViolation: 'A book with this title already exists'
+      }
+    },
+    { slug: 'title' }
+  )
 }
 
 export const search = async (query: string) => {
