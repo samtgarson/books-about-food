@@ -18,7 +18,12 @@ export const importBooks = new Service(
     }
 
     const rows = await parse(csv)
-    const jobs = (await prisma.job.findMany({ select: { name: true } }))
+    const jobs = (
+      await prisma.job.findMany({
+        select: { name: true },
+        where: { name: { not: 'Publisher' } }
+      })
+    )
       .map((job) => job.name)
       .concat('Author')
 

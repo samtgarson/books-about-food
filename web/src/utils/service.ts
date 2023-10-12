@@ -27,10 +27,10 @@ export type ServiceResult<T> =
     }
 
 export class Service<Input extends z.ZodTypeAny, Return> {
-  private _call: (input?: z.input<Input>, user?: User | null) => Promise<Return>
+  private _call: (input?: z.infer<Input>, user?: User | null) => Promise<Return>
   constructor(
     public input: Input,
-    call: (input?: z.input<Input>, user?: User | null) => Promise<Return>,
+    call: (input?: z.infer<Input>, user?: User | null) => Promise<Return>,
     public requestMeta: RequestMeta = {}
   ) {
     this._call = cache(call)
@@ -61,13 +61,15 @@ export class Service<Input extends z.ZodTypeAny, Return> {
     const u = user || (await this.getUser())
 
     try {
-      return { success: true, data: await this._call(input, u) }
+      return {
+        success: true,
+        data: await this._call(this.input.optional().parse(input), u)
+      }
     } catch (e) {
       console.log(e)
       return {
         success: false,
-        errors: [AppError.fromError(e).toJSON()],
-        originalError: e
+        errors: [AppError.fromError(e).toJSON()]
       }
     }
   }

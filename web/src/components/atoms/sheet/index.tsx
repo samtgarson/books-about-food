@@ -103,6 +103,9 @@ export const Content = ({
       />
       <div className="pointer-events-none fixed inset-0 z-50 flex items-end justify-center sm:items-center backdrop-filter">
         <Dialog.Content
+          onEscapeKeyDown={close}
+          onPointerDownOutside={close}
+          onInteractOutside={close}
           onCloseAutoFocus={(e) => {
             if (!focusTriggerOnClose) e.preventDefault()
           }}

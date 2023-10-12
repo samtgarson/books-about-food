@@ -41,13 +41,13 @@ export const processBookImport = new Service(
       throw new AppError('Forbidden', 'You must be an admin to import books')
     }
 
-    const rows: Prisma.BookCreateInput[] = books.map(
-      ({ bookAttrs, authors: authorsInput, contributors }) => {
+    const rows: { id: string; data: Prisma.BookCreateInput }[] = books.map(
+      ({ id, bookAttrs, authors: authorsInput, contributors }) => {
         let publisher: Prisma.BookCreateInput['publisher']
         if (bookAttrs.publisher)
           publisher = {
             connectOrCreate: {
-              where: { name: bookAttrs.publisher },
+              where: { slug: slugify(bookAttrs.publisher) },
               create: {
                 name: bookAttrs.publisher,
                 slug: slugify(bookAttrs.publisher)
@@ -55,53 +55,68 @@ export const processBookImport = new Service(
             }
           }
 
-        const authors: Prisma.BookCreateInput['authors'] = {
-          connectOrCreate: authorsInput.map((author) => ({
-            where: { slug: slugify(author.name) },
-            create: { name: author.name, slug: slugify(author.name) }
-          }))
-        }
+        let authors: Prisma.BookCreateInput['authors']
+        if (authorsInput.length)
+          authors = {
+            connectOrCreate: authorsInput.map((author) => ({
+              where: { slug: slugify(author.name) },
+              create: { name: author.name, slug: slugify(author.name) }
+            }))
+          }
 
-        const tags: Prisma.BookCreateInput['tags'] = {
-          connectOrCreate: bookAttrs.tags.map((tag) => ({
-            where: { name: tag },
-            create: { name: tag }
-          }))
-        }
+        let tags: Prisma.BookCreateInput['tags']
+        if (bookAttrs.tags.length)
+          tags = {
+            connectOrCreate: bookAttrs.tags.map((tag) => ({
+              where: { name: tag },
+              create: { name: tag }
+            }))
+          }
 
-        const contributions: Prisma.BookCreateInput['contributions'] = {
-          create: contributors.map((contributor) => ({
-            profile: {
-              connectOrCreate: {
-                where: { slug: slugify(contributor.name) },
-                create: {
-                  name: contributor.name,
-                  slug: slugify(contributor.name)
+        let contributions: Prisma.BookCreateInput['contributions']
+        if (contributors.length)
+          contributions = {
+            create: contributors.map((contributor) => ({
+              profile: {
+                connectOrCreate: {
+                  where: { slug: slugify(contributor.name) },
+                  create: {
+                    name: contributor.name,
+                    slug: slugify(contributor.name)
+                  }
                 }
-              }
-            },
-            job: { connect: { name: contributor.job } }
-          }))
-        }
+              },
+              job: { connect: { name: contributor.job } }
+            }))
+          }
 
         return {
-          ...bookAttrs,
-          releaseDate: parseDate(bookAttrs.releaseDate),
-          tags,
-          publisher,
-          contributions,
-          authors,
-          submitterId: user.id,
-          source: 'import'
+          id,
+          data: {
+            ...bookAttrs,
+            releaseDate: parseDate(bookAttrs.releaseDate),
+            tags,
+            publisher,
+            contributions,
+            authors,
+            submitter: { connect: { id: user.id } },
+            source: 'import'
+          }
         }
       }
     )
 
-    const result = await prisma.$transaction((tx) =>
-      asyncBatch(rows, 5, (data) => tx.book.create({ data }))
-    )
+    const result = await asyncBatch(rows, 5, async ({ id, data }) => {
+      try {
+        await prisma.book.create({ data })
+        return id
+      } catch (e) {
+        console.log(`Import error: ${data.slug}`, e)
+        return undefined
+      }
+    })
 
-    return result.length
+    return result
   }
 )
 
@@ -110,5 +125,7 @@ function parseDate(input?: string) {
   const parsed = parse(input, 'dd/MM/yyyy', new Date()) // 19/10/2018
   if (isNaN(parsed.getTime()))
     throw new AppError('InvalidInput', 'Release date not valid')
+
+  parsed.setHours(0, 0, 0, 0)
   return parsed
 }
