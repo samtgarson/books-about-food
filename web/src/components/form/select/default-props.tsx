@@ -28,15 +28,17 @@ export const selectProps = <
   unstyled?: boolean
   showChevron?: boolean
   bordered?: boolean
-}) =>
-  ({
+}) => {
+  const portalTarget = document.querySelector(
+    '[role=dialog][data-state=open]'
+  ) as HTMLElement | null
+  return {
     unstyled: true,
     isClearable: true,
     allowCreateWhileLoading: false,
     menuShouldScrollIntoView: true,
-    menuPortalTarget: document.querySelector(
-      '[role=dialog][data-state=open]'
-    ) as HTMLElement | null,
+    menuPortalTarget: portalTarget,
+    menuPosition: portalTarget ? 'fixed' : 'absolute',
     getNewOptionData(inputValue) {
       return {
         [valueKey]: inputValue,
@@ -104,7 +106,8 @@ export const selectProps = <
         return <components.Option {...props} />
       }
     }
-  }) satisfies AsyncCreatableProps<Value, Multi, never>
+  } satisfies AsyncCreatableProps<Value, Multi, never>
+}
 
 export const CreateButton = ({
   value,
