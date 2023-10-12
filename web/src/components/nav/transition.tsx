@@ -79,11 +79,14 @@ export const Transition = forwardRef<TransitionControl>(
             className="bg-grey fixed inset-0 z-50 flex flex-col items-center justify-center gap-8"
           >
             <div className="relative">
-              <LogoShape
+              <motion.div
                 initial={{ scale: 0.5 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: 0.4, ease: 'easeOut' }}
-              />
+              >
+                {' '}
+                <LogoShape />
+              </motion.div>
               <LogoText
                 className="absolute inset-x-0 top-1/2 mx-auto text-white"
                 initial={{ y: '-40%' }}
