@@ -6,9 +6,10 @@ import {
   createContext,
   useContext,
   useEffect,
+  useRef,
   useState
 } from 'react'
-import { Transition } from './transition'
+import { Transition, TransitionControl } from './transition'
 
 export type NavTheme = 'dark' | 'light'
 type NavContext = {
@@ -16,6 +17,7 @@ type NavContext = {
   setTheme: (theme: NavTheme) => void
   open: boolean
   setOpen: (open: boolean) => void
+  showTransition: () => void
 }
 
 const NavContext = createContext({} as NavContext)
@@ -24,6 +26,7 @@ export const NavProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const path = usePathname()
   const [theme, setTheme] = useState<NavTheme>(path === '/' ? 'dark' : 'light')
   const [open, setOpen] = useState(false)
+  const transition = useRef<TransitionControl>(null)
 
   useEffect(() => {
     setOpen(false)
@@ -31,8 +34,18 @@ export const NavProvider: FC<{ children: ReactNode }> = ({ children }) => {
   }, [path])
 
   return (
-    <NavContext.Provider value={{ theme, setTheme, open, setOpen }}>
-      <Transition />
+    <NavContext.Provider
+      value={{
+        theme,
+        setTheme,
+        open,
+        setOpen,
+        showTransition() {
+          transition.current?.show()
+        }
+      }}
+    >
+      <Transition ref={transition} />
       {children}
     </NavContext.Provider>
   )

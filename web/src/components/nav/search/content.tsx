@@ -10,11 +10,13 @@ import { Loader } from 'src/components/atoms/loader'
 import * as Sheet from 'src/components/atoms/sheet'
 import { usePromise } from 'src/hooks/use-promise'
 import { SearchResult } from 'src/models/search-result'
+import { useNav } from '../context'
 import { action } from './action'
 import { QuickSearchAction, SearchAction, quickSearchActions } from './actions'
 import { QuickSearchItem } from './item'
 
 export function QuickSearchContent({ onSelect }: { onSelect?: () => void }) {
+  const { showTransition } = useNav()
   const [rawQuery, setQuery] = useState('')
   const query = useDeferredValue(rawQuery)
   const { value, loading } = usePromise(
@@ -42,6 +44,7 @@ export function QuickSearchContent({ onSelect }: { onSelect?: () => void }) {
         const result = results[focused]
         onSelect?.()
         router.push(result.href)
+        showTransition()
         return
       }
 
