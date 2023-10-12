@@ -131,9 +131,9 @@ export const Footer = ({
     <div
       className={cn(
         className,
-        'min-w-0 sm:w-full sm:pr-4',
-        mobileGrid && 'pr-4',
-        centered && '-mt-[50px] text-center'
+        'min-w-0 sm:w-full',
+        mobileGrid && !centered && 'pr-4',
+        centered ? '-mt-[50px] text-center px-14' : 'sm:pr-4'
       )}
     >
       {children}
