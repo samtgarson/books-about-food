@@ -35,7 +35,12 @@ export default async ({ params: { slug } }: CookbooksPageProps) => {
   return (
     <div className="relative flex-grow lg:pr-[50vw]">
       <Container className="pt-6 sm:pt-20" key="header" belowNav>
-        <div className="font-style-title mb-6 flex items-center sm:mb-4">
+        <div
+          className={cn(
+            'font-style-title mb-6 flex items-center sm:mb-4',
+            !book.subtitle && 'sm:mb-8'
+          )}
+        >
           <h1>{book.title}</h1>
           <BookOverflow book={book} className="ml-auto" data-superjson />
         </div>
