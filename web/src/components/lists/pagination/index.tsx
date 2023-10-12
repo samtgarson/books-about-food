@@ -8,6 +8,7 @@ export type PaginationProps = {
   perPage: number
   page?: number
   children: ReactNode
+  onPageClick?: (page: number) => void
 }
 
 export const Pagination: FC<PaginationProps> = ({
@@ -15,7 +16,8 @@ export const Pagination: FC<PaginationProps> = ({
   filteredTotal = total,
   perPage,
   page,
-  children
+  children,
+  onPageClick
 }) => {
   const totalPages = Math.ceil(filteredTotal / perPage)
 
@@ -38,7 +40,11 @@ export const Pagination: FC<PaginationProps> = ({
           {displayPages.map((pageGroup, i) => (
             <Fragment key={`group-${i}`}>
               {pageGroup.map((p) => (
-                <Button page={p} key={p}>
+                <Button
+                  page={p}
+                  key={p}
+                  onClick={onPageClick ? () => onPageClick(p) : undefined}
+                >
                   <Pill
                     selected={page === p}
                     disabled={page === p}

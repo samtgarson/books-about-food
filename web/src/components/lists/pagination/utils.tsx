@@ -11,7 +11,7 @@ export const Wrapper = ({ children }: { children: ReactNode }) => {
   const ref = useRef<HTMLDivElement>(null)
   return (
     <PaginationContext.Provider value={{ ref }}>
-      <div ref={ref} className="-mt-60 pt-60">
+      <div ref={ref} className="-mt-60 pt-60 relative">
         {children}
       </div>
     </PaginationContext.Provider>
@@ -20,14 +20,25 @@ export const Wrapper = ({ children }: { children: ReactNode }) => {
 
 export const Button = ({
   page,
-  children
+  children,
+  onClick: externalOnClick
 }: {
   page: number
   children: ReactNode
+  onClick?: () => void
 }) => {
   const { ref } = useContext(PaginationContext)
   const onClick = () => {
     ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    externalOnClick?.()
+  }
+
+  if (externalOnClick) {
+    return (
+      <li key={page} className="list-none">
+        <button onClick={onClick}>{children}</button>
+      </li>
+    )
   }
 
   return (

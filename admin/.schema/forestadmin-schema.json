@@ -805,6 +805,22 @@
         ]
       },
       {
+        "defaultValue": "admin",
+        "enums": ["admin", "import", "submitted"],
+        "field": "source",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": null,
+        "type": "Enum",
+        "validations": []
+      },
+      {
         "defaultValue": "draft",
         "enums": ["draft", "inReview", "published"],
         "field": "status",

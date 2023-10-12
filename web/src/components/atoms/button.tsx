@@ -50,7 +50,8 @@ export const Button = forwardRef(
           'text-16 relative block flex-shrink-0 whitespace-nowrap px-4 py-2.5',
           variants[variant],
           className,
-          loading && 'pointer-events-none'
+          loading && 'pointer-events-none',
+          props.disabled && 'opacity-50 pointer-events-none'
         )}
         {...props}
       >

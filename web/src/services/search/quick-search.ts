@@ -17,7 +17,7 @@ export const quickSearch = new Service(
       orderBy: {
         _relevance: {
           fields: ['name', 'description'],
-          search: query,
+          search: query.split(' ').join(' & '),
           sort: 'desc'
         }
       },

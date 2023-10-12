@@ -26,6 +26,14 @@ module.exports = {
         'scale-in': {
           from: { transform: 'scale(0.9)', opacity: 0 },
           to: { transform: 'scale(1)', opacity: 1 }
+        },
+        'accordion-open': {
+          from: { height: '0px', opacity: 0 },
+          to: { height: 'var(--radix-accordion-content-height)', opacity: 1 }
+        },
+        'accordion-close': {
+          from: { height: 'var(--radix-accordion-content-height)', opacity: 1 },
+          to: { height: '0px', opacity: 0 }
         }
       },
       animation: {
@@ -33,11 +41,9 @@ module.exports = {
         'fade-out': 'fade-out 0.2s ease-out both',
         'fade-slide-in': 'fade-slide-in 0.4s ease-out both',
         'slow-spin': 'spin 60s linear infinite',
-        'scale-in': 'scale-in 0.2s ease-out both'
-      },
-      cursor: {
-        next: "url(\"data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='64' height='64' rx='32' fill='white'/%3E%3Cpath d='M26 44L38 32L26 20' stroke='%231D1D1B' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A\") 32 32, pointer",
-        prev: "url(\"data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='64' y='64' width='64' height='64' rx='32' transform='rotate(180 64 64)' fill='%231D1D1B'/%3E%3Cpath d='M38 20L26 32L38 44' stroke='white' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A\") 32 32, pointer"
+        'scale-in': 'scale-in 0.2s ease-out both',
+        'accordion-open': 'accordion-open 0.2s ease-out both',
+        'accordion-close': 'accordion-close 0.2s ease-out both'
       }
     },
     colors: {

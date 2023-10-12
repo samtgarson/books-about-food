@@ -212,6 +212,7 @@ export const customiseBooks = (
     context.data.forEach((book) => {
       book.slug ||= slugify(book.title)
       book.status = 'published'
+      book.source = 'admin'
     })
   })
 

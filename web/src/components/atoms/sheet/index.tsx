@@ -58,7 +58,7 @@ export const Content = ({
 }: {
   children: ReactNode | (({ close }: { close: () => void }) => ReactNode)
   authenticated?: boolean | { action: keyof SheetMap }
-  size?: 'md' | 'lg'
+  size?: 'md' | 'lg' | 'xl'
   loading?: boolean
   overlay?: boolean
   focusTriggerOnClose?: boolean
@@ -110,7 +110,8 @@ export const Content = ({
             'animate-fade-in pointer-events-none flex w-full flex-shrink-0 flex-col relative',
             {
               'sm:max-w-lg': size === 'md',
-              'sm:max-w-xl': size === 'lg'
+              'sm:max-w-xl': size === 'lg',
+              'sm:max-w-[90vw]': size === 'xl'
             },
             className
           )}
@@ -183,15 +184,16 @@ export type SheetProps = {
   mobileOnly?: boolean
   grey?: boolean
   onClose?: () => void
+  defaultOpen?: boolean
 }
 
 export type SheetControl = { setOpen: Dispatch<SetStateAction<boolean>> }
 
 export const Root = forwardRef<SheetControl, SheetProps>(function Root(
-  { children, mobileOnly, grey, onClose },
+  { children, mobileOnly, grey, onClose, defaultOpen = false },
   ref
 ) {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(defaultOpen)
 
   useImperativeHandle(ref, () => ({ setOpen }), [setOpen])
 

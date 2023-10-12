@@ -180,6 +180,12 @@ enum BookStatus {
   published
 }
 
+enum BookSource {
+  admin
+  import
+  submitted
+}
+
 model Book {
   id            String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt     DateTime   @default(now()) @map("created_at")
@@ -193,6 +199,7 @@ model Book {
   status        BookStatus @default(draft)
   submitterId   String?    @map("submitter_id") @db.Uuid
   googleBooksId String?    @unique @map("google_books_id")
+  source        BookSource @default(admin)
 
   coverImage    Image?         @relation("cover_for")
   previewImages Image[]        @relation("preview_for")

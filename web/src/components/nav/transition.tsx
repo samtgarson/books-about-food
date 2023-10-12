@@ -28,12 +28,15 @@ export function Transition() {
     if (e.metaKey || e.ctrlKey || e.shiftKey) return
     const anchor = findClosestAnchor(e.target)
     if (!anchor) return
-    const targetHref = new URL(anchor.href).pathname
-    if (targetHref === window.location.pathname) return
+    try {
+      const targetHref = new URL(anchor.href).pathname
+      if (targetHref === window.location.pathname) return
 
-    timer.current = setTimeout(() => {
-      setShow(true)
-    }, 100)
+      timer.current = setTimeout(() => {
+        setShow(true)
+      }, 100)
+      // eslint-disable-next-line no-empty
+    } catch (e) {}
   }
 
   useEffect(() => {

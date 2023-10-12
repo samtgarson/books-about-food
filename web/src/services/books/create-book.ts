@@ -48,6 +48,7 @@ export const createBook = new Service(
       return tx.book.create({
         data: {
           ...attrs,
+          source: 'submitted',
           googleBooksId: id,
           slug: slugify(attrs.title),
           submitterId: user.id,
