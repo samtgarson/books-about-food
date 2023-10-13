@@ -17,7 +17,8 @@ export const fetchPublishers = new Service(
     .optional(),
   async ({ page = 0, perPage = 21, search: contains } = {}) => {
     const where: Prisma.PublisherWhereInput = {
-      name: { contains, mode: 'insensitive' }
+      name: { contains, mode: 'insensitive' },
+      books: { some: { status: 'published' } }
     }
 
     const [raw, total, filteredTotal] = await Promise.all([
