@@ -1,9 +1,15 @@
 import { StaticImageData } from 'next/image'
-import amazon from './amazon.png'
-import bookshop from './bookshop.png'
-// import bookDepository from './book-depository.png'
+import { websites } from 'shared/data/websites'
+import abebooks from './Abe Books.png'
+import amazon from './Amazon.png'
+import bookshop from './Bookshop.png'
+import edelweiss from './Edelweiss.png'
+import worldcat from './Worldcat.png'
 
-export const linkLogos: Record<string, StaticImageData> = {
+export const linkLogos: Record<(typeof websites)[number], StaticImageData> = {
   Amazon: amazon,
-  'Bookshop.org': bookshop
+  'Bookshop.org': bookshop,
+  'Edelweiss+': edelweiss,
+  AbeBooks: abebooks,
+  Worldcat: worldcat
 }
