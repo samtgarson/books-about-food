@@ -41,7 +41,7 @@ export function Title({
         e.preventDefault()
         if (!current) onClick?.()
       }}
-      {...mouseAttrs(mouseProps)}
+      {...mouseAttrs({ ...mouseProps, mode: 'default' })}
     >
       <div
         className={cn(
