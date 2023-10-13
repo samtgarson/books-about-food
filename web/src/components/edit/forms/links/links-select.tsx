@@ -11,6 +11,7 @@ import { Input } from 'src/components/form/input'
 import { Select } from 'src/components/form/select'
 import { Submit } from 'src/components/form/submit'
 import { FullBook } from 'src/models/full-book'
+import { stringify } from 'src/utils/superjson'
 import { v4 as uuid } from 'uuid'
 
 export type LinksSelectValue = {
@@ -45,6 +46,7 @@ function LinksForm({
   const [site, setSite] = useState(value?.site ?? null)
   const [url, setUrl] = useState(value?.url ?? null)
 
+  const options = websites.map((value) => ({ value }))
   return (
     <Form
       onSubmit={(e) => {
@@ -57,9 +59,15 @@ function LinksForm({
         })
       }}
     >
-      <Header title="Add Links Member" />
+      <Header title="Add Links" />
       <Select
-        options={websites.map((value) => ({ value }))}
+        loadOptions={async (val) =>
+          stringify(
+            options.filter((o) =>
+              o.value.toLowerCase().includes(val.toLowerCase())
+            )
+          )
+        }
         label="Website"
         name="site"
         render="value"
@@ -78,9 +86,9 @@ function LinksForm({
       />
       <Submit variant="dark">Save</Submit>
       <p className="text-14 mt-8">
-        Note: If the website you would like to add isn’t listed please choose
-        “Other” and give it a title in the form field that appears (eg:
-        “Portfolio”, “New York Times”, “The Grocer” etc).
+        Note: If the website you would like to add isn’t listed please enter the
+        name in the Website field and click Create (eg: “Portfolio”, “New York
+        Times”, “The Grocer” etc).
       </p>
     </Form>
   )

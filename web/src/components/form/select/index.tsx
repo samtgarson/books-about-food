@@ -29,7 +29,6 @@ export interface SelectProps<
   > {
   name: string
   label: string
-  options?: Value[]
   loadOptions?: (query: string) => Promise<Stringified<Value[]>>
   render: keyof Value | ((value: Value & SelectValue<ValueKey>) => ReactNode)
   valueKey: ValueKey
@@ -59,7 +58,6 @@ export const Select = function Select<
   name,
   label,
   loadOptions,
-  options,
   defaultValue,
   valueKey,
   multi,
@@ -139,13 +137,12 @@ export const Select = function Select<
             {...browserProps}
             required={props.required}
             getOptionValue={(value) => value[valueKey]}
-            options={options}
             loadOptions={loadOptionsFn}
             formatOptionLabel={renderOption}
             aria-invalid={!validity?.valid}
             onChange={onChange}
             defaultValue={defaultValue}
-            defaultOptions
+            defaultOptions={!!loadOptions}
             isMulti={multi}
             onCreateOption={onCreate}
           />
