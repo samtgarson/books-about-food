@@ -1,9 +1,7 @@
-import cn from 'classnames'
 import { motion } from 'framer-motion'
 import { FC, useEffect, useMemo, useState } from 'react'
 import { Feature } from 'src/services/features/fetch-features'
 import { Avatar } from '../atoms/avatar'
-import { CircleLogo } from '../atoms/circle-logo'
 import { Face } from './face'
 
 export type FacesProps = {
@@ -27,7 +25,6 @@ export const Faces: FC<FacesProps> = ({ features }) => {
       exit={{ opacity: 0, transition: { duration: 0.2 } }}
       transition={{ ease: 'easeIn' }}
     >
-      <CircleLogo className={cn('animate-slow-spin hidden lg:block')} />
       {faces.map((face, i) => (
         <FloatingFace face={face} i={i} key={face.profile.id} />
       ))}
