@@ -32,6 +32,7 @@ export const ImageUploadButton = forwardRef<
 
       <input
         type="file"
+        accept="image/*"
         className="hidden"
         multiple={multi}
         ref={ref}

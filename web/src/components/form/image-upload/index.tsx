@@ -61,8 +61,9 @@ export function ImageUpload<Multi extends boolean = false>({
           )}
           {...mouseAttrs({ mode: 'clickable', enabled: !images.length })}
           padded
-          onClick={() => {
+          onClick={(e) => {
             if (images.length) return
+            if ((e.target as Node).contains(uploadButton.current)) return
             uploadButton.current?.click()
           }}
         >
