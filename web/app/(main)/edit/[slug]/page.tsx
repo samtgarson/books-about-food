@@ -28,7 +28,7 @@ export default async function Page({ params: { slug } }: EditPageProps) {
     <Container belowNav>
       <PageTitle className="flex-wrap items-center">
         <div className="flex flex-nowrap items-center gap-8">
-          {`Editing: ${book.title}`}
+          {book.title}
           <StatusTag status={book.status} />
         </div>
         {book.status === 'published' && (
