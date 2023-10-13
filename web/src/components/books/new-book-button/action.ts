@@ -1,5 +1,6 @@
 'use server'
 
+import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { FormAction } from 'src/components/form'
 import { parseAppError } from 'src/components/form/utils'
@@ -10,7 +11,7 @@ import { stringify } from 'src/utils/superjson'
 export const action: FormAction = async (values: unknown) => {
   const result = await createBook.parseAndCall(values)
 
-  if (result.data) redirect(`/edit/${result.data.slug}`)
+  if (result.success) redirect(`/edit/${result.data.slug}`)
   console.log(result.errors)
   return parseAppError(
     result.errors,
@@ -26,6 +27,8 @@ export const action: FormAction = async (values: unknown) => {
 export const search = async (query: string) => {
   if (query.length < 3) return stringify([])
   const result = await searchLibrary.call({ query })
-  if (result.success && result.data) return stringify(result.data)
-  return stringify([])
+  if (!result.success) return stringify([])
+
+  revalidatePath('/account/books')
+  return stringify(result.data)
 }
