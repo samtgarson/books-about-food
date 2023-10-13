@@ -34,6 +34,4 @@ export const fetchLibraryBook = new Service(
 const extractImage = ({ imageLinks }: GoogleBookResult['volumeInfo']) => {
   if (imageLinks?.extraLarge) return imageLinks.extraLarge
   if (imageLinks?.large) return imageLinks.large
-  if (imageLinks?.medium) return imageLinks.medium
-  if (imageLinks?.thumbnail) return imageLinks.thumbnail
 }
