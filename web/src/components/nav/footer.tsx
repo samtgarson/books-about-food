@@ -53,14 +53,14 @@ export const Footer = () => (
         </div>
       </div>
       <div className="flex flex-wrap items-center justify-between gap-y-4">
-        <div className="flex flex-wrap md:flex-shrink-0 gap-y-2 gap-x-4 md:gap-x-8">
+        <div className="flex flex-wrap w-full md:flex-shrink-0 gap-y-2 gap-x-4 md:gap-x-8">
           <FooterItem path="/">Home</FooterItem>
           <FooterItem path="/">About</FooterItem>
           <FooterItem path="/cookbooks">Cookbooks</FooterItem>
           <FooterItem path="/authors">Authors</FooterItem>
           <FooterItem path="/people">People</FooterItem>
           <FooterItem path="/publishers">Publishers</FooterItem>
-          <FooterItem path="/publishers">FAQs</FooterItem>
+          <FooterItem path="/frequently-asked-questions">FAQs</FooterItem>
           <FooterItemExternal href="https://www.instagram.com/books.about.food/">
             Instagram
           </FooterItemExternal>

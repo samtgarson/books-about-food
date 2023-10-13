@@ -1557,6 +1557,104 @@
     "segments": []
   },
   {
+    "actions": [],
+    "fields": [
+      {
+        "defaultValue": null,
+        "enums": null,
+        "field": "answer",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": true,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": null,
+        "type": "String",
+        "validations": [
+          {"type": "is present", "message": "Failed validation rule: 'Present'"}
+        ]
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
+        "field": "created_at",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": null,
+        "type": "Date",
+        "validations": []
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
+        "field": "id",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": true,
+        "isPrimaryKey": true,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": null,
+        "type": "Uuid",
+        "validations": []
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
+        "field": "question",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": true,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": null,
+        "type": "String",
+        "validations": [
+          {"type": "is present", "message": "Failed validation rule: 'Present'"}
+        ]
+      },
+      {
+        "defaultValue": null,
+        "enums": null,
+        "field": "updated_at",
+        "integration": null,
+        "inverseOf": null,
+        "isFilterable": true,
+        "isPrimaryKey": false,
+        "isReadOnly": false,
+        "isRequired": false,
+        "isSortable": true,
+        "isVirtual": false,
+        "reference": null,
+        "type": "Date",
+        "validations": []
+      }
+    ],
+    "icon": null,
+    "integration": null,
+    "isReadOnly": false,
+    "isSearchable": true,
+    "isVirtual": false,
+    "name": "frequently_asked_questions",
+    "onlyForRelationships": false,
+    "paginationType": "page",
+    "segments": []
+  },
+  {
     "actions": [
       {
         "id": "images-0-generate-missing-placeholders",

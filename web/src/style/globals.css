@@ -4,7 +4,7 @@
 
 @layer base {
   html {
-    @apply bg-grey overflow-x-hidden;
+    @apply overflow-x-hidden bg-grey;
   }
 
   html,
@@ -33,11 +33,16 @@
   [role='menuitem'] * {
     @apply pointer-events-none;
   }
+
+  b,
+  strong {
+    @apply font-medium;
+  }
 }
 
 @layer utilities {
   .all-caps {
-    @apply text-10 sm:text-12 font-medium uppercase tracking-[0.12em];
+    @apply text-10 font-medium uppercase tracking-[0.12em] sm:text-12;
   }
 
   .all-caps-sm {

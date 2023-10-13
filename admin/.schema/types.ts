@@ -6162,6 +6162,17 @@ export type Schema = {
       'book:submitter:profile:featured_profile:until': string;
     };
   };
+  'frequently_asked_questions': {
+    plain: {
+      'id': string;
+      'created_at': string;
+      'updated_at': string;
+      'question': string;
+      'answer': string;
+    };
+    nested: {};
+    flat: {};
+  };
   'images': {
     plain: {
       'id': string;
