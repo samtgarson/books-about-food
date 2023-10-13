@@ -11,7 +11,10 @@ export const Wrapper = ({ children }: { children: ReactNode }) => {
   const ref = useRef<HTMLDivElement>(null)
   return (
     <PaginationContext.Provider value={{ ref }}>
-      <div ref={ref} className="-mt-60 pt-60 relative">
+      <div
+        ref={ref}
+        className="-mt-60 pt-60 relative pointer-events-none [&>*]:pointer-events-auto"
+      >
         {children}
       </div>
     </PaginationContext.Provider>
