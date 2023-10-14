@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { useState } from 'react'
-import { websites } from 'shared/data/websites'
+import { isWebsite, websites } from 'shared/data/websites'
 import { linkLogos } from 'src/assets/link-logos'
 import { Header } from 'src/components/atoms/sheet'
 import { Form } from 'src/components/form'
@@ -95,7 +95,7 @@ function LinksForm({
 }
 
 const linkLogo = (site: string) =>
-  site in linkLogos ? (
+  isWebsite(site) ? (
     <Image
       src={linkLogos[site]}
       alt=""

@@ -2,6 +2,7 @@ import { Link } from 'database'
 import Image from 'next/image'
 import { FC } from 'react'
 import { ArrowUpRight } from 'react-feather'
+import { isWebsite } from 'shared/data/websites'
 import { linkLogos } from 'src/assets/link-logos'
 
 export type BookLinksProps = {
@@ -49,7 +50,7 @@ export const BookLinks: FC<BookLinksProps> = ({ links, className }) =>
               rel="noopener noreferrer"
               className="flex items-center gap-4"
             >
-              {linkLogos[link.site] ? (
+              {isWebsite(link.site) ? (
                 <Image
                   width={40}
                   height={40}
