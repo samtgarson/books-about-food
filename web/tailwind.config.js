@@ -91,7 +91,8 @@ module.exports = {
     autoGrid: {
       md: '150px',
       lg: '250px',
-      xl: '350px'
+      xl: '350px',
+      '2xl': '500px'
     }
   },
   plugins: [

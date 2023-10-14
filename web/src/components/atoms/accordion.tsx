@@ -10,12 +10,14 @@ export function Item({
   value,
   title,
   children,
-  preChildren
+  preChildren,
+  className
 }: {
   value: string
   title: ReactNode
   children: ReactNode
   preChildren?: ReactNode
+  className?: string
 }) {
   const triggerContent =
     typeof title === 'string' ? (
@@ -24,7 +26,7 @@ export function Item({
       title
     )
   return (
-    <Accordion.Item value={value}>
+    <Accordion.Item value={value} className={className}>
       <Accordion.Header className="flex gap-4 items-center w-full h-12">
         {preChildren}
         <Accordion.Trigger className="grow flex gap-2 group items-center py-2">

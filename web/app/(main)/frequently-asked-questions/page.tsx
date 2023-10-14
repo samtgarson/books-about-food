@@ -14,10 +14,13 @@ export default async function FrequentlyAskedQuestions() {
   return (
     <Container belowNav>
       <PageTitle>Frequently Asked Questions</PageTitle>
-      <Accordion.Root type="multiple">
+      <Accordion.Root type="multiple" className="grid gap-8 auto-grid-2xl">
         {questions.map(({ question, id, answer }) => (
           <Accordion.Item title={question} value={id} key={id}>
-            <div dangerouslySetInnerHTML={{ __html: answer }} />
+            <div
+              dangerouslySetInnerHTML={{ __html: answer }}
+              className="max-w-prose"
+            />
           </Accordion.Item>
         ))}
       </Accordion.Root>
