@@ -10,11 +10,7 @@ export type BookLinksProps = {
   className?: string
 }
 
-const DefaultLogo = () => (
-  <span className="flex h-10 w-10 items-center justify-center bg-white">
-    <ArrowUpRight strokeWidth={1} size={27} />
-  </span>
-)
+const DefaultLogo = () => <ArrowUpRight strokeWidth={1} size={27} />
 
 const titleFor = (link: Link) => {
   switch (link.site) {
@@ -50,16 +46,18 @@ export const BookLinks: FC<BookLinksProps> = ({ links, className }) =>
               rel="noopener noreferrer"
               className="flex items-center gap-4"
             >
-              {isWebsite(link.site) ? (
-                <Image
-                  width={40}
-                  height={40}
-                  src={linkLogos[link.site]}
-                  alt={link.site}
-                />
-              ) : (
-                <DefaultLogo />
-              )}
+              <span className="flex h-10 w-10 items-center justify-center bg-white">
+                {isWebsite(link.site) ? (
+                  <Image
+                    width={32}
+                    height={32}
+                    src={linkLogos[link.site]}
+                    alt={link.site}
+                  />
+                ) : (
+                  <DefaultLogo />
+                )}
+              </span>
               {titleFor(link)}
             </a>
           </li>
