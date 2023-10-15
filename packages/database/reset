@@ -28,6 +28,7 @@ function dump () {
     -t _profiles_jobs \
     -t _authored_books \
     -t featured_profiles \
+    -t frequently_asked_questions \
     --data-only -Fc \
     $PROD_DATABASE_URL > $prod_dump
 

@@ -29,10 +29,10 @@ export function Item({
     <Accordion.Item value={value} className={className}>
       <Accordion.Header className="flex gap-4 items-center w-full h-12">
         {preChildren}
-        <Accordion.Trigger className="grow flex gap-2 group items-center py-2">
+        <Accordion.Trigger className="grow flex gap-2 group items-center py-2 text-left">
           {triggerContent}
           <ChevronDown
-            className="group-data-[state=open]:rotate-180 transition-transform"
+            className="group-data-[state=open]:rotate-180 transition-transform shrink-0"
             strokeWidth={1}
           />
         </Accordion.Trigger>
