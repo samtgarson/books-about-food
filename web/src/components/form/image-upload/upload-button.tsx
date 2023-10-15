@@ -40,15 +40,18 @@ export const ImageUploadButton = forwardRef<
         onChange={async (e) =>
           startTransition(async () => {
             if (!e.target.files?.length) return
-            const fd = new FormData()
-            Array.from(e.target.files).forEach((file) =>
+
+            const ops = Array.from(e.target.files).map(async (file) => {
+              const fd = new FormData()
               fd.append('image', file, file.name)
-            )
-            const { data: result = [] } = await action(prefix, fd)
-            const images = result.map(
-              (image) => new Image(image, 'Uploaded image')
-            )
-            onSuccess(images)
+              const { data: [result] = [] } = await action(prefix, fd)
+
+              return new Image(result, 'Uploaded image')
+            })
+
+            const result = await Promise.all(ops)
+
+            onSuccess(result.flat())
           })
         }
       />
