@@ -1,8 +1,8 @@
 import prisma from 'database'
 import { Metadata } from 'next'
-import * as Accordion from 'src/components/atoms/accordion'
 import { Container } from 'src/components/atoms/container'
 import { PageTitle } from 'src/components/atoms/page-title'
+import { Faqs } from 'src/components/home/faqs'
 
 export const metadata: Metadata = {
   title: 'Frequently Asked Questions'
@@ -14,16 +14,7 @@ export default async function FrequentlyAskedQuestions() {
   return (
     <Container belowNav>
       <PageTitle>Frequently Asked Questions</PageTitle>
-      <Accordion.Root type="multiple" className="grid gap-8 auto-grid-2xl">
-        {questions.map(({ question, id, answer }) => (
-          <Accordion.Item title={question} value={id} key={id}>
-            <div
-              dangerouslySetInnerHTML={{ __html: answer }}
-              className="max-w-prose"
-            />
-          </Accordion.Item>
-        ))}
-      </Accordion.Root>
+      <Faqs questions={questions} />
     </Container>
   )
 }

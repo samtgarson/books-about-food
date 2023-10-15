@@ -27,7 +27,7 @@ export function Item({
     )
   return (
     <Accordion.Item value={value} className={className}>
-      <Accordion.Header className="flex gap-4 items-center w-full h-12">
+      <Accordion.Header className="flex gap-4 items-center w-full">
         {preChildren}
         <Accordion.Trigger className="grow flex gap-2 group items-center py-2 text-left">
           {triggerContent}
@@ -37,7 +37,7 @@ export function Item({
           />
         </Accordion.Trigger>
       </Accordion.Header>
-      <Accordion.Content className="overflow-hidden data-[state=open]:animate-accordion-open data-[state=closed]:animate-accordion-close">
+      <Accordion.Content className="py-4 overflow-hidden data-[state=open]:animate-accordion-open data-[state=closed]:animate-accordion-close">
         {children}
       </Accordion.Content>
     </Accordion.Item>
