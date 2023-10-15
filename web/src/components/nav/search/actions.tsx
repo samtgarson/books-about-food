@@ -49,7 +49,7 @@ export function QuickSearchAction({
       id={domId}
     >
       <QuickSearchItem.Image>
-        <Icon strokeWidth={1} size={24} />
+        <Icon strokeWidth={1} size={32} className="w-5 h-5 sm:w-6 sm:h-6" />
       </QuickSearchItem.Image>
       <p>{title}</p>
     </QuickSearchItem.Root>

@@ -14,7 +14,7 @@ function Root({ focused, onHover, children, ...props }: QuickSearchItemProps) {
   return (
     <Link
       className={cn(
-        'flex items-center gap-4 px-5 py-4 bg-white transition-opacity',
+        'flex items-center gap-4 p-3 sm:p-4 bg-white transition-opacity',
         focused ? 'bg-opacity-100' : 'bg-opacity-0'
       )}
       onMouseMove={onHover}
@@ -27,7 +27,7 @@ function Root({ focused, onHover, children, ...props }: QuickSearchItemProps) {
 
 function Image({ children }: { children: ReactNode }) {
   return (
-    <div className="w-12 flex flex-shrink-0 items-center justify-center">
+    <div className="w-5 h-5 sm:w-8 sm:h-8 flex flex-shrink-0 items-center justify-center">
       {children}
     </div>
   )

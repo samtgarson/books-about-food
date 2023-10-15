@@ -67,18 +67,23 @@ export function QuickSearchContent({ onSelect }: { onSelect?: () => void }) {
 
     document.addEventListener('keydown', handler)
     return () => document.removeEventListener('keydown', handler)
-  }, [focused, results, router, onSelect])
+  }, [focused, results, router, onSelect, showTransition])
 
   return (
-    <Sheet.Body className="sm:px-8 sm:pt-6 !pb-0 flex flex-col bg-opacity-0">
-      <div className={cn('flex gap-4 mb-5 sm:mb-6 items-center')}>
-        <Search strokeWidth={1} size={32} className="shrink-0" />
+    <Sheet.Body className="!p-2 sm:!p-4 !pb-0 flex flex-col gap-2 sm:gap-4 bg-opacity-0">
+      <div className={cn('flex gap-4 items-center px-3 py-2 sm:px-4 sm:py-3')}>
+        <Search
+          strokeWidth={1}
+          size={32}
+          className="shrink-0 w-6 h-6 sm:w-8 sm:h-8"
+        />
         <input
           autoFocus
           type="text"
-          className="text-32 focus:outline-none flex-1 bg-transparent flex-grow"
+          className="text-24 sm:text-32 focus:outline-none flex-1 bg-transparent flex-grow placeholder-black/30"
           value={rawQuery}
           onChange={(e) => setQuery(e.target.value)}
+          placeholder="Type something..."
         />
         <Loader
           className={cn(
@@ -131,7 +136,8 @@ function QuickSearchResult({ item, focused, onHover }: QuickSearchResultProps) {
       <QuickSearchItem.Image>
         {item.isProfile ? (
           <BaseAvatar
-            size="sm"
+            size="xs"
+            className="!w-5 !h-5 sm:!w-8 sm:!h-8"
             backup={item.initials}
             foregroundColour={item.foregroundColour}
             backgroundColour={item.backgroundColour}
@@ -146,8 +152,8 @@ function QuickSearchResult({ item, focused, onHover }: QuickSearchResultProps) {
         )}
       </QuickSearchItem.Image>
       <div className="flex flex-col">
-        <p className="text-16 font-medium">{item.name}</p>
-        <p className="text-14">{item.description}</p>
+        <p className="text-14 sm:text-16 font-medium">{item.name}</p>
+        <p className="text-12 sm:text-14">{item.description}</p>
       </div>
     </QuickSearchItem.Root>
   )
