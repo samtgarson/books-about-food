@@ -3,6 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   experimental: {
     serverActions: true,
+    serverActionsBodySizeLimit: '2mb',
     swcPlugins: [
       [
         'next-superjson-plugin',

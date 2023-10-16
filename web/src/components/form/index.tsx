@@ -93,7 +93,7 @@ export function Form<T extends z.ZodTypeAny | undefined = undefined>({
   }, [autoSubmit, wrappedAction, successMessage])
 
   return (
-    <FormContext.Provider value={{ state, errors, variant }}>
+    <FormContext.Provider value={{ state, errors, variant, setErrors }}>
       <Root
         {...props}
         ref={formRef}

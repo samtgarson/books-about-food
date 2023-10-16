@@ -100,6 +100,7 @@ export function ImageUpload<Multi extends boolean = false>({
                 )}
               >
                 <ImageUploadButton
+                  name={name}
                   ref={uploadButton}
                   multi={multi}
                   prefix={prefix}
