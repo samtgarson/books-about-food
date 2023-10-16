@@ -70,7 +70,7 @@ export function QuickSearchContent({ onSelect }: { onSelect?: () => void }) {
   }, [focused, results, router, onSelect, showTransition])
 
   return (
-    <Sheet.Body className="!p-2 sm:!p-4 !pb-0 flex flex-col gap-2 sm:gap-4 bg-opacity-0">
+    <Sheet.Body className="!pt-2 !px-2 sm:!pt-4 sm:!px-4 !pb-0 flex flex-col gap-2 sm:gap-4 bg-opacity-0">
       <div className={cn('flex gap-4 items-center px-3 py-2 sm:px-4 sm:py-3')}>
         <Search
           strokeWidth={1}

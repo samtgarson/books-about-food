@@ -42,7 +42,7 @@ export const Transition = forwardRef<TransitionControl>(
     const handleClick = (e: MouseEvent) => {
       if (e.metaKey || e.ctrlKey || e.shiftKey) return
       const anchor = findClosestAnchor(e.target)
-      if (!anchor) return
+      if (!anchor || anchor.target === '_blank') return
       try {
         const targetHref = new URL(anchor.href).pathname
         if (targetHref === window.location.pathname) return
