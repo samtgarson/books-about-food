@@ -2,7 +2,6 @@ import { FilterBar } from 'src/components/lists/filter-bar'
 import { FilterSelect } from 'src/components/lists/filter-select'
 import { Sort } from 'src/components/lists/sort'
 import { FetchBooksInput } from 'src/services/books/fetch-books'
-import { fetchBooksPageFilters } from 'src/services/books/filters'
 import { fetchTags } from 'src/services/tags/fetch'
 import { processArray } from 'src/services/utils/inputs'
 
@@ -41,13 +40,6 @@ export function BookFilters({ filters = {} }: BookFiltersProps) {
         param="tags"
         value={processArray(filters.tags ?? [])}
         multi
-      />
-      <FilterSelect
-        multi={false}
-        param="pageCount"
-        options={fetchBooksPageFilters}
-        placeholder="No. of Pages"
-        value={filters.pageCount}
       />
     </FilterBar>
   )
