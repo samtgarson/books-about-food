@@ -29,6 +29,6 @@ export const search = async (query: string) => {
   const result = await searchLibrary.call({ query })
   if (!result.success) return stringify([])
 
-  revalidatePath('/account/books')
+  revalidatePath('/account/submissions')
   return stringify(result.data)
 }

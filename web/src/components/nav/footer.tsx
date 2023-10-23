@@ -41,7 +41,7 @@ export const Footer = () => (
         <LogoShape text className="w-16 h-auto" />
         <div className="flex gap-4">
           <AuthedButton>
-            <Button as="a" href="/account/books" variant="outline">
+            <Button as="a" href="/account/submissions" variant="outline">
               Submit Cookbook
             </Button>
           </AuthedButton>

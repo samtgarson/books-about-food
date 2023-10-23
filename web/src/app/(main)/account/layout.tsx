@@ -15,7 +15,7 @@ const Layout = async ({ children }: { children: ReactNode }) => {
         <div className="w-80">
           <AccountNavItem label="Account Details" href="" />
           <AccountNavItem label="Your Favourites" href="favourites" />
-          <AccountNavItem label="Your Submissions" href="books" />
+          <AccountNavItem label="Your Submissions" href="submissions" />
           {user.role === 'admin' && (
             <AccountNavItem label="Admin" href="admin" />
           )}
