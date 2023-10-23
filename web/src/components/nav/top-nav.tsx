@@ -112,7 +112,7 @@ export const TopNav: FC = () => {
     <nav className="absolute inset-x-0 top-0 z-30">
       <Container
         className={cn(
-          'flex w-screen gap-2 items-stretch border-b border-black py-5 pr-4',
+          'flex w-screen gap-4 items-stretch border-b border-black py-5 pr-4',
           theme === 'dark' && 'text-white'
         )}
       >
