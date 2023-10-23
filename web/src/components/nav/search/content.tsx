@@ -4,7 +4,6 @@ import cn from 'classnames'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useDeferredValue, useEffect, useMemo, useState } from 'react'
-import { Search } from 'react-feather'
 import { BaseAvatar } from 'src/components/atoms/avatar'
 import { Loader } from 'src/components/atoms/loader'
 import * as Sheet from 'src/components/atoms/sheet'
@@ -72,11 +71,6 @@ export function QuickSearchContent({ onSelect }: { onSelect?: () => void }) {
   return (
     <Sheet.Body className="!pt-2 !px-2 sm:!pt-4 sm:!px-4 !pb-0 flex flex-col gap-2 sm:gap-4 bg-opacity-0">
       <div className={cn('flex gap-4 items-center px-3 py-2 sm:px-4 sm:py-3')}>
-        <Search
-          strokeWidth={1}
-          size={32}
-          className="shrink-0 w-6 h-6 sm:w-8 sm:h-8"
-        />
         <input
           autoFocus
           type="text"

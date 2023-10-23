@@ -110,7 +110,7 @@ export const Content = ({
             if (!focusTriggerOnClose) e.preventDefault()
           }}
           className={cn(
-            'animate-fade-in pointer-events-none flex w-full flex-shrink-0 flex-col relative',
+            'animate-fade-in pointer-events-none flex w-full flex-shrink-0 flex-col relative book-shadow',
             {
               'sm:max-w-lg': size === 'md',
               'sm:max-w-xl': size === 'lg',
@@ -143,7 +143,7 @@ export const Body = ({
   return (
     <div
       className={cn(
-        'book-shadow pointer-events-auto max-h-[80vh] overflow-auto p-5 sm:p-8 isolate',
+        'pointer-events-auto max-h-[80vh] overflow-auto p-5 sm:p-8 isolate',
         grey ? 'bg-grey' : 'bg-white',
         className
       )}
