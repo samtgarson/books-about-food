@@ -24,7 +24,7 @@ export const fetchLibraryBook = new Service(
       subtitle: result.volumeInfo.subtitle,
       authors: result.volumeInfo.authors ?? [],
       cover: extractImage(result.volumeInfo),
-      publisher: result.volumeInfo.publisher,
+      // publisher: result.volumeInfo.publisher,
       releaseDate: date ? new Date(date) : undefined,
       pages: result.volumeInfo.pageCount
     }

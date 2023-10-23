@@ -37,17 +37,10 @@ export const createBook = new Service(
     })
     if (!libraryBook) throw new Error('Book not found')
 
-    const {
-      id,
-      publisher: publisherName,
-      authors: authorNames,
-      cover: coverUrl,
-      ...attrs
-    } = libraryBook
+    const { id, authors: authorNames, cover: coverUrl, ...attrs } = libraryBook
 
     return prisma.$transaction(async (tx) => {
-      const [publisher, cover, ...authors] = await Promise.all([
-        findOrCreatePublisher(publisherName),
+      const [cover, ...authors] = await Promise.all([
         createImage(coverUrl),
         ...authorNames.map((name) => findOrCreateAuthor(name))
       ])
@@ -59,7 +52,6 @@ export const createBook = new Service(
           googleBooksId: id,
           slug: slugify(attrs.title),
           submitterId: user.id,
-          publisherId: publisher?.id,
           coverImage: cover ? { connect: { id: cover?.id } } : undefined,
           authors: {
             connect: authors.flatMap((p) => (p ? [{ id: p.id }] : []))
@@ -67,21 +59,14 @@ export const createBook = new Service(
         }
       })
 
-      async function findOrCreatePublisher(name?: string) {
-        if (!name) return undefined
-        return tx.publisher.upsert({
-          where: { name },
-          create: { name, slug: slugify(name) },
-          update: {}
-        })
-      }
-
       async function findOrCreateAuthor(name?: string) {
         if (!name) return undefined
-        return tx.profile.upsert({
-          where: { name },
-          create: { name, slug: slugify(name) },
-          update: {}
+        const found = await tx.profile.findMany({ where: { name } })
+        if (found.length > 1) return undefined
+        if (found.length) return found[0]
+
+        return tx.profile.create({
+          data: { name, slug: slugify(name) }
         })
       }
     })
