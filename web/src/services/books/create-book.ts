@@ -4,6 +4,7 @@ import { slugify } from 'shared/utils/slugify'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
 import { createImages } from '../images/create-images'
+import { AppError } from '../utils/errors'
 import { fetchLibraryBook } from './library/fetch-library-book'
 
 export type CreateBookInput = z.infer<typeof createBook.input>
@@ -24,6 +25,12 @@ export const createBook = new Service(
       })
 
     if (!googleBooksId) throw new Error('Title or Google Books ID is required')
+    if (await prisma.book.count({ where: { googleBooksId } }))
+      throw new AppError(
+        'UniqueConstraintViolation',
+        'Book already exists',
+        'title'
+      )
 
     const { data: libraryBook } = await fetchLibraryBook.call({
       id: googleBooksId

@@ -24,6 +24,10 @@ export function ImportFormRow({
     {} as Record<string, ResultContribution[]>
   )
 
+  const contributorError =
+    result.authors.some((a) => !!a.error) ||
+    result.contributors.some((c) => !!c.error)
+
   return (
     <Item
       value={result.id}
@@ -54,12 +58,17 @@ export function ImportFormRow({
                 )
             }
           })}
+          {contributorError && (
+            <Tag color="red" title="There are errors with the contributors">
+              !
+            </Tag>
+          )}
         </>
       }
       preChildren={
         <input
           type="checkbox"
-          disabled={!!result.errors.length}
+          disabled={!!result.errors.length || contributorError}
           checked={selected}
           onChange={(e) => {
             setSelected(e.target.checked)
@@ -94,6 +103,9 @@ export function ImportFormRow({
               <td className="py-1 flex gap-2">
                 {author.name}
                 {author.new && <Tag color="lime">New</Tag>}
+                {author.error === 'MultipleMatches' && (
+                  <Tag color="red">Multiple matches</Tag>
+                )}
               </td>
             </tr>
           ))}
@@ -113,6 +125,14 @@ export function ImportFormRow({
                 <td className="py-1 flex gap-2">
                   {relation.name}
                   {relation.new && <Tag color="lime">New</Tag>}
+                  {relation.error === 'MultipleMatches' && (
+                    <Tag
+                      color="red"
+                      title="We found multiple profiles with this name"
+                    >
+                      Multiple matches
+                    </Tag>
+                  )}
                 </td>
               </tr>
             ))

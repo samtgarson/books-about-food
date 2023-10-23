@@ -47,7 +47,7 @@ export const processBookImport = new Service(
         if (bookAttrs.publisher)
           publisher = {
             connectOrCreate: {
-              where: { slug: slugify(bookAttrs.publisher) },
+              where: { name: bookAttrs.publisher },
               create: {
                 name: bookAttrs.publisher,
                 slug: slugify(bookAttrs.publisher)
@@ -59,7 +59,7 @@ export const processBookImport = new Service(
         if (authorsInput.length)
           authors = {
             connectOrCreate: authorsInput.map((author) => ({
-              where: { slug: slugify(author.name) },
+              where: { name: author.name },
               create: { name: author.name, slug: slugify(author.name) }
             }))
           }
@@ -79,7 +79,7 @@ export const processBookImport = new Service(
             create: contributors.map((contributor) => ({
               profile: {
                 connectOrCreate: {
-                  where: { slug: slugify(contributor.name) },
+                  where: { name: contributor.name },
                   create: {
                     name: contributor.name,
                     slug: slugify(contributor.name)

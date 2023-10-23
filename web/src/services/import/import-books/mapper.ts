@@ -9,7 +9,7 @@ export const basicColumnMap: Record<
 > = {
   Title: (row) => ({
     title: row.Title.trim(),
-    slug: slugify(row.Title).trim()
+    slug: slugify(row.Title)
   }),
   Subtitle: (row) => ({ subtitle: row.Subtitle.trim() }),
   'Date Published': (row) => ({ releaseDate: row['Date Published'] }),
@@ -33,16 +33,26 @@ export async function mapper(
   const normalisedKey = key.replace(/ [0-9]+$/, '')
   if (!jobs.includes(normalisedKey)) return result
   const name = row[key].trim()
-  const slug = slugify(name)
 
   if (normalisedKey === 'Author') {
-    const found = await prisma.profile.findUnique({ where: { slug } })
-    result.authors.push({ name, new: !found })
+    const found = await prisma.profile.findMany({
+      where: { name: { equals: name, mode: 'insensitive' } }
+    })
+    const error = found.length > 1 ? 'MultipleMatches' : undefined
+    result.authors.push({ name, new: !found.length, error })
     return result
   }
 
-  const found = await prisma.profile.findUnique({ where: { slug } })
-  result.contributors.push({ job: normalisedKey, name, new: !found })
+  const found = await prisma.profile.findMany({
+    where: { name: { equals: name, mode: 'insensitive' } }
+  })
+  const error = found.length > 1 ? 'MultipleMatches' : undefined
+  result.contributors.push({
+    job: normalisedKey,
+    name,
+    new: !found.length,
+    error
+  })
 
   return result
 }

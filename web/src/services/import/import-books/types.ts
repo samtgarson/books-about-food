@@ -1,14 +1,17 @@
 export type ResultAuthor = {
   name: string
   new: boolean
+  error?: MatchError
 }
 
 export type ResultContribution = {
   job: string
   name: string
   new: boolean
+  error?: MatchError
 }
 
+export type MatchError = 'MultipleMatches'
 export type ImportRowError = 'Duplicate' | 'Existing'
 
 export type ResultRow = {

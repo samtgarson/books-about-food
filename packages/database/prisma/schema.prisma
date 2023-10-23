@@ -110,7 +110,7 @@ model Profile {
   createdAt               DateTime  @default(now()) @map("created_at")
   updatedAt               DateTime  @default(now()) @updatedAt @map("updated_at")
   userId                  String?   @unique @map("user_id") @db.Uuid
-  name                    String    @unique
+  name                    String
   location                String?
   website                 String?
   instagram               String?
