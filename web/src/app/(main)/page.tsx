@@ -1,6 +1,5 @@
 import { Suspense } from 'react'
 import { Container } from 'src/components/atoms/container'
-import { Marquee } from 'src/components/atoms/marquee'
 import { ItemCarousel } from 'src/components/books/item-carousel'
 import { FeatureCarousel } from 'src/components/feature-carousel'
 import { HomepageModule } from 'src/components/home/module'
@@ -22,11 +21,6 @@ const Page = async () => {
   return (
     <>
       <FeatureCarousel features={features} data-superjson />
-      <Marquee>
-        Welcome to the cookbook industry’s new digital home—a creative platform
-        showcasing the work of authors and publishers alongside the network of
-        people essential in the creation of cookbooks.
-      </Marquee>
       <Container
         mobile={false}
         desktop={false}
