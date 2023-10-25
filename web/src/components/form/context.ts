@@ -14,6 +14,13 @@ export const FormContext = createContext({} as FormContext)
 export const useForm = () => useContext(FormContext)
 export const useFormField = (name: string) => {
   const form = useForm()
+  if (!form.state)
+    return {
+      value: undefined,
+      error: undefined,
+      setError: () => {}
+    }
+
   return {
     value: form.state[name],
     error: form.errors?.[name],
