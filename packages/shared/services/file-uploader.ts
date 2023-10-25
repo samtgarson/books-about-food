@@ -1,7 +1,7 @@
 import { S3 } from 'aws-sdk'
 import { extension } from 'mime-types'
-import { getEnv } from '../utils/get-env'
 import { v4 as uuid } from 'uuid'
+import { getEnv } from '../utils/get-env'
 
 const defaultClient = new S3({
   endpoint: getEnv('AWS_S3_ENDPOINT'),
@@ -17,7 +17,7 @@ export class FileUploader {
   constructor(
     private client: S3 = defaultClient,
     private bucket: string = getEnv('AWS_S3_BUCKET')
-  ) { }
+  ) {}
 
   async upload(contents: Buffer, mimeType: string, path: string) {
     const ext = extension(mimeType)
