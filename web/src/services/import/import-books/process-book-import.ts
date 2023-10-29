@@ -24,13 +24,15 @@ export const processBookImport = new Service(
         }),
         authors: z.array(
           z.object({
-            name: z.string()
+            name: z.string(),
+            id: z.string().optional()
           })
         ),
         contributors: z.array(
           z.object({
             job: z.string(),
-            name: z.string()
+            name: z.string(),
+            id: z.string().optional()
           })
         )
       })
@@ -59,7 +61,7 @@ export const processBookImport = new Service(
         if (authorsInput.length)
           authors = {
             connectOrCreate: authorsInput.map((author) => ({
-              where: { name: author.name },
+              where: { id: author.id },
               create: { name: author.name, slug: slugify(author.name) }
             }))
           }
@@ -79,7 +81,7 @@ export const processBookImport = new Service(
             create: contributors.map((contributor) => ({
               profile: {
                 connectOrCreate: {
-                  where: { name: contributor.name },
+                  where: { id: contributor.id },
                   create: {
                     name: contributor.name,
                     slug: slugify(contributor.name)

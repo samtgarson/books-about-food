@@ -39,7 +39,7 @@ export async function mapper(
       where: { name: { equals: name, mode: 'insensitive' } }
     })
     const error = found.length > 1 ? 'MultipleMatches' : undefined
-    result.authors.push({ name, new: !found.length, error })
+    result.authors.push({ name, id: found[0].id, error })
     return result
   }
 
@@ -50,7 +50,7 @@ export async function mapper(
   result.contributors.push({
     job: normalisedKey,
     name,
-    new: !found.length,
+    id: found[0].id,
     error
   })
 

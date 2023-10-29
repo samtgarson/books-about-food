@@ -5,7 +5,7 @@ import * as Sheet from 'src/components/atoms/sheet'
 import * as BookItem from 'src/components/books/item'
 import { Form } from 'src/components/form'
 import { Input } from 'src/components/form/input'
-import { Select, SelectValue } from 'src/components/form/select'
+import { Select } from 'src/components/form/select'
 import { Submit } from 'src/components/form/submit'
 import { useDebouncedPromise } from 'src/hooks/use-debounce-promise'
 import { CreateBookInput } from 'src/services/books/create-book'
@@ -73,9 +73,9 @@ export const NewBookButton = () => {
   )
 }
 
-const BookResult = (result: BookLibrarySearchResult & SelectValue<'title'>) => {
-  const title = result.__new ? result.id : result.title
-  const authors = result.__new ? [] : result.authors
+const BookResult = (result: BookLibrarySearchResult, newValue: boolean) => {
+  const title = newValue ? result.id : result.title
+  const authors = newValue ? [] : result.authors
 
   return (
     <div className="flex items-center gap-3">

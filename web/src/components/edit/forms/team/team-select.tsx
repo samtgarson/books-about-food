@@ -17,9 +17,11 @@ import { Profile } from 'src/models/profile'
 import { ContributorAttrs } from 'src/services/books/update-contributors'
 import { v4 as uuid } from 'uuid'
 import { jobs, profiles } from '../../server-actions'
+import { createProfile } from '../title/action'
 
 export type TeamSelectValue = ContributorAttrs & {
   id: string
+  name: string
   avatar?: Image
   fg: string
   bg: string
@@ -32,7 +34,8 @@ const toValue = (
   assistant?: boolean
 ): TeamSelectValue => ({
   id: id,
-  profileName: profile.name,
+  profileId: profile.id,
+  name: profile.name,
   jobName: job.name,
   avatar: profile.avatar,
   fg: profile.foregroundColour,
@@ -56,20 +59,20 @@ export function TeamSelect({ book }: { book: FullBook }) {
           contribution.assistant
         )
       )}
-      serialize={({ profileName, jobName, assistant = false }) => ({
-        profileName,
+      serialize={({ profileId, jobName, assistant = false }) => ({
+        profileId,
         jobName,
         assistant
       })}
       form={TeamForm}
       render={(value) => ({
-        title: value.profileName,
+        title: value.name,
         subtitle: `${value.jobName}${value.assistant ? ' (Assistant)' : ''}`,
         avatar: (
           <BaseAvatar
             size="xs"
             imgProps={value.avatar?.imageAttrs()}
-            backup={value.profileName}
+            backup={value.name}
             foregroundColour={value.fg}
             backgroundColour={value.bg}
           />
@@ -88,7 +91,8 @@ function TeamForm({
 }) {
   const defaultProfile = value
     ? ({
-        name: value.profileName,
+        id: value.profileId,
+        name: value.name,
         foregroundColour: value.fg,
         backgroundColour: value.bg,
         avatar: value.avatar
@@ -118,6 +122,12 @@ function TeamForm({
         required
         allowCreate
         onChange={(p) => setProfile(p as Profile)}
+        onCreate={async (name) => {
+          const attrs = await createProfile(name)
+          const profile = new Profile(attrs)
+          setProfile(profile)
+          return profile
+        }}
       />
       <Select
         loadOptions={jobs}

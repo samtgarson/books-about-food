@@ -21,7 +21,12 @@ export const createBook = new Service(
 
     if (title)
       return prisma.book.create({
-        data: { title, slug: slugify(title), submitterId: user.id }
+        data: {
+          title,
+          slug: slugify(title),
+          submitterId: user.id,
+          source: 'submitted'
+        }
       })
 
     if (!googleBooksId) throw new Error('Title or Google Books ID is required')

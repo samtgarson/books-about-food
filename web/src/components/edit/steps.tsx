@@ -11,35 +11,35 @@ export const Steps: FC<{ book: FullBook }> = ({ book }) => {
     <div className="flex flex-col gap-2">
       <Step
         disabled={state.complete}
-        title="General Information"
+        title="1. General Information"
         href={state.link('title')}
         required
         complete={state.titleComplete}
       />
       <Step
         disabled={state.complete}
-        title="Cover & Spreads"
+        title="2. Cover & Spreads"
         href={state.link('images')}
         required
         complete={state.imagesComplete}
       />
       <Step
         disabled={state.complete}
-        title="Publishing Information"
+        title="3. Publishing Information"
         href={state.link('publisher')}
         required
         complete={state.publisherComplete}
       />
       <Step
         disabled={state.complete}
-        title="Team"
+        title="4. Team"
         href={state.link('team')}
         required
         complete={state.teamComplete}
       />
       <Step
         disabled={state.complete}
-        title="Links"
+        title="5. Links"
         href={state.link('links')}
         complete={state.linksComplete}
       />

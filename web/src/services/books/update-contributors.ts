@@ -1,10 +1,9 @@
 import prisma from 'database'
-import { slugify } from 'shared/utils/slugify'
 import { Service } from 'src/utils/service'
 import { z } from 'zod'
 
 const contributorSchema = z.object({
-  profileName: z.string(),
+  profileId: z.string(),
   jobName: z.string(),
   assistant: z.boolean().optional()
 })
@@ -41,23 +40,16 @@ export const updateContributors = new Service(
     })
 
     async function createProfileAndJob({
-      profileName,
+      profileId,
       jobName,
       assistant = false
     }: z.infer<typeof contributorSchema>) {
-      const [profile, job] = await Promise.all([
-        prisma.profile.upsert({
-          where: { name: profileName },
-          create: { name: profileName, slug: slugify(profileName) },
-          update: {}
-        }),
-        prisma.job.upsert({
-          where: { name: jobName },
-          create: { name: jobName },
-          update: {}
-        })
-      ])
-      return { profile, job, assistant }
+      const job = await prisma.job.upsert({
+        where: { name: jobName },
+        create: { name: jobName },
+        update: {}
+      })
+      return { profile: { id: profileId }, job, assistant }
     }
 
     async function createContributions({

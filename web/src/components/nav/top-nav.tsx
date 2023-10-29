@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 import { FC, useState } from 'react'
 import { Menu, User, X } from 'react-feather'
+import { useCurrentUser } from 'src/hooks/use-current-user'
 import { useScrollLock } from 'src/hooks/use-scroll-lock'
 import { Container } from '../atoms/container'
 import { Loader } from '../atoms/loader'
@@ -26,6 +27,11 @@ const AccountLink = ({ className }: { className?: string }) => {
 const navItemClassNames = () =>
   cn('text-32 animate-fade-slide-in flex gap-2 items-center')
 
+const navItemAttrs = (index: number, className?: string) => ({
+  className: cn(navItemClassNames(), className),
+  style: { animationDelay: `${index * 50}ms` }
+})
+
 const TopNavItem: FC<{
   children: string
   path: string | null
@@ -42,7 +48,7 @@ const TopNavItem: FC<{
     <Link
       aria-current={active ? 'page' : undefined}
       href={href}
-      className={cn(className, navItemClassNames(), loading && '!opacity-50')}
+      {...navItemAttrs(index, cn(className, loading && '!opacity-50'))}
       style={{ animationDelay: `${index * 50}ms` }}
       onClick={(e) => {
         if (e.metaKey || e.ctrlKey) return
@@ -64,8 +70,7 @@ const TopNavItemExternal: FC<{
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    className={navItemClassNames()}
-    style={{ animationDelay: `${index * 50}ms` }}
+    {...navItemAttrs(index)}
   >
     {children}
   </a>
@@ -73,6 +78,8 @@ const TopNavItemExternal: FC<{
 
 const NavContent = () => {
   useScrollLock()
+  const user = useCurrentUser()
+
   return (
     <div className="animate-fade-in fixed inset-0 z-40 flex max-h-screen flex-col items-center justify-center gap-4 overflow-auto bg-white pt-20">
       <Container className="absolute inset-x-0 top-0 border-b border-black py-5">
@@ -101,6 +108,15 @@ const NavContent = () => {
       >
         Instagram
       </TopNavItemExternal>
+      {user ? (
+        <TopNavItem index={6} path="account">
+          Account
+        </TopNavItem>
+      ) : (
+        <AuthedButton redirect="/account">
+          <button {...navItemAttrs(6)}>Sign In</button>
+        </AuthedButton>
+      )}
     </div>
   )
 }

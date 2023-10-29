@@ -7,26 +7,29 @@ import { bookIncludes } from '../utils'
 import { array } from '../utils/inputs'
 import { fetchBook } from './fetch-book'
 
+export type UpdateBookInput = z.infer<typeof updateBookInput>
+
+const updateBookInput = z.object({
+  slug: z.string(),
+  title: z.string().optional(),
+  subtitle: z.string().optional(),
+  authorIds: array(z.string()).optional(),
+  coverImageId: z.string().optional(),
+  previewImageIds: array(z.string()).optional(),
+  publisherId: z.string().optional(),
+  releaseDate: z.coerce.date().optional(),
+  pages: z.coerce
+    .number()
+    .optional()
+    .transform((n) => (n ? n : null)),
+  tags: array(z.string()).optional()
+})
+
 export const updateBook = new Service(
-  z.object({
-    slug: z.string(),
-    title: z.string().optional(),
-    subtitle: z.string().optional(),
-    authorNames: array(z.string()).optional(),
-    coverImageId: z.string().optional(),
-    previewImageIds: array(z.string()).optional(),
-    publisherId: z.string().optional(),
-    releaseDate: z.coerce.date().optional(),
-    pages: z.coerce
-      .number()
-      .optional()
-      .transform((n) => (n ? n : null)),
-    tags: array(z.string()).optional()
-  }),
+  updateBookInput,
   async ({ slug, ...data } = {}, user) => {
     if (!user) throw new Error('User is required')
 
-    // TODO Move this to where clause in Prisma 5
     const { data: book } = await fetchBook.call({ slug }, user)
     if (book?.submitterId !== user.id && user.role !== 'admin') {
       throw new Error('You do not have permission to edit this book')
@@ -34,7 +37,7 @@ export const updateBook = new Service(
 
     const {
       title,
-      authorNames,
+      authorIds,
       coverImageId,
       previewImageIds = [],
       publisherId,
@@ -42,15 +45,14 @@ export const updateBook = new Service(
       ...attrs
     } = data
 
-    const authors = await getAuthors(authorNames)
     const result = await prisma.book.update({
       where: { slug },
       data: {
         ...attrs,
         title,
         slug: title ? slugify(title) : undefined,
-        authors: authors
-          ? { set: authors.map(({ id }) => ({ id })) }
+        authors: authorIds
+          ? { set: authorIds.map((id) => ({ id })) }
           : undefined,
         coverImage: data.coverImageId?.length
           ? coverImageId
@@ -70,16 +72,3 @@ export const updateBook = new Service(
     return new Book(result)
   }
 )
-
-const getAuthors = async (authorNames?: string[]) => {
-  if (!authorNames) return
-  return Promise.all(
-    authorNames.map((name) =>
-      prisma.profile.upsert({
-        where: { name },
-        create: { name, slug: slugify(name) },
-        update: {}
-      })
-    )
-  )
-}

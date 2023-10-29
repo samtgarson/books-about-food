@@ -1,13 +1,13 @@
 export type ResultAuthor = {
   name: string
-  new: boolean
+  id?: string
   error?: MatchError
 }
 
 export type ResultContribution = {
   job: string
   name: string
-  new: boolean
+  id?: string
   error?: MatchError
 }
 

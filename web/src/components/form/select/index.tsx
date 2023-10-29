@@ -9,7 +9,7 @@ import {
   useRef,
   useState
 } from 'react'
-import { MultiValue, OnChangeValue } from 'react-select'
+import { MultiValue, OnChangeValue, PropsValue } from 'react-select'
 import ReactSelect, { AsyncCreatableProps } from 'react-select/async-creatable'
 import { Stringified, parse } from 'src/utils/superjson'
 import { useForm } from '../context'
@@ -30,7 +30,7 @@ export interface SelectProps<
   name: string
   label: string
   loadOptions?: (query: string) => Promise<Stringified<Value[]>>
-  render: keyof Value | ((value: Value & SelectValue<ValueKey>) => ReactNode)
+  render: keyof Value | ((value: Value, newValue: boolean) => ReactNode)
   valueKey: ValueKey
   multi?: Multi
   defaultValue?: OnChangeValue<Value, Multi>
@@ -38,13 +38,13 @@ export interface SelectProps<
   onChange?: (
     value: OnChangeValue<Value & SelectValue<ValueKey>, Multi>
   ) => void
-  onCreate?: (value: string) => void
+  onCreate?: (value: string) => Promise<Value | void>
   showChevron?: boolean
   separator?: string
 }
 
 const isMultiValue = <Value,>(
-  value?: OnChangeValue<Value, boolean>
+  value?: PropsValue<Value>
 ): value is MultiValue<Value> => {
   return Array.isArray(value)
 }
@@ -68,7 +68,11 @@ export const Select = function Select<
   separator = ',',
   ...props
 }: SelectProps<Value, Multi, ValueKey>) {
+  const [value, setValue] = useState<OnChangeValue<Value, Multi> | undefined>(
+    defaultValue
+  )
   const input = useRef<HTMLInputElement>(null)
+  const [loading, setLoading] = useState(false)
   const renderOption =
     typeof render === 'function' ? render : (value: Value) => value[render]
   const [browserProps, setProps] = useState<
@@ -89,7 +93,9 @@ export const Select = function Select<
 
   const stringifyValue = useCallback(
     (value?: OnChangeValue<Value, Multi>) =>
-      isMultiValue(value)
+      !value
+        ? ''
+        : isMultiValue(value)
         ? value.map((v) => v[valueKey]).join(separator)
         : value?.[valueKey],
     [valueKey, separator]
@@ -97,12 +103,13 @@ export const Select = function Select<
 
   const onChange = useCallback(
     (val: OnChangeValue<Value, Multi>) => {
-      if (!input.current) return
-      input.current.value = stringifyValue(val) ?? ''
-      input.current.dispatchEvent(new Event('change', { bubbles: true }))
+      setValue(val)
       externalOnChange?.(val)
+      setImmediate(() => {
+        input.current?.dispatchEvent(new Event('change', { bubbles: true }))
+      })
     },
-    [stringifyValue, externalOnChange]
+    [externalOnChange]
   )
 
   useEffect(() => {
@@ -124,11 +131,11 @@ export const Select = function Select<
         <input
           tabIndex={-1}
           type="text"
-          ref={input}
           {...props}
+          ref={input}
+          value={stringifyValue(value)}
           name={name}
           className="h-0 absolute"
-          defaultValue={stringifyValue(defaultValue)}
         />
       </Form.Control>
       <Form.ValidityState>
@@ -137,14 +144,32 @@ export const Select = function Select<
             {...browserProps}
             required={props.required}
             getOptionValue={(value) => value[valueKey]}
+            isLoading={loading || undefined}
             loadOptions={loadOptionsFn}
-            formatOptionLabel={renderOption}
+            formatOptionLabel={(val) => renderOption(val, !!val.__new)}
             aria-invalid={!validity?.valid}
             onChange={onChange}
             defaultValue={defaultValue}
             defaultOptions={!!loadOptions}
             isMulti={multi}
-            onCreateOption={onCreate}
+            value={value}
+            onCreateOption={
+              onCreate
+                ? async (val) => {
+                    setLoading(true)
+                    const newValue = await onCreate(val)
+                    setLoading(false)
+                    if (!newValue) return
+                    if (multi && isMultiValue(value)) {
+                      // @ts-expect-error how to type this
+                      onChange([...value, newValue])
+                    } else {
+                      // @ts-expect-error how to type this
+                      onChange(newValue)
+                    }
+                  }
+                : undefined
+            }
           />
         )}
       </Form.ValidityState>

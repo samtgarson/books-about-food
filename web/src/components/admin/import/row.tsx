@@ -102,7 +102,7 @@ export function ImportFormRow({
               )}
               <td className="py-1 flex gap-2">
                 {author.name}
-                {author.new && <Tag color="lime">New</Tag>}
+                {!author.id && <Tag color="lime">New</Tag>}
                 {author.error === 'MultipleMatches' && (
                   <Tag color="red">Multiple matches</Tag>
                 )}
@@ -124,7 +124,7 @@ export function ImportFormRow({
                 )}
                 <td className="py-1 flex gap-2">
                   {relation.name}
-                  {relation.new && <Tag color="lime">New</Tag>}
+                  {!relation.id && <Tag color="lime">New</Tag>}
                   {relation.error === 'MultipleMatches' && (
                     <Tag
                       color="red"

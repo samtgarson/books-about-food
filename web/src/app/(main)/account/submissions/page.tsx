@@ -12,7 +12,15 @@ const Page = async () => {
   const { data: user } = await getUser.call()
 
   if (!user) return null
-  return <BookList showCreate filters={{ submitterId: user.id }} />
+  return (
+    <BookList
+      showCreate
+      filters={{
+        submitterId: user?.id,
+        status: ['draft', 'inReview', 'published']
+      }}
+    />
+  )
 }
 
 export default Page
