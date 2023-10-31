@@ -10,7 +10,17 @@ export class Image {
   placeholderUrl?: string
 
   constructor(
-    { path, width, height, caption, placeholderUrl, id }: Pick<Prisma.Image, 'path' | 'width' | 'height' | 'caption' | 'placeholderUrl' | 'id'>,
+    {
+      path,
+      width,
+      height,
+      caption,
+      placeholderUrl,
+      id
+    }: Pick<
+      Prisma.Image,
+      'path' | 'width' | 'height' | 'caption' | 'placeholderUrl' | 'id'
+    >,
     defaultCaption: string
   ) {
     this.id = id
@@ -21,8 +31,12 @@ export class Image {
     this.placeholderUrl = placeholderUrl ?? undefined
   }
 
+  static src(path: string) {
+    return new URL(path, process.env.NEXT_PUBLIC_S3_DOMAIN).toString()
+  }
+
   get src() {
-    return new URL(this.path, process.env.NEXT_PUBLIC_S3_DOMAIN).toString()
+    return Image.src(this.path)
   }
 
   widthFor(height: number) {

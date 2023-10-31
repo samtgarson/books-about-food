@@ -33,7 +33,8 @@ export class Service<Input extends z.ZodTypeAny, Return> {
     call: (input?: z.infer<Input>, user?: User | null) => Promise<Return>,
     public requestMeta: RequestMeta = {}
   ) {
-    this._call = cache(call)
+    if (!cache) this._call = call
+    else this._call = cache(call)
   }
 
   public async parseAndCall(
@@ -75,12 +76,16 @@ export class Service<Input extends z.ZodTypeAny, Return> {
   }
 
   private async getUser() {
-    const session = await getServerSession(authOptions)
+    try {
+      const session = await getServerSession(authOptions)
 
-    if (!session?.user.id) return null
+      if (!session?.user.id) return null
 
-    return prisma.user.findUnique({
-      where: { id: session.user.id }
-    })
+      return prisma.user.findUnique({
+        where: { id: session.user.id }
+      })
+    } catch (e) {
+      return null
+    }
   }
 }

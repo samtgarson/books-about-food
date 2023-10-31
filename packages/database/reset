@@ -32,9 +32,10 @@ function dump () {
     --data-only -Fc \
     $PROD_DATABASE_URL > $prod_dump
 
-  npx -w packages/database prisma migrate reset
+  if [[npx -w packages/database prisma migrate reset]]; then
+    pg_restore --disable-triggers -d $DATABASE_URL $prod_dump || true
+  fi
 
-  pg_restore --disable-triggers -d $DATABASE_URL $prod_dump || true
   pg_restore --disable-triggers -d $DATABASE_URL $saved_content || true
   rm -rf $dir
 }

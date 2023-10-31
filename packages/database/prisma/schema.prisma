@@ -187,19 +187,21 @@ enum BookSource {
 }
 
 model Book {
-  id            String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt     DateTime   @default(now()) @map("created_at")
-  updatedAt     DateTime   @default(now()) @map("updated_at")
-  title         String
-  subtitle      String?
-  releaseDate   DateTime?  @map("release_date") @db.Date
-  pages         Int?
-  publisherId   String?    @map("publisher_id") @db.Uuid
-  slug          String     @unique
-  status        BookStatus @default(draft)
-  submitterId   String?    @map("submitter_id") @db.Uuid
-  googleBooksId String?    @unique @map("google_books_id")
-  source        BookSource @default(admin)
+  id              String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt       DateTime   @default(now()) @map("created_at")
+  updatedAt       DateTime   @default(now()) @map("updated_at")
+  title           String
+  subtitle        String?
+  releaseDate     DateTime?  @map("release_date") @db.Date
+  pages           Int?
+  publisherId     String?    @map("publisher_id") @db.Uuid
+  slug            String     @unique
+  status          BookStatus @default(draft)
+  submitterId     String?    @map("submitter_id") @db.Uuid
+  googleBooksId   String?    @unique @map("google_books_id")
+  source          BookSource @default(admin)
+  backgroundColor Int[]      @default([]) @map("background_color")
+  palette         Int[]      @default([])
 
   coverImage    Image?         @relation("cover_for")
   previewImages Image[]        @relation("preview_for")

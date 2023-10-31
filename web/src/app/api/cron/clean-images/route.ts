@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { cleanImages } from 'src/services/images/clean-images'
-import { secure } from '../utils/secure'
+import { secure } from '../secure'
 
 export const GET = secure(async () => {
   try {
