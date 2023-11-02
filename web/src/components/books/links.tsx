@@ -49,8 +49,8 @@ export const BookLinks: FC<BookLinksProps> = ({ links, className }) =>
               <span className="flex h-10 w-10 items-center justify-center bg-white">
                 {isWebsite(link.site) ? (
                   <Image
-                    width={32}
-                    height={32}
+                    width={24}
+                    height={24}
                     src={linkLogos[link.site]}
                     alt={link.site}
                   />

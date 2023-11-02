@@ -1,4 +1,4 @@
-import prisma from 'database'
+import prisma, { User } from 'database'
 import { FullBook } from 'src/models/full-book'
 import { Profile } from 'src/models/profile'
 
@@ -10,10 +10,17 @@ export type StepCompletionMeta =
     }
 
 export class BookEditState {
-  constructor(private book: FullBook) {}
+  constructor(
+    private book: FullBook,
+    private user: User
+  ) {}
 
   get complete() {
     return this.book.status !== 'draft'
+  }
+
+  get disabled() {
+    return this.complete && this.user.role !== 'admin'
   }
 
   link(path: string) {

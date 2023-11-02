@@ -13,6 +13,22 @@ export type RequestMeta = {
   authorized?: boolean
 }
 
+async function getUser() {
+  try {
+    const session = await getServerSession(authOptions)
+
+    if (!session?.user.id) return null
+
+    return prisma.user.findUnique({
+      where: { id: session.user.id }
+    })
+  } catch (e) {
+    return null
+  }
+}
+
+const getusercached = cache(getUser)
+
 export type ServiceResult<T> =
   | {
       success: true
@@ -59,7 +75,7 @@ export class Service<Input extends z.ZodTypeAny, Return> {
     input?: z.input<Input>,
     user?: User | null
   ): Promise<ServiceResult<Return>> {
-    const u = user || (await this.getUser())
+    const u = user || (await getusercached())
 
     try {
       return {
@@ -72,20 +88,6 @@ export class Service<Input extends z.ZodTypeAny, Return> {
         success: false,
         errors: [AppError.fromError(e).toJSON()]
       }
-    }
-  }
-
-  private async getUser() {
-    try {
-      const session = await getServerSession(authOptions)
-
-      if (!session?.user.id) return null
-
-      return prisma.user.findUnique({
-        where: { id: session.user.id }
-      })
-    } catch (e) {
-      return null
     }
   }
 }

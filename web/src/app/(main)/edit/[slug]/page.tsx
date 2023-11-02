@@ -20,8 +20,8 @@ export default async function Page({ params: { slug } }: EditPageProps) {
   const { data: book } = await fetchBook.call({ slug, cache: false })
   const { data: currentUser } = await getUser.call()
 
-  if (!book) notFound()
-  if (currentUser?.id !== book.submitterId && currentUser?.role !== 'admin')
+  if (!book || !currentUser) notFound()
+  if (currentUser.id !== book.submitterId && currentUser.role !== 'admin')
     notFound()
 
   return (
@@ -53,7 +53,7 @@ export default async function Page({ params: { slug } }: EditPageProps) {
           desktop={false}
           className="mb-12 flex-grow sm:w-full sm:max-w-lg sm:flex-shrink-0 sm:flex-grow-0"
         >
-          <Steps book={book} />
+          <Steps book={book} user={currentUser} />
         </AntiContainer>
         <EditNotes
           status={book.status}

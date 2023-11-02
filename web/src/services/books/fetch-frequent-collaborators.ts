@@ -41,4 +41,5 @@ const execute = (slug: string) => prisma.$queryRaw<{ slug: string }[]>`
       count(DISTINCT books.slug) > 1
     ORDER BY
       count(DISTINCT books.slug) DESC
+    LIMIT 8
     `
