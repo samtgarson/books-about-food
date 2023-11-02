@@ -11,6 +11,7 @@ export const generatePalette = inngest.createFunction(
   { event: 'book.updated' },
   async ({ event }) => {
     if (!event.user.id) return
+    if (!event.data.input.coverImageId) return
 
     const user = await prisma.user.findUnique({ where: { id: event.user.id } })
     const result = await generateBookPalette.call(

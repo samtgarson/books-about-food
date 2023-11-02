@@ -105,9 +105,9 @@ export const Select = function Select<
     (val: OnChangeValue<Value, Multi>) => {
       setValue(val)
       externalOnChange?.(val)
-      setImmediate(() => {
+      setTimeout(() => {
         input.current?.dispatchEvent(new Event('change', { bubbles: true }))
-      })
+      }, 0)
     },
     [externalOnChange]
   )
