@@ -151,16 +151,17 @@ export const Item = forwardRef<
   return (
     <Container book={book} centered={centered} {...rest} ref={ref}>
       <Cover book={book} centered={centered} />
-      {(display === 'list' || centered) && (
-        <Footer centered={centered}>
-          <p className="text-16 mb-1 overflow-hidden overflow-ellipsis whitespace-nowrap font-medium">
-            {book.title}
-          </p>
-          <p className="text-14 overflow-hidden overflow-ellipsis whitespace-nowrap">
-            {book.authorNames}
-          </p>
-        </Footer>
-      )}
+      <Footer
+        centered={centered}
+        className={cn(display === 'grid' && 'hidden sm:block')}
+      >
+        <p className="text-16 mb-1 overflow-hidden overflow-ellipsis whitespace-nowrap font-medium">
+          {book.title}
+        </p>
+        <p className="text-14 overflow-hidden overflow-ellipsis whitespace-nowrap">
+          {book.authorNames}
+        </p>
+      </Footer>
     </Container>
   )
 })
