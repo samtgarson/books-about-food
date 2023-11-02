@@ -33,10 +33,7 @@ export function ListContainer({
 
   return (
     <ListContext.Provider value={{ display }}>
-      <AntiContainer
-        desktop={false}
-        className={cn('border-t border-black sm:border-t-0', className)}
-      >
+      <AntiContainer desktop={false} className={cn(className)}>
         <Container desktop={false}>
           {title && (
             <h3 className="my-4 sm:mb-8 sm:mt-0 all-caps flex items-center justify-between">

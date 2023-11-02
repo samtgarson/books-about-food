@@ -34,9 +34,9 @@ export default async ({ params: { slug } }: CookbooksPageProps) => {
   if (!book) notFound()
 
   return (
-    <div className="relative flex-grow lg:pr-[50vw] flex flex-col gap-16">
+    <div className="relative flex-grow lg:pr-[50vw] flex flex-col gap-8 sm:gap-16">
       <Container
-        className="pt-6 sm:pt-20 flex flex-col gap-8"
+        className="pt-6 sm:pt-20 flex flex-col md:gap-8"
         key="header"
         belowNav
       >
@@ -52,7 +52,7 @@ export default async ({ params: { slug } }: CookbooksPageProps) => {
           </div>
           {book.subtitle && <Detail>{book.subtitle}</Detail>}
         </div>
-        <AntiContainer className="border-t border-black sm:border-t-0 sm:-mt-8">
+        <AntiContainer className="border-t border-black sm:border-t-0 md:-mt-8">
           <div className="flex flex-col lg:absolute lg:-bottom-20 lg:right-0 lg:top-0 lg:w-[50vw]">
             <CoverCarousel
               data-superjson
@@ -61,11 +61,11 @@ export default async ({ params: { slug } }: CookbooksPageProps) => {
             />
           </div>
         </AntiContainer>
-        <AntiContainer desktop={false} className="flex flex-col gap-8">
+        <AntiContainer desktop={false} className="flex flex-col md:gap-8">
           {book.authors.length > 0 && (
             <Container
               desktop={false}
-              className="border-t border-black pt-6 sm:border-t-0 md:pt-0"
+              className="border-t border-black py-4 sm:border-t-0 md:py-0"
             >
               <ProfileListSection
                 profiles={book.authors}
@@ -76,7 +76,7 @@ export default async ({ params: { slug } }: CookbooksPageProps) => {
           )}
           <Container
             desktop={false}
-            className="mb-6 border-t border-black pt-6 sm:mb-0 sm:border-t-0 md:pt-0"
+            className="border-y border-black py-4 sm:border-y-0 md:py-0"
           >
             {book.team.length > 0 && (
               <TeamList contributions={book.contributions} className="mb-8" />
@@ -88,7 +88,7 @@ export default async ({ params: { slug } }: CookbooksPageProps) => {
       <Container>
         <BookLinks
           links={book.links}
-          className="order-last w-full pt-4 sm:order-first sm:pt-0"
+          className="order-last w-full sm:order-first"
         />
       </Container>
       <Container className={cn('flex flex-wrap gap-x-4')}>
