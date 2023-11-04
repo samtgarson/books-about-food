@@ -1,7 +1,7 @@
 'use client'
 
 import cn from 'classnames'
-import Image from 'next/image'
+import Image, { ImageProps } from 'next/image'
 import Link from 'next/link'
 import { CSSProperties, forwardRef } from 'react'
 import { Book } from 'src/models/book'
@@ -89,18 +89,19 @@ export const Box = ({
 }
 
 export const Cover = ({
-  book,
+  attrs,
+  skeleton,
   centered,
   className
-}: CookbookItemProps & { book: Book }) => {
+}: Omit<CookbookItemProps, 'book'> & { attrs?: ImageProps }) => {
   const { display } = useListDisplay()
   const mobileGrid = display === 'grid'
 
   return (
-    <Box skeleton={!book} bordered={!centered} className={className}>
-      {book?.cover ? (
+    <Box skeleton={skeleton} bordered={!centered} className={className}>
+      {attrs ? (
         <Image
-          {...book.cover.imageAttrs(200)}
+          {...attrs}
           className={cn(
             'book-shadow h-24 !w-auto sm:absolute sm:inset-x-0 sm:top-[15%] sm:mx-auto sm:h-[70%]',
             mobileGrid && 'absolute inset-x-0 top-[15%] mx-auto h-[70%]'
@@ -150,7 +151,7 @@ export const Item = forwardRef<
   const { book, centered, ...rest } = props
   return (
     <Container book={book} centered={centered} {...rest} ref={ref}>
-      <Cover book={book} centered={centered} />
+      <Cover attrs={book.cover?.imageAttrs(200)} centered={centered} />
       <Footer
         centered={centered}
         className={cn(display === 'grid' && 'hidden sm:block')}

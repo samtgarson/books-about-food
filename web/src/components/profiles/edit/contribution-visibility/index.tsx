@@ -40,7 +40,7 @@ export const ContributionVisibility: FC<ContributionVisibilityProps> = ({
   return (
     <Container book={book} link={!editMode}>
       <Cover
-        book={book}
+        attrs={book.cover?.imageAttrs(200)}
         className={cn(
           'transition',
           editMode && hidden && 'opacity-30 saturate-0'

@@ -45,7 +45,10 @@ export default async function Splash() {
         <ListContainer display="grid">
           {features.map(({ book }) => (
             <BookItem.Container key={book.id} className="bg-grey">
-              <BookItem.Cover book={book} className="!-mb-px" data-superjson />
+              <BookItem.Cover
+                attrs={book.cover?.imageAttrs(200)}
+                className="!-mb-px"
+              />
               <div className="-mt-6 w-full sm:mt-0">
                 <div className="-mb-px w-full border border-black px-6 py-4">
                   <span className="font-medium">{book.title}</span>
