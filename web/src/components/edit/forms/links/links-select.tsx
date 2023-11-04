@@ -97,7 +97,7 @@ function LinksForm({
 const linkLogo = (site: string) =>
   isWebsite(site) ? (
     <div className="h-10 w-10 rounded-full bg-white flex justify-center items-center overflow-hidden">
-      <Image src={linkLogos[site]} alt="" width={32} height={32} />
+      <Image src={linkLogos[site]} alt="" width={24} height={24} />
     </div>
   ) : (
     <div className="h-10 w-10 rounded-full bg-white/50" />

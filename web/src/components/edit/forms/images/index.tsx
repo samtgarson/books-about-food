@@ -1,4 +1,4 @@
-import { PageBackLink } from 'src/components/atoms/page-back-link'
+import { PageSubtitle } from 'src/components/atoms/page-title'
 import { Form } from 'src/components/form'
 import { Checkbox } from 'src/components/form/checkbox'
 import { ImageUpload } from 'src/components/form/image-upload'
@@ -9,7 +9,7 @@ import { createAction } from '../action'
 export const UploadForm = async ({ book }: { book: FullBook }) => {
   return (
     <Form action={createAction(book.slug)}>
-      <PageBackLink href={`/edit/${book.slug}`}>Cover & Spreads</PageBackLink>
+      <PageSubtitle>Cover & Spreads</PageSubtitle>
       <p className="mb-4">
         Only upload good quality flat images of the cover and spreads—not
         photographs of them.

@@ -1,5 +1,5 @@
 import { ContactLink } from 'src/components/atoms/contact-link'
-import { PageBackLink } from 'src/components/atoms/page-back-link'
+import { PageSubtitle } from 'src/components/atoms/page-title'
 import { Form } from 'src/components/form'
 import { Input } from 'src/components/form/input'
 import { Select } from 'src/components/form/select'
@@ -21,9 +21,7 @@ export const EditPublisherForm = async ({ book }: { book: FullBook }) => {
 
   return (
     <Form action={createAction(book.slug)}>
-      <PageBackLink href={`/edit/${book.slug}`}>
-        Publishing Information
-      </PageBackLink>
+      <PageSubtitle>Publishing Information</PageSubtitle>
       <Select
         loadOptions={options}
         label="Publisher"

@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import { PageBackLink } from 'src/components/atoms/page-back-link'
+import { PageSubtitle } from 'src/components/atoms/page-title'
 import { Form } from 'src/components/form'
 import { Submit } from 'src/components/form/submit'
 import { FullBook } from 'src/models/full-book'
@@ -35,7 +35,7 @@ export const EditLinksForm = async ({ book }: { book: FullBook }) => {
         redirect(`/edit/${book.slug}`)
       }}
     >
-      <PageBackLink href={`/edit/${book.slug}`}>Links</PageBackLink>
+      <PageSubtitle>Links</PageSubtitle>
       <LinksSelect book={book} data-superjson />
       <Submit variant="dark">Save and Continue</Submit>
     </Form>

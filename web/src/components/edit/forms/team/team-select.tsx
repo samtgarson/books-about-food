@@ -51,14 +51,16 @@ export function TeamSelect({ book }: { book: FullBook }) {
       name="contributors"
       label="Team"
       required={user?.role !== 'admin'}
-      defaultValue={book.contributions.map((contribution) =>
-        toValue(
-          contribution.id,
-          contribution.profile,
-          contribution.job,
-          contribution.assistant
+      defaultValue={book.contributions
+        .map((contribution) =>
+          toValue(
+            contribution.id,
+            contribution.profile,
+            contribution.job,
+            contribution.assistant
+          )
         )
-      )}
+        .sort((a, b) => a.name.localeCompare(b.name))}
       serialize={({ profileId, jobName, assistant = false }) => ({
         profileId,
         jobName,
@@ -148,8 +150,9 @@ function TeamForm({
       <Submit variant="dark">Save</Submit>
       <p className="text-14 mt-8">
         Note: If the role you would like to assign to this team member isn’t
-        listed please choose “Other” and{' '}
-        <ContactLink subject="I need a new job role">get in touch</ContactLink>.
+        listed please choose the most similar then{' '}
+        <ContactLink subject="I need a new job role">get in touch</ContactLink>{' '}
+        and we’ll do our best to add it.
       </p>
     </Form>
   )

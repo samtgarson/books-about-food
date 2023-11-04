@@ -23,7 +23,11 @@ export function Tag({
 }: TagProps) {
   return (
     <div
-      className={cn('all-caps px-3 py-1.5', className, colors[color])}
+      className={cn(
+        'all-caps-sm sm:all-caps px-3 py-1.5 whitespace-nowrap',
+        className,
+        colors[color]
+      )}
       {...props}
     >
       {children}

@@ -9,7 +9,7 @@ export function Label({
   required,
   className
 }: {
-  children: string | ReactNode
+  children?: ReactNode
   required?: boolean
   className?: string
 }) {

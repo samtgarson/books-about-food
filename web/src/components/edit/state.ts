@@ -56,7 +56,11 @@ export class BookEditState {
 
   get publisherComplete(): StepCompletionMeta {
     const complete = !!this.book.publisher
-    if (complete) return { text: this.book.publisher?.name }
+    let count = complete ? 1 : 0
+    if (this.book.releaseDate) count++
+    if (this.book.pages) count++
+
+    if (complete) return { text: `${count} / 3` }
   }
 
   get teamComplete(): StepCompletionMeta {
