@@ -7,6 +7,8 @@ import { SheetButton } from 'src/components/atoms/sheet/button'
 import { StatusTag } from 'src/components/books/status-tag'
 import { EditNotes } from 'src/components/edit/notes'
 import { Steps } from 'src/components/edit/steps'
+import { ParamSheet } from 'src/components/sheets/use-param-sheet'
+import { Toaster } from 'src/components/utils/toaster'
 import { getUser } from 'src/services/auth/get-user'
 import { fetchBook } from 'src/services/books/fetch-book'
 
@@ -26,6 +28,9 @@ export default async function Page({ params: { slug } }: EditPageProps) {
 
   return (
     <>
+      <Toaster action="saved" message="Cookbook saved" type="success" />
+      <Toaster action="created" message="Cookbook created" type="success" />
+      <ParamSheet sheet="submitted" props={{ title: book.title }} />
       <PageBackLink href={`/account/submissions`}>
         Back to Submissions
       </PageBackLink>

@@ -12,7 +12,7 @@ export type StepCompletionMeta =
 export class BookEditState {
   constructor(
     private book: FullBook,
-    private user: User
+    private user?: User
   ) {}
 
   get complete() {
@@ -20,7 +20,7 @@ export class BookEditState {
   }
 
   get disabled() {
-    return this.complete && this.user.role !== 'admin'
+    return this.complete && this.user?.role !== 'admin'
   }
 
   link(path: string) {

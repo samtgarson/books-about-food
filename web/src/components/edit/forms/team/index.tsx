@@ -27,7 +27,7 @@ export const EditTeamForm = async ({ book }: { book: FullBook }) => {
           slug: book.slug,
           contributors
         })
-        redirect(`/edit/${book.slug}`)
+        redirect(`/edit/${book.slug}?action=saved`)
       }}
     >
       <PageSubtitle>Team</PageSubtitle>

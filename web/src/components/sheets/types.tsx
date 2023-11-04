@@ -1,5 +1,6 @@
 import { ComponentProps, FC } from 'react'
 import { ClaimProfileSheet } from './claim-profile'
+import { CookbookSubmittedSheet } from './cookbook-submitted'
 import { SignInSheet } from './sign-in'
 import { SuggestEditSheet } from './suggest-edit'
 
@@ -8,7 +9,8 @@ export type SheetComponent<P> = FC<P> & { grey?: boolean }
 export const SheetMap = {
   signIn: SignInSheet,
   claimProfile: ClaimProfileSheet,
-  suggestEdit: SuggestEditSheet
+  suggestEdit: SuggestEditSheet,
+  submitted: CookbookSubmittedSheet
 } as const
 
 export type SheetMap = {

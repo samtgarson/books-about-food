@@ -11,6 +11,7 @@ import {
 } from 'react'
 import { LogoShape } from '../icons/logo-shape'
 import { LogoText } from '../icons/logo-text'
+import { useSheet } from '../sheets/global-sheet'
 
 function findClosestAnchor(
   element: EventTarget | null
@@ -34,6 +35,7 @@ export const Transition = forwardRef<TransitionControl>(
     const [show, setShow] = useState(true)
     const pathname = usePathname()
     const timer = useRef<NodeJS.Timeout | null>(null)
+    const { closeSheet } = useSheet()
 
     useImperativeHandle(ref, () => ({
       show: () => setShow(true)
@@ -47,6 +49,7 @@ export const Transition = forwardRef<TransitionControl>(
         const targetHref = new URL(anchor.href).pathname
         if (targetHref === window.location.pathname) return
 
+        closeSheet()
         timer.current = setTimeout(() => {
           setShow(true)
         }, 100)

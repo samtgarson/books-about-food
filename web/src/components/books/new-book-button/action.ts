@@ -24,7 +24,7 @@ export const action = async (values: unknown) => {
   const coverImageId = await createImage(cover)
   const result = await updateBook.call({ ...data, coverImageId })
 
-  if (result.success) redirect(`/edit/${result.data.slug}`)
+  if (result.success) redirect(`/edit/${result.data.slug}?action=created`)
   return parseAppError(
     result.errors,
     {

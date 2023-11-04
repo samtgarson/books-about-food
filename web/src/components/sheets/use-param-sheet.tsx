@@ -21,3 +21,14 @@ export function useParamSheet<K extends keyof SheetMap, P extends SheetMap[K]>(
     }
   }, [key, props, openSheet, router])
 }
+
+export function ParamSheet<K extends keyof SheetMap, P extends SheetMap[K]>({
+  sheet,
+  props
+}: {
+  sheet: K
+  props: P | null
+}) {
+  useParamSheet(sheet, props)
+  return null
+}

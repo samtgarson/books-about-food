@@ -1,4 +1,5 @@
 import cn from 'classnames'
+import { revalidatePath } from 'next/cache'
 import { RedirectType } from 'next/dist/client/components/redirect'
 import { redirect } from 'next/navigation'
 import { FC } from 'react'
@@ -39,5 +40,6 @@ async function submit(data: FormData) {
   if (!book) return
   await new BookEditState(book).submitForReview()
 
-  redirect(`/edit/${book.slug}`, RedirectType.replace)
+  revalidatePath(`/edit/${book.slug}`)
+  redirect(`/edit/${book.slug}?action=submitted`, RedirectType.replace)
 }

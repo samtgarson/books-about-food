@@ -11,7 +11,7 @@ export const createAction =
     const { data: result } = await updateBook.parseAndCall({ slug, ...data })
     if (!result) return
 
-    const path = `/edit/${result.slug}`
+    const path = `/edit/${result.slug}?action=saved`
     revalidatePath(path)
     redirect(path)
   }

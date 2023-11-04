@@ -32,7 +32,7 @@ export const EditLinksForm = async ({ book }: { book: FullBook }) => {
           slug: book.slug,
           links
         })
-        redirect(`/edit/${book.slug}`)
+        redirect(`/edit/${book.slug}?action=saved`)
       }}
     >
       <PageSubtitle>Links</PageSubtitle>
