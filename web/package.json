@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 5000",
+    "dev": "run-p dev:*",
+    "dev:web": "next dev --port 5000",
+    "dev:jobs": "inngest-cli dev",
     "build": "next build",
     "start": "next start"
   },
@@ -52,6 +54,7 @@
     "@types/randomcolor": "^0.5.7",
     "@types/splashy": "^5.0.1",
     "autoprefixer": "^10.4.16",
+    "inngest-cli": "^0.20.0",
     "next-superjson-plugin": "^0.5.9",
     "postcss": "^8.4.30",
     "tailwindcss": "^3.3.3"

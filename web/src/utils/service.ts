@@ -27,7 +27,7 @@ async function getUser() {
   }
 }
 
-const getusercached = cache(getUser)
+const getusercached = cache ? cache(getUser) : getUser
 
 export type ServiceResult<T> =
   | {

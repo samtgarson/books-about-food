@@ -39,7 +39,6 @@ export class GoogleBooksGateway extends BaseGoogleGateway {
 
   async fetch(id: string) {
     const response = await this.request(id)
-    console.log(response.url)
     if (!response.ok) return
     const result = await response.json()
 

@@ -36,12 +36,14 @@ export default async function Page({ params: { slug } }: EditPageProps) {
           ) : (
             <div className="bg-khaki w-16 h-20" />
           )}
-          <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center overflow-hidden">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 items-start sm:items-center overflow-hidden">
             <div className="flex flex-col sm:gap-2 grow overflow-hidden w-full">
               <h1 className="text-20 sm:text-32 whitespace-nowrap text-ellipsis overflow-hidden">
                 {book.title}
               </h1>
-              <p className="text-14 sm:text-16">{book.authorNames}</p>
+              <p className="text-14 sm:text-16 empty:hidden">
+                {book.authorNames}
+              </p>
             </div>
             <StatusTag status={book.status} />
           </div>

@@ -54,6 +54,10 @@ export class AppError extends Error {
     }
   }
 
+  static fromJSON(json: AppErrorJSON) {
+    return new AppError(json.type, json.message, json.field)
+  }
+
   get status() {
     return ErrorTypeStatusMap[this.type]
   }

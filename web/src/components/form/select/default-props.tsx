@@ -57,7 +57,7 @@ export const selectProps = <
       menu: (state) =>
         unstyled && state.options.length && !state.isLoading
           ? 'bg-grey'
-          : 'bg-white mt-1',
+          : 'bg-white mt-1 book-shadow',
       noOptionsMessage: () => 'p-5 text-black/50',
       loadingMessage: () => 'p-5 text-black/50',
       option: (state) =>

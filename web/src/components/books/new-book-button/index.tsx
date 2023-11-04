@@ -3,22 +3,19 @@ import { useState } from 'react'
 import { Plus } from 'react-feather'
 import * as Sheet from 'src/components/atoms/sheet'
 import * as BookItem from 'src/components/books/item'
+import { TitleSelectChangeAttrs } from 'src/components/edit/forms/title/action'
+import { TitleFormContent } from 'src/components/edit/forms/title/form-content'
+import { TitleSelect } from 'src/components/edit/forms/title/title-select'
 import { Form } from 'src/components/form'
-import { Input } from 'src/components/form/input'
-import { Select } from 'src/components/form/select'
 import { Submit } from 'src/components/form/submit'
-import { useDebouncedPromise } from 'src/hooks/use-debounce-promise'
-import { CreateBookInput } from 'src/services/books/create-book'
-import { BookLibrarySearchResult } from 'src/services/books/library/search-library'
-import { action, search } from './action'
+import { action } from './action'
 
 export const NewBookButton = () => {
-  const loadOptions = useDebouncedPromise(search, 250)
-  const [value, setValue] = useState<CreateBookInput | null>(null)
-  const searchDisabled = !!process.env.NEXT_PUBLIC_DISABLE_LIBRARY_SEARCH
+  const [values, setValues] = useState<TitleSelectChangeAttrs | null>(null)
+  const { googleBooksId, cover, ...book } = values || {}
 
   return (
-    <Sheet.Root>
+    <Sheet.Root onClose={() => setValues(null)}>
       <BookItem.Container>
         <Sheet.Trigger className="w-full self-start">
           <BookItem.Box className="flex-col gap-4">
@@ -30,39 +27,12 @@ export const NewBookButton = () => {
       <Sheet.Content>
         <Sheet.Body>
           <Sheet.Header title="Submit a new cookbook" />
-          <Form
-            action={async () => {
-              if (!value) return
-              return action(value)
-            }}
-            variant="bordered"
-          >
-            {searchDisabled ? (
-              <Input
-                name="title"
-                label="Title"
-                required
-                onChange={(e) => {
-                  setValue({ title: e.target.value })
-                }}
-              />
-            ) : (
-              <Select
-                name="title"
-                loadOptions={loadOptions}
-                valueKey="id"
-                label="Title"
-                render={BookResult}
-                required
-                allowCreate
-                multi={false}
-                onChange={(value) => {
-                  if (!value) return
-                  if (value.__new) setValue({ title: value.id })
-                  else setValue({ googleBooksId: value.id })
-                }}
-              />
-            )}
+          <Form action={action} variant="bordered">
+            <TitleSelect onChange={setValues} />
+            {values && <TitleFormContent book={book} />}
+            <input type="hidden" name="title" value={book.title} />
+            <input type="hidden" name="googleBooksId" value={googleBooksId} />
+            <input type="hidden" name="cover" value={cover} />
             <Submit variant="dark" className="w-full">
               Create
             </Submit>
@@ -70,30 +40,5 @@ export const NewBookButton = () => {
         </Sheet.Body>
       </Sheet.Content>
     </Sheet.Root>
-  )
-}
-
-const BookResult = (result: BookLibrarySearchResult, newValue: boolean) => {
-  const title = newValue ? result.id : result.title
-  const authors = newValue ? [] : result.authors
-
-  return (
-    <div className="flex items-center gap-3">
-      <div className="flex w-14 flex-shrink-0 flex-grow-0 justify-center">
-        {result.image ? (
-          <img src={result.image} alt={result.title} className="h-12" />
-        ) : (
-          <div className="bg-sand h-12 w-10" />
-        )}
-      </div>
-      <div className="flex min-w-0 flex-1 flex-col">
-        <p className="font-bold">{title}</p>
-        {authors.length > 0 && (
-          <p className="max-w-full overflow-hidden overflow-ellipsis whitespace-nowrap opacity-50">
-            {authors.join(', ')}
-          </p>
-        )}
-      </div>
-    </div>
   )
 }

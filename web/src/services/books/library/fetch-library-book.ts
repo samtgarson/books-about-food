@@ -4,12 +4,11 @@ import { z } from 'zod'
 
 const client = new GoogleBooksGateway()
 
-export type BookLibrarySearchResult = {
-  id: string
-  title: string
-  authors: string[]
-  image?: string
-}
+export type LibraryBook = Exclude<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  typeof fetchLibraryBook extends Service<any, infer R> ? R : never,
+  undefined
+>
 
 export const fetchLibraryBook = new Service(
   z.object({ id: z.string() }),

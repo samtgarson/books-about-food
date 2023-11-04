@@ -2,8 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
-    serverActions: true,
-    serverActionsBodySizeLimit: '2mb',
     swcPlugins: [
       [
         'next-superjson-plugin',
@@ -12,6 +10,8 @@ const nextConfig = {
         }
       ]
     ],
+    serverActions: true,
+    serverActionsBodySizeLimit: '2mb',
     serverComponentsExternalPackages: ['mjml']
   },
   transpilePackages: ['shared', 'database', 'email'],
