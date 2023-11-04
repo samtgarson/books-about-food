@@ -10,7 +10,7 @@ const systemPath = (pathname: string) =>
 export default withAuth(
   function middleware(request) {
     if (request.method === 'POST' || systemPath(request.nextUrl.pathname)) {
-      return
+      return NextResponse.next()
     }
 
     if (
