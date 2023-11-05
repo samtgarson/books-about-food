@@ -95,7 +95,7 @@ export const customiseBooks = (
 
   // Preview Images
   collection
-    .addField('Preview Images', {
+    .addField('PreviewImages', {
       dependencies: ['id'],
       getValues: async (records) => {
         return Promise.all(
@@ -109,7 +109,7 @@ export const customiseBooks = (
       },
       columnType: ['String']
     })
-    .replaceFieldWriting('Preview Images', async (dataUris = [], context) => {
+    .replaceFieldWriting('PreviewImages', async (dataUris = [], context) => {
       if (!context.record.id) return
       await uploadPreviews(dataUris, context.record.id)
     })
@@ -138,39 +138,10 @@ export const customiseBooks = (
     })
     .emulateFieldFiltering('Tags')
 
-  collection
-    .addField('Authors', {
-      dependencies: ['id'],
-      getValues: async (records) => {
-        const profiles = await prisma.profile.findMany({
-          where: {
-            authoredBooks: { some: { id: { in: records.map((r) => r.id) } } }
-          },
-          include: { authoredBooks: true }
-        })
-
-        return records.map((book) =>
-          profiles
-            .filter((profile) =>
-              profile.authoredBooks.some((b) => b.id === book.id)
-            )
-            .map((profile) => profile.name)
-        )
-      },
-      columnType: ['String']
-    })
-    .replaceFieldWriting('Authors', async (authors, context) => {
-      if (!context.record.id) return
-      const bookId = context.record.id
-      await prisma.book.update({
-        where: { id: bookId },
-        data: {
-          authors: {
-            set: authors.map((name) => ({ name }))
-          }
-        }
-      })
-    })
+  collection.addManyToManyRelation('Authors', 'profiles', '_authored_books', {
+    originKey: 'A',
+    foreignKey: 'B'
+  })
 
   collection.addAction('Add new collaborator', {
     scope: 'Single',
@@ -222,13 +193,13 @@ export const customiseBooks = (
         const data = context.data[i]
 
         await Promise.all([
-          prisma.book.update({
-            where: { id: record.id },
-            data: { authors: { set: data.Authors.map((name) => ({ name })) } }
-          }),
+          // prisma.book.update({
+          //   where: { id: record.id },
+          //   data: { authors: { set: data.Authors.map((name) => ({ name })) } }
+          // }),
           updateTags(record.id, data.Tags),
           uploadCover(data.Cover, record.id),
-          uploadPreviews(data['Preview Images'], record.id),
+          uploadPreviews(data['PreviewImages'], record.id),
           updateProfiles(record.id)
         ])
       })

@@ -26,34 +26,34 @@ export const customiseLinks = (
     })
 
   collection
-    .addField('Website (Other)', {
+    .addField('WebsiteOther', {
       getValues: async (records) => {
         return records.map(() => null)
       },
       columnType: 'String',
       dependencies: ['site']
     })
-    .replaceFieldWriting('Website (Other)', async (site) => {
-      return { 'Website (Other)': site }
+    .replaceFieldWriting('WebsiteOther', async (site) => {
+      return { WebsiteOther: site }
     })
     .addHook('Before', 'Create', async (context) => {
       context.data.forEach((link) => {
-        if (!link.Website && !link['Website (Other)']) {
+        if (!link.Website && !link['WebsiteOther']) {
           context.throwValidationError('Please provide a site name')
         }
 
-        link.site = link.Website || link['Website (Other)']
+        link.site = link.Website || link['WebsiteOther']
       })
     })
     .addHook('Before', 'Update', async (context) => {
       if (
         context.patch.Website === null &&
-        context.patch['Website (Other)'] === null
+        context.patch['WebsiteOther'] === null
       ) {
         context.throwValidationError('Please provide a site name')
       }
 
       context.patch.site =
-        context.patch.Website || context.patch['Website (Other)']
+        context.patch.Website || context.patch['WebsiteOther']
     })
 }
