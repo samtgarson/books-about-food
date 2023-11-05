@@ -1,4 +1,5 @@
 import { CollectionCustomizer } from '@forestadmin/agent'
+import Color from 'color'
 import prisma from 'database'
 import { deleteImage, uploadImage } from 'lib/utils/image-utils'
 import { slugify } from 'shared/utils/slugify'
@@ -142,6 +143,24 @@ export const customiseBooks = (
     originKey: 'A',
     foreignKey: 'B'
   })
+
+  collection
+    .removeField('background_color')
+    .addField('BackgroundColor', {
+      async getValues(records) {
+        return records.map(
+          (record) =>
+            record.background_color.length &&
+            Color.rgb(record.background_color).hex()
+        )
+      },
+      columnType: 'String',
+      dependencies: ['background_color']
+    })
+    .replaceFieldWriting('BackgroundColor', async (value) => {
+      const rgb = Color(value).rgb().array()
+      return { background_color: rgb }
+    })
 
   collection.addAction('Add new collaborator', {
     scope: 'Single',
