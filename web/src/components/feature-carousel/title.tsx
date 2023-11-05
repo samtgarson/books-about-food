@@ -15,7 +15,7 @@ export function Title({
   id: string
   onClick?: () => void
 }) {
-  const { display, attrs, current, className, mouseProps } =
+  const { display, attrs, current, next, prev, className, mouseProps } =
     useFeatureCarouselItem({
       index,
       currentIndex,
@@ -41,7 +41,10 @@ export function Title({
         e.preventDefault()
         if (!current) onClick?.()
       }}
-      {...mouseAttrs({ ...mouseProps, mode: 'default' })}
+      {...mouseAttrs({
+        ...mouseProps,
+        mode: next ? 'next' : prev ? 'prev' : 'default'
+      })}
     >
       <div
         className={cn(
