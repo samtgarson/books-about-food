@@ -12,7 +12,7 @@ const nextConfig = {
     ],
     serverActions: true,
     serverActionsBodySizeLimit: '2mb',
-    serverComponentsExternalPackages: ['mjml']
+    serverComponentsExternalPackages: ['mjml', 'sharp']
   },
   transpilePackages: ['shared', 'database', 'email'],
   images: {
