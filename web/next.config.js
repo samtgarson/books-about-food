@@ -10,6 +10,7 @@ const nextConfig = {
         }
       ]
     ],
+    serverActions: true,
     serverActionsBodySizeLimit: '2mb',
     serverComponentsExternalPackages: ['mjml']
   },

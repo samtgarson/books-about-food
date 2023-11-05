@@ -1,10 +1,9 @@
-import { ReactNode } from 'react'
 import { AccountNavItem, SignOutButton } from 'src/components/accounts/nav-item'
 import { Container } from 'src/components/atoms/container'
 import { PageTitle } from 'src/components/atoms/page-title'
 import { getUser } from 'src/services/auth/get-user'
 
-const Layout = async ({ children }: { children: ReactNode }) => {
+const Layout = async ({ children }: { children: React.ReactNode }) => {
   const { data: user } = await getUser.call()
   if (!user) return
 

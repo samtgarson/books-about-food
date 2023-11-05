@@ -9,6 +9,7 @@ export type FormContext = {
   errors?: FormErrors
   setErrors: (errors: FormErrors) => void
   variant: FormStyleVariant
+  loading: boolean
 }
 export const FormContext = createContext({} as FormContext)
 export const useForm = () => useContext(FormContext)

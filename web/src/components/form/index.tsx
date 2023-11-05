@@ -42,6 +42,7 @@ export function Form<T extends z.ZodTypeAny | undefined = undefined>({
   const [errors, setErrors] = useState<FormErrors>()
   const formRef = useRef<HTMLFormElement>(null)
   const [success, setSuccess] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const wrappedAction = useCallback(
     async (data: FormData) => {
@@ -54,9 +55,11 @@ export function Form<T extends z.ZodTypeAny | undefined = undefined>({
         values = parsed.data
       }
 
+      setLoading(true)
       errors = await action(values)
       if (errors) setErrors(errors)
       else if (!autoSubmit) setSuccess(true)
+      setLoading(false)
 
       return !errors
     },
@@ -93,7 +96,9 @@ export function Form<T extends z.ZodTypeAny | undefined = undefined>({
   }, [autoSubmit, wrappedAction, successMessage])
 
   return (
-    <FormContext.Provider value={{ state, errors, variant, setErrors }}>
+    <FormContext.Provider
+      value={{ state, errors, variant, setErrors, loading }}
+    >
       <Root
         {...props}
         ref={formRef}
