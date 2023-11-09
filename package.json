@@ -19,6 +19,9 @@
     "packages/*"
   ],
   "cacheDirectories": [
+    "node_modules",
+    "admin/node_modules",
+    "web/node_modules",
     "web/.next/cache"
   ],
   "scripts": {
