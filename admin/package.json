@@ -17,6 +17,7 @@
     "async-parallel": "^1.2.3",
     "buffer-image-size": "^0.6.4",
     "color": "^4.2.3",
+    "core": "*",
     "database": "*",
     "koa": "^2.14.2",
     "koa-jwt": "^4.0.4",

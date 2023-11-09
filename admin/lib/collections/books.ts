@@ -5,19 +5,21 @@ import { deleteImage, uploadImage } from 'lib/utils/image-utils'
 import { slugify } from 'shared/utils/slugify'
 import { Schema } from '../../.schema/types'
 
-const uploadCover = async (dataUri: string, bookId: string) => {
+const uploadCover = async (dataUri: string | null, bookId: string) => {
   if (!dataUri) {
     await deleteImage({ coverForId: bookId })
     return
   }
 
   const prefix = `books/${bookId}/cover`
-  await uploadImage(dataUri, prefix, 'coverForId', bookId, true)
+  return await uploadImage(dataUri, prefix, 'coverForId', bookId, true)
 }
 
 const uploadPreviews = async (dataUris: string[] = [], bookId: string) => {
-  const ids = await Promise.all(
+  const images = await Promise.all(
     dataUris.map((dataUri) => {
+      if (!dataUri.startsWith('data:'))
+        return prisma.image.findUnique({ where: { path: dataUri } })
       const prefix = `books/${bookId}/previews`
       return uploadImage(dataUri, prefix, 'previewForId', bookId)
     })
@@ -25,8 +27,10 @@ const uploadPreviews = async (dataUris: string[] = [], bookId: string) => {
 
   await deleteImage({
     previewForId: bookId,
-    id: { notIn: ids.filter((id): id is string => !!id) }
+    id: { notIn: images.flatMap((image) => image?.id || []) }
   })
+
+  return images
 }
 
 const updateProfiles = async (bookId: string) => {
@@ -83,7 +87,7 @@ export const customiseBooks = (
             const image = await prisma.image.findUnique({
               where: { coverForId: record.id }
             })
-            return image?.path
+            return `${process.env.S3_DOMAIN}${image?.path}`
           })
         )
       },
@@ -95,25 +99,20 @@ export const customiseBooks = (
     })
 
   // Preview Images
-  collection
-    .addField('PreviewImages', {
-      dependencies: ['id'],
-      getValues: async (records) => {
-        return Promise.all(
-          records.map(async (record) => {
-            const image = await prisma.image.findMany({
-              where: { previewForId: record.id }
-            })
-            return image.map((image) => image.path)
+  collection.addField('PreviewImages', {
+    dependencies: ['id'],
+    getValues: async (records) => {
+      return Promise.all(
+        records.map(async (record) => {
+          const image = await prisma.image.findMany({
+            where: { previewForId: record.id }
           })
-        )
-      },
-      columnType: ['String']
-    })
-    .replaceFieldWriting('PreviewImages', async (dataUris = [], context) => {
-      if (!context.record.id) return
-      await uploadPreviews(dataUris, context.record.id)
-    })
+          return image.map((image) => `${process.env.S3_DOMAIN}${image.path}`)
+        })
+      )
+    },
+    columnType: ['String']
+  })
 
   // Tags
   collection
@@ -212,10 +211,6 @@ export const customiseBooks = (
         const data = context.data[i]
 
         await Promise.all([
-          // prisma.book.update({
-          //   where: { id: record.id },
-          //   data: { authors: { set: data.Authors.map((name) => ({ name })) } }
-          // }),
           updateTags(record.id, data.Tags),
           uploadCover(data.Cover, record.id),
           uploadPreviews(data['PreviewImages'], record.id),
@@ -223,6 +218,25 @@ export const customiseBooks = (
         ])
       })
     )
+  })
+
+  collection.addHook('Before', 'Update', async (context) => {
+    const records = await context.collection.list(context.filter, ['id'])
+    if (records.length !== 1) return
+    const record = records[0]
+
+    if (context.patch.PreviewImages) {
+      const images = await uploadPreviews(
+        context.patch.PreviewImages,
+        record.id
+      )
+      context.patch.PreviewImages = images.flatMap((i) => i?.path || [])
+    }
+
+    if (context.patch.Cover) {
+      const image = await uploadCover(context.patch.Cover, record.id)
+      if (image) context.patch.Cover = `${process.env.S3_DOMAIN}${image.path}`
+    }
   })
 
   collection.addHook('Before', 'Delete', async (context) => {

@@ -22,7 +22,7 @@ export const uploadImage = async (
   if (!dataUri) return undefined
   if (dataUri.startsWith(prefix)) {
     const image = await prisma.image.findUnique({ where: { path: dataUri } })
-    return image?.id
+    return image
   }
 
   const { buffer, mimeType } = parseDataUri(dataUri)
@@ -36,11 +36,11 @@ export const uploadImage = async (
   const blurrer = new ImageBlurrer({ s3path: path })
   const placeholderUrl = await blurrer.call()
 
-  await prisma.image.create({
+  const image = await prisma.image.create({
     data: { id, path, [key]: foreignKey, width, height, placeholderUrl }
   })
 
-  return id
+  return image
 }
 
 export const deleteImage = async (where: Prisma.ImageWhereInput) => {

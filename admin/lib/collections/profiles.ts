@@ -11,32 +11,27 @@ const uploadAvatar = async (dataUri: string, profileId: string) => {
   }
 
   const prefix = `profile-avatars/${profileId}`
-  await uploadImage(dataUri, prefix, 'profileId', profileId, true)
+  return await uploadImage(dataUri, prefix, 'profileId', profileId, true)
 }
 
 export const customiseProfiles = (
   collection: CollectionCustomizer<Schema, 'profiles'>
 ) => {
-  collection
-    .addField('Avatar', {
-      dependencies: ['id'],
-      getValues: async (records) => {
-        return Promise.all(
-          records.map(async (record) => {
-            if (!record.id) return
-            const image = await prisma.image.findUnique({
-              where: { profileId: record.id }
-            })
-            return image?.path
+  collection.addField('Avatar', {
+    dependencies: ['id'],
+    getValues: async (records) => {
+      return Promise.all(
+        records.map(async (record) => {
+          if (!record.id) return
+          const image = await prisma.image.findUnique({
+            where: { profileId: record.id }
           })
-        )
-      },
-      columnType: 'String'
-    })
-    .replaceFieldWriting('Avatar', async (dataUri, context) => {
-      if (!context.record.id) return
-      await uploadAvatar(dataUri, context.record.id)
-    })
+          return image ? `${process.env.S3_DOMAIN}${image.path}` : null
+        })
+      )
+    },
+    columnType: 'String'
+  })
 
   collection.addManyToManyRelation(
     'Authored Books',
@@ -62,6 +57,17 @@ export const customiseProfiles = (
         await uploadAvatar(data.Avatar, record.id)
       })
     )
+  })
+
+  collection.addHook('Before', 'Update', async (context) => {
+    const records = await context.collection.list(context.filter, ['id'])
+    if (records.length !== 1) return
+    const record = records[0]
+
+    if (context.patch.Avatar) {
+      const image = await uploadAvatar(context.patch.Avatar, record.id)
+      if (image) context.patch.Avatar = `${process.env.S3_DOMAIN}${image.path}`
+    }
   })
 
   collection.addHook('Before', 'Delete', async (context) => {

@@ -11,7 +11,7 @@ const uploadLogo = async (dataUri: string, publisherId: string) => {
   }
 
   const prefix = `publisher-logos/${publisherId}`
-  await uploadImage(dataUri, prefix, 'publisherId', publisherId, true)
+  return await uploadImage(dataUri, prefix, 'publisherId', publisherId, true)
 }
 
 export const customisePublishers = (
@@ -27,7 +27,7 @@ export const customisePublishers = (
             const image = await prisma.image.findUnique({
               where: { publisherId: record.id }
             })
-            return image?.path
+            return image ? `${process.env.S3_DOMAIN}${image.path}` : null
           })
         )
       },
@@ -50,6 +50,17 @@ export const customisePublishers = (
         uploadLogo(context.data[i].Logo, publisher.id)
       )
     )
+  })
+
+  collection.addHook('Before', 'Update', async (context) => {
+    const records = await context.collection.list(context.filter, ['id'])
+    if (records.length !== 1) return
+    const record = records[0]
+
+    if (context.patch.Logo) {
+      const image = await uploadLogo(context.patch.Logo, record.id)
+      if (image) context.patch.Logo = `${process.env.S3_DOMAIN}${image.path}`
+    }
   })
 
   collection.addHook('Before', 'Delete', async (context) => {
