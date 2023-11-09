@@ -1,3 +1,4 @@
+import { Publisher } from 'core/models/publisher'
 import prisma from 'database'
 import { Metadata } from 'next'
 import Image from 'next/image'
@@ -10,7 +11,6 @@ import { BookList } from 'src/components/books/list'
 import { ListContainer } from 'src/components/lists/list-context'
 import { ClaimPublisherButton } from 'src/components/publishers/claim-button'
 import { PageProps } from 'src/components/types'
-import { Publisher } from 'src/models/publisher'
 
 type PublisherPageProps = PageProps<{ slug: string }>
 

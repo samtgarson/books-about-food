@@ -1,5 +1,6 @@
+import { FetchBooksInput, fetchBooks } from 'core/services/books/fetch-books'
 import { Pagination } from 'src/components/lists/pagination'
-import { FetchBooksInput, fetchBooks } from 'src/services/books/fetch-books'
+import { call } from 'src/utils/service'
 import { GridContainer } from '../lists/grid-container'
 import { Item, Skeleton } from './item'
 import { NewBookButton } from './new-book-button'
@@ -17,7 +18,7 @@ export const BookList = async ({
   showCreate = false,
   title
 }: BookListProps) => {
-  const { data } = await fetchBooks.call(filters)
+  const { data } = await call(fetchBooks, filters)
   if (!data) return null
 
   const { books, filteredTotal, total, perPage } = data

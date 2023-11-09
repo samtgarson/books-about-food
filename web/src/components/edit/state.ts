@@ -1,6 +1,6 @@
+import { FullBook } from 'core/models/full-book'
+import { Profile } from 'core/models/profile'
 import prisma, { User } from 'database'
-import { FullBook } from 'src/models/full-book'
-import { Profile } from 'src/models/profile'
 
 export type StepCompletionMeta =
   | undefined

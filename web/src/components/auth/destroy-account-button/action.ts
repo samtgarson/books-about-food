@@ -1,9 +1,10 @@
 'use server'
 
+import { destroyAccount } from 'core/services/auth/destroy-account'
 import { revalidatePath } from 'next/cache'
-import { destroyAccount } from 'src/services/auth/destroy-account'
+import { call } from 'src/utils/service'
 
 export async function action(provider: string) {
-  await destroyAccount.call({ provider })
+  await call(destroyAccount, { provider })
   revalidatePath('/account')
 }

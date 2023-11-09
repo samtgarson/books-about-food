@@ -1,7 +1,7 @@
 import cn from 'classnames'
+import { Publisher } from 'core/models/publisher'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Publisher } from 'src/models/publisher'
 
 export type PublishersItemProps = {
   publisher: Publisher

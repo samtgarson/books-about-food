@@ -1,9 +1,9 @@
+import { FullBook } from 'core/models/full-book'
 import { PageSubtitle } from 'src/components/atoms/page-title'
 import { Form } from 'src/components/form'
 import { Checkbox } from 'src/components/form/checkbox'
 import { ImageUpload } from 'src/components/form/image-upload'
 import { Submit } from 'src/components/form/submit'
-import { FullBook } from 'src/models/full-book'
 import { createAction } from '../action'
 
 export const UploadForm = async ({ book }: { book: FullBook }) => {

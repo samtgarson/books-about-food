@@ -1,11 +1,11 @@
 import cn from 'classnames'
+import { FullBook } from 'core/models/full-book'
+import { fetchBook } from 'core/services/books/fetch-book'
 import { revalidatePath } from 'next/cache'
 import { RedirectType } from 'next/dist/client/components/redirect'
 import { redirect } from 'next/navigation'
 import { FC } from 'react'
 import { ArrowRight } from 'react-feather'
-import { FullBook } from 'src/models/full-book'
-import { fetchBook } from 'src/services/books/fetch-book'
 import { Submit } from '../form/submit'
 import { BookEditState } from './state'
 

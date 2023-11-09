@@ -1,12 +1,12 @@
 'use server'
 
+import { Model } from 'core/models'
+import { fetchBook } from 'core/services/books/fetch-book'
+import { fetchProfile } from 'core/services/profiles/fetch-profile'
+import { appUrl } from 'core/utils/app-url'
 import { EmailTemplate } from 'email'
-import { Model } from 'src/models'
 import { sendEmail } from 'src/pages/api/email'
-import { getUser } from 'src/services/auth/get-user'
-import { fetchBook } from 'src/services/books/fetch-book'
-import { fetchProfile } from 'src/services/profiles/fetch-profile'
-import { appUrl } from 'src/utils/app-url'
+import { call, getUser } from 'src/utils/service'
 
 const fetcher = (type: Model) => {
   switch (type) {
@@ -22,8 +22,8 @@ export async function action(
   slug: string,
   suggestion: string
 ) {
-  const { data: user } = await getUser.call()
-  const { data: resource } = await fetcher(resourceType).call({ slug })
+  const user = await getUser()
+  const { data: resource } = await call(fetcher(resourceType), { slug })
   if (!resource || !user?.email) return
 
   await sendEmail(EmailTemplate.SuggestEdit, 'aboutcookbooks@gmail.com', {

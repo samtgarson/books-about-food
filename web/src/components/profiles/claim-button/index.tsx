@@ -1,11 +1,11 @@
 'use client'
 
 import cn from 'classnames'
+import { Profile } from 'core/models/profile'
 import { FC, useMemo } from 'react'
 import { Loader } from 'react-feather'
 import { useCurrentUser } from 'src/hooks/use-current-user'
 import { usePromise } from 'src/hooks/use-promise'
-import { Profile } from 'src/models/profile'
 import { Button } from '../../atoms/button'
 import { useSheet } from '../../sheets/global-sheet'
 import { useParamSheet } from '../../sheets/use-param-sheet'

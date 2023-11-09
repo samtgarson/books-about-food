@@ -1,7 +1,7 @@
+import { appUrl } from 'core/utils/app-url'
 import { EmailData, EmailTemplate, send } from 'email'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getEnv } from 'shared/utils/get-env'
-import { appUrl } from 'src/utils/app-url'
 import z from 'zod'
 
 export const schema = z.object({

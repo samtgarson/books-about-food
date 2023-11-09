@@ -1,6 +1,6 @@
+import { fetchProfiles } from 'core/services/profiles/fetch-profiles'
 import { Metadata } from 'next'
 import { createIndexPage } from 'src/components/pages/index-page'
-import { fetchProfiles } from 'src/services/profiles/fetch-profiles'
 import { PeopleFilters } from './filters'
 import { SkeletonPeopleGrid } from './grid'
 import { PeopleList } from './list'

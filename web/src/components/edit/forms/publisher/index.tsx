@@ -1,11 +1,12 @@
+import { FullBook } from 'core/models/full-book'
+import { fetchPublishers } from 'core/services/publishers/fetch-publishers'
 import { ContactLink } from 'src/components/atoms/contact-link'
 import { PageSubtitle } from 'src/components/atoms/page-title'
 import { Form } from 'src/components/form'
 import { Input } from 'src/components/form/input'
 import { Select } from 'src/components/form/select'
 import { Submit } from 'src/components/form/submit'
-import { FullBook } from 'src/models/full-book'
-import { fetchPublishers } from 'src/services/publishers/fetch-publishers'
+import { call } from 'src/utils/service'
 import { stringify } from 'src/utils/superjson'
 import { createAction } from '../action'
 
@@ -13,7 +14,7 @@ export const EditPublisherForm = async ({ book }: { book: FullBook }) => {
   const options = async (search: string) => {
     'use server'
 
-    const { data } = await fetchPublishers.call({ search })
+    const { data } = await call(fetchPublishers, { search })
     if (!data) return stringify([])
 
     return stringify(data.publishers)

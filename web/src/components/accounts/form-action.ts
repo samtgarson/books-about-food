@@ -1,7 +1,7 @@
 'use server'
 
+import { updateUser } from 'core/services/users/update-user'
 import { revalidatePath } from 'next/cache'
-import { updateUser } from 'src/services/users/update-user'
 
 export const action = async (input: Record<string, unknown>) => {
   const result = await updateUser.parseAndCall(input)

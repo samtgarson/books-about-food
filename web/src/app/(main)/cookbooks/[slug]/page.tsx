@@ -1,4 +1,5 @@
 import cn from 'classnames'
+import { fetchBook } from 'core/services/books/fetch-book'
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -14,14 +15,14 @@ import { TagList } from 'src/components/books/tag-list'
 import { TeamList } from 'src/components/books/team-list'
 import { ProfileListSection } from 'src/components/profiles/list-section'
 import { PageProps } from 'src/components/types'
-import { fetchBook } from 'src/services/books/fetch-book'
+import { call } from 'src/utils/service'
 
 type CookbooksPageProps = PageProps<{ slug: string }>
 
 export async function generateMetadata({
   params: { slug }
 }: CookbooksPageProps): Promise<Metadata> {
-  const { data: book } = await fetchBook.call({ slug })
+  const { data: book } = await call(fetchBook, { slug })
   if (!book) notFound()
 
   return { title: book.title }
@@ -30,7 +31,7 @@ export async function generateMetadata({
 export * from 'app/default-static-config'
 
 export default async ({ params: { slug } }: CookbooksPageProps) => {
-  const { data: book } = await fetchBook.call({ slug })
+  const { data: book } = await call(fetchBook, { slug })
   if (!book) notFound()
 
   return (

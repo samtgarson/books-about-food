@@ -1,6 +1,6 @@
+import { FetchProfilesInput } from 'core/services/profiles/fetch-profiles'
 import { FilterBar } from 'src/components/lists/filter-bar'
 import { Sort } from 'src/components/lists/sort'
-import { FetchProfilesInput } from 'src/services/profiles/fetch-profiles'
 
 export const AuthorFilters = ({ filters }: { filters: FetchProfilesInput }) => {
   return (

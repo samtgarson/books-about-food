@@ -1,8 +1,9 @@
+import { fetchBook } from 'core/services/books/fetch-book'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { ReactNode } from 'react'
 import { Container } from 'src/components/atoms/container'
-import { fetchBook } from 'src/services/books/fetch-book'
+import { call } from 'src/utils/service'
 
 type EditPageProps = {
   params: { slug: string }
@@ -11,7 +12,7 @@ type EditPageProps = {
 export async function generateMetadata({
   params: { slug }
 }: EditPageProps): Promise<Metadata> {
-  const { data: book } = await fetchBook.call({ slug })
+  const { data: book } = await call(fetchBook, { slug })
   if (!book) notFound()
 
   return { title: `Editing ${book.title}` }

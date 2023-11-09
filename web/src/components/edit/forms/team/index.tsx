@@ -1,9 +1,10 @@
+import { FullBook } from 'core/models/full-book'
+import { updateContributors } from 'core/services/books/update-contributors'
 import { redirect } from 'next/navigation'
 import { PageSubtitle } from 'src/components/atoms/page-title'
 import { Form } from 'src/components/form'
 import { Submit } from 'src/components/form/submit'
-import { FullBook } from 'src/models/full-book'
-import { updateContributors } from 'src/services/books/update-contributors'
+import { call } from 'src/utils/service'
 import SuperJSON from 'superjson'
 import { z } from 'zod'
 import { TeamSelect } from './team-select'
@@ -23,7 +24,7 @@ export const EditTeamForm = async ({ book }: { book: FullBook }) => {
 
         const { contributors } = schema.parse(values)
 
-        await updateContributors.call({
+        await call(updateContributors, {
           slug: book.slug,
           contributors
         })

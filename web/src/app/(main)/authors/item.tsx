@@ -1,7 +1,7 @@
 import cn from 'classnames'
+import { Profile } from 'core/models/profile'
 import Link from 'next/link'
 import { Avatar } from 'src/components/atoms/avatar'
-import { Profile } from 'src/models/profile'
 
 export type AuthorItemProps = {
   profile?: Profile

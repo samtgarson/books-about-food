@@ -1,0 +1,15 @@
+{
+  "name": "core",
+  "version": "0.0.1",
+  "private": true,
+  "devDependencies": {},
+  "dependencies": {
+    "database": "*",
+    "email": "*",
+    "inngest": "^3.4.1",
+    "mime-types": "^2.1.35",
+    "neat-csv": "^6",
+    "shared": "*",
+    "zod": "^3.22.4"
+  }
+}

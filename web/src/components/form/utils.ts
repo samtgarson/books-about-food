@@ -1,4 +1,4 @@
-import { AppErrorJSON, ErrorType } from 'src/services/utils/errors'
+import { AppErrorJSON, ErrorType } from 'core/services/utils/errors'
 import type { FormErrors } from './context'
 
 export function parseAppError(

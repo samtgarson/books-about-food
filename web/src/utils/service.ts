@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { authOptions } from 'app/api/auth/[...nextauth]/route'
+import { Service, ServiceReturn } from 'core/services/base'
 import prisma, { User } from 'database'
 import { getServerSession } from 'next-auth'
 import { cache } from 'react'
-import { AppError, AppErrorJSON } from 'src/services/utils/errors'
-import { z } from 'zod'
+import z from 'zod'
 
 export type RequestMeta = {
   cache?: {
@@ -13,7 +14,7 @@ export type RequestMeta = {
   authorized?: boolean
 }
 
-async function getUser() {
+async function _getUser() {
   try {
     const session = await getServerSession(authOptions)
 
@@ -27,67 +28,15 @@ async function getUser() {
   }
 }
 
-const getusercached = cache ? cache(getUser) : getUser
+async function _call<S extends Service<any, any>>(
+  service: S,
+  args?: S extends Service<infer I, any> ? z.infer<I> : never,
+  user?: User | null
+): Promise<ServiceReturn<S>> {
+  user ||= await getUser()
 
-export type ServiceResult<T> =
-  | {
-      success: true
-      data: T
-      errors?: never
-    }
-  | {
-      success: false
-      data?: never
-      errors: AppErrorJSON[]
-      originalError?: unknown
-    }
-
-export class Service<Input extends z.ZodTypeAny, Return> {
-  private _call: (input?: z.infer<Input>, user?: User | null) => Promise<Return>
-  constructor(
-    public input: Input,
-    call: (input?: z.infer<Input>, user?: User | null) => Promise<Return>,
-    public requestMeta: RequestMeta = {}
-  ) {
-    if (!cache) this._call = call
-    else this._call = cache(call)
-  }
-
-  public async parseAndCall(
-    input: unknown | z.input<Input>,
-    user?: User | null
-  ): Promise<ServiceResult<Return>> {
-    const parsed = this.input.safeParse(input)
-    if (parsed.success) return this.call(parsed.data, user)
-    return {
-      success: false,
-      errors: parsed.error.issues.map((issue) =>
-        new AppError(
-          'InvalidInput',
-          issue.message,
-          issue.path.pop() as string
-        ).toJSON()
-      )
-    }
-  }
-
-  public async call(
-    input?: z.input<Input>,
-    user?: User | null
-  ): Promise<ServiceResult<Return>> {
-    const u = user || (await getusercached())
-
-    try {
-      return {
-        success: true,
-        data: await this._call(this.input.optional().parse(input), u)
-      }
-    } catch (e) {
-      console.log(e)
-      return {
-        success: false,
-        errors: [AppError.fromError(e).toJSON()]
-      }
-    }
-  }
+  return service.call(args, user) as Promise<ServiceReturn<S>>
 }
+
+export const getUser = cache(_getUser)
+export const call = cache(_call)

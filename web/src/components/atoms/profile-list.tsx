@@ -1,9 +1,9 @@
 'use client'
 
 import cn from 'classnames'
+import { Profile } from 'core/models/profile'
 import { FC, ReactNode } from 'react'
 import { Eye } from 'react-feather'
-import { Profile } from 'src/models/profile'
 import { Avatar } from '../atoms/avatar'
 import * as Sheet from '../atoms/sheet'
 

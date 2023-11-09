@@ -1,7 +1,7 @@
 import cn from 'classnames'
+import { Profile } from 'core/models/profile'
 import Link from 'next/link'
 import { FC, ReactNode } from 'react'
-import { Profile } from 'src/models/profile'
 import { AuthorItem } from './item'
 
 export type AuthorListProps = {

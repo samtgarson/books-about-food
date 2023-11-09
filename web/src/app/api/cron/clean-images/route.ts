@@ -1,10 +1,11 @@
+import { cleanImages } from 'core/services/images/clean-images'
 import { NextResponse } from 'next/server'
-import { cleanImages } from 'src/services/images/clean-images'
+import { call } from 'src/utils/service'
 import { secure } from '../secure'
 
 export const GET = secure(async () => {
   try {
-    const count = await cleanImages.call()
+    const count = await call(cleanImages)
     console.log(`Deleted ${count} images`)
     return NextResponse.json({ ok: true, deletedImages: count })
   } catch (e) {

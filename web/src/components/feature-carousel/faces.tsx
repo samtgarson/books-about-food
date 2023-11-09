@@ -1,6 +1,6 @@
+import { Feature } from 'core/services/features/fetch-features'
 import { motion } from 'framer-motion'
 import { FC, useEffect, useMemo, useState } from 'react'
-import { Feature } from 'src/services/features/fetch-features'
 import { Avatar } from '../atoms/avatar'
 import { Face } from './face'
 

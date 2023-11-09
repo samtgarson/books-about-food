@@ -1,8 +1,9 @@
-import { Pagination } from 'src/components/lists/pagination'
 import {
   FetchProfilesInput,
   fetchProfiles
-} from 'src/services/profiles/fetch-profiles'
+} from 'core/services/profiles/fetch-profiles'
+import { Pagination } from 'src/components/lists/pagination'
+import { call } from 'src/utils/service'
 import { AuthorsGrid } from './grid'
 
 export type AuthorListProps = {
@@ -10,7 +11,7 @@ export type AuthorListProps = {
 }
 
 export async function AuthorsList({ filters = {} }: AuthorListProps) {
-  const { data } = await fetchProfiles.call({
+  const { data } = await call(fetchProfiles, {
     sort: 'trending',
     ...filters,
     onlyAuthors: true

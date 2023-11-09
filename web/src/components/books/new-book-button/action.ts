@@ -1,12 +1,13 @@
 'use server'
 
+import { searchLibrary } from 'core/services/books/library/search-library'
+import { updateBook } from 'core/services/books/update-book'
+import { array } from 'core/services/utils/inputs'
+import { createCoverFromUrl } from 'core/services/utils/resources'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { parseAppError } from 'src/components/form/utils'
-import { searchLibrary } from 'src/services/books/library/search-library'
-import { updateBook } from 'src/services/books/update-book'
-import { array } from 'src/services/utils/inputs'
-import { createImage } from 'src/services/utils/resources'
+import { call } from 'src/utils/service'
 import { stringify } from 'src/utils/superjson'
 import z from 'zod'
 
@@ -21,8 +22,8 @@ const actionSchema = z.object({
 
 export const action = async (values: unknown) => {
   const { cover, ...data } = actionSchema.parse(values)
-  const coverImageId = await createImage(cover)
-  const result = await updateBook.call({ ...data, coverImageId })
+  const coverImageId = await createCoverFromUrl(cover)
+  const result = await call(updateBook, { ...data, coverImageId })
 
   if (result.success) redirect(`/edit/${result.data.slug}?action=created`)
   return parseAppError(
@@ -38,7 +39,7 @@ export const action = async (values: unknown) => {
 
 export const search = async (query: string) => {
   if (query.length < 3) return stringify([])
-  const result = await searchLibrary.call({ query })
+  const result = await call(searchLibrary, { query })
   if (!result.success) return stringify([])
 
   revalidatePath('/account/submissions')

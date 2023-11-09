@@ -1,9 +1,9 @@
-import { Book } from 'src/models/book'
-import { Contribution } from 'src/models/contribution'
-import { FullBook } from 'src/models/full-book'
-import { Image } from 'src/models/image'
-import { Profile } from 'src/models/profile'
-import { Publisher } from 'src/models/publisher'
+import { Book } from 'core/models/book'
+import { Contribution } from 'core/models/contribution'
+import { FullBook } from 'core/models/full-book'
+import { Image } from 'core/models/image'
+import { Profile } from 'core/models/profile'
+import { Publisher } from 'core/models/publisher'
 import superjson from 'superjson'
 
 superjson.registerClass(Book, { identifier: 'Book' })

@@ -1,3 +1,5 @@
+import { fetchFrequentCollaborators } from 'core/services/books/fetch-frequent-collaborators'
+import { fetchProfile } from 'core/services/profiles/fetch-profile'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { Container } from 'src/components/atoms/container'
@@ -12,8 +14,7 @@ import { FrequentCollaborators } from 'src/components/profiles/edit/frequent-col
 import { LinkList } from 'src/components/profiles/link-list'
 import { LocationField } from 'src/components/profiles/location-field'
 import { ProfileOverflow } from 'src/components/profiles/profile-overflow'
-import { fetchFrequentCollaborators } from 'src/services/books/fetch-frequent-collaborators'
-import { fetchProfile } from 'src/services/profiles/fetch-profile'
+import { call } from 'src/utils/service'
 
 export type ProfilePageProps = {
   segment: 'authors' | 'people'
@@ -21,8 +22,8 @@ export type ProfilePageProps = {
 }
 export async function ProfilePage({ segment, slug }: ProfilePageProps) {
   const [{ data: profile }, { data: collaborators = [] }] = await Promise.all([
-    fetchProfile.call({ slug }),
-    fetchFrequentCollaborators.call({ slug })
+    call(fetchProfile, { slug }),
+    call(fetchFrequentCollaborators, { slug })
   ])
   if (!profile) return notFound()
 

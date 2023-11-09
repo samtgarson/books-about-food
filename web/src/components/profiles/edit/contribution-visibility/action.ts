@@ -3,8 +3,9 @@
 import {
   ToggleContributionVisibilityInput,
   toggleContributionVisibility
-} from 'src/services/profiles/toggle-contribution-visilibity'
+} from 'core/services/profiles/toggle-contribution-visilibity'
+import { call } from 'src/utils/service'
 
 export const action = async (input: ToggleContributionVisibilityInput) => {
-  return toggleContributionVisibility.call(input)
+  return call(toggleContributionVisibility, input)
 }

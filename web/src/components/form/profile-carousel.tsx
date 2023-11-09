@@ -2,9 +2,9 @@
 
 import { AuthorItem } from 'app/(main)/authors/item'
 import cn from 'classnames'
+import { Profile } from 'core/models/profile'
 import { FC } from 'react'
 import * as Carousel from 'src/components/atoms/carousel'
-import { Profile } from 'src/models/profile'
 
 export type ProfileCarouselProps = {
   items: Profile[]

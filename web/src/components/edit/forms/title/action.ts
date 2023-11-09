@@ -1,11 +1,12 @@
 'use server'
 
+import { Profile } from 'core/models/profile'
+import { fetchLibraryBook } from 'core/services/books/library/fetch-library-book'
+import { profileIncludes } from 'core/services/utils'
+import { findOrCreateAuthor } from 'core/services/utils/resources'
 import prisma from 'database'
 import { slugify } from 'shared/utils/slugify'
-import { Profile } from 'src/models/profile'
-import { fetchLibraryBook } from 'src/services/books/library/fetch-library-book'
-import { profileIncludes } from 'src/services/utils'
-import { findOrCreateAuthor } from 'src/services/utils/resources'
+import { call } from 'src/utils/service'
 import { Stringified, stringify } from 'src/utils/superjson'
 import { TitleFormContentProps } from './form-content'
 
@@ -26,7 +27,7 @@ export type TitleSelectChangeAttrs = TitleFormContentProps & {
 export const fetchAttrs = async (
   id: string
 ): Promise<undefined | Stringified<TitleSelectChangeAttrs>> => {
-  const result = await fetchLibraryBook.call({ id })
+  const result = await call(fetchLibraryBook, { id })
   if (!result.success || !result.data) return
   const { id: googleBooksId, ...data } = result.data
 

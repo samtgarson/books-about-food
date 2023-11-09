@@ -1,11 +1,12 @@
+import { fetchAuthoredPitches } from 'core/services/pitches/fetch-authored-pitches'
 import { User } from 'database'
 import Link from 'next/link'
-import { fetchAuthoredPitches } from 'src/services/pitches/fetch-authored-pitches'
+import { call } from 'src/utils/service'
 
 export type PitchesListProps = { user: User }
 
 export const PitchesList = async ({ user }: PitchesListProps) => {
-  const { data: pitches } = await fetchAuthoredPitches.call(undefined, user)
+  const { data: pitches } = await call(fetchAuthoredPitches, undefined, user)
 
   if (!pitches?.length) return <p>You have no open pitches</p>
 

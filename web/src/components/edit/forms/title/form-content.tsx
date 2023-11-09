@@ -1,6 +1,6 @@
+import { FullBook } from 'core/models/full-book'
 import { ContactLink } from 'src/components/atoms/contact-link'
 import { Input } from 'src/components/form/input'
-import { FullBook } from 'src/models/full-book'
 import { AuthorSelect } from './author-select'
 import { TagSelect } from './tag-select'
 

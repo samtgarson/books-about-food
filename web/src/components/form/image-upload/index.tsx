@@ -2,12 +2,12 @@
 
 import * as Form from '@radix-ui/react-form'
 import cn from 'classnames'
+import { Image } from 'core/models/image'
 import Img from 'next/image'
 import { useRef, useState } from 'react'
 import { Plus, X } from 'react-feather'
 import * as Carousel from 'src/components/atoms/carousel'
 import { mouseAttrs } from 'src/components/atoms/mouse'
-import { Image } from 'src/models/image'
 import { InputProps, useRequired } from '../input-props'
 import { Label } from '../label'
 import { Messages } from '../messages'

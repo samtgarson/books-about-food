@@ -1,5 +1,6 @@
 import cn from 'classnames'
-import { fetchSimilarBooks } from 'src/services/books/fetch-similar-books'
+import { fetchSimilarBooks } from 'core/services/books/fetch-similar-books'
+import { call } from 'src/utils/service'
 import { AntiContainer } from '../atoms/container'
 import { GridContainer } from '../lists/grid-container'
 import { ListContainer } from '../lists/list-context'
@@ -12,7 +13,7 @@ export type SimilarBooksProps = {
 }
 
 export const SimilarBooks = async ({ slug, className }: SimilarBooksProps) => {
-  const { data: books } = await fetchSimilarBooks.call({ slug })
+  const { data: books } = await call(fetchSimilarBooks, { slug })
 
   if (!books?.length) return null
   return (

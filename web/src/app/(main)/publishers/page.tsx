@@ -1,10 +1,10 @@
-import { Metadata } from 'next'
-import { FilterBar } from 'src/components/lists/filter-bar'
-import { createIndexPage } from 'src/components/pages/index-page'
 import {
   FetchPublishersInput,
   fetchPublishers
-} from 'src/services/publishers/fetch-publishers'
+} from 'core/services/publishers/fetch-publishers'
+import { Metadata } from 'next'
+import { FilterBar } from 'src/components/lists/filter-bar'
+import { createIndexPage } from 'src/components/pages/index-page'
 import { PublishersList } from './list'
 
 export const metadata: Metadata = {

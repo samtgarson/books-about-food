@@ -14,7 +14,7 @@ const nextConfig = {
     serverActionsBodySizeLimit: '2mb',
     serverComponentsExternalPackages: ['mjml', 'sharp']
   },
-  transpilePackages: ['shared', 'database', 'email'],
+  transpilePackages: ['shared', 'database', 'email', 'core'],
   images: {
     unoptimized: true,
     minimumCacheTTL: 60 * 60 * 24 * 90, // 90 days

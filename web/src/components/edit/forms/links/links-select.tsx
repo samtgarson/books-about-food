@@ -1,5 +1,6 @@
 'use client'
 
+import { FullBook } from 'core/models/full-book'
 import Image from 'next/image'
 import { useState } from 'react'
 import { isWebsite, websites } from 'shared/data/websites'
@@ -10,7 +11,6 @@ import { CollectionInput } from 'src/components/form/collection-input'
 import { Input } from 'src/components/form/input'
 import { Select } from 'src/components/form/select'
 import { Submit } from 'src/components/form/submit'
-import { FullBook } from 'src/models/full-book'
 import { stringify } from 'src/utils/superjson'
 import { v4 as uuid } from 'uuid'
 

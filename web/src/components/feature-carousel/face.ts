@@ -1,5 +1,5 @@
-import { Profile } from 'src/models/profile'
-import { Feature } from 'src/services/features/fetch-features'
+import { Profile } from 'core/models/profile'
+import { Feature } from 'core/services/features/fetch-features'
 import { randomBelow, sample } from 'src/utils/array-helpers'
 import { Dot, RandomPlacer } from 'src/utils/random-placer'
 import { AvatarSize } from '../atoms/avatar'

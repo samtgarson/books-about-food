@@ -1,8 +1,8 @@
+import { FullBook } from 'core/models/full-book'
 import { PageSubtitle } from 'src/components/atoms/page-title'
 import { Form } from 'src/components/form'
 import { Input } from 'src/components/form/input'
 import { Submit } from 'src/components/form/submit'
-import { FullBook } from 'src/models/full-book'
 import { createAction } from '../action'
 import { TitleFormContent } from './form-content'
 

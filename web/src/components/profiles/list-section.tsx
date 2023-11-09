@@ -1,6 +1,6 @@
 import cn from 'classnames'
+import { Profile } from 'core/models/profile'
 import { FC } from 'react'
-import { Profile } from 'src/models/profile'
 import { ProfileList } from '../atoms/profile-list'
 import { GridContainer } from '../lists/grid-container'
 import { ProfileItem } from './item'

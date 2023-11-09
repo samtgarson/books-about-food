@@ -1,10 +1,10 @@
 import { Root } from '@radix-ui/react-accordion'
+import { ResultRow } from 'core/services/import/import-books/types'
 import { ChangeEvent, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { Button } from 'src/components/atoms/button'
 import { Pagination } from 'src/components/lists/pagination'
 import { Search } from 'src/components/lists/search'
-import { ResultRow } from 'src/services/import/import-books/types'
 import { process } from './action'
 import { ImportFormRow } from './row'
 

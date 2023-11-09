@@ -1,10 +1,10 @@
 'use client'
 
 import cn from 'classnames'
+import { Book } from 'core/models/book'
 import Image, { ImageProps } from 'next/image'
 import Link from 'next/link'
 import { CSSProperties, forwardRef } from 'react'
-import { Book } from 'src/models/book'
 import { useListDisplay } from '../lists/list-context'
 
 export interface CookbookItemProps {

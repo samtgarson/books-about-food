@@ -1,9 +1,9 @@
 'use client'
 
+import { BookLibrarySearchResult } from 'core/services/books/library/search-library'
 import { search } from 'src/components/books/new-book-button/action'
 import { Select } from 'src/components/form/select'
 import { useDebouncedPromise } from 'src/hooks/use-debounce-promise'
-import { BookLibrarySearchResult } from 'src/services/books/library/search-library'
 import { parse } from 'src/utils/superjson'
 import { TitleSelectChangeAttrs, fetchAttrs } from './action'
 

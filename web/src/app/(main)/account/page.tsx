@@ -1,21 +1,21 @@
+import { fetchAccounts } from 'core/services/auth/get-accounts'
+import { fetchProfile } from 'core/services/profiles/fetch-profile'
 import { Metadata } from 'next'
 import { Suspense } from 'react'
 import { ArrowUpRight } from 'react-feather'
 import { AccountForm } from 'src/components/accounts/account-form'
 import { ContactLink } from 'src/components/atoms/contact-link'
 import { ProfileItem } from 'src/components/profiles/item'
-import { fetchAccounts } from 'src/services/auth/get-accounts'
-import { getUser } from 'src/services/auth/get-user'
-import { fetchProfile } from 'src/services/profiles/fetch-profile'
+import { call, getUser } from 'src/utils/service'
 
 export const metadata: Metadata = {
   title: 'Account'
 }
 
 const Page = async () => {
-  const [{ data: user }, { data: accounts = [] }] = await Promise.all([
-    getUser.call(),
-    fetchAccounts.call()
+  const [user, { data: accounts = [] }] = await Promise.all([
+    getUser(),
+    call(fetchAccounts)
   ])
 
   if (!user) return null
@@ -41,7 +41,7 @@ const Page = async () => {
 }
 
 async function ProfileSection({ userId }: { userId: string }) {
-  const { data: profile } = await fetchProfile.call({ userId })
+  const { data: profile } = await call(fetchProfile, { userId })
   if (!profile) return null
 
   return (

@@ -1,3 +1,4 @@
+import { fetchBook } from 'core/services/books/fetch-book'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { Edit2, Eye } from 'react-feather'
@@ -9,8 +10,7 @@ import { EditNotes } from 'src/components/edit/notes'
 import { Steps } from 'src/components/edit/steps'
 import { ParamSheet } from 'src/components/sheets/use-param-sheet'
 import { Toaster } from 'src/components/utils/toaster'
-import { getUser } from 'src/services/auth/get-user'
-import { fetchBook } from 'src/services/books/fetch-book'
+import { call, getUser } from 'src/utils/service'
 
 export * from 'app/default-static-config'
 
@@ -19,8 +19,8 @@ type EditPageProps = {
 }
 
 export default async function Page({ params: { slug } }: EditPageProps) {
-  const { data: book } = await fetchBook.call({ slug, cache: false })
-  const { data: currentUser } = await getUser.call()
+  const { data: book } = await call(fetchBook, { slug, cache: false })
+  const currentUser = await getUser()
 
   if (!book || !currentUser) notFound()
   if (currentUser.id !== book.submitterId && currentUser.role !== 'admin')

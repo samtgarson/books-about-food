@@ -1,9 +1,10 @@
+import { FullBook } from 'core/models/full-book'
+import { updateLinks } from 'core/services/books/update-links'
 import { redirect } from 'next/navigation'
 import { PageSubtitle } from 'src/components/atoms/page-title'
 import { Form } from 'src/components/form'
 import { Submit } from 'src/components/form/submit'
-import { FullBook } from 'src/models/full-book'
-import { updateLinks } from 'src/services/books/update-links'
+import { call } from 'src/utils/service'
 import SuperJSON from 'superjson'
 import { z } from 'zod'
 import { LinksSelect } from './links-select'
@@ -28,7 +29,7 @@ export const EditLinksForm = async ({ book }: { book: FullBook }) => {
           links = schema.parse(values).links
         }
 
-        await updateLinks.call({
+        await call(updateLinks, {
           slug: book.slug,
           links
         })

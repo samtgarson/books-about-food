@@ -1,7 +1,7 @@
 'use client'
 
+import { Profile } from 'core/models/profile'
 import { Select } from 'src/components/form/select'
-import { Profile } from 'src/models/profile'
 import { profiles } from '../../server-actions'
 import { createProfile } from './action'
 

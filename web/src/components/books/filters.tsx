@@ -1,9 +1,10 @@
+import { FetchBooksInput } from 'core/services/books/fetch-books'
+import { fetchTags } from 'core/services/tags/fetch'
+import { processArray } from 'core/services/utils/inputs'
 import { FilterBar } from 'src/components/lists/filter-bar'
 import { FilterSelect } from 'src/components/lists/filter-select'
 import { Sort } from 'src/components/lists/sort'
-import { FetchBooksInput } from 'src/services/books/fetch-books'
-import { fetchTags } from 'src/services/tags/fetch'
-import { processArray } from 'src/services/utils/inputs'
+import { call } from 'src/utils/service'
 
 type Filters = Omit<FetchBooksInput, 'page' | 'perPage'>
 type BookFiltersProps = {
@@ -30,7 +31,7 @@ export function BookFilters({ filters = {} }: BookFiltersProps) {
         search
         options={async () => {
           'use server'
-          const { data: tags = [] } = await fetchTags.call()
+          const { data: tags = [] } = await call(fetchTags)
           return tags.map((tag) => ({
             label: tag.name,
             value: tag.name

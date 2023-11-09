@@ -1,13 +1,13 @@
 'use client'
 
 import cn from 'classnames'
+import { Profile } from 'core/models/profile'
 import { FC, useCallback, useMemo, useState } from 'react'
 import { Eye, EyeOff } from 'react-feather'
 import { Loader } from 'src/components/atoms/loader'
 import { ProfileList } from 'src/components/atoms/profile-list'
 import { GridContainer } from 'src/components/lists/grid-container'
 import { Content, Wrapper } from 'src/components/profiles/item'
-import { Profile } from 'src/models/profile'
 import { useEditProfile } from '../context'
 
 export type FrequentCollaboratorsProps = {

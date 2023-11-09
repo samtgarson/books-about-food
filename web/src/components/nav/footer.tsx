@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import Link from 'next/link'
 import { FC } from 'react'
-import { getUser } from 'src/services/auth/get-user'
+import { getUser } from 'src/utils/service'
 import { Button } from '../atoms/button'
 import { Container } from '../atoms/container'
 import { AuthedButton } from '../auth/authed-button'
@@ -36,7 +36,7 @@ const FooterItemExternal: FC<{
 )
 
 export const Footer = async () => {
-  const user = await getUser.call()
+  const user = await getUser()
   return (
     <footer className="mt-20 bg-white pb-6 pt-12 md:pb-10 md:pt-20">
       <Container>

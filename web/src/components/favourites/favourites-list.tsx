@@ -1,12 +1,13 @@
+import { fetchFavourites } from 'core/services/favourites/fetch-favourites'
 import { User } from 'database'
 import Link from 'next/link'
-import { fetchFavourites } from 'src/services/favourites/fetch-favourites'
+import { call } from 'src/utils/service'
 import { ProfileListSection } from '../profiles/list-section'
 
 export type FavouritesListProps = { user: User }
 
 export const FavouritesList = async ({ user }: FavouritesListProps) => {
-  const { data: favourites } = await fetchFavourites.call(undefined, user)
+  const { data: favourites } = await call(fetchFavourites, undefined, user)
 
   if (!favourites?.length)
     return (

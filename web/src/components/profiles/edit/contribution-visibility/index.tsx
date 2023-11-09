@@ -1,12 +1,12 @@
 'use client'
 
 import cn from 'classnames'
+import { Book } from 'core/models/book'
 import { FC, useCallback, useMemo, useState } from 'react'
 import { Eye, EyeOff } from 'react-feather'
 import { Loader } from 'src/components/atoms/loader'
 import { Container, Cover, Footer } from 'src/components/books/item'
 import { useListDisplay } from 'src/components/lists/list-context'
-import { Book } from 'src/models/book'
 import { useEditProfile } from '../context'
 import { action } from './action'
 

@@ -1,7 +1,7 @@
 import cn from 'classnames'
+import { Image } from 'core/models/image'
 import { ReactNode, forwardRef, useTransition } from 'react'
 import { Loader } from 'src/components/atoms/loader'
-import { Image } from 'src/models/image'
 import { useFormField } from '../context'
 import { action } from './action'
 

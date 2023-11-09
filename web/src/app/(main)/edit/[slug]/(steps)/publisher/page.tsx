@@ -1,11 +1,12 @@
+import { fetchBook } from 'core/services/books/fetch-book'
 import { notFound } from 'next/navigation'
 import { EditPublisherForm } from 'src/components/edit/forms/publisher'
-import { fetchBook } from 'src/services/books/fetch-book'
+import { call } from 'src/utils/service'
 
 export * from 'app/default-static-config'
 
 export default async ({ params: { slug } }: { params: { slug: string } }) => {
-  const { data: book } = await fetchBook.call({ slug, cache: false })
+  const { data: book } = await call(fetchBook, { slug, cache: false })
   if (!book) notFound()
 
   return <EditPublisherForm book={book} />

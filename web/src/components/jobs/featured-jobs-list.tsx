@@ -1,9 +1,10 @@
+import { fetchFeaturedJobs } from 'core/services/home/fetch-jobs'
 import { pluralize } from 'inflection'
 import Link from 'next/link'
-import { fetchFeaturedJobs } from 'src/services/home/fetch-jobs'
+import { call } from 'src/utils/service'
 
 export async function FeaturedJobsList() {
-  const { data: jobs = [] } = await fetchFeaturedJobs.call()
+  const { data: jobs = [] } = await call(fetchFeaturedJobs)
 
   return (
     <ul className="flex flex-wrap gap-2 md:gap-3">

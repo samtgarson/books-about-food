@@ -1,11 +1,12 @@
 'use server'
 
-import { createImages } from 'src/services/images/create-images'
+import { createImages } from 'core/services/images/create-images'
+import { call } from 'src/utils/service'
 
 export async function action(prefix: string, formData: FormData) {
   const files = formData.getAll('image') as Blob[]
 
-  return createImages.call({
+  return call(createImages, {
     prefix,
     files: await Promise.all(files.map(parseFile))
   })

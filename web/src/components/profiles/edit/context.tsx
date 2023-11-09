@@ -1,5 +1,7 @@
 'use client'
 
+import { Profile } from 'core/models/profile'
+import { UpdateProfileInput } from 'core/services/profiles/update-profile'
 import {
   ReactNode,
   createContext,
@@ -9,8 +11,6 @@ import {
   useState
 } from 'react'
 import { toast } from 'sonner'
-import { Profile } from 'src/models/profile'
-import { UpdateProfileInput } from 'src/services/profiles/update-profile'
 import { parse } from 'src/utils/superjson'
 import { action } from './action'
 

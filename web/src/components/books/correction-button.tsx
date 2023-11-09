@@ -1,9 +1,9 @@
 'use client'
 
 import cn from 'classnames'
+import { Book } from 'core/models/book'
 import { FC } from 'react'
 import { Plus } from 'react-feather'
-import { Book } from 'src/models/book'
 import { useSheet } from '../sheets/global-sheet'
 
 export type CorrectionButtonProps = {

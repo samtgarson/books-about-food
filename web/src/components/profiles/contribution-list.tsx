@@ -1,6 +1,7 @@
+import { Profile } from 'core/models/profile'
+import { fetchBooks } from 'core/services/books/fetch-books'
 import { GridContainer } from 'src/components/lists/grid-container'
-import { Profile } from 'src/models/profile'
-import { fetchBooks } from 'src/services/books/fetch-books'
+import { call } from 'src/utils/service'
 import { ListContainer } from '../lists/list-context'
 import { ContributionVisibility } from './edit/contribution-visibility'
 
@@ -13,7 +14,7 @@ export const ContributionList = async ({
   profile,
   className
 }: ContributionListProps) => {
-  const { data } = await fetchBooks.call({
+  const { data } = await call(fetchBooks, {
     profile: profile.slug,
     perPage: 0
   })

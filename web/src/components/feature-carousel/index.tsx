@@ -1,10 +1,10 @@
 'use client'
 
 import cn from 'classnames'
+import { Feature } from 'core/services/features/fetch-features'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FC, useEffect, useMemo, useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'react-feather'
-import { Feature } from 'src/services/features/fetch-features'
 import { containerClasses } from '../atoms/container'
 import { useNav } from '../nav/context'
 import { Faces } from './faces'

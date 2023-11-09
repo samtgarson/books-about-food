@@ -1,9 +1,10 @@
+import { fetchJobs } from 'core/services/jobs/fetch-jobs'
+import { FetchProfilesInput } from 'core/services/profiles/fetch-profiles'
+import { processArray } from 'core/services/utils/inputs'
 import { FilterBar } from 'src/components/lists/filter-bar'
 import { FilterSelect } from 'src/components/lists/filter-select'
 import { Sort } from 'src/components/lists/sort'
-import { fetchJobs } from 'src/services/jobs/fetch-jobs'
-import { FetchProfilesInput } from 'src/services/profiles/fetch-profiles'
-import { processArray } from 'src/services/utils/inputs'
+import { call } from 'src/utils/service'
 
 type PeopleFiltersProps = {
   filters: FetchProfilesInput
@@ -12,7 +13,7 @@ type PeopleFiltersProps = {
 export const PeopleFilters = ({ filters }: PeopleFiltersProps) => {
   const jobOptions = async () => {
     'use server'
-    const { data: jobs = [] } = await fetchJobs.call()
+    const { data: jobs = [] } = await call(fetchJobs)
     return jobs
       .filter((job) => job.name !== 'Author')
       .map((job) => ({

@@ -1,3 +1,5 @@
+import { fetchFeatures } from 'core/services/features/fetch-features'
+import { fetchHome } from 'core/services/home/fetch'
 import { Suspense } from 'react'
 import { Container } from 'src/components/atoms/container'
 import { ItemCarousel } from 'src/components/books/item-carousel'
@@ -5,16 +7,15 @@ import { FeatureCarousel } from 'src/components/feature-carousel'
 import { HomepageModule } from 'src/components/home/module'
 import { FeaturedJobsList } from 'src/components/jobs/featured-jobs-list'
 import { ProfileCarousel } from 'src/components/profiles/profile-carousel'
-import { fetchFeatures } from 'src/services/features/fetch-features'
-import { fetchHome } from 'src/services/home/fetch'
+import { call } from 'src/utils/service'
 import { PublisherGrid } from './publishers/grid'
 
 export * from 'app/default-static-config'
 
 const Page = async () => {
   const [{ data: features }, { data: home }] = await Promise.all([
-    fetchFeatures.call(),
-    fetchHome.call()
+    call(fetchFeatures),
+    call(fetchHome)
   ])
   if (!features || !home) throw new Error('Server error')
 

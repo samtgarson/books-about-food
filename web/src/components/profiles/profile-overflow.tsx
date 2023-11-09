@@ -1,9 +1,9 @@
 'use client'
 
+import { Profile } from 'core/models/profile'
 import { Edit } from 'react-feather'
 import * as Overflow from 'src/components/atoms/overflow'
 import { useCurrentUser } from 'src/hooks/use-current-user'
-import { Profile } from 'src/models/profile'
 import { useSheet } from '../sheets/global-sheet'
 
 export const ProfileOverflow = ({

@@ -1,10 +1,10 @@
-import { pluralize, titleize } from 'inflection'
-import { Item } from 'src/components/atoms/accordion'
-import { Tag } from 'src/components/atoms/tag'
 import {
   ResultContribution,
   ResultRow
-} from 'src/services/import/import-books/types'
+} from 'core/services/import/import-books/types'
+import { pluralize, titleize } from 'inflection'
+import { Item } from 'src/components/atoms/accordion'
+import { Tag } from 'src/components/atoms/tag'
 
 export function ImportFormRow({
   result,
