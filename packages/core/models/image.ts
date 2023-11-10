@@ -1,5 +1,6 @@
 import * as Prisma from 'database'
 import { ImageProps } from 'next/image'
+import { imageUrl } from 'shared/utils/image-url'
 
 export class Image {
   id: string
@@ -31,12 +32,8 @@ export class Image {
     this.placeholderUrl = placeholderUrl ?? undefined
   }
 
-  static src(path: string) {
-    return new URL(path, process.env.NEXT_PUBLIC_S3_DOMAIN).toString()
-  }
-
   get src() {
-    return Image.src(this.path)
+    return imageUrl(this.path)
   }
 
   widthFor(height: number) {

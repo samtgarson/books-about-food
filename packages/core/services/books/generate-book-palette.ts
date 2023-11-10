@@ -1,7 +1,7 @@
 import Color from 'color'
-import { Image } from 'core/models/image'
 import { Service } from 'core/services/base'
 import prisma from 'database'
+import { imageUrl } from 'shared/utils/image-url'
 import splashy from 'splashy'
 import z from 'zod'
 import { AppError } from '../utils/errors'
@@ -17,7 +17,7 @@ export const generateBookPalette = new Service(
 
     if (!image) return true
 
-    const src = Image.src(image.path)
+    const src = imageUrl(image.path)
     const res = await fetch(src)
     const buffer = Buffer.from(await res.arrayBuffer())
     const hex = await splashy(buffer)

@@ -1,6 +1,7 @@
 import { CollectionCustomizer } from '@forestadmin/agent'
 import prisma from 'database'
 import { deleteImage, uploadImage } from 'lib/utils/image-utils'
+import { imageUrl } from 'shared/utils/image-url'
 import { slugify } from 'shared/utils/slugify'
 import { Schema } from '../../.schema/types'
 
@@ -27,15 +28,16 @@ export const customisePublishers = (
             const image = await prisma.image.findUnique({
               where: { publisherId: record.id }
             })
-            return image ? `${process.env.S3_DOMAIN}${image.path}` : null
+            return image && imageUrl(image.path)
           })
         )
       },
       columnType: 'String'
     })
     .replaceFieldWriting('Logo', async (dataUri, context) => {
-      if (!context.record.id) return
-      await uploadLogo(dataUri, context.record.id)
+      if (!context.filter) return
+      const records = await context.collection.list(context.filter, ['id'])
+      await Promise.all(records.map((record) => uploadLogo(dataUri, record.id)))
     })
 
   collection.addHook('Before', 'Create', async (context) => {
@@ -50,17 +52,6 @@ export const customisePublishers = (
         uploadLogo(context.data[i].Logo, publisher.id)
       )
     )
-  })
-
-  collection.addHook('Before', 'Update', async (context) => {
-    const records = await context.collection.list(context.filter, ['id'])
-    if (records.length !== 1) return
-    const record = records[0]
-
-    if (context.patch.Logo) {
-      const image = await uploadLogo(context.patch.Logo, record.id)
-      if (image) context.patch.Logo = `${process.env.S3_DOMAIN}${image.path}`
-    }
   })
 
   collection.addHook('Before', 'Delete', async (context) => {

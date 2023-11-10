@@ -1,6 +1,7 @@
 import { CollectionCustomizer } from '@forestadmin/agent'
 import prisma from 'database'
 import { deleteImage, uploadImage } from 'lib/utils/image-utils'
+import { imageUrl } from 'shared/utils/image-url'
 import { slugify } from 'shared/utils/slugify'
 import { Schema } from '../../.schema/types'
 
@@ -17,21 +18,34 @@ const uploadAvatar = async (dataUri: string, profileId: string) => {
 export const customiseProfiles = (
   collection: CollectionCustomizer<Schema, 'profiles'>
 ) => {
-  collection.addField('Avatar', {
-    dependencies: ['id'],
-    getValues: async (records) => {
-      return Promise.all(
-        records.map(async (record) => {
-          if (!record.id) return
-          const image = await prisma.image.findUnique({
-            where: { profileId: record.id }
+  collection
+    .addField('Avatar', {
+      dependencies: ['id'],
+      getValues: async (records) => {
+        return Promise.all(
+          records.map(async (record) => {
+            if (!record.id) return
+            const image = await prisma.image.findUnique({
+              where: { profileId: record.id }
+            })
+            return image ? imageUrl(image.path) : null
           })
-          return image ? `${process.env.S3_DOMAIN}${image.path}` : null
-        })
+        )
+      },
+      columnType: 'String'
+    })
+    .replaceFieldWriting('Avatar', async (dataUri, context) => {
+      if (!context.filter) return
+      const records = await context.collection.list(context.filter, ['id'])
+      await Promise.all(
+        records.map((record) => uploadAvatar(dataUri, record.id))
       )
-    },
-    columnType: 'String'
-  })
+
+      // if (context.patch.Avatar) {
+      //   const image = await uploadAvatar(context.patch.Avatar, record.id)
+      //   if (image) context.patch.Avatar = imageUrl(image.path)
+      // }
+    })
 
   collection.addManyToManyRelation(
     'Authored Books',
@@ -57,17 +71,6 @@ export const customiseProfiles = (
         await uploadAvatar(data.Avatar, record.id)
       })
     )
-  })
-
-  collection.addHook('Before', 'Update', async (context) => {
-    const records = await context.collection.list(context.filter, ['id'])
-    if (records.length !== 1) return
-    const record = records[0]
-
-    if (context.patch.Avatar) {
-      const image = await uploadAvatar(context.patch.Avatar, record.id)
-      if (image) context.patch.Avatar = `${process.env.S3_DOMAIN}${image.path}`
-    }
   })
 
   collection.addHook('Before', 'Delete', async (context) => {

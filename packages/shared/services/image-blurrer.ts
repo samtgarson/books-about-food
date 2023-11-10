@@ -1,8 +1,7 @@
 import { getPlaiceholder } from 'plaiceholder'
+import { imageUrl } from '../utils/image-url'
 
 export type ImageBlurrerOptions = { url: string } | { s3path: string }
-
-const s3Domain = process.env.S3_DOMAIN as string
 
 export class ImageBlurrer {
   private url: string
@@ -11,7 +10,7 @@ export class ImageBlurrer {
     if ('url' in options) {
       this.url = options.url
     } else {
-      this.url = new URL(options.s3path, s3Domain).toString()
+      this.url = imageUrl(options.s3path)
     }
   }
 

@@ -3,6 +3,7 @@ import Color from 'color'
 import { inngest } from 'core/gateways/inngest'
 import prisma from 'database'
 import { deleteImage, uploadImage } from 'lib/utils/image-utils'
+import { imageUrl } from 'shared/utils/image-url'
 import { slugify } from 'shared/utils/slugify'
 import { Schema } from '../../.schema/types'
 
@@ -95,32 +96,43 @@ export const customiseBooks = (
             const image = await prisma.image.findUnique({
               where: { coverForId: record.id }
             })
-            return `${process.env.S3_DOMAIN}${image?.path}`
+            return image && imageUrl(image.path)
           })
         )
       },
       columnType: 'String'
     })
     .replaceFieldWriting('Cover', async (dataUri, context) => {
-      if (!context.record.id) return
-      await uploadCover(dataUri, context.record.id)
+      if (!context.filter) return
+      const records = await context.collection.list(context.filter, ['id'])
+      await Promise.all(
+        records.map((record) => uploadCover(dataUri, record.id))
+      )
     })
 
   // Preview Images
-  collection.addField('PreviewImages', {
-    dependencies: ['id'],
-    getValues: async (records) => {
-      return Promise.all(
-        records.map(async (record) => {
-          const image = await prisma.image.findMany({
-            where: { previewForId: record.id }
+  collection
+    .addField('PreviewImages', {
+      dependencies: ['id'],
+      getValues: async (records) => {
+        return Promise.all(
+          records.map(async (record) => {
+            const image = await prisma.image.findMany({
+              where: { previewForId: record.id }
+            })
+            return image.map((image) => imageUrl(image.path))
           })
-          return image.map((image) => `${process.env.S3_DOMAIN}${image.path}`)
-        })
+        )
+      },
+      columnType: ['String']
+    })
+    .replaceFieldWriting('PreviewImages', async (dataUris, context) => {
+      if (!context.filter) return
+      const records = await context.collection.list(context.filter, ['id'])
+      await Promise.all(
+        records.map((record) => uploadPreviews(dataUris, record.id))
       )
-    },
-    columnType: ['String']
-  })
+    })
 
   // Tags
   collection
@@ -140,7 +152,9 @@ export const customiseBooks = (
       columnType: ['String']
     })
     .replaceFieldWriting('Tags', async (tags, context) => {
-      if (context.record.id) await updateTags(context.record.id, tags)
+      if (!context.filter) return
+      const records = await context.collection.list(context.filter, ['id'])
+      await Promise.all(records.map((record) => updateTags(record.id, tags)))
 
       return { Tags: tags }
     })
@@ -244,25 +258,6 @@ export const customiseBooks = (
         ])
       })
     )
-  })
-
-  collection.addHook('Before', 'Update', async (context) => {
-    const records = await context.collection.list(context.filter, ['id'])
-    if (records.length !== 1) return
-    const record = records[0]
-
-    if (context.patch.PreviewImages) {
-      const images = await uploadPreviews(
-        context.patch.PreviewImages,
-        record.id
-      )
-      context.patch.PreviewImages = images.flatMap((i) => i?.path || [])
-    }
-
-    if (context.patch.Cover) {
-      const image = await uploadCover(context.patch.Cover, record.id)
-      if (image) context.patch.Cover = `${process.env.S3_DOMAIN}${image.path}`
-    }
   })
 
   collection.addHook('Before', 'Delete', async (context) => {

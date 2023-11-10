@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  env: {
+    S3_DOMAIN: process.env.S3_DOMAIN
+  },
   experimental: {
     swcPlugins: [
       [
@@ -21,7 +24,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: new URL(process.env.NEXT_PUBLIC_S3_DOMAIN).hostname
+        hostname: new URL(process.env.S3_DOMAIN).hostname
       }
     ]
   }
