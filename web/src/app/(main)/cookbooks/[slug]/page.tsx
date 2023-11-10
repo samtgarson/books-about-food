@@ -32,7 +32,7 @@ export * from 'app/default-static-config'
 
 export default async ({ params: { slug } }: CookbooksPageProps) => {
   const { data: book } = await call(fetchBook, { slug })
-  if (!book) notFound()
+  if (!book || book.status !== 'published') notFound()
 
   return (
     <div className="relative flex-grow lg:pr-[50vw] flex flex-col gap-8 sm:gap-16">

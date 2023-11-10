@@ -25,7 +25,7 @@ export async function ProfilePage({ segment, slug }: ProfilePageProps) {
     call(fetchProfile, { slug }),
     call(fetchFrequentCollaborators, { slug })
   ])
-  if (!profile) return notFound()
+  if (!profile || !profile.mostRecentlyPublishedOn) return notFound()
 
   return (
     <EditProfileProvider profile={profile} segment={segment} data-superjson>
