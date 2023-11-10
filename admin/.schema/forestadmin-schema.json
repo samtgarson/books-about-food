@@ -528,11 +528,23 @@
     {
       "actions": [
         {
-          "id": "books-0-add-new-collaborator",
-          "name": "Add new collaborator",
+          "id": "books-0--view-in-baf",
+          "name": "↗️  View in BAF",
           "type": "single",
           "baseUrl": null,
-          "endpoint": "/forest/_actions/books/0/add-new-collaborator",
+          "endpoint": "/forest/_actions/books/0/-view-in-baf",
+          "httpMethod": "POST",
+          "redirect": null,
+          "download": false,
+          "fields": [],
+          "hooks": {"load": false, "change": ["changeHook"]}
+        },
+        {
+          "id": "books-1--add-new-collaborator",
+          "name": "🤝 Add new collaborator",
+          "type": "single",
+          "baseUrl": null,
+          "endpoint": "/forest/_actions/books/1/-add-new-collaborator",
           "httpMethod": "POST",
           "redirect": null,
           "download": false,
@@ -2255,11 +2267,23 @@
     {
       "actions": [
         {
-          "id": "profiles-0-feature-this-profile",
-          "name": "Feature this profile",
+          "id": "profiles-0--view-in-baf",
+          "name": "↗️  View in BAF",
           "type": "single",
           "baseUrl": null,
-          "endpoint": "/forest/_actions/profiles/0/feature-this-profile",
+          "endpoint": "/forest/_actions/profiles/0/-view-in-baf",
+          "httpMethod": "POST",
+          "redirect": null,
+          "download": false,
+          "fields": [],
+          "hooks": {"load": false, "change": ["changeHook"]}
+        },
+        {
+          "id": "profiles-1--feature-this-profile",
+          "name": "🌟 Feature this profile",
+          "type": "single",
+          "baseUrl": null,
+          "endpoint": "/forest/_actions/profiles/1/-feature-this-profile",
           "httpMethod": "POST",
           "redirect": null,
           "download": false,

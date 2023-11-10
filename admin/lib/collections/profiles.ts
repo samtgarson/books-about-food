@@ -77,7 +77,21 @@ export const customiseProfiles = (
     )
   })
 
-  collection.addAction('Feature this profile', {
+  /* =============================================
+   * ACTIONS
+   * ============================================= */
+
+  collection.addAction('↗️  View in BAF', {
+    scope: 'Single',
+    execute: async (context, result) => {
+      const { slug } = await context.getRecord(['slug'])
+      return result.redirectTo(
+        `https://books-about-food-web.vercel.app/people/${slug}`
+      )
+    }
+  })
+
+  collection.addAction('🌟 Feature this profile', {
     scope: 'Single',
     async execute(ctx, result) {
       const profileId = `${await ctx.getRecordId()}`

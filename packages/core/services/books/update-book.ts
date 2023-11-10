@@ -56,11 +56,7 @@ export const updateBook = new Service(updateBookInput, async (input, user) => {
     ...attrs,
     title,
     slug: title ? slugify(title) : undefined,
-    coverImage: data.coverImageId?.length
-      ? coverImageId
-        ? { connect: { id: coverImageId } }
-        : { delete: true }
-      : undefined,
+    coverImage: coverImageId ? { connect: { id: coverImageId } } : undefined,
     publisher: publisherId ? { connect: { id: publisherId } } : undefined,
     tags: undefined,
     authors: undefined,
@@ -102,7 +98,7 @@ export const updateBook = new Service(updateBookInput, async (input, user) => {
   await inngest.send({
     name: 'book.updated',
     user,
-    data: { id: result.id, input }
+    data: { id: result.id, coverImageChanged: !!coverImageId }
   })
 
   return new Book(result)

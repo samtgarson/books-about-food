@@ -1,4 +1,3 @@
-import { UpdateBookInput } from 'core/services/books/update-book'
 import { EventSchemas, Inngest } from 'inngest'
 
 // Create a client to send and receive events
@@ -8,7 +7,7 @@ export const inngest = new Inngest({
     'book.updated': {
       data: {
         id: string
-        input: UpdateBookInput
+        coverImageChanged?: boolean
       }
     }
   }>()

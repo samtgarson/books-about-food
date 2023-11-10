@@ -1,5 +1,6 @@
 import { CollectionCustomizer } from '@forestadmin/agent'
 import Color from 'color'
+import { inngest } from 'core/gateways/inngest'
 import prisma from 'database'
 import { deleteImage, uploadImage } from 'lib/utils/image-utils'
 import { slugify } from 'shared/utils/slugify'
@@ -49,7 +50,10 @@ const updateProfiles = async (bookId: string) => {
     profiles.map(async (profile) => {
       const latestBook = await prisma.book.findFirst({
         where: {
-          contributions: { some: { profileId: profile.id } },
+          OR: [
+            { contributions: { some: { profileId: profile.id } } },
+            { authors: { some: { id: profile.id } } }
+          ],
           releaseDate: { not: null },
           status: 'published'
         },
@@ -76,6 +80,10 @@ const updateTags = async (bookId: string, tags: string[] = []) =>
 export const customiseBooks = (
   collection: CollectionCustomizer<Schema, 'books'>
 ) => {
+  /* =============================================
+   * FIELDS
+   * ============================================= */
+
   // Cover Images
   collection
     .addField('Cover', {
@@ -161,7 +169,21 @@ export const customiseBooks = (
       return { background_color: rgb }
     })
 
-  collection.addAction('Add new collaborator', {
+  /* =============================================
+   * ACTIONS
+   * ============================================= */
+
+  collection.addAction('↗️  View in BAF', {
+    scope: 'Single',
+    execute: async (context, result) => {
+      const { slug } = await context.getRecord(['slug'])
+      return result.redirectTo(
+        `https://books-about-food-web.vercel.app/cookbooks/${slug}`
+      )
+    }
+  })
+
+  collection.addAction('🤝 Add new collaborator', {
     scope: 'Single',
     form: [
       {
@@ -196,6 +218,10 @@ export const customiseBooks = (
       return result.success('Collaborator added')
     }
   })
+
+  /* =============================================
+   * HOOKS
+   * ============================================= */
 
   collection.addHook('Before', 'Create', async (context) => {
     context.data.forEach((book) => {
@@ -251,6 +277,14 @@ export const customiseBooks = (
 
   collection.addHook('After', 'Update', async (context) => {
     const records = await context.collection.list(context.filter, ['id'])
-    await Promise.all(records.map(async (record) => updateProfiles(record.id)))
+    await Promise.all(
+      records.map(async (record) => {
+        await updateProfiles(record.id)
+        await inngest.send({
+          name: 'book.updated',
+          data: { id: record.id, coverImageChanged: !!context.patch.Cover }
+        })
+      })
+    )
   })
 }
