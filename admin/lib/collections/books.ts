@@ -254,7 +254,11 @@ export const customiseBooks = (
           updateTags(record.id, data.Tags),
           uploadCover(data.Cover, record.id),
           uploadPreviews(data['PreviewImages'], record.id),
-          updateProfiles(record.id)
+          updateProfiles(record.id),
+          inngest.send({
+            name: 'book.updated',
+            data: { id: record.id, coverImageChanged: !!data.Cover }
+          })
         ])
       })
     )
