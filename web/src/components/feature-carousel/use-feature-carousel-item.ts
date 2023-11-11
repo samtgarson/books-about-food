@@ -48,6 +48,7 @@ export function useFeatureCarouselItem({
       opacity: hidden ? 0 : 1,
       z: pos.current ? '10px' : '0px'
     },
+    whileHover: pos.next ? { x: -20 } : pos.prev ? { x: 20 } : {},
     initial: false
   } satisfies MotionProps
 
