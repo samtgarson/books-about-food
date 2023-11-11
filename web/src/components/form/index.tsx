@@ -47,6 +47,7 @@ export function Form<T extends z.ZodTypeAny | undefined = undefined>({
   const wrappedAction = useCallback(
     async (data: FormData) => {
       if (!action) return
+      setLoading(true)
       let errors: FormErrors | void = undefined
       let values = Object.fromEntries(data.entries())
       if (schema) {
@@ -55,7 +56,6 @@ export function Form<T extends z.ZodTypeAny | undefined = undefined>({
         values = parsed.data
       }
 
-      setLoading(true)
       errors = await action(values)
       if (errors) setErrors(errors)
       else if (!autoSubmit) setSuccess(true)

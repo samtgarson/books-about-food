@@ -15,6 +15,7 @@ export type SignInButtonsProps = {
   emailButtonLabel?: string
   callbackUrl?: string
   successMessage?: string
+  emailButtonSibling?: JSX.Element
 }
 
 export const SignInButtons: FC<SignInButtonsProps> = ({
@@ -22,7 +23,8 @@ export const SignInButtons: FC<SignInButtonsProps> = ({
   email = true,
   google = true,
   emailButtonLabel = 'Continue with Email',
-  successMessage = 'We’ve just sent you a secure magic link to your inbox. When you click this link we’ll log you into your account automatically.'
+  successMessage = 'We’ve just sent you a secure magic link to your inbox. When you click this link we’ll log you into your account automatically.',
+  emailButtonSibling
 }) => {
   return (
     <Form
@@ -43,7 +45,12 @@ export const SignInButtons: FC<SignInButtonsProps> = ({
             label="Email Address"
             placeholder="author@cookbooks.com"
           />
-          <Submit variant="dark">{emailButtonLabel}</Submit>
+          <div className="flex gap-4">
+            <Submit variant="dark" className="grow">
+              {emailButtonLabel}
+            </Submit>
+            {emailButtonSibling}
+          </div>
         </>
       )}
       {email && google && <p className="text-center">or</p>}

@@ -1,11 +1,14 @@
 import { fetchFeatures } from 'core/services/features/fetch-features'
 import { Avatar } from 'src/components/atoms/avatar'
+import { Button } from 'src/components/atoms/button'
 import { Container } from 'src/components/atoms/container'
+import { AuthedButton } from 'src/components/auth/authed-button'
 import { SignInButtons } from 'src/components/auth/sign-in-buttons'
 import * as BookItem from 'src/components/books/item'
 import { ListContainer } from 'src/components/lists/list-context'
 import { call, getUser } from 'src/utils/service'
 import { Fader } from './fader'
+import { WelcomeMessage } from './welcome-message'
 
 export default async function Splash() {
   const { data: features = [] } = await call(fetchFeatures)
@@ -22,9 +25,7 @@ export default async function Splash() {
             Coming soon.
           </p>
           {user ? (
-            <p className="lg:text-24">
-              Thanks for registering! We&apos;ll be in touch soon.
-            </p>
+            <WelcomeMessage />
           ) : (
             <>
               <p className="lg:text-24">
@@ -36,6 +37,11 @@ export default async function Splash() {
           registration."
                 emailButtonLabel="Register"
                 callbackUrl="/"
+                emailButtonSibling={
+                  <AuthedButton>
+                    <Button variant="tertiary">Beta Sign In</Button>
+                  </AuthedButton>
+                }
               />
             </>
           )}

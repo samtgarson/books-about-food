@@ -13,18 +13,22 @@ export default withAuth(
       return NextResponse.next()
     }
 
-    if (
-      process.env.ENABLE_SPLASH ||
-      request.nextUrl.hostname === 'www.booksaboutfood.info'
-    ) {
-      return NextResponse.rewrite(new URL('/splash', request.url))
+    const splashEnabled =
+      request.nextUrl.host === 'booksaboutfood.info' ||
+      process.env.ENABLE_SPLASH
+    const userAllowed =
+      request.nextauth.token && request.nextauth.token.role !== 'waitlist'
+
+    if (!splashEnabled || userAllowed) {
+      if (request.nextUrl.pathname === '/splash') {
+        return NextResponse.redirect(new URL('/', request.url))
+      }
+
+      return NextResponse.next()
     }
 
-    if (
-      request.nextauth.token?.role === 'waitlist' &&
-      protectedPath(request.nextUrl.pathname)
-    ) {
-      return NextResponse.rewrite(new URL('/splash', request.url))
+    if (request.nextUrl.pathname !== '/splash') {
+      return NextResponse.redirect(new URL('/splash', request.url))
     }
   },
   {
@@ -35,3 +39,15 @@ export default withAuth(
     }
   }
 )
+
+export const config = {
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon and apple icon images
+     */
+    '/((?!_next/static|_next/image|.+.png|.+.jpe?g|api/).*)'
+  ]
+}
