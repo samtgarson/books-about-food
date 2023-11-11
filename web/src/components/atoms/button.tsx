@@ -26,7 +26,7 @@ const variants = {
   secondary: 'bg-grey',
   tertiary: 'bg-khaki',
   dark: 'bg-black text-white',
-  outline: 'bg-white border border-black'
+  outline: 'border border-black'
 } as const
 
 export const Button = forwardRef(
