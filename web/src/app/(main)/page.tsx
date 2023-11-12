@@ -1,7 +1,9 @@
 import { fetchFeatures } from 'core/services/features/fetch-features'
 import { fetchHome } from 'core/services/home/fetch'
 import { Suspense } from 'react'
+import { Instagram, PlusSquare } from 'react-feather'
 import { Container } from 'src/components/atoms/container'
+import { Marquee } from 'src/components/atoms/marquee'
 import { ItemCarousel } from 'src/components/books/item-carousel'
 import { FeatureCarousel } from 'src/components/feature-carousel'
 import { HomepageModule } from 'src/components/home/module'
@@ -23,6 +25,17 @@ const Page = async () => {
   return (
     <>
       <FeatureCarousel features={features} data-superjson />
+      <Marquee className="fixed bottom-0 left-0 -right-[25%] z-40 -rotate-[15deg]">
+        <a
+          href="https://www.instagram.com/books.about.food"
+          className="whitespace-nowrap flex gap-4"
+        >
+          <Instagram strokeWidth={1} /> Follow on Instagram
+        </a>
+        <a href="/account/submissions" className="whitespace-nowrap flex gap-4">
+          <PlusSquare strokeWidth={1} /> Submit a cookbook
+        </a>
+      </Marquee>
       <Container
         mobile={false}
         desktop={false}
