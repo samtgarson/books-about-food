@@ -74,6 +74,7 @@ const Page = async () => {
           size="lg"
           readMoreLink="/cookbooks"
           className="pt-12 md:pt-20"
+          colorful
           data-superjson
         />
       </Container>

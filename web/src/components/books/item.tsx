@@ -4,7 +4,7 @@ import cn from 'classnames'
 import { Book } from 'core/models/book'
 import Image, { ImageProps } from 'next/image'
 import Link from 'next/link'
-import { CSSProperties, forwardRef } from 'react'
+import { CSSProperties, ComponentProps, forwardRef } from 'react'
 import { useListDisplay } from '../lists/list-context'
 
 export interface CookbookItemProps {
@@ -20,7 +20,6 @@ export interface CookbookItemProps {
 export const Container = forwardRef<
   HTMLLIElement,
   CookbookItemProps & {
-    skeleton?: boolean
     link?: boolean
   }
 >(function Container(
@@ -68,8 +67,9 @@ export const Box = ({
   children,
   skeleton,
   className,
-  bordered = true
-}: CookbookItemProps & { bordered?: boolean }) => {
+  bordered = true,
+  ...props
+}: CookbookItemProps & { bordered?: boolean } & ComponentProps<'div'>) => {
   const { display } = useListDisplay()
   const mobileGrid = display === 'grid'
 
@@ -82,6 +82,7 @@ export const Box = ({
         skeleton && 'border-khaki',
         bordered && (mobileGrid ? 'border' : 'sm:border')
       )}
+      {...props}
     >
       {children}
     </div>
@@ -92,13 +93,22 @@ export const Cover = ({
   attrs,
   skeleton,
   centered,
-  className
-}: Omit<CookbookItemProps, 'book'> & { attrs?: ImageProps }) => {
+  className,
+  color
+}: Omit<CookbookItemProps, 'book'> & {
+  attrs?: ImageProps
+  color?: string
+}) => {
   const { display } = useListDisplay()
   const mobileGrid = display === 'grid'
 
   return (
-    <Box skeleton={skeleton} bordered={!centered} className={className}>
+    <Box
+      skeleton={skeleton}
+      bordered={!centered}
+      className={className}
+      style={color ? { backgroundColor: color } : {}}
+    >
       {attrs ? (
         <Image
           {...attrs}
@@ -144,14 +154,18 @@ export const Footer = ({
 
 export const Item = forwardRef<
   HTMLLIElement,
-  CookbookItemProps & { book: Book }
->(function Item({ skeleton, ...props }, ref) {
+  CookbookItemProps & { book: Book; colorful?: boolean }
+>(function Item({ skeleton, colorful, ...props }, ref) {
   const { display } = useListDisplay()
   if (skeleton) return <Skeleton {...props} ref={ref} />
   const { book, centered, ...rest } = props
   return (
     <Container book={book} centered={centered} {...rest} ref={ref}>
-      <Cover attrs={book.cover?.imageAttrs(200)} centered={centered} />
+      <Cover
+        attrs={book.cover?.imageAttrs(200)}
+        centered={centered}
+        color={colorful ? book.backgroundColor : undefined}
+      />
       <Footer
         centered={centered}
         className={cn(display === 'grid' && 'hidden sm:block')}

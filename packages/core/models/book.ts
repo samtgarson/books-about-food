@@ -20,6 +20,7 @@ export class Book extends BaseModel {
   authors: Profile[]
   status: BookStatus
   submitterId?: string
+  backgroundColor?: string
 
   constructor(attrs: BookAttrs) {
     super()
@@ -38,6 +39,9 @@ export class Book extends BaseModel {
     this.status = attrs.status
     this.submitterId = attrs.submitterId ?? undefined
     this.authors = attrs.authors?.map((author) => new Profile(author)) ?? []
+    this.backgroundColor = attrs.backgroundColor
+      ? `rgb(${attrs.backgroundColor.join(',')})`
+      : undefined
   }
 
   get name() {
