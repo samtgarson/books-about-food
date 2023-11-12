@@ -5,6 +5,7 @@ import { Container } from 'src/components/atoms/container'
 import { ItemCarousel } from 'src/components/books/item-carousel'
 import { FeatureCarousel } from 'src/components/feature-carousel'
 import { HomepageModule } from 'src/components/home/module'
+import { USP } from 'src/components/home/usp'
 import { FeaturedJobsList } from 'src/components/jobs/featured-jobs-list'
 import { ProfileCarousel } from 'src/components/profiles/profile-carousel'
 import { call } from 'src/utils/service'
@@ -53,6 +54,7 @@ const Page = async () => {
             />
           </HomepageModule>
         </div>
+        <USP />
         <ItemCarousel
           items={home.newlyAdded}
           title="On The Pass"
