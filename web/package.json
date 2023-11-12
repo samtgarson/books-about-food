@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "run-p dev:*",
     "dev:web": "next dev --port 5000",
-    "dev:jobs": "inngest-cli dev",
+    "dev:jobs": "inngest-cli dev --no-discovery -u http://localhost:5000/api/inngest",
     "build": "next build",
     "start": "next start"
   },

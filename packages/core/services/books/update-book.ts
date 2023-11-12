@@ -7,7 +7,7 @@ import { slugify } from 'shared/utils/slugify'
 import { z } from 'zod'
 import { bookIncludes } from '../utils'
 import { AppError } from '../utils/errors'
-import { array } from '../utils/inputs'
+import { array, processString } from '../utils/inputs'
 import { fetchBook } from './fetch-book'
 
 export type UpdateBookInput = z.infer<typeof updateBookInput>
@@ -19,7 +19,7 @@ const attrsInput = {
   coverImageId: z.string().optional(),
   previewImageIds: array(z.string()).optional(),
   publisherId: z.string().optional(),
-  releaseDate: z.coerce.date().optional(),
+  releaseDate: processString(z.coerce.date().optional()),
   pages: z.coerce.number().optional(),
   tags: array(z.string()).optional()
 }

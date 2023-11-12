@@ -2,9 +2,10 @@
 
 import { updateUser } from 'core/services/users/update-user'
 import { revalidatePath } from 'next/cache'
+import { parseAndCall } from 'src/utils/service'
 
 export const action = async (input: Record<string, unknown>) => {
-  const result = await updateUser.parseAndCall(input)
+  const result = await parseAndCall(updateUser, input)
   if (result.success) revalidatePath('/accounts')
 
   return result

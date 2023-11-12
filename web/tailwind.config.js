@@ -55,6 +55,7 @@ module.exports = {
       sand: '#E7E5E2',
       khaki: '#DDD8D1',
       'neutral-grey': '#BDBFC2',
+      'neutral-light-grey': '#F7F7F7',
       'blue-grey': '#EEF1F4',
       primary: {
         blue: '#839DFF',

@@ -119,7 +119,7 @@ export const CreateButton = ({
   <div
     className={cn(
       pillClasses,
-      'bg-grey m-5 !inline-block cursor-pointer self-start'
+      'bg-neutral-light-grey m-5 !inline-block cursor-pointer self-start'
     )}
     onClick={onClick}
   >

@@ -43,10 +43,12 @@ export function Form<T extends z.ZodTypeAny | undefined = undefined>({
   const formRef = useRef<HTMLFormElement>(null)
   const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
+  console.log({ loading })
 
   const wrappedAction = useCallback(
     async (data: FormData) => {
       if (!action) return
+      console.log('HERE')
       setLoading(true)
       let errors: FormErrors | void = undefined
       let values = Object.fromEntries(data.entries())
@@ -93,7 +95,7 @@ export function Form<T extends z.ZodTypeAny | undefined = undefined>({
       document.removeEventListener('change', changeHandler)
       document.removeEventListener('keydown', keyHandler)
     }
-  }, [autoSubmit, wrappedAction, successMessage])
+  }, [autoSubmit, successMessage])
 
   return (
     <FormContext.Provider

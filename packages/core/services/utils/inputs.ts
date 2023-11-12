@@ -25,3 +25,9 @@ export const processArray = <T>(val: T | T[]): T[] =>
 
 export const dbEnum = <T extends string>(obj: Record<string, T>) =>
   z.enum(Object.values(obj) as [T, ...T[]])
+
+export const processString = <T extends z.ZodTypeAny>(type: T) =>
+  z.preprocess((val) => {
+    if (typeof val === 'string' && val.length === 0) return undefined
+    return val
+  }, type)

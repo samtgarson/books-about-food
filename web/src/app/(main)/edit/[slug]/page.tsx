@@ -57,7 +57,7 @@ export default async function Page({ params: { slug } }: EditPageProps) {
         {book.status === 'published' && (
           <div className="flex flex-wrap gap-2">
             <SheetButton
-              className="grow sm:grow-0"
+              className="grow"
               sheet="suggestEdit"
               props={{ resource: book }}
               data-superjson
@@ -65,7 +65,7 @@ export default async function Page({ params: { slug } }: EditPageProps) {
               <Edit2 strokeWidth={1} />
               Suggest an Edit
             </SheetButton>
-            <Button className="grow sm:grow-0" href={book.href}>
+            <Button className="grow" href={book.href}>
               <Eye strokeWidth={1} /> View Your Cookbook
             </Button>
           </div>

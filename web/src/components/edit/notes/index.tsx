@@ -1,7 +1,6 @@
 import { BookStatus } from 'database'
 import { DraftNotes } from './draft'
 import { InReviewNotes } from './in-review'
-import { PublishedNotes } from './published'
 
 export function EditNotes({
   status,
@@ -15,7 +14,7 @@ export function EditNotes({
       return <DraftNotes className={className} />
     case BookStatus.inReview:
       return <InReviewNotes className={className} />
-    case BookStatus.published:
-      return <PublishedNotes className={className} />
+    default:
+      return null
   }
 }

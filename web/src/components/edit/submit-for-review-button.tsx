@@ -6,6 +6,7 @@ import { RedirectType } from 'next/dist/client/components/redirect'
 import { redirect } from 'next/navigation'
 import { FC } from 'react'
 import { ArrowRight } from 'react-feather'
+import { parseAndCall } from 'src/utils/service'
 import { Submit } from '../form/submit'
 import { BookEditState } from './state'
 
@@ -34,7 +35,8 @@ export const SubmitForReviewButton: FC<{
 async function submit(data: FormData) {
   'use server'
 
-  const { data: book } = await fetchBook.parseAndCall(
+  const { data: book } = await parseAndCall(
+    fetchBook,
     Object.fromEntries(data.entries())
   )
   if (!book) return

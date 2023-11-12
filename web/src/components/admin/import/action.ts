@@ -8,11 +8,12 @@ import {
   ProcessBookImportInput,
   processBookImport
 } from 'core/services/import/import-books/process-book-import'
+import { parseAndCall } from 'src/utils/service'
 
 export async function parseCsv(input: ImportBooksInput) {
-  return importBooks.parseAndCall(input)
+  return parseAndCall(importBooks, input)
 }
 
 export async function process(input: ProcessBookImportInput) {
-  return processBookImport.parseAndCall(input)
+  return parseAndCall(processBookImport, input)
 }

@@ -38,5 +38,15 @@ async function _call<S extends Service<any, any>>(
   return service.call(args, user) as Promise<ServiceReturn<S>>
 }
 
+export async function _parseAndCall<S extends Service<any, any>>(
+  service: S,
+  args?: unknown | S extends Service<infer I, any> ? z.infer<I> : unknown,
+  user?: User | null
+): Promise<ServiceReturn<S>> {
+  user ||= await getUser()
+  return service.parseAndCall(args, user) as Promise<ServiceReturn<S>>
+}
+
 export const getUser = cache(_getUser)
 export const call = cache(_call)
+export const parseAndCall = cache(_parseAndCall)

@@ -5,12 +5,13 @@ import { PageBackLink } from 'src/components/atoms/page-back-link'
 import { Form, FormAction } from 'src/components/form'
 import { Submit } from 'src/components/form/submit'
 import { TextArea } from 'src/components/form/textarea'
+import { parseAndCall } from 'src/utils/service'
 
 export default function Page() {
   const action: FormAction = async (values) => {
     'use server'
 
-    const { data: pitch } = await createPitch.parseAndCall(values)
+    const { data: pitch } = await parseAndCall(createPitch, values)
     if (pitch) redirect(`/pitches/${pitch.id}`)
   }
 
