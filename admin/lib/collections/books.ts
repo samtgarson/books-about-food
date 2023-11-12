@@ -1,6 +1,7 @@
 import { CollectionCustomizer } from '@forestadmin/agent'
 import Color from 'color'
 import { inngest } from 'core/gateways/inngest'
+import { fetchProfiles } from 'core/services/profiles/fetch-profiles'
 import prisma from 'database'
 import { deleteImage, uploadImage } from 'lib/utils/image-utils'
 import { imageUrl } from 'shared/utils/image-url'
@@ -202,30 +203,60 @@ export const customiseBooks = (
     form: [
       {
         label: 'Name',
-        type: 'String'
+        type: 'String',
+        widget: 'Dropdown',
+        search: 'dynamic',
+        placeholder: 'Search for an existing profile or create a new one',
+        async options(context, searchValue) {
+          if (!searchValue) return []
+          const options = [
+            { value: `||${searchValue}||`, label: `Create: ${searchValue}` }
+          ]
+          const search = await fetchProfiles.call({
+            search: searchValue,
+            perPage: 10
+          })
+          if (!search.success) return options
+
+          return [
+            ...options,
+            ...search.data.profiles.map(({ id, name }) => ({
+              value: id,
+              label: name
+            }))
+          ]
+        }
       },
       { label: 'Job', type: 'Collection', collectionName: 'jobs' },
       { label: 'Assistant', type: 'Boolean' }
     ],
     execute: async (context, result) => {
-      const bookId = await context.getRecordId()
+      const bookId = `${await context.getRecordId()}`
       const jobId = context.formValues.Job[0]
       const job = await prisma.job.findUnique({ where: { id: jobId } })
       const tag = context.formValues.Assistant ? 'Assistant' : undefined
-      await prisma.profile.create({
-        data: {
-          name: context.formValues['Name'],
-          slug: slugify(context.formValues['Name']),
-          jobTitle: job?.name,
-          contributions: {
-            create: {
-              book: {
-                connect: { id: bookId.toString() }
-              },
-              job: { connect: { id: jobId } },
-              tag
-            }
+      const profileIdOrName = context.formValues.Name
+      let profileId: string
+      if (profileIdOrName.startsWith('||')) {
+        const name = profileIdOrName.slice(2)
+        const created = await prisma.profile.create({
+          data: {
+            name,
+            slug: slugify(name),
+            jobTitle: job?.name
           }
+        })
+        profileId = created.id
+      } else {
+        profileId = profileIdOrName
+      }
+
+      await prisma.contribution.create({
+        data: {
+          bookId,
+          profileId,
+          jobId,
+          tag
         }
       })
 

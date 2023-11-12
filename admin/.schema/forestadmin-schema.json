@@ -549,11 +549,20 @@
           "redirect": null,
           "download": false,
           "fields": [
-            {"field": "Name", "type": "String"},
-            {"field": "Job", "type": "Uuid", "reference": "jobs.id"},
-            {"field": "Assistant", "type": "Boolean"}
+            {
+              "field": "Loading...",
+              "type": "String",
+              "isReadOnly": true,
+              "defaultValue": "Form is loading",
+              "description": "",
+              "enums": null,
+              "hook": null,
+              "isRequired": false,
+              "reference": null,
+              "widgetEdit": null
+            }
           ],
-          "hooks": {"load": false, "change": ["changeHook"]}
+          "hooks": {"load": true, "change": ["changeHook"]}
         }
       ],
       "fields": [
