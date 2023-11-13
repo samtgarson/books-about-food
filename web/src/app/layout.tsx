@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   },
   title: {
     template: '%s | Books About Food',
-    absolute: 'Books About Food'
+    default: 'Books About Food'
   }
 }
 
