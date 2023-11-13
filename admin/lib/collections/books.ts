@@ -1,4 +1,4 @@
-import { CollectionCustomizer, TPartialRow } from '@forestadmin/agent'
+import { CollectionCustomizer } from '@forestadmin/agent'
 import Color from 'color'
 import { inngest } from 'core/gateways/inngest'
 import { fetchProfiles } from 'core/services/profiles/fetch-profiles'
@@ -187,29 +187,16 @@ export const customiseBooks = (
   Array(6)
     .fill(0)
     .forEach((_, i) => {
-      collection
-        .addField(`Color${i + 1}`, {
-          async getValues(records) {
-            return records.map(
-              (record) =>
-                record.palette.length && Color.rgb(record.palette[i]).hex()
-            )
-          },
-          columnType: 'String',
-          dependencies: ['palette']
-        })
-        .replaceFieldWriting('BackgroundColor', async (value, context) => {
-          if (!context.filter) return
-          const records = await context.collection.list(context.filter, [
-            'palette'
-          ])
-          if (records.length !== 1) return
-          const palette = records[0].palette as unknown as number[][]
-          const rgb = Color(value).rgb().array()
-          palette[i] = rgb
-
-          return { palette } as unknown as TPartialRow<Schema, 'books'>
-        })
+      collection.addField(`Color${i + 1}`, {
+        async getValues(records) {
+          return records.map(
+            (record) =>
+              record.palette.length && Color.rgb(record.palette[i]).hex()
+          )
+        },
+        columnType: 'String',
+        dependencies: ['palette']
+      })
     })
 
   collection
