@@ -22,10 +22,10 @@ export type ProfilePageProps = {
 }
 export async function ProfilePage({ segment, slug }: ProfilePageProps) {
   const [{ data: profile }, { data: collaborators = [] }] = await Promise.all([
-    call(fetchProfile, { slug }),
+    call(fetchProfile, { slug, onlyPublished: true }),
     call(fetchFrequentCollaborators, { slug })
   ])
-  if (!profile || !profile.mostRecentlyPublishedOn) return notFound()
+  if (!profile) return notFound()
 
   return (
     <EditProfileProvider profile={profile} segment={segment} data-superjson>
