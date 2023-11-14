@@ -12,7 +12,7 @@
     "@books-about-food/email": "*",
     "@books-about-food/shared": "*",
     "inngest": "^3.4.1",
-    "splashy": "^5.1.29"
+    "splashy": "samtgarson/splashy"
   },
   "devDependencies": {
     "@types/splashy": "^5.0.2",
