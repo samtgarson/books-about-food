@@ -9,7 +9,7 @@ export type VerifyEmailProps = {
   newUser?: boolean
 }
 
-const VerifyEmail: Template<VerifyEmailProps> = ({ url, newUser }) => {
+export const VerifyEmail: Template<VerifyEmailProps> = ({ url, newUser }) => {
   return (
     <BaseLayout preview="Verify your email address">
       <MjmlSection>
@@ -39,4 +39,3 @@ const VerifyEmail: Template<VerifyEmailProps> = ({ url, newUser }) => {
 }
 VerifyEmail.subject = ({ newUser }) =>
   newUser ? `Welcome to Books About Food!` : `Sign in to Books About Food`
-export default VerifyEmail

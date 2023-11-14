@@ -1,78 +1,38 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import sendMail from '@sendgrid/mail'
-import { openPreview, render, Template } from 'mailing-core'
-import { ComponentProps } from 'react'
-import NewClaim from './templates/new-claim'
-import SuggestEdit from './templates/suggest-edit'
-import VerifyEmail from './templates/verify-email'
+import { buildSendMail } from 'mailing-core'
+import nodemailer from 'nodemailer'
+import { resolve } from 'path'
+import { getEnv } from 'shared/utils/get-env'
+import { NewClaim, NewClaimProps } from './templates/new-claim'
+import { SuggestEdit, SuggestEditProps } from './templates/suggest-edit'
+import { VerifyEmail, VerifyEmailProps } from './templates/verify-email'
 
-sendMail.setApiKey(process.env.SMTP_PASS as string)
+export const sendMail = buildSendMail({
+  transport: nodemailer.createTransport({
+    host: getEnv('SMTP_HOST'),
+    port: Number(getEnv('SMTP_PORT')),
+    auth: {
+      user: getEnv('SMTP_USER'),
+      pass: getEnv('SMTP_PASS')
+    }
+  }),
+  defaultFrom: 'Books About Food <no-reply@booksaboutfood.info',
+  configPath: resolve(__dirname, '../mailing.config.json')
+})
 
-export enum EmailTemplate {
-  NewClaim,
-  VerifyEmail,
-  SuggestEdit
-}
-
-const templates = {
-  [EmailTemplate.NewClaim]: NewClaim,
-  [EmailTemplate.VerifyEmail]: VerifyEmail,
-  [EmailTemplate.SuggestEdit]: SuggestEdit
-} as const
-
-export type EmailData = ComponentProps<(typeof templates)[EmailTemplate]>
-
-const from = 'Books About Food <no-reply@booksaboutfood.info'
-
-function renderComponent<T extends Template<any>>(
-  Template: T,
-  props: ComponentProps<T>
-) {
-  return <Template {...props} />
-}
-
-function renderTemplate<T extends Template<any>>(
-  Template: T,
-  props: ComponentProps<T>
-) {
-  const { html, errors } = render(renderComponent(Template, props))
-  if (errors.length) console.error('Email rendering error', errors)
-  return {
-    subject:
-      Template.subject instanceof Function
-        ? Template.subject(props)
-        : Template.subject,
-    html
+export const renderEmailTemplate = ({ key, props }: EmailTemplate) => {
+  switch (key) {
+    case 'newClaim':
+      return <NewClaim {...props} />
+    case 'suggestEdit':
+      return <SuggestEdit {...props} />
+    case 'verifyEmail':
+      return <VerifyEmail {...props} />
   }
 }
 
-export async function send<T extends EmailTemplate>(
-  template: T,
-  to: string,
-  props: ComponentProps<(typeof templates)[T]>
-) {
-  const Template = templates[template]
-  const { subject, html } = renderTemplate(Template, props)
-
-  if (
-    process.env.NODE_ENV !== 'production' &&
-    process.env.FORCE_SEND_EMAIL !== 'true'
-  ) {
-    const component = renderComponent(Template, props)
-    return openPreview({ component }, { subject, to, from })
-  }
-
-  try {
-    await sendMail.send({
-      to,
-      from,
-      subject,
-      html
-    })
-    console.log(`Email sent to ${to} with subject ${subject}`)
-  } catch (e) {
-    console.error('Email delivery error', e)
-  }
-}
-
-export default function () {}
+export type EmailTemplates = [
+  { key: 'newClaim'; props: NewClaimProps },
+  { key: 'suggestEdit'; props: SuggestEditProps },
+  { key: 'verifyEmail'; props: VerifyEmailProps }
+]
+export type EmailTemplate = EmailTemplates[number]

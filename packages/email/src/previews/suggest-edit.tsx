@@ -1,4 +1,4 @@
-import SuggestEdit from '../templates/suggest-edit'
+import { SuggestEdit } from '../templates/suggest-edit'
 
 const url = 'https://google.com'
 const resourceName = 'Resource Name'

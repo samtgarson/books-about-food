@@ -12,6 +12,7 @@
   "dependencies": {
     "@forestadmin/agent": "^1.36.0",
     "@forestadmin/datasource-sql": "^1.7.39",
+    "@koa/bodyparser": "^5.0.0",
     "@koa/cors": "^4.0.0",
     "@koa/router": "^12.0.1",
     "async-parallel": "^1.2.3",
@@ -19,6 +20,7 @@
     "color": "^4.2.3",
     "core": "*",
     "database": "*",
+    "inngest": "^3.6.0",
     "koa": "^2.14.2",
     "koa-jwt": "^4.0.4",
     "pg": "^8.11.3",

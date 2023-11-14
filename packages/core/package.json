@@ -2,14 +2,23 @@
   "name": "core",
   "version": "0.0.1",
   "private": true,
-  "devDependencies": {},
+  "scripts": {
+    "dev": "inngest-cli dev --no-discovery -u http://localhost:5001/api/inngest"
+  },
   "dependencies": {
+    "buffer-image-size": "^0.6.4",
     "database": "*",
+    "date-fns": "^2.30.0",
     "email": "*",
     "inngest": "^3.4.1",
     "mime-types": "^2.1.35",
     "neat-csv": "^6",
     "shared": "*",
+    "splashy": "^5.1.29",
     "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/splashy": "^5.0.2",
+    "inngest-cli": "^0.20.0"
   }
 }

@@ -1,11 +1,10 @@
 'use server'
 
+import { inngest } from 'core/gateways/inngest'
 import { Model } from 'core/models'
 import { fetchBook } from 'core/services/books/fetch-book'
 import { fetchProfile } from 'core/services/profiles/fetch-profile'
 import { appUrl } from 'core/utils/app-url'
-import { EmailTemplate } from 'email'
-import { sendEmail } from 'src/pages/api/email'
 import { call, getUser } from 'src/utils/service'
 
 const fetcher = (type: Model) => {
@@ -26,11 +25,18 @@ export async function action(
   const { data: resource } = await call(fetcher(resourceType), { slug })
   if (!resource || !user?.email) return
 
-  await sendEmail(EmailTemplate.SuggestEdit, 'aboutcookbooks@gmail.com', {
-    userEmail: user.email,
-    resourceName: resource.name,
-    resourceType: resource._type,
-    url: new URL(resource.href, appUrl).toString(),
-    suggestion
+  await inngest.send({
+    name: 'email',
+    data: {
+      key: 'suggestEdit',
+      props: {
+        userEmail: user.email,
+        resourceName: resource.name,
+        resourceType: resource._type,
+        url: new URL(resource.href, appUrl).toString(),
+        suggestion
+      }
+    },
+    user: { email: 'aboutcookbooks@gmail.com' }
   })
 }

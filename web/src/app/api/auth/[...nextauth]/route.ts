@@ -1,11 +1,10 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
+import { inngest } from 'core/gateways/inngest'
 import { unextended } from 'database'
-import { EmailTemplate } from 'email'
 import type { NextAuthOptions } from 'next-auth'
 import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import { getEnv } from 'shared/utils/get-env'
-import { sendEmail } from 'src/pages/api/email'
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(unextended),
@@ -38,7 +37,11 @@ export const authOptions: NextAuthOptions = {
         })
         const newUser = !user?.emailVerified
 
-        sendEmail(EmailTemplate.VerifyEmail, email, { url, newUser })
+        inngest.send({
+          name: 'email',
+          data: { key: 'verifyEmail', props: { url, newUser } },
+          user
+        })
       }
     }
   ],

@@ -1,3 +1,4 @@
+import { EmailTemplate } from 'email'
 import { EventSchemas, Inngest } from 'inngest'
 
 // Create a client to send and receive events
@@ -10,5 +11,6 @@ export const inngest = new Inngest({
         coverImageChanged?: boolean
       }
     }
+    email: { data: EmailTemplate }
   }>()
 })

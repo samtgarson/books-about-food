@@ -1,8 +1,7 @@
-import { sendEmail } from 'core/gateways/email'
+import { inngest } from 'core/gateways/inngest'
 import { Service } from 'core/services/base'
 import { generate } from 'core/services/utils/passphrase'
 import prisma from 'database'
-import { EmailTemplate } from 'email'
 import { z } from 'zod'
 
 export const createClaim = new Service(
@@ -34,11 +33,18 @@ export const createClaim = new Service(
 
     const resourceName = profile.name
 
-    await sendEmail(EmailTemplate.NewClaim, 'aboutcookbooks@gmail.com', {
-      claimId: claim.id,
-      recipientName: 'Admin',
-      resourceName: resourceName as string,
-      resourceAvatar: null
+    await inngest.send({
+      name: 'email',
+      data: {
+        key: 'newClaim',
+        props: {
+          claimId: claim.id,
+          recipientName: 'Admin',
+          resourceName: resourceName as string,
+          resourceAvatar: null
+        }
+      },
+      user: { email: 'aboutcookbooks@gmail.com' }
     })
     return claim
   }

@@ -1,9 +1,9 @@
 import { MjmlColumn, MjmlSection } from '@faire/mjml-react'
+import { Template } from 'mailing-core'
 import BaseLayout from '../components/base-layout'
 import Button from '../components/button'
 import Text from '../components/text'
 import { colors } from '../theme'
-import { Template } from 'mailing-core'
 
 export type NewClaimProps = {
   recipientName: string
@@ -12,7 +12,7 @@ export type NewClaimProps = {
   resourceAvatar: string | null
 }
 
-const NewClaim: Template<NewClaimProps> = ({
+export const NewClaim: Template<NewClaimProps> = ({
   claimId,
   resourceName,
   resourceAvatar,
@@ -77,4 +77,3 @@ const NewClaim: Template<NewClaimProps> = ({
   )
 }
 NewClaim.subject = 'New claim for review'
-export default NewClaim

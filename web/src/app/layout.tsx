@@ -1,3 +1,4 @@
+import { appUrl } from 'core/utils/app-url'
 import { Metadata } from 'next'
 import { ReactNode } from 'react'
 import { Toaster } from 'sonner'
@@ -19,7 +20,8 @@ export const metadata: Metadata = {
   title: {
     template: '%s | Books About Food',
     default: 'Books About Food'
-  }
+  },
+  metadataBase: new URL(appUrl)
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {

@@ -6,6 +6,7 @@
     "dev": "mailing preview --quiet"
   },
   "devDependencies": {
+    "@types/nodemailer": "^6.4.14",
     "mailing": "^1.0.1"
   },
   "dependencies": {

@@ -12,7 +12,7 @@ export type SuggestEditProps = {
   userEmail: string
 }
 
-const SuggestEdit: Template<SuggestEditProps> = ({
+export const SuggestEdit: Template<SuggestEditProps> = ({
   resourceType,
   url,
   suggestion,
@@ -37,4 +37,3 @@ const SuggestEdit: Template<SuggestEditProps> = ({
   )
 }
 SuggestEdit.subject = 'New suggestion'
-export default SuggestEdit
