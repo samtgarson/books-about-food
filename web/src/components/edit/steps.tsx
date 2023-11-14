@@ -1,5 +1,5 @@
-import { FullBook } from 'core/models/full-book'
-import { User } from 'database'
+import { FullBook } from '@books-about-food/core/models/full-book'
+import { User } from '@books-about-food/database'
 import { FC } from 'react'
 import { BookEditState } from './state'
 import { Step } from './step'

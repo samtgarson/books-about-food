@@ -3,7 +3,7 @@
 import {
   ToggleContributionVisibilityInput,
   toggleContributionVisibility
-} from 'core/services/profiles/toggle-contribution-visilibity'
+} from '@books-about-food/core/services/profiles/toggle-contribution-visilibity'
 import { call } from 'src/utils/service'
 
 export const action = async (input: ToggleContributionVisibilityInput) => {

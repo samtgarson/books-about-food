@@ -1,7 +1,7 @@
 'use client'
 
-import { Profile } from 'core/models/profile'
-import { UpdateProfileInput } from 'core/services/profiles/update-profile'
+import { Profile } from '@books-about-food/core/models/profile'
+import { UpdateProfileInput } from '@books-about-food/core/services/profiles/update-profile'
 import {
   ReactNode,
   createContext,

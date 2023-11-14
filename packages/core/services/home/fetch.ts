@@ -1,8 +1,8 @@
-import { Book } from 'core/models/book'
-import { Profile } from 'core/models/profile'
-import { Publisher } from 'core/models/publisher'
-import { Service } from 'core/services/base'
-import prisma, { cacheStrategy } from 'database'
+import { Book } from '@books-about-food/core/models/book'
+import { Profile } from '@books-about-food/core/models/profile'
+import { Publisher } from '@books-about-food/core/models/publisher'
+import { Service } from '@books-about-food/core/services/base'
+import prisma, { cacheStrategy } from '@books-about-food/database'
 import { z } from 'zod'
 import { bookIncludes, profileIncludes } from '../utils'
 

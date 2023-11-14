@@ -1,4 +1,4 @@
-import { BookStatus } from 'database'
+import { BookStatus } from '@books-about-food/database'
 import format from 'date-fns/format'
 import isFuture from 'date-fns/isFuture'
 import { BaseModel } from '.'

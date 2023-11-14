@@ -1,7 +1,7 @@
 'use client'
 
+import { Book } from '@books-about-food/core/models/book'
 import cn from 'classnames'
-import { Book } from 'core/models/book'
 import Image, { ImageProps } from 'next/image'
 import Link from 'next/link'
 import { CSSProperties, ComponentProps, forwardRef } from 'react'

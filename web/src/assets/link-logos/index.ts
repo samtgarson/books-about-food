@@ -1,5 +1,5 @@
+import { websites } from '@books-about-food/shared/data/websites'
 import { StaticImageData } from 'next/image'
-import { websites } from 'shared/data/websites'
 import abebooks from './Abe Books.png'
 import amazon from './Amazon.png'
 import bookshop from './Bookshop.png'

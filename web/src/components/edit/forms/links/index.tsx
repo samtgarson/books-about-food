@@ -1,5 +1,5 @@
-import { FullBook } from 'core/models/full-book'
-import { updateLinks } from 'core/services/books/update-links'
+import { FullBook } from '@books-about-food/core/models/full-book'
+import { updateLinks } from '@books-about-food/core/services/books/update-links'
 import { redirect } from 'next/navigation'
 import { PageSubtitle } from 'src/components/atoms/page-title'
 import { Form } from 'src/components/form'

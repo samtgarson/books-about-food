@@ -1,6 +1,6 @@
+import { Contribution } from '@books-about-food/core/models/contribution'
+import { Profile } from '@books-about-food/core/models/profile'
 import cn from 'classnames'
-import { Contribution } from 'core/models/contribution'
-import { Profile } from 'core/models/profile'
 import { FC, useMemo } from 'react'
 import { ProfileList } from '../atoms/profile-list'
 import { GridContainer } from '../lists/grid-container'

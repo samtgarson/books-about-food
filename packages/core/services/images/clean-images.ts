@@ -1,6 +1,6 @@
-import { Service } from 'core/services/base'
-import prisma, { Prisma } from 'database'
-import { FileUploader } from 'shared/services/file-uploader'
+import { Service } from '@books-about-food/core/services/base'
+import prisma, { Prisma } from '@books-about-food/database'
+import { FileUploader } from '@books-about-food/shared/services/file-uploader'
 import { z } from 'zod'
 
 const s3 = new FileUploader()

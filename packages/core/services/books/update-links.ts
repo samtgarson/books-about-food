@@ -1,5 +1,5 @@
-import { Service } from 'core/services/base'
-import prisma from 'database'
+import { Service } from '@books-about-food/core/services/base'
+import prisma from '@books-about-food/database'
 import { z } from 'zod'
 
 export const updateLinks = new Service(

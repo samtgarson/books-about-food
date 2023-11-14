@@ -1,5 +1,5 @@
-import { inngest } from 'core/gateways/inngest'
-import { renderEmailTemplate, sendMail } from 'email'
+import { renderEmailTemplate, sendMail } from '@books-about-food/email'
+import { inngest } from '..'
 
 export const email = inngest.createFunction(
   {

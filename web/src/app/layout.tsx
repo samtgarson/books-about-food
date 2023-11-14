@@ -1,4 +1,4 @@
-import { appUrl } from 'core/utils/app-url'
+import { appUrl } from '@books-about-food/core/utils/app-url'
 import { Metadata } from 'next'
 import { ReactNode } from 'react'
 import { Toaster } from 'sonner'

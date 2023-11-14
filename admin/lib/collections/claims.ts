@@ -1,5 +1,5 @@
+import prisma from '@books-about-food/database'
 import { CollectionCustomizer } from '@forestadmin/agent'
-import prisma from 'database'
 import { Schema } from '../../.schema/types'
 
 export const customiseClaims = (

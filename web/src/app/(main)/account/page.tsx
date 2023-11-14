@@ -1,5 +1,5 @@
-import { fetchAccounts } from 'core/services/auth/get-accounts'
-import { fetchProfile } from 'core/services/profiles/fetch-profile'
+import { fetchAccounts } from '@books-about-food/core/services/auth/get-accounts'
+import { fetchProfile } from '@books-about-food/core/services/profiles/fetch-profile'
 import { Metadata } from 'next'
 import { Suspense } from 'react'
 import { ArrowUpRight } from 'react-feather'

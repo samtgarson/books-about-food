@@ -1,4 +1,4 @@
-import { fetchBooks } from 'core/services/books/fetch-books'
+import { fetchBooks } from '@books-about-food/core/services/books/fetch-books'
 import { Metadata } from 'next'
 import { BookFilters } from 'src/components/books/filters'
 import { BookList, SkeletonBookList } from 'src/components/books/list'

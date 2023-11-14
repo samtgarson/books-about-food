@@ -1,6 +1,6 @@
 'use server'
 
-import { destroyAccount } from 'core/services/auth/destroy-account'
+import { destroyAccount } from '@books-about-food/core/services/auth/destroy-account'
 import { revalidatePath } from 'next/cache'
 import { call } from 'src/utils/service'
 

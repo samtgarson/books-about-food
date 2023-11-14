@@ -1,6 +1,6 @@
-import prisma from 'database'
+import prisma from '@books-about-food/database'
+import { slugify } from '@books-about-food/shared/utils/slugify'
 import { Row } from 'neat-csv'
-import { slugify } from 'shared/utils/slugify'
 import { ResultRow } from './types'
 
 export const basicColumnMap: Record<

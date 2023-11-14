@@ -1,6 +1,6 @@
 'use server'
 
-import { quickSearch } from 'core/services/search/quick-search'
+import { quickSearch } from '@books-about-food/core/services/search/quick-search'
 import { call } from 'src/utils/service'
 
 export async function action(query: string) {

@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AppError, AppErrorJSON } from 'core/services/utils/errors'
-import { User } from 'database'
+import {
+  AppError,
+  AppErrorJSON
+} from '@books-about-food/core/services/utils/errors'
+import { User } from '@books-about-food/database'
 import { z } from 'zod'
 
 export type RequestMeta = {

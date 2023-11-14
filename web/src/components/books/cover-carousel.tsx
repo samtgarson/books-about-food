@@ -1,6 +1,6 @@
 'use client'
 
-import { FullBook } from 'core/models/full-book'
+import { FullBook } from '@books-about-food/core/models/full-book'
 import Image from 'next/image'
 import { FC } from 'react'
 import * as Carousel from 'src/components/atoms/carousel'

@@ -1,4 +1,4 @@
-import { UserRole } from 'database'
+import { UserRole } from '@books-about-food/database'
 import { DefaultSession } from 'next-auth'
 import 'next-auth/jwt'
 

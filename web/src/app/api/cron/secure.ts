@@ -1,5 +1,5 @@
+import { getEnv } from '@books-about-food/shared/utils/get-env'
 import { NextRequest, NextResponse } from 'next/server'
-import { getEnv } from 'shared/utils/get-env'
 
 const secret = getEnv('CRON_SECRET')
 

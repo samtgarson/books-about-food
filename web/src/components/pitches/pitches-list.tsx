@@ -1,5 +1,5 @@
-import { fetchAuthoredPitches } from 'core/services/pitches/fetch-authored-pitches'
-import { User } from 'database'
+import { fetchAuthoredPitches } from '@books-about-food/core/services/pitches/fetch-authored-pitches'
+import { User } from '@books-about-food/database'
 import Link from 'next/link'
 import { call } from 'src/utils/service'
 

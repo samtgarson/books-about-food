@@ -1,4 +1,4 @@
-import { normalizeUrl } from 'core/utils/url'
+import { normalizeUrl } from '@books-about-food/core/utils/url'
 import { BaseModel } from '.'
 import { Image } from './image'
 import { Colourful } from './mixins/colourful'

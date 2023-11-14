@@ -1,5 +1,5 @@
+import { fetchBook } from '@books-about-food/core/services/books/fetch-book'
 import cn from 'classnames'
-import { fetchBook } from 'core/services/books/fetch-book'
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -17,7 +17,7 @@ import { ProfileListSection } from 'src/components/profiles/list-section'
 import { PageProps } from 'src/components/types'
 import { call } from 'src/utils/service'
 
-type CookbooksPageProps = PageProps<{ slug: string }>
+export type CookbooksPageProps = PageProps<{ slug: string }>
 
 export async function generateMetadata({
   params: { slug }

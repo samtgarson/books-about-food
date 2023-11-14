@@ -1,6 +1,6 @@
 'use client'
 
-import { Profile } from 'core/models/profile'
+import { Profile } from '@books-about-food/core/models/profile'
 import { Select } from 'src/components/form/select'
 import { profiles } from '../../server-actions'
 import { createProfile } from './action'

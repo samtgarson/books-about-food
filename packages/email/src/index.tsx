@@ -1,7 +1,7 @@
+import { getEnv } from '@books-about-food/shared/utils/get-env'
 import { buildSendMail } from 'mailing-core'
 import nodemailer from 'nodemailer'
 import { resolve } from 'path'
-import { getEnv } from 'shared/utils/get-env'
 import { NewClaim, NewClaimProps } from './templates/new-claim'
 import { SuggestEdit, SuggestEditProps } from './templates/suggest-edit'
 import { VerifyEmail, VerifyEmailProps } from './templates/verify-email'

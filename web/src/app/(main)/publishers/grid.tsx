@@ -1,5 +1,5 @@
+import { Publisher } from '@books-about-food/core/models/publisher'
 import cn from 'classnames'
-import { Publisher } from 'core/models/publisher'
 import Link from 'next/link'
 import { FC } from 'react'
 import { GridContainer } from 'src/components/lists/grid-container'

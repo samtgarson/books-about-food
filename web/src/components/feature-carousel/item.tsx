@@ -1,6 +1,6 @@
 'use client'
+import { Feature } from '@books-about-food/core/services/features/fetch-features'
 import cn from 'classnames'
-import { Feature } from 'core/services/features/fetch-features'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'

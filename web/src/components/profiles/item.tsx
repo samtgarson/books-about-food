@@ -1,5 +1,5 @@
+import { Profile } from '@books-about-food/core/models/profile'
 import cn from 'classnames'
-import { Profile } from 'core/models/profile'
 import Link from 'next/link'
 import { ReactNode } from 'react'
 import { Avatar } from 'src/components/atoms/avatar'

@@ -1,5 +1,5 @@
+import { Publisher } from '@books-about-food/core/models/publisher'
 import cn from 'classnames'
-import { Publisher } from 'core/models/publisher'
 import Image from 'next/image'
 import Link from 'next/link'
 

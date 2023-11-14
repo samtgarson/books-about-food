@@ -1,6 +1,10 @@
-import { Book } from 'core/models/book'
-import { Service } from 'core/services/base'
-import prisma, { BookStatus, Prisma, cacheStrategy } from 'database'
+import { Book } from '@books-about-food/core/models/book'
+import { Service } from '@books-about-food/core/services/base'
+import prisma, {
+  BookStatus,
+  Prisma,
+  cacheStrategy
+} from '@books-about-food/database'
 import { z } from 'zod'
 import { bookIncludes } from '../utils'
 import {

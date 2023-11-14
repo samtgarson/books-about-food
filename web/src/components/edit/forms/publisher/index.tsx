@@ -1,5 +1,5 @@
-import { FullBook } from 'core/models/full-book'
-import { fetchPublishers } from 'core/services/publishers/fetch-publishers'
+import { FullBook } from '@books-about-food/core/models/full-book'
+import { fetchPublishers } from '@books-about-food/core/services/publishers/fetch-publishers'
 import { ContactLink } from 'src/components/atoms/contact-link'
 import { PageSubtitle } from 'src/components/atoms/page-title'
 import { Form } from 'src/components/form'

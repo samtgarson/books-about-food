@@ -1,4 +1,7 @@
-import { FetchBooksInput, fetchBooks } from 'core/services/books/fetch-books'
+import {
+  FetchBooksInput,
+  fetchBooks
+} from '@books-about-food/core/services/books/fetch-books'
 import { Pagination } from 'src/components/lists/pagination'
 import { call } from 'src/utils/service'
 import { GridContainer } from '../lists/grid-container'

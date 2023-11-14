@@ -1,7 +1,7 @@
 import {
   ResultContribution,
   ResultRow
-} from 'core/services/import/import-books/types'
+} from '@books-about-food/core/services/import/import-books/types'
 import { pluralize, titleize } from 'inflection'
 import { Item } from 'src/components/atoms/accordion'
 import { Tag } from 'src/components/atoms/tag'

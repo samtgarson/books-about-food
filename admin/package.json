@@ -1,5 +1,5 @@
 {
-  "name": "admin",
+  "name": "@books-about-food/admin",
   "version": "0.1.0",
   "private": true,
   "main": "index.ts",
@@ -10,6 +10,10 @@
     "build": "npx esbuild ./lib/index.ts --bundle --outfile=./dist/index.js --platform=node --external:fastify --external:pg-hstore --external:pg-native --external:@prisma/client --external:sharp --loader:.node=file --target=node20"
   },
   "dependencies": {
+    "@books-about-food/core": "*",
+    "@books-about-food/database": "*",
+    "@books-about-food/jobs": "*",
+    "@books-about-food/shared": "*",
     "@forestadmin/agent": "^1.36.0",
     "@forestadmin/datasource-sql": "^1.7.39",
     "@koa/bodyparser": "^5.0.0",
@@ -18,15 +22,12 @@
     "async-parallel": "^1.2.3",
     "buffer-image-size": "^0.6.4",
     "color": "^4.2.3",
-    "core": "*",
-    "database": "*",
     "inngest": "^3.6.0",
     "koa": "^2.14.2",
     "koa-jwt": "^4.0.4",
     "pg": "^8.11.3",
     "pg-connection-string": "^2.6.2",
-    "pkg-dir": "^5.0.0",
-    "shared": "*"
+    "pkg-dir": "^5.0.0"
   },
   "devDependencies": {
     "@types/color": "^3.0.5",

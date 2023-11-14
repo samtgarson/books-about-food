@@ -1,7 +1,7 @@
 'use client'
 
-import { ResultRow } from 'core/services/import/import-books/types'
-import { AppErrorJSON } from 'core/services/utils/errors'
+import { ResultRow } from '@books-about-food/core/services/import/import-books/types'
+import { AppErrorJSON } from '@books-about-food/core/services/utils/errors'
 import { useState } from 'react'
 import * as Sheet from 'src/components/atoms/sheet'
 import { Form } from 'src/components/form'

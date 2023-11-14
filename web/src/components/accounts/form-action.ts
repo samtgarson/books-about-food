@@ -1,6 +1,6 @@
 'use server'
 
-import { updateUser } from 'core/services/users/update-user'
+import { updateUser } from '@books-about-food/core/services/users/update-user'
 import { revalidatePath } from 'next/cache'
 import { parseAndCall } from 'src/utils/service'
 

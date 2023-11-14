@@ -1,5 +1,5 @@
 {
-  "name": "database",
+  "name": "@books-about-food/database",
   "version": "0.1.0",
   "private": true,
   "main": "index.ts",
@@ -16,6 +16,6 @@
   "dependencies": {
     "@prisma/client": "^5.2.0",
     "@prisma/extension-accelerate": "^0.6.0",
-    "shared": "*"
+    "@books-about-food/shared": "*"
   }
 }

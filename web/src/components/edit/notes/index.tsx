@@ -1,4 +1,4 @@
-import { BookStatus } from 'database'
+import { BookStatus } from '@books-about-food/database'
 import { DraftNotes } from './draft'
 import { InReviewNotes } from './in-review'
 

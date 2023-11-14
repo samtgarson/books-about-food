@@ -1,0 +1,21 @@
+{
+  "name": "@books-about-food/jobs",
+  "private": true,
+  "main": "index.ts",
+  "types": "index.ts",
+  "scripts": {
+    "dev": "inngest-cli dev --no-discovery -u http://localhost:5001/api/inngest"
+  },
+  "dependencies": {
+    "@books-about-food/core": "*",
+    "@books-about-food/database": "*",
+    "@books-about-food/email": "*",
+    "@books-about-food/shared": "*",
+    "inngest": "^3.4.1",
+    "splashy": "^5.1.29"
+  },
+  "devDependencies": {
+    "@types/splashy": "^5.0.2",
+    "inngest-cli": "^0.20.0"
+  }
+}

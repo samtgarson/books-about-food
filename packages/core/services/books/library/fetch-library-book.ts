@@ -1,8 +1,8 @@
 import {
   GoogleBookResult,
   GoogleBooksGateway
-} from 'core/gateways/google-books'
-import { Service } from 'core/services/base'
+} from '@books-about-food/core/gateways/google-books'
+import { Service } from '@books-about-food/core/services/base'
 import { z } from 'zod'
 
 const client = new GoogleBooksGateway()

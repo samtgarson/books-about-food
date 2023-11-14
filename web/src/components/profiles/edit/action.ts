@@ -3,7 +3,7 @@
 import {
   UpdateProfileInput,
   updateProfile
-} from 'core/services/profiles/update-profile'
+} from '@books-about-food/core/services/profiles/update-profile'
 import { redirect } from 'next/navigation'
 import { call } from 'src/utils/service'
 import { stringify } from 'src/utils/superjson'

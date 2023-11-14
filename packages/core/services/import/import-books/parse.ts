@@ -1,4 +1,4 @@
-import { AppError } from 'core/services/utils/errors'
+import { AppError } from '@books-about-food/core/services/utils/errors'
 import neatCsv, { Row } from 'neat-csv'
 
 export async function parse(csv: string) {

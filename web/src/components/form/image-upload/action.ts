@@ -1,6 +1,6 @@
 'use server'
 
-import { createImages } from 'core/services/images/create-images'
+import { createImages } from '@books-about-food/core/services/images/create-images'
 import { call } from 'src/utils/service'
 
 export async function action(prefix: string, formData: FormData) {

@@ -1,6 +1,6 @@
 'use client'
-import { Profile } from 'core/models/profile'
-import { Claim } from 'database'
+import { Profile } from '@books-about-food/core/models/profile'
+import { Claim } from '@books-about-food/database'
 import { useRouter } from 'next/navigation'
 import { useCallback, useState } from 'react'
 import { ArrowRight, Check, Copy } from 'react-feather'

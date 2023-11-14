@@ -1,4 +1,4 @@
-import { Prisma } from 'database'
+import { Prisma } from '@books-about-food/database'
 
 export const profileIncludes = {
   user: { select: { image: true } },

@@ -1,4 +1,4 @@
-import { Job } from 'database'
+import { Job } from '@books-about-food/database'
 import { Profile } from './profile'
 import { BookAttrs } from './types'
 

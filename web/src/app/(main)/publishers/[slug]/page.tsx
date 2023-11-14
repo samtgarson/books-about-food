@@ -1,5 +1,5 @@
-import { Publisher } from 'core/models/publisher'
-import prisma from 'database'
+import { Publisher } from '@books-about-food/core/models/publisher'
+import prisma from '@books-about-food/database'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'

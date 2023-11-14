@@ -1,5 +1,5 @@
 {
-  "name": "email",
+  "name": "@books-about-food/email",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -10,12 +10,12 @@
     "mailing": "^1.0.1"
   },
   "dependencies": {
+    "@books-about-food/shared": "*",
     "@faire/mjml-react": "main-alpha",
     "@sendgrid/mail": "^7.7.0",
     "classnames": "^2.3.2",
     "mailing-core": "^1.0.1",
     "nodemailer": "^6.9.5",
-    "react": "^18.2.0",
-    "shared": "*"
+    "react": "^18.2.0"
   }
 }

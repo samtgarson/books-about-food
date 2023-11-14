@@ -1,4 +1,4 @@
-import prisma from 'database'
+import prisma from '@books-about-food/database'
 import { Metadata } from 'next'
 import { Container } from 'src/components/atoms/container'
 import { PageTitle } from 'src/components/atoms/page-title'

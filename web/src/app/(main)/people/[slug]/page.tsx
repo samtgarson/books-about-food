@@ -1,4 +1,4 @@
-import { fetchProfile } from 'core/services/profiles/fetch-profile'
+import { fetchProfile } from '@books-about-food/core/services/profiles/fetch-profile'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { PageProps } from 'src/components/types'

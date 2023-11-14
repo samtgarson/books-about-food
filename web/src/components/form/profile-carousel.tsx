@@ -1,8 +1,8 @@
 'use client'
 
+import { Profile } from '@books-about-food/core/models/profile'
 import { AuthorItem } from 'app/(main)/authors/item'
 import cn from 'classnames'
-import { Profile } from 'core/models/profile'
 import { FC } from 'react'
 import * as Carousel from 'src/components/atoms/carousel'
 

@@ -1,4 +1,4 @@
-import { Feature } from 'core/services/features/fetch-features'
+import { Feature } from '@books-about-food/core/services/features/fetch-features'
 import { motion } from 'framer-motion'
 import { FC, useEffect, useMemo, useState } from 'react'
 import { Avatar } from '../atoms/avatar'

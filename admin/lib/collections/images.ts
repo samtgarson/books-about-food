@@ -1,7 +1,7 @@
+import prisma from '@books-about-food/database'
+import { ImageBlurrer } from '@books-about-food/shared/services/image-blurrer'
 import { CollectionCustomizer } from '@forestadmin/agent'
 import { map } from 'async-parallel'
-import prisma from 'database'
-import { ImageBlurrer } from 'shared/services/image-blurrer'
 import { Schema } from '../../.schema/types'
 
 const generatePlaceholder = async ({

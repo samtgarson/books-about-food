@@ -1,9 +1,9 @@
 'use client'
 
-import { FullBook } from 'core/models/full-book'
+import { FullBook } from '@books-about-food/core/models/full-book'
+import { isWebsite, websites } from '@books-about-food/shared/data/websites'
 import Image from 'next/image'
 import { useState } from 'react'
-import { isWebsite, websites } from 'shared/data/websites'
 import { linkLogos } from 'src/assets/link-logos'
 import { Header } from 'src/components/atoms/sheet'
 import { Form } from 'src/components/form'

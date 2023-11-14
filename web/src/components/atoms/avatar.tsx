@@ -1,5 +1,5 @@
+import { NullProfile, Profile } from '@books-about-food/core/models/profile'
 import cn from 'classnames'
-import { NullProfile, Profile } from 'core/models/profile'
 import Image, { ImageProps } from 'next/image'
 import { ComponentProps, FC } from 'react'
 

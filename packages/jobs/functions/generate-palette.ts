@@ -1,6 +1,6 @@
-import { inngest } from 'core/gateways/inngest'
-import { generateBookPalette } from 'core/services/books/generate-book-palette'
-import prisma from 'database'
+import { generateBookPalette } from '@books-about-food/core/services/books/generate-book-palette'
+import prisma from '@books-about-food/database'
+import { inngest } from '..'
 
 export const generatePalette = inngest.createFunction(
   {

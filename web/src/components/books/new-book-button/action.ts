@@ -1,9 +1,9 @@
 'use server'
 
-import { searchLibrary } from 'core/services/books/library/search-library'
-import { updateBook } from 'core/services/books/update-book'
-import { array } from 'core/services/utils/inputs'
-import { createCoverFromUrl } from 'core/services/utils/resources'
+import { searchLibrary } from '@books-about-food/core/services/books/library/search-library'
+import { updateBook } from '@books-about-food/core/services/books/update-book'
+import { array } from '@books-about-food/core/services/utils/inputs'
+import { createCoverFromUrl } from '@books-about-food/core/services/utils/resources'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { parseAppError } from 'src/components/form/utils'

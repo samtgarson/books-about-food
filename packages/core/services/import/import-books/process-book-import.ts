@@ -1,9 +1,9 @@
-import { Service } from 'core/services/base'
-import { asyncBatch } from 'core/services/utils/batch'
-import { AppError } from 'core/services/utils/errors'
-import prisma, { Prisma } from 'database'
+import { Service } from '@books-about-food/core/services/base'
+import { asyncBatch } from '@books-about-food/core/services/utils/batch'
+import { AppError } from '@books-about-food/core/services/utils/errors'
+import prisma, { Prisma } from '@books-about-food/database'
+import { slugify } from '@books-about-food/shared/utils/slugify'
 import { parse } from 'date-fns'
-import { slugify } from 'shared/utils/slugify'
 import z from 'zod'
 
 export type ProcessBookImportInput = z.input<typeof processBookImport.input>

@@ -1,7 +1,7 @@
 import {
   FetchProfilesInput,
   fetchProfiles
-} from 'core/services/profiles/fetch-profiles'
+} from '@books-about-food/core/services/profiles/fetch-profiles'
 import { Pagination } from 'src/components/lists/pagination'
 import { call } from 'src/utils/service'
 import { AuthorsGrid } from './grid'

@@ -1,4 +1,4 @@
-import { fetchFeatures } from 'core/services/features/fetch-features'
+import { fetchFeatures } from '@books-about-food/core/services/features/fetch-features'
 import { Avatar } from 'src/components/atoms/avatar'
 import { Container } from 'src/components/atoms/container'
 import * as BookItem from 'src/components/books/item'

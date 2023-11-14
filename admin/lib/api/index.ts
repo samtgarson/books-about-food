@@ -1,12 +1,12 @@
+import prisma from '@books-about-food/database'
+import { inngest } from '@books-about-food/jobs'
+import { functions } from '@books-about-food/jobs/functions'
+import { websites } from '@books-about-food/shared/data/websites'
 import { bodyParser } from '@koa/bodyparser'
 import Router from '@koa/router'
-import { inngest } from 'core/gateways/inngest'
-import { functions } from 'core/gateways/inngest/functions'
-import prisma from 'database'
 import { serve } from 'inngest/koa'
 import jwt from 'koa-jwt'
 import { logger } from 'lib/utils/logger'
-import { websites } from 'shared/data/websites'
 
 const secret = process.env.FOREST_AUTH_SECRET
 if (!secret) throw new Error('Missing FOREST_AUTH_SECRET')

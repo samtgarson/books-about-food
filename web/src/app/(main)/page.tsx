@@ -1,5 +1,5 @@
-import { fetchFeatures } from 'core/services/features/fetch-features'
-import { fetchHome } from 'core/services/home/fetch'
+import { fetchFeatures } from '@books-about-food/core/services/features/fetch-features'
+import { fetchHome } from '@books-about-food/core/services/home/fetch'
 import { Suspense } from 'react'
 import { Instagram, PlusSquare } from 'react-feather'
 import { Container } from 'src/components/atoms/container'

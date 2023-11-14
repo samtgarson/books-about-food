@@ -1,6 +1,6 @@
 'use client'
 
-import { Account, User } from 'database'
+import { Account, User } from '@books-about-food/database'
 import { signIn } from 'next-auth/react'
 import { toast } from 'sonner'
 import { ConnectAccountButton } from '../auth/connect-account-button'

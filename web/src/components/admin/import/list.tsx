@@ -1,5 +1,5 @@
+import { ResultRow } from '@books-about-food/core/services/import/import-books/types'
 import { Root } from '@radix-ui/react-accordion'
-import { ResultRow } from 'core/services/import/import-books/types'
 import { ChangeEvent, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { Button } from 'src/components/atoms/button'

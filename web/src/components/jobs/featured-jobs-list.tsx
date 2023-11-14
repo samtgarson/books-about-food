@@ -1,4 +1,4 @@
-import { fetchFeaturedJobs } from 'core/services/home/fetch-jobs'
+import { fetchFeaturedJobs } from '@books-about-food/core/services/home/fetch-jobs'
 import { pluralize } from 'inflection'
 import Link from 'next/link'
 import { call } from 'src/utils/service'

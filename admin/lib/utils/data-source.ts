@@ -1,7 +1,7 @@
+import { getEnv } from '@books-about-food/shared/utils/get-env'
 import { createSqlDataSource } from '@forestadmin/datasource-sql'
 import pg from 'pg'
 import { parse } from 'pg-connection-string'
-import { getEnv } from 'shared/utils/get-env'
 
 const parsed = parse(getEnv('DATABASE_URL', process.env.DIRECT_DATABASE_URL))
 
@@ -17,10 +17,10 @@ export const datasource = createSqlDataSource({
     process.env.NODE_ENV === 'development'
       ? undefined
       : {
-        ssl: {
-          require: true
-        }
-      },
+          ssl: {
+            require: true
+          }
+        },
   pool: {
     max: 1
   }

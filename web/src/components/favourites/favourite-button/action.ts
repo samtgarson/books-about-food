@@ -1,7 +1,7 @@
 'use server'
 
-import { fetchFavourite } from 'core/services/favourites/fetch-favourite'
-import { updateFavourite } from 'core/services/favourites/update-favourite'
+import { fetchFavourite } from '@books-about-food/core/services/favourites/fetch-favourite'
+import { updateFavourite } from '@books-about-food/core/services/favourites/update-favourite'
 import { call } from 'src/utils/service'
 
 export async function fetch(profileId: string) {

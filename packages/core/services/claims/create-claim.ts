@@ -1,7 +1,7 @@
-import { inngest } from 'core/gateways/inngest'
-import { Service } from 'core/services/base'
-import { generate } from 'core/services/utils/passphrase'
-import prisma from 'database'
+import { Service } from '@books-about-food/core/services/base'
+import { generate } from '@books-about-food/core/services/utils/passphrase'
+import prisma from '@books-about-food/database'
+import { inngest } from '@books-about-food/jobs'
 import { z } from 'zod'
 
 export const createClaim = new Service(

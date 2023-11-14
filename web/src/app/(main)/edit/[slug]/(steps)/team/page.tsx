@@ -1,4 +1,4 @@
-import { fetchBook } from 'core/services/books/fetch-book'
+import { fetchBook } from '@books-about-food/core/services/books/fetch-book'
 import { notFound } from 'next/navigation'
 import { EditTeamForm } from 'src/components/edit/forms/team'
 import { call } from 'src/utils/service'

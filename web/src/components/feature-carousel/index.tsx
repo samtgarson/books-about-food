@@ -1,7 +1,7 @@
 'use client'
 
+import { Feature } from '@books-about-food/core/services/features/fetch-features'
 import cn from 'classnames'
-import { Feature } from 'core/services/features/fetch-features'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FC, useEffect, useMemo, useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'react-feather'

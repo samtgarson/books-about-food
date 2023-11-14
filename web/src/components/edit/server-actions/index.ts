@@ -1,8 +1,8 @@
 'use server'
 
-import { fetchJobs } from 'core/services/jobs/fetch-jobs'
-import { fetchProfiles } from 'core/services/profiles/fetch-profiles'
-import { fetchTags } from 'core/services/tags/fetch'
+import { fetchJobs } from '@books-about-food/core/services/jobs/fetch-jobs'
+import { fetchProfiles } from '@books-about-food/core/services/profiles/fetch-profiles'
+import { fetchTags } from '@books-about-food/core/services/tags/fetch'
 import { call } from 'src/utils/service'
 import { stringify } from 'src/utils/superjson'
 

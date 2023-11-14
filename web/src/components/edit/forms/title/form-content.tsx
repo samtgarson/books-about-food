@@ -1,4 +1,4 @@
-import { FullBook } from 'core/models/full-book'
+import { FullBook } from '@books-about-food/core/models/full-book'
 import { ContactLink } from 'src/components/atoms/contact-link'
 import { Input } from 'src/components/form/input'
 import { AuthorSelect } from './author-select'

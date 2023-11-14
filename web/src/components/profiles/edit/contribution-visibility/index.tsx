@@ -1,7 +1,7 @@
 'use client'
 
+import { Book } from '@books-about-food/core/models/book'
 import cn from 'classnames'
-import { Book } from 'core/models/book'
 import { FC, useCallback, useMemo, useState } from 'react'
 import { Eye, EyeOff } from 'react-feather'
 import { Loader } from 'src/components/atoms/loader'

@@ -1,4 +1,4 @@
-import { cleanImages } from 'core/services/images/clean-images'
+import { cleanImages } from '@books-about-food/core/services/images/clean-images'
 import { NextResponse } from 'next/server'
 import { call } from 'src/utils/service'
 import { secure } from '../secure'

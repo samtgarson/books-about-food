@@ -1,5 +1,5 @@
+import { Image } from '@books-about-food/core/models/image'
 import cn from 'classnames'
-import { Image } from 'core/models/image'
 import { ReactNode, forwardRef, useTransition } from 'react'
 import { Loader } from 'src/components/atoms/loader'
 import { useFormField } from '../context'

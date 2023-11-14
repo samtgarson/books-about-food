@@ -1,4 +1,4 @@
-import { fetchProfiles } from 'core/services/profiles/fetch-profiles'
+import { fetchProfiles } from '@books-about-food/core/services/profiles/fetch-profiles'
 import { Metadata } from 'next'
 import { createIndexPage } from 'src/components/pages/index-page'
 import { PeopleFilters } from './filters'

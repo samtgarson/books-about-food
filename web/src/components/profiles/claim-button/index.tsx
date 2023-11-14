@@ -1,7 +1,7 @@
 'use client'
 
+import { Profile } from '@books-about-food/core/models/profile'
 import cn from 'classnames'
-import { Profile } from 'core/models/profile'
 import { FC, useMemo } from 'react'
 import { Loader } from 'react-feather'
 import { useCurrentUser } from 'src/hooks/use-current-user'

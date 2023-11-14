@@ -1,4 +1,4 @@
-import { FetchProfilesInput } from 'core/services/profiles/fetch-profiles'
+import { FetchProfilesInput } from '@books-about-food/core/services/profiles/fetch-profiles'
 import { FilterBar } from 'src/components/lists/filter-bar'
 import { Sort } from 'src/components/lists/sort'
 

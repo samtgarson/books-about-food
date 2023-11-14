@@ -1,5 +1,5 @@
-import { fetchFavourites } from 'core/services/favourites/fetch-favourites'
-import { User } from 'database'
+import { fetchFavourites } from '@books-about-food/core/services/favourites/fetch-favourites'
+import { User } from '@books-about-food/database'
 import Link from 'next/link'
 import { call } from 'src/utils/service'
 import { ProfileListSection } from '../profiles/list-section'

@@ -1,6 +1,6 @@
-import { Publisher } from 'core/models/publisher'
-import { Service } from 'core/services/base'
-import prisma, { Prisma, cacheStrategy } from 'database'
+import { Publisher } from '@books-about-food/core/models/publisher'
+import { Service } from '@books-about-food/core/services/base'
+import prisma, { Prisma, cacheStrategy } from '@books-about-food/database'
 import { z } from 'zod'
 import { paginationInput } from '../utils/inputs'
 

@@ -1,4 +1,4 @@
-import { createPitch } from 'core/services/pitches/create-pitch'
+import { createPitch } from '@books-about-food/core/services/pitches/create-pitch'
 import { redirect } from 'next/navigation'
 import { Container } from 'src/components/atoms/container'
 import { PageBackLink } from 'src/components/atoms/page-back-link'

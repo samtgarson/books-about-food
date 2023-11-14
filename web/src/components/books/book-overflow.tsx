@@ -1,6 +1,6 @@
 'use client'
 
-import { FullBook } from 'core/models/full-book'
+import { FullBook } from '@books-about-food/core/models/full-book'
 import Link from 'next/link'
 import { Edit } from 'react-feather'
 import * as Overflow from 'src/components/atoms/overflow'

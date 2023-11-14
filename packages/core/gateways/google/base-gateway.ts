@@ -1,4 +1,4 @@
-import { getEnv } from 'shared/utils/get-env'
+import { getEnv } from '@books-about-food/shared/utils/get-env'
 
 export abstract class BaseGoogleGateway {
   private key = getEnv('GOOGLE_API_KEY')

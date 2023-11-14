@@ -1,8 +1,8 @@
-import { Link } from 'database'
+import { Link } from '@books-about-food/database'
+import { isWebsite } from '@books-about-food/shared/data/websites'
 import Image from 'next/image'
 import { FC } from 'react'
 import { ArrowUpRight } from 'react-feather'
-import { isWebsite } from 'shared/data/websites'
 import { linkLogos } from 'src/assets/link-logos'
 
 export type BookLinksProps = {

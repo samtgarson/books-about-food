@@ -1,5 +1,5 @@
-import { Book } from 'core/models/book'
-import { Profile } from 'core/models/profile'
+import { Book } from '@books-about-food/core/models/book'
+import { Profile } from '@books-about-food/core/models/profile'
 import Image from 'next/image'
 import { useState } from 'react'
 import { Avatar } from 'src/components/atoms/avatar'

@@ -1,6 +1,6 @@
-import * as Prisma from 'database'
+import * as Prisma from '@books-about-food/database'
+import { imageUrl } from '@books-about-food/shared/utils/image-url'
 import { ImageProps } from 'next/image'
-import { imageUrl } from 'shared/utils/image-url'
 
 export class Image {
   id: string

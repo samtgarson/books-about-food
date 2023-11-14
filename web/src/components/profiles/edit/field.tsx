@@ -1,8 +1,8 @@
 'use client'
 
+import { Profile } from '@books-about-food/core/models/profile'
+import { UpdateProfileInput } from '@books-about-food/core/services/profiles/update-profile'
 import cn from 'classnames'
-import { Profile } from 'core/models/profile'
-import { UpdateProfileInput } from 'core/services/profiles/update-profile'
 import { JSX, useEffect, useMemo, useRef, useState } from 'react'
 import ContentEditable from 'react-contenteditable'
 import { Edit2 } from 'react-feather'

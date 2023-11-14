@@ -1,6 +1,6 @@
+import { FullBook } from '@books-about-food/core/models/full-book'
+import { fetchBook } from '@books-about-food/core/services/books/fetch-book'
 import cn from 'classnames'
-import { FullBook } from 'core/models/full-book'
-import { fetchBook } from 'core/services/books/fetch-book'
 import { revalidatePath } from 'next/cache'
 import { RedirectType } from 'next/dist/client/components/redirect'
 import { redirect } from 'next/navigation'

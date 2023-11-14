@@ -1,7 +1,7 @@
 'use client'
 
+import { Book } from '@books-about-food/core/models/book'
 import cn from 'classnames'
-import { Book } from 'core/models/book'
 import { FC } from 'react'
 import { Plus } from 'react-feather'
 import { useSheet } from '../sheets/global-sheet'

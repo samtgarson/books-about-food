@@ -1,4 +1,4 @@
-import { FullBook } from 'core/models/full-book'
+import { FullBook } from '@books-about-food/core/models/full-book'
 import { PageSubtitle } from 'src/components/atoms/page-title'
 import { Form } from 'src/components/form'
 import { Checkbox } from 'src/components/form/checkbox'

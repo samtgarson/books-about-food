@@ -3,11 +3,11 @@
 import {
   ImportBooksInput,
   importBooks
-} from 'core/services/import/import-books'
+} from '@books-about-food/core/services/import/import-books'
 import {
   ProcessBookImportInput,
   processBookImport
-} from 'core/services/import/import-books/process-book-import'
+} from '@books-about-food/core/services/import/import-books/process-book-import'
 import { parseAndCall } from 'src/utils/service'
 
 export async function parseCsv(input: ImportBooksInput) {

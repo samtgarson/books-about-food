@@ -1,5 +1,5 @@
 {
-  "name": "web",
+  "name": "@books-about-food/web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,6 +9,11 @@
   },
   "prettier": "@books-about-food/prettier-config",
   "dependencies": {
+    "@books-about-food/core": "*",
+    "@books-about-food/database": "*",
+    "@books-about-food/email": "*",
+    "@books-about-food/jobs": "*",
+    "@books-about-food/shared": "*",
     "@next-auth/prisma-adapter": "^1.0.7",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-checkbox": "^1.0.4",
@@ -18,10 +23,7 @@
     "buffer-image-size": "^0.6.4",
     "classnames": "^2.3.2",
     "color": "^4.2.3",
-    "core": "*",
-    "database": "*",
     "date-fns": "^2.30.0",
-    "email": "*",
     "framer-motion": "^10.16.4",
     "inflection": "^3.0.0",
     "next": "^13.5.6",
@@ -32,7 +34,6 @@
     "react-dom": "^18.2.0",
     "react-feather": "^2.0.10",
     "react-select": "^5.7.7",
-    "shared": "*",
     "sonner": "^1.1.0",
     "stable-hash": "^0.0.3",
     "superjson": "^1.13.3",

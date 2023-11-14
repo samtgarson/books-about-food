@@ -1,5 +1,5 @@
-import { Service } from 'core/services/base'
-import prisma, { cacheStrategy } from 'database'
+import { Service } from '@books-about-food/core/services/base'
+import prisma, { cacheStrategy } from '@books-about-food/database'
 import { z } from 'zod'
 
 export const fetchJobs = new Service(

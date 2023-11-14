@@ -1,8 +1,8 @@
+import { Service } from '@books-about-food/core/services/base'
+import prisma from '@books-about-food/database'
+import { FileUploader } from '@books-about-food/shared/services/file-uploader'
+import { ImageBlurrer } from '@books-about-food/shared/services/image-blurrer'
 import sizeOf from 'buffer-image-size'
-import { Service } from 'core/services/base'
-import prisma from 'database'
-import { FileUploader } from 'shared/services/file-uploader'
-import { ImageBlurrer } from 'shared/services/image-blurrer'
 import { z } from 'zod'
 
 export type CreateImageInput = z.infer<typeof createImages.input>

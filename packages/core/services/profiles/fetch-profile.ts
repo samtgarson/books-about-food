@@ -1,6 +1,6 @@
-import { Profile } from 'core/models/profile'
-import { Service } from 'core/services/base'
-import prisma, { Prisma, cacheStrategy } from 'database'
+import { Profile } from '@books-about-food/core/models/profile'
+import { Service } from '@books-about-food/core/services/base'
+import prisma, { Prisma, cacheStrategy } from '@books-about-food/database'
 import { z } from 'zod'
 import { profileIncludes } from '../utils'
 

@@ -1,4 +1,7 @@
-import { SearchResult as PrismaSearchResult, SearchResultType } from 'database'
+import {
+  SearchResult as PrismaSearchResult,
+  SearchResultType
+} from '@books-about-food/database'
 import { z } from 'zod'
 import { Image } from './image'
 import { Colourful } from './mixins/colourful'

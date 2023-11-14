@@ -19,7 +19,7 @@ export type SignInButtonsProps = {
 }
 
 export const SignInButtons: FC<SignInButtonsProps> = ({
-  callbackUrl,
+  callbackUrl = '/',
   emailButtonLabel = 'Continue with Email',
   successMessage = 'We’ve just sent you a secure magic link to your inbox. When you click this link we’ll log you into your account automatically.'
 }) => {

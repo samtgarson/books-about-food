@@ -1,6 +1,6 @@
 'use client'
 
-import { FrequentlyAskedQuestion } from 'database'
+import { FrequentlyAskedQuestion } from '@books-about-food/database'
 import { useState } from 'react'
 import * as Accordion from 'src/components/atoms/accordion'
 import { Search } from '../lists/search'

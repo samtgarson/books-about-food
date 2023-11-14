@@ -1,7 +1,7 @@
 import {
   FetchPublishersInput,
   fetchPublishers
-} from 'core/services/publishers/fetch-publishers'
+} from '@books-about-food/core/services/publishers/fetch-publishers'
 import { Metadata } from 'next'
 import { FilterBar } from 'src/components/lists/filter-bar'
 import { createIndexPage } from 'src/components/pages/index-page'

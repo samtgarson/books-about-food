@@ -1,5 +1,5 @@
-import { GoogleBooksGateway } from 'core/gateways/google-books'
-import { Service } from 'core/services/base'
+import { GoogleBooksGateway } from '@books-about-food/core/gateways/google-books'
+import { Service } from '@books-about-food/core/services/base'
 import { z } from 'zod'
 
 export type BookLibrarySearchResult = {

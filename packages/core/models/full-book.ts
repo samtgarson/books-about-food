@@ -1,4 +1,4 @@
-import { Link } from 'database'
+import { Link } from '@books-about-food/database'
 import { Book } from './book'
 import { Image } from './image'
 import { Publisher } from './publisher'

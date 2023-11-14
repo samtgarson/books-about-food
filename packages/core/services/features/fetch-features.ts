@@ -1,6 +1,6 @@
-import { FullBook } from 'core/models/full-book'
-import { Service } from 'core/services/base'
-import prisma from 'database'
+import { FullBook } from '@books-about-food/core/models/full-book'
+import { Service } from '@books-about-food/core/services/base'
+import prisma from '@books-about-food/database'
 import { z } from 'zod'
 import { fullBookIncludes } from '../utils/includes'
 

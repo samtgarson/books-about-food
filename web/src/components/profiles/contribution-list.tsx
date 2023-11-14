@@ -1,5 +1,5 @@
-import { Profile } from 'core/models/profile'
-import { fetchBooks } from 'core/services/books/fetch-books'
+import { Profile } from '@books-about-food/core/models/profile'
+import { fetchBooks } from '@books-about-food/core/services/books/fetch-books'
 import { GridContainer } from 'src/components/lists/grid-container'
 import { call } from 'src/utils/service'
 import { ListContainer } from '../lists/list-context'

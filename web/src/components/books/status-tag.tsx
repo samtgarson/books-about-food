@@ -1,4 +1,4 @@
-import { BookStatus } from 'database'
+import { BookStatus } from '@books-about-food/database'
 import { Tag } from '../atoms/tag'
 
 export function StatusTag({ status }: { status: BookStatus }) {

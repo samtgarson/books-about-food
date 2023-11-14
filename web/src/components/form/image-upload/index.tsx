@@ -1,8 +1,8 @@
 'use client'
 
+import { Image } from '@books-about-food/core/models/image'
 import * as Form from '@radix-ui/react-form'
 import cn from 'classnames'
-import { Image } from 'core/models/image'
 import Img from 'next/image'
 import { useRef, useState } from 'react'
 import { Plus, X } from 'react-feather'

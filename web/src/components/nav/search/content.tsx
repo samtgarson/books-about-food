@@ -1,7 +1,7 @@
 'use client'
 
+import { SearchResult } from '@books-about-food/core/models/search-result'
 import cn from 'classnames'
-import { SearchResult } from 'core/models/search-result'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useDeferredValue, useEffect, useMemo, useState } from 'react'

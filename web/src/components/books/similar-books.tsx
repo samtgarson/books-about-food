@@ -1,5 +1,5 @@
+import { fetchSimilarBooks } from '@books-about-food/core/services/books/fetch-similar-books'
 import cn from 'classnames'
-import { fetchSimilarBooks } from 'core/services/books/fetch-similar-books'
 import { call } from 'src/utils/service'
 import { AntiContainer } from '../atoms/container'
 import { GridContainer } from '../lists/grid-container'

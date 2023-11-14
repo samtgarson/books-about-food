@@ -1,10 +1,10 @@
+import { unextended } from '@books-about-food/database'
+import { inngest } from '@books-about-food/jobs'
+import { getEnv } from '@books-about-food/shared/utils/get-env'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
-import { inngest } from 'core/gateways/inngest'
-import { unextended } from 'database'
 import type { NextAuthOptions } from 'next-auth'
 import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
-import { getEnv } from 'shared/utils/get-env'
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(unextended),

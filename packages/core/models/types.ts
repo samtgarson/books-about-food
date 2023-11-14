@@ -1,5 +1,8 @@
-import { bookIncludes, profileIncludes } from 'core/services/utils'
-import type { Prisma } from 'database'
+import {
+  bookIncludes,
+  profileIncludes
+} from '@books-about-food/core/services/utils'
+import type { Prisma } from '@books-about-food/database'
 
 type ProfileIncludes = typeof profileIncludes
 

@@ -1,4 +1,4 @@
-import { Profile } from 'core/models/profile'
+import { Profile } from '@books-about-food/core/models/profile'
 import Link from 'next/link'
 import { FC } from 'react'
 import { GridContainer } from 'src/components/lists/grid-container'

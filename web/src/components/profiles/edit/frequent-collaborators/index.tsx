@@ -1,7 +1,7 @@
 'use client'
 
+import { Profile } from '@books-about-food/core/models/profile'
 import cn from 'classnames'
-import { Profile } from 'core/models/profile'
 import { FC, useCallback, useMemo, useState } from 'react'
 import { Eye, EyeOff } from 'react-feather'
 import { Loader } from 'src/components/atoms/loader'

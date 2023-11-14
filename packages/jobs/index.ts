@@ -1,4 +1,4 @@
-import { EmailTemplate } from 'email'
+import { EmailTemplate } from '@books-about-food/email'
 import { EventSchemas, Inngest } from 'inngest'
 
 // Create a client to send and receive events

@@ -1,4 +1,4 @@
-import { fetchBook } from 'core/services/books/fetch-book'
+import { fetchBook } from '@books-about-food/core/services/books/fetch-book'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { Edit2, Eye } from 'react-feather'

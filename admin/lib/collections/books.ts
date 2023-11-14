@@ -1,11 +1,11 @@
+import { fetchProfiles } from '@books-about-food/core/services/profiles/fetch-profiles'
+import prisma from '@books-about-food/database'
+import { inngest } from '@books-about-food/jobs'
+import { imageUrl } from '@books-about-food/shared/utils/image-url'
+import { slugify } from '@books-about-food/shared/utils/slugify'
 import { CollectionCustomizer } from '@forestadmin/agent'
 import Color from 'color'
-import { inngest } from 'core/gateways/inngest'
-import { fetchProfiles } from 'core/services/profiles/fetch-profiles'
-import prisma from 'database'
 import { deleteImage, uploadImage } from 'lib/utils/image-utils'
-import { imageUrl } from 'shared/utils/image-url'
-import { slugify } from 'shared/utils/slugify'
 import { Schema } from '../../.schema/types'
 
 const uploadCover = async (dataUri: string | null, bookId: string) => {

@@ -1,9 +1,9 @@
-import { Book } from 'core/models/book'
-import { Contribution } from 'core/models/contribution'
-import { FullBook } from 'core/models/full-book'
-import { Image } from 'core/models/image'
-import { Profile } from 'core/models/profile'
-import { Publisher } from 'core/models/publisher'
+import { Book } from '@books-about-food/core/models/book'
+import { Contribution } from '@books-about-food/core/models/contribution'
+import { FullBook } from '@books-about-food/core/models/full-book'
+import { Image } from '@books-about-food/core/models/image'
+import { Profile } from '@books-about-food/core/models/profile'
+import { Publisher } from '@books-about-food/core/models/publisher'
 import superjson from 'superjson'
 
 superjson.registerClass(Book, { identifier: 'Book' })

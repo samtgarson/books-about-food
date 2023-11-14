@@ -1,5 +1,5 @@
-import { Profile } from 'core/models/profile'
-import prisma from 'database'
+import { Profile } from '@books-about-food/core/models/profile'
+import prisma from '@books-about-food/database'
 import { slugify } from 'inngest'
 import { contentType } from 'mime-types'
 import { profileIncludes } from '.'

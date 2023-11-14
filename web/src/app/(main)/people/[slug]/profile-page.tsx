@@ -1,5 +1,5 @@
-import { fetchFrequentCollaborators } from 'core/services/books/fetch-frequent-collaborators'
-import { fetchProfile } from 'core/services/profiles/fetch-profile'
+import { fetchFrequentCollaborators } from '@books-about-food/core/services/books/fetch-frequent-collaborators'
+import { fetchProfile } from '@books-about-food/core/services/profiles/fetch-profile'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { Container } from 'src/components/atoms/container'

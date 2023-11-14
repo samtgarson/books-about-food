@@ -1,5 +1,5 @@
-import { Service } from 'core/services/base'
-import prisma, { Prisma } from 'database'
+import { Service } from '@books-about-food/core/services/base'
+import prisma, { Prisma } from '@books-about-food/database'
 import { z } from 'zod'
 
 export type UpdateUserInput = z.infer<typeof updateUser.input>
