@@ -5,6 +5,7 @@ import { parse } from 'pg-connection-string'
 
 const parsed = parse(getEnv('DATABASE_URL', process.env.DIRECT_DATABASE_URL))
 
+// @ts-expect-error weird typing here
 export const datasource = createSqlDataSource({
   username: parsed.user ?? undefined,
   password: parsed.password ?? undefined,

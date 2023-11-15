@@ -1,4 +1,3 @@
-import prisma from '@books-about-food/database'
 import { inngest } from '..'
 import { generateBookPalette } from '../lib/generate-book-palette'
 
@@ -18,15 +17,10 @@ export const generatePalette = inngest.createFunction(
           status: 'skipped: cover image not changed'
         }
 
-      const user =
-        event.user.id &&
-        (await prisma.user.findUnique({ where: { id: event.user.id } }))
-      const success = await generateBookPalette.call(
-        { bookId: event.data.id },
-        user
-      )
+      const success = await generateBookPalette(event.data.id)
       return { event, success }
     } catch (error) {
+      console.error(error)
       return { event, success: false, error: (error as Error).message }
     }
   }

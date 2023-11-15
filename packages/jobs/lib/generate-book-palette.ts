@@ -4,6 +4,7 @@ import Color from 'color'
 import splashy from 'splashy'
 
 export async function generateBookPalette(bookId: string) {
+  console.log('Generating palette for book', bookId)
   const image = await prisma.image.findUnique({
     where: { coverForId: bookId }
   })
@@ -14,7 +15,7 @@ export async function generateBookPalette(bookId: string) {
   const res = await fetch(src)
   const buffer = Buffer.from(await res.arrayBuffer())
   const hex = await splashy(buffer)
-  if (hex.length < 5) return false
+  if (hex.length < 5) throw new Error('Did not generate 5 colours')
 
   const colours = hex.map(
     (hex) => '[' + new Color(hex).rgb().array().join(',') + ']'

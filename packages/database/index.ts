@@ -27,8 +27,8 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 export default prisma
-export { unextended }
 export * from '@prisma/client'
+export { unextended }
 
 export const cacheStrategy = {
   ttl: 0,

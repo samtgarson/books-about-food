@@ -8,6 +8,6 @@
     "baseUrl": ".",
     "types": ["node", "express", "sequelize"]
   },
-  "include": ["./**/*", ".env"],
+  "include": ["./**/*", ".env", "../packages/**/*"],
   "exclude": ["node_modules", "dist"]
 }

@@ -180,6 +180,7 @@ export const customiseBooks = (
       dependencies: ['background_color']
     })
     .replaceFieldWriting('BackgroundColor', async (value) => {
+      if (!value) return { background_color: [] }
       const rgb = Color(value).rgb().array()
       return { background_color: rgb }
     })

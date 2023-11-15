@@ -24,6 +24,7 @@ async function _getUser() {
       where: { id: session.user.id }
     })
   } catch (e) {
+    console.error(e)
     return null
   }
 }
