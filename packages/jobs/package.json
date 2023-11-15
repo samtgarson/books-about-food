@@ -7,14 +7,15 @@
     "dev": "inngest-cli dev --no-discovery -u http://localhost:5001/api/inngest"
   },
   "dependencies": {
-    "@books-about-food/core": "*",
     "@books-about-food/database": "*",
     "@books-about-food/email": "*",
     "@books-about-food/shared": "*",
+    "color": "^4.2.3",
     "inngest": "^3.4.1",
     "splashy": "samtgarson/splashy"
   },
   "devDependencies": {
+    "@types/color": "^3.0.6",
     "@types/splashy": "^5.0.2",
     "inngest-cli": "^0.20.0"
   }

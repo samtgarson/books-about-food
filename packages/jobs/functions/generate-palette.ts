@@ -1,6 +1,6 @@
-import { generateBookPalette } from '@books-about-food/core/services/books/generate-book-palette'
 import prisma from '@books-about-food/database'
 import { inngest } from '..'
+import { generateBookPalette } from '../lib/generate-book-palette'
 
 export const generatePalette = inngest.createFunction(
   {
@@ -21,11 +21,11 @@ export const generatePalette = inngest.createFunction(
       const user =
         event.user.id &&
         (await prisma.user.findUnique({ where: { id: event.user.id } }))
-      const result = await generateBookPalette.call(
+      const success = await generateBookPalette.call(
         { bookId: event.data.id },
         user
       )
-      return { event, success: !!result.data }
+      return { event, success }
     } catch (error) {
       return { event, success: false, error: (error as Error).message }
     }
