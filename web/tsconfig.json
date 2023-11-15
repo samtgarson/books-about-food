@@ -11,7 +11,8 @@
     "types": ["react/experimental"],
     "paths": {
       "app/*": ["./src/app/*"]
-    }
+    },
+    "jsx": "preserve"
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"]
 }

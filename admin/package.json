@@ -7,7 +7,7 @@
     "start": "node dist",
     "dev": "nodemon -r dotenv/config --exec node -r ts-node/register ./lib/index.ts",
     "debug": "nodemon -r dotenv/config --exec node -r ts-node/register --inspect-brk ./lib/index.ts",
-    "build": "npx esbuild ./lib/index.ts --bundle --outfile=./dist/index.js --platform=node --external:fastify --external:pg-hstore --external:pg-native --external:@prisma/client --external:sharp --loader:.node=file --target=node20"
+    "build": "npx esbuild ./lib/index.ts --bundle --outfile=./dist/index.js --platform=node --external:fastify --external:pg-hstore --external:pg-native --external:@prisma/client --external:sharp --external:uglify-js --loader:.node=file --target=node20"
   },
   "dependencies": {
     "@books-about-food/core": "*",

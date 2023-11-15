@@ -6,8 +6,7 @@
     "sourceMap": false,
     "target": "es2017",
     "baseUrl": ".",
-    "types": ["node", "express", "sequelize"],
-    "jsx": "react-jsx"
+    "types": ["node", "express", "sequelize"]
   },
   "include": ["./**/*", ".env"],
   "exclude": ["node_modules", "dist"]
