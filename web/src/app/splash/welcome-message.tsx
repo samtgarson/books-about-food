@@ -51,7 +51,7 @@ export function WelcomeMessage() {
       />
       <div className="flex gap-4">
         <Submit variant="tertiary">Register</Submit>
-        <AuthedButton>
+        <AuthedButton redirect="/">
           <Button className="ml-auto" variant="secondary">
             Beta Sign In
           </Button>
