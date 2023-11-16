@@ -26,7 +26,7 @@ export function createJob<K extends keyof GetEvents<typeof inngest>>(
         error
       )
       return {
-        event,
+        event: params,
         result: { success: false, message: (error as Error).message }
       }
     }

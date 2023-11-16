@@ -5,7 +5,7 @@ export const email = createJob(
   { id: 'email', name: 'Send an email' },
   'email',
   async ({ event }) => {
-    if (!event.user) return { success: false, message: 'No user' }
+    if (!event.user?.email) return { success: false, message: 'No user' }
     const component = renderEmailTemplate(event.data)
 
     const sentMessage = await sendMail({
