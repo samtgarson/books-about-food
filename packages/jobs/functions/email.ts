@@ -1,26 +1,18 @@
 import { renderEmailTemplate, sendMail } from '@books-about-food/email'
-import { inngest } from '..'
+import { createJob } from './base'
 
-export const email = inngest.createFunction(
-  {
-    id: 'email',
-    name: 'Send an email'
-  },
-  { event: 'email' },
+export const email = createJob(
+  { id: 'email', name: 'Send an email' },
+  'email',
   async ({ event }) => {
-    try {
-      if (!event.user) return
-      const component = renderEmailTemplate(event.data)
+    if (!event.user) return { success: false, message: 'No user' }
+    const component = renderEmailTemplate(event.data)
 
-      const res = await sendMail({
-        component,
-        to: event.user.email
-      })
+    const sentMessage = await sendMail({
+      component,
+      to: event.user.email
+    })
 
-      return { event, res }
-    } catch (error) {
-      console.error(error)
-      return { event, error: (error as Error).message }
-    }
+    return { success: true, res: sentMessage }
   }
 )

@@ -32,16 +32,21 @@ export const authOptions: NextAuthOptions = {
       maxAge: 60 * 10,
       options: {},
       async sendVerificationRequest({ url, identifier: email }) {
-        const user = await unextended.user.findUnique({
-          where: { email }
-        })
-        const newUser = !user?.emailVerified
+        try {
+          const user = await unextended.user.findUnique({
+            where: { email }
+          })
+          const newUser = !user?.emailVerified
 
-        inngest.send({
-          name: 'email',
-          data: { key: 'verifyEmail', props: { url, newUser } },
-          user
-        })
+          await inngest.send({
+            name: 'email',
+            data: { key: 'verifyEmail', props: { url, newUser } },
+            user
+          })
+          console.log(`Sent verification email to ${email}`)
+        } catch (error) {
+          console.error(`Error sending verification email to ${email}: `, error)
+        }
       }
     }
   ],

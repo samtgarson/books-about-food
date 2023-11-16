@@ -1,27 +1,21 @@
-import { inngest } from '..'
 import { generateBookPalette } from '../lib/generate-book-palette'
+import { createJob } from './base'
 
-export const generatePalette = inngest.createFunction(
+export const generatePalette = createJob(
   {
     id: 'generate-palette',
-    name: 'Generate Palette',
+    name: 'Generate Book Palette',
     concurrency: { limit: 10 }
   },
-  { event: 'book.updated' },
+  'book.updated',
   async ({ event }) => {
-    try {
-      if (!event.data.coverImageChanged)
-        return {
-          event,
-          success: true,
-          status: 'skipped: cover image not changed'
-        }
+    if (!event.data.coverImageChanged)
+      return {
+        success: true,
+        status: 'skipped: cover image not changed'
+      }
 
-      const success = await generateBookPalette(event.data.id)
-      return { event, success }
-    } catch (error) {
-      console.error(error)
-      return { event, success: false, error: (error as Error).message }
-    }
+    const success = await generateBookPalette(event.data.id)
+    return { success }
   }
 )
