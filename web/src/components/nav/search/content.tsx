@@ -90,7 +90,9 @@ export function QuickSearchContent({ onSelect }: { onSelect?: () => void }) {
         className="overflow-y-auto flex flex-col gap-1 pb-6 empty:pb-0 group"
         onClick={onSelect}
       >
-        {!loading && !results.length && <div>No Results</div>}
+        {!loading && !results.length && (
+          <div className="px-3 sm:px-4">No Results</div>
+        )}
         {results.map((result, index) =>
           result instanceof SearchAction ? (
             <QuickSearchAction

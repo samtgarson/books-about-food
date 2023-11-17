@@ -27,7 +27,7 @@ export default withAuth(
       return NextResponse.next()
     }
 
-    if (request.nextUrl.pathname !== '/splash') {
+    if (!['/splash', '/auth/sign-in'].includes(request.nextUrl.pathname)) {
       return NextResponse.redirect(new URL('/splash', request.url))
     }
   },
