@@ -21,6 +21,7 @@ export const metadata: Metadata = {
     template: '%s | Books About Food',
     default: 'Books About Food'
   },
+  description: "The cookbook industry's new digital home.",
   metadataBase: new URL(appUrl)
 }
 
