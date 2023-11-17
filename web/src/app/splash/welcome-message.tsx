@@ -1,31 +1,47 @@
 'use client'
 
-import { signIn } from 'next-auth/react'
+import { UserRole } from '@books-about-food/database'
+import { signIn, signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from 'src/components/atoms/button'
 import { Loader } from 'src/components/atoms/loader'
 import { AuthedButton } from 'src/components/auth/authed-button'
 import { Form } from 'src/components/form'
 import { Input } from 'src/components/form/input'
 import { Submit } from 'src/components/form/submit'
-import { usePromise } from 'src/hooks/use-promise'
 import z from 'zod'
-import { checkSession } from './action'
 
 export function WelcomeMessage() {
-  const { value: role, loading } = usePromise(checkSession, null, [])
+  const [loading, setLoading] = useState(true)
+  const [role, setRole] = useState<UserRole | null>(null)
   const { push } = useRouter()
 
   useEffect(() => {
-    if (role && role !== 'waitlist') push('/')
-  }, [role, push])
+    async function getRole() {
+      try {
+        const res = await fetch('/auth/session', { method: 'POST' })
+        const { role } = await res.json()
+        if (role && role !== 'waitlist') return push('/')
+        setRole(role)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    getRole()
+  }, [push])
 
   if (loading || (role && role !== 'waitlist')) return <Loader size={40} />
-  if (role)
+  if (role === 'waitlist')
     return (
       <p className="lg:text-24">
         Thanks for registering! We&apos;ll be in touch soon.
+        <br />
+        <br />
+        <button onClick={() => signOut()} className="text-14 underline">
+          Sign out
+        </button>
       </p>
     )
 

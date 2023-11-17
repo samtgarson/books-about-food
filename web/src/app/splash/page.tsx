@@ -1,4 +1,5 @@
 import { fetchFeatures } from '@books-about-food/core/services/features/fetch-features'
+import { Metadata } from 'next'
 import { Avatar } from 'src/components/atoms/avatar'
 import { Container } from 'src/components/atoms/container'
 import * as BookItem from 'src/components/books/item'
@@ -6,6 +7,10 @@ import { ListContainer } from 'src/components/lists/list-context'
 import { call } from 'src/utils/service'
 import { Fader } from './fader'
 import { WelcomeMessage } from './welcome-message'
+
+export const metadata: Metadata = {
+  description: "The cookbook industry's new digital home. Coming soon."
+}
 
 export default async function Splash() {
   const { data: features = [] } = await call(fetchFeatures)
