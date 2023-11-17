@@ -1,4 +1,3 @@
-import { getEnv } from '@books-about-food/shared/utils/get-env'
 import { buildSendMail } from 'mailing-core'
 import nodemailer from 'nodemailer'
 import { resolve } from 'path'
@@ -8,11 +7,11 @@ import { VerifyEmail, VerifyEmailProps } from './templates/verify-email'
 
 export const sendMail = buildSendMail({
   transport: nodemailer.createTransport({
-    host: getEnv('SMTP_HOST'),
-    port: Number(getEnv('SMTP_PORT')),
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
     auth: {
-      user: getEnv('SMTP_USER'),
-      pass: getEnv('SMTP_PASS')
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS
     }
   }),
   defaultFrom: 'Books About Food <no-reply@booksaboutfood.info',
@@ -36,3 +35,5 @@ export type EmailTemplates = [
   { key: 'verifyEmail'; props: VerifyEmailProps }
 ]
 export type EmailTemplate = EmailTemplates[number]
+
+export default sendMail
