@@ -3,7 +3,6 @@ import { Template } from 'mailing-core'
 import BaseLayout from '../components/base-layout'
 import Button from '../components/button'
 import Text from '../components/text'
-import { deHyperlinkUrl } from '../utils/url'
 
 export type VerifyEmailProps = {
   url: string
@@ -30,11 +29,9 @@ export const VerifyEmail: Template<VerifyEmailProps> = ({ url, newUser }) => {
           <Text fontSize="sm">
             Or, copy and paste this URL into your browser:
           </Text>
-          <Text
-            fontFamily="monospace"
-            fontSize="sm"
-            dangerouslySetInnerHTML={{ __html: deHyperlinkUrl(url) }}
-          ></Text>
+          <Text fontFamily="monospace" fontSize="sm">
+            <a href={url}>{url}</a>
+          </Text>
         </MjmlColumn>
       </MjmlSection>
     </BaseLayout>
