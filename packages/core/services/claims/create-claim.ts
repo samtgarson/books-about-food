@@ -9,7 +9,7 @@ export const createClaim = new Service(
     profileId: z.string()
   }),
   async ({ profileId } = {}, user) => {
-    if (!user) return null
+    if (!user?.email) return null
     if (!profileId) return null
 
     const userId = user.id
@@ -41,7 +41,8 @@ export const createClaim = new Service(
           claimId: claim.id,
           recipientName: 'Admin',
           resourceName: resourceName as string,
-          resourceAvatar: null
+          resourceAvatar: null,
+          userEmail: user.email
         }
       },
       user: { email: 'aboutcookbooks@gmail.com' }

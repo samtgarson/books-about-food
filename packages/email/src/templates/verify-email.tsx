@@ -26,9 +26,7 @@ export const VerifyEmail: Template<VerifyEmailProps> = ({ url, newUser }) => {
             <Text>Click the button below to sign in.</Text>
           )}
           <Button href={url}>{newUser ? 'Verify Email' : 'Sign In'}</Button>
-          <Text fontSize="sm">
-            Or, copy and paste this URL into your browser:
-          </Text>
+          <Text>Or, copy and paste this URL into your browser:</Text>
           <Text fontFamily="monospace" fontSize="sm">
             <a href={url}>{url}</a>
           </Text>

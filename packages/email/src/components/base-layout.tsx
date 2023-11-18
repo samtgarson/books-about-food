@@ -4,6 +4,7 @@ import {
   MjmlAttributes,
   MjmlBody,
   MjmlColumn,
+  MjmlDivider,
   MjmlHead,
   MjmlPreview,
   MjmlSection,
@@ -11,8 +12,7 @@ import {
   MjmlWrapper
 } from '@faire/mjml-react'
 import { ReactNode } from 'react'
-import { colors, screens, themeDefaults } from '../theme'
-import Footer from './footer'
+import { colors, screens, spacing, themeDefaults } from '../theme'
 import Header from './header'
 import Text from './text'
 
@@ -42,7 +42,7 @@ export default function BaseLayout({
           body {
             -webkit-font-smoothing: antialiased;
             min-width: 320px;
-            background-color: ${colors.white};
+            background-color: ${colors.grey};
           }
           a {
             color: inherit
@@ -89,14 +89,15 @@ export default function BaseLayout({
       </MjmlHead>
 
       <MjmlBody width={width}>
-        <Header />
-        <MjmlWrapper
-          padding="40px 20px 0"
-          backgroundColor={colors.grey}
-          fullWidth
-        >
+        <MjmlWrapper padding="40px 20px 0">
           <MjmlSection>
             <MjmlColumn>
+              <Header />
+              <MjmlDivider
+                borderColor={colors.khaki}
+                borderWidth={1}
+                paddingBottom={spacing.s8}
+              />
               {recipientName ? (
                 <Text>Dear {recipientName},</Text>
               ) : (
@@ -113,10 +114,17 @@ export default function BaseLayout({
                 <br />
                 Jamin & Sam at Books About Food
               </Text>
+              <MjmlDivider
+                borderColor={colors.khaki}
+                borderWidth={1}
+                paddingBottom={spacing.s8}
+              />
+              <Text fontSize="sm" color={colors.neutralGrey}>
+                Copyright © Books About Food {new Date().getFullYear()}
+              </Text>
             </MjmlColumn>
           </MjmlSection>
         </MjmlWrapper>
-        <Footer />
       </MjmlBody>
     </Mjml>
   )

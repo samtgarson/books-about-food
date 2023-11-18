@@ -4,13 +4,14 @@ export const colors = {
   black: '#1D1D1B',
   white: '#fff',
   grey: '#F0EEEB',
-  sand: '#E7E5E2'
+  sand: '#E7E5E2',
+  khaki: '#DDD8D1',
+  neutralGrey: '#585858'
 }
 
 export const fontSize = {
-  xs: '12px',
-  sm: '14px',
-  base: '16px',
+  sm: '12px',
+  base: '14px',
   md: '18px',
   lg: '20px',
   xl: '24px',

@@ -1,6 +1,6 @@
-import React from 'react'
-import cx from 'classnames'
 import { MjmlText } from '@faire/mjml-react'
+import cx from 'classnames'
+import React from 'react'
 import { spacing, fontSize as themeFontSize } from '../theme'
 
 type TextProps = {
@@ -30,7 +30,7 @@ export default function Text({
       <MjmlText
         {...props}
         fontSize={themeFontSize[fontSize]}
-        paddingBottom={`${spacing.s8}px`}
+        paddingBottom={`${spacing.s6}px`}
         cssClass={cx(props.cssClass)}
       >
         {children}

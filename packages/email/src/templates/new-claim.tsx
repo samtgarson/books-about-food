@@ -10,21 +10,24 @@ export type NewClaimProps = {
   claimId: string
   resourceName: string
   resourceAvatar: string | null
+  userEmail: string
 }
 
 export const NewClaim: Template<NewClaimProps> = ({
   claimId,
   resourceName,
   resourceAvatar,
-  recipientName
+  recipientName,
+  userEmail
 }) => {
   return (
     <BaseLayout recipientName={recipientName}>
       <MjmlSection>
         <MjmlColumn>
-          <Text>
-            <b>There is a new Profile claim for your review!</b>
+          <Text fontWeight="bold">
+            You&apos;ve got a new profile claim to review.
           </Text>
+          <Text>From: {userEmail}</Text>
           <Text>
             <div
               style={{
@@ -37,10 +40,10 @@ export const NewClaim: Template<NewClaimProps> = ({
                 <img
                   src={resourceAvatar}
                   alt={resourceName}
-                  width={60}
-                  height={60}
+                  width={30}
+                  height={30}
                   style={{
-                    borderRadius: '60px',
+                    borderRadius: '30px',
                     verticalAlign: 'middle',
                     marginRight: '16px'
                   }}
@@ -49,9 +52,9 @@ export const NewClaim: Template<NewClaimProps> = ({
                 <div
                   style={{
                     display: 'inline-block',
-                    width: '60px',
-                    height: '60px',
-                    borderRadius: '60px',
+                    width: '30px',
+                    height: '30px',
+                    borderRadius: '30px',
                     backgroundColor: colors.sand,
                     marginRight: '16px',
                     verticalAlign: 'middle'
