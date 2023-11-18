@@ -79,7 +79,9 @@ export const BaseAvatar: FC<BaseAvatarProps> = ({
         sizes="300px"
       />
     ) : (
-      backup.split(' ').map((word) => word[0]?.toUpperCase())
+      <span className="leading-none mt-px">
+        {backup.split(' ').map((word) => word[0]?.toUpperCase())}
+      </span>
     )}
   </div>
 )
