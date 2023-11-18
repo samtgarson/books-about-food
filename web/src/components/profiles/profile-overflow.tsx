@@ -1,7 +1,7 @@
 'use client'
 
 import { Profile } from '@books-about-food/core/models/profile'
-import { Edit } from 'react-feather'
+import { Edit2 } from 'react-feather'
 import * as Overflow from 'src/components/atoms/overflow'
 import { useCurrentUser } from 'src/hooks/use-current-user'
 import { useSheet } from '../sheets/global-sheet'
@@ -21,7 +21,7 @@ export const ProfileOverflow = ({
       <Overflow.Item
         onClick={() => openSheet('suggestEdit', { resource: profile })}
       >
-        <Edit strokeWidth={1} />
+        <Edit2 strokeWidth={1} />
         Suggest an edit
       </Overflow.Item>
     </Overflow.Root>

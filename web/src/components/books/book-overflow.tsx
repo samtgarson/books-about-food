@@ -2,7 +2,7 @@
 
 import { FullBook } from '@books-about-food/core/models/full-book'
 import Link from 'next/link'
-import { Edit } from 'react-feather'
+import { Edit2 } from 'react-feather'
 import * as Overflow from 'src/components/atoms/overflow'
 import { useSheet } from '../sheets/global-sheet'
 
@@ -16,7 +16,7 @@ export const BookOverflow = ({
       <Overflow.Item
         onClick={() => openSheet('suggestEdit', { resource: book })}
       >
-        <Edit strokeWidth={1} />
+        <Edit2 strokeWidth={1} />
         Suggest an edit
       </Overflow.Item>
       <Overflow.AdminArea>
