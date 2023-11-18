@@ -61,7 +61,7 @@ export const Content = ({
       {profile ? (
         <>
           <p className="text-16 font-medium leading-none">{profile.name}</p>
-          {meta && <p className="text-14 leading-none">{meta}</p>}
+          {meta && <p className="text-14">{meta}</p>}
         </>
       ) : (
         <>
