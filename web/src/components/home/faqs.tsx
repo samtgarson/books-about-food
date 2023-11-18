@@ -24,14 +24,17 @@ export function Faqs({ questions }: { questions: FrequentlyAskedQuestion[] }) {
         value={search}
         onReset={() => setSearch('')}
       />
-      <Accordion.Root type="multiple" className="flex gap-x-8 flex-wrap">
+      <Accordion.Root
+        type="multiple"
+        className="flex gap-x-8 gap-y-4 flex-wrap"
+      >
         {[left, right].map((questions, index) => (
           <div key={index} className="flex-[500px] flex flex-col gap-4">
             {questions.map(({ question, id, answer }) => (
               <Accordion.Item title={question} value={id} key={id}>
                 <div
                   dangerouslySetInnerHTML={{ __html: answer }}
-                  className="max-w-prose"
+                  className="max-w-prose prose"
                 />
               </Accordion.Item>
             ))}

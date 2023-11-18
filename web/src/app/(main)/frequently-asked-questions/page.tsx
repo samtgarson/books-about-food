@@ -9,7 +9,9 @@ export const metadata: Metadata = {
 }
 
 export default async function FrequentlyAskedQuestions() {
-  const questions = await prisma.frequentlyAskedQuestion.findMany()
+  const questions = await prisma.frequentlyAskedQuestion.findMany({
+    orderBy: { question: 'asc' }
+  })
 
   return (
     <Container belowNav>
