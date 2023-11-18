@@ -33,7 +33,7 @@ export async function action(
         userEmail: user.email,
         resourceName: resource.name,
         resourceType: resource._type,
-        url: new URL(resource.href, appUrl).toString(),
+        url: new URL(resource.href, appUrl()).toString(),
         suggestion
       }
     },

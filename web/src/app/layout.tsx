@@ -1,5 +1,3 @@
-import { appUrl } from '@books-about-food/core/utils/app-url'
-import { Metadata } from 'next'
 import { ReactNode } from 'react'
 import { Toaster } from 'sonner'
 import { Mouse } from 'src/components/atoms/mouse'
@@ -10,21 +8,7 @@ import { fontClassname } from 'src/style/font'
 import 'src/style/globals.css' // eslint-disable-line import/extensions
 import 'src/utils/superjson'
 
-export const metadata: Metadata = {
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    minimumScale: 1,
-    maximumScale: 1,
-    userScalable: false
-  },
-  title: {
-    template: '%s | Books About Food',
-    default: 'Books About Food'
-  },
-  description: "The cookbook industry's new digital home.",
-  metadataBase: new URL(appUrl)
-}
+export { metadata } from './metadata'
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
