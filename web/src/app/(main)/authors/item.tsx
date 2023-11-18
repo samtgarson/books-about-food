@@ -7,14 +7,12 @@ export type AuthorItemProps = {
   profile?: Profile
   index?: number
   className?: string
-  bordered?: boolean
 }
 
 export const AuthorItem = ({
   profile,
   index = 0,
-  className,
-  bordered = true
+  className
 }: AuthorItemProps) => (
   <li>
     <Link
@@ -26,13 +24,7 @@ export const AuthorItem = ({
       )}
       style={{ animationDelay: `${index * 150}ms` }}
     >
-      <Avatar
-        profile={profile}
-        size="fill"
-        className={cn(
-          bordered && ['border', profile ? 'border-black' : 'border-khaki']
-        )}
-      />
+      <Avatar profile={profile} size="fill" />
       {profile ? (
         <p className="mt-auto font-medium">{profile.name}</p>
       ) : (
