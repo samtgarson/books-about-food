@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { usePathname } from 'next/navigation'
 import {
   forwardRef,
+  useCallback,
   useEffect,
   useImperativeHandle,
   useRef,
@@ -41,21 +42,24 @@ export const Transition = forwardRef<TransitionControl>(
       show: () => setShow(true)
     }))
 
-    const handleClick = (e: MouseEvent) => {
-      if (e.metaKey || e.ctrlKey || e.shiftKey) return
-      const anchor = findClosestAnchor(e.target)
-      if (!anchor || anchor.target === '_blank') return
-      try {
-        const targetHref = new URL(anchor.href).pathname
-        if (targetHref === window.location.pathname) return
+    const handleClick = useCallback(
+      (e: MouseEvent) => {
+        if (e.metaKey || e.ctrlKey || e.shiftKey) return
+        const anchor = findClosestAnchor(e.target)
+        if (!anchor || anchor.target === '_blank') return
+        try {
+          const targetHref = new URL(anchor.href).pathname
+          if (targetHref === window.location.pathname) return
 
-        closeSheet()
-        timer.current = setTimeout(() => {
-          setShow(true)
-        }, 100)
-        // eslint-disable-next-line no-empty
-      } catch (e) {}
-    }
+          closeSheet()
+          timer.current = setTimeout(() => {
+            setShow(true)
+          }, 100)
+          // eslint-disable-next-line no-empty
+        } catch (e) {}
+      },
+      [closeSheet]
+    )
 
     useEffect(() => {
       if (timer.current) {
@@ -69,7 +73,7 @@ export const Transition = forwardRef<TransitionControl>(
     useEffect(() => {
       window.addEventListener('click', handleClick)
       return () => window.removeEventListener('click', handleClick)
-    }, [])
+    }, [handleClick])
 
     return (
       <AnimatePresence>
@@ -79,47 +83,49 @@ export const Transition = forwardRef<TransitionControl>(
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { delay: 0.1 } }}
-            className="bg-grey fixed inset-0 z-50 flex flex-col items-center justify-center gap-8"
+            className="bg-grey fixed inset-0 z-50 flex flex-col items-center justify-center"
           >
-            <div className="relative">
-              <motion.div
-                initial={{ scale: 0.5 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 0.4, ease: 'easeOut' }}
-              >
-                {' '}
-                <LogoShape />
-              </motion.div>
-              <LogoText
-                className="absolute inset-x-0 top-1/2 mx-auto text-white"
-                initial={{ y: '-40%' }}
-                animate={{ y: '-50%' }}
-                transition={{ duration: 0.4, ease: 'easeOut' }}
-              />
-            </div>
-            <motion.p
-              aria-label="One moment please"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 1 }}
-              transition={{ duration: 0.4, ease: 'easeOut', delay: 0.1 }}
-              className="all-caps"
-            >
-              {'One moment please'.split('').map((char, index) => (
-                <motion.span
-                  key={index}
-                  animate={{ opacity: [0.6, 1, 0.6] }}
-                  transition={{
-                    duration: 1,
-                    ease: 'easeInOut',
-                    delay: 0.1 + index * 0.1,
-                    repeat: Infinity,
-                    repeatDelay: 1.75
-                  }}
+            <div className="scale-75 sm:scale-100 flex flex-col items-center justify-center gap-8">
+              <div className="relative">
+                <motion.div
+                  initial={{ scale: 0.5 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.4, ease: 'easeOut' }}
                 >
-                  {char}
-                </motion.span>
-              ))}
-            </motion.p>
+                  {' '}
+                  <LogoShape />
+                </motion.div>
+                <LogoText
+                  className="absolute inset-x-0 top-1/2 mx-auto text-white"
+                  initial={{ y: '-40%' }}
+                  animate={{ y: '-50%' }}
+                  transition={{ duration: 0.4, ease: 'easeOut' }}
+                />
+              </div>
+              <motion.p
+                aria-label="One moment please"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 1 }}
+                transition={{ duration: 0.4, ease: 'easeOut', delay: 0.1 }}
+                className="all-caps"
+              >
+                {'One moment please'.split('').map((char, index) => (
+                  <motion.span
+                    key={index}
+                    animate={{ opacity: [0.6, 1, 0.6] }}
+                    transition={{
+                      duration: 1,
+                      ease: 'easeInOut',
+                      delay: 0.1 + index * 0.1,
+                      repeat: Infinity,
+                      repeatDelay: 1.75
+                    }}
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </motion.p>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
