@@ -25,7 +25,7 @@ const AccountLink = ({ className }: { className?: string }) => {
 }
 
 const navItemClassNames = () =>
-  cn('text-32 animate-fade-slide-in flex gap-2 items-center')
+  cn('text-32 sm:text-40 animate-fade-slide-in flex gap-2 items-center')
 
 const navItemAttrs = (index: number, className?: string) => ({
   className: cn(navItemClassNames(), className),
@@ -81,7 +81,7 @@ const NavContent = () => {
   const user = useCurrentUser()
 
   return (
-    <div className="animate-fade-in fixed inset-0 z-40 flex max-h-screen flex-col items-center justify-center gap-4 overflow-auto bg-white pt-20">
+    <div className="animate-fade-in fixed inset-0 z-40 flex max-h-screen flex-col items-center justify-center gap-3 overflow-auto bg-white pt-20">
       <Container className="absolute inset-x-0 top-0 border-b border-black py-5">
         <Dialog.Close className="all-caps flex items-center gap-8">
           <X strokeWidth={1} />
@@ -99,22 +99,22 @@ const NavContent = () => {
       <TopNavItem index={3} path="publishers">
         Publishers
       </TopNavItem>
-      <TopNavItem index={4} path="submit">
-        Submit
-      </TopNavItem>
       <TopNavItemExternal
         href="https://www.instagram.com/books.about.food"
         index={5}
       >
         Instagram
       </TopNavItemExternal>
+      <TopNavItem index={4} path="submit">
+        Submit
+      </TopNavItem>
       {user ? (
         <TopNavItem index={6} path="account">
           Account
         </TopNavItem>
       ) : (
         <AuthedButton redirect="/account">
-          <button {...navItemAttrs(6)}>Sign In</button>
+          <button {...navItemAttrs(6)}>Login</button>
         </AuthedButton>
       )}
     </div>
