@@ -13,6 +13,7 @@ export type CollectionInputProps<
 > = {
   label: string
   name: string
+  title?: string
   defaultValue?: Value[]
   render: (value: Value) => CollectionInputItemProps
   serialize?: (value: Value) => Serialized

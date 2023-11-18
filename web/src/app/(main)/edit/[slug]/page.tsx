@@ -30,7 +30,10 @@ export default async function Page({ params: { slug } }: EditPageProps) {
     <>
       <Toaster action="saved" message="Cookbook saved" type="success" />
       <Toaster action="created" message="Cookbook created" type="success" />
-      <ParamSheet sheet="submitted" props={{ title: book.title }} />
+      <ParamSheet
+        sheet="submitted"
+        props={{ title: `${book.title} Submitted!` }}
+      />
       <PageBackLink href={`/account/submissions`}>
         Back to Submissions
       </PageBackLink>

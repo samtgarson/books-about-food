@@ -128,25 +128,27 @@ function FilterSelectContent<Value extends string | number = string>({
         </Pill>
       </Sheet.Trigger>
       <Sheet.Content>
-        <Sheet.Body>
-          <Sheet.Header title={placeholder} size="sm">
+        <Sheet.Body
+          title={placeholder}
+          controls={
             <ParamLink {...{ [param]: null }}>
               <Link
                 scroll={false}
                 href=""
-                className="text-14 bg-transparent opacity-50"
+                className="text-14 bg-transparent"
                 onClick={close}
               >
                 Reset
               </Link>
             </ParamLink>
-          </Sheet.Header>
+          }
+        >
           <form>
             {search && (
               <Search
                 value={searchValue}
                 onChange={setSearchValue}
-                className="text-20 sm:text-24 mb-4 sm:mb-6"
+                className="!text-18 sm:!text-24 mb-4 sm:mb-6"
               />
             )}
             <ul className="flex flex-col gap-2 sm:gap-3">
@@ -194,7 +196,8 @@ function FilterSelectContent<Value extends string | number = string>({
             <Button
               onClick={close}
               as="a"
-              className="w-full border-t border-black pb-6 pt-4 sm:pt-6"
+              className="w-full"
+              variant="dark"
               scroll={false}
             >
               Save

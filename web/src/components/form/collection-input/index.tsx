@@ -23,6 +23,7 @@ export function CollectionInput<
   render,
   form: FormComponent,
   serialize,
+  title,
   ...props
 }: CollectionInputProps<Value, Serialized>) {
   const [value, setValue] = useState<Value[]>(defaultValue)
@@ -61,11 +62,11 @@ export function CollectionInput<
             }
           />
         </Form.Control>
-        <Sheet.Root grey>
+        <Sheet.Root>
           <Sheet.Trigger className="flex items-center justify-center bg-white p-7">
             <Plus strokeWidth={1} size={24} />
           </Sheet.Trigger>
-          <SheetContent<Value> />
+          <SheetContent<Value> title={title} />
         </Sheet.Root>
         <Messages label={label} name={name} {...props} />
       </Form.Field>

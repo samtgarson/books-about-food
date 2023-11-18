@@ -17,7 +17,7 @@ export const SignInSheet: SheetComponent<SignInSheetProps> = ({
 
   return (
     <Sheet.Content>
-      <Sheet.Body>
+      <Sheet.Body title="Login or create an account">
         <SignInButtons callbackUrl={callbackUrl} />
       </Sheet.Body>
     </Sheet.Content>

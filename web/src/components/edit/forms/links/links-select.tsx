@@ -5,7 +5,6 @@ import { isWebsite, websites } from '@books-about-food/shared/data/websites'
 import Image from 'next/image'
 import { useState } from 'react'
 import { linkLogos } from 'src/assets/link-logos'
-import { Header } from 'src/components/atoms/sheet'
 import { Form } from 'src/components/form'
 import { CollectionInput } from 'src/components/form/collection-input'
 import { Input } from 'src/components/form/input'
@@ -25,6 +24,7 @@ export function LinksSelect({ book }: { book: FullBook }) {
     <CollectionInput<LinksSelectValue>
       name="links"
       label="Links"
+      title="Add Links"
       defaultValue={book.links}
       form={LinksForm}
       render={(value) => ({
@@ -58,8 +58,8 @@ function LinksForm({
           url
         })
       }}
+      variant="bordered"
     >
-      <Header title="Add Links" />
       <Select
         loadOptions={async (val) =>
           stringify(
@@ -84,8 +84,10 @@ function LinksForm({
         required
         onChange={(e) => setUrl(e.target.value)}
       />
-      <Submit variant="dark">Save</Submit>
-      <p className="text-14 mt-8">
+      <Submit variant="dark" className="mt-4">
+        Save
+      </Submit>
+      <p className="text-14 mt-4">
         Note: If the website you would like to add isn’t listed please enter the
         name in the Website field and click Create (eg: “Portfolio”, “New York
         Times”, “The Grocer” etc).

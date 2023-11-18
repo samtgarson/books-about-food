@@ -2,10 +2,14 @@ import { useContext } from 'react'
 import * as Sheet from 'src/components/atoms/sheet'
 import { createCollectionInputContext } from './context'
 
-type SheetContentProps<Value extends { id: string }> = { value?: Value }
+type SheetContentProps<Value extends { id: string }> = {
+  value?: Value
+  title?: string
+}
 
 export function SheetContent<Value extends { id: string }>({
-  value
+  value,
+  title
 }: SheetContentProps<Value>) {
   const Provider = createCollectionInputContext<Value>()
   const { FormComponent, addValue } = useContext(Provider)
@@ -18,7 +22,7 @@ export function SheetContent<Value extends { id: string }>({
 
   return (
     <Sheet.Content>
-      <Sheet.Body>
+      <Sheet.Body title={title}>
         <FormComponent onSubmit={onSubmit} value={value} />
       </Sheet.Body>
     </Sheet.Content>

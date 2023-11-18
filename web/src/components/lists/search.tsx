@@ -35,7 +35,12 @@ export const Search: FC<SearchProps> = ({
   }, 500)
 
   return (
-    <div className={cn('group relative flex items-center', className)}>
+    <div
+      className={cn(
+        'group relative flex items-center text-24 sm:text-32',
+        className
+      )}
+    >
       <input
         autoFocus={autoFocus || internalValue.length > 0}
         type="text"
@@ -50,7 +55,7 @@ export const Search: FC<SearchProps> = ({
         }}
         placeholder={placeholder}
         className={cn(
-          'text-24 sm:text-32 -mx-2 w-full flex-shrink-0 flex-grow bg-transparent p-2 placeholder-black placeholder-opacity-40 transition-colors focus:outline-0 focus-visible:bg-black focus-visible:bg-opacity-5'
+          '-mx-2 w-full flex-shrink-0 flex-grow bg-transparent p-2 placeholder-black placeholder-opacity-40 transition-colors focus:outline-0 focus-visible:bg-black focus-visible:bg-opacity-5'
         )}
       />
       {debouncedOnChange.isPending() || loading ? (

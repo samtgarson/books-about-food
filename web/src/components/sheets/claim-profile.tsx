@@ -3,12 +3,13 @@ import { Profile } from '@books-about-food/core/models/profile'
 import { Claim } from '@books-about-food/database'
 import { useRouter } from 'next/navigation'
 import { useCallback, useState } from 'react'
-import { ArrowRight, Check, Copy } from 'react-feather'
+import { Copy } from 'react-feather'
+import { toast } from 'sonner'
 import { usePromise } from 'src/hooks/use-promise'
 import { Button } from '../atoms/button'
 import { ContactLink } from '../atoms/contact-link'
 import { Loader } from '../atoms/loader'
-import { Body, Content, Header } from '../atoms/sheet'
+import { Body, Content } from '../atoms/sheet'
 import { create, destroy, fetch } from '../profiles/claim-button/action'
 import { ProfileItem } from '../profiles/item'
 import { useSheet } from './global-sheet'
@@ -30,7 +31,6 @@ export const ClaimProfileSheet: SheetComponent<ClaimProfileSheetProps> = ({
   } = usePromise(() => fetch(profile.id), null, [profile.id])
   const [claiming, setClaiming] = useState(false)
   const [destroying, setDestroying] = useState(false)
-  const [copied, setCopied] = useState(false)
 
   const createClaim = useCallback(async () => {
     setClaiming(true)
@@ -50,17 +50,12 @@ export const ClaimProfileSheet: SheetComponent<ClaimProfileSheetProps> = ({
 
   const copySecret = useCallback(async (claim: Claim) => {
     await navigator.clipboard.writeText(claim.secret)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 4000)
+    toast.success('Code copied to your clipboard')
   }, [])
 
   return (
-    <Content
-      authenticated={{ action: 'claimProfile' }}
-      size={claim ? 'lg' : 'md'}
-    >
-      <Body loading={loading}>
-        <Header title="Claim your profile" />
+    <Content authenticated={{ action: 'claimProfile' }}>
+      <Body loading={loading} title="Claim your profile">
         <div className="flex flex-col items-start gap-8">
           {!claim ? (
             <>
@@ -69,18 +64,18 @@ export const ClaimProfileSheet: SheetComponent<ClaimProfileSheetProps> = ({
                 edit your details, submit cookbooks and hide information you’re
                 not keen to have shown on your profile.
               </p>
+              <p>
+                To verify that you’re {profile.name}, there’s a couple of steps
+                to go through. Click below to continue.
+              </p>
               <ProfileItem
                 profile={profile}
                 display="list"
-                className="w-full"
+                className="w-full bg-grey border-grey"
               />
-              <p>
-                If you’re {profile.name}, there&apos;s a couple of steps to go
-                through so we are able to verify it’s really you. Click below to
-                continue.
-              </p>
               <Button
-                variant="secondary"
+                variant="dark"
+                className="w-full"
                 disabled={claiming}
                 onClick={createClaim}
               >
@@ -90,9 +85,7 @@ export const ClaimProfileSheet: SheetComponent<ClaimProfileSheetProps> = ({
                     Creating Claim...
                   </>
                 ) : (
-                  <>
-                    Claim Profile <ArrowRight strokeWidth={1} size={20} />
-                  </>
+                  <>Continue to claim your profile</>
                 )}
               </Button>
             </>
@@ -112,24 +105,12 @@ export const ClaimProfileSheet: SheetComponent<ClaimProfileSheetProps> = ({
                 with the three randomly generated words you see below:
               </p>
               <button
-                className="text-20 border border-black font-mono justify-center flex relative items-center px-4 py-5 uppercase w-full"
+                className="text-20 bg-grey font-mono justify-center flex relative items-center px-4 py-5 uppercase w-full"
                 title="Copy the passphrase to your clipboard"
                 onClick={() => copySecret(claim)}
               >
                 {claim.secret}
-                {copied ? (
-                  <Check
-                    strokeWidth={1}
-                    size={20}
-                    className="absolute right-4"
-                  />
-                ) : (
-                  <Copy
-                    strokeWidth={1}
-                    size={20}
-                    className="absolute right-4"
-                  />
-                )}
+                <Copy strokeWidth={1} size={20} className="absolute right-4" />
               </button>
               <p>
                 Once we receive them, we&apos;ll verify hook up your profile and
@@ -140,19 +121,17 @@ export const ClaimProfileSheet: SheetComponent<ClaimProfileSheetProps> = ({
                 <ContactLink subject="Claim without Instgram">
                   Email us
                 </ContactLink>{' '}
-                and we&apos;ll sort it out that way.
+                with the randomly generated words and we&apos;ll sort it out
+                that way.
               </p>
-              <div className="flex flex-col gap-4 w-full">
-                <Button
-                  className="w-full"
-                  onClick={closeSheet}
-                  variant="tertiary"
-                >
+              <div className="flex flex-col gap-2 w-full">
+                <Button className="w-full" onClick={closeSheet} variant="dark">
                   Close
                 </Button>
 
                 <Button
                   className="w-full"
+                  variant="outline"
                   disabled={destroying}
                   onClick={destroyClaim}
                 >

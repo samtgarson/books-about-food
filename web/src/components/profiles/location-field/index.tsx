@@ -1,11 +1,12 @@
 'use client'
 
-import { Form, Submit } from '@radix-ui/react-form'
 import cn from 'classnames'
 import { useRef } from 'react'
 import { Detail } from 'src/components/atoms/detail'
 import * as Sheet from 'src/components/atoms/sheet'
+import { Form } from 'src/components/form'
 import { Select } from 'src/components/form/select'
+import { Submit } from 'src/components/form/submit'
 import { useDebouncedPromise } from 'src/hooks/use-debounce-promise'
 import z from 'zod'
 import { useEditProfile } from '../edit/context'
@@ -27,7 +28,7 @@ export const LocationField = () => {
   if (!editMode && !profile.location) return null
   return (
     <Detail maxWidth>
-      <Sheet.Root grey>
+      <Sheet.Root>
         <Sheet.Trigger
           className={cn(
             'w-full self-start',
@@ -42,16 +43,14 @@ export const LocationField = () => {
           {({ close }) => (
             <Form
               action={async (data) => {
-                const { location } = schema.parse(
-                  Object.fromEntries(data.entries())
-                )
+                const { location } = schema.parse(data)
 
                 await onSave({ location })
                 close()
               }}
+              variant="bordered"
             >
-              <Sheet.Body>
-                <Sheet.Header title="Choose a location" />
+              <Sheet.Body title="Choose a location">
                 <Select
                   name="location"
                   loadOptions={(query) => loadOptions(query, token.current)}
@@ -64,7 +63,9 @@ export const LocationField = () => {
                 />
               </Sheet.Body>
               <Sheet.Footer>
-                <Submit className="w-full pb-6 pt-4 sm:pt-6">Save</Submit>
+                <Submit variant="dark" className="w-full">
+                  Save
+                </Submit>
               </Sheet.Footer>
             </Form>
           )}

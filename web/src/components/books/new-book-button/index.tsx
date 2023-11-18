@@ -25,8 +25,7 @@ export const NewBookButton = () => {
         </Sheet.Trigger>
       </BookItem.Container>
       <Sheet.Content>
-        <Sheet.Body>
-          <Sheet.Header title="Submit a new cookbook" />
+        <Sheet.Body title="Submit a new cookbook">
           <Form action={action} variant="bordered">
             <TitleSelect onChange={setValues} />
             {values && <TitleFormContent book={book} />}
@@ -34,7 +33,7 @@ export const NewBookButton = () => {
             <input type="hidden" name="googleBooksId" value={googleBooksId} />
             <input type="hidden" name="cover" value={cover} />
             <Submit variant="dark" className="w-full">
-              Create
+              Save & continue
             </Submit>
           </Form>
         </Sheet.Body>

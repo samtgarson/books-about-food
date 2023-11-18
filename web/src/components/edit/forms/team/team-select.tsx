@@ -8,7 +8,6 @@ import { Job } from '@books-about-food/database'
 import { useState } from 'react'
 import { BaseAvatar } from 'src/components/atoms/avatar'
 import { ContactLink } from 'src/components/atoms/contact-link'
-import { Header } from 'src/components/atoms/sheet'
 import { Form } from 'src/components/form'
 import { Checkbox } from 'src/components/form/checkbox'
 import { CollectionInput } from 'src/components/form/collection-input'
@@ -50,6 +49,7 @@ export function TeamSelect({ book }: { book: FullBook }) {
     <CollectionInput<TeamSelectValue, ContributorAttrs>
       name="contributors"
       label="Team"
+      title="Add Team Member"
       required={user?.role !== 'admin'}
       defaultValue={book.contributions
         .map((contribution) =>
@@ -112,8 +112,8 @@ function TeamForm({
         if (!profile || !job) return
         onSubmit(toValue(value?.id ?? uuid(), profile, job, isAssistant))
       }}
+      variant="bordered"
     >
-      <Header title="Add Team Member" />
       <Select
         loadOptions={profiles}
         label="Name"
@@ -147,8 +147,10 @@ function TeamForm({
         checked={isAssistant}
         onChange={(e) => setIsAssistant(e.target.checked)}
       />
-      <Submit variant="dark">Save</Submit>
-      <p className="text-14 mt-8">
+      <Submit className="mt-4" variant="dark">
+        Save
+      </Submit>
+      <p className="text-14 mt-4">
         Note: If the role you would like to assign to this team member isn’t
         listed please choose the most similar then{' '}
         <ContactLink subject="I need a new job role">get in touch</ContactLink>{' '}

@@ -52,7 +52,7 @@ export const EditProfileProvider = ({
           await action(segment, { ...data, slug: profile.slug })
         )
         setProfile(updated)
-        toast('Profile updated')
+        toast.success('Profile updated')
         return true
       } catch (error) {
         return false
