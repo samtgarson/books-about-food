@@ -105,7 +105,7 @@ const NavContent = () => {
       >
         Instagram
       </TopNavItemExternal>
-      <TopNavItem index={4} path="submit">
+      <TopNavItem index={4} path="account/submissions">
         Submit
       </TopNavItem>
       {user ? (
