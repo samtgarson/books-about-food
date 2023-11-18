@@ -67,7 +67,7 @@ export default async ({
           />
         </Suspense>
       </ListContainer>
-      <div className="pb-8 sm:py-8 md:py-20">
+      <div className="py-8 md:py-20">
         {publisher.imprint && (
           <Detail maxWidth>
             Imprint
