@@ -81,9 +81,6 @@ export const Footer = async () => {
             <Link href="#" className="text-12 opacity-50">
               Privacy Policy
             </Link>
-            <Link href="#" className="text-12 opacity-50">
-              Credits
-            </Link>
           </div>
         </div>
       </Container>
