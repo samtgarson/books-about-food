@@ -1,7 +1,6 @@
 import { fetchFeatures } from '@books-about-food/core/services/features/fetch-features'
 import { fetchHome } from '@books-about-food/core/services/home/fetch'
 import { Suspense } from 'react'
-import { Instagram, PlusSquare } from 'react-feather'
 import { Container } from 'src/components/atoms/container'
 import { Marquee } from 'src/components/atoms/marquee'
 import { ItemCarousel } from 'src/components/books/item-carousel'
@@ -28,12 +27,17 @@ const Page = async () => {
       <Marquee className="fixed bottom-0 left-0 -right-[25%] z-40 -rotate-[15deg]">
         <a
           href="https://www.instagram.com/books.about.food"
-          className="whitespace-nowrap flex gap-4"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          <Instagram strokeWidth={1} /> Follow on Instagram
+          Follow on Instagram
         </a>
-        <a href="/account/submissions" className="whitespace-nowrap flex gap-4">
-          <PlusSquare strokeWidth={1} /> Submit a cookbook
+        <a
+          href="/account/submissions"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Submit a cookbook
         </a>
       </Marquee>
       <Container
@@ -59,6 +63,7 @@ const Page = async () => {
           <HomepageModule
             title="Author Spotlight"
             action={{ href: '/authors', label: 'View More' }}
+            className="bg-khaki"
           >
             <ProfileCarousel
               items={home.authors}

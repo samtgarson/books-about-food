@@ -4,7 +4,7 @@ import cn from 'classnames'
 import { motion } from 'framer-motion'
 import { FC, ReactNode } from 'react'
 
-const childClass = 'mr-20 whitespace-nowrap flex gap-16'
+const childClass = 'mr-16 whitespace-nowrap flex gap-16'
 
 export const Marquee: FC<{ children: ReactNode; className?: string }> = ({
   children,
