@@ -7,7 +7,7 @@ import { call } from 'src/utils/service'
 import { stringify } from 'src/utils/superjson'
 
 export const profiles = async (search: string) => {
-  const { data } = await call(fetchProfiles, { search })
+  const { data } = await call(fetchProfiles, { search, onlyPublished: false })
   return stringify(data?.profiles ?? [])
 }
 
