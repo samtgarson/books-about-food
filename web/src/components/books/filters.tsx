@@ -1,6 +1,6 @@
 import { FetchBooksInput } from '@books-about-food/core/services/books/fetch-books'
 import { fetchTags } from '@books-about-food/core/services/tags/fetch'
-import { processArray } from '@books-about-food/core/services/utils/inputs'
+import { wrapArray } from '@books-about-food/core/services/utils/inputs'
 import { FilterBar } from 'src/components/lists/filter-bar'
 import { FilterSelect } from 'src/components/lists/filter-select'
 import { Sort } from 'src/components/lists/sort'
@@ -39,7 +39,7 @@ export function BookFilters({ filters = {} }: BookFiltersProps) {
         }}
         placeholder="Tags"
         param="tags"
-        value={processArray(filters.tags ?? [])}
+        value={wrapArray(filters.tags ?? [])}
         multi
       />
     </FilterBar>

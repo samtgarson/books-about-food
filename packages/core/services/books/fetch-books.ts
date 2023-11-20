@@ -12,7 +12,7 @@ import {
   arrayOrSingle,
   dbEnum,
   paginationInput,
-  processArray
+  wrapArray
 } from '../utils/inputs'
 import {
   FetchBooksPageFilters,
@@ -60,9 +60,7 @@ export const fetchBooks = new Service(
     const hasTag = (tags && tags.length > 0) || undefined
     const mode: Prisma.QueryMode = 'insensitive'
 
-    const AND: Prisma.BookWhereInput[] = [
-      { status: { in: processArray(status) } }
-    ]
+    const AND: Prisma.BookWhereInput[] = [{ status: { in: wrapArray(status) } }]
     if (submitterId) AND.push({ submitterId })
     if (hasTag) AND.push({ tags: { some: { name: { in: tags } } } })
     if (profile) {

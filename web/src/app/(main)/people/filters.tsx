@@ -1,6 +1,6 @@
 import { fetchJobs } from '@books-about-food/core/services/jobs/fetch-jobs'
 import { FetchProfilesInput } from '@books-about-food/core/services/profiles/fetch-profiles'
-import { processArray } from '@books-about-food/core/services/utils/inputs'
+import { wrapArray } from '@books-about-food/core/services/utils/inputs'
 import { FilterBar } from 'src/components/lists/filter-bar'
 import { FilterSelect } from 'src/components/lists/filter-select'
 import { Sort } from 'src/components/lists/sort'
@@ -38,7 +38,7 @@ export const PeopleFilters = ({ filters }: PeopleFiltersProps) => {
         search
         options={jobOptions}
         placeholder="Roles"
-        value={processArray(filters.jobs ?? [])}
+        value={wrapArray(filters.jobs ?? [])}
         multi
         param="jobs"
       />
