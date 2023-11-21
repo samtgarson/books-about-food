@@ -1,7 +1,6 @@
 import { Prisma } from '@books-about-food/database'
 
 export const profileIncludes = {
-  user: { select: { image: true } },
   avatar: true,
   _count: { select: { authoredBooks: true } }
 } satisfies Prisma.ProfileDefaultArgs['include']

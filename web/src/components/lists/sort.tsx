@@ -3,7 +3,7 @@ import { Pill } from 'src/components/atoms/pill'
 import { ParamLink } from '../atoms/param-link'
 
 export type SortProps<Value extends string> = {
-  sorts: Record<Value, string>
+  sorts: { [key in Value]?: string }
   value?: Value
   defaultValue?: Value
 }

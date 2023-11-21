@@ -201,6 +201,7 @@ model Book {
   googleBooksId   String?    @unique @map("google_books_id")
   source          BookSource @default(admin)
   backgroundColor Int[]      @default([]) @map("background_color")
+  primaryColor    Int[]      @default([]) @map("primary_color")
   palette         Int[]      @default([]) @ignore
 
   coverImage    Image?         @relation("cover_for")

@@ -68,7 +68,6 @@ export class NullProfile extends Profile {
       createdAt: new Date(),
       updatedAt: new Date(),
       hiddenCollaborators: [],
-      user: null,
       _count: { authoredBooks: 0 }
     })
   }

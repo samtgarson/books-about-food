@@ -185,20 +185,38 @@ export const customiseBooks = (
       return { background_color: rgb }
     })
 
-  Array(6)
-    .fill(0)
-    .forEach((_, i) => {
-      collection.addField(`Color${i + 1}`, {
-        async getValues(records) {
-          return records.map(
-            (record) =>
-              record.palette.length && Color.rgb(record.palette[i]).hex()
-          )
-        },
-        columnType: 'String',
-        dependencies: ['palette']
-      })
+  collection
+    .removeField('primary_color')
+    .addField('PrimaryColor', {
+      async getValues(records) {
+        return records.map(
+          (record) =>
+            record.primary_color.length && Color.rgb(record.primary_color).hex()
+        )
+      },
+      columnType: 'String',
+      dependencies: ['primary_color']
     })
+    .replaceFieldWriting('PrimaryColor', async (value) => {
+      if (!value) return { primary_color: [] }
+      const rgb = Color(value).rgb().array()
+      return { primary_color: rgb }
+    })
+
+  // Array(6)
+  //   .fill(0)
+  //   .forEach((_, i) => {
+  //     collection.addField(`Color${i + 1}`, {
+  //       async getValues(records) {
+  //         return records.map(
+  //           (record) =>
+  //             record.palette.length && Color.rgb(record.palette[i]).hex()
+  //         )
+  //       },
+  //       columnType: 'String',
+  //       dependencies: ['palette']
+  //     })
+  //   })
 
   collection
     .removeField('background_color')

@@ -9,6 +9,7 @@
     "@books-about-food/shared": "*",
     "buffer-image-size": "^0.6.4",
     "date-fns": "^2.30.0",
+    "inflection": "^3.0.0",
     "mime-types": "^2.1.35",
     "neat-csv": "^6",
     "zod": "^3.22.4"

@@ -47,7 +47,7 @@ async function ProfileSection({ userId }: { userId: string }) {
   return (
     <div>
       <h3 className="text-20 mb-4">Your Public Profile</h3>
-      <div className="relative">
+      <div className="relative max-w-xl">
         <ProfileItem profile={profile} display="list" />
         <ArrowUpRight
           strokeWidth={1}

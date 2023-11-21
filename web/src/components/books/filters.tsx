@@ -5,6 +5,7 @@ import { FilterBar } from 'src/components/lists/filter-bar'
 import { FilterSelect } from 'src/components/lists/filter-select'
 import { Sort } from 'src/components/lists/sort'
 import { call } from 'src/utils/service'
+import { ColorFilter } from './color-filter'
 
 type Filters = Omit<FetchBooksInput, 'page' | 'perPage'>
 type BookFiltersProps = {
@@ -42,6 +43,7 @@ export function BookFilters({ filters = {} }: BookFiltersProps) {
         value={wrapArray(filters.tags ?? [])}
         multi
       />
+      <ColorFilter value={filters.color} />
     </FilterBar>
   )
 }

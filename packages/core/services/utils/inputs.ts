@@ -9,7 +9,7 @@ export const paginationInput = z.object({
 
 const preprocessArray = (val: unknown) => {
   const arr = Array.isArray(val) ? val : `${val}`.split(',')
-  return arr.filter((v) => !!v?.length)
+  return arr.filter((v) => typeof v !== 'string' || !!v?.length)
 }
 
 export const array = <T extends z.ZodTypeAny>(type: T) => {
