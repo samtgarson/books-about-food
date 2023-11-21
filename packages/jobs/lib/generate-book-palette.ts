@@ -20,14 +20,27 @@ export async function generateBookPalette(bookId: string) {
   const colours = hex.map(
     (hex) => '[' + new Color(hex).rgb().array().join(',') + ']'
   )
+  const primaryColor = colours[0]
   const backgroundColor = colours[4]
   const palette = `array[${colours.join(',')}]`
 
-  await prisma.$executeRawUnsafe(query(bookId, backgroundColor, palette))
+  await prisma.$executeRawUnsafe(
+    query(bookId, backgroundColor, primaryColor, palette)
+  )
 
   return true
 }
 
-function query(bookId: string, backgroundColor: string, palette: string) {
-  return `UPDATE "books" SET "background_color" = array${backgroundColor}, "palette" = ${palette} WHERE "id" = '${bookId}'`
+function query(
+  bookId: string,
+  backgroundColor: string,
+  primaryColor: string,
+  palette: string
+) {
+  return `
+  UPDATE "books" SET
+    "background_color" = array${backgroundColor},
+    "palette" = ${palette},
+    "primary_color" = array${primaryColor}
+  WHERE "id" = '${bookId}'`
 }
