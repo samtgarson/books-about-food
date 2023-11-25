@@ -37,7 +37,12 @@ export const LocationField = () => {
           tabIndex={editMode ? undefined : -1}
           aria-label="Edit location"
         >
-          <Field disabled attr="location" placeholder="Add a location" />
+          <Field
+            disabled
+            attr="location"
+            placeholder="Add a location"
+            className="text-left"
+          />
         </Sheet.Trigger>
         <Sheet.Content>
           {({ close }) => (
