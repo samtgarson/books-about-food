@@ -5,14 +5,9 @@ import prisma, {
   Prisma,
   cacheStrategy
 } from '@books-about-food/database'
+import { wrapArray } from '@books-about-food/shared/utils/array'
 import { z } from 'zod'
-import {
-  array,
-  arrayOrSingle,
-  dbEnum,
-  paginationInput,
-  wrapArray
-} from '../utils/inputs'
+import { array, arrayOrSingle, dbEnum, paginationInput } from '../utils/inputs'
 import { BookRow, rowToBookAttrs } from './book-row'
 import {
   FetchBooksPageFilters,
@@ -20,7 +15,7 @@ import {
   fetchBooksPageFilters
 } from './filters'
 
-const { sql, join, empty } = Prisma
+const { sql, join, empty, raw } = Prisma
 
 export type FetchBooksInput = NonNullable<z.infer<typeof validator>>
 export type FetchBooksOutput = Awaited<ReturnType<(typeof fetchBooks)['call']>>
@@ -80,7 +75,7 @@ function whereQuery({
   if (profile) where.push(profileQuery(profile))
   if (pageCount) where.push(pageCountQuery(pageCount))
   if (publisherSlug) where.push(sql`publishers.slug = ${publisherSlug}`)
-  if (color?.length) where.push(colorQuery(color))
+  if (color?.length) where.push(sql`matched_palette.color is not null`)
 
   const searchWhere = searchQuery(search)
   if (searchWhere) where.push(searchWhere)
@@ -112,22 +107,38 @@ function searchQuery(search?: string) {
   return sql`concat_ws(' ', books.title, books.subtitle, publishers.name, contributions.profile ->> 'name', tags.name) ilike ${`%${contains}%`}`
 }
 
-function colorQuery(color: number[]) {
-  const radius = 50
-  const cube = `'(${color.join(',')})'`
-  return sql`cube_distance(cube(books.primary_color), ${cube}) < ${radius}`
+function colorFilterJoin(color: number[]) {
+  const [h, s, l] = color
+  return sql`left outer join lateral (
+      select 1000 - abs(${h}::int - (c.color ->> 'h')::decimal) color from (
+        select jsonb_array_elements(books.palette) color from books b
+        where b.id = books.id
+      ) c
+      where abs(${h}::int - (c.color ->> 'h')::decimal) < 30
+      and abs(${s}::int - (c.color ->> 's')::decimal) < 20
+      and abs(${l}::int - (c.color ->> 'l')::decimal) < 20
+      limit 1
+    ) matched_palette on true`
+}
+
+function colorJoin(color?: number[]) {
+  if (color?.length) return colorFilterJoin(color)
+  return sql`left outer join lateral (
+    select (b.palette -> 0 ->> 'h')::decimal as color from books b
+    where b.id = books.id
+  ) matched_palette on true`
 }
 
 function sortQuery(sort?: BookSort) {
   switch (sort) {
     case 'releaseDate':
-      return sql`books.release_date`
+      return raw('books.release_date')
     case 'createdAt':
-      return sql`books.created_at`
+      return raw('books.created_at')
     case 'color':
-      return sql`cube_distance(cube(books.primary_color), '(255,0,0)')`
+      return raw('matched_palette.color')
     default:
-      return sql`books.release_date`
+      return raw('books.release_date')
   }
 }
 
@@ -167,6 +178,7 @@ function sqlFilters(input: FetchBooksInput) {
     ) authors on true
     left outer join publishers on publishers.id = books.publisher_id
     left outer join images cover_image on cover_image.cover_for_id = books.id
+    ${colorJoin(input.color)}
     where ${where}`
 }
 
@@ -184,7 +196,7 @@ function baseQuery({
   ...input
 }: FetchBooksInput) {
   const filters = sqlFilters(input)
-  const sort = sortQuery(sortKey)
+  const sort = sortQuery(input.color ? 'color' : sortKey)
   const limit = perPage === 0 ? empty : sql`limit ${perPage}`
 
   const query = sql`
@@ -203,17 +215,17 @@ function baseQuery({
       books.google_books_id,
       books.source,
       books.background_color,
-      books.primary_color,
       ${sort} as sort,
       row_to_json(cover_image.*)::jsonb cover_image,
       json_agg(authors.*)::jsonb authors,
       json_agg(contributions.*)::jsonb contributions
     from books
     ${filters}
-    group by books.id, cover_image.id
+    group by books.id, cover_image.id, sort
     order by sort desc nulls last
     ${limit}
     offset ${page * perPage}`
 
+  console.log(query.text, JSON.stringify(query.values, null, 2))
   return { query, perPage }
 }

@@ -1,7 +1,6 @@
 import prisma from '@books-about-food/database'
 import { imageUrl } from '@books-about-food/shared/utils/image-url'
-import Color from 'color'
-import splashy from 'splashy'
+import { getColors } from './get-colors'
 
 export async function generateBookPalette(bookId: string) {
   console.log('Generating palette for book', bookId)
@@ -12,35 +11,12 @@ export async function generateBookPalette(bookId: string) {
   if (!image) return true
 
   const src = imageUrl(image.path)
-  const res = await fetch(src)
-  const buffer = Buffer.from(await res.arrayBuffer())
-  const hex = await splashy(buffer)
-  if (hex.length < 5) throw new Error('Did not generate 5 colours')
+  const { palette, backgroundColor } = await getColors(src)
 
-  const colours = hex.map(
-    (hex) => '[' + new Color(hex).rgb().array().join(',') + ']'
-  )
-  const primaryColor = colours[0]
-  const backgroundColor = colours[4]
-  const palette = `array[${colours.join(',')}]`
-
-  await prisma.$executeRawUnsafe(
-    query(bookId, backgroundColor, primaryColor, palette)
-  )
+  await prisma.book.update({
+    where: { id: bookId },
+    data: { backgroundColor, palette }
+  })
 
   return true
-}
-
-function query(
-  bookId: string,
-  backgroundColor: string,
-  primaryColor: string,
-  palette: string
-) {
-  return `
-  UPDATE "books" SET
-    "background_color" = array${backgroundColor},
-    "palette" = ${palette},
-    "primary_color" = array${primaryColor}
-  WHERE "id" = '${bookId}'`
 }

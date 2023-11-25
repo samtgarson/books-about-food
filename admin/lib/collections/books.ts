@@ -185,38 +185,19 @@ export const customiseBooks = (
       return { background_color: rgb }
     })
 
-  collection
-    .removeField('primary_color')
-    .addField('PrimaryColor', {
-      async getValues(records) {
-        return records.map(
-          (record) =>
-            record.primary_color.length && Color.rgb(record.primary_color).hex()
-        )
-      },
-      columnType: 'String',
-      dependencies: ['primary_color']
+  Array(3)
+    .fill(0)
+    .forEach((_, i) => {
+      collection.addField(`Color${i + 1}`, {
+        async getValues(records) {
+          return records.map(
+            (record) => record.palette?.[i] && Color(record.palette[i]).hex()
+          )
+        },
+        columnType: 'String',
+        dependencies: ['palette']
+      })
     })
-    .replaceFieldWriting('PrimaryColor', async (value) => {
-      if (!value) return { primary_color: [] }
-      const rgb = Color(value).rgb().array()
-      return { primary_color: rgb }
-    })
-
-  // Array(6)
-  //   .fill(0)
-  //   .forEach((_, i) => {
-  //     collection.addField(`Color${i + 1}`, {
-  //       async getValues(records) {
-  //         return records.map(
-  //           (record) =>
-  //             record.palette.length && Color.rgb(record.palette[i]).hex()
-  //         )
-  //       },
-  //       columnType: 'String',
-  //       dependencies: ['palette']
-  //     })
-  //   })
 
   collection
     .removeField('background_color')
@@ -224,8 +205,7 @@ export const customiseBooks = (
       async getValues(records) {
         return records.map(
           (record) =>
-            record.background_color.length &&
-            Color.rgb(record.background_color).hex()
+            record.background_color && Color(record.background_color).hex()
         )
       },
       columnType: 'String',
@@ -259,7 +239,7 @@ export const customiseBooks = (
         widget: 'Dropdown',
         search: 'dynamic',
         placeholder: 'Search for an existing profile or create a new one',
-        async options(context, searchValue) {
+        async options(_context, searchValue) {
           if (!searchValue) return []
           const options = [
             { value: `||${searchValue}||`, label: `Create: ${searchValue}` }

@@ -10,13 +10,16 @@
     "@books-about-food/database": "*",
     "@books-about-food/email": "*",
     "@books-about-food/shared": "*",
+    "@vibrant/color": "^3.2.1-alpha.1",
+    "@vibrant/core": "^3.2.1-alpha.1",
+    "@vibrant/generator": "^3.2.1-alpha.1",
+    "@vibrant/image-node": "^3.2.1-alpha.1",
+    "@vibrant/quantizer-mmcq": "^3.2.1-alpha.1",
     "color": "^4.2.3",
-    "inngest": "^3.4.1",
-    "splashy": "samtgarson/splashy"
+    "inngest": "^3.4.1"
   },
   "devDependencies": {
     "@types/color": "^3.0.6",
-    "@types/splashy": "^5.0.2",
     "inngest-cli": "^0.20.0"
   }
 }

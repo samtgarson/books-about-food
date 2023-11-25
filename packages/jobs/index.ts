@@ -7,10 +7,11 @@ export const inngest = new Inngest({
   schemas: new EventSchemas().fromRecord<{
     'book.updated': {
       data: {
-        id: string
+        id: string | string[] | 'all'
         coverImageChanged?: boolean
       }
     }
-    email: { data: EmailTemplate }
+    'jobs.email': { data: EmailTemplate }
+    'jobs.generate-all-palettes': { data: { force: boolean } }
   }>()
 })

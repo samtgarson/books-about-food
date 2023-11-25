@@ -1,3 +1,6 @@
+import prisma from '@books-about-food/database'
+import { wrapArray } from '@books-about-food/shared/utils/array'
+import { asyncBatch } from '@books-about-food/shared/utils/batch'
 import { generateBookPalette } from '../lib/generate-book-palette'
 import { createJob } from './base'
 
@@ -15,7 +18,27 @@ export const generatePalette = createJob(
         status: 'skipped: cover image not changed'
       }
 
-    const success = await generateBookPalette(event.data.id)
-    return { success }
+    const { id } = event.data
+    const ids = id === 'all' ? await allIds() : wrapArray(id)
+
+    const results = await asyncBatch(ids, 10, async (id) => {
+      try {
+        return await generateBookPalette(id)
+      } catch (error) {
+        console.error(id, (error as Error).message)
+        return false
+      }
+    })
+    const success = results.filter((result) => result === true).length
+    return { success: success === results.length, successCount: success }
   }
 )
+
+async function allIds() {
+  const records = await prisma.book.findMany({
+    select: { id: true },
+    where: { status: 'published' }
+  })
+
+  return records.map((record) => record.id)
+}

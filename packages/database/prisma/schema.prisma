@@ -200,9 +200,8 @@ model Book {
   submitterId     String?    @map("submitter_id") @db.Uuid
   googleBooksId   String?    @unique @map("google_books_id")
   source          BookSource @default(admin)
-  backgroundColor Int[]      @default([]) @map("background_color")
-  primaryColor    Int[]      @default([]) @map("primary_color")
-  palette         Int[]      @default([]) @ignore
+  backgroundColor Json?      @map("background_color")
+  palette         Json?
 
   coverImage    Image?         @relation("cover_for")
   previewImages Image[]        @relation("preview_for")

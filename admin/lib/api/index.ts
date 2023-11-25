@@ -10,20 +10,16 @@ import { logger } from 'lib/utils/logger'
 
 const secret = process.env.FOREST_AUTH_SECRET
 if (!secret) throw new Error('Missing FOREST_AUTH_SECRET')
+const serveHost =
+  process.env.NODE_ENV === 'production'
+    ? 'https://admin.booksaboutfood.info'
+    : 'http://localhost:5001'
 
 export const apiRouter = new Router({ prefix: '/api' })
 apiRouter.use(logger)
 apiRouter.use(bodyParser())
 
-const serveHost =
-  process.env.NODE_ENV === 'production'
-    ? 'https://admin.booksaboutfood.info'
-    : 'http://localhost:5001'
-const handler = serve({ client: inngest, functions, serveHost })
-apiRouter.all('/inngest', (ctx) => {
-  console.log('inngest', ctx.request.url)
-  return handler(ctx)
-})
+apiRouter.all('/inngest', serve({ client: inngest, functions, serveHost }))
 
 apiRouter.use(jwt({ secret }))
 
