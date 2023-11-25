@@ -21,7 +21,7 @@ export const generatePalette = createJob(
     const { id } = event.data
     const ids = id === 'all' ? await allIds() : wrapArray(id)
 
-    const results = await asyncBatch(ids, 10, async (id) => {
+    const results = await asyncBatch(ids, 5, async (id) => {
       try {
         return await generateBookPalette(id)
       } catch (error) {
