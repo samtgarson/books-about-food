@@ -226,6 +226,5 @@ function baseQuery({
     ${limit}
     offset ${page * perPage}`
 
-  console.log(query.text, JSON.stringify(query.values, null, 2))
   return { query, perPage }
 }

@@ -16,8 +16,8 @@ export const updateProfile = new Service(
   z.object({
     slug: z.string(),
     name: z.string().optional(),
-    description: z.string().optional(),
-    jobTitle: z.string().optional(),
+    description: z.string().nullish(),
+    jobTitle: z.string().nullish(),
     website: z.string().regex(basicUrl).nullish(),
     instagram: z.string().regex(instagramHandle).nullish(),
     location: z.string().nullish(),
