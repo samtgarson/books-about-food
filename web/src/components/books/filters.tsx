@@ -1,6 +1,6 @@
 import { FetchBooksInput } from '@books-about-food/core/services/books/fetch-books'
 import { fetchTags } from '@books-about-food/core/services/tags/fetch'
-import { wrapArray } from '@books-about-food/core/services/utils/inputs'
+import { wrapArray } from '@books-about-food/shared/utils/array'
 import { FilterBar } from 'src/components/lists/filter-bar'
 import { FilterSelect } from 'src/components/lists/filter-select'
 import { Sort } from 'src/components/lists/sort'

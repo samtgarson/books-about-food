@@ -26,7 +26,7 @@ export async function action(
   if (!resource || !user?.email) return
 
   await inngest.send({
-    name: 'email',
+    name: 'jobs.email',
     data: {
       key: 'suggestEdit',
       props: {

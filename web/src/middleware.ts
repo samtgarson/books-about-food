@@ -14,7 +14,7 @@ export default withAuth(
     }
 
     const splashEnabled =
-      request.nextUrl.host === 'booksaboutfood.info' ||
+      request.nextUrl.host === 'www.booksaboutfood.info' ||
       process.env.ENABLE_SPLASH
     const userAllowed =
       request.nextauth.token && request.nextauth.token.role !== 'waitlist'

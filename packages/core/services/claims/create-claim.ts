@@ -34,7 +34,7 @@ export const createClaim = new Service(
     const resourceName = profile.name
 
     await inngest.send({
-      name: 'email',
+      name: 'jobs.email',
       data: {
         key: 'newClaim',
         props: {

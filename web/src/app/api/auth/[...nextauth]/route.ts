@@ -39,7 +39,7 @@ export const authOptions: NextAuthOptions = {
           const newUser = !user || !user?.emailVerified
 
           await inngest.send({
-            name: 'email',
+            name: 'jobs.email',
             data: { key: 'verifyEmail', props: { url, newUser } },
             user: user || { email }
           })

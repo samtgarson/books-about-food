@@ -20,9 +20,6 @@ export const arrayOrSingle = <T extends z.ZodTypeAny>(type: T) => {
   return z.preprocess(preprocessArray, type.or(z.array(type)))
 }
 
-export const wrapArray = <T>(val: T | T[]): T[] =>
-  Array.isArray(val) ? val : [val]
-
 export const dbEnum = <T extends string>(obj: Record<string, T>) =>
   z.enum(Object.values(obj) as [T, ...T[]])
 

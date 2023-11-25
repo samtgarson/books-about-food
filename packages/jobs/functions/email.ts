@@ -3,7 +3,7 @@ import { createJob } from './base'
 
 export const email = createJob(
   { id: 'email', name: 'Send an email' },
-  'email',
+  'jobs.email',
   async ({ event }) => {
     if (!event.user?.email) return { success: false, message: 'No user' }
     const component = renderEmailTemplate(event.data)
