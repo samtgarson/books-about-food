@@ -12,6 +12,7 @@ import { customiseJobs } from './collections/jobs'
 import { customiseLinks } from './collections/links'
 import { customiseProfiles } from './collections/profiles'
 import { customisePublishers } from './collections/publishers'
+import { customiseUsers } from './collections/users'
 
 const rootDir = pkgDir.sync(__dirname)
 if (!rootDir) {
@@ -37,4 +38,5 @@ agent
   .customizeCollection('images', customiseImages)
   .customizeCollection('links', customiseLinks)
   .customizeCollection('claims', customiseClaims)
+  .customizeCollection('users', customiseUsers)
   .start()

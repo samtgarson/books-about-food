@@ -105,7 +105,7 @@ export const customiseProfiles = (
         update: {}
       })
 
-      return result.success(`Profile ${profileId} featured`)
+      return result.success(`🎉 Profile ${profileId} featured`)
     }
   })
 }

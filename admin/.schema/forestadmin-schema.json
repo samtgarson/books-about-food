@@ -540,11 +540,23 @@
           "hooks": {"load": false, "change": ["changeHook"]}
         },
         {
-          "id": "books-1--add-new-collaborator",
+          "id": "books-1--publish",
+          "name": "📤 Publish",
+          "type": "bulk",
+          "baseUrl": null,
+          "endpoint": "/forest/_actions/books/1/-publish",
+          "httpMethod": "POST",
+          "redirect": null,
+          "download": false,
+          "fields": [],
+          "hooks": {"load": false, "change": ["changeHook"]}
+        },
+        {
+          "id": "books-2--add-new-collaborator",
           "name": "🤝 Add new collaborator",
           "type": "single",
           "baseUrl": null,
-          "endpoint": "/forest/_actions/books/1/-add-new-collaborator",
+          "endpoint": "/forest/_actions/books/2/-add-new-collaborator",
           "httpMethod": "POST",
           "redirect": null,
           "download": false,
@@ -1054,11 +1066,11 @@
     {
       "actions": [
         {
-          "id": "claims-0-approve",
-          "name": "Approve",
-          "type": "bulk",
+          "id": "claims-0--approve",
+          "name": "✅ Approve",
+          "type": "single",
           "baseUrl": null,
-          "endpoint": "/forest/_actions/claims/0/approve",
+          "endpoint": "/forest/_actions/claims/0/-approve",
           "httpMethod": "POST",
           "redirect": null,
           "download": false,
@@ -3120,7 +3132,20 @@
       "segments": []
     },
     {
-      "actions": [],
+      "actions": [
+        {
+          "id": "users-0--approve-access",
+          "name": "✅ Approve access",
+          "type": "bulk",
+          "baseUrl": null,
+          "endpoint": "/forest/_actions/users/0/-approve-access",
+          "httpMethod": "POST",
+          "redirect": null,
+          "download": false,
+          "fields": [],
+          "hooks": {"load": false, "change": ["changeHook"]}
+        }
+      ],
       "fields": [
         {
           "defaultValue": null,

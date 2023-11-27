@@ -224,9 +224,36 @@ export const customiseBooks = (
     scope: 'Single',
     execute: async (context, result) => {
       const { slug } = await context.getRecord(['slug'])
-      return result.redirectTo(
-        `https://books-about-food-web.vercel.app/cookbooks/${slug}`
-      )
+      return result.redirectTo(`https://booksaboutfood.info/cookbooks/${slug}`)
+    }
+  })
+
+  collection.addAction('📤 Publish', {
+    scope: 'Single',
+    execute: async (context, result) => {
+      const { slug } = await context.getRecord(['slug'])
+      await prisma.book.update({
+        where: { slug },
+        data: { status: 'published' }
+      })
+      return result.success('🎉 Book published')
+    }
+  })
+
+  collection.addAction('📤 Publish', {
+    scope: 'Bulk',
+    execute: async (context, result) => {
+      const ids = await context.getRecordIds()
+      try {
+        await prisma.book.updateMany({
+          where: { id: { in: ids.map((id) => id.toString()) } },
+          data: { status: 'published' }
+        })
+        return result.success('🎉 Books published')
+      } catch (e) {
+        console.log(e)
+        return result.error(`Error publishing books: ${(e as Error).message}`)
+      }
     }
   })
 
@@ -270,7 +297,7 @@ export const customiseBooks = (
       const profileIdOrName = context.formValues.Name
       let profileId: string
       if (profileIdOrName.startsWith('||')) {
-        const name = profileIdOrName.slice(2)
+        const name = profileIdOrName.slice(2, -2)
         const created = await prisma.profile.create({
           data: {
             name,
@@ -292,7 +319,7 @@ export const customiseBooks = (
         }
       })
 
-      return result.success('Collaborator added')
+      return result.success('🎉 Collaborator added')
     }
   })
 
