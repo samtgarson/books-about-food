@@ -1,6 +1,7 @@
 import { Service } from '@books-about-food/core/services/base'
 import { AppError } from '@books-about-food/core/services/utils/errors'
 import prisma, { Prisma } from '@books-about-food/database'
+import { inngest } from '@books-about-food/jobs'
 import { asyncBatch } from '@books-about-food/shared/utils/batch'
 import { slugify } from '@books-about-food/shared/utils/slugify'
 import { parse } from 'date-fns'
@@ -118,6 +119,7 @@ export const processBookImport = new Service(
       }
     })
 
+    await inngest.send({ name: 'book.updated', data: { id: result } })
     return result
   }
 )
