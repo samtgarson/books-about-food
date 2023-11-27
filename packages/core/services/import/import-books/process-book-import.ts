@@ -103,7 +103,8 @@ export const processBookImport = new Service(
             contributions,
             authors,
             submitter: { connect: { id: user.id } },
-            source: 'import'
+            source: 'import',
+            status: 'inReview'
           }
         }
       }
