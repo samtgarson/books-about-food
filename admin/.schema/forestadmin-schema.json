@@ -1068,7 +1068,7 @@
         {
           "id": "claims-0--approve",
           "name": "✅ Approve",
-          "type": "single",
+          "type": "bulk",
           "baseUrl": null,
           "endpoint": "/forest/_actions/claims/0/-approve",
           "httpMethod": "POST",
@@ -2348,11 +2348,11 @@
           "hooks": {"load": false, "change": ["changeHook"]}
         },
         {
-          "id": "profiles-1--feature-this-profile",
-          "name": "🌟 Feature this profile",
-          "type": "single",
+          "id": "profiles-1--feature-on-the-homepage",
+          "name": "🌟 Feature on the homepage",
+          "type": "bulk",
           "baseUrl": null,
-          "endpoint": "/forest/_actions/profiles/1/-feature-this-profile",
+          "endpoint": "/forest/_actions/profiles/1/-feature-on-the-homepage",
           "httpMethod": "POST",
           "redirect": null,
           "download": false,

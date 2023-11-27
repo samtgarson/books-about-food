@@ -1,61 +1,57 @@
+import { profileIncludes } from '@books-about-food/core/services/utils'
 import prisma from '@books-about-food/database'
+import { inngest } from '@books-about-food/jobs'
+import { imageUrl } from '@books-about-food/shared/utils/image-url'
 import { CollectionCustomizer } from '@forestadmin/agent'
+import { resourceAction } from 'lib/utils/actions'
 import { Schema } from '../../.schema/types'
 
 async function approveClaim(idVal: string | number) {
   const id = idVal.toString()
-  const claim = await prisma.claim.findUnique({
+  const claimResult = await prisma.claim.findUnique({
     where: { id },
-    include: { user: true }
+    include: {
+      user: true,
+      profile: { include: profileIncludes }
+    }
   })
-  if (!claim || !claim.user) throw new Error('Claim not found')
+  if (!claimResult?.user || !claimResult.profile)
+    throw new Error('Claim not found')
+  const { profile, user } = claimResult
 
-  if (claim.profileId) {
-    await prisma.profile.update({
-      where: { id: claim.profileId },
-      data: { userId: claim.userId }
+  await Promise.all([
+    prisma.profile.update({
+      where: { id: profile.id },
+      data: { userId: user.id }
+    }),
+    prisma.claim.update({
+      where: { id },
+      data: { approvedAt: new Date() }
+    }),
+    inngest.send({
+      name: 'jobs.email',
+      data: {
+        key: 'claimApproved',
+        props: {
+          profileSlug: profile.slug,
+          profileName: profile.name,
+          profileAvatarUrl: profile.avatar && imageUrl(profile.avatar.path),
+          author: profile._count.authoredBooks > 0
+        }
+      },
+      user
     })
-  }
-
-  await prisma.claim.update({
-    where: { id },
-    data: { approvedAt: new Date() }
-  })
+  ])
 }
 
 export const customiseClaims = (
   collection: CollectionCustomizer<Schema, 'claims'>
 ) => {
-  collection.addAction('✅ Approve', {
-    scope: 'Bulk',
-    execute: async (context, result) => {
-      const ids = await context.getRecordIds()
-      try {
-        await Promise.all(ids.map(approveClaim))
-
-        const s = ids.length === 1 ? '' : 's'
-        return result.success(
-          `${ids.length} claim${s} approved! The user${s} have been notified 🚀`
-        )
-      } catch (e) {
-        console.log(e)
-        return result.error(`Error approving claims: ${(e as Error).message}`)
-      }
-    }
-  })
-
-  collection.addAction('✅ Approve', {
-    scope: 'Single',
-    execute: async (context, result) => {
-      const id = await context.getRecordId()
-      try {
-        await approveClaim(id)
-
-        return result.success('Claim approved! The user has been notified 🚀')
-      } catch (e) {
-        console.log(e)
-        return result.error(`Error approving claim: ${(e as Error).message}`)
-      }
-    }
+  resourceAction({
+    collection,
+    name: '✅ Approve',
+    successMessage: 'Approved! The user(s) has been notified 🚀',
+    multi: true,
+    fn: approveClaim
   })
 }

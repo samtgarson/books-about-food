@@ -5,6 +5,7 @@ import { imageUrl } from '@books-about-food/shared/utils/image-url'
 import { slugify } from '@books-about-food/shared/utils/slugify'
 import { CollectionCustomizer } from '@forestadmin/agent'
 import Color from 'color'
+import { resourceAction } from 'lib/utils/actions'
 import { deleteImage, uploadImage } from 'lib/utils/image-utils'
 import { Schema } from '../../.schema/types'
 
@@ -228,32 +229,16 @@ export const customiseBooks = (
     }
   })
 
-  collection.addAction('📤 Publish', {
-    scope: 'Single',
-    execute: async (context, result) => {
-      const { slug } = await context.getRecord(['slug'])
+  resourceAction({
+    collection,
+    name: '📤 Publish',
+    successMessage: 'Published',
+    multi: true,
+    async fn(id) {
       await prisma.book.update({
-        where: { slug },
+        where: { id: id.toString() },
         data: { status: 'published' }
       })
-      return result.success('🎉 Book published')
-    }
-  })
-
-  collection.addAction('📤 Publish', {
-    scope: 'Bulk',
-    execute: async (context, result) => {
-      const ids = await context.getRecordIds()
-      try {
-        await prisma.book.updateMany({
-          where: { id: { in: ids.map((id) => id.toString()) } },
-          data: { status: 'published' }
-        })
-        return result.success('🎉 Books published')
-      } catch (e) {
-        console.log(e)
-        return result.error(`Error publishing books: ${(e as Error).message}`)
-      }
     }
   })
 

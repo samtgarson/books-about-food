@@ -12,6 +12,5 @@ export const inngest = new Inngest({
       }
     }
     'jobs.email': { data: EmailTemplate }
-    'jobs.generate-all-palettes': { data: { force: boolean } }
   }>()
 })

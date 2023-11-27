@@ -1,36 +1,34 @@
 import prisma from '@books-about-food/database'
+import { inngest } from '@books-about-food/jobs'
 import { CollectionCustomizer } from '@forestadmin/agent'
+import { resourceAction } from 'lib/utils/actions'
 import { Schema } from '../../.schema/types'
+
+async function approveUser(id: string | number) {
+  const user = await prisma.user.findUnique({
+    where: { id: id.toString() }
+  })
+  if (!user) throw new Error('User not found')
+
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { role: 'user' }
+  })
+  await inngest.send({
+    name: 'jobs.email',
+    data: { key: 'userApproved', props: { userName: user.name } },
+    user
+  })
+}
 
 export const customiseUsers = (
   collection: CollectionCustomizer<Schema, 'users'>
 ) => {
-  collection.addAction('✅ Approve access', {
-    scope: 'Single',
-    execute: async (context, result) => {
-      const { id } = await context.getRecord(['id'])
-      await prisma.user.update({
-        where: { id },
-        data: { role: 'user' }
-      })
-      return result.success('🎉 User approved')
-    }
-  })
-
-  collection.addAction('✅ Approve access', {
-    scope: 'Bulk',
-    execute: async (context, result) => {
-      const ids = await context.getRecordIds()
-      try {
-        await prisma.user.updateMany({
-          where: { id: { in: ids.map((id) => id.toString()) } },
-          data: { role: 'user' }
-        })
-        return result.success('🎉 Users approved')
-      } catch (e) {
-        console.log(e)
-        return result.error(`Error publishing books: ${(e as Error).message}`)
-      }
-    }
+  resourceAction({
+    collection,
+    name: '✅ Approve access',
+    successMessage: 'Approved! The user(s) has been notified 🚀',
+    multi: true,
+    fn: approveUser
   })
 }

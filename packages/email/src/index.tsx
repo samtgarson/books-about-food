@@ -1,8 +1,10 @@
 import { buildSendMail } from 'mailing-core'
 import nodemailer from 'nodemailer'
 import { resolve } from 'path'
+import { ClaimApproved, ClaimApprovedProps } from './templates/claim-approved'
 import { NewClaim, NewClaimProps } from './templates/new-claim'
 import { SuggestEdit, SuggestEditProps } from './templates/suggest-edit'
+import { UserApproved, UserApprovedProps } from './templates/user-approved'
 import { VerifyEmail, VerifyEmailProps } from './templates/verify-email'
 
 export const sendMail = buildSendMail({
@@ -26,13 +28,19 @@ export const renderEmailTemplate = ({ key, props }: EmailTemplate) => {
       return <SuggestEdit {...props} />
     case 'verifyEmail':
       return <VerifyEmail {...props} />
+    case 'userApproved':
+      return <UserApproved {...props} />
+    case 'claimApproved':
+      return <ClaimApproved {...props} />
   }
 }
 
 export type EmailTemplates = [
   { key: 'newClaim'; props: NewClaimProps },
   { key: 'suggestEdit'; props: SuggestEditProps },
-  { key: 'verifyEmail'; props: VerifyEmailProps }
+  { key: 'verifyEmail'; props: VerifyEmailProps },
+  { key: 'userApproved'; props: UserApprovedProps },
+  { key: 'claimApproved'; props: ClaimApprovedProps }
 ]
 export type EmailTemplate = EmailTemplates[number]
 

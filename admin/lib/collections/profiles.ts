@@ -2,6 +2,7 @@ import prisma from '@books-about-food/database'
 import { imageUrl } from '@books-about-food/shared/utils/image-url'
 import { slugify } from '@books-about-food/shared/utils/slugify'
 import { CollectionCustomizer } from '@forestadmin/agent'
+import { resourceAction } from 'lib/utils/actions'
 import { deleteImage, uploadImage } from 'lib/utils/image-utils'
 import { Schema } from '../../.schema/types'
 
@@ -94,18 +95,18 @@ export const customiseProfiles = (
     }
   })
 
-  collection.addAction('🌟 Feature this profile', {
-    scope: 'Single',
-    async execute(ctx, result) {
-      const profileId = `${await ctx.getRecordId()}`
+  resourceAction({
+    collection,
+    name: '🌟 Feature on the homepage',
+    multi: true,
+    async fn(id) {
+      const profileId = `${id}`
 
       await prisma.featuredProfile.upsert({
         where: { profileId },
         create: { profileId },
         update: {}
       })
-
-      return result.success(`🎉 Profile ${profileId} featured`)
     }
   })
 }
