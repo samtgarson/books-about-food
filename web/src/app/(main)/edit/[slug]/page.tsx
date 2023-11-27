@@ -34,7 +34,7 @@ export default async function Page({ params: { slug } }: EditPageProps) {
         sheet="submitted"
         props={{ title: `${book.title} Submitted!` }}
       />
-      <PageBackLink href={`/account/submissions`}>
+      <PageBackLink href={`/account/submissions`} back>
         Back to Submissions
       </PageBackLink>
       <div className="w-full max-w-xl flex flex-col items-stretch gap-6">

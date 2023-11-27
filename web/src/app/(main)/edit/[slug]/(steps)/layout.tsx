@@ -17,7 +17,7 @@ export default async function EditLayout({
 
   return (
     <>
-      <PageBackLink href={`/edit/${book.slug}`}>
+      <PageBackLink href={`/edit/${book.slug}`} back>
         Back to Submission
       </PageBackLink>
       {children}
