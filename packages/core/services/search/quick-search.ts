@@ -7,18 +7,18 @@ export const quickSearch = new Service(
   async ({ query } = {}) => {
     if (query.length < 3) return []
 
-    const search = query.trim().split(' ').join(' & ')
+    const contains = `%${query.trim()}%`
     return await prisma.searchResult.findMany({
       where: {
         OR: [
-          { name: { search, mode: 'insensitive' } },
-          { description: { search, mode: 'insensitive' } }
+          { name: { contains, mode: 'insensitive' } },
+          { description: { contains, mode: 'insensitive' } }
         ]
       },
       orderBy: {
         _relevance: {
           fields: ['name'],
-          search,
+          search: query,
           sort: 'desc'
         }
       },

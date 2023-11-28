@@ -4,7 +4,7 @@ import { SearchResult } from '@books-about-food/core/models/search-result'
 import cn from 'classnames'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useDeferredValue, useEffect, useMemo, useState } from 'react'
+import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react'
 import { BaseAvatar } from 'src/components/atoms/avatar'
 import { Loader } from 'src/components/atoms/loader'
 import * as Sheet from 'src/components/atoms/sheet'
@@ -31,6 +31,7 @@ export function QuickSearchContent({ onSelect }: { onSelect?: () => void }) {
     [value, query]
   )
   const [focused, setFocused] = useState<number>(0)
+  const sheetBody = useRef<Sheet.SheetBodyControl>(null)
   const router = useRouter()
 
   useEffect(() => {
@@ -57,11 +58,15 @@ export function QuickSearchContent({ onSelect }: { onSelect?: () => void }) {
       const nextIndex =
         e.key === 'ArrowDown' ? currentIndex + 1 : currentIndex - 1
       const inRangeIndex = Math.max(0, Math.min(results.length - 1, nextIndex))
-
       setFocused(inRangeIndex)
-      document
-        .querySelector(`#${results[inRangeIndex].domId}`)
-        ?.scrollIntoView({ block: 'nearest' })
+
+      if (inRangeIndex === 0) {
+        sheetBody.current?.scrollToTop()
+      } else {
+        document
+          .querySelector(`#${results[inRangeIndex].domId}`)
+          ?.scrollIntoView({ block: 'nearest' })
+      }
     }
 
     document.addEventListener('keydown', handler)
@@ -72,6 +77,7 @@ export function QuickSearchContent({ onSelect }: { onSelect?: () => void }) {
     <Sheet.Body
       containerClassName="!pt-2 !px-2 sm:!pt-4 sm:!px-4 !pb-0 bg-opacity-0"
       className="flex flex-col gap-2 sm:gap-4"
+      ref={sheetBody}
     >
       <div className={cn('flex gap-4 items-center px-3 py-2 sm:px-4 sm:py-3')}>
         <input
@@ -79,7 +85,10 @@ export function QuickSearchContent({ onSelect }: { onSelect?: () => void }) {
           type="text"
           className="text-24 sm:text-32 focus:outline-none flex-1 bg-transparent flex-grow placeholder-black/30"
           value={rawQuery}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => {
+            setQuery(e.target.value)
+            setFocused(0)
+          }}
           placeholder="Type something..."
         />
         <Loader
@@ -145,7 +154,7 @@ function QuickSearchResult({ item, focused, onHover }: QuickSearchResultProps) {
         ) : item.image ? (
           <Image {...item.image.imageAttrs(50)} />
         ) : item.type === 'publisher' ? (
-          <div className="h-10 w-10 bg-grey rounded-full" />
+          <div className="h-5 w-5 sm:h-8 sm:w-8 bg-grey" />
         ) : (
           <div className="h-[50px] w-[38px] bg-grey" />
         )}

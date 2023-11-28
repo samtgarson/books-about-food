@@ -1,24 +1,34 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import cn from 'classnames'
-import { ReactNode, useEffect, useId, useMemo, useRef } from 'react'
+import {
+  ReactNode,
+  forwardRef,
+  useEffect,
+  useId,
+  useImperativeHandle,
+  useMemo,
+  useRef
+} from 'react'
 import { Loader } from 'react-feather'
 import { useSheetContext } from './context'
 
-export const Body = ({
-  className,
-  loading,
-  children = null,
-  title,
-  controls,
-  containerClassName
-}: {
+type SheetBodyProps = {
   className?: string
   loading?: boolean
   children?: ReactNode
   title?: string
   controls?: ReactNode
   containerClassName?: string
-}) => {
+}
+
+export type SheetBodyControl = {
+  scrollToTop: () => void
+}
+
+export const Body = forwardRef<SheetBodyControl, SheetBodyProps>(function Body(
+  { className, loading, children = null, title, controls, containerClassName },
+  ref
+) {
   const { grey, setScrollState } = useSheetContext()
   const id = useId()
   const scrollRoot = useRef<HTMLDivElement>(null)
@@ -26,6 +36,12 @@ export const Body = ({
   const topId = useMemo(() => `${id}-top`, [id])
   const bottomDetector = useRef<HTMLDivElement>(null)
   const bottomId = useMemo(() => `${id}-bottom`, [id])
+
+  useImperativeHandle(ref, () => ({
+    scrollToTop: () => {
+      scrollRoot.current?.scrollTo({ top: 0 })
+    }
+  }))
 
   useEffect(() => {
     if (!topDetector.current || !bottomDetector.current) return
@@ -67,7 +83,7 @@ export const Body = ({
       </div>
     </>
   )
-}
+})
 
 const Header = ({
   children,
