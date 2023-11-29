@@ -152,7 +152,7 @@ function sqlFilters(input: FetchBooksInput) {
       select contributions.*, row_to_json(jobs.*)::jsonb job, row_to_json(profiles.*)::jsonb profile from contributions
       inner join jobs on jobs.id = contributions.job_id
       left outer join lateral (
-        select distinct on (profiles.id)
+        select
           profiles.*,
           count(authored_books.*) as authored_book_count,
           row_to_json(images.*)::jsonb avatar
@@ -165,7 +165,7 @@ function sqlFilters(input: FetchBooksInput) {
       where contributions.book_id = books.id
     ) contributions on true
     left outer join lateral (
-      select distinct on (profiles.id)
+      select
         profiles.*,
         count(authored_books.*) as authored_book_count,
         row_to_json(images.*)::jsonb as avatar
@@ -217,8 +217,8 @@ function baseQuery({
       books.background_color,
       ${sort} as sort,
       row_to_json(cover_image.*)::jsonb cover_image,
-      json_agg(authors.*)::jsonb authors,
-      json_agg(contributions.*)::jsonb contributions
+      json_agg(distinct authors.*)::jsonb authors,
+      json_agg(distinct contributions.*)::jsonb contributions
     from books
     ${filters}
     group by books.id, cover_image.id, sort
