@@ -13,7 +13,7 @@ export default withAuth(
       return NextResponse.next()
     }
 
-    const splashEnabled = !!process.env.ENABLE_SPLASH
+    const splashEnabled = process.env.ENABLE_SPLASH === 'true'
     const userAllowed =
       request.nextauth.token && request.nextauth.token.role !== 'waitlist'
 

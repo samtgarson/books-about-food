@@ -11,3 +11,6 @@ next-env.d.ts
 .turbo
 
 .mailing
+
+# Sentry Config File
+.sentryclirc
