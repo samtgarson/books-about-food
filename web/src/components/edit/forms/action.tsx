@@ -10,6 +10,7 @@ export const createAction =
     'use server'
 
     const { data: result } = await parseAndCall(updateBook, { slug, ...data })
+    console.log(result)
     if (!result) return
 
     const path = `/edit/${result.slug}?action=saved`

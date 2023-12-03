@@ -50,21 +50,26 @@ export const updateBook = new Service(updateBookInput, async (input, user) => {
     }
   }
 
-  const { title, authorIds, coverImageId, publisherId, ...attrs } = data
+  const {
+    title,
+    authorIds,
+    coverImageId,
+    previewImageIds,
+    tags,
+    publisherId,
+    ...attrs
+  } = data
 
   const properties = {
     ...attrs,
     title,
     slug: title ? slugify(title) : undefined,
     coverImage: coverImageId ? { connect: { id: coverImageId } } : undefined,
-    publisher: publisherId ? { connect: { id: publisherId } } : undefined,
-    tags: undefined,
-    authors: undefined,
-    previewImages: undefined
+    publisher: publisherId ? { connect: { id: publisherId } } : undefined
   } satisfies Prisma.BookUpdateInput
 
-  const previewImageIds = data.previewImageIds?.map((id) => ({ id }))
-  const tags = data.tags?.map((name) => ({ name }))
+  const previewImages = previewImageIds?.map((id) => ({ id }))
+  const tagNames = tags?.map((name) => ({ name }))
   const authors = authorIds?.map((id) => ({ id }))
 
   let result: BookAttrs | undefined = undefined
@@ -73,8 +78,8 @@ export const updateBook = new Service(updateBookInput, async (input, user) => {
       where: { slug },
       data: {
         ...properties,
-        previewImages: { set: previewImageIds },
-        tags: { set: tags },
+        previewImages: { set: previewImages },
+        tags: { set: tagNames },
         authors: { set: authors }
       },
       include: bookIncludes
@@ -85,8 +90,8 @@ export const updateBook = new Service(updateBookInput, async (input, user) => {
         ...properties,
         title,
         slug: slugify(title),
-        previewImages: { connect: previewImageIds },
-        tags: { connect: tags },
+        previewImages: { connect: previewImages },
+        tags: { connect: tagNames },
         submitter: { connect: { id: user.id } },
         authors: { connect: authors }
       },
