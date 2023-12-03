@@ -8,6 +8,7 @@ import {
   Zap
 } from 'react-feather'
 import { Container } from '../atoms/container'
+import { Tag } from '../atoms/tag'
 
 export function USP() {
   return (
@@ -58,6 +59,7 @@ const sellingPoints: SellingPointProps[] = [
   {
     icon: BookOpen,
     title: 'Modern tools for publishers and authors',
+    comingSoon: true,
     description:
       'Dedicated publisher pages with built-in marketing tools for interacting with a highly engaged voluntary audience.'
   }
@@ -67,13 +69,22 @@ type SellingPointProps = {
   icon: Icon
   title: string
   description: string
+  comingSoon?: boolean
 }
 
-function SellingPoint({ icon: Icon, title, description }: SellingPointProps) {
+function SellingPoint({
+  icon: Icon,
+  title,
+  description,
+  comingSoon
+}: SellingPointProps) {
   return (
     <li className="flex flex-col items-start gap-2">
-      <div className="bg-white p-2 border border-black mb-6">
-        <Icon size={42} strokeWidth={1} />
+      <div className="flex gap-4 items-center mb-6">
+        <div className="bg-white p-2 border border-black">
+          <Icon size={42} strokeWidth={1} />
+        </div>
+        {comingSoon && <Tag color="grey">Coming soon</Tag>}
       </div>
       <h3 className="text-16 font-medium">{title}</h3>
       <p className="max-w-prose">{description}</p>
