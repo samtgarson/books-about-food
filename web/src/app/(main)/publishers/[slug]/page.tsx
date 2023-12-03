@@ -69,9 +69,8 @@ export default async ({
       </ListContainer>
       <div className="py-8 md:py-20">
         {publisher.imprint && (
-          <Detail maxWidth>
-            Imprint
-            <br />
+          <Detail maxWidth className="flex flex-col gap-2 items-start">
+            <p className="all-caps">An imprint of</p>
             {publisher.imprint}
           </Detail>
         )}
