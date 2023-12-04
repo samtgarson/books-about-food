@@ -28,7 +28,6 @@ export const customiseUsers = (
     collection,
     name: '✅ Approve access',
     successMessage: 'Approved! The user(s) has been notified 🚀',
-    multi: true,
     fn: approveUser
   })
 }

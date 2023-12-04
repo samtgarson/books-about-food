@@ -1,14 +1,14 @@
 import prisma from '@books-about-food/database'
 import { wrapArray } from '@books-about-food/shared/utils/array'
 import { asyncBatch } from '@books-about-food/shared/utils/batch'
-import { generateBookPalette } from '../lib/generate-book-palette'
+import { generateBookPalette } from '../lib/generate-palette'
 import { createJob } from './base'
 
 export const generatePalette = createJob(
   {
     id: 'generate-palette',
     name: 'Generate Book Palette',
-    concurrency: { limit: 10 }
+    concurrency: { limit: 5 }
   },
   'book.updated',
   async ({ event }) => {

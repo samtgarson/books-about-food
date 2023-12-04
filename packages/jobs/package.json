@@ -13,13 +13,15 @@
     "@vibrant/color": "^3.2.1-alpha.1",
     "@vibrant/core": "^3.2.1-alpha.1",
     "@vibrant/generator": "^3.2.1-alpha.1",
+    "@vibrant/image": "^3.2.1-alpha.1",
     "@vibrant/image-node": "^3.2.1-alpha.1",
     "@vibrant/quantizer-mmcq": "^3.2.1-alpha.1",
     "color": "^4.2.3",
-    "inngest": "^3.4.1"
+    "inngest": "^3.6.2",
+    "sharp": "^0.33.0"
   },
   "devDependencies": {
     "@types/color": "^3.0.6",
-    "inngest-cli": "^0.20.0"
+    "inngest-cli": "^0.22.0"
   }
 }

@@ -1,5 +1,6 @@
 import prisma from '@books-about-food/database'
 import { ImageBlurrer } from '@books-about-food/shared/services/image-blurrer'
+import { imageUrl } from '@books-about-food/shared/utils/image-url'
 import { CollectionCustomizer } from '@forestadmin/agent'
 import { map } from 'async-parallel'
 import { Schema } from '../../.schema/types'
@@ -28,6 +29,14 @@ const generatePlaceholder = async ({
 export const customiseImages = (
   collection: CollectionCustomizer<Schema, 'images'>
 ) => {
+  collection.addField('Source', {
+    dependencies: ['path'],
+    getValues: async (records) => {
+      return records.map((record) => imageUrl(record.path))
+    },
+    columnType: 'String'
+  })
+
   collection.addAction('Generate missing placeholders', {
     scope: 'Global',
     execute: async (_context, result) => {

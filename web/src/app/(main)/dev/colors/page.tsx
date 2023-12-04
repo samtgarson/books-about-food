@@ -1,7 +1,7 @@
 import { Image } from '@books-about-food/core/models/image'
 import { bookIncludes } from '@books-about-food/core/services/utils'
 import prisma from '@books-about-food/database'
-import { getColors } from '@books-about-food/jobs/lib/get-colors'
+import { getColors } from '@books-about-food/jobs/lib/generate-palette/get-colors'
 import Img from 'next/image'
 import { Suspense } from 'react'
 import { Container } from 'src/components/atoms/container'

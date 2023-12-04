@@ -98,7 +98,6 @@ export const customiseProfiles = (
   resourceAction({
     collection,
     name: '🌟 Feature on the homepage',
-    multi: true,
     async fn(id) {
       const profileId = `${id}`
 

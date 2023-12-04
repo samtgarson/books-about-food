@@ -51,7 +51,6 @@ export const customiseClaims = (
     collection,
     name: '✅ Approve',
     successMessage: 'Approved! The user(s) has been notified 🚀',
-    multi: true,
     fn: approveClaim
   })
 }

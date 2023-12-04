@@ -50,7 +50,6 @@
     "typescript": "5.2.2"
   },
   "dependencies": {
-    "sharp": "^0.32.6",
     "turbo": "^1.10.16"
   },
   "eslintConfig": {

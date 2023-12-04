@@ -6,14 +6,12 @@ type ResourceActionProps<K extends TCollectionName<Schema>> = {
   name: string
   successMessage?: string
   fn: (id: string | number) => Promise<void>
-  multi?: boolean
 }
 
 export function resourceAction<K extends TCollectionName<Schema>>({
   collection,
   name,
   successMessage = 'Success',
-  multi = false,
   fn
 }: ResourceActionProps<K>) {
   async function execute(
@@ -30,21 +28,11 @@ export function resourceAction<K extends TCollectionName<Schema>>({
     }
   }
 
-  if (multi) {
-    collection.addAction(name, {
-      scope: 'Bulk',
-      execute: async (context, result) => {
-        const ids = await context.getRecordIds()
-        return execute(ids, result)
-      }
-    })
-  } else {
-    collection.addAction(name, {
-      scope: 'Single',
-      execute: async (context, result) => {
-        const id = await context.getRecordId()
-        return execute([id], result)
-      }
-    })
-  }
+  collection.addAction(name, {
+    scope: 'Single',
+    execute: async (context, result) => {
+      const id = await context.getRecordId()
+      return execute([id], result)
+    }
+  })
 }

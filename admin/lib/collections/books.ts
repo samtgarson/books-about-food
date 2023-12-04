@@ -1,5 +1,5 @@
 import { fetchProfiles } from '@books-about-food/core/services/profiles/fetch-profiles'
-import prisma from '@books-about-food/database'
+import prisma, { Prisma } from '@books-about-food/database'
 import { inngest } from '@books-about-food/jobs'
 import { imageUrl } from '@books-about-food/shared/utils/image-url'
 import { slugify } from '@books-about-food/shared/utils/slugify'
@@ -233,7 +233,6 @@ export const customiseBooks = (
     collection,
     name: '📤 Publish',
     successMessage: 'Published',
-    multi: true,
     async fn(id) {
       await prisma.book.update({
         where: { id: id.toString() },
@@ -305,6 +304,30 @@ export const customiseBooks = (
       })
 
       return result.success('🎉 Collaborator added')
+    }
+  })
+
+  collection.addAction('🖼️ Generate missing palettes', {
+    scope: 'Global',
+    execute: async (_, result) => {
+      const books = await prisma.book.findMany({
+        where: {
+          coverImage: { isNot: null },
+          backgroundColor: { equals: Prisma.AnyNull }
+        },
+        select: { id: true }
+      })
+
+      await Promise.all(
+        books.map(async ({ id }) =>
+          inngest.send({
+            name: 'book.updated',
+            data: { id, coverImageChanged: true }
+          })
+        )
+      )
+
+      return result.success(`🔄 ${books.length} covers queued for generation`)
     }
   })
 

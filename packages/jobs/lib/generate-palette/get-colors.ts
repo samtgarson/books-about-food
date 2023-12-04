@@ -3,13 +3,13 @@ import { Palette, Swatch, Vec3 } from '@vibrant/color'
 import Vibrant from '@vibrant/core'
 import { BasicPipeline } from '@vibrant/core/lib/pipeline'
 import { Generator } from '@vibrant/generator'
-import NodeImage from '@vibrant/image-node'
 import MMCQ from '@vibrant/quantizer-mmcq'
+import { SharpImage } from './image-class'
 
 Vibrant.DefaultOpts.quantizer = 'mmcq'
 Vibrant.DefaultOpts.generators = ['default']
 Vibrant.DefaultOpts.filters = ['default']
-Vibrant.DefaultOpts.ImageClass = NodeImage
+Vibrant.DefaultOpts.ImageClass = SharpImage
 
 const defaultFilter = (r: number, g: number, b: number, a: number) =>
   a >= 125 && !(r > 250 && g > 250 && b > 250)

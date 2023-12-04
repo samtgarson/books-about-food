@@ -542,9 +542,21 @@
         {
           "id": "books-1--publish",
           "name": "📤 Publish",
-          "type": "bulk",
+          "type": "single",
           "baseUrl": null,
           "endpoint": "/forest/_actions/books/1/-publish",
+          "httpMethod": "POST",
+          "redirect": null,
+          "download": false,
+          "fields": [],
+          "hooks": {"load": false, "change": ["changeHook"]}
+        },
+        {
+          "id": "books-3--generate-missing-palettes",
+          "name": "🖼️ Generate missing palettes",
+          "type": "global",
+          "baseUrl": null,
+          "endpoint": "/forest/_actions/books/3/-generate-missing-palettes",
           "httpMethod": "POST",
           "redirect": null,
           "download": false,
@@ -1068,7 +1080,7 @@
         {
           "id": "claims-0--approve",
           "name": "✅ Approve",
-          "type": "bulk",
+          "type": "single",
           "baseUrl": null,
           "endpoint": "/forest/_actions/claims/0/-approve",
           "httpMethod": "POST",
@@ -1796,6 +1808,22 @@
         {
           "defaultValue": null,
           "enums": [],
+          "field": "Source",
+          "integration": null,
+          "inverseOf": null,
+          "isFilterable": false,
+          "isPrimaryKey": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "isSortable": false,
+          "isVirtual": false,
+          "reference": null,
+          "type": "String",
+          "validations": []
+        },
+        {
+          "defaultValue": null,
+          "enums": [],
           "field": "caption",
           "integration": null,
           "inverseOf": null,
@@ -2350,7 +2378,7 @@
         {
           "id": "profiles-1--feature-on-the-homepage",
           "name": "🌟 Feature on the homepage",
-          "type": "bulk",
+          "type": "single",
           "baseUrl": null,
           "endpoint": "/forest/_actions/profiles/1/-feature-on-the-homepage",
           "httpMethod": "POST",
@@ -3136,7 +3164,7 @@
         {
           "id": "users-0--approve-access",
           "name": "✅ Approve access",
-          "type": "bulk",
+          "type": "single",
           "baseUrl": null,
           "endpoint": "/forest/_actions/users/0/-approve-access",
           "httpMethod": "POST",
