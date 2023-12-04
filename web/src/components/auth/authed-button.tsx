@@ -7,16 +7,19 @@ import { useSheet } from '../sheets/global-sheet'
 export type AuthedButtonProps = {
   children: ReactElement
   redirect?: string | null | false
+  hidden?: 'authed' | 'unauthed'
 }
 
 export const AuthedButton: FC<AuthedButtonProps> = ({
   redirect = '/account',
+  hidden,
   children
 }) => {
   const currentUser = useCurrentUser()
   const { openSheet } = useSheet()
 
-  if (currentUser) return <>{children}</>
+  if (currentUser) return hidden === 'authed' ? <>{children}</> : null
+  if (!currentUser && hidden === 'unauthed') return null
 
   const contents = cloneElement(children, {
     href: '#',

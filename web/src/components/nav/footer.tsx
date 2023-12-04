@@ -1,7 +1,6 @@
 import cn from 'classnames'
 import Link from 'next/link'
 import { FC } from 'react'
-import { getUser } from 'src/utils/service'
 import { Button } from '../atoms/button'
 import { Container } from '../atoms/container'
 import { AuthedButton } from '../auth/authed-button'
@@ -36,25 +35,31 @@ const FooterItemExternal: FC<{
 )
 
 export const Footer = async () => {
-  const user = await getUser()
   return (
     <footer className="mt-20 bg-white pb-6 pt-12 md:pb-10 md:pt-20">
       <Container>
         <div className="flex flex-wrap justify-between gap-16 md:gap-8 items-center mb-16 md:mb-20">
           <LogoShape text className="w-16 h-auto" />
           <div className="flex gap-4">
+            <Button
+              as="a"
+              href="https://www.buymeacoffee.com/booksaboutfood"
+              variant="outline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span>☕️</span> Buy me a coffee
+            </Button>
             <AuthedButton>
               <Button as="a" href="/account/submissions" variant="outline">
                 Submit Cookbook
               </Button>
             </AuthedButton>
-            {!user && (
-              <AuthedButton>
-                <Button as="a" href="/account" variant="outline">
-                  Create Account
-                </Button>
-              </AuthedButton>
-            )}
+            <AuthedButton hidden="authed">
+              <Button as="a" href="/account" variant="outline">
+                Create Account
+              </Button>
+            </AuthedButton>
           </div>
         </div>
         <div className="flex flex-wrap items-center justify-between gap-y-4">
