@@ -14,7 +14,7 @@ export type RequestMeta = {
   authorized?: boolean
 }
 
-async function _getUser() {
+export const getUser = cache(async () => {
   try {
     const session = await getServerSession(authOptions)
 
@@ -27,17 +27,19 @@ async function _getUser() {
     console.error(e)
     return null
   }
-}
+})
 
-async function _call<S extends Service<any, any>>(
-  service: S,
-  args?: S extends Service<infer I, any> ? z.infer<I> : never,
-  user?: User | null
-): Promise<ServiceReturn<S>> {
-  user ||= await getUser()
+export const call = cache(
+  async <S extends Service<any, any>>(
+    service: S,
+    args?: S extends Service<infer I, any> ? z.infer<I> : never,
+    user?: User | null
+  ): Promise<ServiceReturn<S>> => {
+    user ||= await getUser()
 
-  return service.call(args, user) as Promise<ServiceReturn<S>>
-}
+    return service.call(args, user) as Promise<ServiceReturn<S>>
+  }
+)
 
 export async function _parseAndCall<S extends Service<any, any>>(
   service: S,
@@ -48,6 +50,4 @@ export async function _parseAndCall<S extends Service<any, any>>(
   return service.parseAndCall(args, user) as Promise<ServiceReturn<S>>
 }
 
-export const getUser = cache(_getUser)
-export const call = cache(_call)
 export const parseAndCall = cache(_parseAndCall)
