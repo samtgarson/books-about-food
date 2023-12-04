@@ -6,15 +6,7 @@ const nextConfig = {
     ENABLE_SPLASH: process.env.ENABLE_SPLASH || 'false'
   },
   experimental: {
-    swcPlugins: [
-      [
-        'next-superjson-plugin',
-        {
-          excluded: []
-        }
-      ]
-    ],
-    serverActions: true,
+    swcPlugins: [['next-superjson-plugin', {}]],
     serverActionsBodySizeLimit: '2mb',
     serverComponentsExternalPackages: ['mjml', 'sharp']
   },

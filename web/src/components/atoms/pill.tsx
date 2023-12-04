@@ -8,19 +8,19 @@ export type PillProps = {
   small?: boolean
 } & ComponentProps<'span'>
 
-export const Pill = forwardRef<HTMLSpanElement, PillProps>(
-  (
-    {
-      children,
-      selected,
-      className,
-      disabled,
-      variant = 'bordered',
-      small,
-      ...props
-    },
-    ref
-  ) => (
+export const Pill = forwardRef<HTMLSpanElement, PillProps>(function Pill(
+  {
+    children,
+    selected,
+    className,
+    disabled,
+    variant = 'bordered',
+    small,
+    ...props
+  },
+  ref
+) {
+  return (
     <span
       ref={ref}
       {...props}
@@ -37,6 +37,4 @@ export const Pill = forwardRef<HTMLSpanElement, PillProps>(
       {children}
     </span>
   )
-)
-
-Pill.displayName = 'Pill'
+})

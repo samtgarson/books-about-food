@@ -8,7 +8,7 @@ import { useListDisplay } from './list-context'
 export type GridContainerProps = ComponentProps<'ul'>
 
 export const GridContainer = forwardRef<HTMLDivElement, GridContainerProps>(
-  ({ children, className, ...props }, ref) => {
+  function GridContainer({ children, className, ...props }, ref) {
     const { display } = useListDisplay()
     return (
       <AntiContainer
@@ -30,5 +30,3 @@ export const GridContainer = forwardRef<HTMLDivElement, GridContainerProps>(
     )
   }
 )
-
-GridContainer.displayName = 'GridContainer'

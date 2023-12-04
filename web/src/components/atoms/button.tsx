@@ -29,44 +29,44 @@ const variants = {
   outline: 'border border-black'
 } as const
 
-export const Button = forwardRef(
-  <C extends ElementType = 'button'>(
-    {
-      as,
-      variant = 'primary',
-      loading,
-      className,
-      children,
-      ...props
-    }: ButtonProps<C>,
-    ref: PolymorphicRef<C>
-  ) => {
-    const Component =
-      as === 'a' || props.href?.startsWith('/') ? Link : as || 'button'
-    return (
-      <Component
-        ref={ref}
+export const Button = forwardRef(function Button<
+  C extends ElementType = 'button'
+>(
+  {
+    as,
+    variant = 'primary',
+    loading,
+    className,
+    children,
+    ...props
+  }: ButtonProps<C>,
+  ref: PolymorphicRef<C>
+) {
+  const Component =
+    as === 'a' || props.href?.startsWith('/') ? Link : as || 'button'
+  return (
+    <Component
+      ref={ref}
+      className={cn(
+        'text-16 relative block flex-shrink-0 whitespace-nowrap px-4 py-2.5',
+        variants[variant],
+        className,
+        loading && 'pointer-events-none',
+        props.disabled && 'opacity-50 pointer-events-none'
+      )}
+      {...props}
+    >
+      <span
         className={cn(
-          'text-16 relative block flex-shrink-0 whitespace-nowrap px-4 py-2.5',
-          variants[variant],
-          className,
-          loading && 'pointer-events-none',
-          props.disabled && 'opacity-50 pointer-events-none'
+          'flex items-center justify-center gap-2',
+          loading && 'opacity-0'
         )}
-        {...props}
       >
-        <span
-          className={cn(
-            'flex items-center justify-center gap-2',
-            loading && 'opacity-0'
-          )}
-        >
-          {children}
-        </span>
-        {loading && <Loader className="absolute inset-0 m-auto" />}
-      </Component>
-    )
-  }
-)
+        {children}
+      </span>
+      {loading && <Loader className="absolute inset-0 m-auto" />}
+    </Component>
+  )
+})
 
 Button.displayName = 'Button'
