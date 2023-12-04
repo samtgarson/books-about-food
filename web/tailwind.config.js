@@ -94,7 +94,7 @@ module.exports = {
       md: '150px',
       lg: '250px',
       xl: '350px',
-      '2xl': '500px'
+      '2xl': '450px'
     }
   },
   plugins: [

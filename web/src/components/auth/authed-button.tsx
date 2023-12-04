@@ -18,7 +18,7 @@ export const AuthedButton: FC<AuthedButtonProps> = ({
   const currentUser = useCurrentUser()
   const { openSheet } = useSheet()
 
-  if (currentUser) return hidden === 'authed' ? <>{children}</> : null
+  if (currentUser) return hidden === 'authed' ? null : <>{children}</>
   if (!currentUser && hidden === 'unauthed') return null
 
   const contents = cloneElement(children, {
