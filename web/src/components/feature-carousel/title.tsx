@@ -34,7 +34,7 @@ export function Title({
       className={cn(
         className,
         '!pointer-events-auto min-w-[65vw] justify-center lg:justify-between',
-        current && 'lg:-ml-[7vw]',
+        current && 'lg:-ml-[7vw] z-0',
         !current && 'cursor-pointer'
       )}
       onClick={(e) => {

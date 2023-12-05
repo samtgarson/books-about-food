@@ -30,10 +30,11 @@ export function useFeatureCarouselItem({
   const className = cn(
     'flex items-start lg:items-center justify-center gap-8 lg:gap-20 flex-col lg:flex-row h-screen pt-[35px] sm:pt-0 sm:h-[770px] lg:h-[800px] top-0 w-[calc(100vw-40px)] sm:w-[calc(85vw-10rem)]',
     {
-      [`relative flex-grow z-10`]: pos.current,
-      'absolute right-full lg:right-auto lg:ml-[7vw] lg:left-[var(--imageWidth)]':
+      [`relative flex-grow z-50`]: pos.current,
+      'absolute right-full lg:right-auto lg:ml-[7vw] lg:left-[var(--imageWidth)] z-20':
         pos.prev,
-      'absolute left-full lg:-ml-[10.5rem] lg:pl-[7rem] sm:-ml-24': pos.next,
+      'absolute left-full lg:-ml-[10.5rem] lg:pl-[7rem] sm:-ml-24 z-20':
+        pos.next,
       'absolute right-full': pos.offPrev,
       'absolute left-full': pos.offNext,
       'lg:justify-center': centered

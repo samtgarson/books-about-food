@@ -1,5 +1,7 @@
 import { ResultRow } from '@books-about-food/core/services/import/import-books/types'
+import { AppError } from '@books-about-food/core/services/utils/errors'
 import { Root } from '@radix-ui/react-accordion'
+import * as Sentry from '@sentry/nextjs'
 import { ChangeEvent, useMemo, useState } from 'react'
 import { Button } from 'src/components/atoms/button'
 import { Pagination } from 'src/components/lists/pagination'
@@ -38,9 +40,15 @@ export function ImportList({
     if (!selectedBooks?.length) return
     const result = await process({ books: selectedBooks })
     if (!result.success || result.data.length === 0) {
-      errorToast('Something went wrong', {
-        description: result.errors?.[0].message
-      })
+      console.error(result.errors)
+      const firstError = result.errors?.[0]
+      if (firstError) {
+        Sentry.captureException(AppError.fromJSON(firstError))
+
+        errorToast('Something went wrong', {
+          description: `${firstError.field}: ${firstError.message}`
+        })
+      }
     } else {
       const count = result.data.length
       const description = (
