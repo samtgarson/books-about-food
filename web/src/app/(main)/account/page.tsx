@@ -4,6 +4,7 @@ import { Metadata } from 'next'
 import { Suspense } from 'react'
 import { ArrowUpRight } from 'react-feather'
 import { AccountForm } from 'src/components/accounts/account-form'
+import { AccountHeader } from 'src/components/accounts/header'
 import { ContactLink } from 'src/components/atoms/contact-link'
 import { ProfileItem } from 'src/components/profiles/item'
 import { call, getUser } from 'src/utils/service'
@@ -21,13 +22,13 @@ const Page = async () => {
   if (!user) return null
 
   return (
-    <div className="flex flex-col gap-16">
+    <>
       <AccountForm user={user} accounts={accounts ?? []} />
       <Suspense>
         <ProfileSection userId={user.id} />
       </Suspense>
-      <div>
-        <h3 className="text-20 mb-4">Delete your account</h3>
+      <div className="flex flex-col gap-8">
+        <AccountHeader title="Delete your account" />
         <p>
           If you would like to delete your account, please{' '}
           <ContactLink subject="I'd like to delete my BAF account">
@@ -36,7 +37,7 @@ const Page = async () => {
           .
         </p>
       </div>
-    </div>
+    </>
   )
 }
 
@@ -45,8 +46,8 @@ async function ProfileSection({ userId }: { userId: string }) {
   if (!profile) return null
 
   return (
-    <div>
-      <h3 className="text-20 mb-4">Your Public Profile</h3>
+    <div className="flex flex-col gap-8">
+      <AccountHeader title="Your Claimed Profile" />
       <div className="relative max-w-xl">
         <ProfileItem profile={profile} display="list" />
         <ArrowUpRight

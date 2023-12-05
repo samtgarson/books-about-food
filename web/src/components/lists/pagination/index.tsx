@@ -1,4 +1,5 @@
-import { FC, Fragment, ReactNode, useMemo } from 'react'
+import cn from 'classnames'
+import { Fragment, ReactNode, useMemo } from 'react'
 import { Pill } from 'src/components/atoms/pill'
 import { Button, Wrapper } from './utils'
 
@@ -11,14 +12,23 @@ export type PaginationProps = {
   onPageClick?: (page: number) => void
 }
 
-export const Pagination: FC<PaginationProps> = ({
+export function Pagination({ children, ...props }: PaginationProps) {
+  return (
+    <Wrapper>
+      {children}
+      <PaginationButtons className="mt-20" {...props} />
+    </Wrapper>
+  )
+}
+
+export function PaginationButtons({
   total,
   filteredTotal = total,
   perPage,
   page,
-  children,
-  onPageClick
-}) => {
+  onPageClick,
+  className
+}: Omit<PaginationProps, 'children'> & { className?: string }) {
   const totalPages = Math.ceil(filteredTotal / perPage)
 
   const displayPages = useMemo(() => {
@@ -31,41 +41,37 @@ export const Pagination: FC<PaginationProps> = ({
     return [pages.slice(0, 1), pages.slice(page - 2, page + 3), pages.slice(-1)]
   }, [page, totalPages])
 
-  if (totalPages <= 1) return <>{children}</>
+  if (totalPages <= 1) return null
+
   return (
-    <Wrapper>
-      {children}
-      {totalPages > 1 && (
-        <ul className="mt-20 flex flex-wrap gap-2">
-          {displayPages.map((pageGroup, i) => (
-            <Fragment key={`group-${i}`}>
-              {pageGroup.map((p) => (
-                <Button
-                  page={p}
-                  key={p}
-                  onClick={onPageClick ? () => onPageClick(p) : undefined}
-                >
-                  <Pill
-                    selected={page === p}
-                    disabled={page === p}
-                    className="h-10 w-10 !p-0"
-                    title={`Page ${p + 1}`}
-                  >
-                    {p + 1}
-                  </Pill>
-                </Button>
-              ))}
-              {i < displayPages.length - 1 && (
-                <li className="list-none" key={`ellipsis-${i}`}>
-                  <Pill className="h-10 w-10 !p-0" disabled>
-                    …
-                  </Pill>
-                </li>
-              )}
-            </Fragment>
+    <ul className={cn('flex flex-wrap gap-2', className)}>
+      {displayPages.map((pageGroup, i) => (
+        <Fragment key={`group-${i}`}>
+          {pageGroup.map((p) => (
+            <Button
+              page={p}
+              key={p}
+              onClick={onPageClick ? () => onPageClick(p) : undefined}
+            >
+              <Pill
+                selected={page === p}
+                disabled={page === p}
+                className="h-10 w-10 !p-0"
+                title={`Page ${p + 1}`}
+              >
+                {p + 1}
+              </Pill>
+            </Button>
           ))}
-        </ul>
-      )}
-    </Wrapper>
+          {i < displayPages.length - 1 && (
+            <li className="list-none" key={`ellipsis-${i}`}>
+              <Pill className="h-10 w-10 !p-0" disabled>
+                …
+              </Pill>
+            </li>
+          )}
+        </Fragment>
+      ))}
+    </ul>
   )
 }

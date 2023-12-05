@@ -3,10 +3,10 @@
 import cn from 'classnames'
 import { FC, useState } from 'react'
 import { Heart, Loader } from 'react-feather'
-import { toast } from 'sonner'
 import { Button } from 'src/components/atoms/button'
 import { AuthedButton } from 'src/components/auth/authed-button'
 import { useEditProfile } from 'src/components/profiles/edit/context'
+import { successToast } from 'src/components/utils/toaster'
 import { usePromise } from 'src/hooks/use-promise'
 import { fetch, mutate } from './action'
 
@@ -30,7 +30,7 @@ export const FavouriteButton: FC<FavouriteButtonProps> = ({
     setUpdating(true)
     const newValue = await mutate(profileId, isFavourite)
     setValue(newValue)
-    toast.success(
+    successToast(
       `Profile ${isFavourite ? 'added to' : 'removed from'} your favourites`
     )
     setUpdating(false)

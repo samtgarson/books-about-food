@@ -10,7 +10,7 @@ import {
   useEffect,
   useState
 } from 'react'
-import { toast } from 'sonner'
+import { successToast } from 'src/components/utils/toaster'
 import { parse } from 'src/utils/superjson'
 import { action } from './action'
 
@@ -52,7 +52,7 @@ export const EditProfileProvider = ({
           await action(segment, { ...data, slug: profile.slug })
         )
         setProfile(updated)
-        toast.success('Profile updated')
+        successToast('Profile updated')
         return true
       } catch (error) {
         return false

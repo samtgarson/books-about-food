@@ -30,9 +30,9 @@ export const Button = ({
   children: ReactNode
   onClick?: () => void
 }) => {
-  const { ref } = useContext(PaginationContext)
+  const ctx = useContext(PaginationContext) as Partial<PaginationContext>
   const onClick = () => {
-    ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    ctx.ref?.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     externalOnClick?.()
   }
 

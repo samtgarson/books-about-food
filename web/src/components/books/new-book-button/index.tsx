@@ -2,7 +2,6 @@
 import { useState } from 'react'
 import { Plus } from 'react-feather'
 import * as Sheet from 'src/components/atoms/sheet'
-import * as BookItem from 'src/components/books/item'
 import { TitleSelectChangeAttrs } from 'src/components/edit/forms/title/action'
 import { TitleFormContent } from 'src/components/edit/forms/title/form-content'
 import { TitleSelect } from 'src/components/edit/forms/title/title-select'
@@ -16,14 +15,12 @@ export const NewBookButton = () => {
 
   return (
     <Sheet.Root onClose={() => setValues(null)}>
-      <BookItem.Container>
-        <Sheet.Trigger className="w-full self-start">
-          <BookItem.Box className="flex-col gap-4">
-            <Plus strokeWidth={1} size={48} />
-            <p>New Cookbook</p>
-          </BookItem.Box>
-        </Sheet.Trigger>
-      </BookItem.Container>
+      <Sheet.Trigger className="w-full self-start text-14 flex items-center gap-4">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white">
+          <Plus size={23} strokeWidth={1} />
+        </div>
+        <p className="text-left">Submit a new cookbook</p>
+      </Sheet.Trigger>
       <Sheet.Content>
         <Sheet.Body title="Submit a new cookbook">
           <Form action={action} variant="bordered">

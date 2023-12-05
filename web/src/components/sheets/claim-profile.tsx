@@ -4,7 +4,6 @@ import { Claim } from '@books-about-food/database'
 import { useRouter } from 'next/navigation'
 import { useCallback, useState } from 'react'
 import { Copy } from 'react-feather'
-import { toast } from 'sonner'
 import { usePromise } from 'src/hooks/use-promise'
 import { Button } from '../atoms/button'
 import { ContactLink } from '../atoms/contact-link'
@@ -12,6 +11,7 @@ import { Loader } from '../atoms/loader'
 import { Body, Content } from '../atoms/sheet'
 import { create, destroy, fetch } from '../profiles/claim-button/action'
 import { ProfileItem } from '../profiles/item'
+import { successToast } from '../utils/toaster'
 import { useSheet } from './global-sheet'
 import { SheetComponent } from './types'
 
@@ -50,7 +50,7 @@ export const ClaimProfileSheet: SheetComponent<ClaimProfileSheetProps> = ({
 
   const copySecret = useCallback(async (claim: Claim) => {
     await navigator.clipboard.writeText(claim.secret)
-    toast.success('Code copied to your clipboard')
+    successToast('Code copied to your clipboard')
   }, [])
 
   return (

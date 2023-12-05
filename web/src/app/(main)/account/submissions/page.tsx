@@ -1,13 +1,9 @@
-import { fetchBooks } from '@books-about-food/core/services/books/fetch-books'
 import { Metadata } from 'next'
-import Image from 'next/image'
-import Link from 'next/link'
-import { notFound } from 'next/navigation'
-import { StatusTag } from 'src/components/books/status-tag'
-import { GridContainer } from 'src/components/lists/grid-container'
-import { Pagination } from 'src/components/lists/pagination'
+import { Suspense } from 'react'
+import { AccountHeader } from 'src/components/accounts/header'
+import { SubmissionsList } from 'src/components/accounts/submissions-list'
+import { Loader } from 'src/components/atoms/loader'
 import { PageProps } from 'src/components/types'
-import { call, getUser } from 'src/utils/service'
 
 export const metadata: Metadata = {
   title: 'Submissions'
@@ -16,48 +12,16 @@ export const metadata: Metadata = {
 export * from 'app/default-static-config'
 
 const Page = async ({ searchParams }: PageProps) => {
-  const user = await getUser()
-  const page = Number(searchParams.page ?? 0)
-  const res = await call(fetchBooks, {
-    page,
-    submitterId: user?.id,
-    status: ['draft', 'inReview', 'published']
-  })
-  if (!res.success) return notFound()
-  const { books, filteredTotal, total, perPage } = res.data
   return (
-    <Pagination
-      page={page}
-      total={total}
-      perPage={perPage}
-      filteredTotal={filteredTotal}
-    >
-      <GridContainer className="sm:auto-grid-2xl">
-        {books.map((book) => (
-          <li key={book.id}>
-            <Link
-              href={`/edit/${book.slug}`}
-              className="p-4 border border-black flex gap-4 -mb-px sm:-mr-px items-center"
-            >
-              {book.cover ? (
-                <Image {...book.cover.imageAttrs(50)} />
-              ) : (
-                <div className="w-9 h-[50px] bg-khaki"></div>
-              )}
-              <div className="flex flex-col overflow-hidden">
-                <p className="font-medium whitespace-nowrap text-ellipsis overflow-hidden">
-                  {book.title}
-                </p>
-                <p className="text-12 whitespace-nowrap text-ellipsis overflow-hidden">
-                  {book.authorNames}
-                </p>
-              </div>
-              <StatusTag className="ml-auto !text-10" status={book.status} />
-            </Link>
-          </li>
-        ))}
-      </GridContainer>
-    </Pagination>
+    <div className="flex flex-col gap-8">
+      <AccountHeader title="Your Submissions">
+        When submitting, please fill as much information as you can. We hope the
+        wider community would then help complete any missing information.
+      </AccountHeader>
+      <Suspense fallback={<Loader />}>
+        <SubmissionsList page={Number(searchParams.page ?? 0)} />
+      </Suspense>
+    </div>
   )
 }
 

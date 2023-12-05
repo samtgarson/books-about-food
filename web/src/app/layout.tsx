@@ -24,9 +24,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                   paddingBlock: 16,
                   paddingInline: 20,
                   boxShadow:
-                    '0px 3.15564px 2.52452px 0px rgba(0, 0, 0, 0.02), 0px 7.58345px 6.06676px 0px rgba(0, 0, 0, 0.03)'
+                    '0px 3.15564px 2.52452px 0px rgba(0, 0, 0, 0.02), 0px 7.58345px 6.06676px 0px rgba(0, 0, 0, 0.03)',
+                  fontSize: 16,
+                  gap: 16
                 },
-                className: 'font-sans text-16'
+                className: 'font-sans'
               }}
             />
             {children}

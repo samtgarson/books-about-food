@@ -1,10 +1,10 @@
 import { ResultRow } from '@books-about-food/core/services/import/import-books/types'
 import { Root } from '@radix-ui/react-accordion'
 import { ChangeEvent, useMemo, useState } from 'react'
-import { toast } from 'sonner'
 import { Button } from 'src/components/atoms/button'
 import { Pagination } from 'src/components/lists/pagination'
 import { Search } from 'src/components/lists/search'
+import { errorToast, successToast } from 'src/components/utils/toaster'
 import { process } from './action'
 import { ImportFormRow } from './row'
 
@@ -38,7 +38,7 @@ export function ImportList({
     if (!selectedBooks?.length) return
     const result = await process({ books: selectedBooks })
     if (!result.success || result.data.length === 0) {
-      toast.error('Something went wrong', {
+      errorToast('Something went wrong', {
         description: result.errors?.[0].message
       })
     } else {
@@ -49,7 +49,7 @@ export function ImportList({
         </>
       )
 
-      toast(
+      successToast(
         `Successfully imported ${count} ${count === 1 ? 'book' : 'books'}`,
         { description }
       )

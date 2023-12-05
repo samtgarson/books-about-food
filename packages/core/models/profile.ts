@@ -46,7 +46,7 @@ export class Profile extends Colourful(
     }
 
     get href() {
-      return `/${this.role}s/${this.id}`
+      return `/${this.role}s/${this.slug}`
     }
   }
 ) {}
