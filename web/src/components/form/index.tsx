@@ -46,7 +46,6 @@ export function Form<T extends z.ZodTypeAny | undefined = undefined>({
   const wrappedAction = useCallback(
     async (data: FormData) => {
       if (!action) return
-      console.log('HERE')
       let errors: FormErrors | void = undefined
       let values = Object.fromEntries(data.entries())
       if (schema) {

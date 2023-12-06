@@ -20,7 +20,7 @@ export const processBookImport = new Service(
           subtitle: z.string().optional(),
           releaseDate: z.string().optional(),
           pages: z.number().optional(),
-          tags: z.array(z.string()),
+          tags: z.array(z.string()).default([]),
           publisher: z.string().optional()
         }),
         authors: z.array(
@@ -61,10 +61,15 @@ export const processBookImport = new Service(
         let authors: Prisma.BookCreateInput['authors']
         if (authorsInput.length)
           authors = {
-            connectOrCreate: authorsInput.map((author) => ({
-              where: { id: author.id },
-              create: { name: author.name, slug: slugify(author.name) }
-            }))
+            create: authorsInput
+              .filter((author) => !author.id)
+              .map((author) => ({
+                name: author.name,
+                slug: slugify(author.name)
+              })),
+            connect: authorsInput
+              .filter((author) => author.id)
+              .map((author) => ({ id: author.id }))
           }
 
         let tags: Prisma.BookCreateInput['tags']
@@ -80,15 +85,14 @@ export const processBookImport = new Service(
         if (contributors.length)
           contributions = {
             create: contributors.map((contributor) => ({
-              profile: {
-                connectOrCreate: {
-                  where: { id: contributor.id },
-                  create: {
-                    name: contributor.name,
-                    slug: slugify(contributor.name)
-                  }
-                }
-              },
+              profile: contributor.id
+                ? { connect: { id: contributor.id } }
+                : {
+                    create: {
+                      name: contributor.name,
+                      slug: slugify(contributor.name)
+                    }
+                  },
               job: { connect: { name: contributor.job } }
             }))
           }
@@ -113,14 +117,14 @@ export const processBookImport = new Service(
     const result = await asyncBatch(rows, 5, async ({ id, data }) => {
       try {
         await prisma.book.create({ data })
+        await inngest.send({ name: 'book.updated', data: { id } })
         return id
       } catch (e) {
-        console.log(`Import error: ${data.slug}`, e)
+        console.error(e)
         return undefined
       }
     })
 
-    await inngest.send({ name: 'book.updated', data: { id: result } })
     return result
   }
 )

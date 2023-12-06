@@ -1,5 +1,4 @@
 import { ResultRow } from '@books-about-food/core/services/import/import-books/types'
-import { AppError } from '@books-about-food/core/services/utils/errors'
 import { Root } from '@radix-ui/react-accordion'
 import * as Sentry from '@sentry/nextjs'
 import { ChangeEvent, useMemo, useState } from 'react'
@@ -40,10 +39,12 @@ export function ImportList({
     if (!selectedBooks?.length) return
     const result = await process({ books: selectedBooks })
     if (!result.success || result.data.length === 0) {
-      console.error(result.errors)
       const firstError = result.errors?.[0]
       if (firstError) {
-        Sentry.captureException(AppError.fromJSON(firstError))
+        Sentry.withScope((scope) => {
+          scope.setExtra('errors', result.errors)
+          Sentry.captureMessage('Import Error')
+        })
 
         errorToast('Something went wrong', {
           description: `${firstError.field}: ${firstError.message}`
