@@ -1,6 +1,6 @@
 import { Profile } from '@books-about-food/core/models/profile'
 import { Service } from '@books-about-food/core/services/base'
-import prisma, { Prisma, cacheStrategy } from '@books-about-food/database'
+import prisma, { Prisma } from '@books-about-food/database'
 import { z } from 'zod'
 import { profileIncludes } from '../utils'
 import { array, paginationInput } from '../utils/inputs'
@@ -84,11 +84,10 @@ export const fetchProfiles = new Service(
         where,
         take: perPage === 0 ? undefined : perPage,
         skip: perPage * page,
-        include: profileIncludes,
-        cacheStrategy
+        include: profileIncludes
       }),
-      prisma.profile.count({ where: baseWhere, cacheStrategy }),
-      prisma.profile.count({ where, cacheStrategy })
+      prisma.profile.count({ where: baseWhere }),
+      prisma.profile.count({ where })
     ])
 
     const profiles = raw.map((profile) => new Profile(profile))

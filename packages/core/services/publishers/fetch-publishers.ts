@@ -1,6 +1,6 @@
 import { Publisher } from '@books-about-food/core/models/publisher'
 import { Service } from '@books-about-food/core/services/base'
-import prisma, { Prisma, cacheStrategy } from '@books-about-food/database'
+import prisma, { Prisma } from '@books-about-food/database'
 import { z } from 'zod'
 import { paginationInput } from '../utils/inputs'
 
@@ -30,11 +30,10 @@ export const fetchPublishers = new Service(
         ],
         take: perPage === 0 ? undefined : perPage,
         skip: perPage * page,
-        include: { logo: true },
-        cacheStrategy
+        include: { logo: true }
       }),
-      prisma.publisher.count({ cacheStrategy }),
-      prisma.publisher.count({ where, cacheStrategy })
+      prisma.publisher.count(),
+      prisma.publisher.count({ where })
     ])
 
     const publishers = raw.map((publisher) => new Publisher(publisher))

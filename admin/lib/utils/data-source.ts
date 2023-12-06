@@ -3,7 +3,21 @@ import { createSqlDataSource } from '@forestadmin/datasource-sql'
 import pg from 'pg'
 import { parse } from 'pg-connection-string'
 
-const parsed = parse(getEnv('DATABASE_URL', process.env.DIRECT_DATABASE_URL))
+const parsed = parse(getEnv('DATABASE_URL', process.env.DATABASE_URL))
+
+const sslOptions =
+  process.env.NODE_ENV === 'production'
+    ? {
+        sslMode: 'required',
+        dialectOptions: {
+          application_name: 'admin',
+          ssl: {
+            rejectUnauthorized: false,
+            require: true
+          }
+        }
+      }
+    : {}
 
 // @ts-expect-error weird typing here
 export const datasource = createSqlDataSource({
@@ -14,14 +28,7 @@ export const datasource = createSqlDataSource({
   database: parsed.database ?? undefined,
   dialect: 'postgres',
   dialectModule: pg,
-  dialectOptions:
-    process.env.NODE_ENV === 'development'
-      ? undefined
-      : {
-          ssl: {
-            require: true
-          }
-        },
+  ...sslOptions,
   pool: {
     max: 1
   }

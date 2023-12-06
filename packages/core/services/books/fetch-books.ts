@@ -1,10 +1,6 @@
 import { Book } from '@books-about-food/core/models/book'
 import { Service } from '@books-about-food/core/services/base'
-import prisma, {
-  BookStatus,
-  Prisma,
-  cacheStrategy
-} from '@books-about-food/database'
+import prisma, { BookStatus, Prisma } from '@books-about-food/database'
 import { wrapArray } from '@books-about-food/shared/utils/array'
 import { z } from 'zod'
 import { array, arrayOrSingle, dbEnum, paginationInput } from '../utils/inputs'
@@ -49,7 +45,7 @@ export const fetchBooks = new Service(
     const [rawBooks, filteredCount, total] = await Promise.all([
       prisma.$queryRaw<BookRow[]>(query),
       prisma.$queryRaw<{ count: number }[]>(countQuery(input)),
-      prisma.book.count({ cacheStrategy })
+      prisma.book.count()
     ])
     const books = rawBooks.map((book) => new Book(rowToBookAttrs(book)))
     const filteredTotal = Number(filteredCount[0].count)

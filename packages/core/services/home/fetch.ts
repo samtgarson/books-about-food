@@ -2,7 +2,7 @@ import { Book } from '@books-about-food/core/models/book'
 import { Profile } from '@books-about-food/core/models/profile'
 import { Publisher } from '@books-about-food/core/models/publisher'
 import { Service } from '@books-about-food/core/services/base'
-import prisma, { cacheStrategy } from '@books-about-food/database'
+import prisma from '@books-about-food/database'
 import { z } from 'zod'
 import { bookIncludes, profileIncludes } from '../utils'
 
@@ -11,7 +11,6 @@ export const fetchHome = new Service(z.object({}), async () => {
     // coming soon
     prisma.book
       .findMany({
-        cacheStrategy,
         where: { releaseDate: { gte: new Date() }, status: 'published' },
         orderBy: { releaseDate: 'asc' },
         take: 10,
@@ -22,7 +21,6 @@ export const fetchHome = new Service(z.object({}), async () => {
     // newly added
     prisma.book
       .findMany({
-        cacheStrategy,
         where: { releaseDate: { lt: new Date() }, status: 'published' },
         orderBy: { createdAt: 'desc' },
         take: 10,
@@ -33,7 +31,6 @@ export const fetchHome = new Service(z.object({}), async () => {
     // featured profiles
     prisma.profile
       .findMany({
-        cacheStrategy,
         orderBy: { createdAt: 'desc' },
         where: {
           OR: [
@@ -49,7 +46,6 @@ export const fetchHome = new Service(z.object({}), async () => {
     // publishers
     prisma.publisher
       .findMany({
-        cacheStrategy,
         orderBy: [
           { logo: { publisher: { books: { _count: 'desc' } } } },
           { books: { _count: 'desc' } }

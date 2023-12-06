@@ -21,8 +21,8 @@ export const quickSearch = new Service(
           search: query.replace(/[\s\n\t]/g, '_'),
           sort: 'desc'
         }
-      },
-      cacheStrategy: { ttl: 60, swr: 60 * 10 }
+      }
+      // cacheStrategy: { ttl: 60, swr: 60 * 10 }
     })
   }
 )

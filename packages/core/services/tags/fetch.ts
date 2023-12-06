@@ -1,5 +1,5 @@
 import { Service } from '@books-about-food/core/services/base'
-import prisma, { cacheStrategy } from '@books-about-food/database'
+import prisma from '@books-about-food/database'
 import { z } from 'zod'
 
 export const fetchTags = new Service(
@@ -7,7 +7,6 @@ export const fetchTags = new Service(
   async ({ search } = {}) =>
     prisma.tag.findMany({
       orderBy: { name: 'asc' },
-      where: { name: { contains: search, mode: 'insensitive' } },
-      cacheStrategy
+      where: { name: { contains: search, mode: 'insensitive' } }
     })
 )
