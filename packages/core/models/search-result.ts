@@ -11,7 +11,7 @@ const imageSchema = z.object({
   path: z.string(),
   width: z.number(),
   height: z.number(),
-  caption: z.string().nullable(),
+  caption: z.string().nullish().default(null),
   placeholderUrl: z
     .string()
     .nullish()

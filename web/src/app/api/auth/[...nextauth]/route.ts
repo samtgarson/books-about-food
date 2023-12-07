@@ -1,4 +1,4 @@
-import { unextended } from '@books-about-food/database'
+import prisma from '@books-about-food/database'
 import { inngest } from '@books-about-food/jobs'
 import { getEnv } from '@books-about-food/shared/utils/get-env'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
@@ -7,7 +7,7 @@ import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(unextended),
+  adapter: PrismaAdapter(prisma),
   session: {
     strategy: 'jwt'
   },
@@ -33,7 +33,7 @@ export const authOptions: NextAuthOptions = {
       options: {},
       async sendVerificationRequest({ url, identifier: email }) {
         try {
-          const user = await unextended.user.findUnique({
+          const user = await prisma.user.findUnique({
             where: { email }
           })
           const newUser = !user || !user?.emailVerified
@@ -81,7 +81,7 @@ export const authOptions: NextAuthOptions = {
   events: {
     async createUser({ user }) {
       if (process.env.NODE_ENV !== 'production') return
-      await unextended.user.update({
+      await prisma.user.update({
         where: { id: user.id },
         data: { role: 'waitlist' }
       })

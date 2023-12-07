@@ -11,11 +11,15 @@
     "schema": "prisma/schema.prisma"
   },
   "devDependencies": {
-    "prisma": "^5.2.0"
+    "@types/ws": "^8.5.10",
+    "prisma": "^5.7.0"
   },
   "dependencies": {
-    "@prisma/client": "^5.2.0",
-    "@prisma/extension-accelerate": "^0.6.0",
-    "@books-about-food/shared": "*"
+    "@books-about-food/shared": "*",
+    "@neondatabase/serverless": "^0.6.0",
+    "@prisma/adapter-neon": "^5.7.0",
+    "@prisma/client": "^5.7.0",
+    "@prisma/extension-accelerate": "^0.6.2",
+    "ws": "^8.14.2"
   }
 }
