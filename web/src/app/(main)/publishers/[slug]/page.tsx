@@ -1,12 +1,15 @@
 import { Publisher } from '@books-about-food/core/models/publisher'
+import { publisherIncludes } from '@books-about-food/core/services/utils'
 import prisma from '@books-about-food/database'
 import { Metadata } from 'next'
 import Image from 'next/image'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { Container } from 'src/components/atoms/container'
 import { Detail } from 'src/components/atoms/detail'
 import { Loader } from 'src/components/atoms/loader'
+import { Pill } from 'src/components/atoms/pill'
 import { BookList } from 'src/components/books/list'
 import { ListContainer } from 'src/components/lists/list-context'
 import { ClaimPublisherButton } from 'src/components/publishers/claim-button'
@@ -28,7 +31,7 @@ export * from 'app/default-static-config'
 const fetchPublisher = async (slug: string) => {
   const raw = await prisma.publisher.findUnique({
     where: { slug },
-    include: { logo: true }
+    include: publisherIncludes
   })
 
   if (raw) return new Publisher(raw)
@@ -68,10 +71,26 @@ export default async ({
         </Suspense>
       </ListContainer>
       <div className="py-8 md:py-20">
-        {publisher.imprint && (
+        {publisher.house && (
           <Detail maxWidth className="flex flex-col gap-2 items-start">
             <p className="all-caps">An imprint of</p>
-            {publisher.imprint}
+            <Link href={`/publishers/${publisher.house.slug}`}>
+              <Pill variant="filled" small>
+                {publisher.house.name}
+              </Pill>
+            </Link>
+          </Detail>
+        )}
+        {publisher.imprints.length && (
+          <Detail maxWidth className="flex flex-col gap-2 items-start">
+            <p className="all-caps">Imprints</p>
+            {publisher.imprints.map((imprint) => (
+              <Link href={`/publishers/${imprint.slug}`} key={imprint.slug}>
+                <Pill variant="filled" small>
+                  {imprint.name}
+                </Pill>
+              </Link>
+            ))}
           </Detail>
         )}
         {(publisher.website || publisher.instagram) && (

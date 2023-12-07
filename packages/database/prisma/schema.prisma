@@ -69,9 +69,6 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
-  publisherId String?    @unique @map("publisher_id") @db.Uuid
-  publisher   Publisher? @relation("publisher", fields: [publisherId], references: [id])
-
   profile        Profile?
   favourite      Favourite[]
   claims         Claim[]
@@ -224,12 +221,13 @@ model Publisher {
   genericContact String?  @map("generic_contact")
   directContact  String?  @map("direct_contact")
   instagram      String?
-  imprint        String?
+  houseId        String?  @map("imprint_id") @db.Uuid
   slug           String   @unique
 
-  books Book[]
-  logo  Image? @relation("publisher_logo")
-  user  User?  @relation("publisher")
+  books    Book[]
+  logo     Image?      @relation("publisher_logo")
+  imprints Publisher[] @relation("imprint")
+  house    Publisher?  @relation("imprint", fields: [houseId], references: [id])
 
   @@map("publishers")
 }

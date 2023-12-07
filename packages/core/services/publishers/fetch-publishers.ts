@@ -2,6 +2,7 @@ import { Publisher } from '@books-about-food/core/models/publisher'
 import { Service } from '@books-about-food/core/services/base'
 import prisma, { Prisma } from '@books-about-food/database'
 import { z } from 'zod'
+import { publisherIncludes } from '../utils'
 import { paginationInput } from '../utils/inputs'
 
 export type FetchPublishersInput = z.infer<(typeof fetchPublishers)['input']>
@@ -30,7 +31,7 @@ export const fetchPublishers = new Service(
         ],
         take: perPage === 0 ? undefined : perPage,
         skip: perPage * page,
-        include: { logo: true }
+        include: publisherIncludes
       }),
       prisma.publisher.count(),
       prisma.publisher.count({ where })

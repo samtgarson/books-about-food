@@ -1,6 +1,7 @@
 import {
   bookIncludes,
-  profileIncludes
+  profileIncludes,
+  publisherIncludes
 } from '@books-about-food/core/services/utils'
 import type { Prisma } from '@books-about-food/database'
 
@@ -13,14 +14,14 @@ export type BookAttrs = Prisma.BookGetPayload<{
 export type FullBookAttrs = Prisma.BookGetPayload<{
   include: typeof bookIncludes & {
     previewImages: true
-    publisher: { include: { logo: true } }
+    publisher: { include: typeof publisherIncludes }
     tags: true
     links: true
   }
 }>
 
 export type PublisherAttrs = Prisma.PublisherGetPayload<{
-  include: { logo: true }
+  include: typeof publisherIncludes
 }>
 
 export type ProfileAttrs = Prisma.ProfileGetPayload<{

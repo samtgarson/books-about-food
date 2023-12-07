@@ -4,7 +4,7 @@ import { Publisher } from '@books-about-food/core/models/publisher'
 import { Service } from '@books-about-food/core/services/base'
 import prisma from '@books-about-food/database'
 import { z } from 'zod'
-import { bookIncludes, profileIncludes } from '../utils'
+import { bookIncludes, profileIncludes, publisherIncludes } from '../utils'
 
 export const fetchHome = new Service(z.object({}), async () => {
   const [comingSoon, newlyAdded, authors, publishers] = await Promise.all([
@@ -51,7 +51,7 @@ export const fetchHome = new Service(z.object({}), async () => {
           { books: { _count: 'desc' } }
         ],
         take: 12,
-        include: { logo: true }
+        include: publisherIncludes
       })
       .then((publishers) =>
         publishers.map((publisher) => new Publisher(publisher))

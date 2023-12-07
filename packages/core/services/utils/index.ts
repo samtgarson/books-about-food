@@ -1,1 +1,1 @@
-export { bookIncludes, profileIncludes } from './includes'
+export * from './includes'

@@ -5,6 +5,12 @@ export const profileIncludes = {
   _count: { select: { authoredBooks: true } }
 } satisfies Prisma.ProfileDefaultArgs['include']
 
+export const publisherIncludes = {
+  logo: true,
+  imprints: { select: { name: true, slug: true } },
+  house: { select: { name: true, slug: true } }
+}
+
 export const bookIncludes = {
   coverImage: true,
   authors: { include: profileIncludes },
@@ -20,7 +26,7 @@ export const bookIncludes = {
 export const fullBookIncludes = {
   ...bookIncludes,
   previewImages: { orderBy: { createdAt: 'asc' } },
-  publisher: { include: { logo: true } },
+  publisher: { include: publisherIncludes },
   tags: true,
   links: { orderBy: { site: 'asc' } }
 } satisfies Prisma.BookDefaultArgs['include']
