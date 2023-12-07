@@ -1,3 +1,4 @@
+'use client'
 import { SVGMotionProps, motion } from 'framer-motion'
 
 export const LogoText = (props: SVGMotionProps<SVGElement>) => (
