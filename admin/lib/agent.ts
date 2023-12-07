@@ -1,6 +1,7 @@
 import { Schema } from '.schema/types'
 import { getEnv } from '@books-about-food/shared/utils/get-env'
 import { createAgent } from '@forestadmin/agent'
+import * as Sentry from '@sentry/node'
 import { datasource } from 'lib/utils/data-source'
 import { resolve } from 'path'
 import pkgDir from 'pkg-dir'
@@ -25,7 +26,11 @@ export const agent = createAgent<Schema>({
   isProduction: process.env.NODE_ENV === 'production',
   schemaPath: resolve(rootDir, '.schema', 'forestadmin-schema.json'),
   typingsPath: resolve(rootDir, '.schema', 'types.ts'),
-  typingsMaxDepth: 5
+  typingsMaxDepth: 5,
+  customizeErrorMessage(error) {
+    Sentry.captureException(error)
+    return 'Unexpected error'
+  }
 })
 
 agent
