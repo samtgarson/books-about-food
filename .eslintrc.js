@@ -28,6 +28,12 @@ module.exports = {
       rules: {
         'import/no-extraneous-dependencies': 0
       }
+    },
+    {
+      files: ['admin/build.js'],
+      rules: {
+        'import/no-extraneous-dependencies': 0
+      }
     }
   ],
   settings: {
