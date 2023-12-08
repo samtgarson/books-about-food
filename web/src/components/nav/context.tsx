@@ -18,6 +18,8 @@ type NavContext = {
   open: boolean
   setOpen: (open: boolean) => void
   showTransition: () => void
+  footerVisible: boolean
+  setFooterVisible: (visible: boolean) => void
 }
 
 const NavContext = createContext({} as NavContext)
@@ -27,6 +29,7 @@ export const NavProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [theme, setTheme] = useState<NavTheme>(path === '/' ? 'dark' : 'light')
   const [open, setOpen] = useState(false)
   const transition = useRef<TransitionControl>(null)
+  const [footerVisible, setFooterVisible] = useState(false)
 
   useEffect(() => {
     setOpen(false)
@@ -36,6 +39,8 @@ export const NavProvider: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <NavContext.Provider
       value={{
+        footerVisible,
+        setFooterVisible,
         theme,
         setTheme,
         open,

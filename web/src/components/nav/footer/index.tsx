@@ -1,10 +1,11 @@
 import cn from 'classnames'
 import Link from 'next/link'
 import { FC } from 'react'
-import { Button } from '../atoms/button'
-import { Container } from '../atoms/container'
-import { AuthedButton } from '../auth/authed-button'
-import { LogoShape } from '../icons/logo-shape'
+import { Button } from 'src/components/atoms/button'
+import { Container } from 'src/components/atoms/container'
+import { AuthedButton } from 'src/components/auth/authed-button'
+import { LogoShape } from 'src/components/icons/logo-shape'
+import { FooterWrapper } from './wrapper'
 
 const navItemClassNames = 'text-12 md:text-14'
 
@@ -36,7 +37,7 @@ const FooterItemExternal: FC<{
 
 export const Footer = async () => {
   return (
-    <footer className="mt-20 bg-white pb-6 pt-12 md:pb-10 md:pt-20">
+    <FooterWrapper>
       <Container>
         <div className="flex flex-wrap justify-between gap-16 md:gap-8 items-center mb-16 md:mb-20">
           <LogoShape text className="w-16 h-auto" />
@@ -89,6 +90,6 @@ export const Footer = async () => {
           </div>
         </div>
       </Container>
-    </footer>
+    </FooterWrapper>
   )
 }
