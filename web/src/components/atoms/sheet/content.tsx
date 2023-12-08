@@ -25,6 +25,8 @@ export const Content = ({
   className,
   ...props
 }: SheetContentProps) => {
+  const { close } = useSheetContext()
+
   return (
     <Dialog.Portal>
       <Dialog.Overlay
