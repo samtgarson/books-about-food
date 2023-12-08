@@ -2,13 +2,13 @@ import { FullBook } from '@books-about-food/core/models/full-book'
 import { fetchPublishers } from '@books-about-food/core/services/publishers/fetch-publishers'
 import { ContactLink } from 'src/components/atoms/contact-link'
 import { PageSubtitle } from 'src/components/atoms/page-title'
-import { Form } from 'src/components/form'
 import { Input } from 'src/components/form/input'
 import { Select } from 'src/components/form/select'
 import { Submit } from 'src/components/form/submit'
 import { call } from 'src/utils/service'
 import { stringify } from 'src/utils/superjson'
 import { createAction } from '../action'
+import { EditForm } from '../form'
 
 export const EditPublisherForm = async ({ book }: { book: FullBook }) => {
   const options = async (search: string) => {
@@ -21,7 +21,7 @@ export const EditPublisherForm = async ({ book }: { book: FullBook }) => {
   }
 
   return (
-    <Form action={createAction(book.slug)}>
+    <EditForm action={createAction(book.slug)}>
       <PageSubtitle>Publishing Information</PageSubtitle>
       <Select
         loadOptions={options}
@@ -52,6 +52,6 @@ export const EditPublisherForm = async ({ book }: { book: FullBook }) => {
         <ContactLink subject="I need a new publisher">get in touch</ContactLink>
         .
       </p>
-    </Form>
+    </EditForm>
   )
 }

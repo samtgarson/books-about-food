@@ -1,12 +1,11 @@
 import { FullBook } from '@books-about-food/core/models/full-book'
 import { updateLinks } from '@books-about-food/core/services/books/update-links'
-import { redirect } from 'next/navigation'
 import { PageSubtitle } from 'src/components/atoms/page-title'
-import { Form } from 'src/components/form'
 import { Submit } from 'src/components/form/submit'
 import { call } from 'src/utils/service'
 import SuperJSON from 'superjson'
 import { z } from 'zod'
+import { EditForm } from '../form'
 import { LinksSelect } from './links-select'
 
 const schema = z.object({
@@ -18,7 +17,7 @@ const schema = z.object({
 
 export const EditLinksForm = async ({ book }: { book: FullBook }) => {
   return (
-    <Form
+    <EditForm
       action={async (values) => {
         'use server'
 
@@ -29,16 +28,17 @@ export const EditLinksForm = async ({ book }: { book: FullBook }) => {
           links = schema.parse(values).links
         }
 
-        await call(updateLinks, {
+        const { success } = await call(updateLinks, {
           slug: book.slug,
           links
         })
-        redirect(`/edit/${book.slug}?action=saved`)
+
+        return success
       }}
     >
       <PageSubtitle>Links</PageSubtitle>
       <LinksSelect book={book} data-superjson />
       <Submit variant="dark">Save and Continue</Submit>
-    </Form>
+    </EditForm>
   )
 }

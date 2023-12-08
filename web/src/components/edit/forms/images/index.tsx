@@ -1,14 +1,14 @@
 import { FullBook } from '@books-about-food/core/models/full-book'
 import { PageSubtitle } from 'src/components/atoms/page-title'
-import { Form } from 'src/components/form'
 import { Checkbox } from 'src/components/form/checkbox'
 import { ImageUpload } from 'src/components/form/image-upload'
 import { Submit } from 'src/components/form/submit'
 import { createAction } from '../action'
+import { EditForm } from '../form'
 
 export const UploadForm = async ({ book }: { book: FullBook }) => {
   return (
-    <Form action={createAction(book.slug)}>
+    <EditForm action={createAction(book.slug)}>
       <PageSubtitle>Cover & Spreads</PageSubtitle>
       <p className="mb-4">
         Only upload good quality flat images of the cover and spreads—not
@@ -38,6 +38,6 @@ export const UploadForm = async ({ book }: { book: FullBook }) => {
         className="mb-4"
       />
       <Submit variant="dark">Save and Continue</Submit>
-    </Form>
+    </EditForm>
   )
 }

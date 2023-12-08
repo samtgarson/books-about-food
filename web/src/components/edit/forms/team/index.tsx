@@ -1,12 +1,11 @@
 import { FullBook } from '@books-about-food/core/models/full-book'
 import { updateContributors } from '@books-about-food/core/services/books/update-contributors'
-import { redirect } from 'next/navigation'
 import { PageSubtitle } from 'src/components/atoms/page-title'
-import { Form } from 'src/components/form'
 import { Submit } from 'src/components/form/submit'
 import { call } from 'src/utils/service'
 import SuperJSON from 'superjson'
 import { z } from 'zod'
+import { EditForm } from '../form'
 import { TeamSelect } from './team-select'
 
 const schema = z.object({
@@ -18,23 +17,23 @@ const schema = z.object({
 
 export const EditTeamForm = async ({ book }: { book: FullBook }) => {
   return (
-    <Form
+    <EditForm
       action={async (values) => {
         'use server'
 
         const { contributors } = schema.parse(values)
 
-        await call(updateContributors, {
+        const { success } = await call(updateContributors, {
           slug: book.slug,
           contributors
         })
-        redirect(`/edit/${book.slug}?action=saved`)
+        return success
       }}
     >
       <PageSubtitle>Team</PageSubtitle>
       <p>Please add at least one person who worked on this project.</p>
       <TeamSelect book={book} data-superjson />
       <Submit variant="dark">Save and Continue</Submit>
-    </Form>
+    </EditForm>
   )
 }

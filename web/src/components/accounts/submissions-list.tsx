@@ -1,5 +1,4 @@
 import { fetchBooks } from '@books-about-food/core/services/books/fetch-books'
-import { notFound } from 'next/navigation'
 import { MiniItem } from 'src/components/books/mini-item'
 import { NewBookButton } from 'src/components/books/new-book-button'
 import { GridContainer } from 'src/components/lists/grid-container'
@@ -15,7 +14,7 @@ export async function SubmissionsList({ page }: { page: number }) {
     status: ['draft', 'inReview', 'published'],
     perPage
   })
-  if (!res.success) return notFound()
+  if (!res.success) throw res.originalError
 
   const { books, filteredTotal, total } = res.data
 

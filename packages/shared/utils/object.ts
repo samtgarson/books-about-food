@@ -2,6 +2,7 @@ export function transformKeys<T extends Record<string, unknown>>(
   obj: Record<string, unknown>,
   fn: (key: string) => string
 ): T {
+  if (!obj) return obj as T
   return Object.fromEntries(
     Object.entries(obj).map(([key, value]) => [
       fn(key),

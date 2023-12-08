@@ -63,7 +63,7 @@ export const updateBook = new Service(updateBookInput, async (input, user) => {
   const properties = {
     ...attrs,
     title,
-    slug: title ? slugify(title) : undefined,
+    slug: title && !slug ? slugify(title) : undefined,
     coverImage: coverImageId ? { connect: { id: coverImageId } } : undefined,
     publisher: publisherId ? { connect: { id: publisherId } } : undefined
   } satisfies Prisma.BookUpdateInput

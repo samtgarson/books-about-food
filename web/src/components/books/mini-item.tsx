@@ -7,7 +7,7 @@ export function MiniItem({ book }: { book: Book }) {
   return (
     <Link
       href={`/edit/${book.slug}`}
-      className="px-5 py-4 border border-black flex gap-4 -mb-px sm:-mr-px items-center"
+      className="h-[85px] px-5 py-4 border border-black flex gap-4 -mb-px sm:-mr-px items-center"
     >
       {book.cover ? (
         <Image {...book.cover.imageAttrs(50)} />
