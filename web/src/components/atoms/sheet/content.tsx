@@ -8,15 +8,7 @@ import { SheetMap } from 'src/components/sheets/types'
 import { Body } from './body'
 import { useSheetContext } from './context'
 
-export const Content = ({
-  children,
-  authenticated,
-  size = 'lg',
-  loading,
-  overlay = true,
-  focusTriggerOnClose = true,
-  className
-}: {
+type SheetContentProps = {
   children: ReactNode | (({ close }: { close: () => void }) => ReactNode)
   authenticated?: boolean | { action: keyof SheetMap }
   size?: 'md' | 'lg' | 'xl'
@@ -24,36 +16,15 @@ export const Content = ({
   overlay?: boolean
   focusTriggerOnClose?: boolean
   className?: string
-}) => {
-  const { close } = useSheetContext()
-  const { openSheet } = useSheet()
-  const { status } = useSession()
+}
 
-  const nodes = useMemo(
-    () => (children instanceof Function ? children({ close }) : children),
-    [children, close]
-  )
-
-  const content = useMemo(() => {
-    if ((!loading && !authenticated) || status === 'authenticated') return nodes
-    if (status === 'loading' || loading)
-      return (
-        <Body>
-          <Loader />
-        </Body>
-      )
-    return null
-  }, [authenticated, nodes, status, loading])
-
-  useEffect(() => {
-    if (!authenticated || status !== 'unauthenticated') return
-    let redirect = location.pathname
-    if (typeof authenticated !== 'boolean' && authenticated.action)
-      redirect += `?action=${authenticated.action}`
-
-    openSheet('signIn', { redirect })
-  }, [authenticated, openSheet, status, close])
-
+export const Content = ({
+  size = 'lg',
+  overlay = true,
+  focusTriggerOnClose = true,
+  className,
+  ...props
+}: SheetContentProps) => {
   return (
     <Dialog.Portal>
       <Dialog.Overlay
@@ -84,9 +55,43 @@ export const Content = ({
           <Dialog.Close className="pointer-events-auto absolute p-4 right-0 -top-14">
             <X strokeWidth={1} size={24} className="stroke-white" />
           </Dialog.Close>
-          {content}
+          <AuthedContent {...props} />
         </Dialog.Content>
       </div>
     </Dialog.Portal>
   )
+}
+
+function AuthedContent({
+  loading,
+  children,
+  authenticated
+}: Pick<SheetContentProps, 'loading' | 'children' | 'authenticated'>) {
+  const { status } = useSession()
+  const { close } = useSheetContext()
+  const { openSheet } = useSheet()
+
+  const nodes = useMemo(
+    () => (children instanceof Function ? children({ close }) : children),
+    [children, close]
+  )
+
+  useEffect(() => {
+    if (!authenticated || status !== 'unauthenticated') return
+    let redirect = location.pathname
+    if (typeof authenticated !== 'boolean' && authenticated.action)
+      redirect += `?action=${authenticated.action}`
+
+    openSheet('signIn', { redirect })
+    close()
+  }, [authenticated, openSheet, status, close])
+
+  if ((!loading && !authenticated) || status === 'authenticated') return nodes
+  if (status === 'loading' || loading)
+    return (
+      <Body>
+        <Loader />
+      </Body>
+    )
+  return null
 }

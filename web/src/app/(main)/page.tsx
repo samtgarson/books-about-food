@@ -4,6 +4,7 @@ import { Suspense } from 'react'
 import { Container } from 'src/components/atoms/container'
 import { Marquee } from 'src/components/atoms/marquee'
 import { ItemCarousel } from 'src/components/books/item-carousel'
+import { NewBookButton } from 'src/components/books/new-book-button'
 import { FeatureCarousel } from 'src/components/feature-carousel'
 import { HomepageModule } from 'src/components/home/module'
 import { USP } from 'src/components/home/usp'
@@ -32,13 +33,7 @@ const Page = async () => {
         >
           Follow on Instagram
         </a>
-        <a
-          href="/account/submissions"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Submit a cookbook
-        </a>
+        <NewBookButton className="text-white">Submit a cookbook</NewBookButton>
       </Marquee>
       <Container
         mobile={false}

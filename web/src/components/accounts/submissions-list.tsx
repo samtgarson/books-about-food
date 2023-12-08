@@ -27,7 +27,7 @@ export async function SubmissionsList({ page }: { page: number }) {
           </li>
         ))}
       </GridContainer>
-      <NewBookButton />
+      <NewBookButton className="w-full self-start text-14 " />
       <PaginationButtons
         page={page}
         total={total}

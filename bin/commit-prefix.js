@@ -24,8 +24,8 @@ files.forEach((file) => {
 
 if (!found || !found.size) process.exit(0)
 
-const prefix = Array.from(found).join(', ').toUpperCase()
+const prefix = Array.from(found).sort().join(' ').toUpperCase()
 const msg = fs.readFileSync(fileToEdit, 'utf8')
-if (!msg.startsWith('[')) {
+if (!msg.startsWith('[') && !msg.startsWith('fixup!')) {
   fs.writeFileSync(fileToEdit, `[${prefix}] ${msg}`)
 }

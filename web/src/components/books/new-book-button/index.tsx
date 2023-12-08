@@ -1,5 +1,6 @@
 'use client'
-import { useState } from 'react'
+import cn from 'classnames'
+import { ReactNode, useState } from 'react'
 import { Plus } from 'react-feather'
 import * as Sheet from 'src/components/atoms/sheet'
 import { TitleSelectChangeAttrs } from 'src/components/edit/forms/title/action'
@@ -9,19 +10,30 @@ import { Form } from 'src/components/form'
 import { Submit } from 'src/components/form/submit'
 import { action } from './action'
 
-export const NewBookButton = () => {
+export const NewBookButton = ({
+  children,
+  className
+}: {
+  children?: ReactNode
+  className?: string
+}) => {
   const [values, setValues] = useState<TitleSelectChangeAttrs | null>(null)
   const { googleBooksId, cover, ...book } = values || {}
 
+  const triggerContent = children ?? (
+    <>
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white">
+        <Plus size={23} strokeWidth={1} />
+      </div>
+      <p className="text-left">Submit a new cookbook</p>
+    </>
+  )
   return (
     <Sheet.Root onClose={() => setValues(null)}>
-      <Sheet.Trigger className="w-full self-start text-14 flex items-center gap-4">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white">
-          <Plus size={23} strokeWidth={1} />
-        </div>
-        <p className="text-left">Submit a new cookbook</p>
+      <Sheet.Trigger className={cn('flex items-center gap-4', className)}>
+        {triggerContent}
       </Sheet.Trigger>
-      <Sheet.Content>
+      <Sheet.Content authenticated>
         <Sheet.Body title="Submit a new cookbook">
           <Form action={action} variant="bordered">
             <TitleSelect onChange={setValues} />

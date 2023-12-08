@@ -25,6 +25,7 @@ export const AuthedButton: FC<AuthedButtonProps> = ({
     href: '#',
     onClick: (e: MouseEvent) => {
       e.preventDefault()
+      e.stopPropagation()
       openSheet('signIn', { redirect })
     }
   })

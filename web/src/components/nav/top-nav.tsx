@@ -5,12 +5,13 @@ import cn from 'classnames'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 import { FC, useState } from 'react'
-import { Menu, User, X } from 'react-feather'
+import { Menu, Plus, User, X } from 'react-feather'
 import { useCurrentUser } from 'src/hooks/use-current-user'
 import { useScrollLock } from 'src/hooks/use-scroll-lock'
 import { Container } from '../atoms/container'
 import { Loader } from '../atoms/loader'
 import { AuthedButton } from '../auth/authed-button'
+import { NewBookButton } from '../books/new-book-button'
 import { useNav } from './context'
 import { QuickSearch } from './search'
 
@@ -125,11 +126,11 @@ export const TopNav: FC = () => {
   const { theme, open, setOpen } = useNav()
 
   return (
-    <nav className="absolute inset-x-0 top-0 z-30">
+    <nav className="absolute inset-x-0 top-0 z-[60]">
       <Container
         className={cn(
           'flex w-screen gap-4 items-stretch border-b border-black py-5 pr-4',
-          theme === 'dark' && 'text-white'
+          theme === 'dark' && 'text-white border-none'
         )}
       >
         <Dialog.Root modal open={open} onOpenChange={setOpen}>
@@ -150,7 +151,12 @@ export const TopNav: FC = () => {
             </Dialog.Content>
           </Dialog.Portal>
         </Dialog.Root>
-        <QuickSearch className="ml-auto" />
+        <NewBookButton
+          className={cn('ml-auto', theme === 'dark' && 'text-white')}
+        >
+          <Plus strokeWidth={1} />
+        </NewBookButton>
+        <QuickSearch />
         <AccountLink />
       </Container>
     </nav>
