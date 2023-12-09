@@ -1,3 +1,5 @@
+create extension if not exists "pgcrypto";
+
 -- CreateEnum
 CREATE TYPE "UserRole" AS ENUM ('user', 'admin', 'waitlist');
 

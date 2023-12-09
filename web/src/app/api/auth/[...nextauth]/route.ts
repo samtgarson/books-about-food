@@ -77,15 +77,6 @@ export const authOptions: NextAuthOptions = {
     signIn: '/auth/sign-in',
     signOut: '/account',
     error: '/auth/sign-in'
-  },
-  events: {
-    async createUser({ user }) {
-      if (process.env.NODE_ENV !== 'production') return
-      await prisma.user.update({
-        where: { id: user.id },
-        data: { role: 'waitlist' }
-      })
-    }
   }
 }
 
