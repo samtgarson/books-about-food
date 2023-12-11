@@ -39,9 +39,9 @@ export const Footer = async () => {
   return (
     <FooterWrapper>
       <Container>
-        <div className="flex flex-wrap justify-between gap-16 md:gap-8 items-center mb-16 md:mb-20">
+        <div className="flex flex-wrap flex-col sm:flex-row justify-between gap-8 items-start sm:items-center mb-8 md:mb-20">
           <LogoShape text className="w-16 h-auto" />
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-4">
             <Button
               as="a"
               href="https://www.buymeacoffee.com/booksaboutfood"
