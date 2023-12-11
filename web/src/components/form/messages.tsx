@@ -11,7 +11,12 @@ export type MessagesProps = {
 } & Pick<InputHTMLAttributes<any>, 'minLength' | 'maxLength' | 'type'> // eslint-disable-line @typescript-eslint/no-explicit-any
 
 export const FormMessage = ({ className, ...props }: Form.FormMessageProps) => {
-  return <Form.Message {...props} className={cn(className, 'text-14 mt-2')} />
+  return (
+    <Form.Message
+      {...props}
+      className={cn(className, 'text-14 mt-2 text-primary-red')}
+    />
+  )
 }
 
 export function Messages({ label, name, ...props }: MessagesProps) {
