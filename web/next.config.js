@@ -7,8 +7,9 @@ const nextConfig = {
   },
   experimental: {
     swcPlugins: [['next-superjson-plugin', {}]],
-    serverActions: true,
-    serverActionsBodySizeLimit: '2mb',
+    serverActions: {
+      bodySizeLimit: '2mb'
+    },
     serverComponentsExternalPackages: ['mjml', 'sharp']
   },
   transpilePackages: ['shared', 'database', 'email', 'core'],
