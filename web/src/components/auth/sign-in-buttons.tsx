@@ -39,6 +39,7 @@ export const SignInButtons: FC<SignInButtonsProps> = ({
         name="email"
         label="Email Address"
         placeholder="author@cookbooks.com"
+        type="email"
       />
       <div className="flex gap-4">
         <Submit variant="dark" className="grow">
