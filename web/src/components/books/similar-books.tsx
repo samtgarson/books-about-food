@@ -4,6 +4,7 @@ import { call } from 'src/utils/service'
 import { AntiContainer } from '../atoms/container'
 import { GridContainer } from '../lists/grid-container'
 import { ListContainer } from '../lists/list-context'
+import { Wrap } from '../utils/wrap'
 import { Item } from './item'
 import { ItemCarousel } from './item-carousel'
 
@@ -26,16 +27,16 @@ export const SimilarBooks = async ({ slug, className }: SimilarBooksProps) => {
       >
         <ItemCarousel
           title="Similar Cookbooks"
-          items={books}
+          items={[]}
           size="lg"
-          data-superjson
           carouselClassName="pr-px"
+          key="similar-books"
         />
       </AntiContainer>
       <ListContainer title="Similar Cookbooks" className="sm:hidden">
         <GridContainer>
           {books.map((book) => (
-            <Item key={book.id} book={book} data-superjson />
+            <Wrap c={Item} key={book.id.toString()} props={{ book }} />
           ))}
         </GridContainer>
       </ListContainer>

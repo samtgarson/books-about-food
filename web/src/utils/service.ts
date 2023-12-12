@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Service, ServiceReturn } from '@books-about-food/core/services/base'
 import prisma, { User } from '@books-about-food/database'
-import { authOptions } from 'app/api/auth/[...nextauth]/route'
+import { authOptions } from 'app/api/auth/[...nextauth]/options'
 import { getServerSession } from 'next-auth'
 import { cache } from 'react'
 import z from 'zod'

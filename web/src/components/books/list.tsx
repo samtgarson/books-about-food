@@ -5,6 +5,7 @@ import {
 import { Pagination } from 'src/components/lists/pagination'
 import { call } from 'src/utils/service'
 import { GridContainer } from '../lists/grid-container'
+import { Wrap } from '../utils/wrap'
 import { Item, Skeleton } from './item'
 
 export type BookListProps = {
@@ -33,7 +34,7 @@ export const BookList = async ({
       {title && <h3 className="all-caps my-4 sm:mb-8 sm:mt-0 ">{title}</h3>}
       <GridContainer className={'sm:gap-y-16'}>
         {books.map((book) => (
-          <Item key={book.id} book={book} data-superjson />
+          <Wrap c={Item} key={book.id} props={{ book }} />
         ))}
       </GridContainer>
       {books.length === 0 && showEmpty && <p>No books found</p>}

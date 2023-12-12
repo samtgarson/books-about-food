@@ -8,7 +8,7 @@ import { fontClassname } from 'src/style/font'
 import 'src/style/globals.css' // eslint-disable-line import/extensions
 import 'src/utils/superjson'
 
-export { metadata } from './metadata'
+export * from './metadata'
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

@@ -1,15 +1,8 @@
 import { appUrl } from '@books-about-food/core/utils/app-url'
-import { Metadata } from 'next'
+import { Metadata, Viewport } from 'next'
 
 export const metadata = {
   alternates: { canonical: 'https://booksaboutfood.info' },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    minimumScale: 1,
-    maximumScale: 1,
-    userScalable: false
-  },
   title: {
     template: '%s | Books About Food',
     default: 'Books About Food'
@@ -21,3 +14,11 @@ export const metadata = {
     locale: 'en_GB'
   }
 } satisfies Metadata
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  minimumScale: 1,
+  maximumScale: 1,
+  userScalable: false
+}
