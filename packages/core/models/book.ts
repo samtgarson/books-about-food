@@ -81,6 +81,10 @@ export class Book extends BaseModel {
     return this.releaseDate && format(this.releaseDate, 'MMM yyyy')
   }
 
+  get isoReleaseDate() {
+    return this.releaseDate && format(this.releaseDate, 'yyyy-MM-dd')
+  }
+
   get publishedInFuture() {
     return this.releaseDate && isFuture(this.releaseDate)
   }

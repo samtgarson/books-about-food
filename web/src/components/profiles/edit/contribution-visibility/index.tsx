@@ -48,7 +48,10 @@ export const ContributionVisibility: FC<ContributionVisibilityProps> = ({
       />
       {display === 'list' && (
         <Footer
-          className={cn('transition', hidden ? 'opacity-30' : 'opacity-80')}
+          className={cn(
+            'transition',
+            editMode ? (hidden ? 'opacity-30' : 'opacity-80') : ''
+          )}
         >
           <p className="text-16 mb-1 font-medium">{book.title}</p>
           <p className="text-14">{book.authorNames}</p>

@@ -59,7 +59,11 @@ export const FrequentCollaborators: FC<FrequentCollaboratorsProps> = ({
                 disabled={editMode}
                 className={cn(
                   'transition',
-                  hidden ? 'opacity-30 saturate-0' : 'opacity-80'
+                  editMode
+                    ? hidden
+                      ? 'opacity-30 saturate-0'
+                      : 'opacity-80'
+                    : ''
                 )}
               />
               {editMode && (

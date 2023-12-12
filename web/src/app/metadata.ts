@@ -1,11 +1,8 @@
 import { appUrl } from '@books-about-food/core/utils/app-url'
 import { Metadata } from 'next'
 
-export const metadata: Metadata = {
-  alternates:
-    process.env.NODE_ENV === 'production'
-      ? { canonical: 'https://booksaboutfood.info' }
-      : {},
+export const metadata = {
+  alternates: { canonical: 'https://booksaboutfood.info' },
   viewport: {
     width: 'device-width',
     initialScale: 1,
@@ -18,5 +15,9 @@ export const metadata: Metadata = {
     default: 'Books About Food'
   },
   description: "The cookbook industry's new digital home.",
-  metadataBase: new URL(appUrl())
-}
+  metadataBase: new URL(appUrl()),
+  openGraph: {
+    siteName: 'Books About Food',
+    locale: 'en_GB'
+  }
+} satisfies Metadata

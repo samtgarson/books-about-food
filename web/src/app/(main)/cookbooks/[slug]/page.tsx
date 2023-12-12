@@ -1,6 +1,6 @@
 import { fetchBook } from '@books-about-food/core/services/books/fetch-book'
 import cn from 'classnames'
-import { Metadata } from 'next'
+import { Metadata, ResolvedMetadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { AntiContainer, Container } from 'src/components/atoms/container'
@@ -19,13 +19,31 @@ import { call } from 'src/utils/service'
 
 export type CookbooksPageProps = PageProps<{ slug: string }>
 
-export async function generateMetadata({
-  params: { slug }
-}: CookbooksPageProps): Promise<Metadata> {
+export async function generateMetadata(
+  { params: { slug } }: CookbooksPageProps,
+  parent: Promise<ResolvedMetadata>
+): Promise<Metadata> {
   const { data: book } = await call(fetchBook, { slug })
   if (!book) notFound()
 
-  return { title: book.title }
+  return {
+    title: book.title,
+    alternates: {
+      canonical: `https://booksaboutfood.info/cookbooks/${book.slug}`
+    },
+    openGraph: {
+      ...(await parent).openGraph,
+      title: book.title,
+      description: book.subtitle,
+      type: 'book',
+      releaseDate: book.isoReleaseDate,
+      tags: ['Cookbook', ...book.tags],
+      url: `https://booksaboutfood.info/cookbooks/${book.slug}`,
+      authors: book.authors.map(
+        (author) => `https://booksaboutfood.info/authors/${author.slug}`
+      )
+    }
+  }
 }
 
 export * from 'app/default-static-config'

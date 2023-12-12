@@ -1,5 +1,6 @@
 import { fetchFrequentCollaborators } from '@books-about-food/core/services/books/fetch-frequent-collaborators'
 import { fetchProfile } from '@books-about-food/core/services/profiles/fetch-profile'
+import { Metadata, ResolvedMetadata } from 'next'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { Container } from 'src/components/atoms/container'
@@ -14,6 +15,7 @@ import { FrequentCollaborators } from 'src/components/profiles/edit/frequent-col
 import { LinkList } from 'src/components/profiles/link-list'
 import { LocationField } from 'src/components/profiles/location-field'
 import { ProfileOverflow } from 'src/components/profiles/profile-overflow'
+import { PageProps } from 'src/components/types'
 import { call } from 'src/utils/service'
 
 export type ProfilePageProps = {
@@ -82,3 +84,30 @@ export async function ProfilePage({ segment, slug }: ProfilePageProps) {
     </EditProfileProvider>
   )
 }
+
+export const metadata = (segment: ProfilePageProps['segment']) =>
+  async function generateMetadata(
+    { params: { slug } }: PageProps<{ slug: string }>,
+    parent: Promise<ResolvedMetadata>
+  ): Promise<Metadata> {
+    const { data: profile } = await call(fetchProfile, { slug })
+    if (!profile) notFound()
+
+    const [firstName, ...names] = profile.name.split(' ')
+    return {
+      title: profile.name,
+      alternates: {
+        canonical: `https://booksaboutfood.info/${segment}/${profile.slug}`
+      },
+      openGraph: {
+        ...(await parent).openGraph,
+        title: profile.name,
+        description: profile.jobTitle,
+        type: 'profile',
+        url: `https://booksaboutfood.info/${segment}/${profile.slug}`,
+        username: profile.instagram,
+        firstName,
+        lastName: names.join(' ')
+      }
+    }
+  }
