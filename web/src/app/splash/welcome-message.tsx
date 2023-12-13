@@ -1,11 +1,11 @@
 'use client'
 
 import { UserRole } from '@books-about-food/database'
-import { signIn, signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Button } from 'src/components/atoms/button'
 import { Loader } from 'src/components/atoms/loader'
+import { emailSignIn, signOut } from 'src/components/auth/actions'
 import { AuthedButton } from 'src/components/auth/authed-button'
 import { Form } from 'src/components/form'
 import { Input } from 'src/components/form/input'
@@ -48,10 +48,7 @@ export function WelcomeMessage() {
   return (
     <Form
       action={async ({ email }) => {
-        await signIn('email', {
-          email,
-          redirect: false
-        })
+        await emailSignIn({ email })
       }}
       schema={z.object({ email: z.string() })}
       successMessage="Thanks, we'll be in touch! Check your email to complete your

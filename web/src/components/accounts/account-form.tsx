@@ -1,7 +1,7 @@
 'use client'
 
 import { Account, User } from '@books-about-food/database'
-import { signIn } from 'next-auth/react'
+import { emailSignIn } from '../auth/actions'
 import { ConnectAccountButton } from '../auth/connect-account-button'
 import { DestroyAccountButton } from '../auth/destroy-account-button'
 import { Google } from '../auth/logos'
@@ -24,7 +24,7 @@ export function AccountForm({
   )
 
   const sendVerification = (email: string) => {
-    signIn('email', { email, redirect: false })
+    emailSignIn({ email, redirect: '/account' })
     successToast('Verification email sent', {
       description: 'Please check your inbox to verify your email address'
     })

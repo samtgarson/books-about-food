@@ -1,12 +1,12 @@
 'use client'
 
-import { signIn } from 'next-auth/react'
 import { FC } from 'react'
 import z from 'zod'
 import { Button } from '../atoms/button'
 import { Form } from '../form'
 import { Input } from '../form/input'
 import { Submit } from '../form/submit'
+import { emailSignIn, googleSignIn } from './actions'
 import { Google } from './logos'
 
 export type SignInButtonsProps = {
@@ -25,13 +25,7 @@ export const SignInButtons: FC<SignInButtonsProps> = ({
 }) => {
   return (
     <Form
-      action={async ({ email }) => {
-        await signIn('email', {
-          email,
-          redirect: false,
-          callbackUrl
-        })
-      }}
+      action={emailSignIn}
       schema={z.object({ email: z.string() })}
       successMessage={successMessage}
     >
@@ -48,7 +42,7 @@ export const SignInButtons: FC<SignInButtonsProps> = ({
       </div>
       <p className="text-center">or</p>
       <Button
-        onClick={() => signIn('google', { callbackUrl })}
+        onClick={() => googleSignIn(callbackUrl)}
         className="relative flex items-center justify-center gap-3"
         type="button"
       >

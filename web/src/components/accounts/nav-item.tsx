@@ -1,7 +1,6 @@
 'use client'
 
 import cn from 'classnames'
-import { signOut } from 'next-auth/react'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 import { FC } from 'react'
@@ -27,16 +26,5 @@ export const AccountNavItem: FC<AccountNavItemProps> = ({ label, href }) => {
       {label}
       {active && <ChevronRight strokeWidth={1} size={24} />}
     </Link>
-  )
-}
-
-export const SignOutButton: FC = () => {
-  return (
-    <button
-      className="hover:bg-sand w-full px-4 py-2.5 text-left transition-colors"
-      onClick={() => signOut({ callbackUrl: '/' })}
-    >
-      Sign Out
-    </button>
   )
 }

@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Service, ServiceReturn } from '@books-about-food/core/services/base'
 import prisma, { User } from '@books-about-food/database'
-import { getServerSession } from 'next-auth'
 import { cache } from 'react'
-import { authOptions } from 'src/auth'
+import { auth } from 'src/auth'
 import z from 'zod'
 
 export type RequestMeta = {
@@ -16,7 +15,7 @@ export type RequestMeta = {
 
 export const getUser = cache(async () => {
   try {
-    const session = await getServerSession(authOptions)
+    const session = await auth()
 
     if (!session?.user.id) return null
 

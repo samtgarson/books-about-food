@@ -1,7 +1,7 @@
 'use client'
 
 import { X } from 'react-feather'
-import { action } from './action'
+import { action } from './actions'
 
 export function DestroyAccountButton({
   provider,

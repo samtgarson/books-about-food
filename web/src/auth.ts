@@ -1,15 +1,12 @@
+import type { Adapter } from '@auth/core/adapters'
+import { PrismaAdapter } from '@auth/prisma-adapter'
 import prisma from '@books-about-food/database'
 import { inngest } from '@books-about-food/jobs'
 import { getEnv } from '@books-about-food/shared/utils/get-env'
-import { PrismaAdapter } from '@next-auth/prisma-adapter'
-import type { NextAuthOptions } from 'next-auth'
+import NextAuth, { NextAuthConfig } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 
 export const authOptions = {
-  adapter: PrismaAdapter(prisma),
-  session: {
-    strategy: 'jwt'
-  },
   providers: [
     GoogleProvider({
       clientId: getEnv('GOOGLE_CLIENT_ID'),
@@ -20,7 +17,8 @@ export const authOptions = {
           access_type: 'offline'
         }
       },
-      allowDangerousEmailAccountLinking: true
+      allowDangerousEmailAccountLinking: true,
+      redirectProxyUrl: 'https://www.booksaboutfood.info/api/auth'
     }),
     {
       id: 'email',
@@ -77,4 +75,16 @@ export const authOptions = {
     signOut: '/account',
     error: '/auth/sign-in'
   }
-} satisfies NextAuthOptions
+} satisfies NextAuthConfig
+
+export const {
+  handlers: { GET, POST },
+  auth,
+  ...actions
+} = NextAuth({
+  ...authOptions,
+  adapter: PrismaAdapter(prisma) as Adapter,
+  session: {
+    strategy: 'jwt'
+  }
+})

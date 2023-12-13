@@ -1,5 +1,5 @@
-import { withAuth } from 'next-auth/middleware'
 import { NextResponse } from 'next/server'
+import { auth } from './auth'
 
 const protectedPath = (pathname: string) =>
   ['/account', '/edit'].find((path) => pathname.startsWith(path))
@@ -7,36 +7,36 @@ const protectedPath = (pathname: string) =>
 const systemPath = (pathname: string) =>
   ['/api', '/_next', '/auth'].find((path) => pathname.startsWith(path))
 
-export default withAuth(
-  function middleware(request) {
-    if (request.method === 'POST' || systemPath(request.nextUrl.pathname)) {
-      return NextResponse.next()
-    }
-
-    const splashEnabled = process.env.ENABLE_SPLASH === 'true'
-    const userAllowed =
-      request.nextauth.token && request.nextauth.token.role !== 'waitlist'
-
-    if (!splashEnabled || userAllowed) {
-      if (request.nextUrl.pathname === '/splash') {
-        return NextResponse.redirect(new URL('/', request.url))
-      }
-
-      return NextResponse.next()
-    }
-
-    if (!['/splash', '/auth/sign-in'].includes(request.nextUrl.pathname)) {
-      return NextResponse.rewrite(new URL('/splash', request.url))
-    }
-  },
-  {
-    callbacks: {
-      authorized({ req, token }) {
-        return !protectedPath(req.nextUrl.pathname) || !!token
-      }
-    }
+export default auth(function middleware(request) {
+  if (request.method === 'POST' || systemPath(request.nextUrl.pathname)) {
+    return NextResponse.next()
   }
-)
+
+  const splashEnabled = process.env.ENABLE_SPLASH === 'true'
+  const user = request.auth?.user
+  const userAllowed = user && request.auth?.user.role !== 'waitlist'
+
+  if (!user && protectedPath(request.nextUrl.pathname)) {
+    const loginPath = `/auth/sign-in?callbackUrl=${encodeURIComponent(
+      request.url
+    )}`
+    return NextResponse.redirect(new URL(loginPath, request.url), {
+      status: 307
+    })
+  }
+
+  if (!splashEnabled || userAllowed) {
+    if (request.nextUrl.pathname === '/splash') {
+      return NextResponse.redirect(new URL('/', request.url))
+    }
+
+    return NextResponse.next()
+  }
+
+  if (!['/splash', '/auth/sign-in'].includes(request.nextUrl.pathname)) {
+    return NextResponse.rewrite(new URL('/splash', request.url))
+  }
+})
 
 export const config = {
   matcher: [

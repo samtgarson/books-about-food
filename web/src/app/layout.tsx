@@ -1,6 +1,6 @@
-import { getServerSession } from 'next-auth'
 import { ReactNode } from 'react'
 import { Toaster } from 'sonner'
+import { auth } from 'src/auth'
 import { Mouse } from 'src/components/atoms/mouse'
 import { AuthProvider } from 'src/components/auth/auth-provider'
 import { GlobalSheetProvider } from 'src/components/sheets/global-sheet'
@@ -16,7 +16,7 @@ export default async function RootLayout({
 }: {
   children: ReactNode
 }) {
-  const session = await getServerSession()
+  const session = await auth()
   return (
     <html lang="en" className={fontClassname}>
       <body className="relative flex min-h-screen flex-col">

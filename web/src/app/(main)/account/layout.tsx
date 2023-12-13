@@ -1,6 +1,7 @@
-import { AccountNavItem, SignOutButton } from 'src/components/accounts/nav-item'
+import { AccountNavItem } from 'src/components/accounts/nav-item'
 import { Container } from 'src/components/atoms/container'
 import { PageTitle } from 'src/components/atoms/page-title'
+import { SignOutButton } from 'src/components/auth/sign-out-button'
 import { getUser } from 'src/utils/service'
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {

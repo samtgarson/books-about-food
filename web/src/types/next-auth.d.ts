@@ -1,9 +1,7 @@
 import { UserRole } from '@books-about-food/database'
-import { DefaultSession } from 'next-auth'
-import 'next-auth/jwt'
 
-declare module 'next-auth/jwt' {
-  interface JWT {
+declare module '@auth/core/jwt' {
+  interface JWT extends DefaultJWT {
     userId: string
     role: UserRole
   }
@@ -12,12 +10,11 @@ declare module 'next-auth/jwt' {
 declare module 'next-auth' {
   interface Session {
     user: {
-      id: string
       role: UserRole
-    } & DefaultSession['user']
+    } & User
   }
 
-  interface User extends DefaultSession['user'] {
+  interface User {
     role: UserRole
   }
 }

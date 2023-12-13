@@ -1,8 +1,8 @@
 'use client'
 
 import cn from 'classnames'
-import { signIn } from 'next-auth/react'
 import { Google } from '../logos'
+import { connectAccount } from './actions'
 
 const providers = { google: { Icon: Google, label: 'Google' } }
 
@@ -18,8 +18,8 @@ export function ConnectAccountButton({
     <button
       type="button"
       className={cn('flex items-center gap-4', className)}
-      onClick={() => {
-        signIn(provider, { redirect: false })
+      onClick={async () => {
+        await connectAccount(provider)
       }}
     >
       <Icon size={18} /> Connect {label}
