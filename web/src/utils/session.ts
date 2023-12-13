@@ -1,8 +1,9 @@
+import { appUrl } from '@books-about-food/core/utils/app-url'
 import { getEnv } from '@books-about-food/shared/utils/get-env'
 import { JWT, decode, encode } from 'next-auth/jwt'
 import { cookies } from 'next/headers'
 
-const sessionCookieName = process.env.NEXTAUTH_URL?.startsWith('https://')
+const sessionCookieName = appUrl().startsWith('https://')
   ? '__Secure-next-auth.session-token'
   : 'next-auth.session-token'
 
