@@ -1,3 +1,4 @@
+import { getServerSession } from 'next-auth'
 import { ReactNode } from 'react'
 import { Toaster } from 'sonner'
 import { Mouse } from 'src/components/atoms/mouse'
@@ -10,12 +11,17 @@ import 'src/utils/superjson'
 
 export * from './metadata'
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({
+  children
+}: {
+  children: ReactNode
+}) {
+  const session = await getServerSession()
   return (
     <html lang="en" className={fontClassname}>
       <body className="relative flex min-h-screen flex-col">
         <Fathom />
-        <AuthProvider>
+        <AuthProvider session={session}>
           <GlobalSheetProvider>
             <Toaster
               toastOptions={{
