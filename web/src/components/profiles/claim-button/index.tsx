@@ -35,6 +35,7 @@ export const ClaimProfileButton: FC<ClaimProfileButtonProps> = ({
   ) {
     return <EditProfileButton className={className} />
   }
+  if (profile.userId) return null
   return (
     <Button
       className={cn(

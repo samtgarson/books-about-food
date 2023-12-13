@@ -84,8 +84,8 @@ function AuthedContent({
     if (typeof authenticated !== 'boolean' && authenticated.action)
       redirect += `?action=${authenticated.action}`
 
-    openSheet('signIn', { redirect })
     close()
+    openSheet('signIn', { redirect })
   }, [authenticated, openSheet, status, close])
 
   if ((!loading && !authenticated) || status === 'authenticated') return nodes
