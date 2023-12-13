@@ -5,7 +5,7 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import type { NextAuthOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 
-export const authOptions: NextAuthOptions = {
+export const authOptions = {
   adapter: PrismaAdapter(prisma),
   session: {
     strategy: 'jwt'
@@ -77,4 +77,4 @@ export const authOptions: NextAuthOptions = {
     signOut: '/account',
     error: '/auth/sign-in'
   }
-}
+} satisfies NextAuthOptions
