@@ -1,11 +1,9 @@
-import { Service } from '@books-about-food/core/services/base'
 import prisma, { Prisma } from '@books-about-food/database'
 import { FileUploader } from '@books-about-food/shared/services/file-uploader'
-import { z } from 'zod'
 
 const s3 = new FileUploader()
 
-export const cleanImages = new Service(z.undefined(), async () => {
+export const cleanImages = async () => {
   const where: Prisma.ImageWhereInput = {
     AND: [
       { publisherId: null },
@@ -25,4 +23,4 @@ export const cleanImages = new Service(z.undefined(), async () => {
   console.info(`Deleted ${images.length} images from database`)
 
   return images.length
-})
+}

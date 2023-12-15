@@ -5,8 +5,8 @@
   "main": "index.ts",
   "scripts": {
     "start": "node dist",
-    "dev": "nodemon -r dotenv/config --exec node -r ts-node/register --watch './admin' --watch 'packages/*' ./lib/index.ts",
-    "debug": "nodemon -r dotenv/config --exec node -r ts-node/register --watch './admin' --watch 'packages/*' --inspect-brk ./lib/index.ts",
+    "dev": "nodemon -r dotenv/config --exec node -r ts-node/register --watch './admin' --watch './packages/*' ./lib/index.ts",
+    "debug": "nodemon -r dotenv/config --exec node -r ts-node/register --watch './admin' --watch './packages/*' --inspect-brk ./lib/index.ts",
     "build": "node build.js"
   },
   "dependencies": {
