@@ -1,16 +1,19 @@
 import { renderEmailTemplate, sendMail } from '@books-about-food/email'
-import { createJob } from './base'
+import crypto from 'crypto'
+import { inngest } from '..'
 
-export const email = createJob(
+export const email = inngest.createFunction(
   { id: 'email', name: 'Send an email' },
-  'jobs.email',
+  { event: 'jobs.email' },
   async ({ event }) => {
     if (!event.user?.email) return { success: false, message: 'No user' }
     const component = renderEmailTemplate(event.data)
 
+    const id = crypto.randomUUID()
     const sentMessage = await sendMail({
       component,
-      to: event.user.email
+      to: event.user.email,
+      messageId: id
     })
 
     return { success: true, res: sentMessage }
