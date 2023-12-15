@@ -20,7 +20,8 @@ export function Title({
       index,
       currentIndex,
       centered: false,
-      imageWidth: 100
+      imageWidth: 100,
+      title: true
     })
 
   if (!display) return null
@@ -33,8 +34,8 @@ export function Title({
       {...attrs}
       className={cn(
         className,
-        '!pointer-events-auto min-w-[65vw] justify-center lg:justify-between',
-        current && 'lg:-ml-[7vw] z-0',
+        'justify-center lg:justify-between',
+        // current && 'z-0 pointer-events-none',
         !current && 'cursor-pointer'
       )}
       onClick={(e) => {
@@ -48,7 +49,7 @@ export function Title({
     >
       <div
         className={cn(
-          'pointer-events-none flex flex-col gap-4 transition',
+          'pointer-events-none flex flex-col gap-4 transition pr-36',
           current ? 'text-white' : 'opacity-10'
         )}
       >

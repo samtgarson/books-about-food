@@ -28,19 +28,28 @@ export function FeatureCarouselItem({
   preTitle: boolean
   postTitle: boolean
 }) {
-  const { current, attrs, display, className, next, prev, mouseProps } =
-    useFeatureCarouselItem({
-      index,
-      currentIndex,
-      preTitle,
-      postTitle,
-      imageWidth: feature.book.cover?.widthFor(360)
-    })
+  const {
+    current,
+    attrs,
+    display,
+    className,
+    next,
+    prev,
+    mouseProps,
+    position
+  } = useFeatureCarouselItem({
+    index,
+    currentIndex,
+    preTitle,
+    postTitle,
+    imageWidth: feature.book.cover?.widthFor(360)
+  })
 
   if (!display) return null
   return (
     <MotionLink
       layoutId={id}
+      data-position={position}
       layout="position"
       href={current ? feature.book.href : '#'}
       {...attrs}
@@ -61,7 +70,7 @@ export function FeatureCarouselItem({
         />
       )}
       <div
-        className={cn('transition-opacity lg:flex-grow', {
+        className={cn('transition-opacity lg:flex-grow max-w-[80vw]', {
           'opacity-0': !current,
           'pt-10': !feature.tagLine
         })}

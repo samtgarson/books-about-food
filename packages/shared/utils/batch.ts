@@ -11,7 +11,9 @@ export async function asyncBatch<T, R>(
 
     results = [
       ...results,
-      ...(slicedResults.filter((result) => result !== undefined) as R[])
+      ...slicedResults.filter(
+        (result): result is Awaited<R> => result !== undefined
+      )
     ]
   }
 

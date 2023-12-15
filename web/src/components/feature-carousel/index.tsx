@@ -5,7 +5,6 @@ import cn from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FC, useEffect, useMemo, useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'react-feather'
-import { containerClasses } from '../atoms/container'
 import { useNav } from '../nav/context'
 import { Faces } from './faces'
 import { FeatureCarouselItem } from './item'
@@ -92,20 +91,14 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({ features }) => {
         mouseRef.current = null
       }}
       className={cn(
-        'relative overflow-x-clip transition-colors',
+        'relative overflow-x-clip transition-colors w-full h-[90vh] max-h-[800px]',
         showingTitle ? 'bg-black' : 'bg-white'
       )}
     >
       <AnimatePresence>
         {showingTitle && <Faces features={features} />}
       </AnimatePresence>
-      <div
-        className={cn(
-          'relative w-full',
-          containerClasses(),
-          'lg:pl-[15vw] lg:pr-40'
-        )}
-      >
+      <div className={cn('absolute inset-x-0 bottom-16 sm:bottom-0 top-16')}>
         {loop.map(({ title, feature }, index) => {
           const virtualIndex = offset * totalSlides + index
           const batch = Math.floor(index / totalSlides) + offset
@@ -139,7 +132,7 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({ features }) => {
       </div>
       <div
         className={cn(
-          'absolute bottom-8 inset-x-5 pl-3 flex items-center gap-3 sm:hidden z-20'
+          'absolute bottom-5 inset-x-5 flex items-center gap-3 sm:hidden z-20'
         )}
       >
         {Array.from({ length: totalSlides }).map((_, index) => {

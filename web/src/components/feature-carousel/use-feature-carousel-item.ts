@@ -10,7 +10,8 @@ export function useFeatureCarouselItem({
   centered = true,
   preTitle = false,
   postTitle = false,
-  imageWidth = 260
+  imageWidth = 260,
+  title = false
 }: {
   index: number
   currentIndex: number
@@ -18,6 +19,7 @@ export function useFeatureCarouselItem({
   preTitle?: boolean
   postTitle?: boolean
   imageWidth?: number
+  title?: boolean
 }) {
   const pos = {
     prev: index === currentIndex - 1,
@@ -28,15 +30,23 @@ export function useFeatureCarouselItem({
   }
 
   const className = cn(
-    'flex items-start lg:items-center justify-center gap-8 lg:gap-20 flex-col lg:flex-row h-screen pt-[35px] sm:pt-0 sm:h-[770px] lg:h-[800px] top-0 w-[calc(100vw-40px)] sm:w-[calc(85vw-10rem)]',
+    'flex items-start lg:items-center justify-center gap-8 lg:gap-16 flex-col lg:flex-row pt-[35px] sm:pt-0 w-full h-full absolute',
     {
-      [`relative flex-grow z-50`]: pos.current,
-      'absolute right-full lg:right-auto lg:ml-[7vw] lg:left-[var(--imageWidth)] z-20':
+      'z-10': pos.current,
+      'left-auto right-full lg:right-auto lg:-left-[calc(var(--imageWidth)-80px)]':
         pos.prev,
-      'absolute left-full lg:-ml-[10.5rem] lg:pl-[7rem] sm:-ml-24 z-20':
-        pos.next,
-      'absolute right-full': pos.offPrev,
-      'absolute left-full': pos.offNext,
+      'left-full sm:left-[calc(100%-80px)]': pos.next,
+      'z-20': pos.next,
+      'left-5 md:left-16 lg:left-44': pos.current && !title,
+      'left-5 md:left-16': pos.current && title,
+      //   [`relative flex-grow sm:z-50`]: pos.current,
+      //   'absolute right-full lg:right-auto lg:ml-[7vw] lg:left-[var(--imageWidth)] z-20':
+      //     pos.prev,
+      //   'absolute left-full lg:-ml-[10.5rem] lg:pl-[7rem] sm:-ml-24 z-20':
+      //     pos.next,
+      'right-full': pos.offPrev,
+      'left-full': pos.offNext,
+      'pointer-events-none': pos.offNext || pos.offPrev,
       'lg:justify-center': centered
     }
   )
@@ -44,10 +54,10 @@ export function useFeatureCarouselItem({
   const hidden = pos.offNext || pos.offPrev || (pos.prev && preTitle)
   const attrs = {
     transition: { ease: 'easeInOut', duration: 0.4 },
-    style: { '--imageWidth': `${-imageWidth}px` } as CSSProperties,
+    style: { '--imageWidth': `${imageWidth}px` } as CSSProperties,
     animate: {
-      opacity: hidden ? 0 : 1,
-      z: pos.current ? '10px' : '0px'
+      opacity: hidden ? 0 : 1
+      // z: pos.current ? '10px' : '0px'
     },
     whileHover: pos.next ? { x: -20 } : pos.prev ? { x: 20 } : {},
     initial: false
@@ -68,6 +78,7 @@ export function useFeatureCarouselItem({
     className,
     next: pos.next,
     prev: pos.prev,
-    mouseProps
+    mouseProps,
+    position: Object.keys(pos).find((key) => pos[key as keyof typeof pos])
   }
 }
