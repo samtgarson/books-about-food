@@ -62,6 +62,7 @@ jobs:
         env:
           DEPLOYMENT_URL: ${{ needs.deploy-preview.outputs.preview-url }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          NEXTAUTH_SECRET: ${{ secrets.AUTH_SECRET }}
       - uses: actions/upload-artifact@v3
         if: always()
         with:
