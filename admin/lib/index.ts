@@ -28,6 +28,12 @@ app.on('error', (err, ctx) => {
 })
 
 const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 5001
-app.listen(port, () => {
-  console.log(`> Ready on http://localhost:${port}`)
+app.listen(port, async () => {
+  console.log(`> Ready on port ${port}`)
+  const res = await fetch(`http://localhost:${port}/api/inngest`, {
+    method: 'PUT'
+  })
+
+  if (res.ok) console.log('> Inngest client registered')
+  else console.error('> Failed to register Inngest client', await res.text())
 })
