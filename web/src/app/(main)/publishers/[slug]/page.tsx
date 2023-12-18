@@ -83,7 +83,7 @@ export default async ({
             </Link>
           </Detail>
         )}
-        {publisher.imprints.length && (
+        {publisher.imprints.length > 0 && (
           <Detail maxWidth className="flex flex-col gap-2 items-start">
             <p className="all-caps">Imprints</p>
             {publisher.imprints.map((imprint) => (

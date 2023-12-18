@@ -18,7 +18,10 @@ export const authOptions = {
         }
       },
       allowDangerousEmailAccountLinking: true,
-      redirectProxyUrl: 'https://www.booksaboutfood.info/api/auth'
+      redirectProxyUrl:
+        process.env.NODE_ENV === 'development'
+          ? undefined
+          : 'https://www.booksaboutfood.info/api/auth'
     }),
     {
       id: 'email',
