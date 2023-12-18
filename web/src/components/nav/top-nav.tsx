@@ -18,7 +18,7 @@ import { QuickSearch } from './search'
 const AccountLink = ({ className }: { className?: string }) => {
   return (
     <AuthedButton>
-      <Link href="/account" className={className}>
+      <Link href="/account" className={className} aria-label="Account">
         <User strokeWidth={1} />
       </Link>
     </AuthedButton>

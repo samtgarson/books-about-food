@@ -26,7 +26,7 @@ export function QuickSearch({ className }: { className?: string }) {
 
   return (
     <Sheet.Root ref={sheet}>
-      <Sheet.Trigger className={className}>
+      <Sheet.Trigger className={className} aria-label="Search">
         <Search
           className={theme === 'dark' ? 'text-white' : 'text-black'}
           strokeWidth={1}

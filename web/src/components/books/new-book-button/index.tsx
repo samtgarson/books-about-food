@@ -30,7 +30,10 @@ export const NewBookButton = ({
   )
   return (
     <Sheet.Root onClose={() => setValues(null)}>
-      <Sheet.Trigger className={cn('flex items-center gap-4', className)}>
+      <Sheet.Trigger
+        className={cn('flex items-center gap-4', className)}
+        aria-label="Submit a new cookbook"
+      >
         {triggerContent}
       </Sheet.Trigger>
       <Sheet.Content authenticated>

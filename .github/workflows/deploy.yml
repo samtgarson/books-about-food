@@ -1,0 +1,70 @@
+name: Test & Deploy
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      deployments: write
+    outputs:
+      preview-url: ${{ steps.vercel-deploy.outputs.PREVIEW_URL }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Deploy to Vercel Action
+        id: vercel-deploy
+        uses: BetaHuhn/deploy-to-vercel-action@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_DEPLOY_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.BAF_VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.BAF_VERCEL_PROJECT_ID }}
+          VERCEL_SCOPE: 'radical-innovation'
+          PRODUCTION: false
+          CREATE_COMMENT: false
+
+  test:
+    needs: [deploy-preview]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm -w packages/e2e ci
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+      - name: Get installed Playwright version
+        id: playwright-version
+        run: echo "PLAYWRIGHT_VERSION=$(npm why @playwright/test --json | jq '.[0].version' -r)" >> $GITHUB_ENV
+      - name: Cache playwright binaries
+        uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+      - name: Generate Prisma client
+        run: npm run -w packages/database db:build
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      - name: Run Playwright tests
+        run: npx -w packages/e2e playwright test --project smoke-tests
+        env:
+          DEPLOYMENT_URL: ${{ needs.deploy-preview.outputs.preview-url }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30

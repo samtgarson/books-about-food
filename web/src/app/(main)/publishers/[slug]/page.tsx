@@ -48,14 +48,16 @@ export default async ({
     <Container belowNav>
       <div className="py-8 md:py-20">
         <div className="font-style-title mb-6 flex items-center justify-between sm:mb-4">
-          {publisher.logo ? (
-            <Image
-              {...publisher.logo.imageAttrs(80)}
-              className="h-[80px] w-[150px] object-contain object-left mix-blend-darken"
-            />
-          ) : (
-            <h1>{publisher.name}</h1>
-          )}
+          <h1 title={publisher.name}>
+            {publisher.logo ? (
+              <Image
+                {...publisher.logo.imageAttrs(80)}
+                className="h-[80px] w-[150px] object-contain object-left mix-blend-darken"
+              />
+            ) : (
+              publisher.name
+            )}
+          </h1>
           <ClaimPublisherButton publisherName={publisher.name} />
         </div>
       </div>

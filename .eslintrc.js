@@ -24,13 +24,12 @@ module.exports = {
       extends: ['next/core-web-vitals', 'plugin:@next/next/recommended']
     },
     {
-      files: ['packages/core/**/*.ts', 'packages/core/**/*.tsx'],
-      rules: {
-        'import/no-extraneous-dependencies': 0
-      }
-    },
-    {
-      files: ['admin/build.js'],
+      files: [
+        'packages/core/**/*.ts',
+        'packages/core/**/*.tsx',
+        'packages/e2e/**/*.ts',
+        'admin/build.js'
+      ],
       rules: {
         'import/no-extraneous-dependencies': 0
       }

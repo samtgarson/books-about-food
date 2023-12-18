@@ -27,7 +27,8 @@ export const AuthedButton: FC<AuthedButtonProps> = ({
       e.preventDefault()
       e.stopPropagation()
       openSheet('signIn', { redirect })
-    }
+    },
+    'aria-label': 'Sign In'
   })
 
   return contents

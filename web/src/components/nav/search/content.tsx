@@ -141,6 +141,7 @@ function QuickSearchResult({ item, focused, onHover }: QuickSearchResultProps) {
       onHover={onHover}
       id={item.domId}
       focused={focused}
+      aria-label={item.name}
     >
       <QuickSearchItem.Image>
         {item.isProfile ? (
