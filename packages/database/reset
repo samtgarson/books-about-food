@@ -7,6 +7,7 @@ function dump () {
   local prod_dump="$dir/baf-dump"
   local saved_content="$dir/baf-saved-content"
 
+  echo "> Saving local data"
   pg_dump \
     -t accounts \
     -t users \
@@ -14,6 +15,7 @@ function dump () {
     --data-only -Fc \
     $DATABASE_URL > $saved_content
 
+  echo "> Dumping production data"
   pg_dump \
     -t jobs \
     -t books \
@@ -32,11 +34,16 @@ function dump () {
     --data-only -Fc \
     $PROD_DATABASE_URL > $prod_dump
 
-  if [[npx -w packages/database prisma migrate reset]]; then
+  echo "> Resetting local database"
+  if npx -w packages/database prisma migrate reset; then
+    echo "> Restoring production data"
     pg_restore --disable-triggers -d $DATABASE_URL $prod_dump || true
   fi
 
+  echo "> Restoring local data"
   pg_restore --disable-triggers -d $DATABASE_URL $saved_content || true
+
+  echo "> Cleaning up"
   rm -rf $dir
 }
 
@@ -52,3 +59,4 @@ if [[ -z "$PROD_DATABASE_URL" ]]; then
 fi
 
 dump
+echo "✅ Success"
