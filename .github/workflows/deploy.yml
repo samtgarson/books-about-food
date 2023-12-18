@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Deploy to Vercel Action
+      - name: Deploy preview to Vercel
         id: vercel-deploy
         uses: BetaHuhn/deploy-to-vercel-action@v1
         with:
@@ -26,6 +26,7 @@ jobs:
           VERCEL_SCOPE: 'radical-innovation'
           PRODUCTION: false
           CREATE_COMMENT: false
+          GITHUB_DEPLOYMENT: false
 
   test:
     needs: [deploy-preview]
@@ -69,3 +70,32 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
+
+  deploy-prod:
+    needs: [deploy-preview, test]
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.BAF_VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.BAF_VERCEL_PROJECT_ID }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      - name: Remove preview deployment
+        run: vercel rm ${{ needs.deploy-preview.outputs.preview-url }} --token=${{ secrets.VERCEL_DEPLOY_TOKEN }} --scope=radical-innovation
+      - name: Deploy production to Vercel
+        id: vercel-deploy
+        uses: BetaHuhn/deploy-to-vercel-action@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_DEPLOY_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.BAF_VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.BAF_VERCEL_PROJECT_ID }}
+          VERCEL_SCOPE: 'radical-innovation'
+          PRODUCTION: true
+          CREATE_COMMENT: false
+          GITHUB_DEPLOYMENT: true
