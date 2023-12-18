@@ -106,7 +106,7 @@ function searchQuery(search?: string) {
 function colorFilterJoin(color: number[]) {
   const [h, s, l] = color
   return sql`left outer join lateral (
-      select 1000 - abs(${h}::int - (c.color ->> 'h')::decimal) color from (
+      select 100 + (${h}::int - (c.color ->> 'h')::decimal) color from (
         select jsonb_array_elements(books.palette) color from books b
         where b.id = books.id
       ) c
@@ -132,7 +132,7 @@ function sortQuery(sort?: BookSort) {
     case 'createdAt':
       return raw('books.created_at')
     case 'color':
-      return raw('matched_palette.color')
+      return raw('matched_palette.color * -1')
     default:
       return raw('books.release_date')
   }
