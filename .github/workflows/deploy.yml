@@ -1,7 +1,14 @@
 name: Test & Deploy
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+    paths:
+      - 'web/**'
+      - 'packages/core/**'
+      - 'packages/database/**'
+      - 'packages/email/**'
+      - 'packages/shared/**'
 
 jobs:
   deploy-preview:
