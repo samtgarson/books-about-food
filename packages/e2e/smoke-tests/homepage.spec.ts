@@ -1,14 +1,16 @@
 import { expect, test } from 'test'
 
 test.describe('Homepage', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/')
-  })
+  test.describe('when logged out', () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto('/')
+    })
 
-  test('basic content', async ({ page }) => {
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-      "The cookbook industry's new digital home."
-    )
+    test('basic content', async ({ page }) => {
+      await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+        "The cookbook industry's new digital home."
+      )
+    })
   })
 
   test.describe('when logged in', () => {

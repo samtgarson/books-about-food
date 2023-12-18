@@ -2,10 +2,19 @@ import { encode } from '@auth/core/jwt'
 import prisma from '@books-about-food/database'
 import { BrowserContext, Page, test as base } from '@playwright/test'
 
-const helpers = ({ context }: { page: Page; context: BrowserContext }) => ({
+const helpers = ({
+  context,
+  page
+}: {
+  page: Page
+  context: BrowserContext
+}) => ({
   async login() {
+    await page.goto('/', { waitUntil: 'commit' })
     const cookies = await context.cookies()
-    const authCookie = cookies.find((cookie) => cookie.name.includes('authjs'))
+    const authCookie = cookies.find(
+      ({ name }) => name.includes('authjs') && name.endsWith('callback-url')
+    )
     if (!authCookie) throw new Error('No auth cookie found')
 
     const prefix = authCookie.name.split('.')[0]
