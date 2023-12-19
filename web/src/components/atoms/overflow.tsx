@@ -2,8 +2,9 @@
 
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import cn from 'classnames'
-import { FC, ReactNode } from 'react'
-import { MoreHorizontal } from 'react-feather'
+import Link from 'next/link'
+import { ComponentProps, FC, ReactNode } from 'react'
+import { ArrowUpRight, Icon, MoreHorizontal } from 'src/components/atoms/icons'
 import { useCurrentUser } from 'src/hooks/use-current-user'
 
 export type RootProps = {
@@ -30,28 +31,48 @@ export const Root = ({ children, ...props }: RootProps) => (
 export type ItemVariant = 'default' | 'danger' | 'admin'
 
 const containerClasses =
-  'bg-white rounded-lg flex flex-col animate-scale-in origin-[var(--radix-dropdown-menu-content-transform-origin)] shadow-md'
+  'bg-white rounded-lg flex flex-col animate-scale-in origin-[var(--radix-dropdown-menu-content-transform-origin)] shadow-md p-1'
 
 const itemClasses = (variant: ItemVariant) =>
   cn(
-    'px-4 py-3.5 flex gap-3 outline-none transition-colors cursor-pointer data-[highlighted]:bg-grey/40',
+    'py-2.5 pl-3 pr-2 flex items-center justify-between gap-4 outline-none transition-colors cursor-pointer data-[highlighted]:bg-grey rounded-lg',
     {
-      'text-primary-red': variant === 'danger',
-      'text-primary-purple': variant === 'admin'
+      'text-primary-red': variant === 'danger'
     }
   )
 
-export const Item: FC<
-  DropdownMenu.MenuItemProps & {
-    variant?: ItemVariant
-  }
-> = ({ children, variant = 'default', ...props }) => {
+type BaseAttrs = {
+  children: ReactNode
+  variant?: ItemVariant
+  icon?: Icon
+}
+type LinkAttrs = { onClick?: never } & ComponentProps<typeof Link> & BaseAttrs
+type ButtonAttrs = { href?: never; onClick: () => void } & BaseAttrs
+export const Item: FC<LinkAttrs | ButtonAttrs> = ({
+  children,
+  variant = 'default',
+  icon: Icon = ArrowUpRight,
+  href,
+  onClick,
+  ...props
+}) => {
   const currentUser = useCurrentUser()
 
   if (variant === 'admin' && currentUser?.role !== 'admin') return null
+  if (href)
+    return (
+      <DropdownMenu.Item className={itemClasses(variant)} asChild>
+        <Link href={href} {...props}>
+          {children}
+          <Icon strokeWidth={1} />
+        </Link>
+      </DropdownMenu.Item>
+    )
+
   return (
-    <DropdownMenu.Item {...props} className={itemClasses(variant)}>
+    <DropdownMenu.Item className={itemClasses(variant)} onSelect={onClick}>
       {children}
+      <Icon strokeWidth={1} />
     </DropdownMenu.Item>
   )
 }

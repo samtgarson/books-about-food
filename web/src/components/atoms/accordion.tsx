@@ -2,7 +2,7 @@
 
 import * as Accordion from '@radix-ui/react-accordion'
 import { ReactNode } from 'react'
-import { ChevronDown } from 'react-feather'
+import { ChevronDown } from 'src/components/atoms/icons'
 
 export const Root = Accordion.Root
 

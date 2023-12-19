@@ -3,7 +3,7 @@ import { updateFavourite } from '@books-about-food/core/services/favourites/upda
 import { User } from '@books-about-food/database'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { X } from 'react-feather'
+import { X } from 'src/components/atoms/icons'
 import { call } from 'src/utils/service'
 import z from 'zod'
 import { Avatar } from '../atoms/avatar'

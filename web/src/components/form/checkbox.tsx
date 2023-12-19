@@ -1,7 +1,7 @@
 'use client'
 
 import * as Form from '@radix-ui/react-form'
-import { Check } from 'react-feather'
+import { Check } from 'src/components/atoms/icons'
 import { Label } from './label'
 import { Messages } from './messages'
 

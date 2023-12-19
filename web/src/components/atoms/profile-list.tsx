@@ -3,7 +3,7 @@
 import { Profile } from '@books-about-food/core/models/profile'
 import cn from 'classnames'
 import { FC, ReactNode } from 'react'
-import { Eye } from 'react-feather'
+import { Eye } from 'src/components/atoms/icons'
 import { Avatar } from '../atoms/avatar'
 import * as Sheet from '../atoms/sheet'
 

@@ -5,8 +5,8 @@ import { UpdateProfileInput } from '@books-about-food/core/services/profiles/upd
 import cn from 'classnames'
 import { JSX, useEffect, useMemo, useRef, useState } from 'react'
 import ContentEditable from 'react-contenteditable'
-import { Edit2 } from 'react-feather'
 import { Detail } from 'src/components/atoms/detail'
+import { Edit2 } from 'src/components/atoms/icons'
 import { KeysMatching } from 'src/utils/types'
 import { useEditProfile } from './context'
 

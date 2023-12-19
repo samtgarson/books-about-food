@@ -3,7 +3,7 @@
 import cn from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
-import { ChevronLeft, ChevronRight } from 'react-feather'
+import { ChevronLeft, ChevronRight } from 'src/components/atoms/icons'
 import {
   MouseMode,
   MouseState,

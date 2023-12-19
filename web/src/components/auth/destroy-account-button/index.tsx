@@ -1,6 +1,6 @@
 'use client'
 
-import { X } from 'react-feather'
+import { X } from 'src/components/atoms/icons'
 import { action } from './actions'
 
 export function DestroyAccountButton({

@@ -2,10 +2,10 @@ import { fetchAccounts } from '@books-about-food/core/services/auth/get-accounts
 import { fetchProfile } from '@books-about-food/core/services/profiles/fetch-profile'
 import { Metadata } from 'next'
 import { Suspense } from 'react'
-import { ArrowUpRight } from 'react-feather'
 import { AccountForm } from 'src/components/accounts/account-form'
 import { AccountHeader } from 'src/components/accounts/header'
 import { ContactLink } from 'src/components/atoms/contact-link'
+import { ArrowUpRight } from 'src/components/atoms/icons'
 import { ProfileItem } from 'src/components/profiles/item'
 import { call, getUser } from 'src/utils/service'
 

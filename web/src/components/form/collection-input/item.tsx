@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { X } from 'react-feather'
+import { X } from 'src/components/atoms/icons'
 import * as Sheet from 'src/components/atoms/sheet'
 import { createCollectionInputContext } from './context'
 import { SheetContent } from './sheet-content'

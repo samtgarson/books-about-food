@@ -1,7 +1,7 @@
 'use client'
 
-import { Edit2, Trash2 } from 'react-feather'
 import { Avatar } from 'src/components/atoms/avatar'
+import { Edit2, Trash2 } from 'src/components/atoms/icons'
 import { ImageUploadButton } from 'src/components/form/image-upload/upload-button'
 import { useEditProfile } from './context'
 

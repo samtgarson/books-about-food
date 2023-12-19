@@ -3,7 +3,7 @@
 import { Book } from '@books-about-food/core/models/book'
 import cn from 'classnames'
 import { FC } from 'react'
-import { Plus } from 'react-feather'
+import { Plus } from 'src/components/atoms/icons'
 import { useSheet } from '../sheets/global-sheet'
 
 export type CorrectionButtonProps = {

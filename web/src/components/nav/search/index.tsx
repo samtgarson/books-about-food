@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { Search } from 'react-feather'
+import { Search } from 'src/components/atoms/icons'
 import * as Sheet from 'src/components/atoms/sheet'
 import { useNav } from '../context'
 import { QuickSearchContent } from './content'

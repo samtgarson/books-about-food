@@ -6,7 +6,7 @@ import {
   TrendingUp,
   Users,
   Zap
-} from 'react-feather'
+} from 'src/components/atoms/icons'
 import { Container } from '../atoms/container'
 import { Tag } from '../atoms/tag'
 

@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { FC, ReactNode, useRef, useState } from 'react'
-import { Search as SearchIcon } from 'react-feather'
+import { Search as SearchIcon } from 'src/components/atoms/icons'
 import { mergeParams } from 'src/utils/url-helpers'
 import { AntiContainer, Container } from '../atoms/container'
 import { PageTitle } from '../atoms/page-title'

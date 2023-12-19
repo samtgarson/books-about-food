@@ -1,4 +1,11 @@
-import { Book, Home, Icon, Layers, User, Users } from 'react-feather'
+import {
+  Book,
+  Home,
+  Icon,
+  Layers,
+  User,
+  Users
+} from 'src/components/atoms/icons'
 import { QuickSearchItem } from './item'
 
 export class SearchAction {

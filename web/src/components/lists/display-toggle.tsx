@@ -1,6 +1,6 @@
 'use client'
 import cn from 'classnames'
-import { Grid, List } from 'react-feather'
+import { Grid, List } from 'src/components/atoms/icons'
 
 export type DisplayToggleProps = {
   className?: string

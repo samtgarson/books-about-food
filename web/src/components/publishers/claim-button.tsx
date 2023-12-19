@@ -2,7 +2,7 @@
 
 import cn from 'classnames'
 import { FC } from 'react'
-import { Loader } from 'react-feather'
+import { Loader } from 'src/components/atoms/icons'
 import * as Sheet from 'src/components/atoms/sheet'
 import { Button } from '../atoms/button'
 import { contactProps } from '../atoms/contact-link'

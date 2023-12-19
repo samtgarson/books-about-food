@@ -2,7 +2,7 @@
 
 import * as Form from '@radix-ui/react-form'
 import { useState } from 'react'
-import { Plus } from 'react-feather'
+import { Plus } from 'src/components/atoms/icons'
 import * as Sheet from 'src/components/atoms/sheet'
 import { Serializable } from 'src/utils/types'
 import { stringify } from 'superjson'

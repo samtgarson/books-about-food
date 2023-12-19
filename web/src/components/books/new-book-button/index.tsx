@@ -1,7 +1,7 @@
 'use client'
 import cn from 'classnames'
 import { ReactNode, useState } from 'react'
-import { Plus } from 'react-feather'
+import { Plus } from 'src/components/atoms/icons'
 import * as Sheet from 'src/components/atoms/sheet'
 import { TitleSelectChangeAttrs } from 'src/components/edit/forms/title/action'
 import { TitleFormContent } from 'src/components/edit/forms/title/form-content'

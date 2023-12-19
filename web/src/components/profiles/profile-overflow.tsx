@@ -1,7 +1,7 @@
 'use client'
 
 import { Profile } from '@books-about-food/core/models/profile'
-import { Edit2 } from 'react-feather'
+import { PencilMini } from 'src/components/atoms/icons'
 import * as Overflow from 'src/components/atoms/overflow'
 import { useCurrentUser } from 'src/hooks/use-current-user'
 import { useSheet } from '../sheets/global-sheet'
@@ -20,9 +20,17 @@ export const ProfileOverflow = ({
     <Overflow.Root {...props}>
       <Overflow.Item
         onClick={() => openSheet('suggestEdit', { resource: profile })}
+        icon={PencilMini}
       >
-        <Edit2 strokeWidth={1} />
         Suggest an edit
+      </Overflow.Item>
+      <Overflow.Item
+        variant="admin"
+        href={`https://app.forestadmin.com/Books%20About%20Food/Production/Core%20Team/data/profiles/index/record/books/${profile.id}/details`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        View in Forest
       </Overflow.Item>
     </Overflow.Root>
   )

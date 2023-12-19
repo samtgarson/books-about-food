@@ -1,8 +1,8 @@
 import cn from 'classnames'
 import { MouseEvent } from 'react'
-import { ChevronDown, X } from 'react-feather'
 import { components } from 'react-select'
 import { AsyncCreatableProps } from 'react-select/async-creatable'
+import { ChevronDown, X } from 'src/components/atoms/icons'
 import { Loader } from 'src/components/atoms/loader'
 
 const pillClasses =

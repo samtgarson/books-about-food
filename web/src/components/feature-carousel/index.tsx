@@ -4,7 +4,7 @@ import { Feature } from '@books-about-food/core/services/features/fetch-features
 import cn from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FC, useEffect, useMemo, useRef, useState } from 'react'
-import { ChevronLeft, ChevronRight } from 'react-feather'
+import { ChevronLeft, ChevronRight } from 'src/components/atoms/icons'
 import { useNav } from '../nav/context'
 import { Faces } from './faces'
 import { FeatureCarouselItem } from './item'

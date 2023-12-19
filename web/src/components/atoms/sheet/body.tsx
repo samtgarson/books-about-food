@@ -9,7 +9,7 @@ import {
   useMemo,
   useRef
 } from 'react'
-import { Loader } from 'react-feather'
+import { Loader } from 'src/components/atoms/icons'
 import { useSheetContext } from './context'
 
 type SheetBodyProps = {

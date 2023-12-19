@@ -4,7 +4,7 @@ import cn from 'classnames'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { FC } from 'react'
-import { ChevronLeft } from 'react-feather'
+import { ChevronLeft } from 'src/components/atoms/icons'
 
 export type PageBackLinkType = {
   children: string

@@ -3,7 +3,7 @@
 import { Profile } from '@books-about-food/core/models/profile'
 import cn from 'classnames'
 import { FC, useCallback, useMemo, useState } from 'react'
-import { Eye, EyeOff } from 'react-feather'
+import { Eye, EyeOff } from 'src/components/atoms/icons'
 import { Loader } from 'src/components/atoms/loader'
 import { ProfileList } from 'src/components/atoms/profile-list'
 import { GridContainer } from 'src/components/lists/grid-container'

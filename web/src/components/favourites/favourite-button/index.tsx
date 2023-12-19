@@ -2,8 +2,8 @@
 
 import cn from 'classnames'
 import { FC, useState } from 'react'
-import { Heart, Loader } from 'react-feather'
 import { Button } from 'src/components/atoms/button'
+import { Heart, Loader } from 'src/components/atoms/icons'
 import { AuthedButton } from 'src/components/auth/authed-button'
 import { useEditProfile } from 'src/components/profiles/edit/context'
 import { successToast } from 'src/components/utils/toaster'

@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import Link from 'next/link'
 import { FC } from 'react'
-import { ChevronRight } from 'react-feather'
+import { ChevronRight } from 'src/components/atoms/icons'
 import { AvatarList } from '../profiles/avatar-list'
 import { StepCompletionMeta } from './state'
 

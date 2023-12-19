@@ -3,7 +3,7 @@
 import { Profile } from '@books-about-food/core/models/profile'
 import cn from 'classnames'
 import { FC, useMemo } from 'react'
-import { Loader } from 'react-feather'
+import { Loader } from 'src/components/atoms/icons'
 import { useCurrentUser } from 'src/hooks/use-current-user'
 import { usePromise } from 'src/hooks/use-promise'
 import { Button } from '../../atoms/button'

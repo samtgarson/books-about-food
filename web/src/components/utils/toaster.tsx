@@ -2,8 +2,8 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
-import { AlertTriangle, Check } from 'react-feather'
 import { ExternalToast, toast } from 'sonner'
+import { AlertTriangle, Check } from 'src/components/atoms/icons'
 
 export function Toaster({
   action,

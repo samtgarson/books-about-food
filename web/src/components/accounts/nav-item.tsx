@@ -4,7 +4,7 @@ import cn from 'classnames'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 import { FC } from 'react'
-import { ChevronRight } from 'react-feather'
+import { ChevronRight } from 'src/components/atoms/icons'
 
 export type AccountNavItemProps = {
   label: string

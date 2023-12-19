@@ -3,7 +3,7 @@
 import { Book } from '@books-about-food/core/models/book'
 import cn from 'classnames'
 import { FC, useCallback, useMemo, useState } from 'react'
-import { Eye, EyeOff } from 'react-feather'
+import { Eye, EyeOff } from 'src/components/atoms/icons'
 import { Loader } from 'src/components/atoms/loader'
 import { Container, Cover, Footer } from 'src/components/books/item'
 import { useListDisplay } from 'src/components/lists/list-context'

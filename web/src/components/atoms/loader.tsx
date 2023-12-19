@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import { Loader as LoaderIcon } from 'react-feather'
+import { Loader as LoaderIcon } from 'src/components/atoms/icons'
 
 export const Loader = ({
   className,

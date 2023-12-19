@@ -2,7 +2,7 @@
 
 import cn from 'classnames'
 import { FC, startTransition, useState } from 'react'
-import { X } from 'react-feather'
+import { X } from 'src/components/atoms/icons'
 import { useDebouncedCallback } from 'use-debounce'
 import { Loader } from '../atoms/loader'
 
