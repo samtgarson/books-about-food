@@ -35,7 +35,7 @@ const containerClasses =
 
 const itemClasses = (variant: ItemVariant) =>
   cn(
-    'py-2.5 pl-3 pr-2 flex items-center justify-between gap-4 outline-none transition-colors cursor-pointer data-[highlighted]:bg-grey rounded-lg',
+    'py-2.5 pl-3 pr-2 flex items-center justify-between gap-4 outline-none transition-colors cursor-pointer data-[highlighted]:bg-grey rounded',
     {
       'text-primary-red': variant === 'danger'
     }

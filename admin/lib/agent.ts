@@ -14,6 +14,7 @@ import { customiseLinks } from './collections/links'
 import { customiseProfiles } from './collections/profiles'
 import { customisePublishers } from './collections/publishers'
 import { customiseUsers } from './collections/users'
+import { customiseVerificationTokens } from './collections/verification-tokens'
 
 const rootDir = pkgDir.sync(__dirname)
 if (!rootDir) {
@@ -44,4 +45,5 @@ agent
   .customizeCollection('links', customiseLinks)
   .customizeCollection('claims', customiseClaims)
   .customizeCollection('users', customiseUsers)
+  .customizeCollection('verification_tokens', customiseVerificationTokens)
   .start()

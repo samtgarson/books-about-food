@@ -10,14 +10,8 @@ export const generatePalette = inngest.createFunction(
     name: 'Generate Book Palette',
     concurrency: { limit: 5 }
   },
-  { event: 'book.updated' },
+  { event: 'book.updated', if: 'event.data.coverImageChanged == true' },
   async ({ event }) => {
-    if (!event.data.coverImageChanged)
-      return {
-        success: true,
-        status: 'skipped: cover image not changed'
-      }
-
     const { id } = event.data
     const ids = id === 'all' ? await allIds() : wrapArray(id)
 

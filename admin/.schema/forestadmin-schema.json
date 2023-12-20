@@ -3435,7 +3435,20 @@
       "segments": []
     },
     {
-      "actions": [],
+      "actions": [
+        {
+          "id": "verification_tokens-0--resend-verification-email",
+          "name": "🔑 Resend verification email",
+          "type": "single",
+          "baseUrl": null,
+          "endpoint": "/forest/_actions/verification_tokens/0/-resend-verification-email",
+          "httpMethod": "POST",
+          "redirect": null,
+          "download": false,
+          "fields": [],
+          "hooks": {"load": false, "change": ["changeHook"]}
+        }
+      ],
       "fields": [
         {
           "defaultValue": null,

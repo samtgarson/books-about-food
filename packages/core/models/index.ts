@@ -1,5 +1,5 @@
 export abstract class BaseModel {
-  abstract _type: string
+  abstract _type: Model
   abstract href: string
   abstract name: string
 }

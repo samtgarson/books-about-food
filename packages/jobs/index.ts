@@ -19,6 +19,7 @@ export const inngest = new Inngest({
       }
     }
     'jobs.email': { data: EmailTemplate }
+    'jobs.send-verification': { data: { email: string } }
   }>(),
   middleware
 })

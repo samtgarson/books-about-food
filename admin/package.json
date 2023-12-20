@@ -5,9 +5,10 @@
   "main": "index.ts",
   "scripts": {
     "start": "node dist",
-    "dev": "nodemon -r dotenv/config --exec node -r ts-node/register --watch './admin' --watch './packages/*' ./lib/index.ts",
-    "debug": "nodemon -r dotenv/config --exec node -r ts-node/register --watch './admin' --watch './packages/*' --inspect-brk ./lib/index.ts",
-    "build": "node build.js"
+    "dev": "nodemon -r dotenv/config --exec node -r ts-node/register --watch '.' --watch '../packages/*' ./lib/index.ts",
+    "debug": "nodemon -r dotenv/config --exec node -r ts-node/register --watch '.' --watch '../packages/*' --inspect-brk ./lib/index.ts",
+    "build": "node build.js",
+    "deploy": "forest deploy -f && forest branch -d main --force && forest branch main -o Production"
   },
   "dependencies": {
     "@books-about-food/core": "*",
