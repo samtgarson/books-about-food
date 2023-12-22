@@ -1,5 +1,5 @@
 import { BookStatus } from '@books-about-food/database'
-import { isHsl } from '@books-about-food/shared/utils/types'
+import { Hsl, isHsl } from '@books-about-food/shared/utils/types'
 import format from 'date-fns/format'
 import isFuture from 'date-fns/isFuture'
 import { BaseModel } from '.'
@@ -22,7 +22,7 @@ export class Book extends BaseModel {
   status: BookStatus
   submitterId?: string
   backgroundColor?: string
-  primaryColor?: string
+  primaryColor?: Hsl
 
   constructor(attrs: BookAttrs) {
     super()
@@ -46,7 +46,7 @@ export class Book extends BaseModel {
       : undefined
     this.primaryColor =
       Array.isArray(attrs.palette) && isHsl(attrs.palette[0])
-        ? `hsl(${attrs.palette[0].h}, ${attrs.palette[0].s}%, ${attrs.palette[0].l}%)`
+        ? attrs.palette[0]
         : undefined
   }
 

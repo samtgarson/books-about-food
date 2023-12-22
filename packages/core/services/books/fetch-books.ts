@@ -105,16 +105,30 @@ function searchQuery(search?: string) {
 
 function colorFilterJoin(color: number[]) {
   const [h, s, l] = color
+  const radius = getRadius(h)
+
   return sql`left outer join lateral (
-      select 100 + (${h}::int - (c.color ->> 'h')::decimal) color from (
+      select
+        abs(${h}::int - (c.color ->> 'h')::decimal) * -1 as color
+      from (
         select jsonb_array_elements(books.palette) color from books b
         where b.id = books.id
       ) c
-      where abs(${h}::int - (c.color ->> 'h')::decimal) < 30
-      and abs(${s}::int - (c.color ->> 's')::decimal) < 20
+      where (
+        abs(${h}::int - (c.color ->> 'h')::decimal) < ${radius}::int
+      ) and abs(${s}::int - (c.color ->> 's')::decimal) < 20
       and abs(${l}::int - (c.color ->> 'l')::decimal) < 20
       limit 1
     ) matched_palette on true`
+}
+
+function getRadius(h: number) {
+  if (h < 15) return 20 // red to orange
+  if (h < 85) return 12 // orange to yellow
+  if (h < 170) return 20 // yellow to green
+  if (h < 215) return 12 // green to cyan
+  if (h < 280) return 20 // cyan to blue
+  return 12
 }
 
 function colorJoin(color?: number[]) {
@@ -132,7 +146,7 @@ function sortQuery(sort?: BookSort) {
     case 'createdAt':
       return raw('books.created_at')
     case 'color':
-      return raw('matched_palette.color * -1')
+      return raw('matched_palette.color')
     default:
       return raw('books.release_date')
   }
@@ -197,20 +211,7 @@ function baseQuery({
 
   const query = sql`
     select distinct
-      books.id,
-      books.created_at,
-      books.updated_at,
-      books.title,
-      books.subtitle,
-      books.release_date,
-      books.pages,
-      books.publisher_id,
-      books.slug,
-      books.status,
-      books.submitter_id,
-      books.google_books_id,
-      books.source,
-      books.background_color,
+      books.*,
       ${sort} as sort,
       row_to_json(cover_image.*)::jsonb cover_image,
       json_agg(distinct authors.*)::jsonb authors,
