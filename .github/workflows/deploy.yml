@@ -12,6 +12,7 @@ on:
 
 jobs:
   deploy-preview:
+    name: 'Deploy to Preview'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -36,6 +37,7 @@ jobs:
           GITHUB_DEPLOYMENT: false
 
   test:
+    name: 'Run E2E tests'
     needs: [deploy-preview]
     runs-on: ubuntu-latest
     steps:
@@ -79,6 +81,7 @@ jobs:
           retention-days: 30
 
   deploy-prod:
+    name: 'Deploy to Production'
     needs: [deploy-preview, test]
     runs-on: ubuntu-latest
     env:
