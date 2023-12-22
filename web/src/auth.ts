@@ -1,3 +1,4 @@
+import { skipCSRFCheck } from '@auth/core'
 import type { Adapter } from '@auth/core/adapters'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import prisma from '@books-about-food/database'
@@ -7,6 +8,8 @@ import NextAuth, { NextAuthConfig } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 
 export const authOptions = {
+  skipCSRFCheck:
+    process.env.NODE_ENV === 'development' ? skipCSRFCheck : undefined,
   providers: [
     GoogleProvider({
       clientId: getEnv('GOOGLE_CLIENT_ID'),
@@ -51,23 +54,23 @@ export const authOptions = {
     }
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, session, trigger }) {
       if (user) {
         token.userId = user.id
         token.role = user.role
       }
 
+      if (session && trigger === 'update') {
+        token.userId = session.user.id
+        token.role = session.user.role
+      }
+
       return token
     },
-    async session({ session, token, user }) {
+    async session({ session, token }) {
       if (token) {
         session.user.id = token.userId
         session.user.role = token.role
-      }
-
-      if (user) {
-        session.user.id = user.id
-        session.user.role = user.role
       }
 
       return session

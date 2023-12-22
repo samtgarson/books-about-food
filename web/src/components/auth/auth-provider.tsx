@@ -11,8 +11,4 @@ export const AuthProvider = ({
 }: {
   children: ReactNode
   session?: Session | null
-}) => (
-  <SessionProvider refetchOnWindowFocus session={session}>
-    {children}
-  </SessionProvider>
-)
+}) => <SessionProvider session={session}>{children}</SessionProvider>

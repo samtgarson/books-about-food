@@ -2,10 +2,10 @@ import { NextResponse } from 'next/server'
 import { auth } from './auth'
 
 const protectedPath = (pathname: string) =>
-  ['/account', '/edit'].find((path) => pathname.startsWith(path))
+  ['/account', '/edit'].some((path) => pathname.startsWith(path))
 
 const systemPath = (pathname: string) =>
-  ['/api', '/_next', '/auth'].find((path) => pathname.startsWith(path))
+  ['/api', '/_next', '/auth'].some((path) => pathname.startsWith(path))
 
 export default auth(function middleware(request) {
   if (request.method === 'POST' || systemPath(request.nextUrl.pathname)) {
@@ -26,15 +26,15 @@ export default auth(function middleware(request) {
   }
 
   if (!splashEnabled || userAllowed) {
-    if (request.nextUrl.pathname === '/splash') {
-      return NextResponse.redirect(new URL('/', request.url))
-    }
-
     return NextResponse.next()
   }
 
-  if (!['/splash', '/auth/sign-in'].includes(request.nextUrl.pathname)) {
+  if (request.nextUrl.pathname === '/') {
     return NextResponse.rewrite(new URL('/splash', request.url))
+  }
+
+  if (!['/', '/auth/sign-in'].includes(request.nextUrl.pathname)) {
+    return NextResponse.redirect(new URL('/', request.url))
   }
 })
 
@@ -46,6 +46,6 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon and apple icon images
      */
-    '/((?!_next/static|_next/image|.+.png|.+.jpe?g|api/).*)'
+    '/((?!_next/static|_next/image|.+.png|.+.jpe?g|api/|monitoring).*)'
   ]
 }

@@ -21,10 +21,12 @@ export function WelcomeMessage() {
     async function getRole() {
       try {
         const res = await fetch('/auth/session', { method: 'POST' })
-        const { role } = await res.json()
+        const json = await res.json()
+        const role = json?.user?.role
         if (role && role !== 'waitlist') return push('/')
         setRole(role)
-      } finally {
+        setLoading(false)
+      } catch (e) {
         setLoading(false)
       }
     }
