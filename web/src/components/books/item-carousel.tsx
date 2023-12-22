@@ -18,6 +18,7 @@ export type ItemCarouselProps = {
   centered?: boolean
   carouselClassName?: string
   colorful?: boolean
+  rightPadding?: boolean
 } & Partial<
   Omit<Carousel.CarouselRootProps, 'totalItems' | 'alignment' | 'children'>
 >
@@ -37,6 +38,7 @@ export const ItemCarousel: FC<ItemCarouselProps> = ({
   centered,
   carouselClassName,
   colorful,
+  rightPadding = false,
   ...props
 }) => {
   const width = itemCarouselWidths[size]
@@ -57,7 +59,7 @@ export const ItemCarousel: FC<ItemCarouselProps> = ({
       >
         <Carousel.Scroller
           padded
-          containerProps={{ right: false }}
+          containerProps={{ right: rightPadding }}
           className="-mr-px"
         >
           <ListContainer display="grid">

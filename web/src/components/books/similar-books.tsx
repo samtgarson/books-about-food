@@ -27,10 +27,12 @@ export const SimilarBooks = async ({ slug, className }: SimilarBooksProps) => {
       >
         <ItemCarousel
           title="Similar Cookbooks"
-          items={[]}
+          items={books}
           size="lg"
           carouselClassName="pr-px"
           key="similar-books"
+          data-superjson
+          rightPadding
         />
       </AntiContainer>
       <ListContainer title="Similar Cookbooks" className="sm:hidden">

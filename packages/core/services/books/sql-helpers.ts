@@ -1,11 +1,66 @@
+import { Book } from '@books-about-food/core/models/book'
 import { BookAttrs } from '@books-about-food/core/models/types'
 import { CamelCaseKeys } from '@books-about-food/core/utils/types'
-import { BookSource, BookStatus } from '@books-about-food/database'
+import prisma, {
+  BookSource,
+  BookStatus,
+  Prisma
+} from '@books-about-food/database'
 import { transformKeys } from '@books-about-food/shared/utils/object'
 import { camelize } from 'inflection'
+const { raw, sql } = Prisma
+
+export async function queryBooks(
+  template: TemplateStringsArray,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ...params: any
+) {
+  const raw = await prisma.$queryRaw<BookRow[]>(template, ...params)
+  return raw.map((book) => new Book(rowToBookAttrs(book)))
+}
 
 const camelizeKeys = <T extends Record<string, unknown>>(obj: T) =>
   transformKeys<CamelCaseKeys<T>>(obj, (str) => camelize(str, true))
+
+export const bookSelect = raw(`
+  books.*,
+  row_to_json(cover_image.*)::jsonb cover_image,
+  json_agg(distinct authors.*)::jsonb authors,
+  json_agg(distinct contributions.*)::jsonb contributions
+`)
+
+export const bookJoin = raw(`
+  left outer join lateral (
+      select contributions.*, row_to_json(jobs.*)::jsonb job, row_to_json(profiles.*)::jsonb profile from contributions
+    inner join jobs on jobs.id = contributions.job_id
+    left outer join lateral (
+      select
+        profiles.*,
+        count(authored_books.*) as authored_book_count,
+        row_to_json(images.*)::jsonb avatar
+      from profiles
+      left outer join images on images.profile_id = profiles.id
+      left outer join _authored_books authored_books on authored_books."B" = profiles.id
+      where contributions.profile_id = profiles.id
+      group by profiles.id, images.id
+    ) profiles on true
+    where contributions.book_id = books.id
+  ) contributions on true
+  left outer join lateral (
+    select
+      profiles.*,
+      count(authored_books.*) as authored_book_count,
+      row_to_json(images.*)::jsonb as avatar
+    from profiles
+    left outer join images on images.profile_id = profiles.id
+    left outer join _authored_books on _authored_books."A" = books.id
+    left outer join _authored_books authored_books on authored_books."B" = profiles.id
+    where _authored_books."B" = profiles.id
+    group by profiles.id, images.id
+  ) authors on true
+  left outer join publishers on publishers.id = books.publisher_id
+  left outer join images cover_image on cover_image.cover_for_id = books.id
+`)
 
 export function rowToBookAttrs({
   cover_image,

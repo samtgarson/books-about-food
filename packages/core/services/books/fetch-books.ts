@@ -1,15 +1,14 @@
-import { Book } from '@books-about-food/core/models/book'
 import { Service } from '@books-about-food/core/services/base'
 import prisma, { BookStatus, Prisma } from '@books-about-food/database'
 import { wrapArray } from '@books-about-food/shared/utils/array'
 import { z } from 'zod'
 import { array, arrayOrSingle, dbEnum, paginationInput } from '../utils/inputs'
-import { BookRow, rowToBookAttrs } from './book-row'
 import {
   FetchBooksPageFilters,
   fetchBooksPageFilterValues,
   fetchBooksPageFilters
 } from './filters'
+import { bookJoin, bookSelect, queryBooks } from './sql-helpers'
 
 const { sql, join, empty, raw } = Prisma
 
@@ -42,12 +41,11 @@ export const fetchBooks = new Service(
   async ({ ...input } = {}) => {
     const { query, perPage } = baseQuery(input)
 
-    const [rawBooks, filteredCount, total] = await Promise.all([
-      prisma.$queryRaw<BookRow[]>(query),
+    const [books, filteredCount, total] = await Promise.all([
+      query,
       prisma.$queryRaw<{ count: number }[]>(countQuery(input)),
       prisma.book.count()
     ])
-    const books = rawBooks.map((book) => new Book(rowToBookAttrs(book)))
     const filteredTotal = Number(filteredCount[0].count)
 
     return { books, filteredTotal, total, perPage }
@@ -158,36 +156,7 @@ function sqlFilters(input: FetchBooksInput) {
   return sql`
     left outer join _books_tags on _books_tags."A" = books.id
     left outer join tags on _books_tags."B" = tags.id
-    left outer join lateral (
-      select contributions.*, row_to_json(jobs.*)::jsonb job, row_to_json(profiles.*)::jsonb profile from contributions
-      inner join jobs on jobs.id = contributions.job_id
-      left outer join lateral (
-        select
-          profiles.*,
-          count(authored_books.*) as authored_book_count,
-          row_to_json(images.*)::jsonb avatar
-        from profiles
-        left outer join images on images.profile_id = profiles.id
-        left outer join _authored_books authored_books on authored_books."B" = profiles.id
-        where contributions.profile_id = profiles.id
-        group by profiles.id, images.id
-      ) profiles on true
-      where contributions.book_id = books.id
-    ) contributions on true
-    left outer join lateral (
-      select
-        profiles.*,
-        count(authored_books.*) as authored_book_count,
-        row_to_json(images.*)::jsonb as avatar
-      from profiles
-      left outer join images on images.profile_id = profiles.id
-      left outer join _authored_books on _authored_books."A" = books.id
-      left outer join _authored_books authored_books on authored_books."B" = profiles.id
-      where _authored_books."B" = profiles.id
-      group by profiles.id, images.id
-    ) authors on true
-    left outer join publishers on publishers.id = books.publisher_id
-    left outer join images cover_image on cover_image.cover_for_id = books.id
+    ${bookJoin}
     ${colorJoin(input.color)}
     where ${where}`
 }
@@ -209,13 +178,10 @@ function baseQuery({
   const sort = sortQuery(input.color ? 'color' : sortKey)
   const limit = perPage === 0 ? empty : sql`limit ${perPage}`
 
-  const query = sql`
+  const query = queryBooks`
     select distinct
-      books.*,
-      ${sort} as sort,
-      row_to_json(cover_image.*)::jsonb cover_image,
-      json_agg(distinct authors.*)::jsonb authors,
-      json_agg(distinct contributions.*)::jsonb contributions
+      ${bookSelect},
+      ${sort} as sort
     from books
     ${filters}
     group by books.id, cover_image.id, sort
