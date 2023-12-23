@@ -13,7 +13,8 @@ export const email = inngest.createFunction(
     const sentMessage = await sendMail({
       component,
       to: event.user.email,
-      messageId: id
+      messageId: id,
+      dangerouslyForceDeliver: process.env.DANGER_SEND_EMAILS === 'true'
     })
 
     return { success: true, res: sentMessage }

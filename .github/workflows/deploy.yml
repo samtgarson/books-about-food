@@ -5,10 +5,7 @@ on:
       - main
     paths:
       - 'web/**'
-      - 'packages/core/**'
-      - 'packages/database/**'
-      - 'packages/email/**'
-      - 'packages/shared/**'
+      - 'packages/**'
 
 jobs:
   deploy-preview:
@@ -67,6 +64,10 @@ jobs:
         run: npm run -w packages/database db:build
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      - name: Create GMail secret files
+        run: |
+          echo ${{ secrets.GMAIL_CREDENTIALS_JSON }} | base64 -d > ./packages/e2e/gmail-credentials.json
+          echo ${{ secrets.GMAIL_TOKEN_JSON }} | base64 -d > ./packages/e2e/gmail-token.json
       - name: Run Playwright tests
         run: npx -w packages/e2e playwright test --project smoke-tests
         env:

@@ -32,10 +32,11 @@
     "format": "eslint . --ignore-path ./.gitignore --fix && prettier --write --ignore-path ./.prettierignore .",
     "dev": "turbo run dev",
     "dev:web": "turbo run dev --filter web",
-    "heroku-postbuild": "turbo run build --filter admin"
+    "dev:smoke-test": "ENABLE_SPLASH=true DANGER_SEND_EMAILS=true npm run dev",
+    "heroku-postbuild": "turbo run build --filter admin",
+    "postinstall": "patch-package"
   },
   "devDependencies": {
-    "@books-about-food/eslint-config": "*",
     "@books-about-food/prettier-config": "*",
     "@eslint/js": "^8.49.0",
     "@samtgarson/eslint-config": "^2.10.1",

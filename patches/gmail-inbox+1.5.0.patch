@@ -1,0 +1,35 @@
+diff --git a/node_modules/gmail-inbox/lib/GoogleAuthorizer.js b/node_modules/gmail-inbox/lib/GoogleAuthorizer.js
+index 4a0edd1..9a37447 100644
+--- a/node_modules/gmail-inbox/lib/GoogleAuthorizer.js
++++ b/node_modules/gmail-inbox/lib/GoogleAuthorizer.js
+@@ -41,7 +41,7 @@ var googleapis_1 = require("googleapis");
+ var fs_1 = require("fs");
+ var readline = require("readline");
+ // If modifying these scopes, delete token.json.
+-var scopes = ['https://www.googleapis.com/auth/gmail.readonly'];
++var scopes = ['https://www.googleapis.com/auth/gmail.modify'];
+ exports.authorizeAccount = function (credentialsJsonPath, tokenPath) { return __awaiter(void 0, void 0, void 0, function () {
+     var credentials, auth, token;
+     return __generator(this, function (_a) {
+diff --git a/node_modules/gmail-inbox/lib/Inbox.d.ts b/node_modules/gmail-inbox/lib/Inbox.d.ts
+index 458c156..27399ae 100644
+--- a/node_modules/gmail-inbox/lib/Inbox.d.ts
++++ b/node_modules/gmail-inbox/lib/Inbox.d.ts
+@@ -1,6 +1,8 @@
+ import { InboxMethods } from './InboxMethods.interface';
+ import { Label } from './Label.interface';
+ import { SearchQuery } from './SearchQuery.interface';
++import { gmail_v1 } from 'googleapis';
++
+ export interface Message {
+     messageId: string;
+     threadId: string;
+@@ -24,7 +26,7 @@ export interface Message {
+ export declare class Inbox implements InboxMethods {
+     private credentialsJsonPath;
+     private tokenPath;
+-    private gmailApi;
++    public gmailApi: gmail_v1.Gmail;
+     private authenticated;
+     constructor(credentialsJsonPath: string, tokenPath?: string);
+     authenticateAccount(): Promise<void>;
