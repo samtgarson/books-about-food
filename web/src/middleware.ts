@@ -14,7 +14,7 @@ export default auth(function middleware(request) {
 
   const splashEnabled = process.env.ENABLE_SPLASH === 'true'
   const user = request.auth?.user
-  const userAllowed = user && request.auth?.user.role !== 'waitlist'
+  const userAllowed = user && user?.role !== 'waitlist'
 
   if (!user && protectedPath(request.nextUrl.pathname)) {
     const loginPath = `/auth/sign-in?callbackUrl=${encodeURIComponent(
