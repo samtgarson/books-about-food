@@ -1,5 +1,6 @@
 import { FullBook } from '@books-about-food/core/models/full-book'
 import { updateLinks } from '@books-about-food/core/services/books/update-links'
+import { revalidatePath } from 'next/cache'
 import { PageSubtitle } from 'src/components/atoms/page-title'
 import { Submit } from 'src/components/form/submit'
 import { call } from 'src/utils/service'
@@ -33,6 +34,7 @@ export const EditLinksForm = async ({ book }: { book: FullBook }) => {
           links
         })
 
+        if (success) revalidatePath(`/edit/${book.slug}`)
         return success
       }}
     >
