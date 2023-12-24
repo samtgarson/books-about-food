@@ -93,10 +93,10 @@ model Image {
   placeholderUrl String?  @map("placeholder_url")
 
   // Prisma doesn't support polymorphic relations yet so some of these will always be null
-  coverFor   Book?      @relation("cover_for", fields: [coverForId], references: [id])
-  previewFor Book?      @relation("preview_for", fields: [previewForId], references: [id])
-  publisher  Publisher? @relation("publisher_logo", fields: [publisherId], references: [id])
-  profile    Profile?   @relation("profile_for", fields: [profileId], references: [id])
+  coverFor   Book?      @relation("cover_for", fields: [coverForId], references: [id], onDelete: Cascade)
+  previewFor Book?      @relation("preview_for", fields: [previewForId], references: [id], onDelete: Cascade)
+  publisher  Publisher? @relation("publisher_logo", fields: [publisherId], references: [id], onDelete: Cascade)
+  profile    Profile?   @relation("profile_for", fields: [profileId], references: [id], onDelete: Cascade)
 
   @@map("images")
 }
@@ -149,7 +149,7 @@ model Contribution {
   tag       String?
   hidden    Boolean  @default(false)
 
-  job     Job     @relation(fields: [jobId], references: [id])
+  job     Job     @relation(fields: [jobId], references: [id], onDelete: Restrict)
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
   book    Book    @relation(fields: [bookId], references: [id], onDelete: Cascade)
 
@@ -207,7 +207,7 @@ model Book {
   links         Link[]
   publisher     Publisher?     @relation(fields: [publisherId], references: [id], onDelete: Restrict)
   features      Feature[]
-  submitter     User?          @relation("submitted_books", fields: [submitterId], references: [id])
+  submitter     User?          @relation("submitted_books", fields: [submitterId], references: [id], onDelete: SetNull)
   authors       Profile[]      @relation("authored_books")
 
   @@index([googleBooksId], name: "google_books_id")
@@ -229,7 +229,7 @@ model Publisher {
   books    Book[]
   logo     Image?      @relation("publisher_logo")
   imprints Publisher[] @relation("imprint")
-  house    Publisher?  @relation("imprint", fields: [houseId], references: [id])
+  house    Publisher?  @relation("imprint", fields: [houseId], references: [id], onDelete: SetNull)
 
   @@map("publishers")
 }
