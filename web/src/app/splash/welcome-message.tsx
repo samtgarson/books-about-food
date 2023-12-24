@@ -1,6 +1,6 @@
 'use client'
 
-import { UserRole } from '@books-about-food/database'
+import { Session } from 'next-auth/types'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Button } from 'src/components/atoms/button'
@@ -14,7 +14,7 @@ import z from 'zod'
 
 export function WelcomeMessage() {
   const [loading, setLoading] = useState(true)
-  const [role, setRole] = useState<UserRole | null>(null)
+  const [user, setUser] = useState<Session['user'] | null>(null)
   const { push } = useRouter()
 
   useEffect(() => {
@@ -22,9 +22,9 @@ export function WelcomeMessage() {
       try {
         const res = await fetch('/auth/session', { method: 'POST' })
         const json = await res.json()
-        const role = json?.user?.role
-        if (role && role !== 'waitlist') return push('/')
-        setRole(role)
+        const user = json?.user
+        if (user?.role && user.role !== 'waitlist') return push('/')
+        setUser(user)
         setLoading(false)
       } catch (e) {
         setLoading(false)
@@ -34,17 +34,21 @@ export function WelcomeMessage() {
     getRole()
   }, [push])
 
-  if (loading || (role && role !== 'waitlist')) return <Loader size={40} />
-  if (role === 'waitlist')
+  if (loading || (user?.role && user.role !== 'waitlist'))
+    return <Loader size={40} />
+  if (user?.role === 'waitlist')
     return (
-      <p className="lg:text-24">
-        Thanks for registering! We&apos;ll be in touch soon.
-        <br />
-        <br />
-        <button onClick={() => signOut()} className="text-14 underline">
-          Sign out
-        </button>
-      </p>
+      <>
+        <p className="lg:text-24">
+          Thanks for registering! We&apos;ll be in touch soon.
+        </p>
+        <p className="text-14">
+          Logged in as {user.email}.{' '}
+          <button onClick={() => signOut()} className="underline">
+            Sign out
+          </button>
+        </p>
+      </>
     )
 
   return (
