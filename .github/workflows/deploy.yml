@@ -1,8 +1,6 @@
 name: Test & Deploy
 on:
   push:
-    branches:
-      - main
     paths:
       - 'web/**'
       - 'packages/**'
@@ -85,6 +83,7 @@ jobs:
     name: 'Deploy to Production'
     needs: [deploy-preview, test]
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
     env:
       VERCEL_ORG_ID: ${{ secrets.BAF_VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.BAF_VERCEL_PROJECT_ID }}
