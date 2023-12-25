@@ -63,7 +63,7 @@ export default async ({ params: { slug } }: CookbooksPageProps) => {
           <div
             className={cn(
               'font-style-title flex items-center',
-              !book.subtitle && 'sm:mb-8'
+              !book.subtitle && 'mb-4 sm:mb-8'
             )}
           >
             <h1>{book.title}</h1>
