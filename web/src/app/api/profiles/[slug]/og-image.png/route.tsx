@@ -1,9 +1,8 @@
 import { fetchProfile } from '@books-about-food/core/services/profiles/fetch-profile'
-import { fetchProfiles } from '@books-about-food/core/services/profiles/fetch-profiles'
-import { readFile } from 'fs/promises'
 import { ImageResponse } from 'next/og'
 import { NextRequest } from 'next/server'
 import { LogoShape } from 'src/components/icons/logo-shape'
+import { loadFonts } from 'src/utils/image-response-helpers'
 import { call } from 'src/utils/service'
 
 const dims = {
@@ -14,15 +13,7 @@ const dims = {
   avatar: 360
 }
 
-export const dynamic = 'force-static'
-
-export async function generateStaticParams() {
-  const { data } = await call(fetchProfiles, {
-    onlyPublished: true,
-    perPage: 0
-  })
-  return data?.profiles.map(({ slug }) => ({ slug })) ?? []
-}
+export const revalidate = 60 * 60 // 1 hour
 
 export async function GET(
   _request: NextRequest,
@@ -38,11 +29,7 @@ export async function GET(
   })
   if (!profile) return new Response('Not Found', { status: 404 })
   const { avatar } = profile
-  const fontUrl = new URL(
-    '../../../../../assets/fonts/Graphik-Regular-Trial.otf',
-    new URL(import.meta.url)
-  )
-  const fontData = await readFile(fontUrl)
+  const fonts = await loadFonts()
 
   return new ImageResponse(
     (
@@ -160,14 +147,7 @@ export async function GET(
     {
       width: dims.width,
       height: dims.height,
-      fonts: [
-        {
-          data: fontData,
-          name: 'Graphik',
-          style: 'normal',
-          weight: 400
-        }
-      ]
+      fonts
     }
   )
 }
