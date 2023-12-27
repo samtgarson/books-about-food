@@ -8,6 +8,10 @@ on:
       - 'web/**'
       - 'packages/**'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   deploy-preview:
     name: 'Deploy to Preview'
@@ -17,13 +21,13 @@ jobs:
       pull-requests: write
       deployments: write
     outputs:
-      preview-url: ${{ steps.vercel-deploy.outputs.PREVIEW_URL }}
-      database_id: ${{ steps.create-db.outputs.branch_id }}
+      database-id: ${{ steps.create-db.outputs.branch_id }}
+      preview-url: ${{ steps.vercel-deploy.outputs.preview_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Install the Neon CLI
-        run: npm install -g neonctl
+      - name: Install CLI deps
+        run: npm install -g neonctl vercel@latest
       - name: Create database branch
         uses: neondatabase/create-branch-action@v4
         with:
@@ -32,39 +36,59 @@ jobs:
           branch_name: github-deploy-${{ github.run_id}}-${{ github.run_attempt }}
           database: books-about-food-prod
         id: create-db
-      - name: Set database URL
-        id: database-url
-        run: |
-          echo url=$(neonctl cs ${{ steps.create-db.outputs.branch_id }} --database-name books-about-food-prod --prisma --pooled --api-key ${{ secrets.NEON_API_KEY }}) >> $GITHUB_OUTPUT
-          echo direct_url=$(neonctl cs ${{ steps.create-db.outputs.branch_id }} --database-name books-about-food-prod --prisma  --api-key ${{ secrets.NEON_API_KEY }}) >> $GITHUB_OUTPUT
       - name: Deploy preview to Vercel
         id: vercel-deploy
-        uses: BetaHuhn/deploy-to-vercel-action@v1
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VERCEL_TOKEN: ${{ secrets.VERCEL_DEPLOY_TOKEN }}
+        env:
           VERCEL_ORG_ID: ${{ secrets.BAF_VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.BAF_VERCEL_PROJECT_ID }}
-          VERCEL_SCOPE: 'radical-innovation'
-          PRODUCTION: false
-          CREATE_COMMENT: false
-          GITHUB_DEPLOYMENT: false
-          BUILD_ENV: |
-            DATABASE_URL=${{ steps.database-url.outputs.url }}
-            DIRECT_DATABASE_URL=${{ steps.database-url.outputs.direct_url }}
+        run: |
+          db_url=$(neonctl cs ${{ steps.create-db.outputs.branch_id }} --database-name books-about-food-prod --prisma --pooled --api-key ${{ secrets.NEON_API_KEY }})
+          direct_db_url=$(neonctl cs ${{ steps.create-db.outputs.branch_id }} --database-name books-about-food-prod --prisma  --api-key ${{ secrets.NEON_API_KEY }})
+
+          preview_url=$(vercel \
+            --token=${{ secrets.VERCEL_DEPLOY_TOKEN }} \
+            --scope=radical-innovation \
+            --meta githubCommitAuthorName=${{ github.actor }} \
+            --meta githubCommitAuthorLogin=${{ github.actor }} \
+            --meta githubCommitMessage="${{ github.event.head_commit.message }}" \
+            --meta githubCommitOrg=${{ github.repository_owner }} \
+            --meta githubCommitRepo=books-about-food \
+            --meta githubCommitRef=${{ github.ref }} \
+            --meta githubCommitSha=${{ github.sha }} \
+            --meta githubOrg=samtgarson \
+            --meta githubRepo=books-about-food \
+            --meta githubDeployment=1 \
+            --build-env DATABASE_URL="$db_url" \
+            --build-env DIRECT_DATABASE_URL="$direct_db_url" \
+            --env DATABASE_URL="$db_url" \
+            --env DIRECT_DATABASE_URL="$direct_db_url" \
+          )
+
+          if [ -z "$preview_url" ]
+          then
+            echo "Preview URL not found"
+            exit 1
+          else
+            echo "preview_url=$preview_url" >> $GITHUB_OUTPUT
+          fi
 
   test:
     name: 'Run E2E tests'
     needs: [deploy-preview]
     runs-on: ubuntu-latest
     steps:
+      - run: echo "${{ toJSON(needs.deploy-preview.outputs) }}"
       - name: Checkout
         uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 20
-      - name: Install dependencies
-        run: npm -w packages/e2e ci
+      - name: Install dependencies and get database url
+        id: install-deps
+        run: |
+          npm -w packages/e2e ci
+          npm i -g neonctl
+          echo "database-url=$(neonctl cs ${{ steps.create-db.outputs.branch_id }} --database-name books-about-food-prod --prisma --pooled --api-key ${{ secrets.NEON_API_KEY }})" > $GITHUB_OUTPUT
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
       - name: Get installed Playwright version
@@ -92,7 +116,7 @@ jobs:
         run: npx -w packages/e2e playwright test --project smoke-tests
         env:
           DEPLOYMENT_URL: ${{ needs.deploy-preview.outputs.preview-url }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_URL: ${{ steps.install-deps.outputs.database-url }}
           NEXTAUTH_SECRET: ${{ secrets.AUTH_SECRET }}
       - uses: actions/upload-artifact@v3
         if: always()
@@ -131,9 +155,9 @@ jobs:
 
   cleanup:
     name: 'Clean Up'
-    needs: [deploy-preview, deploy-prod]
+    needs: [deploy-preview, test, deploy-prod]
     runs-on: ubuntu-latest
-    # if: github.ref == 'refs/heads/main'
+    if: ${{ always() && needs.test.result != 'success' }}
     env:
       VERCEL_ORG_ID: ${{ secrets.BAF_VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.BAF_VERCEL_PROJECT_ID }}
@@ -149,5 +173,5 @@ jobs:
         if: ${{ needs.deploy-preview.outputs.preview-url }}
         run: vercel rm ${{ needs.deploy-preview.outputs.preview-url }} --token=${{ secrets.VERCEL_DEPLOY_TOKEN }} --scope=radical-innovation --yes || true
       - name: Remove database branch
-        if: ${{ needs.deploy-preview.outputs.database_id }}
-        run: neonctl branches delete ${{ needs.deploy-preview.outputs.database_id }} --api-key ${{ secrets.NEON_API_KEY }} || true
+        if: ${{ needs.deploy-preview.outputs.database-id }}
+        run: neonctl branches delete ${{ needs.deploy-preview.outputs.database-id }} --api-key ${{ secrets.NEON_API_KEY }} || true
