@@ -63,6 +63,8 @@ export async function GET(
         {avatar && (
           <img
             src={avatar.src}
+            width={dims.width / 2 + 100}
+            height={dims.height}
             style={{
               position: 'absolute',
               left: dims.width / 2 - 100,
