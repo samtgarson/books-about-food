@@ -1,7 +1,10 @@
 name: Test & Deploy
 on:
   push:
+    branches:
+      - main
     paths:
+      - .github/workflows/deploy.yml
       - 'web/**'
       - 'packages/**'
 
@@ -15,9 +18,23 @@ jobs:
       deployments: write
     outputs:
       preview-url: ${{ steps.vercel-deploy.outputs.PREVIEW_URL }}
+      database_id: ${{ steps.create-db.outputs.branch_id }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Install the Neon CLI
+        run: npm install -g neonctl
+      - name: Create database branch
+        uses: neondatabase/create-branch-action@v4
+        with:
+          project_id: wandering-sound-489458
+          api_key: ${{ secrets.NEON_API_KEY }}
+          branch_name: github-deploy-${{ github.run_id}}-${{ github.run_attempt }}
+          database: books-about-food-prod
+        id: create-db
+      - name: Set database URL
+        id: database-url
+        run: echo url=$(neonctl cs ${{ steps.create-db.outputs.branch_id }} --database-name books-about-food-prod --prisma --pooled --api-key ${{ secrets.NEON_API_KEY }}) >> $GITHUB_OUTPUT
       - name: Deploy preview to Vercel
         id: vercel-deploy
         uses: BetaHuhn/deploy-to-vercel-action@v1
@@ -30,6 +47,8 @@ jobs:
           PRODUCTION: false
           CREATE_COMMENT: false
           GITHUB_DEPLOYMENT: false
+          BUILD_ENV: |
+            DATABASE_URL="${{ steps.database-url.outputs.url }}"
 
   test:
     name: 'Run E2E tests'
@@ -55,14 +74,14 @@ jobs:
           path: |
             ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
-      - name: Install Playwright Browsers
+      - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
         if: steps.playwright-cache.outputs.cache-hit != 'true'
       - name: Generate Prisma client
         run: npm run -w packages/database db:build
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      - name: Create GMail secret files
+      - name: Create Gmail secret files
         run: |
           echo ${{ secrets.GMAIL_CREDENTIALS_JSON }} | base64 -d > ./packages/e2e/gmail-credentials.json
           echo ${{ secrets.GMAIL_TOKEN_JSON }} | base64 -d > ./packages/e2e/gmail-token.json
@@ -83,7 +102,7 @@ jobs:
     name: 'Deploy to Production'
     needs: [deploy-preview, test]
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    # if: github.ref == 'refs/heads/main'
     env:
       VERCEL_ORG_ID: ${{ secrets.BAF_VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.BAF_VERCEL_PROJECT_ID }}
@@ -93,12 +112,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 20
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
-      - name: Remove preview deployment
-        run: vercel rm ${{ needs.deploy-preview.outputs.preview-url }} --token=${{ secrets.VERCEL_DEPLOY_TOKEN }} --scope=radical-innovation --yes
       - name: Deploy production to Vercel
         id: vercel-deploy
+        if: always()
         uses: BetaHuhn/deploy-to-vercel-action@v1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -109,3 +125,25 @@ jobs:
           PRODUCTION: true
           CREATE_COMMENT: false
           GITHUB_DEPLOYMENT: true
+
+  cleanup:
+    name: 'Clean Up'
+    needs: [deploy-preview, deploy-prod]
+    runs-on: ubuntu-latest
+    if: always()
+    # if: github.ref == 'refs/heads/main'
+    env:
+      VERCEL_ORG_ID: ${{ secrets.BAF_VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.BAF_VERCEL_PROJECT_ID }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Install CLI deps
+        run: npm install --global vercel@latest neonctl
+      - name: Remove preview deployment
+        run: vercel rm ${{ needs.deploy-preview.outputs.preview-url }} --token=${{ secrets.VERCEL_DEPLOY_TOKEN }} --scope=radical-innovation --yes || true
+      - name: Remove database branch
+        run: neonctl branches delete ${{ needs.deploy-preview.outputs.database_id }} --api-key ${{ secrets.NEON_API_KEY }} || true
