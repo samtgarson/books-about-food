@@ -34,7 +34,9 @@ jobs:
         id: create-db
       - name: Set database URL
         id: database-url
-        run: echo url=$(neonctl cs ${{ steps.create-db.outputs.branch_id }} --database-name books-about-food-prod --prisma --pooled --api-key ${{ secrets.NEON_API_KEY }}) >> $GITHUB_OUTPUT
+        run: |
+          echo url=$(neonctl cs ${{ steps.create-db.outputs.branch_id }} --database-name books-about-food-prod --prisma --pooled --api-key ${{ secrets.NEON_API_KEY }}) >> $GITHUB_OUTPUT
+          echo direct_url=$(neonctl cs ${{ steps.create-db.outputs.branch_id }} --database-name books-about-food-prod --prisma  --api-key ${{ secrets.NEON_API_KEY }}) >> $GITHUB_OUTPUT
       - name: Deploy preview to Vercel
         id: vercel-deploy
         uses: BetaHuhn/deploy-to-vercel-action@v1
@@ -48,7 +50,8 @@ jobs:
           CREATE_COMMENT: false
           GITHUB_DEPLOYMENT: false
           BUILD_ENV: |
-            DATABASE_URL="${{ steps.database-url.outputs.url }}"
+            DATABASE_URL=${{ steps.database-url.outputs.url }}
+            DIRECT_DATABASE_URL=${{ steps.database-url.outputs.direct_url }}
 
   test:
     name: 'Run E2E tests'
@@ -130,7 +133,6 @@ jobs:
     name: 'Clean Up'
     needs: [deploy-preview, deploy-prod]
     runs-on: ubuntu-latest
-    if: always()
     # if: github.ref == 'refs/heads/main'
     env:
       VERCEL_ORG_ID: ${{ secrets.BAF_VERCEL_ORG_ID }}
@@ -144,6 +146,8 @@ jobs:
       - name: Install CLI deps
         run: npm install --global vercel@latest neonctl
       - name: Remove preview deployment
+        if: ${{ needs.deploy-preview.outputs.preview-url }}
         run: vercel rm ${{ needs.deploy-preview.outputs.preview-url }} --token=${{ secrets.VERCEL_DEPLOY_TOKEN }} --scope=radical-innovation --yes || true
       - name: Remove database branch
+        if: ${{ needs.deploy-preview.outputs.database_id }}
         run: neonctl branches delete ${{ needs.deploy-preview.outputs.database_id }} --api-key ${{ secrets.NEON_API_KEY }} || true
