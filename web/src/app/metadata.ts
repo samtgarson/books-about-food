@@ -2,7 +2,10 @@ import { appUrl } from '@books-about-food/core/utils/app-url'
 import { Metadata, Viewport } from 'next'
 
 export const metadata = {
-  alternates: { canonical: 'https://booksaboutfood.info' },
+  alternates:
+    process.env.NODE_ENV === 'production'
+      ? { canonical: 'https://booksaboutfood.info' }
+      : undefined,
   title: {
     template: '%s | Books About Food',
     default: 'Books About Food'

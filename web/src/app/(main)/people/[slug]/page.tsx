@@ -1,5 +1,6 @@
 import { PageProps } from 'src/components/types'
-import { ProfilePage, metadata } from './profile-page'
+import { metadata } from './metadata'
+import { ProfilePage } from './profile-page'
 
 type ProfilePageProps = PageProps<{ slug: string }>
 
