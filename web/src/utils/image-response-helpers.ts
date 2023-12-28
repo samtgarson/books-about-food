@@ -1,24 +1,16 @@
 import { readFile } from 'fs/promises'
 import { ImageResponse } from 'next/og'
+import { join } from 'node:path'
 
 type FontOptions = Exclude<
   ConstructorParameters<typeof ImageResponse>[1],
   undefined
 >['fonts']
 
-const regularFontUrl = new URL(
-  '../assets/fonts/Graphik-Regular-Trial.otf',
-  new URL(import.meta.url)
-)
-const mediumFontUrl = new URL(
-  '../assets/fonts/Graphik-Medium-Trial.otf',
-  new URL(import.meta.url)
-)
-
 export async function loadFonts(): Promise<FontOptions> {
   const [regularData, mediumData] = await Promise.all([
-    readFile(regularFontUrl),
-    readFile(mediumFontUrl)
+    readFile(join(process.cwd(), 'src/assets/fonts/Graphik-Regular-Trial.otf')),
+    readFile(join(process.cwd(), 'src/assets/fonts/Graphik-Medium-Trial.otf'))
   ])
 
   return [
