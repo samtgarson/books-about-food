@@ -9,16 +9,27 @@ const files = execSync('git diff --name-only --cached', {
 }).split('\n')
 
 const found = new Set()
-const dirs = ['web', 'admin']
+const dirs = {
+  web: 0,
+  admin: 0,
+  packages: 1,
+  '.github': 'ci'
+}
 
 files.forEach((file) => {
   const path = file.split('/')
-  if (dirs.some((dir) => path[0] === dir)) {
-    found.add(path[0])
+
+  if (!(path[0] in dirs)) return
+  // @ts-expect-error path[0] is a string
+  const rule = dirs[path[0]]
+  console.log({ file, rule, path })
+
+  if (typeof rule === 'number' && path.length > rule) {
+    found.add(path[rule])
   }
 
-  if (path[0] === 'packages') {
-    found.add(path[1])
+  if (typeof rule === 'string') {
+    found.add(rule)
   }
 })
 

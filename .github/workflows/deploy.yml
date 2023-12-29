@@ -28,6 +28,11 @@ jobs:
         uses: actions/checkout@v3
       - name: Install CLI deps
         run: npm install -g neonctl vercel@latest
+      - name: Destroy previously missed database branches
+        run: |
+          neonctl branches list -o json \
+          | jq '.[].name | select(. | startswith("github-deploy-${{ github.ref_name }}"))' -c \
+          | xargs -I % neonctl branches delete %
       - name: Create database branch
         uses: neondatabase/create-branch-action@v4
         with:
@@ -156,7 +161,7 @@ jobs:
     name: 'Clean Up'
     needs: [deploy-preview, test, deploy-prod]
     runs-on: ubuntu-latest
-    if: ${{ ! cancelled() && github.run_attempt == 1 }}
+    if: ${{ always() && github.run_attempt == 1 }}
     env:
       VERCEL_ORG_ID: ${{ secrets.BAF_VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.BAF_VERCEL_PROJECT_ID }}
