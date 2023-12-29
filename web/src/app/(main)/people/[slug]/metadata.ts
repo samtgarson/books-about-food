@@ -26,7 +26,7 @@ export const metadata = (segment: ProfilePageProps['segment']) =>
         ...(await parent).openGraph,
         images: [
           {
-            url: `/api/profiles/${profile.slug}/og-image.png`,
+            url: `/${segment}/${profile.slug}/og-image.png`,
             width: 1200,
             height: 630,
             alt: `${profile.name} on Books About Food`

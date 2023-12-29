@@ -41,7 +41,15 @@ export async function generateMetadata(
       url: `https://booksaboutfood.info/cookbooks/${book.slug}`,
       authors: book.authors.map(
         (author) => `https://booksaboutfood.info/authors/${author.slug}`
-      )
+      ),
+      images: [
+        {
+          url: `/cookbooks/${book.slug}/og-image.png`,
+          width: 1200,
+          height: 630,
+          alt: `${book.title} on Books About Food`
+        }
+      ]
     }
   }
 }
