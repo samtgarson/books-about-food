@@ -8,7 +8,7 @@ export async function generateBookPalette(bookId: string) {
     where: { coverForId: bookId }
   })
 
-  if (!image) return true
+  if (!image || image.path.endsWith('.webp')) return true
 
   const src = imageUrl(image.path)
   const { palette, backgroundColor } = await getColors(src)
