@@ -1,5 +1,6 @@
 import { BookStatus } from '@books-about-food/database'
 import { Hsl, isHsl } from '@books-about-food/shared/utils/types'
+import Color from 'color'
 import format from 'date-fns/format'
 import isFuture from 'date-fns/isFuture'
 import { BaseModel } from '.'
@@ -70,6 +71,7 @@ export class Book extends BaseModel {
   }
 
   get authorNames() {
+    if (!this.authors.length) return
     return this.authors.map((author) => author.name).join(' • ')
   }
 
@@ -87,5 +89,10 @@ export class Book extends BaseModel {
 
   get publishedInFuture() {
     return this.releaseDate && isFuture(this.releaseDate)
+  }
+
+  get foregroundColor() {
+    if (!this.backgroundColor) return
+    return new Color(this.backgroundColor).isDark() ? '#fff' : '#000'
   }
 }

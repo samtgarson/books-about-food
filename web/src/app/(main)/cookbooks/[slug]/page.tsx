@@ -23,7 +23,7 @@ export async function generateMetadata(
   { params: { slug } }: CookbooksPageProps,
   parent: Promise<ResolvedMetadata>
 ): Promise<Metadata> {
-  const { data: book } = await call(fetchBook, { slug })
+  const { data: book } = await call(fetchBook, { slug, onlyPublished: true })
   if (!book) notFound()
 
   return {
@@ -49,8 +49,8 @@ export async function generateMetadata(
 export * from 'app/default-static-config'
 
 export default async ({ params: { slug } }: CookbooksPageProps) => {
-  const { data: book } = await call(fetchBook, { slug })
-  if (!book || book.status !== 'published') notFound()
+  const { data: book } = await call(fetchBook, { slug, onlyPublished: true })
+  if (!book) notFound()
 
   return (
     <div className="relative flex-grow lg:pr-[50vw] flex flex-col gap-8 sm:gap-16">
