@@ -1,6 +1,6 @@
+import { inngest } from '@books-about-food/core/jobs'
 import { fetchProfiles } from '@books-about-food/core/services/profiles/fetch-profiles'
 import prisma, { Prisma } from '@books-about-food/database'
-import { inngest } from '@books-about-food/jobs'
 import { imageUrl } from '@books-about-food/shared/utils/image-url'
 import { slugify } from '@books-about-food/shared/utils/slugify'
 import { CollectionCustomizer } from '@forestadmin/agent'

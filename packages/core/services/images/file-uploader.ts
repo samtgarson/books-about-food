@@ -1,7 +1,6 @@
+import { getEnv } from '@books-about-food/shared/utils/get-env'
 import { S3 } from 'aws-sdk'
 import { extension } from 'mime-types'
-import { v4 as uuid } from 'uuid'
-import { getEnv } from '../utils/get-env'
 
 const defaultClient = new S3({
   endpoint: getEnv('AWS_S3_ENDPOINT'),
@@ -24,7 +23,7 @@ export class FileUploader {
     if (!ext) {
       throw new Error('Unknown file type')
     }
-    const name = uuid()
+    const name = crypto.randomUUID()
     const Key = `${path}/${name}.${ext}`
 
     await this.client

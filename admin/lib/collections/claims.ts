@@ -1,6 +1,6 @@
+import { inngest } from '@books-about-food/core/jobs'
 import { profileIncludes } from '@books-about-food/core/services/utils'
 import prisma from '@books-about-food/database'
-import { inngest } from '@books-about-food/jobs'
 import { imageUrl } from '@books-about-food/shared/utils/image-url'
 import { CollectionCustomizer } from '@forestadmin/agent'
 import { resourceAction } from 'lib/utils/actions'

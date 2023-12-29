@@ -1,10 +1,10 @@
 'use server'
 
+import { inngest } from '@books-about-food/core/jobs'
 import { Model } from '@books-about-food/core/models'
 import { fetchBook } from '@books-about-food/core/services/books/fetch-book'
 import { fetchProfile } from '@books-about-food/core/services/profiles/fetch-profile'
 import { appUrl } from '@books-about-food/core/utils/app-url'
-import { inngest } from '@books-about-food/jobs'
 import { call, getUser } from 'src/utils/service'
 
 const fetcher = (type: Model) => {

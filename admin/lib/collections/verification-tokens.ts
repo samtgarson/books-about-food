@@ -1,5 +1,5 @@
+import { inngest } from '@books-about-food/core/jobs'
 import prisma from '@books-about-food/database'
-import { inngest } from '@books-about-food/jobs'
 import { CollectionCustomizer } from '@forestadmin/agent'
 import { resourceAction } from 'lib/utils/actions'
 import { Schema } from '../../.schema/types'

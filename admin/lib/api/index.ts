@@ -1,5 +1,5 @@
+import { inngest } from '@books-about-food/core/jobs'
 import prisma from '@books-about-food/database'
-import { inngest } from '@books-about-food/jobs'
 import { functions } from '@books-about-food/jobs/functions'
 import { websites } from '@books-about-food/shared/data/websites'
 import { bodyParser } from '@koa/bodyparser'

@@ -1,5 +1,5 @@
+import { FileUploader } from '@books-about-food/core/services/images/file-uploader'
 import prisma, { Prisma } from '@books-about-food/database'
-import { FileUploader } from '@books-about-food/shared/services/file-uploader'
 
 const s3 = new FileUploader()
 

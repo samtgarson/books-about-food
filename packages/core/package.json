@@ -5,13 +5,19 @@
   "scripts": {},
   "dependencies": {
     "@books-about-food/database": "*",
-    "@books-about-food/jobs": "*",
     "@books-about-food/shared": "*",
+    "@sentry/nextjs": "^7.88.0",
+    "aws-sdk": "^2.1286.0",
     "buffer-image-size": "^0.6.4",
     "date-fns": "^2.30.0",
     "inflection": "^3.0.0",
+    "inngest": "^3.6.2",
     "mime-types": "^2.1.35",
     "neat-csv": "^6",
+    "plaiceholder": "^2.5.0",
     "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/mime-types": "^2.1.4"
   }
 }

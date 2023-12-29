@@ -1,5 +1,5 @@
+import { imageUrl } from '@books-about-food/shared/utils/image-url'
 import { getPlaiceholder } from 'plaiceholder'
-import { imageUrl } from '../utils/image-url'
 
 export type ImageBlurrerOptions = { url: string } | { s3path: string }
 

@@ -1,4 +1,4 @@
-import { inngest } from '..'
+import { inngest } from '@books-about-food/core/jobs'
 import { cleanImages as svc } from '../lib/clean-images'
 
 export const cleanImages = inngest.createFunction(

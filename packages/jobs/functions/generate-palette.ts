@@ -1,7 +1,7 @@
+import { inngest } from '@books-about-food/core/jobs'
 import prisma from '@books-about-food/database'
 import { wrapArray } from '@books-about-food/shared/utils/array'
 import { asyncBatch } from '@books-about-food/shared/utils/batch'
-import { inngest } from '..'
 import { generateBookPalette } from '../lib/generate-palette'
 
 export const generatePalette = inngest.createFunction(

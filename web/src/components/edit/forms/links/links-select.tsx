@@ -11,7 +11,6 @@ import { Input } from 'src/components/form/input'
 import { Select } from 'src/components/form/select'
 import { Submit } from 'src/components/form/submit'
 import { stringify } from 'src/utils/superjson'
-import { v4 as uuid } from 'uuid'
 
 export type LinksSelectValue = {
   id: string
@@ -53,7 +52,7 @@ function LinksForm({
         e.preventDefault()
         if (!site || !url) return
         onSubmit({
-          id: value?.id || uuid(),
+          id: value?.id || crypto.randomUUID(),
           site,
           url
         })

@@ -1,6 +1,6 @@
+import { FileUploader } from '@books-about-food/core/services/images/file-uploader'
+import { ImageBlurrer } from '@books-about-food/core/services/images/image-blurrer'
 import prisma, { Prisma } from '@books-about-food/database'
-import { FileUploader } from '@books-about-food/shared/services/file-uploader'
-import { ImageBlurrer } from '@books-about-food/shared/services/image-blurrer'
 import sizeOf from 'buffer-image-size'
 
 const s3 = new FileUploader()

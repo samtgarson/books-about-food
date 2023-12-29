@@ -1,8 +1,8 @@
 import { Service } from '@books-about-food/core/services/base'
 import { generate } from '@books-about-food/core/services/utils/passphrase'
 import prisma from '@books-about-food/database'
-import { inngest } from '@books-about-food/jobs'
 import { z } from 'zod'
+import { inngest } from '../../jobs'
 
 export const createClaim = new Service(
   z.object({

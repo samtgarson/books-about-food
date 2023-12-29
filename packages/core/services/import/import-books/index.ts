@@ -2,7 +2,6 @@ import { Service } from '@books-about-food/core/services/base'
 import { AppError } from '@books-about-food/core/services/utils/errors'
 import prisma from '@books-about-food/database'
 import { asyncBatch } from '@books-about-food/shared/utils/batch'
-import { v4 as uuid } from 'uuid'
 import z from 'zod'
 import { extractBookAttrs, mapper } from './mapper'
 import { parse } from './parse'
@@ -39,7 +38,7 @@ export const importBooks = new Service(
         })
         const errors: ImportRowError[] = existing ? ['Existing'] : []
         let result: ResultRow = {
-          id: uuid(),
+          id: crypto.randomUUID(),
           bookAttrs,
           authors: [],
           contributors: [],

@@ -14,7 +14,6 @@ import { CollectionInput } from 'src/components/form/collection-input'
 import { Select } from 'src/components/form/select'
 import { Submit } from 'src/components/form/submit'
 import { useCurrentUser } from 'src/hooks/use-current-user'
-import { v4 as uuid } from 'uuid'
 import { jobs, profiles } from '../../server-actions'
 import { createProfile } from '../title/action'
 
@@ -110,7 +109,8 @@ function TeamForm({
       onSubmit={(e) => {
         e.preventDefault()
         if (!profile || !job) return
-        onSubmit(toValue(value?.id ?? uuid(), profile, job, isAssistant))
+        const id = value?.id ?? crypto.randomUUID()
+        onSubmit(toValue(id, profile, job, isAssistant))
       }}
       variant="bordered"
     >

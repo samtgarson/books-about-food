@@ -1,4 +1,4 @@
-import { inngest } from '..'
+import { inngest } from '@books-about-food/core/jobs'
 
 const url =
   process.env.NODE_ENV === 'development'
