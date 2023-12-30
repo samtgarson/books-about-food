@@ -30,9 +30,9 @@ jobs:
         run: npm install -g neonctl vercel@latest
       - name: Destroy previously missed database branches
         run: |
-          neonctl branches list -o json \
+          neonctl branches list -o json --api-key ${{ secrets.NEON_API_KEY }} \
           | jq '.[].name | select(. | startswith("github-deploy-${{ github.ref_name }}"))' -c \
-          | xargs -I % neonctl branches delete %
+          | xargs -I % neonctl branches delete % --api-key ${{ secrets.NEON_API_KEY }}
       - name: Create database branch
         uses: neondatabase/create-branch-action@v4
         with:
