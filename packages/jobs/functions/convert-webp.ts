@@ -5,7 +5,9 @@ import prisma from '@books-about-food/database'
 import { wrapArray } from '@books-about-food/shared/utils/array'
 import { asyncBatch } from '@books-about-food/shared/utils/batch'
 import { imageUrl } from '@books-about-food/shared/utils/image-url'
+import { RetryAfterError } from 'inngest'
 import sharp from 'sharp'
+import { JobResult } from '../types'
 
 const uploader = new FileUploader()
 
@@ -13,25 +15,29 @@ export const convertWebp = inngest.createFunction(
   {
     id: 'convert-webp',
     name: 'Convert webp covers to png',
-    concurrency: { limit: 2 }
+    concurrency: { limit: 2 },
+    retries: 2
   },
   { event: 'book.updated', if: 'event.data.coverImageChanged == true' },
   async ({ event, step }) => {
     const { id } = event.data
     const ids = wrapArray(id)
 
-    const res = await asyncBatch(ids, 2, async (id) => {
+    const results = await asyncBatch(ids, 2, async (id) => {
       try {
-        const success = await convertCover(id)
-        return { id, success }
+        return await convertCover(id)
       } catch (error) {
         console.error(id, (error as Error).message)
-        return { id, success: false }
+        return {
+          id,
+          status: 'failed',
+          message: (error as Error).message
+        } as JobResult
       }
     })
 
-    const updatedIds = res
-      .filter((result) => result.success)
+    const updatedIds = results
+      .filter((result) => result.status === 'success')
       .map(({ id }) => id)
 
     if (updatedIds.length > 0) {
@@ -41,20 +47,29 @@ export const convertWebp = inngest.createFunction(
       })
     }
 
-    return { success: true, successCount: updatedIds.length }
+    const failedCount = results.filter(
+      (result) => result.status === 'failed'
+    ).length
+    if (failedCount > 0) {
+      throw new RetryAfterError('Some covers failed to convert', '1m')
+    }
+
+    return { success: true, results }
   }
 )
 
-async function convertCover(id: string) {
+async function convertCover(id: string): Promise<JobResult> {
   const book = await prisma.book.findUnique({
     where: { id },
     include: { coverImage: true }
   })
   const oldCover = book?.coverImage
-  if (!oldCover || !oldCover.path.endsWith('.webp')) return
+  if (!oldCover) return { id, status: 'skipped', message: 'No cover found' }
+  if (!oldCover.path.endsWith('.webp'))
+    return { id, status: 'skipped', message: 'Cover is not webp' }
 
   const res = await fetch(imageUrl(oldCover.path))
-  if (!res.ok) return
+  if (!res.ok) return { id, status: 'failed', message: 'Failed to fetch cover' }
   const buffer = await res.arrayBuffer()
 
   const pngBuffer = await sharp(buffer).png({ force: true }).toBuffer()
@@ -63,7 +78,12 @@ async function convertCover(id: string) {
     prefix: `books/${book.id}/cover`,
     files: [{ buffer: pngBuffer, type: 'image/png' }]
   })
-  if (!createRes.success) return
+  if (!createRes.success)
+    return {
+      id,
+      status: 'failed',
+      message: `Failed to create cover: ${createRes.errors}`
+    }
 
   const {
     data: [newCover]
@@ -78,5 +98,5 @@ async function convertCover(id: string) {
   ])
 
   await uploader.delete(oldCover.path)
-  return true
+  return { id, status: 'success' }
 }

@@ -3,6 +3,7 @@ import prisma from '@books-about-food/database'
 import { wrapArray } from '@books-about-food/shared/utils/array'
 import { asyncBatch } from '@books-about-food/shared/utils/batch'
 import { generateBookPalette } from '../lib/generate-palette'
+import { JobResult } from '../types/types'
 
 export const generatePalette = inngest.createFunction(
   {
@@ -20,11 +21,20 @@ export const generatePalette = inngest.createFunction(
         return await generateBookPalette(id)
       } catch (error) {
         console.error(id, (error as Error).message)
-        return false
+        return {
+          status: 'failed',
+          message: (error as Error).message
+        } as JobResult
       }
     })
-    const success = results.filter((result) => result === true).length
-    return { success: success === results.length, successCount: success }
+    const success = results.filter(
+      (result) => result.status === 'success'
+    ).length
+    return {
+      success: success === results.length,
+      successCount: success,
+      results
+    }
   }
 )
 
