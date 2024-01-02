@@ -55,7 +55,7 @@ export const Body = forwardRef<SheetBodyControl, SheetBodyProps>(function Body(
       },
       {
         root: scrollRoot.current,
-        threshold: [0.5],
+        threshold: [1],
         rootMargin: '20px 0px 20px'
       }
     )
