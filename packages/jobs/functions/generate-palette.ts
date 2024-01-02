@@ -3,7 +3,7 @@ import prisma from '@books-about-food/database'
 import { wrapArray } from '@books-about-food/shared/utils/array'
 import { asyncBatch } from '@books-about-food/shared/utils/batch'
 import { generateBookPalette } from '../lib/generate-palette'
-import { JobResult } from '../types/types'
+import { JobResult } from '../types'
 
 export const generatePalette = inngest.createFunction(
   {

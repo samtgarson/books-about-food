@@ -8,7 +8,7 @@ import prisma, {
 } from '@books-about-food/database'
 import { transformKeys } from '@books-about-food/shared/utils/object'
 import { camelize } from 'inflection'
-const { raw, sql } = Prisma
+const { raw } = Prisma
 
 export async function queryBooks(
   template: TemplateStringsArray,

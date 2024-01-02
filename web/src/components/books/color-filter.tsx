@@ -1,14 +1,14 @@
 'use client'
 
+import { NamedColor } from '@books-about-food/core/services/books/colors'
 import cn from 'classnames'
-import Color from 'color'
 import Link from 'next/link'
 import { useRef } from 'react'
 import * as Sheet from 'src/components/atoms/sheet'
 import { ParamLink } from '../atoms/param-link'
 import { Pill } from '../atoms/pill'
 
-export function ColorFilter({ value }: { value?: number[] }) {
+export function ColorFilter({ value }: { value?: number[] | NamedColor }) {
   const sheet = useRef<Sheet.SheetControl>(null)
 
   return (
@@ -18,7 +18,10 @@ export function ColorFilter({ value }: { value?: number[] }) {
           {value && (
             <span
               style={{
-                backgroundColor: `hsl(${value[0]},${value[1]}%,${value[2]}%)`
+                backgroundColor:
+                  typeof value === 'string'
+                    ? colorMap[value]
+                    : `hsl(${value[0]},${value[1]}%,${value[2]}%)`
               }}
               className="w-6 h-6 -my-2 -ml-2 rounded-full"
             ></span>
@@ -31,7 +34,7 @@ export function ColorFilter({ value }: { value?: number[] }) {
           title="Colours"
           className="grid grid-cols-[repeat(7,_48px)] gap-4 justify-center"
           controls={
-            <ParamLink color={null}>
+            <ParamLink color={null} sort={null}>
               <Link
                 scroll={false}
                 href=""
@@ -43,8 +46,8 @@ export function ColorFilter({ value }: { value?: number[] }) {
             </ParamLink>
           }
         >
-          {colors.map(({ hex, hsl }) => (
-            <ParamLink key={hex} color={hsl}>
+          {Object.entries(colorMap).map(([key, hex]) => (
+            <ParamLink key={key} color={key}>
               <Link
                 href=""
                 onClick={() => sheet.current?.setOpen(false)}
@@ -72,27 +75,20 @@ export function ColorFilter({ value }: { value?: number[] }) {
   )
 }
 
-const colors = [
-  '#ffffff',
-  '#EED169',
-  '#DF864E',
-  '#D94F41',
-  '#DC73C4',
-  '#823DE7',
-  '#5C89EF',
-  '#86D2B9',
-  '#BAF37B',
-  '#65A34E',
-  '#A3602F',
-  '#A9ADB2',
-  '#000000'
-].map((hex) => ({
-  hex,
-  hsl: new Color(hex)
-    .hsl()
-    .array()
-    .map((d) => Math.round(d))
-    .join(',')
-}))
+const colorMap: Record<NamedColor, string> = {
+  [NamedColor.white]: '#ffffff',
+  [NamedColor.yellow]: '#EED169',
+  [NamedColor.orange]: '#DF864E',
+  [NamedColor.red]: '#D94F41',
+  [NamedColor.pink]: '#DC73C4',
+  [NamedColor.purple]: '#823DE7',
+  [NamedColor.blue]: '#5C89EF',
+  [NamedColor.cyan]: '#86D2B9',
+  [NamedColor.lime]: '#BAF37B',
+  [NamedColor.green]: '#65A34E',
+  [NamedColor.brown]: '#A3602F',
+  [NamedColor.gray]: '#A9ADB2',
+  [NamedColor.black]: '#000000'
+}
 
 const rainbowGradient = `linear-gradient(rgb(84,166,236), rgb(84,166,236) 16%, rgb(155,210,94) 16%, rgb(155,210,94) 33%, rgb(246,229,98) 33%, rgb(246,229,98) 50%, rgb(239,173,92) 50%, rgb(239,173,92) 67%, rgb(237,109,93) 67%, rgb(237,109,93) 83%, rgb(146,83,146) 83%, rgb(146,83,146))`

@@ -3,6 +3,7 @@ import prisma, { BookStatus, Prisma } from '@books-about-food/database'
 import { wrapArray } from '@books-about-food/shared/utils/array'
 import { z } from 'zod'
 import { array, arrayOrSingle, dbEnum, paginationInput } from '../utils/inputs'
+import { NamedColor, OddColors } from './colors'
 import {
   FetchBooksPageFilters,
   fetchBooksPageFilterValues,
@@ -25,7 +26,7 @@ const validator = z
     status: arrayOrSingle(dbEnum(BookStatus)).optional(),
     submitterId: z.string().optional(),
     publisherSlug: z.string().optional(),
-    color: array(z.coerce.number()).optional(),
+    color: z.nativeEnum(NamedColor).or(array(z.coerce.number())).optional(),
     pageCount: z
       .custom<FetchBooksPageFilters>((key) => {
         return fetchBooksPageFilterValues.includes(key as FetchBooksPageFilters)
@@ -101,9 +102,8 @@ function searchQuery(search?: string) {
   return sql`concat_ws(' ', books.title, books.subtitle, publishers.name, contributions.profile ->> 'name', tags.name) ilike ${`%${contains}%`}`
 }
 
-function colorFilterJoin(color: number[]) {
+function specificColorJoin(color: number[]) {
   const [h, s, l] = color
-  const radius = getRadius(h)
 
   return sql`left outer join lateral (
       select
@@ -112,16 +112,28 @@ function colorFilterJoin(color: number[]) {
         select jsonb_array_elements(books.palette) color from books b
         where b.id = books.id
       ) c
-      where (
-        abs(${h}::int - (c.color ->> 'h')::decimal) < ${radius}::int
-      ) and abs(${s}::int - (c.color ->> 's')::decimal) < 20
-      and abs(${l}::int - (c.color ->> 'l')::decimal) < 20
+      where abs(${h}::int - (c.color ->> 'h')::decimal) < ${hueRadius(h)}::int
+        and abs(${s}::int - (c.color ->> 's')::decimal) < 20
+        and abs(${l}::int - (c.color ->> 'l')::decimal) < 15
       limit 1
     ) matched_palette on true`
 }
 
-function getRadius(h: number) {
-  if (h < 15) return 20 // red to orange
+function namedColorJoin(color: NamedColor) {
+  return sql`left outer join lateral (
+      select (c.color ->> 'h')::decimal as color
+      from (
+        select jsonb_array_elements(books.palette) color from books b
+        where b.id = books.id
+      ) c
+      where ${raw(namedColorQuery(color))}
+      limit 1
+    ) matched_palette on true`
+}
+
+/** Gets relative radius for a hue considering visual perception of breadth of color */
+function hueRadius(h: number) {
+  if (h < 10) return 20 // red to orange
   if (h < 85) return 12 // orange to yellow
   if (h < 170) return 20 // yellow to green
   if (h < 215) return 12 // green to cyan
@@ -129,8 +141,52 @@ function getRadius(h: number) {
   return 12
 }
 
-function colorJoin(color?: number[]) {
-  if (color?.length) return colorFilterJoin(color)
+function namedColorQuery(color: NamedColor) {
+  switch (color) {
+    case NamedColor.white:
+      return `(c.color ->> 'l')::decimal > 90`
+    case NamedColor.black:
+      return `(c.color ->> 'l')::decimal < 10`
+    case NamedColor.brown:
+      return `(c.color ->> 'h')::decimal between 10 and 35
+      and (c.color ->> 's')::decimal > 35
+      and (c.color ->> 'l')::decimal between 8 and 40`
+    case NamedColor.gray:
+      return `(c.color ->> 's')::decimal < 15
+      and (c.color ->> 'l')::decimal between 25 and 70`
+    default:
+      return `(${namedColorToHueBound(color)})
+      and (c.color ->> 's')::decimal > 25
+      and (c.color ->> 'l')::decimal between 20 and 70`
+  }
+}
+
+function namedColorToHueBound(color: Exclude<NamedColor, OddColors>): string {
+  switch (color) {
+    case NamedColor.red:
+      return "(c.color ->> 'h')::decimal between 331 and 360 or (c.color ->> 'h')::decimal between 0 and 10"
+    case NamedColor.orange:
+      return "(c.color ->> 'h')::decimal between 11 and 35"
+    case NamedColor.yellow:
+      return "(c.color ->> 'h')::decimal between 36 and 70"
+    case NamedColor.lime:
+      return "(c.color ->> 'h')::decimal between 71 and 105"
+    case NamedColor.green:
+      return "(c.color ->> 'h')::decimal between 106 and 145"
+    case NamedColor.cyan:
+      return "(c.color ->> 'h')::decimal between 146 and 195"
+    case NamedColor.blue:
+      return "(c.color ->> 'h')::decimal between 196 and 240"
+    case NamedColor.purple:
+      return "(c.color ->> 'h')::decimal between 241 and 280"
+    case NamedColor.pink:
+      return "(c.color ->> 'h')::decimal between 281 and 330"
+  }
+}
+
+function colorJoin(color?: NamedColor | number[]) {
+  if (typeof color === 'string') return namedColorJoin(color)
+  if (color?.length) return specificColorJoin(color)
   return sql`left outer join lateral (
     select (b.palette -> 0 ->> 'h')::decimal as color from books b
     where b.id = books.id
