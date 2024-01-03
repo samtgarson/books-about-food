@@ -19,3 +19,19 @@ export type OddColors =
   | NamedColor.black
   | NamedColor.brown
   | NamedColor.gray
+
+export const namedHueMap: Record<NamedColor, number> = {
+  red: 0,
+  orange: 30,
+  yellow: 55,
+  lime: 90,
+  green: 120,
+  cyan: 180,
+  blue: 230,
+  purple: 270,
+  pink: 300,
+  brown: 15,
+  gray: 0,
+  black: 0,
+  white: 0
+}

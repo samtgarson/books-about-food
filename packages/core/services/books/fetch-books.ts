@@ -3,7 +3,7 @@ import prisma, { BookStatus, Prisma } from '@books-about-food/database'
 import { wrapArray } from '@books-about-food/shared/utils/array'
 import { z } from 'zod'
 import { array, arrayOrSingle, dbEnum, paginationInput } from '../utils/inputs'
-import { NamedColor, OddColors } from './colors'
+import { NamedColor, OddColors, namedHueMap } from './colors'
 import {
   FetchBooksPageFilters,
   fetchBooksPageFilterValues,
@@ -52,6 +52,48 @@ export const fetchBooks = new Service(
     return { books, filteredTotal, total, perPage }
   }
 )
+
+function countQuery(input: FetchBooksInput) {
+  const filters = sqlFilters(input)
+
+  return sql`select count(distinct books.id) from books
+    ${filters}`
+}
+
+function baseQuery({
+  page = 0,
+  perPage = 18,
+  sort: sortKey = 'releaseDate',
+  ...input
+}: FetchBooksInput) {
+  const filters = sqlFilters(input)
+  const sort = sortQuery(input.color ? 'color' : sortKey)
+  const limit = perPage === 0 ? empty : sql`limit ${perPage}`
+
+  const query = queryBooks`
+    select distinct
+      ${bookSelect},
+      ${sort} as sort
+    from books
+    ${filters}
+    group by books.id, cover_image.id, sort
+    order by sort desc nulls last
+    ${limit}
+    offset ${page * perPage}`
+
+  return { query, perPage }
+}
+
+function sqlFilters(input: FetchBooksInput) {
+  const whereArray = whereQuery(input)
+  const where = join(whereArray, ' and ')
+  return sql`
+    left outer join _books_tags on _books_tags."A" = books.id
+    left outer join tags on _books_tags."B" = tags.id
+    ${bookJoin}
+    ${colorJoin(input.color)}
+    where ${where}`
+}
 
 function whereQuery({
   tags,
@@ -121,7 +163,9 @@ function specificColorJoin(color: number[]) {
 
 function namedColorJoin(color: NamedColor) {
   return sql`left outer join lateral (
-      select (c.color ->> 'h')::decimal as color
+      select abs(${
+        namedHueMap[color]
+      }::int - (c.color ->> 'h')::decimal) * -1 as color
       from (
         select jsonb_array_elements(books.palette) color from books b
         where b.id = books.id
@@ -155,32 +199,41 @@ function namedColorQuery(color: NamedColor) {
       return `(c.color ->> 's')::decimal < 15
       and (c.color ->> 'l')::decimal between 25 and 70`
     default:
-      return `(${namedColorToHueBound(color)})
-      and (c.color ->> 's')::decimal > 25
+      return `(${namedColorToHueBound(color).map(hueBoundToSql).join(' or ')})
+      and (c.color ->> 's')::decimal > 40
       and (c.color ->> 'l')::decimal between 20 and 70`
   }
 }
 
-function namedColorToHueBound(color: Exclude<NamedColor, OddColors>): string {
+function hueBoundToSql([lower, upper]: [number, number]) {
+  return `(c.color ->> 'h')::decimal between ${lower} and ${upper}`
+}
+
+function namedColorToHueBound(
+  color: Exclude<NamedColor, OddColors>
+): [number, number][] {
   switch (color) {
     case NamedColor.red:
-      return "(c.color ->> 'h')::decimal between 331 and 360 or (c.color ->> 'h')::decimal between 0 and 10"
+      return [
+        [0, 10],
+        [331, 360]
+      ]
     case NamedColor.orange:
-      return "(c.color ->> 'h')::decimal between 11 and 35"
+      return [[11, 35]]
     case NamedColor.yellow:
-      return "(c.color ->> 'h')::decimal between 36 and 70"
+      return [[36, 70]]
     case NamedColor.lime:
-      return "(c.color ->> 'h')::decimal between 71 and 105"
+      return [[71, 105]]
     case NamedColor.green:
-      return "(c.color ->> 'h')::decimal between 106 and 145"
+      return [[106, 145]]
     case NamedColor.cyan:
-      return "(c.color ->> 'h')::decimal between 146 and 195"
+      return [[146, 195]]
     case NamedColor.blue:
-      return "(c.color ->> 'h')::decimal between 196 and 240"
+      return [[196, 240]]
     case NamedColor.purple:
-      return "(c.color ->> 'h')::decimal between 241 and 280"
+      return [[241, 280]]
     case NamedColor.pink:
-      return "(c.color ->> 'h')::decimal between 281 and 330"
+      return [[281, 330]]
   }
 }
 
@@ -204,46 +257,4 @@ function sortQuery(sort?: BookSort) {
     default:
       return raw('books.release_date')
   }
-}
-
-function sqlFilters(input: FetchBooksInput) {
-  const whereArray = whereQuery(input)
-  const where = join(whereArray, ' and ')
-  return sql`
-    left outer join _books_tags on _books_tags."A" = books.id
-    left outer join tags on _books_tags."B" = tags.id
-    ${bookJoin}
-    ${colorJoin(input.color)}
-    where ${where}`
-}
-
-function countQuery(input: FetchBooksInput) {
-  const filters = sqlFilters(input)
-
-  return sql`select count(distinct books.id) from books
-    ${filters}`
-}
-
-function baseQuery({
-  page = 0,
-  perPage = 18,
-  sort: sortKey = 'releaseDate',
-  ...input
-}: FetchBooksInput) {
-  const filters = sqlFilters(input)
-  const sort = sortQuery(input.color ? 'color' : sortKey)
-  const limit = perPage === 0 ? empty : sql`limit ${perPage}`
-
-  const query = queryBooks`
-    select distinct
-      ${bookSelect},
-      ${sort} as sort
-    from books
-    ${filters}
-    group by books.id, cover_image.id, sort
-    order by sort desc nulls last
-    ${limit}
-    offset ${page * perPage}`
-
-  return { query, perPage }
 }
