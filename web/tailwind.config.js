@@ -44,6 +44,14 @@ module.exports = {
         'scale-in': 'scale-in 0.2s ease-out both',
         'accordion-open': 'accordion-open 0.2s ease-out both',
         'accordion-close': 'accordion-close 0.2s ease-out both'
+      },
+      screens: {
+        'mobile-only': { max: '767px' }
+      },
+      zIndex: {
+        sheet: 70,
+        nav: 60,
+        'page-transition': 1000
       }
     },
     colors: {

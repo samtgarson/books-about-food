@@ -126,7 +126,7 @@ export const TopNav: FC = () => {
   const { theme, open, setOpen } = useNav()
 
   return (
-    <nav className="absolute inset-x-0 top-0 z-[60]">
+    <nav className="absolute inset-x-0 top-0 z-nav">
       <Container
         className={cn(
           'flex w-screen gap-4 items-stretch border-b border-black py-5 pr-4',

@@ -31,11 +31,11 @@ export const Content = ({
     <Dialog.Portal>
       <Dialog.Overlay
         className={cn(
-          'animate-fade-in fixed inset-0 z-50',
+          'animate-fade-in fixed inset-0 z-sheet',
           overlay && 'bg-black bg-opacity-80'
         )}
       />
-      <div className="pointer-events-none fixed inset-0 z-50 flex items-end justify-center sm:items-center backdrop-filter">
+      <div className="pointer-events-none fixed inset-0 z-sheet flex items-end justify-center sm:items-center backdrop-filter">
         <Dialog.Content
           onEscapeKeyDown={close}
           onPointerDownOutside={close}
