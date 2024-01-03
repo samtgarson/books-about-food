@@ -107,7 +107,7 @@ export const Select = function Select<
       externalOnChange?.(val)
       setTimeout(() => {
         input.current?.dispatchEvent(new Event('change', { bubbles: true }))
-      }, 0)
+      }, 50)
     },
     [externalOnChange]
   )
