@@ -8,6 +8,9 @@ on:
       - 'web/**'
       - 'packages/**'
 
+env:
+  NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name }}
   cancel-in-progress: true
@@ -30,9 +33,9 @@ jobs:
         run: npm install -g neonctl vercel@latest
       - name: Destroy previously missed database branches
         run: |
-          neonctl branches list -o json --api-key ${{ secrets.NEON_API_KEY }} \
+          neonctl branches list -o json \
           | jq '.[].name | select(. | startswith("github-deploy-${{ github.ref_name }}"))' -c \
-          | xargs -I % neonctl branches delete % --api-key ${{ secrets.NEON_API_KEY }}
+          | xargs -I % neonctl branches delete %
       - name: Create database branch
         uses: neondatabase/create-branch-action@v4
         with:
@@ -47,8 +50,8 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.BAF_VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.BAF_VERCEL_PROJECT_ID }}
         run: |
-          db_url=$(neonctl cs ${{ steps.create-db.outputs.branch_id }} --database-name books-about-food-prod --prisma --pooled --api-key ${{ secrets.NEON_API_KEY }})
-          direct_db_url=$(neonctl cs ${{ steps.create-db.outputs.branch_id }} --database-name books-about-food-prod --prisma  --api-key ${{ secrets.NEON_API_KEY }})
+          db_url=$(neonctl cs ${{ steps.create-db.outputs.branch_id }} --database-name books-about-food-prod --prisma --pooled)
+          direct_db_url=$(neonctl cs ${{ steps.create-db.outputs.branch_id }} --database-name books-about-food-prod --prisma)
 
           preview_url=$(vercel \
             --token=${{ secrets.VERCEL_DEPLOY_TOKEN }} \
@@ -64,9 +67,9 @@ jobs:
             --meta githubRepo=books-about-food \
             --meta githubDeployment=1 \
             --build-env DATABASE_URL="$db_url" \
-            --build-env DIRECT_DATABASE_URL="$direct_db_url" \
+            --build-env DATABASE_DIRECT_URL="$direct_db_url" \
             --env DATABASE_URL="$db_url" \
-            --env DIRECT_DATABASE_URL="$direct_db_url" \
+            --env DATABASE_DIRECT_URL="$direct_db_url" \
           )
 
           if [ -z "$preview_url" ]
@@ -92,7 +95,8 @@ jobs:
         run: |
           npm -w packages/e2e ci
           npm i -g neonctl
-          echo "database-url=$(neonctl cs ${{ needs.deploy-preview.outputs.database-id }} --database-name books-about-food-prod --prisma --pooled --api-key ${{ secrets.NEON_API_KEY }})" > $GITHUB_OUTPUT
+          echo "database-url=$(neonctl cs ${{ needs.deploy-preview.outputs.database-id }} --database-name books-about-food-prod --prisma --pooled)" >> $GITHUB_OUTPUT
+          echo "database-direct-url=$(neonctl cs ${{ needs.deploy-preview.outputs.database-id }} --database-name books-about-food-prod --prisma)" >> $GITHUB_OUTPUT
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
       - name: Get installed Playwright version
@@ -112,6 +116,7 @@ jobs:
         run: npm run -w packages/database db:build
         env:
           DATABASE_URL: ${{ steps.install-deps.outputs.database-url }}
+          DATABASE_DIRECT_URL: ${{ steps.install-deps.outputs.database-direct-url }}
       - name: Create Gmail secret files
         run: |
           echo ${{ secrets.GMAIL_CREDENTIALS_JSON }} | base64 -d > ./packages/e2e/gmail-credentials.json
@@ -121,6 +126,7 @@ jobs:
         env:
           DEPLOYMENT_URL: ${{ needs.deploy-preview.outputs.preview-url }}
           DATABASE_URL: ${{ steps.install-deps.outputs.database-url }}
+          DATABASE_DIRECT_URL: ${{ steps.install-deps.outputs.database-direct-url }}
           NEXTAUTH_SECRET: ${{ secrets.AUTH_SECRET }}
       - uses: actions/upload-artifact@v3
         if: failure()
@@ -178,4 +184,4 @@ jobs:
         run: vercel rm ${{ needs.deploy-preview.outputs.preview-url }} --token=${{ secrets.VERCEL_DEPLOY_TOKEN }} --scope=radical-innovation --yes || true
       - name: Remove database branch
         if: ${{ needs.deploy-preview.outputs.database-id }}
-        run: neonctl branches delete ${{ needs.deploy-preview.outputs.database-id }} --api-key ${{ secrets.NEON_API_KEY }} || true
+        run: neonctl branches delete ${{ needs.deploy-preview.outputs.database-id }} || true
