@@ -15,7 +15,7 @@ import { Stringified, parse } from 'src/utils/superjson'
 import { useForm } from '../context'
 import { Label } from '../label'
 import { Messages } from '../messages'
-import { SelectValue, selectProps } from './default-props'
+import { SelectValue, selectProps } from './props'
 
 export type { SelectValue }
 
