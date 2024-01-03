@@ -43,8 +43,13 @@ async function getVerificationUrl(email: string, baseURL?: string) {
   const gmail = new Inbox('./gmail-credentials.json', './gmail-token.json')
   await gmail.authenticateAccount()
 
-  // @ts-expect-error category is required for some reason
-  const [message] = await gmail.waitTillMessage({ to: email })
+  const [message] = await gmail.waitTillMessage(
+    // @ts-expect-error category is required for some reason
+    { to: email },
+    true,
+    5, // 5 seconds
+    60 * 5 // 5 minutes
+  )
   if (!message) throw new Error('No verification email found')
   await gmail.gmailApi.users.messages.trash({
     id: message.messageId,
