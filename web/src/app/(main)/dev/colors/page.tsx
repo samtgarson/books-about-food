@@ -73,7 +73,7 @@ function Palette({ palette }: { palette: Hsl[] }) {
         <div
           title={color.label}
           key={i}
-          className="w-8 h-8 rounded-full"
+          className="size-8 rounded-full"
           style={{
             backgroundColor: `hsl(${color.h}, ${color.s}%, ${color.l}%)`
           }}

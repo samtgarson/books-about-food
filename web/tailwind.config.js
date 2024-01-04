@@ -49,8 +49,9 @@ module.exports = {
         'mobile-only': { max: '767px' }
       },
       zIndex: {
-        sheet: 70,
         nav: 60,
+        sheet: 70,
+        'interactive-ui': 80,
         'page-transition': 1000
       }
     },

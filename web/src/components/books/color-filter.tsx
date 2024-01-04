@@ -23,7 +23,7 @@ export function ColorFilter({ value }: { value?: number[] | NamedColor }) {
                     ? colorMap[value]
                     : `hsl(${value[0]},${value[1]}%,${value[2]}%)`
               }}
-              className="w-6 h-6 -my-2 -ml-2 rounded-full"
+              className="size-6 -my-2 -ml-2 rounded-full"
             ></span>
           )}
           Colours
@@ -53,7 +53,7 @@ export function ColorFilter({ value }: { value?: number[] | NamedColor }) {
                 onClick={() => sheet.current?.setOpen(false)}
                 style={{ backgroundColor: hex }}
                 className={cn(
-                  'rounded-full w-12 h-12',
+                  'rounded-full size-12',
                   hex === '#ffffff' && 'border-neutral-grey border'
                 )}
               />
@@ -66,7 +66,7 @@ export function ColorFilter({ value }: { value?: number[] | NamedColor }) {
               style={{
                 background: rainbowGradient
               }}
-              className={cn('rounded-full w-12 h-12')}
+              className={cn('rounded-full size-12')}
             />
           </ParamLink>
         </Sheet.Body>

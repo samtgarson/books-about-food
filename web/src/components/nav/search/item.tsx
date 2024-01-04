@@ -27,7 +27,7 @@ function Root({ focused, onHover, children, ...props }: QuickSearchItemProps) {
 
 function Image({ children }: { children: ReactNode }) {
   return (
-    <div className="w-5 h-5 sm:w-8 sm:h-8 flex flex-shrink-0 items-center justify-center">
+    <div className="size-5 sm:w-8 sm:h-8 flex flex-shrink-0 items-center justify-center">
       {children}
     </div>
   )
