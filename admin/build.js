@@ -16,7 +16,7 @@ if (sentryToken) {
       release: {
         setCommits: {
           repo: 'samtgarson/books-about-food',
-          commit: `${process.env.HEROKU_SLUG_COMMIT}`
+          commit: process.env.HEROKU_SLUG_COMMIT || 'local'
         },
         dist: process.env.HEROKU_SLUG_COMMIT,
         name: process.env.HEROKU_SLUG_COMMIT,

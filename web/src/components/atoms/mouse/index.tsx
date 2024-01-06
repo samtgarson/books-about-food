@@ -53,7 +53,7 @@ export const Mouse = () => {
   return (
     <div
       className={cn(
-        'pointer-events-none fixed -left-2 -top-2 z-50 will-change-transform',
+        'pointer-events-none fixed -left-2 -top-2 z-mouse-pointer will-change-transform',
         { 'mix-blend-difference': differenceMode }
       )}
       ref={ref}

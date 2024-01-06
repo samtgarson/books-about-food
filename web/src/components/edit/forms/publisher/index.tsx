@@ -24,6 +24,7 @@ export const EditPublisherForm = async ({ book }: { book: FullBook }) => {
     <EditForm action={createAction(book.slug)}>
       <PageSubtitle>Publishing Information</PageSubtitle>
       <Select
+        multi={false}
         loadOptions={options}
         label="Publisher"
         name="publisherId"

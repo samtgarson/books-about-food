@@ -98,10 +98,10 @@ function TeamForm({
         backgroundColour: value.bg,
         avatar: value.avatar
       } as Profile)
-    : null
-  const defaultJob = value ? ({ name: value?.jobName } as Job) : null
-  const [profile, setProfile] = useState<Profile | null>(defaultProfile)
-  const [job, setJob] = useState<Job | null>(defaultJob)
+    : undefined
+  const defaultJob = value ? ({ name: value?.jobName } as Job) : undefined
+  const [profile, setProfile] = useState<Profile | undefined>(defaultProfile)
+  const [job, setJob] = useState<Job | undefined>(defaultJob)
   const [isAssistant, setIsAssistant] = useState(false)
 
   return (
@@ -123,7 +123,8 @@ function TeamForm({
         defaultValue={defaultProfile}
         required
         allowCreate
-        onChange={(p) => setProfile(p as Profile)}
+        multi={false}
+        onChange={(p) => setProfile(p)}
         onCreate={async (name) => {
           const attrs = await createProfile(name)
           const profile = new Profile(attrs)
@@ -137,9 +138,10 @@ function TeamForm({
         name="jobName"
         valueKey="name"
         render="name"
+        multi={false}
         defaultValue={defaultJob}
         required
-        onChange={(j) => setJob(j as Job)}
+        onChange={(j) => setJob(j)}
       />
       <Checkbox
         name="isAssistant"

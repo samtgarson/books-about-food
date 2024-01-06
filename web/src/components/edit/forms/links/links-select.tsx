@@ -60,6 +60,7 @@ function LinksForm({
       variant="bordered"
     >
       <Select
+        multi={false}
         loadOptions={async (val) =>
           stringify(
             options.filter((o) =>
@@ -73,7 +74,7 @@ function LinksForm({
         defaultValue={value?.site ? { value: value.site } : undefined}
         valueKey="value"
         required
-        onChange={(p) => setSite(p ? (p as { value: string }).value : null)}
+        onChange={(p) => setSite(p ? p.value : null)}
         allowCreate
       />
       <Input

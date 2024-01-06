@@ -1,6 +1,7 @@
 import { fetchBook } from '@books-about-food/core/services/books/fetch-book'
+import prisma from '@books-about-food/database'
 import Image from 'next/image'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { Button } from 'src/components/atoms/button'
 import { Edit2, Eye } from 'src/components/atoms/icons'
 import { PageBackLink } from 'src/components/atoms/page-back-link'
@@ -42,7 +43,7 @@ export default async function Page({ params: { slug } }: EditPageProps) {
           ) : (
             <div className="bg-khaki w-16 h-20" />
           )}
-          <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 items-start sm:items-center overflow-hidden">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 items-start sm:items-center overflow-hidden grow">
             <div className="flex flex-col sm:gap-2 grow overflow-hidden w-full">
               <h1
                 className="text-20 sm:text-32 whitespace-nowrap text-ellipsis overflow-hidden"
@@ -75,6 +76,18 @@ export default async function Page({ params: { slug } }: EditPageProps) {
           </div>
         )}
         <Steps book={book} user={currentUser} />
+        {book.status !== 'published' && (
+          <form
+            action={async function () {
+              'use server'
+              await prisma.book.delete({ where: { id: book.id } })
+              redirect('/account/submissions?action=deleted')
+            }}
+            className="text-center"
+          >
+            <button className="text-14 underline">Delete</button>
+          </form>
+        )}
       </div>
     </>
   )

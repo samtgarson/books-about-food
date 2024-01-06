@@ -56,7 +56,10 @@ export function Form<T extends z.ZodTypeAny | undefined = undefined>({
 
       errors = await action(values)
       if (errors) setErrors(errors)
-      else if (!autoSubmit) setSuccess(true)
+      else {
+        formRef.current?.reset()
+        if (!autoSubmit) setSuccess(true)
+      }
 
       return !errors
     },

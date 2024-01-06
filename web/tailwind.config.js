@@ -52,7 +52,8 @@ module.exports = {
         nav: 60,
         sheet: 70,
         'interactive-ui': 80,
-        'page-transition': 1000
+        'page-transition': 1000,
+        'mouse-pointer': 1001
       }
     },
     colors: {

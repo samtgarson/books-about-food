@@ -72,7 +72,7 @@ export const Body = forwardRef<SheetBodyControl, SheetBodyProps>(function Body(
       <div
         ref={scrollRoot}
         className={cn(
-          'pointer-events-auto h-[calc(100dvh-180px)] sm:max-h-[calc(80vh-180px)] overflow-auto p-5 sm:p-8 isolate',
+          'pointer-events-auto max-h-[calc(100dvh-180px)] sm:max-h-[calc(80vh-180px)] overflow-auto p-5 sm:p-8 isolate',
           grey ? 'bg-grey' : 'bg-white',
           containerClassName
         )}

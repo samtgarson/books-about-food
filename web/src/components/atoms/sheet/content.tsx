@@ -53,6 +53,7 @@ export const Content = ({
             className
           )}
           aria-describedby={undefined}
+          data-sheet-portal
         >
           <Dialog.Close className="pointer-events-auto absolute p-4 right-0 -top-14">
             <X strokeWidth={1} size={24} className="stroke-white" />

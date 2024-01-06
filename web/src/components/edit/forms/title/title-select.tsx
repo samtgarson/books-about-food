@@ -25,9 +25,12 @@ export function TitleSelect({
         required
         allowCreate
         multi={false}
+        onCreate={async (title) =>
+          ({ title, id: 'new' }) as BookLibrarySearchResult
+        }
         onChange={async (value) => {
           if (!value) return onChange?.(null)
-          if (value.__new) return onChange?.({ title: value.id })
+          if (value.id === 'new') return onChange?.({ title: value.title })
 
           const attrs = await fetchAttrs(value.id)
           if (attrs) onChange?.(parse(attrs))
@@ -36,9 +39,9 @@ export function TitleSelect({
     </>
   )
 }
-const BookResult = (result: BookLibrarySearchResult, newValue: boolean) => {
-  const title = newValue ? result.id : result.title
-  const authors = newValue ? [] : result.authors
+const BookResult = (result: BookLibrarySearchResult) => {
+  const title = result.title
+  const authors = result.authors ?? []
 
   return (
     <div className="flex items-center gap-3">
@@ -49,8 +52,8 @@ const BookResult = (result: BookLibrarySearchResult, newValue: boolean) => {
           <div className="bg-sand h-12 w-10" />
         )}
       </div>
-      <div className="flex min-w-0 flex-1 flex-col">
-        <p className="font-bold">{title}</p>
+      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+        <p className="font-bold overflow-ellipsis">{title}</p>
         {authors.length > 0 && (
           <p className="max-w-full overflow-hidden overflow-ellipsis whitespace-nowrap opacity-50">
             {authors.join(', ')}
