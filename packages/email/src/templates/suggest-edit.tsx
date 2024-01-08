@@ -20,7 +20,7 @@ export const SuggestEdit: Template<SuggestEditProps> = ({
   userEmail
 }) => {
   return (
-    <BaseLayout preview="Verify your email address">
+    <BaseLayout preview={`New suggestion for ${resourceName}`}>
       <Section>
         <Text>
           You&apos;ve got a new suggestion about a {resourceType} from{' '}
