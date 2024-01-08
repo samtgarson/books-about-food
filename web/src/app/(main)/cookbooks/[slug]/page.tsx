@@ -147,6 +147,27 @@ export default async ({ params: { slug } }: CookbooksPageProps) => {
             <p>{book.pages}</p>
           </Detail>
         )}
+        {!!book.colors?.length && (
+          <Detail className="flex flex-col gap-2" column>
+            <p className="all-caps">Colors</p>
+            <div className="flex flex-wrap gap-2">
+              {book.colors.map((color) => (
+                <Link
+                  key={`${color}`}
+                  href={`/cookbooks?color=${[
+                    color.h.toFixed(3),
+                    color.s.toFixed(3),
+                    color.l.toFixed(3)
+                  ].join(',')}`}
+                  className="size-6 rounded-full"
+                  style={{
+                    backgroundColor: `hsl(${color.h}, ${color.s}%, ${color.l}%)`
+                  }}
+                />
+              ))}
+            </div>
+          </Detail>
+        )}
       </Container>
       <Container>
         <SimilarBooks slug={book.slug} />

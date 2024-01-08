@@ -23,7 +23,7 @@ export class Book extends BaseModel {
   status: BookStatus
   submitterId?: string
   backgroundColor?: string
-  primaryColor?: Hsl
+  colors: Hsl[]
 
   constructor(attrs: BookAttrs) {
     super()
@@ -45,10 +45,9 @@ export class Book extends BaseModel {
     this.backgroundColor = isHsl(attrs.backgroundColor)
       ? `hsl(${attrs.backgroundColor.h}, ${attrs.backgroundColor.s}%, ${attrs.backgroundColor.l}%)`
       : undefined
-    this.primaryColor =
-      Array.isArray(attrs.palette) && isHsl(attrs.palette[0])
-        ? attrs.palette[0]
-        : undefined
+    this.colors = Array.isArray(attrs.palette)
+      ? attrs.palette.filter(isHsl)
+      : []
   }
 
   get name() {
