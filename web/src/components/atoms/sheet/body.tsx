@@ -47,17 +47,15 @@ export const Body = forwardRef<SheetBodyControl, SheetBodyProps>(function Body(
     if (!topDetector.current || !bottomDetector.current) return
 
     const observer = new IntersectionObserver(
-      (entries) => {
-        const top = !!entries.find((e) => e.target.id === topId)?.isIntersecting
-        const bottom = !!entries.find((e) => e.target.id === bottomId)
-          ?.isIntersecting
+      () => {
+        if (!scrollRoot.current) return
+        const top = scrollRoot.current?.scrollTop <= 2
+        const bottom =
+          scrollRoot.current?.scrollTop + 2 >=
+          scrollRoot.current?.scrollHeight - scrollRoot.current?.clientHeight
         setScrollState({ top, bottom })
       },
-      {
-        root: scrollRoot.current,
-        threshold: [1],
-        rootMargin: '20px 0px 20px'
-      }
+      { root: scrollRoot.current }
     )
 
     observer.observe(topDetector.current)
@@ -77,9 +75,9 @@ export const Body = forwardRef<SheetBodyControl, SheetBodyProps>(function Body(
           containerClassName
         )}
       >
-        <div ref={topDetector} id={topId} className="h-px" />
+        <div ref={topDetector} id={topId} className="h-0.5" />
         {loading ? <Loader /> : <div className={className}>{children}</div>}
-        <div ref={bottomDetector} id={bottomId} className="h-px" />
+        <div ref={bottomDetector} id={bottomId} className="h-0.5" />
       </div>
     </>
   )
