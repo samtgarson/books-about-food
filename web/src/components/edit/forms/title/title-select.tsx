@@ -1,6 +1,7 @@
 'use client'
 
 import { BookLibrarySearchResult } from '@books-about-food/core/services/books/library/search-library'
+import cn from 'classnames'
 import { search } from 'src/components/books/new-book-button/action'
 import { Select } from 'src/components/form/select'
 import { useDebouncedPromise } from 'src/hooks/use-debounce-promise'
@@ -44,7 +45,7 @@ const BookResult = (result: BookLibrarySearchResult) => {
   const authors = result.authors ?? []
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 overflow-hidden">
       <div className="flex w-14 flex-shrink-0 flex-grow-0 justify-center">
         {result.image ? (
           <img src={result.image} alt={result.title} className="h-12" />
@@ -53,7 +54,14 @@ const BookResult = (result: BookLibrarySearchResult) => {
         )}
       </div>
       <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
-        <p className="font-bold overflow-ellipsis">{title}</p>
+        <p
+          className={cn(
+            'font-bold overflow-ellipsis overflow-hidden',
+            authors.length ? 'whitespace-nowrap' : 'max-h-12'
+          )}
+        >
+          {title}
+        </p>
         {authors.length > 0 && (
           <p className="max-w-full overflow-hidden overflow-ellipsis whitespace-nowrap opacity-50">
             {authors.join(', ')}

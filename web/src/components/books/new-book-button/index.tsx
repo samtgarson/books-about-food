@@ -40,7 +40,7 @@ export const NewBookButton = ({
         <Sheet.Body title="Submit a new cookbook">
           <Form action={action} variant="bordered">
             <TitleSelect onChange={setValues} />
-            {values && <TitleFormContent book={book} />}
+            {values?.title && <TitleFormContent book={book} />}
             <input type="hidden" name="title" value={book.title} />
             <input type="hidden" name="googleBooksId" value={googleBooksId} />
             <input type="hidden" name="cover" value={cover} />

@@ -1,4 +1,5 @@
 import cn from 'classnames'
+import { useEffect, useRef } from 'react'
 import { ChevronDown, X } from 'src/components/atoms/icons'
 import { Loader } from 'src/components/atoms/loader'
 import { SelectContext } from './types'
@@ -130,11 +131,28 @@ export function Option<
   getItemProps,
   highlightedIndex,
   renderOption,
-  createButtonSelected
-}: SelectContext<Value, ValueKey> & { item: Value; index: number }) {
+  createButtonSelected,
+  setItemHeight
+}: SelectContext<Value, ValueKey> & {
+  item: Value
+  index: number
+  setItemHeight?: (height?: number) => void
+}) {
+  const ref = useRef<HTMLLIElement>(null)
+
+  useEffect(() => {
+    if (!ref.current || index !== 0) return
+    setItemHeight?.(ref.current.getBoundingClientRect().height)
+
+    return () => {
+      setItemHeight?.(undefined)
+    }
+  }, [index, setItemHeight])
+
   return (
     <li
       {...getItemProps({
+        ref,
         item,
         index,
         'aria-selected':
@@ -143,7 +161,7 @@ export function Option<
       })}
       key={item[valueKey]}
       className={cn(
-        'px-5 py-2.5 transition-colors flex justify-start aria-selected:bg-grey/50'
+        'px-5 py-2.5 transition-colors flex justify-start aria-selected:bg-grey/50 overflow-hidden'
       )}
     >
       {renderOption(item, false)}

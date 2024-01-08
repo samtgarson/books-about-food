@@ -50,6 +50,7 @@ export const Select = function Select<
   const [loading, setLoading] = useState(false)
   const [items, setItems] = useState<Value[]>(options || [])
   const [createButtonSelected, setCreateButtonSelected] = useState(false)
+  const [itemHeight, setItemHeight] = useState<number | undefined>(undefined)
   const [selection, setSelection] = useState<Value[]>(
     isMultiValue(defaultValue) ? defaultValue : []
   )
@@ -143,6 +144,8 @@ export const Select = function Select<
       switch (type) {
         case useCombobox.stateChangeTypes.FunctionReset:
           setSelection([])
+          // @ts-expect-error how to type this
+          externalOnChange?.(multi ? [] : undefined)
           return changes
         case useCombobox.stateChangeTypes.InputKeyDownEnter:
         case useCombobox.stateChangeTypes.ItemClick:
@@ -260,7 +263,7 @@ export const Select = function Select<
           className={cn(
             inputClasses(variant, props),
             'flex min-h-14',
-            multi && 'py-3'
+            multi && 'py-3 px-3'
           )}
         >
           <div className="flex flex-wrap gap-2 flex-1 relative overflow-hidden">
@@ -272,12 +275,20 @@ export const Select = function Select<
         <Popover.Portal container={container} forceMount>
           <Popover.Content
             className={cn(
-              'z-interactive-ui w-[var(--radix-popover-trigger-width)] bg-white max-h-[min(300px,var(--radix-popover-content-available-height))] book-shadow flex flex-col',
+              'z-interactive-ui w-[var(--radix-popover-trigger-width)] bg-white book-shadow flex flex-col',
               'h-0 opacity-0 data-[state=open]:transition-all duration-100 pointer-events-none data-[state=open]:pointer-events-auto data-[state=open]:h-fit data-[state=open]:opacity-100'
             )}
-            {...getMenuProps()}
-            onOpenAutoFocus={(e) => e.preventDefault()}
-            sideOffset={4}
+            {...getMenuProps({
+              onOpenAutoFocus: (e) => e.preventDefault(),
+              sideOffset: 4,
+              style: {
+                maxHeight:
+                  itemHeight &&
+                  `max(${
+                    Math.min(2, items.length) * itemHeight
+                  }px, calc(var(--radix-popover-content-available-height)) - 8px)`
+              }
+            })}
           >
             <ul
               className={cn(
@@ -287,6 +298,7 @@ export const Select = function Select<
             >
               {items.map((item, index) => (
                 <Option
+                  setItemHeight={setItemHeight}
                   item={item}
                   index={index}
                   key={item[valueKey]}
@@ -295,9 +307,6 @@ export const Select = function Select<
               ))}
             </ul>
             <CreateButton {...context} />
-            {loading && items.length === 0 && (
-              <div className="p-4 text-center text-black/50">Loading...</div>
-            )}
             {!loading && items.length === 0 && !allowCreate && (
               <div className="p-5 text-black/50">No results</div>
             )}

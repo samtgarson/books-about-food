@@ -54,7 +54,13 @@ export const Root = forwardRef<SheetControl, SheetProps>(function Root(
         setScrollState
       }}
     >
-      <Dialog.Root open={open} onOpenChange={setOpen}>
+      <Dialog.Root
+        open={open}
+        onOpenChange={(o) => {
+          setOpen(o)
+          if (!o) onClose?.()
+        }}
+      >
         {children}
       </Dialog.Root>
     </SheetContext.Provider>
