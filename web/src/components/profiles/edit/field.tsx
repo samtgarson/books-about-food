@@ -3,7 +3,7 @@
 import { Profile } from '@books-about-food/core/models/profile'
 import { UpdateProfileInput } from '@books-about-food/core/services/profiles/update-profile'
 import cn from 'classnames'
-import { JSX, useEffect, useMemo, useRef, useState } from 'react'
+import { JSX, MouseEvent, useEffect, useMemo, useRef, useState } from 'react'
 import ContentEditable from 'react-contenteditable'
 import { Detail } from 'src/components/atoms/detail'
 import { Edit2 } from 'src/components/atoms/icons'
@@ -18,7 +18,6 @@ export type FieldProps = {
   placeholder?: string
   render?: (value: string) => JSX.Element
   detail?: boolean
-  onClick?: () => void
   disabled?: boolean
 }
 
@@ -29,7 +28,6 @@ export const Field = ({
   placeholder,
   render,
   detail,
-  onClick,
   disabled
 }: FieldProps) => {
   const { profile, editMode, onSave } = useEditProfile()
@@ -44,9 +42,18 @@ export const Field = ({
     setShowPlaceholder(!originalValue.length)
   }, [originalValue])
 
-  const onFocus = async () => {
-    if (!onClick) return ref.current?.focus()
-    onClick()
+  const onFocus = async (e?: MouseEvent<HTMLElement>) => {
+    if (!ref.current) return
+    if (document.activeElement === ref.current) return e?.preventDefault()
+    ref.current?.focus()
+
+    // move cursor to end of text
+    const range = document.createRange()
+    const sel = window.getSelection()
+    range.selectNodeContents(ref.current)
+    range.collapse(false)
+    sel?.removeAllRanges()
+    sel?.addRange(range)
   }
 
   if (showPlaceholder && !editMode) return null
@@ -57,35 +64,39 @@ export const Field = ({
         onClick={onFocus}
       >
         {!!render && !editMode && render(`${originalValue}`)}
-        {(editMode || !render) && (
-          <ContentEditable
-            innerRef={ref}
-            html={value.current}
-            tagName={as}
-            disabled={!editMode || disabled}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                e.preventDefault()
-                e.currentTarget.blur()
-              }
-            }}
-            onChange={(e) => {
-              value.current = e.currentTarget.textContent || ''
-              setShowPlaceholder(!value.current.length)
-            }}
-            onBlur={async () => {
-              if (value.current === originalValue) return
-              await onSave({ [attr]: value.current || null })
-            }}
-            onFocus={onFocus}
-            aria-label={placeholder}
-          />
-        )}
-        {showPlaceholder && (
-          <p className="pointer-events-none -ml-4 text-black/60">
-            {placeholder}
-          </p>
-        )}
+        <div className="relative">
+          {(editMode || !render) && (
+            <ContentEditable
+              innerRef={ref}
+              html={value.current}
+              tagName={as}
+              disabled={!editMode || disabled}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault()
+                  e.currentTarget.blur()
+                }
+              }}
+              onChange={(e) => {
+                value.current = e.currentTarget.textContent || ''
+                setShowPlaceholder(!value.current.length)
+              }}
+              onBlur={async () => {
+                if (value.current === originalValue) return
+                await onSave({ [attr]: value.current || null })
+              }}
+              onFocus={() => onFocus()}
+              aria-label={placeholder}
+              className={cn(
+                'select-text',
+                showPlaceholder && 'absolute inset-0'
+              )}
+            />
+          )}
+          {showPlaceholder && (
+            <p className="pointer-events-none text-black/60">{placeholder}</p>
+          )}
+        </div>
         {editMode && (
           <Edit2 strokeWidth={1} size={24} className="flex-shrink-0" />
         )}

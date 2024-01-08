@@ -24,7 +24,7 @@ export const updateProfile = new Service(
     avatar: z.string().nullish(),
     hiddenCollaborators: array(z.string()).optional()
   }),
-  async ({ slug, avatar, ...data } = {}, user) => {
+  async ({ slug, avatar, instagram, ...data } = {}, user) => {
     const profile = await prisma.profile.findUnique({ where: { slug } })
     if (profile?.userId !== user?.id && user?.role !== 'admin') {
       throw new Error('You are not allowed to update this profile')
@@ -34,6 +34,7 @@ export const updateProfile = new Service(
       where: { slug },
       data: {
         ...data,
+        instagram: normalizeHandles(instagram),
         slug: data.name ? slugify(data.name) : undefined,
         avatar: avatarProps(avatar)
       },
@@ -44,8 +45,14 @@ export const updateProfile = new Service(
   }
 )
 
-const avatarProps = (id?: string | null) => {
+function avatarProps(id?: string | null) {
   if (id === null) return { disconnect: true }
   if (id) return { connect: { id } }
   return undefined
+}
+
+function normalizeHandles(handle: string | null | undefined) {
+  if (!handle) return undefined
+  if (handle.startsWith('@')) return handle.slice(1)
+  return handle
 }

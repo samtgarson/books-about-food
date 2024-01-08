@@ -21,7 +21,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
           )}
           <SignOutButton />
         </div>
-        <div className="min-w-[350px] flex-grow flex flex-col gap-16 max-w-4xl">
+        <div className="min-w-[330px] flex-grow flex flex-col gap-16 max-w-4xl">
           {children}
         </div>
       </div>
