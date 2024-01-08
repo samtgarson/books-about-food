@@ -1,7 +1,7 @@
 import { Book } from '@books-about-food/core/models/book'
 import { BookAttrs } from '@books-about-food/core/models/types'
 import { Service } from '@books-about-food/core/services/base'
-import prisma, { Prisma } from '@books-about-food/database'
+import prisma, { BookSource, Prisma } from '@books-about-food/database'
 import { slugify } from '@books-about-food/shared/utils/slugify'
 import { z } from 'zod'
 import { inngest } from '../../jobs'
@@ -21,7 +21,8 @@ const attrsInput = {
   publisherId: z.string().optional(),
   releaseDate: processString(z.coerce.date().optional()),
   pages: z.coerce.number().optional(),
-  tags: array(z.string()).optional()
+  tags: array(z.string()).optional(),
+  source: z.nativeEnum(BookSource).optional().default('submitted')
 }
 
 const updateBookInput = z

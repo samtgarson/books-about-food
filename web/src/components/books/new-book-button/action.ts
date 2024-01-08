@@ -7,7 +7,7 @@ import { createCoverFromUrl } from '@books-about-food/core/services/utils/resour
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { parseAppError } from 'src/components/form/utils'
-import { call } from 'src/utils/service'
+import { call, parseAndCall } from 'src/utils/service'
 import { stringify } from 'src/utils/superjson'
 import z from 'zod'
 
@@ -23,7 +23,7 @@ const actionSchema = z.object({
 export const action = async (values: unknown) => {
   const { cover, ...data } = actionSchema.parse(values)
   const coverImageId = await createCoverFromUrl(cover)
-  const result = await call(updateBook, { ...data, coverImageId })
+  const result = await parseAndCall(updateBook, { ...data, coverImageId })
 
   if (result.success) redirect(`/edit/${result.data.slug}?action=created`)
   return parseAppError(
