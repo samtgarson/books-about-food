@@ -78,6 +78,10 @@ jobs:
             exit 1
           else
             echo "preview_url=$preview_url" >> $GITHUB_OUTPUT
+            vercel alias $preview_url \
+              books-about-food-git-${{ github.ref_name }}.vercel.app \
+              --scope=radical-innovation \
+              --token=${{ secrets.VERCEL_DEPLOY_TOKEN }}
           fi
 
   test:
