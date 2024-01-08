@@ -80,14 +80,14 @@ export const Footer = async () => {
             Copyright © {new Date().getFullYear()} Books About Food. All book
             covers and images © of their respective owners.
           </p>
-          <div className="flex flex-wrap gap-4 md:gap-8">
+          {/*<div className="flex flex-wrap gap-4 md:gap-8">
             <Link href="#" className="text-12 opacity-50">
               Terms
             </Link>
             <Link href="#" className="text-12 opacity-50">
               Privacy Policy
             </Link>
-          </div>
+          </div>*/}
         </div>
       </Container>
     </FooterWrapper>
