@@ -76,7 +76,7 @@ export function QuickSearchContent({ onSelect }: { onSelect?: () => void }) {
 
   return (
     <Sheet.Body
-      containerClassName="!pt-2 !px-2 sm:!pt-4 sm:!px-4 !pb-0 bg-opacity-0"
+      containerClassName="!p-2 sm:!p-4 bg-opacity-0"
       className="flex flex-col gap-2 sm:gap-4"
       ref={sheetBody}
     >
@@ -100,7 +100,7 @@ export function QuickSearchContent({ onSelect }: { onSelect?: () => void }) {
         />
       </div>
       <div
-        className="overflow-y-auto flex flex-col gap-1 pb-6 empty:pb-0 group"
+        className="overflow-y-auto flex flex-col gap-1 empty:pb-0 group"
         onClick={onSelect}
       >
         {!loading && !results.length && (

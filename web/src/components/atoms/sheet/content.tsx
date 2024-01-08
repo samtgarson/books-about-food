@@ -15,6 +15,7 @@ type SheetContentProps = {
   loading?: boolean
   overlay?: boolean
   focusTriggerOnClose?: boolean
+  showCloseButton?: boolean
   className?: string
 }
 
@@ -23,6 +24,7 @@ export const Content = ({
   overlay = true,
   focusTriggerOnClose = true,
   className,
+  showCloseButton = true,
   ...props
 }: SheetContentProps) => {
   const { close } = useSheetContext()
@@ -44,7 +46,7 @@ export const Content = ({
             if (!focusTriggerOnClose) e.preventDefault()
           }}
           className={cn(
-            'animate-fade-in pointer-events-none flex w-full flex-shrink-0 flex-col relative book-shadow',
+            'animate-fade-in pointer-events-none flex w-full flex-shrink-0 flex-col relative book-shadow max-h-[calc(100dvh)] sm:max-h-[80dvh] sm:pb-14',
             {
               'sm:max-w-lg': size === 'md',
               'sm:max-w-xl': size === 'lg',
@@ -55,9 +57,11 @@ export const Content = ({
           aria-describedby={undefined}
           data-sheet-portal
         >
-          <Dialog.Close className="pointer-events-auto absolute p-4 right-0 -top-14">
-            <X strokeWidth={1} size={24} className="stroke-white" />
-          </Dialog.Close>
+          {showCloseButton && (
+            <Dialog.Close className="pointer-events-auto p-4 self-end">
+              <X strokeWidth={1} size={24} className="stroke-white" />
+            </Dialog.Close>
+          )}
           <AuthedContent {...props} />
         </Dialog.Content>
       </div>
