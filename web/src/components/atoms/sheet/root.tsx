@@ -1,9 +1,13 @@
+'use client'
+
 import * as Dialog from '@radix-ui/react-dialog'
+import { usePathname } from 'next/navigation'
 import {
   Dispatch,
   ReactNode,
   SetStateAction,
   forwardRef,
+  useEffect,
   useImperativeHandle,
   useState
 } from 'react'
@@ -23,6 +27,7 @@ export const Root = forwardRef<SheetControl, SheetProps>(function Root(
   { children, mobileOnly, grey, onClose, defaultOpen = false },
   ref
 ) {
+  const pathname = usePathname()
   const [open, setOpen] = useState(defaultOpen)
   const [scrollState, setScrollState] = useState<SheetScrollState>({
     top: true,
@@ -30,6 +35,10 @@ export const Root = forwardRef<SheetControl, SheetProps>(function Root(
   })
 
   useImperativeHandle(ref, () => ({ setOpen }), [setOpen])
+
+  useEffect(() => {
+    setOpen(false)
+  }, [pathname])
 
   return (
     <SheetContext.Provider
