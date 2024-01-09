@@ -16,11 +16,21 @@ import { useNav } from './context'
 import { QuickSearch } from './search'
 
 const AccountLink = ({ className }: { className?: string }) => {
-  return (
-    <AuthedButton>
+  const currentUser = useCurrentUser()
+  const { theme } = useNav()
+
+  if (currentUser)
+    return (
       <Link href="/account" className={className} aria-label="Account">
         <User strokeWidth={1} />
       </Link>
+    )
+
+  return (
+    <AuthedButton redirect={location.pathname}>
+      <button className={className} aria-label="Account">
+        <User strokeWidth={1} color={theme === 'dark' ? 'white' : 'black'} />
+      </button>
     </AuthedButton>
   )
 }

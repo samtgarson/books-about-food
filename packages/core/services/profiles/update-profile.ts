@@ -52,7 +52,7 @@ function avatarProps(id?: string | null) {
 }
 
 function normalizeHandles(handle: string | null | undefined) {
-  if (!handle) return undefined
+  if (!handle) return handle
   if (handle.startsWith('@')) return handle.slice(1)
   return handle
 }

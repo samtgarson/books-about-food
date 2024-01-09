@@ -64,39 +64,41 @@ export const Field = ({
         onClick={onFocus}
       >
         {!!render && !editMode && render(`${originalValue}`)}
-        <div className="relative">
-          {(editMode || !render) && (
-            <ContentEditable
-              innerRef={ref}
-              html={value.current}
-              tagName={as}
-              disabled={!editMode || disabled}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  e.preventDefault()
-                  e.currentTarget.blur()
-                }
-              }}
-              onChange={(e) => {
-                value.current = e.currentTarget.textContent || ''
-                setShowPlaceholder(!value.current.length)
-              }}
-              onBlur={async () => {
-                if (value.current === originalValue) return
-                await onSave({ [attr]: value.current || null })
-              }}
-              onFocus={() => onFocus()}
-              aria-label={placeholder}
-              className={cn(
-                'select-text',
-                showPlaceholder && 'absolute inset-0'
-              )}
-            />
-          )}
-          {showPlaceholder && (
-            <p className="pointer-events-none text-black/60">{placeholder}</p>
-          )}
-        </div>
+        {(editMode || !render || showPlaceholder) && (
+          <div className="relative">
+            {(editMode || !render) && (
+              <ContentEditable
+                innerRef={ref}
+                html={value.current}
+                tagName={as}
+                disabled={!editMode || disabled}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault()
+                    e.currentTarget.blur()
+                  }
+                }}
+                onChange={(e) => {
+                  value.current = e.currentTarget.textContent || ''
+                  setShowPlaceholder(!value.current.length)
+                }}
+                onBlur={async () => {
+                  if (value.current === originalValue) return
+                  await onSave({ [attr]: value.current || null })
+                }}
+                onFocus={() => onFocus()}
+                aria-label={placeholder}
+                className={cn(
+                  'select-text',
+                  showPlaceholder && 'absolute inset-0'
+                )}
+              />
+            )}
+            {showPlaceholder && (
+              <p className="pointer-events-none text-black/60">{placeholder}</p>
+            )}
+          </div>
+        )}
         {editMode && (
           <Edit2 strokeWidth={1} size={24} className="flex-shrink-0" />
         )}
