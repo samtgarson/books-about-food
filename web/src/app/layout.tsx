@@ -1,3 +1,4 @@
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ReactNode } from 'react'
 import { Toaster } from 'sonner'
 import { auth } from 'src/auth'
@@ -6,7 +7,7 @@ import { AuthProvider } from 'src/components/auth/auth-provider'
 import { GlobalSheetProvider } from 'src/components/sheets/global-sheet'
 import { Fathom } from 'src/components/utils/fathom'
 import { fontClassname } from 'src/style/font'
-import 'src/style/globals.css' // eslint-disable-line import/extensions
+import 'src/style/globals.css'
 import 'src/utils/superjson'
 
 export * from './metadata'
@@ -41,6 +42,7 @@ export default async function RootLayout({
           </GlobalSheetProvider>
         </AuthProvider>
         <Mouse />
+        <SpeedInsights />
       </body>
     </html>
   )
