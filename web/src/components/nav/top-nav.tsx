@@ -3,7 +3,7 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import cn from 'classnames'
 import Link from 'next/link'
-import { useSelectedLayoutSegment } from 'next/navigation'
+import { usePathname, useSelectedLayoutSegment } from 'next/navigation'
 import { FC, useState } from 'react'
 import { Menu, Plus, User, X } from 'src/components/atoms/icons'
 import { useCurrentUser } from 'src/hooks/use-current-user'
@@ -18,6 +18,7 @@ import { QuickSearch } from './search'
 const AccountLink = ({ className }: { className?: string }) => {
   const currentUser = useCurrentUser()
   const { theme } = useNav()
+  const pathname = usePathname()
 
   if (currentUser)
     return (
@@ -27,7 +28,7 @@ const AccountLink = ({ className }: { className?: string }) => {
     )
 
   return (
-    <AuthedButton redirect={location.pathname}>
+    <AuthedButton redirect={pathname}>
       <button className={className} aria-label="Account">
         <User strokeWidth={1} color={theme === 'dark' ? 'white' : 'black'} />
       </button>

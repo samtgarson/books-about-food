@@ -24,9 +24,6 @@
     "web/node_modules",
     "web/.next/cache"
   ],
-  "overrides": {
-    "next": "14.0.4"
-  },
   "scripts": {
     "build": "turbo run build",
     "start": "turbo run start",
