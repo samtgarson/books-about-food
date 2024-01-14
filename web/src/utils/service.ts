@@ -19,18 +19,13 @@ export type RequestMeta = {
 }
 
 export const getUser = cache(async () => {
-  try {
-    const session = await auth()
+  const session = await auth()
 
-    if (!session?.user?.id) return null
+  if (!session?.user?.id) return null
 
-    return prisma.user.findUnique({
-      where: { id: session.user.id }
-    })
-  } catch (e) {
-    console.error(e)
-    return null
-  }
+  return prisma.user.findUnique({
+    where: { id: session.user.id }
+  })
 })
 
 type ServiceClass<I extends z.ZodTypeAny, R> =
