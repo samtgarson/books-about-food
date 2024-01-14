@@ -18,6 +18,7 @@ const nextConfig = {
     S3_DOMAIN: process.env.S3_DOMAIN
   },
   experimental: {
+    ppr: true,
     swcPlugins: [['next-superjson-plugin', {}]],
     serverActions: {
       bodySizeLimit: '4mb'
