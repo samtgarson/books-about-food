@@ -3,8 +3,6 @@ import { notFound } from 'next/navigation'
 import { EditPublisherForm } from 'src/components/edit/forms/publisher'
 import { call } from 'src/utils/service'
 
-export * from 'app/default-static-config'
-
 export default async ({ params: { slug } }: { params: { slug: string } }) => {
   const { data: book } = await call(fetchBook, { slug, cache: false })
   if (!book) notFound()

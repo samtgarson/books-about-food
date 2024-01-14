@@ -12,8 +12,6 @@ import { ParamSheet } from 'src/components/sheets/use-param-sheet'
 import { Toaster } from 'src/components/utils/toaster'
 import { call, getUser } from 'src/utils/service'
 
-export * from 'app/default-static-config'
-
 type EditPageProps = {
   params: { slug: string }
 }

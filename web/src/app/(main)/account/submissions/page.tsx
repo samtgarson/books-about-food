@@ -9,8 +9,6 @@ export const metadata: Metadata = {
   title: 'Submissions'
 }
 
-export * from 'app/default-static-config'
-
 const Page = async ({ searchParams }: PageProps) => {
   return (
     <div className="flex flex-col gap-8">
