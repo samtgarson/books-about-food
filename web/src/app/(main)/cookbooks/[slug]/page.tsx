@@ -155,9 +155,9 @@ export default async ({ params: { slug } }: CookbooksPageProps) => {
                 <Link
                   key={`${color}`}
                   href={`/cookbooks?color=${[
-                    color.h.toFixed(3),
-                    color.s.toFixed(3),
-                    color.l.toFixed(3)
+                    Math.round(color.h),
+                    Math.round(color.s),
+                    Math.round(color.l)
                   ].join(',')}`}
                   className="size-6 rounded-full"
                   style={{
