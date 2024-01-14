@@ -17,7 +17,7 @@ const Page = async () => {
     <div className="flex flex-col gap-8">
       <AccountHeader title="Your Favourite People" />
       <Suspense fallback={<Loader />}>
-        <FavouritesList user={user} />
+        <FavouritesList />
       </Suspense>
     </div>
   )

@@ -1,4 +1,4 @@
-import { Service } from '@books-about-food/core/services/base'
+import { AuthedService } from '@books-about-food/core/services/base'
 import { AppError } from '@books-about-food/core/services/utils/errors'
 import prisma, { Prisma } from '@books-about-food/database'
 import { asyncBatch } from '@books-about-food/shared/utils/batch'
@@ -9,7 +9,7 @@ import { inngest } from '../../../jobs'
 
 export type ProcessBookImportInput = z.input<typeof processBookImport.input>
 
-export const processBookImport = new Service(
+export const processBookImport = new AuthedService(
   z.object({
     books: z.array(
       z.object({
@@ -73,7 +73,7 @@ export const processBookImport = new Service(
           }
 
         let tags: Prisma.BookCreateInput['tags']
-        if (bookAttrs.tags.length)
+        if (bookAttrs.tags?.length)
           tags = {
             connectOrCreate: bookAttrs.tags.map((tag) => ({
               where: { name: tag },

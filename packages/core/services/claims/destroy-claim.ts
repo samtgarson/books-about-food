@@ -1,14 +1,13 @@
-import { Service } from '@books-about-food/core/services/base'
+import { AuthedService } from '@books-about-food/core/services/base'
 import prisma from '@books-about-food/database'
 import { z } from 'zod'
 import { AppError } from '../utils/errors'
 
-export const destroyClaim = new Service(
+export const destroyClaim = new AuthedService(
   z.object({
     claimId: z.string()
   }),
   async ({ claimId } = {}, user) => {
-    if (!user) return null
     if (!claimId) return null
 
     const claim = await prisma.claim.findUnique({

@@ -1,13 +1,12 @@
-import { Service } from '@books-about-food/core/services/base'
+import { AuthedService } from '@books-about-food/core/services/base'
 import prisma from '@books-about-food/database'
 import { z } from 'zod'
 
-export const fetchClaim = new Service(
+export const fetchClaim = new AuthedService(
   z.object({
     profileId: z.string()
   }),
   async ({ profileId } = {}, user) => {
-    if (!user) return
     const userId = user.id
 
     return prisma.claim.findUnique({

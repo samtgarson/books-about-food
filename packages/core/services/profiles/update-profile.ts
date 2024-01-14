@@ -1,5 +1,5 @@
 import { Profile } from '@books-about-food/core/models/profile'
-import { Service } from '@books-about-food/core/services/base'
+import { AuthedService } from '@books-about-food/core/services/base'
 import prisma from '@books-about-food/database'
 import { slugify } from '@books-about-food/shared/utils/slugify'
 import { z } from 'zod'
@@ -12,7 +12,7 @@ const basicUrl =
   /(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})(\.[a-zA-Z0-9]{2,})?/
 const instagramHandle = /[a-zA-Z0-9._]+/
 
-export const updateProfile = new Service(
+export const updateProfile = new AuthedService(
   z.object({
     slug: z.string(),
     name: z.string().optional(),
@@ -26,7 +26,7 @@ export const updateProfile = new Service(
   }),
   async ({ slug, avatar, instagram, ...data } = {}, user) => {
     const profile = await prisma.profile.findUnique({ where: { slug } })
-    if (profile?.userId !== user?.id && user?.role !== 'admin') {
+    if (profile?.userId !== user.id && user.role !== 'admin') {
       throw new Error('You are not allowed to update this profile')
     }
 

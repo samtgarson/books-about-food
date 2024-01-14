@@ -13,45 +13,39 @@ import { bookJoin, bookSelect, queryBooks } from './sql-helpers'
 
 const { sql, join, empty, raw } = Prisma
 
-export type FetchBooksInput = NonNullable<z.infer<typeof validator>>
+const validator = z.object({
+  sort: z.enum(['releaseDate', 'createdAt', 'color']).optional(),
+  tags: array(z.string()).optional(),
+  search: z.string().optional(),
+  profile: z.string().optional(),
+  status: arrayOrSingle(dbEnum(BookStatus)).optional(),
+  submitterId: z.string().optional(),
+  publisherSlug: z.string().optional(),
+  color: z.nativeEnum(NamedColor).or(array(z.coerce.number())).optional(),
+  pageCount: z
+    .custom<FetchBooksPageFilters>((key) => {
+      return fetchBooksPageFilterValues.includes(key as FetchBooksPageFilters)
+    })
+    .optional(),
+  ...paginationInput.shape
+})
+
+export type FetchBooksInput = z.output<typeof validator>
 export type FetchBooksOutput = Awaited<ReturnType<(typeof fetchBooks)['call']>>
 type BookSort = FetchBooksInput['sort']
 
-const validator = z
-  .object({
-    sort: z.enum(['releaseDate', 'createdAt', 'color']).optional(),
-    tags: array(z.string()).optional(),
-    search: z.string().optional(),
-    profile: z.string().optional(),
-    status: arrayOrSingle(dbEnum(BookStatus)).optional(),
-    submitterId: z.string().optional(),
-    publisherSlug: z.string().optional(),
-    color: z.nativeEnum(NamedColor).or(array(z.coerce.number())).optional(),
-    pageCount: z
-      .custom<FetchBooksPageFilters>((key) => {
-        return fetchBooksPageFilterValues.includes(key as FetchBooksPageFilters)
-      })
-      .optional()
-  })
-  .merge(paginationInput)
-  .optional()
+export const fetchBooks = new Service(validator, async (input = {}) => {
+  const { query, perPage } = baseQuery(input)
 
-export const fetchBooks = new Service(
-  validator,
+  const [books, filteredCount, total] = await Promise.all([
+    query,
+    prisma.$queryRaw<{ count: number }[]>(countQuery(input)),
+    prisma.book.count()
+  ])
+  const filteredTotal = Number(filteredCount[0].count)
 
-  async ({ ...input } = {}) => {
-    const { query, perPage } = baseQuery(input)
-
-    const [books, filteredCount, total] = await Promise.all([
-      query,
-      prisma.$queryRaw<{ count: number }[]>(countQuery(input)),
-      prisma.book.count()
-    ])
-    const filteredTotal = Number(filteredCount[0].count)
-
-    return { books, filteredTotal, total, perPage }
-  }
-)
+  return { books, filteredTotal, total, perPage }
+})
 
 function countQuery(input: FetchBooksInput) {
   const filters = sqlFilters(input)
@@ -199,7 +193,7 @@ function namedColorQuery(color: NamedColor) {
       return `(c.color ->> 's')::decimal < 15
       and (c.color ->> 'l')::decimal between 25 and 70`
     default:
-      return `(${namedColorToHueBound(color).map(hueBoundToSql).join(' or ')})
+      return `(${namedColorToHueBand(color).map(hueBoundToSql).join(' or ')})
       and (c.color ->> 's')::decimal > 40
       and (c.color ->> 'l')::decimal between 20 and 70`
   }
@@ -209,7 +203,7 @@ function hueBoundToSql([lower, upper]: [number, number]) {
   return `(c.color ->> 'h')::decimal between ${lower} and ${upper}`
 }
 
-function namedColorToHueBound(
+function namedColorToHueBand(
   color: Exclude<NamedColor, OddColors>
 ): [number, number][] {
   switch (color) {

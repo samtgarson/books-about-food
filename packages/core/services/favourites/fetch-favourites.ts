@@ -1,5 +1,5 @@
 import { Profile } from '@books-about-food/core/models/profile'
-import { Service } from '@books-about-food/core/services/base'
+import { AuthedService } from '@books-about-food/core/services/base'
 import prisma from '@books-about-food/database'
 import { z } from 'zod'
 import { profileIncludes } from '../utils'
@@ -7,10 +7,9 @@ import { profileIncludes } from '../utils'
 export type fetchFavouritesOutput = Awaited<
   ReturnType<typeof fetchFavourites.call>
 >
-export const fetchFavourites = new Service(
+export const fetchFavourites = new AuthedService(
   z.undefined(),
   async (_, user) => {
-    if (!user) return null
     const userId = user.id
 
     const favourites = await prisma.favourite.findMany({

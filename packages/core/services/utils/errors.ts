@@ -3,6 +3,7 @@ export type ErrorType = keyof typeof ErrorTypeStatusMap
 const ErrorTypeStatusMap = {
   UniqueConstraintViolation: 400,
   ServerError: 500,
+  Unauthorized: 401,
   Forbidden: 403,
   NotFound: 404,
   InvalidInput: 400

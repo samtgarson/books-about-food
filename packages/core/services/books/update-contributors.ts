@@ -1,4 +1,4 @@
-import { Service } from '@books-about-food/core/services/base'
+import { AuthedService } from '@books-about-food/core/services/base'
 import prisma from '@books-about-food/database'
 import { z } from 'zod'
 
@@ -10,13 +10,12 @@ const contributorSchema = z.object({
 
 export type ContributorAttrs = z.infer<typeof contributorSchema>
 
-export const updateContributors = new Service(
+export const updateContributors = new AuthedService(
   z.object({
     slug: z.string(),
     contributors: contributorSchema.array()
   }),
-  async ({ slug, contributors } = [], user) => {
-    if (!user) throw new Error('User is required')
+  async ({ slug, contributors } = {}) => {
     const book = await prisma.book.findUnique({
       where: { slug },
       include: { contributions: true }

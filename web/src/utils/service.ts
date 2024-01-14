@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Service, ServiceReturn } from '@books-about-food/core/services/base'
-import prisma, { User } from '@books-about-food/database'
+import {
+  AuthedService,
+  Service,
+  ServiceResult
+} from '@books-about-food/core/services/base'
+import { AppError } from '@books-about-food/core/services/utils/errors'
+import prisma from '@books-about-food/database'
 import { cache } from 'react'
 import { auth } from 'src/auth'
 import z from 'zod'
@@ -28,25 +33,57 @@ export const getUser = cache(async () => {
   }
 })
 
-export const call = cache(
-  async <S extends Service<any, any>>(
-    service: S,
-    args?: S extends Service<infer I, any> ? z.infer<I> : never,
-    user?: User | null
-  ): Promise<ServiceReturn<S>> => {
-    user ||= await getUser()
+type ServiceClass<I extends z.ZodTypeAny, R> =
+  | Service<I, R>
+  | AuthedService<I, R>
 
-    return service.call(args, user) as Promise<ServiceReturn<S>>
-  }
-)
-
-export async function _parseAndCall<S extends Service<any, any>>(
+export const call = cache(async function <S extends ServiceClass<any, any>>(
   service: S,
-  args?: unknown | S extends Service<infer I, any> ? z.input<I> : unknown,
-  user?: User | null
-): Promise<ServiceReturn<S>> {
-  user ||= await getUser()
-  return service.parseAndCall(args, user) as Promise<ServiceReturn<S>>
-}
+  args?: S extends ServiceClass<infer I, any> ? z.infer<I> : never
+) {
+  if (service.authed) {
+    const user = await getUser()
+    if (!user)
+      return {
+        success: false,
+        errors: [
+          new AppError(
+            'Unauthorized',
+            'Not authorized to perform this action'
+          ).toJSON()
+        ]
+      } as S extends ServiceClass<any, infer R> ? ServiceResult<R> : never
+    return service.call(args, user) as Promise<
+      S extends ServiceClass<any, infer R> ? ServiceResult<R> : never
+    >
+  }
 
-export const parseAndCall = cache(_parseAndCall)
+  return service.call(args) as Promise<
+    S extends ServiceClass<any, infer R> ? ServiceResult<R> : never
+  >
+})
+
+export const parseAndCall = cache(async function <
+  S extends ServiceClass<any, any>
+>(service: S, args?: unknown) {
+  try {
+    const input = service.input.parse(args)
+    return call(service, input) as Promise<
+      S extends ServiceClass<any, infer R> ? ServiceResult<R> : never
+    >
+  } catch (e) {
+    if (!(e instanceof z.ZodError)) {
+      throw e
+    }
+    return {
+      success: false,
+      errors: e.issues.map((issue) =>
+        new AppError(
+          'InvalidInput',
+          issue.message,
+          issue.path.pop() as string
+        ).toJSON()
+      )
+    } as S extends ServiceClass<any, infer R> ? ServiceResult<R> : never
+  }
+})

@@ -1,4 +1,4 @@
-import { Service } from '@books-about-food/core/services/base'
+import { AuthedService } from '@books-about-food/core/services/base'
 import prisma from '@books-about-food/database'
 import { slugify } from '@books-about-food/shared/utils/slugify'
 import { z } from 'zod'
@@ -9,7 +9,7 @@ import { updateBook } from './update-book'
 
 export type CreateBookInput = z.infer<typeof createBook.input>
 
-export const createBook = new Service(
+export const createBook = new AuthedService(
   z.object({
     title: z.string(),
     googleBooksId: z.string().optional(),
@@ -18,8 +18,6 @@ export const createBook = new Service(
     tags: z.array(z.string()).optional()
   }),
   async ({ tags, authorIds, ...data } = {}, user) => {
-    if (!user) throw new Error('User is required')
-
     const { googleBooksId } = data
     let coverImageId: string | undefined
 
@@ -31,9 +29,12 @@ export const createBook = new Service(
           'title'
         )
 
-      const { data: libraryBook } = await fetchLibraryBook.call({
-        id: googleBooksId
-      })
+      const { data: libraryBook } = await fetchLibraryBook.call(
+        {
+          id: googleBooksId
+        },
+        user
+      )
       if (!libraryBook) throw new Error('Book not found')
 
       const { authors: authorNames, cover: coverUrl, ...attrs } = libraryBook

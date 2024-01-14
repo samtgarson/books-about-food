@@ -1,10 +1,10 @@
-import { Service } from '@books-about-food/core/services/base'
+import { AuthedService } from '@books-about-food/core/services/base'
 import { generate } from '@books-about-food/core/services/utils/passphrase'
 import prisma from '@books-about-food/database'
 import { z } from 'zod'
 import { inngest } from '../../jobs'
 
-export const createClaim = new Service(
+export const createClaim = new AuthedService(
   z.object({
     profileId: z.string()
   }),

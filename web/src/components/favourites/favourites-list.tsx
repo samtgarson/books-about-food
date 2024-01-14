@@ -1,6 +1,5 @@
 import { fetchFavourites } from '@books-about-food/core/services/favourites/fetch-favourites'
 import { updateFavourite } from '@books-about-food/core/services/favourites/update-favourite'
-import { User } from '@books-about-food/database'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { X } from 'src/components/atoms/icons'
@@ -10,10 +9,8 @@ import { Avatar } from '../atoms/avatar'
 import { GridContainer } from '../lists/grid-container'
 import { Toaster } from '../utils/toaster'
 
-export type FavouritesListProps = { user: User }
-
-export const FavouritesList = async ({ user }: FavouritesListProps) => {
-  const { data: favourites } = await call(fetchFavourites, undefined, user)
+export const FavouritesList = async () => {
+  const { data: favourites } = await call(fetchFavourites, undefined)
   const toaster = (
     <Toaster
       action="unfavourite"

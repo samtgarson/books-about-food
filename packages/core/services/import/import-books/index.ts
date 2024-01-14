@@ -1,4 +1,4 @@
-import { Service } from '@books-about-food/core/services/base'
+import { AuthedService } from '@books-about-food/core/services/base'
 import { AppError } from '@books-about-food/core/services/utils/errors'
 import prisma from '@books-about-food/database'
 import { asyncBatch } from '@books-about-food/shared/utils/batch'
@@ -9,7 +9,7 @@ import { ImportRowError, ResultRow } from './types'
 
 export type ImportBooksInput = z.infer<typeof importBooks.input>
 
-export const importBooks = new Service(
+export const importBooks = new AuthedService(
   z.object({ csv: z.string() }),
   async ({ csv } = {}, user) => {
     if (user?.role !== 'admin') {

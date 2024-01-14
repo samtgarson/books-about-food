@@ -1,14 +1,13 @@
-import { Service } from '@books-about-food/core/services/base'
+import { AuthedService } from '@books-about-food/core/services/base'
 import prisma from '@books-about-food/database'
 import { z } from 'zod'
 
 export type fetchPitchesOutput = Awaited<
   ReturnType<typeof fetchAuthoredPitches.call>
 >
-export const fetchAuthoredPitches = new Service(
+export const fetchAuthoredPitches = new AuthedService(
   z.undefined(),
   async (_, user) => {
-    if (!user) return null
     const userId = user.id
 
     return prisma.pitch.findMany({
