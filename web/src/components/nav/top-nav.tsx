@@ -8,6 +8,7 @@ import { FC, useState } from 'react'
 import { Menu, Plus, User, X } from 'src/components/atoms/icons'
 import { useCurrentUser } from 'src/hooks/use-current-user'
 import { useScrollLock } from 'src/hooks/use-scroll-lock'
+import { userApproved } from 'src/utils/authorization'
 import { Container } from '../atoms/container'
 import { Loader } from '../atoms/loader'
 import { AuthedButton } from '../auth/authed-button'
@@ -91,6 +92,7 @@ const TopNavItemExternal: FC<{
 const NavContent = () => {
   useScrollLock()
   const user = useCurrentUser()
+  const limited = !userApproved(user)
 
   return (
     <div className="animate-fade-in fixed inset-0 z-[60] flex max-h-screen flex-col items-center justify-center gap-3 overflow-auto bg-white pt-20">
@@ -101,40 +103,50 @@ const NavContent = () => {
         </Dialog.Close>
       </Container>
       <TopNavItem path={null}>Home</TopNavItem>
-      <TopNavItem path="cookbooks">Cookbooks</TopNavItem>
-      <TopNavItem index={1} path="authors">
-        Authors
-      </TopNavItem>
-      <TopNavItem index={2} path="people">
-        People
-      </TopNavItem>
-      <TopNavItem index={3} path="publishers">
-        Publishers
-      </TopNavItem>
-      <TopNavItemExternal
-        href="https://www.instagram.com/books.about.food"
-        index={5}
-      >
-        Instagram
-      </TopNavItemExternal>
-      <TopNavItem index={4} path="account/submissions">
-        Submit
-      </TopNavItem>
-      {user ? (
-        <TopNavItem index={6} path="account">
-          Account
-        </TopNavItem>
-      ) : (
-        <AuthedButton redirect="/account">
-          <button {...navItemAttrs(6)}>Login</button>
-        </AuthedButton>
+      {!limited && (
+        <>
+          <TopNavItem path="cookbooks">Cookbooks</TopNavItem>
+          <TopNavItem index={1} path="authors">
+            Authors
+          </TopNavItem>
+          <TopNavItem index={2} path="people">
+            People
+          </TopNavItem>
+          <TopNavItem index={3} path="publishers">
+            Publishers
+          </TopNavItem>
+          <TopNavItemExternal
+            href="https://www.instagram.com/books.about.food"
+            index={5}
+          >
+            Instagram
+          </TopNavItemExternal>
+          <TopNavItem index={4} path="account/submissions">
+            Submit
+          </TopNavItem>
+          {user ? (
+            <TopNavItem index={5} path="account">
+              Account
+            </TopNavItem>
+          ) : (
+            <AuthedButton redirect="/account">
+              <button {...navItemAttrs(6)}>Login</button>
+            </AuthedButton>
+          )}
+        </>
       )}
+      <TopNavItem index={4} path="about">
+        About
+      </TopNavItem>
     </div>
   )
 }
 
 export const TopNav: FC = () => {
   const { theme, open, setOpen } = useNav()
+  const currentUser = useCurrentUser()
+
+  const limited = !userApproved(currentUser)
 
   return (
     <nav className="absolute inset-x-0 top-0 z-nav">
@@ -167,7 +179,7 @@ export const TopNav: FC = () => {
         >
           <Plus strokeWidth={1} />
         </NewBookButton>
-        <QuickSearch />
+        {!limited && <QuickSearch />}
         <AccountLink />
       </Container>
     </nav>

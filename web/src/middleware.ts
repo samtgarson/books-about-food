@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { auth } from './auth'
+import { userApproved } from './utils/authorization'
 
 const protectedPath = (pathname: string) =>
   ['/account', '/edit'].some((path) => pathname.startsWith(path))
@@ -7,15 +8,15 @@ const protectedPath = (pathname: string) =>
 const systemPath = (pathname: string) =>
   ['/api', '/_next', '/auth'].some((path) => pathname.startsWith(path))
 
+const publicPages = ['/', '/auth/sign-in', '/about']
+
 export default auth(function middleware(request) {
   if (request.method === 'POST' || systemPath(request.nextUrl.pathname)) {
     return NextResponse.next()
   }
 
-  const splashEnabled = process.env.ENABLE_SPLASH === 'true'
   const user = request.auth?.user
-  const userAllowed = user && user?.role !== 'waitlist'
-
+  const userAllowed = userApproved(user)
   if (!user && protectedPath(request.nextUrl.pathname)) {
     const loginPath = `/auth/sign-in?callbackUrl=${encodeURIComponent(
       request.url
@@ -25,7 +26,7 @@ export default auth(function middleware(request) {
     })
   }
 
-  if (!splashEnabled || userAllowed) {
+  if (userAllowed) {
     return NextResponse.next()
   }
 
@@ -33,7 +34,7 @@ export default auth(function middleware(request) {
     return NextResponse.rewrite(new URL('/splash', request.url))
   }
 
-  if (!['/', '/auth/sign-in'].includes(request.nextUrl.pathname)) {
+  if (!publicPages.includes(request.nextUrl.pathname)) {
     return NextResponse.redirect(new URL('/', request.url))
   }
 })

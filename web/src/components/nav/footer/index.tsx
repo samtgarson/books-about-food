@@ -66,7 +66,7 @@ export const Footer = async () => {
         <div className="flex flex-wrap items-center justify-between gap-y-4">
           <div className="flex flex-wrap w-full md:flex-shrink-0 gap-y-2 gap-x-4 md:gap-x-8">
             <FooterItem path="/">Home</FooterItem>
-            <FooterItem path="/">About</FooterItem>
+            <FooterItem path="/about">About</FooterItem>
             <FooterItem path="/cookbooks">Cookbooks</FooterItem>
             <FooterItem path="/authors">Authors</FooterItem>
             <FooterItem path="/people">People</FooterItem>

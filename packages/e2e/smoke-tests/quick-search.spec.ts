@@ -7,6 +7,9 @@ test.describe('Quick Search', () => {
   })
 
   test('finds a page', async ({ page }) => {
+    await page
+      .getByRole('button', { name: 'Search' })
+      .waitFor({ state: 'visible' })
     await page.keyboard.press('Meta+k')
 
     const input = page.getByPlaceholder('Type something...')
