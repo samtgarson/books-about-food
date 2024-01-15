@@ -3,6 +3,7 @@ import cn from 'classnames'
 import { Metadata, ResolvedMetadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
 import { AntiContainer, Container } from 'src/components/atoms/container'
 import { Detail } from 'src/components/atoms/detail'
 import { Pill } from 'src/components/atoms/pill'
@@ -171,7 +172,9 @@ export default async ({ params: { slug } }: CookbooksPageProps) => {
         )}
       </Container>
       <Container className="mobile-only:mt-8">
-        <SimilarBooks slug={book.slug} />
+        <Suspense>
+          <SimilarBooks slug={book.slug} />
+        </Suspense>
       </Container>
     </div>
   )

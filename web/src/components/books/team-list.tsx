@@ -1,3 +1,5 @@
+'use client'
+
 import { Contribution } from '@books-about-food/core/models/contribution'
 import { Profile } from '@books-about-food/core/models/profile'
 import cn from 'classnames'
