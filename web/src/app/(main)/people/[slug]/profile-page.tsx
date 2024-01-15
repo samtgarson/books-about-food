@@ -1,9 +1,9 @@
 import { fetchFrequentCollaborators } from '@books-about-food/core/services/books/fetch-frequent-collaborators'
 import { fetchProfile } from '@books-about-food/core/services/profiles/fetch-profile'
+import cn from 'classnames'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { Container } from 'src/components/atoms/container'
-import { Loader } from 'src/components/atoms/loader'
 import { FavouriteButton } from 'src/components/favourites/favourite-button'
 import { ClaimProfileButton } from 'src/components/profiles/claim-button'
 import { ContributionList } from 'src/components/profiles/contribution-list'
@@ -29,7 +29,11 @@ export async function ProfilePage({ segment, slug }: ProfilePageProps) {
 
   return (
     <EditProfileProvider profile={profile} segment={segment} data-superjson>
-      <Container belowNav id="container">
+      <Container
+        belowNav
+        id="container"
+        className={cn(profile.claimed && 'bg-white sm:pb-20')}
+      >
         <div className="pt-8 md:pt-20">
           <div className="relative flex flex-col items-stretch gap-6 lg:flex-row lg:items-start">
             <div className="w-full flex-grow">
@@ -75,7 +79,9 @@ export async function ProfilePage({ segment, slug }: ProfilePageProps) {
             />
           )}
         </div>
-        <Suspense fallback={<Loader />}>
+      </Container>
+      <Container className="empty:hidden">
+        <Suspense fallback={null}>
           <ContributionList profile={profile} className="mt-8 sm:mt-20" />
         </Suspense>
       </Container>

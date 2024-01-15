@@ -43,7 +43,7 @@ export const FavouriteButton: FC<FavouriteButtonProps> = ({
         variant="secondary"
         onClick={() => setFavourite(!value)}
         className={cn(
-          'flex items-center gap-2 transition-opacity',
+          'flex items-center gap-2 transition-opacity mobile-only:bg-transparent',
           className,
           updating && 'opacity-50'
         )}

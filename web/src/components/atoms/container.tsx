@@ -39,7 +39,7 @@ export const containerClasses = ({
           'md:pl-16': left && !mobile && desktop
         },
     {
-      'mt-16': belowNav,
+      'pt-16': belowNav,
       'flex flex-col items-center justify-start': centered
     }
   )
