@@ -35,7 +35,7 @@ export function BookFilters({ filters = {} }: BookFiltersProps) {
           const { data: tags = [] } = await call(fetchTags)
           return tags.map((tag) => ({
             label: tag.name,
-            value: tag.name
+            value: tag.slug
           }))
         }}
         placeholder="Tags"

@@ -102,7 +102,7 @@ function whereQuery({
   const where: Prisma.Sql[] = []
   where.push(sql`status::text in (${join(wrapArray(status))})`)
   if (submitterId) where.push(sql`submitter_id::text = ${submitterId}`)
-  if (tags && tags.length > 0) where.push(sql`tags.name in (${join(tags)})`)
+  if (tags && tags.length > 0) where.push(sql`tags.slug in (${join(tags)})`)
   if (profile) where.push(profileQuery(profile))
   if (pageCount) where.push(pageCountQuery(pageCount))
   if (publisherSlug) where.push(sql`publishers.slug = ${publisherSlug}`)

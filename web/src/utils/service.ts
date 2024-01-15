@@ -19,7 +19,6 @@ export type RequestMeta = {
 }
 
 export const getUser = cache(async () => {
-  console.log('GET USER')
   const session = await auth()
 
   if (!session?.user?.id) return null

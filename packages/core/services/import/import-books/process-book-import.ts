@@ -77,7 +77,7 @@ export const processBookImport = new AuthedService(
           tags = {
             connectOrCreate: bookAttrs.tags.map((tag) => ({
               where: { name: tag },
-              create: { name: tag }
+              create: { name: tag, slug: slugify(tag) }
             }))
           }
 

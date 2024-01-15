@@ -63,6 +63,8 @@ export class SearchResult extends Colourful(
           return `/authors/${this.slug}`
         case 'publisher':
           return `/publishers/${this.slug}`
+        case 'bookTag':
+          return `/cookbooks?tags=${this.slug}`
       }
     }
   }

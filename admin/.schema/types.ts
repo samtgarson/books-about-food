@@ -1073,6 +1073,7 @@ export type Schema = {
       'tag:created_at': string;
       'tag:id': string;
       'tag:name': string;
+      'tag:slug': string;
       'tag:updated_at': string;
       'book:image:caption': string;
       'book:image:cover_for_id': string;
@@ -9187,6 +9188,7 @@ export type Schema = {
       'created_at': string;
       'id': string;
       'name': string;
+      'slug': string;
       'updated_at': string;
     };
     nested: {};

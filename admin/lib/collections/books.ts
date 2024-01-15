@@ -343,6 +343,10 @@ export const customiseBooks = (
     })
   })
 
+  collection.addHook('Before', 'Update', async (context) => {
+    if (context.patch.title) context.patch.slug = slugify(context.patch.title)
+  })
+
   collection.addHook('After', 'Create', async (context) => {
     await Promise.all(
       context.records.map(async (record, i) => {

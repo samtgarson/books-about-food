@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react'
 import { BaseAvatar } from 'src/components/atoms/avatar'
+import { Tag } from 'src/components/atoms/icons'
 import { Loader } from 'src/components/atoms/loader'
 import * as Sheet from 'src/components/atoms/sheet'
 import { usePromise } from 'src/hooks/use-promise'
@@ -43,8 +44,8 @@ export function QuickSearchContent({ onSelect }: { onSelect?: () => void }) {
         if (focused === null) return
         const result = results[focused]
         onSelect?.()
-        if (result.href === window.location.pathname) return
         router.push(result.href)
+        if (result.href === window.location.pathname) return
         showTransition()
         return
       }
@@ -144,22 +145,7 @@ function QuickSearchResult({ item, focused, onHover }: QuickSearchResultProps) {
       aria-label={item.name}
     >
       <QuickSearchItem.Image>
-        {item.isProfile ? (
-          <BaseAvatar
-            size="xs"
-            className="!w-5 !h-5 sm:!w-8 sm:!h-8"
-            backup={item.initials}
-            foregroundColour={item.foregroundColour}
-            backgroundColour={item.backgroundColour}
-            imgProps={item.image?.imageAttrs()}
-          />
-        ) : item.image ? (
-          <Image {...item.image.imageAttrs(50)} />
-        ) : item.type === 'publisher' ? (
-          <div className="h-5 w-5 sm:h-8 sm:w-8 bg-grey" />
-        ) : (
-          <div className="h-[50px] w-[38px] bg-grey" />
-        )}
+        <QuickSearchImage item={item} />
       </QuickSearchItem.Image>
       <div className="flex flex-col">
         <p className="text-14 sm:text-16 font-medium">{item.name}</p>
@@ -167,4 +153,34 @@ function QuickSearchResult({ item, focused, onHover }: QuickSearchResultProps) {
       </div>
     </QuickSearchItem.Root>
   )
+}
+
+function QuickSearchImage({ item }: { item: SearchResult }) {
+  if (item.isProfile) {
+    return (
+      <BaseAvatar
+        size="xs"
+        className="!w-5 !h-5 sm:!w-8 sm:!h-8"
+        backup={item.initials}
+        foregroundColour={item.foregroundColour}
+        backgroundColour={item.backgroundColour}
+        imgProps={item.image?.imageAttrs()}
+      />
+    )
+  }
+
+  if (item.image) {
+    return <Image {...item.image.imageAttrs(50)} />
+  }
+
+  switch (item.type) {
+    case 'publisher':
+      return <div className="h-5 w-5 sm:h-8 sm:w-8 bg-grey" />
+    case 'book':
+      return <div className="h-[50px] w-[38px] bg-grey" />
+    case 'bookTag':
+      return <Tag strokeWidth={1} />
+    default:
+      return null
+  }
 }

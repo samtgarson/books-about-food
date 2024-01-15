@@ -100,7 +100,7 @@ function FilterSelectContent<Value extends string | number = string>({
     <>
       {placeholder}{' '}
       {initialValue && initialValue.length > 0 && (
-        <span className="all-caps leading-0 -my-1 rounded-full bg-black px-1.5 py-1 font-bold text-white">
+        <span className="all-caps !leading-none -my-1 rounded-full bg-black px-1.5 py-1 font-bold text-white">
           {initialValue.length}
         </span>
       )}

@@ -240,6 +240,7 @@ model Tag {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
   name      String   @unique
+  slug      String   @unique
 
   books Book[] @relation("books_tags")
 
@@ -319,6 +320,7 @@ enum SearchResultType {
   author
   contributor
   publisher
+  bookTag
 }
 
 view SearchResult {

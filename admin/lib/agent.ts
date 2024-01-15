@@ -13,6 +13,7 @@ import { customiseJobs } from './collections/jobs'
 import { customiseLinks } from './collections/links'
 import { customiseProfiles } from './collections/profiles'
 import { customisePublishers } from './collections/publishers'
+import { customiseTags } from './collections/tags'
 import { customiseUsers } from './collections/users'
 import { customiseVerificationTokens } from './collections/verification-tokens'
 
@@ -46,4 +47,5 @@ agent
   .customizeCollection('claims', customiseClaims)
   .customizeCollection('users', customiseUsers)
   .customizeCollection('verification_tokens', customiseVerificationTokens)
+  .customizeCollection('tags', customiseTags)
   .start()
