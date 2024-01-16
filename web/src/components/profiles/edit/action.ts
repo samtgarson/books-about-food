@@ -13,7 +13,6 @@ export const action = async (
   data: UpdateProfileInput
 ) => {
   const result = await call(updateProfile, data)
-  console.log(result)
   if (!result.success) return result
 
   const { data: profile } = result

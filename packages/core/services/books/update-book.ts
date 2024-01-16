@@ -12,20 +12,25 @@ import { fetchBook } from './fetch-book'
 
 export type UpdateBookInput = z.infer<typeof updateBookInput>
 
-const updateBookInput = z.object({
-  slug: z.string(),
-  title: z.string().optional(),
-  subtitle: z.string().optional(),
-  googleBooksId: z.string().optional(),
-  authorIds: array(z.string()).optional(),
-  coverImageId: z.string().optional(),
-  previewImageIds: array(z.string()).optional(),
-  publisherId: z.string().optional(),
-  releaseDate: processString(z.coerce.date().optional()),
-  pages: z.coerce.number().optional(),
-  tags: array(z.string()).optional(),
-  source: z.nativeEnum(BookSource).optional().default('submitted')
-})
+const updateBookInput = z
+  .union([
+    z.object({ slug: z.string(), title: z.string().optional() }),
+    z.object({ slug: z.undefined().optional(), title: z.string() })
+  ])
+  .and(
+    z.object({
+      subtitle: z.string().optional(),
+      googleBooksId: z.string().optional(),
+      authorIds: array(z.string()).optional(),
+      coverImageId: z.string().optional(),
+      previewImageIds: array(z.string()).optional(),
+      publisherId: z.string().optional(),
+      releaseDate: processString(z.coerce.date().optional()),
+      pages: z.coerce.number().optional(),
+      tags: array(z.string()).optional(),
+      source: z.nativeEnum(BookSource).optional().default('submitted')
+    })
+  )
 
 export const updateBook = new AuthedService(
   updateBookInput,
@@ -75,6 +80,7 @@ export const updateBook = new AuthedService(
         include: bookIncludes
       })
     } else if (title) {
+      console.log('HERE', title)
       result = await prisma.book.create({
         data: {
           ...properties,

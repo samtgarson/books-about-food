@@ -41,7 +41,7 @@ export default async function Page({ params: { slug } }: EditPageProps) {
           {book.cover ? (
             <Image {...book.cover?.imageAttrs(80)} />
           ) : (
-            <div className="bg-khaki w-16 h-20" />
+            <div className="bg-khaki w-14 h-20 shrink-0" />
           )}
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 items-start sm:items-center overflow-hidden grow">
             <div className="flex flex-col sm:gap-2 grow overflow-hidden w-full">

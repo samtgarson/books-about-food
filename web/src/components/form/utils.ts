@@ -14,7 +14,8 @@ export function parseAppError(
     if (field && aliasFields?.[field]) field = aliasFields[field]
     if (!field) field = '_'
 
-    const message = messages?.[field]?.[error.type] || 'Something went wrong'
+    const message =
+      messages?.[field]?.[error.type] || error.message || 'Something went wrong'
     return { ...errors, [field]: { message } }
   }, {})
 }

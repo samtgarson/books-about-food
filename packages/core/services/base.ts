@@ -67,7 +67,7 @@ abstract class BaseService<
         data: await this._call(...args)
       }
     } catch (e) {
-      console.log(e)
+      console.log('Service failure', e)
       Sentry.captureException(e)
       return {
         success: false,
