@@ -78,7 +78,6 @@ export const Select = function Select<
   )
 
   function onChangeSingle(value: Value) {
-    searchInputRef.current?.blur()
     return [value]
   }
 
@@ -152,7 +151,7 @@ export const Select = function Select<
         case useCombobox.stateChangeTypes.FunctionSelectItem:
           return {
             ...changes,
-            isOpen: changes.isOpen || multi,
+            isOpen: multi,
             highlightedIndex: state.highlightedIndex,
             inputValue: ''
           }
@@ -262,11 +261,11 @@ export const Select = function Select<
         <Popover.Anchor
           className={cn(
             inputClasses(variant, props),
-            'flex min-h-14',
+            'flex min-h-14 overflow-hidden',
             multi && 'py-3 px-3'
           )}
         >
-          <div className="flex flex-wrap gap-2 flex-1 relative overflow-hidden">
+          <div className="flex flex-wrap gap-2 flex-1 relative">
             <SelectedItems {...context} />
             <SearchInput {...context} />
           </div>

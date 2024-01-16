@@ -46,7 +46,7 @@ export function SearchInput<
       })}
       className={cn(
         'bg-transparent flex-grow focus:outline-none',
-        !multi && 'absolute inset-0'
+        multi ? '-my-3 py-3' : 'absolute -inset-4 right-0 p-4'
       )}
     />
   )
@@ -101,8 +101,8 @@ export function Indicators<
   searchInputRef
 }: SelectContext<Value, ValueKey>) {
   return (
-    <div className="flex justify-end gap-1 items-center">
-      {loading && <Loader />}
+    <div className="flex justify-end gap-1 items-center pl-2">
+      {loading && <Loader size={22} />}
       {!loading && showChevron && <ChevronDown strokeWidth={1} />}
       {selection.length > 0 && (
         <button
