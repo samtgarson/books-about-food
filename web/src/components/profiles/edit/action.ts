@@ -13,10 +13,11 @@ export const action = async (
   data: UpdateProfileInput
 ) => {
   const result = await call(updateProfile, data)
-  if (!result.data) throw result.originalError
+  console.log(result)
+  if (!result.success) return result
 
   const { data: profile } = result
   const path = `/${segment}/${profile.slug}`
   if (profile.slug !== data.slug) redirect(path)
-  return stringify(profile)
+  return { ...result, data: stringify(profile) }
 }

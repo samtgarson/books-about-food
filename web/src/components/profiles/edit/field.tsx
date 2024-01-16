@@ -56,6 +56,11 @@ export const Field = ({
     sel?.addRange(range)
   }
 
+  useEffect(() => {
+    if (editMode) return
+    value.current = originalValue
+  }, [editMode, originalValue])
+
   if (showPlaceholder && !editMode) return null
   const content = (
     <div className={cn(className, 'flex justify-start', editMode && 'mr-10')}>
@@ -84,7 +89,10 @@ export const Field = ({
                 }}
                 onBlur={async () => {
                   if (value.current === originalValue) return
-                  await onSave({ [attr]: value.current || null })
+                  const success = await onSave({
+                    [attr]: value.current || null
+                  })
+                  if (!success) ref.current?.focus()
                 }}
                 onFocus={() => onFocus()}
                 aria-label={placeholder}

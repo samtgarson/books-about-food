@@ -10,7 +10,7 @@ import {
   useEffect,
   useState
 } from 'react'
-import { successToast } from 'src/components/utils/toaster'
+import { errorToast, successToast } from 'src/components/utils/toaster'
 import { parse } from 'src/utils/superjson'
 import { action } from './action'
 
@@ -47,14 +47,17 @@ export const EditProfileProvider = ({
 
   const onSave: EditProfileContext['onSave'] = useCallback(
     async (data) => {
-      try {
-        const updated = parse(
-          await action(segment, { ...data, slug: profile.slug })
-        )
-        setProfile(updated)
+      const result = await action(segment, { ...data, slug: profile.slug })
+      if (result.success) {
+        setProfile(parse(result.data))
         successToast('Profile updated')
         return true
-      } catch (error) {
+      } else {
+        if (result.errors[0].type === 'InvalidInput') {
+          errorToast(result.errors[0].message)
+        } else {
+          errorToast('Something went wrong')
+        }
         return false
       }
     },

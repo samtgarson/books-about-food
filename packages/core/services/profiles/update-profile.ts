@@ -8,8 +8,6 @@ import { array } from '../utils/inputs'
 
 export type UpdateProfileInput = z.infer<typeof updateProfile.input>
 
-const basicUrl =
-  /(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})(\.[a-zA-Z0-9]{2,})?/
 const instagramHandle = /[a-zA-Z0-9._]+/
 
 export const updateProfile = new AuthedService(
@@ -18,7 +16,7 @@ export const updateProfile = new AuthedService(
     name: z.string().optional(),
     description: z.string().nullish(),
     jobTitle: z.string().nullish(),
-    website: z.string().regex(basicUrl).nullish(),
+    website: z.string().url().nullish(),
     instagram: z.string().regex(instagramHandle).nullish(),
     location: z.string().nullish(),
     avatar: z.string().nullish(),

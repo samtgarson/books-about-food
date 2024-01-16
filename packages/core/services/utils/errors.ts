@@ -1,4 +1,5 @@
 import type { Prisma } from '@prisma/client'
+import z from 'zod'
 export type ErrorType = keyof typeof ErrorTypeStatusMap
 const ErrorTypeStatusMap = {
   UniqueConstraintViolation: 400,
@@ -30,6 +31,14 @@ export class AppError extends Error {
             (e.meta?.target as string[] | undefined)?.[0]
           )
       }
+    }
+
+    if (e instanceof z.ZodError) {
+      return new AppError(
+        'InvalidInput',
+        e.issues[0].message,
+        `${e.issues[0].path[0]}`
+      )
     }
 
     return new AppError(

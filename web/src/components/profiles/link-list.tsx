@@ -13,6 +13,14 @@ const Anchor = ({ children, url }: { url: string; children: string }) => (
   </a>
 )
 
+function getHostname(url: string) {
+  try {
+    return new URL(url).hostname
+  } catch (e) {
+    return ''
+  }
+}
+
 export const LinkList: FC = () => {
   const { profile, editMode } = useEditProfile()
   const showDivider = editMode || (profile?.website && profile?.instagram)
@@ -22,9 +30,7 @@ export const LinkList: FC = () => {
     <Detail className="flex flex-wrap items-center gap-2" maxWidth>
       <Field
         attr="website"
-        render={(value) => (
-          <Anchor url={value}>{new URL(value).hostname}</Anchor>
-        )}
+        render={(value) => <Anchor url={value}>{getHostname(value)}</Anchor>}
         placeholder="Add website"
       />
       {showDivider && <p aria-hidden>•</p>}
