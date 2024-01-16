@@ -12,7 +12,7 @@ export default function Error({
   reset
 }: {
   error: Error & { digest?: string }
-  reset: () => void
+  reset?: () => void
 }) {
   useEffect(() => {
     Sentry.captureException(error)
@@ -26,7 +26,7 @@ export default function Error({
         Apologies for any inconvenience, our team is has already been notified.
       </p>
       <div className="flex gap-4">
-        <Button onClick={() => reset()}>Try again</Button>
+        {reset && <Button onClick={() => reset()}>Try again</Button>}
         <Button variant="secondary" href="/">
           Go Home
         </Button>
