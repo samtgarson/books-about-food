@@ -43,6 +43,7 @@ export function QuickSearchContent({ onSelect }: { onSelect?: () => void }) {
       if (e.key === 'Enter') {
         if (focused === null) return
         const result = results[focused]
+        if (!result) return
         onSelect?.()
         router.push(result.href)
         if (result.href === window.location.pathname) return

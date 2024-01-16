@@ -1,5 +1,6 @@
 'use client'
 
+import { trackEvent } from 'fathom-client'
 import { Session } from 'next-auth/types'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -54,6 +55,7 @@ export function WelcomeMessage() {
   return (
     <Form
       action={async ({ email }) => {
+        trackEvent('join waitlist')
         await emailSignIn({ email })
       }}
       schema={z.object({ email: z.string() })}

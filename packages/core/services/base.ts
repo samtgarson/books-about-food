@@ -4,6 +4,7 @@ import {
   AppErrorJSON
 } from '@books-about-food/core/services/utils/errors'
 import { User } from '@books-about-food/database'
+import * as Sentry from '@sentry/nextjs'
 import { z } from 'zod'
 
 export type RequestMeta = {
@@ -67,6 +68,7 @@ abstract class BaseService<
       }
     } catch (e) {
       console.log(e)
+      Sentry.captureException(e)
       return {
         success: false,
         errors: [AppError.fromError(e).toJSON()]

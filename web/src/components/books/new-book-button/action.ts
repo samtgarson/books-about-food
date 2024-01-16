@@ -4,7 +4,6 @@ import { searchLibrary } from '@books-about-food/core/services/books/library/sea
 import { updateBook } from '@books-about-food/core/services/books/update-book'
 import { array } from '@books-about-food/core/services/utils/inputs'
 import { createCoverFromUrl } from '@books-about-food/core/services/utils/resources'
-import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { parseAppError } from 'src/components/form/utils'
 import { call, parseAndCall } from 'src/utils/service'
@@ -42,6 +41,5 @@ export const search = async (query: string) => {
   const result = await call(searchLibrary, { query })
   if (!result.success) return stringify([])
 
-  revalidatePath('/account/submissions')
   return stringify(result.data)
 }
