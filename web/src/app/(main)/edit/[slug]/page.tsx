@@ -85,7 +85,7 @@ export default async function Page({ params: { slug } }: EditPageProps) {
             }}
             className="text-center"
           >
-            <button className="text-14 underline">Delete</button>
+            <button className="text-14 underline">Delete Cookbook</button>
           </form>
         )}
       </div>

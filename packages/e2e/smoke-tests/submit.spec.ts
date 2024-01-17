@@ -19,6 +19,11 @@ test.describe('Submit', function () {
     await expect(page.getByRole('status').first()).toContainText(
       'Cookbook created'
     )
+
+    await page.getByRole('button', { name: 'Delete Cookbook' }).click()
+    await expect(page.getByRole('status').first()).toContainText(
+      'Cookbook deleted'
+    )
   })
 })
 
