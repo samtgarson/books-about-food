@@ -2,22 +2,24 @@
 
 import * as Form from '@radix-ui/react-form'
 import cn from 'classnames'
-import { ReactNode } from 'react'
+import { ComponentPropsWithoutRef, ReactNode } from 'react'
 
 export function Label({
   children,
   required,
-  className
+  className,
+  ...props
 }: {
   children?: ReactNode
   required?: boolean
   className?: string
-}) {
+} & ComponentPropsWithoutRef<'label'>) {
   const content =
     typeof children === 'string' ? <span>{children}</span> : children
   return (
     <Form.Label
       className={cn('text-14 flex items-center justify-start gap-2', className)}
+      {...props}
     >
       {content}
       {required && (

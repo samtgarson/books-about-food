@@ -12,7 +12,7 @@ export function MiniItem({ book }: { book: Book }) {
       {book.cover ? (
         <Image {...book.cover.imageAttrs(50)} />
       ) : (
-        <div className="w-9 h-[50px] bg-khaki"></div>
+        <div className="w-9 h-[50px] bg-khaki shrink-0"></div>
       )}
       <div className="flex flex-col overflow-hidden">
         <p className="font-medium whitespace-nowrap text-ellipsis overflow-hidden">
