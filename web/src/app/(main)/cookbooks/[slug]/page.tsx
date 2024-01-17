@@ -62,12 +62,8 @@ export default async ({ params: { slug } }: CookbooksPageProps) => {
 
   return (
     <div className="relative flex-grow lg:pr-[50vw] flex flex-col gap-8 sm:gap-16">
-      <Container
-        className="pt-6 sm:pt-20 flex flex-col md:gap-8"
-        key="header"
-        belowNav
-      >
-        <div className="flex flex-col gap-4">
+      <Container className="flex flex-col md:gap-8" key="header" belowNav>
+        <div className="pt-6 sm:pt-20 flex flex-col gap-4">
           <div
             className={cn(
               'font-style-title flex items-center',

@@ -64,7 +64,7 @@ export const Container = forwardRef<HTMLDivElement, ContainerProps>(
         key={props.id}
         ref={ref}
         className={cn(
-          'isolate',
+          'isolate empty:hidden',
           containerClasses({
             left,
             right,
