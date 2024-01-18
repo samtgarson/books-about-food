@@ -22,7 +22,6 @@ files.forEach((file) => {
   if (!(path[0] in dirs)) return
   // @ts-expect-error path[0] is a string
   const rule = dirs[path[0]]
-  console.log({ file, rule, path })
 
   if (typeof rule === 'number' && path.length > rule) {
     found.add(path[rule])

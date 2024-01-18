@@ -16,8 +16,8 @@
   },
   "dependencies": {
     "@books-about-food/shared": "*",
-    "@neondatabase/serverless": "^0.7.2",
-    "@prisma/adapter-neon": "early-access",
+    "@neondatabase/serverless": "^0.6",
+    "@prisma/adapter-neon": "5.8.1",
     "@prisma/client": "^5.8.1"
   }
 }
