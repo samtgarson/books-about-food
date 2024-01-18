@@ -1,8 +1,12 @@
 import cors from '@koa/cors'
+import { neonConfig } from '@neondatabase/serverless'
 import * as Sentry from '@sentry/node'
 import Koa from 'koa'
+import ws from 'ws'
 import { agent } from './agent'
 import { apiRouter } from './api'
+
+neonConfig.webSocketConstructor = ws
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN
@@ -21,6 +25,7 @@ agent.mountOnKoa(app)
 app.use(apiRouter.routes()).use(apiRouter.allowedMethods())
 
 app.on('error', (err, ctx) => {
+  console.error(err)
   Sentry.withScope((scope) => {
     scope.setSDKProcessingMetadata({ request: ctx.request })
     Sentry.captureException(err)

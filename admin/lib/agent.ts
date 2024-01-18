@@ -30,7 +30,8 @@ export const agent = createAgent<Schema>({
   typingsPath: resolve(rootDir, '.schema', 'types.ts'),
   typingsMaxDepth: 5,
   customizeErrorMessage(error) {
-    Sentry.captureException(error)
+    const sentryId = Sentry.captureException(error)
+    console.error(error, { sentryId })
     return 'Unexpected error'
   }
 })
