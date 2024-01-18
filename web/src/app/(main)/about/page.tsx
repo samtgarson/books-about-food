@@ -9,11 +9,11 @@ import { PageTitle } from 'src/components/atoms/page-title'
 export default function AboutPage() {
   return (
     <>
-      <Container belowNav>
+      <Container belowNav className="pb-10">
         <PageTitle>About</PageTitle>
         <div className="relative">
           <div className="max-w-prose">
-            <p className="text-24 mb-8">
+            <p className="text-18 md:text-24 mb-8">
               Books About Food is a unique, design-forward space created to
               showcase books about food and the people involved in making them.
             </p>
@@ -50,7 +50,7 @@ export default function AboutPage() {
             <div className="w-full xl:w-[450px] 2xl:w-[550px] mb-6 flex min-h-96 aspect-auto xl:aspect-[1.1] bg-sand items-center justify-center gap-2 relative xl:absolute xl:right-0 xl:top-0 pb-14">
               <Image src={jamin} alt="Jamin Galea" height={200} />
               <Image src={sam} alt="Sam Garson" height={190} className="pt-8" />
-              <p className="mt-auto absolute inset-x-0 bottom-0 p-5 sm:p-8">
+              <p className="mt-auto absolute inset-x-0 bottom-0 p-5 md:p-8">
                 Jam (left), Sam (right)
               </p>
             </div>
@@ -70,9 +70,9 @@ export default function AboutPage() {
           </div>
         </div>
       </Container>
-      <Container className="bg-sand py-5 md:py-16 -mb-12 md:-mb-20">
+      <Container className="bg-sand py-8 md:py-16 -mb-20">
         <div className="max-w-prose">
-          <h2 className="text-40 mb-8">Get in touch</h2>
+          <h2 className="text-24 md:text-48 mb-8">Get in touch</h2>
           <P>
             If you have any questions, suggestions or just want to say hi please{' '}
             <ContactLink>get in touch</ContactLink>, we’d love to hear from you.
