@@ -6,6 +6,7 @@ import ws from 'ws'
 import { agent } from './agent'
 import { apiRouter } from './api'
 
+console.log('SETTING NEON CONFIG')
 neonConfig.webSocketConstructor = ws
 
 Sentry.init({

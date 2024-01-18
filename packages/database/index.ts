@@ -7,6 +7,7 @@ let prisma: PrismaClient
 if (process.env.NODE_ENV === 'production') {
   const connectionString = `${process.env.DATABASE_URL}`
 
+  console.log('INITIALIZING PRISMA')
   const pool = new Pool({ connectionString })
   const adapter = new PrismaNeon(pool)
   prisma = new PrismaClient({ adapter })
