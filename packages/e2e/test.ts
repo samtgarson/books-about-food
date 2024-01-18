@@ -4,12 +4,17 @@ import { BrowserContext, Page, test as base } from '@playwright/test'
 
 const helpers = ({
   context,
-  page
+  page,
+  email
 }: {
   page: Page
   context: BrowserContext
+  email: string
 }) => ({
   async login() {
+    const user = await prisma.user.create({
+      data: { email, role: 'user', emailVerified: new Date() }
+    })
     await page.goto('/', { waitUntil: 'commit' })
     const cookies = await context.cookies()
     const authCookie = cookies.find(
@@ -19,8 +24,6 @@ const helpers = ({
 
     const prefix = authCookie.name.split('.')[0]
     const cookieName = `${prefix}.session-token`
-    const email = 'samtgarson@gmail.com'
-    const user = await prisma.user.findUniqueOrThrow({ where: { email } })
     const token = await encode({
       token: {
         name: 'Sam Garson',
@@ -42,7 +45,11 @@ type Fixtures = {
 
 export const test = base.extend<Fixtures>({
   async helpers({ page, context }, use) {
-    await use(helpers({ page, context }))
+    const email = `sam+${crypto.randomUUID()}@samgarson.com`
+
+    await use(helpers({ page, context, email }))
+
+    await prisma.user.delete({ where: { email } })
   }
 })
 
