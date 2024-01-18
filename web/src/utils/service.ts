@@ -5,10 +5,9 @@ import {
   ServiceResult
 } from '@books-about-food/core/services/base'
 import { AppError } from '@books-about-food/core/services/utils/errors'
-import prisma from '@books-about-food/database'
 import { cache } from 'react'
-import { auth } from 'src/auth'
 import z from 'zod'
+import { getSessionUser } from './user'
 
 export type RequestMeta = {
   cache?: {
@@ -17,16 +16,6 @@ export type RequestMeta = {
   }
   authorized?: boolean
 }
-
-export const getUser = cache(async () => {
-  const session = await auth()
-
-  if (!session?.user?.id) return null
-
-  return prisma.user.findUnique({
-    where: { id: session.user.id }
-  })
-})
 
 type ServiceClass<I extends z.ZodTypeAny, R> =
   | Service<I, R>
@@ -37,7 +26,7 @@ export const call = cache(async function <S extends ServiceClass<any, any>>(
   args?: S extends ServiceClass<infer I, any> ? z.infer<I> : never
 ) {
   if (service.authed) {
-    const user = await getUser()
+    const user = await getSessionUser()
     if (!user)
       return {
         success: false,

@@ -3,14 +3,14 @@ import { Suspense } from 'react'
 import { AccountHeader } from 'src/components/accounts/header'
 import { Loader } from 'src/components/atoms/loader'
 import { FavouritesList } from 'src/components/favourites/favourites-list'
-import { getUser } from 'src/utils/service'
+import { getSessionUser } from 'src/utils/user'
 
 export const metadata: Metadata = {
   title: 'Favourites'
 }
 
 const Page = async () => {
-  const user = await getUser()
+  const user = await getSessionUser()
 
   if (!user) return null
   return (

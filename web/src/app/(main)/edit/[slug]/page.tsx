@@ -11,7 +11,8 @@ import { EditNotes } from 'src/components/edit/notes'
 import { Steps } from 'src/components/edit/steps'
 import { ParamSheet } from 'src/components/sheets/use-param-sheet'
 import { Toaster } from 'src/components/utils/toaster'
-import { call, getUser } from 'src/utils/service'
+import { call } from 'src/utils/service'
+import { getSessionUser } from 'src/utils/user'
 
 type EditPageProps = {
   params: { slug: string }
@@ -19,7 +20,7 @@ type EditPageProps = {
 
 export default async function Page({ params: { slug } }: EditPageProps) {
   const { data: book } = await call(fetchBook, { slug, cache: false })
-  const currentUser = await getUser()
+  const currentUser = await getSessionUser()
 
   if (!book || !currentUser) notFound()
   if (currentUser.id !== book.submitterId && currentUser.role !== 'admin')

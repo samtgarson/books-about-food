@@ -2,10 +2,10 @@ import { AccountNavItem } from 'src/components/accounts/nav-item'
 import { Container } from 'src/components/atoms/container'
 import { PageTitle } from 'src/components/atoms/page-title'
 import { SignOutButton } from 'src/components/auth/sign-out-button'
-import { getUser } from 'src/utils/service'
+import { getSessionUser } from 'src/utils/user'
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
-  const user = await getUser()
+  const user = await getSessionUser()
   if (!user) return
 
   return (

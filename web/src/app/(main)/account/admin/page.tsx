@@ -1,9 +1,9 @@
 import { notFound } from 'next/navigation'
 import { ImportForm } from 'src/components/admin/import/form'
-import { getUser } from 'src/utils/service'
+import { getSessionUser } from 'src/utils/user'
 
 export default async function Admin() {
-  const user = await getUser()
+  const user = await getSessionUser()
   if (user?.role !== 'admin') notFound()
 
   return (

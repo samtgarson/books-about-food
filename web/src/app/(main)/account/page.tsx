@@ -7,7 +7,8 @@ import { AccountHeader } from 'src/components/accounts/header'
 import { ContactLink } from 'src/components/atoms/contact-link'
 import { ArrowUpRight } from 'src/components/atoms/icons'
 import { ProfileItem } from 'src/components/profiles/item'
-import { call, getUser } from 'src/utils/service'
+import { call } from 'src/utils/service'
+import { getUser } from 'src/utils/user'
 
 export const metadata: Metadata = {
   title: 'Account'

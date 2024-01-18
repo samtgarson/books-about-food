@@ -3,7 +3,7 @@ import {
   AppError,
   AppErrorJSON
 } from '@books-about-food/core/services/utils/errors'
-import { User } from '@books-about-food/database'
+import { User } from '@books-about-food/core/types'
 import * as Sentry from '@sentry/nextjs'
 import { z } from 'zod'
 

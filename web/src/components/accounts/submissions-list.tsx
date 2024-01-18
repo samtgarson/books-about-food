@@ -3,10 +3,11 @@ import { MiniItem } from 'src/components/books/mini-item'
 import { NewBookButton } from 'src/components/books/new-book-button'
 import { GridContainer } from 'src/components/lists/grid-container'
 import { PaginationButtons } from 'src/components/lists/pagination'
-import { call, getUser } from 'src/utils/service'
+import { call } from 'src/utils/service'
+import { getSessionUser } from 'src/utils/user'
 
 export async function SubmissionsList({ page }: { page: number }) {
-  const user = await getUser()
+  const user = await getSessionUser()
   const perPage = 12
   const res = await call(fetchBooks, {
     page,

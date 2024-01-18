@@ -5,7 +5,8 @@ import { Model } from '@books-about-food/core/models'
 import { fetchBook } from '@books-about-food/core/services/books/fetch-book'
 import { fetchProfile } from '@books-about-food/core/services/profiles/fetch-profile'
 import { appUrl } from '@books-about-food/core/utils/app-url'
-import { call, getUser } from 'src/utils/service'
+import { call } from 'src/utils/service'
+import { getSessionUser } from 'src/utils/user'
 
 const fetcher = (type: Model) => {
   switch (type) {
@@ -21,7 +22,7 @@ export async function action(
   slug: string,
   suggestion: string
 ) {
-  const user = await getUser()
+  const user = await getSessionUser()
   const { data: resource } = await call(fetcher(resourceType), { slug })
   if (!resource || !user?.email) return
 
