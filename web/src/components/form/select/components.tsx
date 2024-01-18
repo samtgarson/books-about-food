@@ -103,8 +103,8 @@ export function Indicators<
   return (
     <div className="flex justify-end gap-1 items-center pl-2">
       {loading && <Loader size={22} />}
-      {!loading && showChevron && <ChevronDown strokeWidth={1} />}
-      {selection.length > 0 && (
+      {!loading && showChevron && <ChevronDown size={22} strokeWidth={1} />}
+      {!loading && selection.length > 0 && (
         <button
           onClick={() => {
             reset()

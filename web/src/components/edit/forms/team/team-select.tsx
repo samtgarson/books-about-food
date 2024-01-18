@@ -11,11 +11,11 @@ import { ContactLink } from 'src/components/atoms/contact-link'
 import { Form } from 'src/components/form'
 import { Checkbox } from 'src/components/form/checkbox'
 import { CollectionInput } from 'src/components/form/collection-input'
+import { ProfileSelect } from 'src/components/form/profile-select'
 import { Select } from 'src/components/form/select'
 import { Submit } from 'src/components/form/submit'
 import { useCurrentUser } from 'src/hooks/use-current-user'
-import { jobs, profiles } from '../../server-actions'
-import { createProfile } from '../title/action'
+import { jobs } from '../../server-actions'
 
 export type TeamSelectValue = ContributorAttrs & {
   id: string
@@ -114,23 +114,13 @@ function TeamForm({
       }}
       variant="bordered"
     >
-      <Select
-        loadOptions={profiles}
+      <ProfileSelect
+        multi={false}
         label="Name"
         name="profileName"
-        valueKey="name"
-        render="name"
-        defaultValue={defaultProfile}
-        required
-        allowCreate
-        multi={false}
-        onChange={(p) => setProfile(p)}
-        onCreate={async (name) => {
-          const attrs = await createProfile(name)
-          const profile = new Profile(attrs)
-          setProfile(profile)
-          return profile
-        }}
+        value={profile}
+        onCreate={setProfile}
+        onChange={setProfile}
       />
       <Select
         loadOptions={jobs}
@@ -139,7 +129,7 @@ function TeamForm({
         valueKey="name"
         render="name"
         multi={false}
-        defaultValue={defaultJob}
+        defaultValue={job}
         required
         onChange={(j) => setJob(j)}
       />

@@ -49,6 +49,7 @@ export const fetchProfiles = new Service(
     const where: Prisma.ProfileWhereInput = {
       AND: [
         baseWhere,
+        { name: { not: '' } },
         hasSearch
           ? {
               OR: [

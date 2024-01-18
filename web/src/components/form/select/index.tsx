@@ -1,5 +1,6 @@
 'use client'
 
+import { wrapArray } from '@books-about-food/shared/utils/array'
 import * as Form from '@radix-ui/react-form'
 import * as Popover from '@radix-ui/react-popover'
 import cn from 'classnames'
@@ -19,10 +20,6 @@ import {
   SelectedItems
 } from './components'
 import { SelectContext, SelectProps, SelectValue } from './types'
-
-const isMultiValue = <Value,>(value?: Value | Value[]): value is Value[] => {
-  return Array.isArray(value)
-}
 
 export const Select = function Select<
   Value extends { [key in ValueKey]: string },
@@ -52,7 +49,7 @@ export const Select = function Select<
   const [createButtonSelected, setCreateButtonSelected] = useState(false)
   const [itemHeight, setItemHeight] = useState<number | undefined>(undefined)
   const [selection, setSelection] = useState<Value[]>(
-    isMultiValue(defaultValue) ? defaultValue : []
+    defaultValue ? wrapArray(defaultValue) : []
   )
   const renderOption =
     typeof render === 'function' ? render : (value: Value) => value[render]
@@ -265,7 +262,7 @@ export const Select = function Select<
             multi && 'py-3 px-3'
           )}
         >
-          <div className="flex flex-wrap gap-2 flex-1 relative">
+          <div className="flex flex-wrap gap-2 flex-1 relative min-h-6">
             <SelectedItems {...context} />
             <SearchInput {...context} />
           </div>

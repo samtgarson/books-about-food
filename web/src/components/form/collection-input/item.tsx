@@ -20,7 +20,7 @@ export function CollectionInputItem<Value extends { id: string }>({
         <p className="font-bold">{title}</p>
         {subtitle && <p className="opacity-50">{subtitle}</p>}
       </div>
-      <Sheet.Root grey>
+      <Sheet.Root>
         <Sheet.Trigger className="text-14 ml-auto underline">
           Edit
         </Sheet.Trigger>
