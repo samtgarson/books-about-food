@@ -1,13 +1,8 @@
 import cors from '@koa/cors'
-import { neonConfig } from '@neondatabase/serverless'
 import * as Sentry from '@sentry/node'
 import Koa from 'koa'
-import ws from 'ws'
 import { agent } from './agent'
 import { apiRouter } from './api'
-
-console.log('SETTING NEON CONFIG')
-neonConfig.webSocketConstructor = ws
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN

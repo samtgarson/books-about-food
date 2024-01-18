@@ -20,7 +20,6 @@
     "@koa/bodyparser": "^5.0.0",
     "@koa/cors": "^5.0.0",
     "@koa/router": "^12.0.1",
-    "@neondatabase/serverless": "^0.7.2",
     "@sentry/node": "^7.93.0",
     "@sentry/utils": "^7.93.0",
     "async-parallel": "^1.2.3",
@@ -31,8 +30,7 @@
     "koa-jwt": "^4.0.4",
     "pg": "^8.11.3",
     "pg-connection-string": "^2.6.2",
-    "pkg-dir": "^5.0.0",
-    "ws": "^8.16.0"
+    "pkg-dir": "^5.0.0"
   },
   "devDependencies": {
     "@sentry/esbuild-plugin": "^2.10.2",

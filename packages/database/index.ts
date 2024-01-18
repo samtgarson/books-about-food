@@ -5,12 +5,7 @@ import { PrismaClient } from '@prisma/client'
 let prisma: PrismaClient
 
 if (process.env.NODE_ENV === 'production') {
-  const connectionString = `${process.env.DATABASE_URL}`
-
-  console.log('INITIALIZING PRISMA')
-  const pool = new Pool({ connectionString })
-  const adapter = new PrismaNeon(pool)
-  prisma = new PrismaClient({ adapter })
+  prisma = new PrismaClient({ adapter: adapter() })
 } else {
   const globalWithPrisma = global as typeof globalThis & {
     prisma: PrismaClient
@@ -23,3 +18,11 @@ if (process.env.NODE_ENV === 'production') {
 
 export default prisma
 export * from '@prisma/client'
+
+function adapter() {
+  if (!process.env.VERCEL) return null
+
+  const connectionString = `${process.env.DATABASE_URL}`
+  const pool = new Pool({ connectionString })
+  return new PrismaNeon(pool)
+}
