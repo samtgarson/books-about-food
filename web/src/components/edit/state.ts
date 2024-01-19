@@ -1,7 +1,7 @@
-import { User } from '@auth/core/types'
 import { FullBook } from '@books-about-food/core/models/full-book'
 import { Profile } from '@books-about-food/core/models/profile'
 import prisma from '@books-about-food/database'
+import { User } from 'next-auth/types'
 
 export type StepCompletionMeta =
   | undefined

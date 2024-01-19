@@ -8,7 +8,7 @@ export const getSessionUser = cache(async () => {
   return {
     ...session.user,
     name: session.user.name || null,
-    email: session.user.email || null,
+    email: session.user.email,
     image: session.user.image || null,
     role: session.user.role || 'waitlist'
   }

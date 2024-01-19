@@ -72,7 +72,7 @@ export const authOptions = {
         session.user = {
           ...(session.user ?? {}),
           email: token.email,
-          name: token.name,
+          name: token.name || null,
           id: token.userId,
           role: token.role
         }

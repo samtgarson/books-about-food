@@ -1,17 +1,22 @@
+import { User as CoreUser } from '@books-about-food/core/types'
 import { UserRole } from '@books-about-food/database'
-import { DefaultSession } from 'next-auth'
+import 'next-auth'
 
 declare module '@auth/core/jwt' {
-  interface JWT extends DefaultJWT {
+  interface JWT extends Omit<DefaultJWT, 'email'> {
     userId: string
     role: UserRole
+    email: string
   }
 }
 
 declare module 'next-auth' {
-  interface User extends DefaultSession['user'] {
-    role: UserRole
+  interface Session {
+    user: CoreUser
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface User extends CoreUser {}
 }
 
 /** [Documentation](https://next-auth.js.org/configuration/pages#sign-in-page) */
