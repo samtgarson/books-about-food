@@ -25,7 +25,7 @@ export const SuggestEditSheet: SheetComponent<SuggestEditSheetProps> = ({
   const [success, setSuccess] = useState(false)
   return (
     <Content authenticated={{ action: 'claimProfile' }}>
-      <Body className="flex flex-col gap-8" title="Suggest an Edit">
+      <Body className="flex flex-col gap-8" title="Suggest an edit">
         <div>
           <p>Let us know below what should be changed.</p>
         </div>

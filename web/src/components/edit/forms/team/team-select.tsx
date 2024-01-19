@@ -5,17 +5,10 @@ import { Image } from '@books-about-food/core/models/image'
 import { Profile } from '@books-about-food/core/models/profile'
 import { ContributorAttrs } from '@books-about-food/core/services/books/update-contributors'
 import { Job } from '@books-about-food/database'
-import { useState } from 'react'
 import { BaseAvatar } from 'src/components/atoms/avatar'
-import { ContactLink } from 'src/components/atoms/contact-link'
-import { Form } from 'src/components/form'
-import { Checkbox } from 'src/components/form/checkbox'
 import { CollectionInput } from 'src/components/form/collection-input'
-import { ProfileSelect } from 'src/components/form/profile-select'
-import { Select } from 'src/components/form/select'
-import { Submit } from 'src/components/form/submit'
+import { ContributionForm } from 'src/components/form/contribution-form'
 import { useCurrentUser } from 'src/hooks/use-current-user'
-import { jobs } from '../../server-actions'
 
 export type TeamSelectValue = ContributorAttrs & {
   id: string
@@ -100,54 +93,22 @@ function TeamForm({
       } as Profile)
     : undefined
   const defaultJob = value ? ({ name: value?.jobName } as Job) : undefined
-  const [profile, setProfile] = useState<Profile | undefined>(defaultProfile)
-  const [job, setJob] = useState<Job | undefined>(defaultJob)
-  const [isAssistant, setIsAssistant] = useState(false)
 
   return (
-    <Form
-      onSubmit={(e) => {
-        e.preventDefault()
-        if (!profile || !job) return
-        const id = value?.id ?? crypto.randomUUID()
-        onSubmit(toValue(id, profile, job, isAssistant))
-      }}
-      variant="bordered"
-    >
-      <ProfileSelect
-        multi={false}
-        label="Name"
-        name="profileName"
-        value={profile}
-        onCreate={setProfile}
-        onChange={setProfile}
-      />
-      <Select
-        loadOptions={jobs}
-        label="Job"
-        name="jobName"
-        valueKey="name"
-        render="name"
-        multi={false}
-        defaultValue={job}
-        required
-        onChange={(j) => setJob(j)}
-      />
-      <Checkbox
-        name="isAssistant"
-        label="Mark as Assistant"
-        checked={isAssistant}
-        onChange={(e) => setIsAssistant(e.target.checked)}
-      />
-      <Submit className="mt-4" variant="dark">
-        Save
-      </Submit>
-      <p className="text-14 mt-4">
-        Note: If the role you would like to assign to this team member isn’t
-        listed please choose the most similar then{' '}
-        <ContactLink subject="I need a new job role">get in touch</ContactLink>{' '}
-        and we’ll do our best to add it.
-      </p>
-    </Form>
+    <ContributionForm
+      value={
+        defaultProfile &&
+        defaultJob && {
+          profile: defaultProfile,
+          job: defaultJob,
+          tag: value?.assistant ? 'Assistant' : undefined
+        }
+      }
+      onSubmit={(v) =>
+        onSubmit(
+          toValue(value?.id || '', v.profile, v.job, v.tag === 'Assistant')
+        )
+      }
+    />
   )
 }
