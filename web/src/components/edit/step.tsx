@@ -1,3 +1,4 @@
+import { Profile } from '@books-about-food/core/models/profile'
 import cn from 'classnames'
 import Link from 'next/link'
 import { FC } from 'react'
@@ -21,6 +22,7 @@ export const Step: FC<StepProps> = ({
   disabled
 }) => {
   if (disabled && !complete) return null
+  const { profiles, overflow } = getProfiles(complete?.profiles)
   return (
     <Link
       href={href}
@@ -31,22 +33,40 @@ export const Step: FC<StepProps> = ({
       )}
     >
       <p className="mr-auto">{title}</p>
-      {complete?.text && (
-        <p className="text-12 min-w-[1rem] rounded-full bg-white px-2 py-1 text-center">
-          {complete.text}
-        </p>
-      )}
-      {complete?.profiles && (
-        <AvatarList profiles={complete.profiles} size="3xs" />
-      )}
+      <div className="flex">
+        {profiles && (
+          <AvatarList
+            profiles={profiles}
+            size="3xs"
+            className={cn(overflow && '-mr-1')}
+          />
+        )}
+        {(complete?.text || overflow) && (
+          <p className="text-12 min-w-6 h-6 leading-[1.2rem] rounded-full bg-white px-2 py-1 text-center z-10">
+            {complete?.text || overflow}
+          </p>
+        )}
+      </div>
       {disabled ? null : complete ? (
         <p className="underline">Edit</p>
       ) : (
         <>
           {required && <p className="text-14 opacity-50">Required</p>}
-          <ChevronRight strokeWidth={1} />
+          <ChevronRight strokeWidth={1} className="shrink-0" />
         </>
       )}
     </Link>
   )
+}
+
+function getProfiles(profiles: Profile[] | undefined) {
+  if (!profiles?.length) return {}
+
+  const toDisplay = profiles?.slice(0, 4)
+  const overflow = profiles.length - toDisplay.length
+
+  return {
+    profiles: toDisplay,
+    overflow: overflow > 0 && `+${overflow}`
+  }
 }

@@ -46,7 +46,7 @@ export const Content = ({
             if (!focusTriggerOnClose) e.preventDefault()
           }}
           className={cn(
-            'animate-fade-in pointer-events-none flex w-full flex-shrink-0 flex-col relative book-shadow max-h-[calc(100dvh)] sm:max-h-[80dvh]',
+            'animate-fade-in pointer-events-none flex w-full flex-shrink-0 flex-col relative book-shadow max-h-[calc(100dvh)] sm:max-h-[80dvh] focus:outline-none',
             {
               'sm:max-w-lg': size === 'md',
               'sm:max-w-xl': size === 'lg',

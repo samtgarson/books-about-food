@@ -71,7 +71,7 @@ export function SelectedItems<
           key={value[valueKey]}
           className={cn('overflow-hidden', multi && [pillClasses, 'bg-grey'])}
         >
-          {renderOption(value, false)}
+          {renderOption(value, { selected: true })}
           {multi && (
             <button
               onClick={(e) => {
@@ -164,7 +164,7 @@ export function Option<
         'px-5 py-2.5 transition-colors flex justify-start aria-selected:bg-grey/50 overflow-hidden'
       )}
     >
-      {renderOption(item, false)}
+      {renderOption(item, { selected: false })}
     </li>
   )
 }

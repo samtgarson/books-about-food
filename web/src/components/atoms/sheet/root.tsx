@@ -55,6 +55,7 @@ export const Root = forwardRef<SheetControl, SheetProps>(function Root(
       }}
     >
       <Dialog.Root
+        modal
         open={open}
         onOpenChange={(o) => {
           setOpen(o)

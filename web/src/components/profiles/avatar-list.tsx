@@ -10,14 +10,14 @@ export const AvatarList: FC<{ profiles: Profile[] } & AvatarProps> = ({
   ...props
 }) => {
   return (
-    <div className="flex">
+    <div className={cn('flex', className)}>
       {profiles.map((profile) => (
         <Avatar
           key={profile.id}
           profile={profile}
           {...props}
           size={size}
-          className={cn('-mr-1 last:mr-0', className)}
+          className={'-mr-1 last:mr-0'}
         />
       ))}
     </div>

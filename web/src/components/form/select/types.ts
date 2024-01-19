@@ -19,7 +19,9 @@ export interface SelectProps<
   label: string
   options?: Value[]
   loadOptions?: (query: string) => Promise<Stringified<Value[]>>
-  render: keyof Value | ((value: Value, newValue: boolean) => ReactNode)
+  render:
+    | keyof Value
+    | ((value: Value, opts: { selected: boolean }) => ReactNode)
   valueKey: ValueKey
   multi: Multi
   defaultValue?: SelectValue<Value, Multi>
@@ -38,7 +40,7 @@ export interface SelectContext<
   multi: boolean
   selection: Value[]
   valueKey: ValueKey
-  renderOption: (value: Value, newValue: boolean) => ReactNode
+  renderOption: (value: Value, opts: { selected: boolean }) => ReactNode
   loading: boolean
   showChevron: boolean
   createButtonSelected: boolean

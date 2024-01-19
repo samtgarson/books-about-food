@@ -261,6 +261,10 @@ export const Select = function Select<
             'flex min-h-14 overflow-hidden',
             multi && 'py-3 px-3'
           )}
+          onClick={() => {
+            if (document.activeElement === searchInputRef.current) return
+            searchInputRef.current?.click()
+          }}
         >
           <div className="flex flex-wrap gap-2 flex-1 relative min-h-6">
             <SelectedItems {...context} />
