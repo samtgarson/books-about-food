@@ -14,6 +14,7 @@ import { customiseLinks } from './collections/links'
 import { customiseProfiles } from './collections/profiles'
 import { customisePublishers } from './collections/publishers'
 import { customiseTags } from './collections/tags'
+import { customiseTeams } from './collections/teams'
 import { customiseUsers } from './collections/users'
 import { customiseVerificationTokens } from './collections/verification-tokens'
 
@@ -49,4 +50,5 @@ agent
   .customizeCollection('users', customiseUsers)
   .customizeCollection('verification_tokens', customiseVerificationTokens)
   .customizeCollection('tags', customiseTags)
+  .customizeCollection('teams', customiseTeams)
   .start()

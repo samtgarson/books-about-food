@@ -3438,6 +3438,23 @@
       "fields": [
         {
           "defaultValue": null,
+          "enums": null,
+          "field": "Users",
+          "integration": null,
+          "inverseOf": null,
+          "isFilterable": false,
+          "isPrimaryKey": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "isSortable": true,
+          "isVirtual": false,
+          "reference": "users.id",
+          "relationship": "BelongsToMany",
+          "type": ["Uuid"],
+          "validations": []
+        },
+        {
+          "defaultValue": null,
           "enums": [],
           "field": "created_at",
           "integration": null,

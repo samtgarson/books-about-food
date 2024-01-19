@@ -12,6 +12,8 @@ function dump () {
     -t accounts \
     -t users \
     -t claims \
+    -t teams \
+    -t memberships \
     --data-only -Fc \
     $DATABASE_URL > $saved_content
 
@@ -58,5 +60,8 @@ if [[ -z "$PROD_DATABASE_URL" ]]; then
   exit 1
 fi
 
+echo "ℹ️  Proceeding with values:"
+echo "> DATABASE_URL=$DATABASE_URL"
+echo "> PROD_DATABASE_URL=$PROD_DATABASE_URL"
 dump
 echo "✅ Success"

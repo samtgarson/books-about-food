@@ -76,6 +76,9 @@ model User {
   pitches        Pitch[]
   submittedBooks Book[]      @relation("submitted_books")
 
+  memberships     Membership[]
+  sentInvitations TeamInvitation[]
+
   @@map("users")
 }
 
@@ -226,11 +229,13 @@ model Publisher {
   instagram      String?
   houseId        String?  @map("imprint_id") @db.Uuid
   slug           String   @unique
+  teamId         String?  @map("team_id") @db.Uuid
 
   books    Book[]
   logo     Image?      @relation("publisher_logo")
   imprints Publisher[] @relation("imprint")
   house    Publisher?  @relation("imprint", fields: [houseId], references: [id], onDelete: SetNull)
+  team     Team?       @relation(fields: [teamId], references: [id], onDelete: SetNull)
 
   @@map("publishers")
 }
@@ -294,7 +299,7 @@ model Claim {
   profileId  String    @map("profile_id") @db.Uuid
   secret     String
   userId     String    @map("user_id") @db.Uuid
-  approvedAt DateTime? @map("approved_at") @db.Date
+  approvedAt DateTime? @map("approved_at")
 
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -342,4 +347,53 @@ model FrequentlyAskedQuestion {
   answer    String
 
   @@map("frequently_asked_questions")
+}
+
+model Team {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  name      String
+  slug      String   @unique
+
+  memberships Membership[]
+  publishers  Publisher[]
+  invitations TeamInvitation[]
+
+  @@map("teams")
+}
+
+enum MembershipRole {
+  admin
+  member
+}
+
+model Membership {
+  id        String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt DateTime       @default(now()) @map("created_at")
+  updatedAt DateTime       @default(now()) @updatedAt @map("updated_at")
+  role      MembershipRole @default(member)
+  teamId    String         @map("team_id") @db.Uuid
+  userId    String         @map("user_id") @db.Uuid
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([teamId, userId])
+  @@map("memberships")
+}
+
+model TeamInvitation {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at")
+  email       String
+  teamId      String    @map("team_id") @db.Uuid
+  acceptedAt  DateTime? @map("accepted_at")
+  invitedById String    @map("invited_by_id") @db.Uuid
+
+  team      Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  invitedBy User @relation(fields: [invitedById], references: [id], onDelete: Cascade)
+
+  @@map("team_invitations")
 }

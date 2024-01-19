@@ -2,7 +2,7 @@
 
 import cn from 'classnames'
 import Link from 'next/link'
-import { useSelectedLayoutSegment } from 'next/navigation'
+import { useSelectedLayoutSegments } from 'next/navigation'
 import { FC } from 'react'
 import { ChevronRight } from 'src/components/atoms/icons'
 
@@ -11,7 +11,7 @@ export type AccountNavItemProps = {
   href: string
 }
 export const AccountNavItem: FC<AccountNavItemProps> = ({ label, href }) => {
-  const segment = useSelectedLayoutSegment()
+  const segment = useSelectedLayoutSegments().join('/')
   const active = href === segment || (href === '' && segment === null)
 
   return (
