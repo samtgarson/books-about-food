@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server'
 import { actions } from 'src/auth'
-import { getSessionUser } from 'src/utils/user'
+import { getUser } from 'src/utils/user'
 
 export async function POST() {
   try {
-    const user = await getSessionUser()
+    const user = await getUser()
     if (!user) return NextResponse.json({ user: null })
 
     const session = await actions.update({ user })

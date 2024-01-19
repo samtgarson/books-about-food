@@ -3,13 +3,15 @@ import { Inbox } from 'gmail-inbox'
 import { expect, test } from 'test'
 
 test.describe('Registration', () => {
-  const email = `sam+${crypto.randomUUID()}@samgarson.com`
-
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
   })
 
-  test('Register and approve', async ({ page, baseURL }) => {
+  test('Register and approve', async ({
+    page,
+    baseURL,
+    helpers: { email }
+  }) => {
     test.slow()
     await page.getByLabel('Email Address').fill(email)
     await page.getByRole('button', { name: 'Register' }).click()
@@ -30,11 +32,9 @@ test.describe('Registration', () => {
     })
 
     await page.reload()
-    await expect(page.getByText("Today's Specials")).toBeVisible()
-  })
-
-  test.afterEach(async () => {
-    await prisma.user.delete({ where: { email } })
+    await expect(page.getByText("Today's Specials")).toBeVisible({
+      timeout: 30000
+    })
   })
 })
 

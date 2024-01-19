@@ -11,6 +11,7 @@ const helpers = ({
   context: BrowserContext
   email: string
 }) => ({
+  email,
   async login() {
     const user = await prisma.user.create({
       data: { email, role: 'user', emailVerified: new Date() }
@@ -49,7 +50,7 @@ export const test = base.extend<Fixtures>({
 
     await use(helpers({ page, context, email }))
 
-    await prisma.user.delete({ where: { email } })
+    await prisma.user.deleteMany({ where: { email } })
   }
 })
 
