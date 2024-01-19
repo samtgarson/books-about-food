@@ -2,7 +2,7 @@
 
 import { Book } from '@books-about-food/core/models/book'
 import cn from 'classnames'
-import Image, { ImageProps } from 'next/image'
+import Image from 'next/image'
 import Link from 'next/link'
 import { CSSProperties, ComponentProps, forwardRef } from 'react'
 import { useListDisplay } from '../lists/list-context'
@@ -68,6 +68,8 @@ export const Box = ({
   skeleton,
   className,
   bordered = true,
+  style,
+  book,
   ...props
 }: CookbookItemProps & { bordered?: boolean } & ComponentProps<'div'>) => {
   const { display } = useListDisplay()
@@ -82,6 +84,7 @@ export const Box = ({
         skeleton && 'border-khaki',
         bordered && (mobileGrid ? 'border' : 'sm:border')
       )}
+      style={{ ...style, '--book-bg': book?.backgroundColor } as CSSProperties}
       {...props}
     >
       {children}
@@ -89,29 +92,15 @@ export const Box = ({
   )
 }
 
-export const Cover = ({
-  attrs,
-  skeleton,
-  centered,
-  className,
-  color
-}: Omit<CookbookItemProps, 'book'> & {
-  attrs?: ImageProps
-  color?: string
-}) => {
+export const Cover = ({ centered, book, ...props }: CookbookItemProps) => {
   const { display } = useListDisplay()
   const mobileGrid = display === 'grid'
 
   return (
-    <Box
-      skeleton={skeleton}
-      bordered={!centered}
-      className={className}
-      style={color ? { backgroundColor: color } : {}}
-    >
-      {attrs ? (
+    <Box bordered={!centered} book={book} {...props}>
+      {book?.cover ? (
         <Image
-          {...attrs}
+          {...book.cover.imageAttrs(200)}
           className={cn(
             'book-shadow h-24 !w-auto sm:absolute sm:inset-x-0 sm:top-[15%] sm:mx-auto sm:h-[70%]',
             mobileGrid && 'absolute inset-x-0 top-[15%] mx-auto h-[70%]'
@@ -162,9 +151,9 @@ export const Item = forwardRef<
   return (
     <Container book={book} centered={centered} {...rest} ref={ref}>
       <Cover
-        attrs={book.cover?.imageAttrs(200)}
+        book={book}
         centered={centered}
-        color={colorful ? book.backgroundColor : undefined}
+        className={cn(colorful && 'bg-[var(--book-bg)]')}
       />
       <Footer
         centered={centered}

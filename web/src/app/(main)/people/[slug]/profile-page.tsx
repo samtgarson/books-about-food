@@ -32,7 +32,7 @@ export async function ProfilePage({ segment, slug }: ProfilePageProps) {
       <Container
         belowNav
         id="container"
-        className={cn(profile.claimed && 'bg-white sm:pb-20')}
+        className={cn(profile.claimed && 'bg-white pb-8 sm:pb-20')}
       >
         <div className="pt-8 md:pt-20">
           <div className="relative flex flex-col items-stretch gap-6 lg:flex-row lg:items-start">
