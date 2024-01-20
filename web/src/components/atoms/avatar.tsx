@@ -19,7 +19,7 @@ export const avatarSize = [
 export type AvatarSize = (typeof avatarSize)[number]
 
 export type BaseAvatarProps = {
-  imgProps?: ImageProps
+  imgProps?: ImageProps | null
   backup: string
   size?: AvatarSize
   mobileSize?: AvatarSize

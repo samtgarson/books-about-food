@@ -1,7 +1,8 @@
 import {
   bookIncludes,
   profileIncludes,
-  publisherIncludes
+  publisherIncludes,
+  teamIncludes
 } from '@books-about-food/core/services/utils'
 import type { Prisma } from '@books-about-food/database'
 
@@ -26,4 +27,8 @@ export type PublisherAttrs = Prisma.PublisherGetPayload<{
 
 export type ProfileAttrs = Prisma.ProfileGetPayload<{
   include: ProfileIncludes
+}>
+
+export type TeamAttrs = Prisma.TeamGetPayload<{
+  include: typeof teamIncludes
 }>

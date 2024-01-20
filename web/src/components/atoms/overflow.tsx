@@ -44,11 +44,16 @@ const itemClasses = (variant: ItemVariant) =>
 type BaseAttrs = {
   children: ReactNode
   variant?: ItemVariant
-  icon?: Icon
+  icon?: Icon | false
 }
 type LinkAttrs = { onClick?: never } & ComponentProps<typeof Link> & BaseAttrs
-type ButtonAttrs = { href?: never; onClick: () => void } & BaseAttrs
+type ButtonAttrs = {
+  href?: never
+  onClick: (key?: string) => void | Promise<void>
+  id?: string
+} & BaseAttrs
 export const Item: FC<LinkAttrs | ButtonAttrs> = ({
+  id,
   children,
   variant = 'default',
   icon: Icon = ArrowUpRight,
@@ -64,15 +69,18 @@ export const Item: FC<LinkAttrs | ButtonAttrs> = ({
       <DropdownMenu.Item className={itemClasses(variant)} asChild>
         <Link href={href} {...props}>
           {children}
-          <Icon strokeWidth={1} />
+          {Icon === false ? null : <Icon strokeWidth={1} />}
         </Link>
       </DropdownMenu.Item>
     )
 
   return (
-    <DropdownMenu.Item className={itemClasses(variant)} onSelect={onClick}>
+    <DropdownMenu.Item
+      className={itemClasses(variant)}
+      onSelect={async () => await onClick?.(id)}
+    >
       {children}
-      <Icon strokeWidth={1} />
+      {Icon === false ? null : <Icon strokeWidth={1} />}
     </DropdownMenu.Item>
   )
 }

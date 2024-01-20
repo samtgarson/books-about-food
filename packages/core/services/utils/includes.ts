@@ -30,3 +30,9 @@ export const fullBookIncludes = {
   tags: true,
   links: { orderBy: { site: 'asc' } }
 } satisfies Prisma.BookDefaultArgs['include']
+
+export const teamIncludes = {
+  memberships: { include: { user: true } },
+  invitations: { where: { acceptedAt: null }, include: { invitedBy: true } },
+  publishers: { include: publisherIncludes }
+} satisfies Prisma.TeamDefaultArgs['include']

@@ -1,4 +1,5 @@
 import { acceptInvite } from '@books-about-food/core/services/teams/accept-invite'
+import { deleteInvite } from '@books-about-food/core/services/teams/delete-invite'
 import prisma from '@books-about-food/database'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
@@ -43,9 +44,7 @@ export async function InviteWidget() {
             formAction={async function () {
               'use server'
 
-              await prisma.teamInvitation.delete({
-                where: { id: invite.id }
-              })
+              await call(deleteInvite, { inviteId: invite.id })
               revalidatePath('/account')
             }}
           >
