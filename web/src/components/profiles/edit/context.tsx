@@ -2,73 +2,51 @@
 
 import { Profile } from '@books-about-food/core/models/profile'
 import { UpdateProfileInput } from '@books-about-food/core/services/profiles/update-profile'
+import { ReactNode, useCallback, useContext } from 'react'
 import {
-  ReactNode,
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState
-} from 'react'
-import { errorToast, successToast } from 'src/components/utils/toaster'
+  EditInPlaceProvider,
+  createInplaceContext
+} from 'src/components/edit/in-place/context'
 import { parse } from 'src/utils/superjson'
 import { action } from './action'
 
-export type EditProfileContext = {
-  profile: Profile
-  editMode: boolean
-  setEditMode: (editMode: boolean) => void
-  onSave: (data: Omit<UpdateProfileInput, 'slug'>) => Promise<boolean>
+const context = createInplaceContext<
+  Profile,
+  Omit<UpdateProfileInput, 'slug'>
+>()
+export function useEditProfile() {
+  const ctx = useContext(context)
+  return { ...ctx, profile: ctx.resource }
 }
-
-const EditProfileContext = createContext({} as EditProfileContext)
-
-export const useEditProfile = () => useContext(EditProfileContext)
 
 export const EditProfileProvider = ({
   children,
   segment,
-  profile: initialProfile
+  profile
 }: {
   children: ReactNode
   profile: Profile
   segment: 'authors' | 'people'
 }) => {
-  const [profile, setProfile] = useState(initialProfile)
-  const [editMode, setEditMode] = useState(false)
-
-  useEffect(() => {
-    if (!editMode) {
-      document.body.classList.remove('bg-blue-grey')
-    } else {
-      document.body.classList.add('bg-blue-grey')
-    }
-  }, [editMode])
-
-  const onSave: EditProfileContext['onSave'] = useCallback(
-    async (data) => {
+  const save = useCallback(
+    async function (data: Omit<UpdateProfileInput, 'slug'>) {
       const result = await action(segment, { ...data, slug: profile.slug })
       if (result.success) {
-        setProfile(parse(result.data))
-        successToast('Profile updated')
-        return true
+        return parse(result.data)
       } else {
         if (result.errors[0].type === 'InvalidInput') {
-          errorToast(result.errors[0].message)
+          return result.errors[0].message
         } else {
-          errorToast('Something went wrong')
+          return 'Something went wrong'
         }
-        return false
       }
     },
     [profile.slug, segment]
   )
 
   return (
-    <EditProfileContext.Provider
-      value={{ profile, editMode, setEditMode, onSave }}
-    >
+    <EditInPlaceProvider context={context} resource={profile} onSave={save}>
       {children}
-    </EditProfileContext.Provider>
+    </EditInPlaceProvider>
   )
 }
