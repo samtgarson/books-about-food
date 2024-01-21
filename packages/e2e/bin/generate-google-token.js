@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Inbox } from 'gmail-inbox'
 import { resolve } from 'path'
 

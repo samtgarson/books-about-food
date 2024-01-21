@@ -1,6 +1,6 @@
 import prisma from '@books-about-food/database'
 import { Inbox } from 'gmail-inbox'
-import { expect, test } from 'test'
+import { expect, test } from '../test'
 
 test.describe('Registration', () => {
   test.beforeEach(async ({ page }) => {

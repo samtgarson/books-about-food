@@ -1,4 +1,4 @@
-import { expect, test } from 'test'
+import { expect, test } from '../test'
 
 test.describe('Homepage', () => {
   test.describe('when logged out', () => {

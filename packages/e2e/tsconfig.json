@@ -4,9 +4,7 @@
     "moduleResolution": "bundler",
     "module": "es2020",
     "baseUrl": ".",
-    "paths": {
-      "test": ["./test"]
-    }
+    "paths": {}
   },
   "include": ["**/*.ts", "**/*.tsx"]
 }

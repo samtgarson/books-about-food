@@ -1,5 +1,5 @@
 import { Page } from '@playwright/test'
-import { expect, test } from 'test'
+import { expect, test } from '../test'
 
 test.describe('Submit', function () {
   test.beforeEach(async function ({ page, helpers }) {
