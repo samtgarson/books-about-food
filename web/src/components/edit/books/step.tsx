@@ -3,7 +3,7 @@ import cn from 'classnames'
 import Link from 'next/link'
 import { FC } from 'react'
 import { ChevronRight } from 'src/components/atoms/icons'
-import { AvatarList } from '../profiles/avatar-list'
+import { AvatarList } from 'src/components/profiles/avatar-list'
 import { StepCompletionMeta } from './state'
 
 export interface StepProps {

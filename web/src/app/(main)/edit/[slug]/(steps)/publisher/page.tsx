@@ -1,6 +1,6 @@
 import { fetchBook } from '@books-about-food/core/services/books/fetch-book'
 import { notFound } from 'next/navigation'
-import { EditPublisherForm } from 'src/components/edit/forms/publisher'
+import { EditPublisherForm } from 'src/components/edit/books/forms/publisher'
 import { call } from 'src/utils/service'
 
 export default async ({ params: { slug } }: { params: { slug: string } }) => {
