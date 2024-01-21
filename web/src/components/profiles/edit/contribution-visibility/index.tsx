@@ -41,10 +41,8 @@ export const ContributionVisibility: FC<ContributionVisibilityProps> = ({
     <Container book={book} link={!editMode}>
       <Cover
         book={book}
-        className={cn(
-          'transition mobile-only:bg-[var(--book-bg)] group-hover:bg-[var(--book-bg)]',
-          editMode && hidden && 'opacity-30 saturate-0'
-        )}
+        className={cn(editMode && hidden && 'opacity-30 saturate-0')}
+        mobileColorful
       />
       {display === 'list' && (
         <Footer

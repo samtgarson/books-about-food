@@ -3268,12 +3268,12 @@
           "isFilterable": true,
           "isPrimaryKey": false,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "String",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,

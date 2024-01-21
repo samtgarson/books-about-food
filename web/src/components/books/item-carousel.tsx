@@ -18,6 +18,7 @@ export type ItemCarouselProps = {
   centered?: boolean
   carouselClassName?: string
   colorful?: boolean
+  mobileColorful?: boolean
   rightPadding?: boolean
 } & Partial<
   Omit<Carousel.CarouselRootProps, 'totalItems' | 'alignment' | 'children'>
@@ -38,6 +39,7 @@ export const ItemCarousel: FC<ItemCarouselProps> = ({
   centered,
   carouselClassName,
   colorful,
+  mobileColorful,
   rightPadding = false,
   ...props
 }) => {
@@ -75,6 +77,7 @@ export const ItemCarousel: FC<ItemCarouselProps> = ({
                   className={cn('max-w-[90vw] self-start')}
                   centered={centered}
                   colorful={colorful}
+                  mobileColorful={mobileColorful}
                 />
               </Carousel.Item>
             ))}

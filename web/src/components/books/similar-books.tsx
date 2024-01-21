@@ -30,6 +30,7 @@ export const SimilarBooks = async ({ slug, className }: SimilarBooksProps) => {
           items={books}
           size="lg"
           carouselClassName="pr-px"
+          mobileColorful
           key="similar-books"
           data-superjson
           rightPadding
@@ -38,7 +39,11 @@ export const SimilarBooks = async ({ slug, className }: SimilarBooksProps) => {
       <ListContainer title="Similar Cookbooks" className="sm:hidden">
         <GridContainer>
           {books.map((book) => (
-            <Wrap c={Item} key={book.id.toString()} props={{ book }} />
+            <Wrap
+              c={Item}
+              key={book.id.toString()}
+              props={{ book, mobileColorful: true }}
+            />
           ))}
         </GridContainer>
       </ListContainer>

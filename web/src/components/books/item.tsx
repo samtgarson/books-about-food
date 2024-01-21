@@ -92,12 +92,31 @@ export const Box = ({
   )
 }
 
-export const Cover = ({ centered, book, ...props }: CookbookItemProps) => {
+export const Cover = ({
+  centered,
+  book,
+  className,
+  colorful,
+  mobileColorful,
+  ...props
+}: CookbookItemProps & { colorful?: boolean; mobileColorful?: boolean }) => {
   const { display } = useListDisplay()
   const mobileGrid = display === 'grid'
 
   return (
-    <Box bordered={!centered} book={book} {...props}>
+    <Box
+      bordered={!centered}
+      book={book}
+      className={cn(
+        className,
+        colorful && 'bg-[var(--book-bg)]',
+        mobileColorful && [
+          mobileGrid && 'mobile-only:bg-[var(--book-bg)]',
+          'sm:transition group-hover:bg-[var(--book-bg)]'
+        ]
+      )}
+      {...props}
+    >
       {book?.cover ? (
         <Image
           {...book.cover.imageAttrs(200)}
@@ -143,8 +162,12 @@ export const Footer = ({
 
 export const Item = forwardRef<
   HTMLLIElement,
-  CookbookItemProps & { book: Book; colorful?: boolean }
->(function Item({ skeleton, colorful, ...props }, ref) {
+  CookbookItemProps & {
+    book: Book
+    colorful?: boolean
+    mobileColorful?: boolean
+  }
+>(function Item({ skeleton, colorful, mobileColorful, ...props }, ref) {
   const { display } = useListDisplay()
   if (skeleton) return <Skeleton {...props} ref={ref} />
   const { book, centered, ...rest } = props
@@ -153,7 +176,8 @@ export const Item = forwardRef<
       <Cover
         book={book}
         centered={centered}
-        className={cn(colorful && 'bg-[var(--book-bg)]')}
+        mobileColorful={mobileColorful}
+        colorful={colorful}
       />
       <Footer
         centered={centered}
