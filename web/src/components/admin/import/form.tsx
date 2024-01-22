@@ -36,7 +36,7 @@ export function ImportForm() {
     <Form action={processCSV}>
       <h3 className="text-16 font-medium">Import Books</h3>
       <Input required label="CSV" name="file" type="file" accept=".csv" />
-      <Submit variant="dark">Preview</Submit>
+      <Submit>Preview</Submit>
       {(preview || errors) && (
         <Sheet.Root defaultOpen onClose={() => setPreview(undefined)}>
           <Sheet.Content size="xl">

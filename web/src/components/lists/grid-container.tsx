@@ -1,11 +1,11 @@
 'use client'
 
 import cn from 'classnames'
-import { ComponentProps, forwardRef } from 'react'
+import { ComponentPropsWithoutRef, forwardRef } from 'react'
 import { AntiContainer } from '../atoms/container'
 import { useListDisplay } from './list-context'
 
-export type GridContainerProps = ComponentProps<'ul'>
+export type GridContainerProps = ComponentPropsWithoutRef<'ul'>
 
 export const GridContainer = forwardRef<HTMLDivElement, GridContainerProps>(
   function GridContainer({ children, className, ...props }, ref) {

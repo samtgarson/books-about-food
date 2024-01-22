@@ -37,7 +37,7 @@ export const UploadForm = async ({ book }: { book: FullBook }) => {
         data-superjson
         className="mb-4"
       />
-      <Submit variant="dark">Save and Continue</Submit>
+      <Submit>Save and Continue</Submit>
     </EditForm>
   )
 }

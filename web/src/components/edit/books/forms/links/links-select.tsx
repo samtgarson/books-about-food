@@ -84,9 +84,7 @@ function LinksForm({
         required
         onChange={(e) => setUrl(e.target.value)}
       />
-      <Submit variant="dark" className="mt-4">
-        Save
-      </Submit>
+      <Submit className="mt-4">Save</Submit>
       <p className="text-14 mt-4">
         Note: If the website you would like to add isn’t listed please enter the
         name in the Website field and click Create (eg: “Portfolio”, “New York

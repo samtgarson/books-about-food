@@ -57,9 +57,7 @@ export function ContributionForm({
         checked={isAssistant}
         onChange={(e) => setIsAssistant(e.target.checked)}
       />
-      <Submit className="mt-4" variant="dark">
-        Save
-      </Submit>
+      <Submit className="mt-4">Save</Submit>
       <p className="text-14 mt-4">
         Note: If the role you would like to assign to this team member isn’t
         listed please choose the most similar then{' '}

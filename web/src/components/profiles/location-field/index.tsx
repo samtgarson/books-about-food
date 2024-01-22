@@ -68,9 +68,7 @@ export const LocationField = () => {
                 />
               </Sheet.Body>
               <Sheet.Footer>
-                <Submit variant="dark" className="w-full">
-                  Save
-                </Submit>
+                <Submit className="w-full">Save</Submit>
               </Sheet.Footer>
             </Form>
           )}

@@ -36,9 +36,7 @@ export const SignInButtons: FC<SignInButtonsProps> = ({
         type="email"
       />
       <div className="flex gap-4">
-        <Submit variant="dark" className="grow">
-          {emailButtonLabel}
-        </Submit>
+        <Submit className="grow">{emailButtonLabel}</Submit>
       </div>
       <p className="text-center">or</p>
       <Button

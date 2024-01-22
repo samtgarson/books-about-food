@@ -12,7 +12,7 @@ export const EditTitleForm = async ({ book }: { book: FullBook }) => {
       <PageSubtitle>General Information</PageSubtitle>
       <Input label="Title" defaultValue={book.title} name="title" required />
       <TitleFormContent book={book} />
-      <Submit variant="dark">Save and Continue</Submit>
+      <Submit>Save and Continue</Submit>
     </EditForm>
   )
 }

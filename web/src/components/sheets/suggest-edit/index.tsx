@@ -47,7 +47,7 @@ export const SuggestEditSheet: SheetComponent<SuggestEditSheetProps> = ({
               placeholder="The title is spelled wrong..."
               required
             />
-            <Submit variant="dark">Submit</Submit>
+            <Submit>Submit</Submit>
           </Form>
         )}
       </Body>

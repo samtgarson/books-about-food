@@ -47,7 +47,7 @@ export const EditPublisherForm = async ({ book }: { book: FullBook }) => {
         type="number"
         min={0}
       />
-      <Submit variant="dark">Save and Continue</Submit>
+      <Submit>Save and Continue</Submit>
       <p className="text-14 mt-8">
         Note: If the publisher you would like to add isn’t listed, please{' '}
         <ContactLink subject="I need a new publisher">get in touch</ContactLink>

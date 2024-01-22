@@ -20,7 +20,7 @@ export default function Page() {
       <Form action={action}>
         <PageBackLink href="/account">New Pitch</PageBackLink>
         <TextArea label="Description" name="description" required />
-        <Submit variant="dark">Create pitch</Submit>
+        <Submit>Create pitch</Submit>
       </Form>
     </Container>
   )

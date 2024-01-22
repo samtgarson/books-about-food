@@ -44,9 +44,7 @@ export const NewBookButton = ({
             <input type="hidden" name="title" value={book.title} />
             <input type="hidden" name="googleBooksId" value={googleBooksId} />
             <input type="hidden" name="cover" value={cover} />
-            <Submit variant="dark" className="w-full">
-              Save & continue
-            </Submit>
+            <Submit className="w-full">Save & continue</Submit>
           </Form>
         </Sheet.Body>
       </Sheet.Content>

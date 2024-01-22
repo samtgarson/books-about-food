@@ -40,7 +40,7 @@ export const EditLinksForm = async ({ book }: { book: FullBook }) => {
     >
       <PageSubtitle>Links</PageSubtitle>
       <LinksSelect book={book} data-superjson />
-      <Submit variant="dark">Save and Continue</Submit>
+      <Submit>Save and Continue</Submit>
     </EditForm>
   )
 }

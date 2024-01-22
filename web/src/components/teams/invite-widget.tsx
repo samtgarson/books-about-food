@@ -50,7 +50,7 @@ export async function InviteWidget() {
           >
             Decline
           </Button>
-          <Submit variant="dark">Accept</Submit>
+          <Submit>Accept</Submit>
         </form>
       ))}
     </div>

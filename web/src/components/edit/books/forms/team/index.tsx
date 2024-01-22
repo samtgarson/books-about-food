@@ -35,7 +35,7 @@ export const EditTeamForm = async ({ book }: { book: FullBook }) => {
       <PageSubtitle>Team</PageSubtitle>
       <p>Please add at least one person who worked on this project.</p>
       <TeamSelect book={book} data-superjson />
-      <Submit variant="dark">Save and Continue</Submit>
+      <Submit>Save and Continue</Submit>
     </EditForm>
   )
 }
