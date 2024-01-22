@@ -3,7 +3,7 @@
 import { FullBook } from '@books-about-food/core/models/full-book'
 import { PencilMini } from 'src/components/atoms/icons'
 import * as Overflow from 'src/components/atoms/overflow'
-import { usePolicy } from 'src/utils/can'
+import { usePolicy } from 'src/hooks/use-policy'
 import { useSheet } from '../sheets/global-sheet'
 
 export const BookOverflow = ({

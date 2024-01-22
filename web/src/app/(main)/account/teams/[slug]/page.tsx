@@ -29,6 +29,7 @@ export default async function TeamPage({
         action="invite-accepted"
         type="success"
         message="Invite accepted"
+        refreshSession
       />
       <AccountHeader title={team.name} />
       <PublisherGrid publishers={team.publishers} square={false} />

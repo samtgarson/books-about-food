@@ -1,7 +1,7 @@
 'use client'
 
 import { trackEvent } from 'fathom-client'
-import { Session } from 'next-auth/types'
+import { User } from 'next-auth/types'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Button } from 'src/components/atoms/button'
@@ -11,21 +11,22 @@ import { AuthedButton } from 'src/components/auth/authed-button'
 import { Form } from 'src/components/form'
 import { Input } from 'src/components/form/input'
 import { Submit } from 'src/components/form/submit'
+import { useUpdateSession } from 'src/hooks/use-update-session'
 import z from 'zod'
 
 export function WelcomeMessage() {
   const [loading, setLoading] = useState(true)
-  const [user, setUser] = useState<Session['user'] | null>(null)
+  const [user, setUser] = useState<User | null>(null)
   const { push } = useRouter()
+  const updateSession = useUpdateSession()
 
   useEffect(() => {
     async function getRole() {
+      if (!updateSession.ready) return
       try {
-        const res = await fetch('/auth/session', { method: 'POST' })
-        const json = await res.json()
-        const user = json?.user
+        const user = await updateSession.update()
         if (user?.role && user.role !== 'waitlist') return push('/')
-        setUser(user)
+        setUser(user || null)
         setLoading(false)
       } catch (e) {
         setLoading(false)
@@ -33,7 +34,7 @@ export function WelcomeMessage() {
     }
 
     getRole()
-  }, [push])
+  }, [push, updateSession])
 
   if (loading || (user?.role && user.role !== 'waitlist'))
     return <Loader size={40} />

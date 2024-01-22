@@ -10,17 +10,17 @@ export const acceptInvite = new AuthedService(
       include: { team: true }
     })
 
-    await prisma.$transaction([
-      prisma.teamInvitation.update({
+    await prisma.$transaction(async function (tx) {
+      await tx.teamInvitation.update({
         where: { id: inviteId },
         data: { acceptedAt: new Date() }
-      }),
-      prisma.membership.create({
+      })
+      await tx.membership.create({
         data: {
-          team: { connect: invite.team },
-          user: { connect: user }
+          teamId: invite.team.id,
+          userId: user.id
         }
       })
-    ])
+    })
   }
 )

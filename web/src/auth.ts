@@ -1,4 +1,3 @@
-import { skipCSRFCheck } from '@auth/core'
 import type { Adapter } from '@auth/core/adapters'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import { inngest } from '@books-about-food/core/jobs'
@@ -8,8 +7,6 @@ import NextAuth, { NextAuthConfig } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 
 export const authOptions = {
-  skipCSRFCheck:
-    process.env.NODE_ENV === 'development' ? skipCSRFCheck : undefined,
   providers: [
     GoogleProvider({
       clientId: getEnv('GOOGLE_CLIENT_ID'),
@@ -54,27 +51,45 @@ export const authOptions = {
     }
   ],
   callbacks: {
-    async jwt({ token, user, session, trigger }) {
+    async jwt({ token, user, trigger }) {
       if (user) {
         token.userId = user.id
         token.role = user.role
+        token.image = user.image || undefined
+
+        const db = await prisma.membership.findMany({
+          where: { userId: user.id },
+          select: { teamId: true }
+        })
+        token.teams = db.map((m) => m.teamId)
       }
 
-      if (session && trigger === 'update') {
-        token.userId = session.user.id
-        token.role = session.user.role
+      if (trigger === 'update') {
+        const db = await prisma.user.findUnique({
+          where: { id: token.userId },
+          include: { memberships: { select: { teamId: true } } }
+        })
+
+        if (!db) return token
+        token.role = db.role
+        token.teams = db.memberships.map((m) => m.teamId)
       }
 
       return token
     },
-    async session({ session, token }) {
+    async session({ session, token, trigger }) {
+      if (trigger === 'update') {
+        console.log('session', session)
+      }
+
       if (token) {
         session.user = {
-          ...(session.user ?? {}),
           email: token.email,
           name: token.name || null,
           id: token.userId,
-          role: token.role
+          role: token.role,
+          image: token.picture || null,
+          teams: token.teams
         }
       }
 

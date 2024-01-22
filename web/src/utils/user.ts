@@ -19,5 +19,8 @@ export const getUser = cache(async () => {
   const sessionUser = await getSessionUser()
   if (!sessionUser) return null
 
-  return prisma.user.findUnique({ where: { id: sessionUser.id } })
+  return prisma.user.findUnique({
+    where: { id: sessionUser.id },
+    include: { memberships: { select: { teamId: true } } }
+  })
 })
