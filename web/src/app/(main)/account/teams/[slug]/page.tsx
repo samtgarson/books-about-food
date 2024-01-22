@@ -6,13 +6,14 @@ import { formatRelative } from 'date-fns'
 import { capitalize } from 'inflection'
 import { revalidatePath } from 'next/cache'
 import { notFound } from 'next/navigation'
-import { Plus } from 'react-feather'
 import { AccountHeader } from 'src/components/accounts/header'
 import { BaseAvatar } from 'src/components/atoms/avatar'
 import * as Overflow from 'src/components/atoms/overflow'
 import { Tag } from 'src/components/atoms/tag'
+import { TeamInviteButton } from 'src/components/teams/invite-button'
 import { PageProps } from 'src/components/types'
 import { Toaster } from 'src/components/utils/toaster'
+import { pick } from 'src/utils/object-helpers'
 import { call } from 'src/utils/service'
 import { getSessionUser } from 'src/utils/user'
 
@@ -32,7 +33,9 @@ export default async function TeamPage({
         refreshSession
       />
       <AccountHeader title={team.name} />
-      <PublisherGrid publishers={team.publishers} square={false} />
+      {team.publishers.length > 0 && (
+        <PublisherGrid publishers={team.publishers} square={false} />
+      )}
       <Memberships team={team} />
       <Invites team={team} userId={user.id} />
     </div>
@@ -72,7 +75,7 @@ function Invites({ team, userId }: { team: Team; userId: string }) {
     <div className="flex flex-col">
       <div className="flex justify-between">
         <h3 className="font-medium">Invites</h3>
-        <Plus strokeWidth={1} />
+        <TeamInviteButton team={pick(team, ['id', 'slug', 'name'])} />
       </div>
       {team.invitations.length === 0 && (
         <p className="opacity-50 mt-2">No invites</p>

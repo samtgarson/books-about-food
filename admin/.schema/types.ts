@@ -10117,6 +10117,7 @@ export type Schema = {
       'email': string;
       'id': string;
       'invited_by_id': string;
+      'role': 'admin' | 'member';
       'team_id': string;
       'updated_at': string;
     };

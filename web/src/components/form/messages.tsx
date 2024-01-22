@@ -14,7 +14,7 @@ export const FormMessage = ({ className, ...props }: Form.FormMessageProps) => {
   return (
     <Form.Message
       {...props}
-      className={cn(className, 'text-14 mt-2 text-primary-red')}
+      className={cn(className, 'text-14 text-primary-red')}
     />
   )
 }

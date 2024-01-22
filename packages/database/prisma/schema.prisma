@@ -384,16 +384,18 @@ model Membership {
 }
 
 model TeamInvitation {
-  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at")
+  id          String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @default(now()) @updatedAt @map("updated_at")
   email       String
-  teamId      String    @map("team_id") @db.Uuid
-  acceptedAt  DateTime? @map("accepted_at")
-  invitedById String    @map("invited_by_id") @db.Uuid
+  teamId      String         @map("team_id") @db.Uuid
+  acceptedAt  DateTime?      @map("accepted_at")
+  invitedById String         @map("invited_by_id") @db.Uuid
+  role        MembershipRole @default(member)
 
   team      Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
   invitedBy User @relation(fields: [invitedById], references: [id], onDelete: Cascade)
 
+  @@unique([teamId, email])
   @@map("team_invitations")
 }
