@@ -3,6 +3,7 @@
 import { FullBook } from '@books-about-food/core/models/full-book'
 import { PencilMini } from 'src/components/atoms/icons'
 import * as Overflow from 'src/components/atoms/overflow'
+import { usePolicy } from 'src/utils/can'
 import { useSheet } from '../sheets/global-sheet'
 
 export const BookOverflow = ({
@@ -10,6 +11,8 @@ export const BookOverflow = ({
   ...props
 }: { book: FullBook } & Omit<Overflow.RootProps, 'children'>) => {
   const { openSheet } = useSheet()
+  const bookPolicy = usePolicy(book)
+
   return (
     <Overflow.Root {...props}>
       <Overflow.Item
@@ -18,9 +21,9 @@ export const BookOverflow = ({
       >
         Suggest an edit
       </Overflow.Item>
-      <Overflow.Item variant="admin" href={`/edit/${book.slug}`}>
-        Edit Book
-      </Overflow.Item>
+      {bookPolicy?.update && (
+        <Overflow.Item href={`/edit/${book.slug}`}>Edit Book</Overflow.Item>
+      )}
       <Overflow.Item
         variant="admin"
         href={`https://app.forestadmin.com/Books%20About%20Food/Production/Core%20Team/data/books/index/record/books/${book.id}/details`}

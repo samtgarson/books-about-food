@@ -1,10 +1,12 @@
 import { Profile } from '@books-about-food/core/models/profile'
+import { can } from '@books-about-food/core/policies'
 import { AuthedService } from '@books-about-food/core/services/base'
 import prisma from '@books-about-food/database'
 import { slugify } from '@books-about-food/shared/utils/slugify'
 import { z } from 'zod'
 import { profileIncludes } from '../utils'
 import { array } from '../utils/inputs'
+import { fetchProfile } from './fetch-profile'
 
 export type UpdateProfileInput = z.infer<typeof updateProfile.input>
 
@@ -23,8 +25,8 @@ export const updateProfile = new AuthedService(
     hiddenCollaborators: array(z.string()).optional()
   }),
   async ({ slug, avatar, instagram, ...data } = {}, user) => {
-    const profile = await prisma.profile.findUnique({ where: { slug } })
-    if (profile?.userId !== user.id && user.role !== 'admin') {
+    const { data: profile } = await fetchProfile.call({ slug })
+    if (profile && !can(user, profile).update) {
       throw new Error('You are not allowed to update this profile')
     }
 

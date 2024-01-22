@@ -1,5 +1,6 @@
 import { Book } from '@books-about-food/core/models/book'
 import { BookAttrs } from '@books-about-food/core/models/types'
+import { can } from '@books-about-food/core/policies'
 import { AuthedService } from '@books-about-food/core/services/base'
 import prisma, { BookSource, Prisma } from '@books-about-food/database'
 import { slugify } from '@books-about-food/shared/utils/slugify'
@@ -40,7 +41,7 @@ export const updateBook = new AuthedService(
 
     if (slug) {
       const { data: book } = await fetchBook.call({ slug })
-      if (book && book.submitterId !== user.id && user.role !== 'admin') {
+      if (book && !can(user, book).update) {
         throw new Error('You do not have permission to edit this book')
       }
     }
@@ -80,7 +81,6 @@ export const updateBook = new AuthedService(
         include: bookIncludes
       })
     } else if (title) {
-      console.log('HERE', title)
       result = await prisma.book.create({
         data: {
           ...properties,

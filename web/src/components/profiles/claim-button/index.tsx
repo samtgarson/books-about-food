@@ -1,6 +1,7 @@
 'use client'
 
 import { Profile } from '@books-about-food/core/models/profile'
+import { can } from '@books-about-food/core/policies'
 import cn from 'classnames'
 import { FC, useMemo } from 'react'
 import { Loader } from 'src/components/atoms/icons'
@@ -29,10 +30,7 @@ export const ClaimProfileButton: FC<ClaimProfileButtonProps> = ({
   useParamSheet('claimProfile', modalProps)
   const currentUser = useCurrentUser()
 
-  if (
-    (profile.userId && profile.userId === currentUser?.id) ||
-    currentUser?.role === 'admin'
-  ) {
+  if (currentUser && can(currentUser, profile).update) {
     return <EditProfileButton className={className} />
   }
   if (profile.userId) return null
