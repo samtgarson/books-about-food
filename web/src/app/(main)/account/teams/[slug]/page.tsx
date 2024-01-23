@@ -1,6 +1,9 @@
 import { Team } from '@books-about-food/core/models/team'
+import { can } from '@books-about-food/core/policies'
 import { deleteInvite } from '@books-about-food/core/services/teams/delete-invite'
 import { fetchTeam } from '@books-about-food/core/services/teams/fetch-team'
+import { updateMembership } from '@books-about-food/core/services/teams/update-membership'
+import { User } from '@books-about-food/core/types'
 import { PublisherGrid } from 'app/(main)/publishers/grid'
 import { formatRelative } from 'date-fns'
 import { capitalize } from 'inflection'
@@ -8,9 +11,12 @@ import { revalidatePath } from 'next/cache'
 import { notFound } from 'next/navigation'
 import { AccountHeader } from 'src/components/accounts/header'
 import { BaseAvatar } from 'src/components/atoms/avatar'
-import * as Overflow from 'src/components/atoms/overflow'
 import { Tag } from 'src/components/atoms/tag'
 import { TeamInviteButton } from 'src/components/teams/invite-button'
+import {
+  InvitesOverflow,
+  MembershipsOverflow
+} from 'src/components/teams/overflows'
 import { PageProps } from 'src/components/types'
 import { Toaster } from 'src/components/utils/toaster'
 import { pick } from 'src/utils/object-helpers'
@@ -36,15 +42,13 @@ export default async function TeamPage({
       {team.publishers.length > 0 && (
         <PublisherGrid publishers={team.publishers} square={false} />
       )}
-      <Memberships team={team} />
-      <Invites team={team} userId={user.id} />
+      <Memberships team={team} currentUser={user} />
+      <Invites team={team} currentUser={user} />
     </div>
   )
 }
 
-function Memberships({ team }: { team: Team }) {
-  if (team.memberships.length === 0) return null
-
+function Memberships({ team, currentUser }: { team: Team; currentUser: User }) {
   return (
     <div className="flex flex-col">
       <h3 className="font-medium">Memberships</h3>
@@ -59,8 +63,25 @@ function Memberships({ team }: { team: Team }) {
               backup={user.displayName}
               size="2xs"
             />
-            <p className="mr-auto">{user.displayName}</p>
+            <p>{user.displayName}</p>
+            <p className="mr-auto opacity-50">{user.email}</p>
             <Tag color={role === 'admin' ? 'white' : 'grey'}>{role}</Tag>
+            {can(currentUser, team).update && (
+              <MembershipsOverflow
+                id={id}
+                role={role}
+                onToggleRole={async function (id) {
+                  'use server'
+                  if (!id) return
+
+                  await call(updateMembership, {
+                    membershipId: id,
+                    role: role === 'admin' ? 'member' : 'admin'
+                  })
+                  revalidatePath(`/account/teams/${team.slug}`)
+                }}
+              />
+            )}
           </li>
         ))}
       </ul>
@@ -68,9 +89,7 @@ function Memberships({ team }: { team: Team }) {
   )
 }
 
-function Invites({ team, userId }: { team: Team; userId: string }) {
-  const role = team.userRole(userId)
-
+function Invites({ team, currentUser }: { team: Team; currentUser: User }) {
   return (
     <div className="flex flex-col">
       <div className="flex justify-between">
@@ -90,23 +109,17 @@ function Invites({ team, userId }: { team: Team; userId: string }) {
             <p className="opacity-50">
               {capitalize(formatRelative(invite.createdAt, new Date()))}
             </p>
-            {role === 'admin' && (
-              <Overflow.Root>
-                <Overflow.Item
-                  icon={false}
-                  variant="danger"
-                  id={invite.id}
-                  onClick={async function (id) {
-                    'use server'
-                    if (!id) return
+            {can(currentUser, team).update && (
+              <InvitesOverflow
+                id={invite.id}
+                onRevoke={async function (id) {
+                  'use server'
+                  if (!id) return
 
-                    await call(deleteInvite, { inviteId: id })
-                    revalidatePath(`/account/teams/${team.slug}`)
-                  }}
-                >
-                  Revoke
-                </Overflow.Item>
-              </Overflow.Root>
+                  await call(deleteInvite, { inviteId: id })
+                  revalidatePath(`/account/teams/${team.slug}`)
+                }}
+              />
             )}
           </li>
         ))}
