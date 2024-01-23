@@ -5,6 +5,7 @@ import { fetchTeam } from '@books-about-food/core/services/teams/fetch-team'
 import { updateMembership } from '@books-about-food/core/services/teams/update-membership'
 import { User } from '@books-about-food/core/types'
 import { PublisherGrid } from 'app/(main)/publishers/grid'
+import cn from 'classnames'
 import { formatRelative } from 'date-fns'
 import { capitalize } from 'inflection'
 import { revalidatePath } from 'next/cache'
@@ -56,17 +57,20 @@ function Memberships({ team, currentUser }: { team: Team; currentUser: User }) {
         {team.memberships.map(({ user, id, role }) => (
           <li
             key={id}
-            className="flex gap-4 py-4 items-center border-b border-neutral-grey"
+            className={cn(
+              'flex gap-4 py-4 items-center border-b border-neutral-grey',
+              user.is(currentUser) && 'pr-10'
+            )}
           >
             <BaseAvatar
               imgProps={user.image?.imageAttrs()}
               backup={user.displayName}
               size="2xs"
             />
-            <p>{user.displayName}</p>
+            <p>{user.is(currentUser) ? 'You' : user.displayName}</p>
             <p className="mr-auto opacity-50">{user.email}</p>
             <Tag color={role === 'admin' ? 'white' : 'grey'}>{role}</Tag>
-            {can(currentUser, team).update && (
+            {can(currentUser, team).update && !user.is(currentUser) && (
               <MembershipsOverflow
                 id={id}
                 role={role}

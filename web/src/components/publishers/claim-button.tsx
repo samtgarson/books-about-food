@@ -7,16 +7,20 @@ import * as Sheet from 'src/components/atoms/sheet'
 import { Button } from '../atoms/button'
 import { contactProps } from '../atoms/contact-link'
 import { Tag } from '../atoms/tag'
+import { EditPublisherButton } from './edit/button'
+import { useEditPublisher } from './edit/context'
 
 export type ClaimPublisherButtonProps = {
-  publisherName: string
   className?: string
 }
 
 export const ClaimPublisherButton: FC<ClaimPublisherButtonProps> = ({
-  className,
-  publisherName
+  className
 }) => {
+  const { enabled, publisher } = useEditPublisher()
+
+  if (enabled) return <EditPublisherButton className={className} />
+  if (publisher.teamId) return null
   return (
     <Sheet.Root>
       <Sheet.Trigger asChild>
@@ -75,7 +79,7 @@ export const ClaimPublisherButton: FC<ClaimPublisherButtonProps> = ({
           <Button
             as="a"
             className="w-full"
-            {...contactProps(`Publisher Claim: ${publisherName}`)}
+            {...contactProps(`Publisher Claim: ${publisher.name}`)}
             variant="dark"
           >
             Get in touch

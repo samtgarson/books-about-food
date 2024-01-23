@@ -18,7 +18,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en" className={fontClassname}>
-      <body className="relative flex min-h-screen flex-col">
+      <body className="relative flex min-h-screen flex-col transition-colors duration-700">
         <Fathom />
         <AuthProvider>
           <GlobalSheetProvider>

@@ -17,9 +17,9 @@ export function MembershipsOverflow({
       <Overflow.Item
         id={id}
         onClick={onToggleRole}
-        icon={role === 'admin' ? ChevronsUp : ChevronsDown}
+        icon={role === 'admin' ? ChevronsDown : ChevronsUp}
       >
-        {role === 'member' ? 'Make member' : 'Make admin'}
+        {role === 'member' ? 'Make admin' : 'Make member'}
       </Overflow.Item>
     </Overflow.Root>
   )

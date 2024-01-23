@@ -18,6 +18,7 @@ export type EditInPlaceContext<
   editMode: boolean
   setEditMode: (editMode: boolean) => void
   onSave: (data: UpdateAttrs) => Promise<boolean>
+  enabled: boolean
 }
 
 export function createInplaceContext<
@@ -34,12 +35,14 @@ export function EditInPlaceProvider<
   context: Context,
   children,
   resource: initialResource,
-  onSave: save
+  onSave: save,
+  enabled = false
 }: {
   context: Context<EditInPlaceContext<Resource, UpdateAttrs>>
   children: ReactNode
   resource: Resource
   onSave: (data: UpdateAttrs) => Promise<Resource | string | undefined>
+  enabled?: boolean
 }) {
   const [resource, setResource] = useState(initialResource)
   const [editMode, setEditMode] = useState(false)
@@ -75,8 +78,9 @@ export function EditInPlaceProvider<
       value={{
         resource,
         editMode,
-        setEditMode,
-        onSave
+        setEditMode: enabled ? setEditMode : () => {},
+        onSave,
+        enabled
       }}
     >
       {children}

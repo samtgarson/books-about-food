@@ -1,7 +1,7 @@
 'use client'
 
-import { Profile } from '@books-about-food/core/models/profile'
-import { UpdateProfileInput } from '@books-about-food/core/services/profiles/update-profile'
+import { Publisher } from '@books-about-food/core/models/publisher'
+import { UpdatePublisherInput } from '@books-about-food/core/services/publishers/update-publisher'
 import { ReactNode, useCallback, useContext } from 'react'
 import {
   EditInPlaceProvider,
@@ -12,27 +12,26 @@ import { parse } from 'src/utils/superjson'
 import { action } from './action'
 
 const context = createInplaceContext<
-  Profile,
-  Omit<UpdateProfileInput, 'slug'>
+  Publisher,
+  Omit<UpdatePublisherInput, 'slug'>
 >()
-export function useEditProfile() {
+export function useEditPublisher() {
   const ctx = useContext(context)
-  return { ...ctx, profile: ctx.resource }
+  return { ...ctx, publisher: ctx.resource }
 }
 
-export const EditProfileProvider = ({
+export const EditPublisherProvider = ({
   children,
-  segment,
-  profile
+  publisher
 }: {
   children: ReactNode
-  profile: Profile
-  segment: 'authors' | 'people'
+  publisher: Publisher
 }) => {
-  const policy = usePolicy(profile)
+  const policy = usePolicy(publisher)
+
   const save = useCallback(
-    async function (data: Omit<UpdateProfileInput, 'slug'>) {
-      const result = await action(segment, { ...data, slug: profile.slug })
+    async function (data: Omit<UpdatePublisherInput, 'slug'>) {
+      const result = await action({ ...data, slug: publisher.slug })
       if (result.success) {
         return parse(result.data)
       } else {
@@ -43,13 +42,13 @@ export const EditProfileProvider = ({
         }
       }
     },
-    [profile.slug, segment]
+    [publisher.slug]
   )
 
   return (
     <EditInPlaceProvider
       context={context}
-      resource={profile}
+      resource={publisher}
       onSave={save}
       enabled={policy?.update}
     >

@@ -31,5 +31,9 @@ export class User extends Colourful(
     get displayName() {
       return this.name ?? this.email
     }
+
+    is(other: { id: string }) {
+      return this.id === other.id
+    }
   }
 ) {}

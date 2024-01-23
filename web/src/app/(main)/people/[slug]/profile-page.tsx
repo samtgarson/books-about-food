@@ -42,11 +42,7 @@ export async function ProfilePage({ segment, slug }: ProfilePageProps) {
                 attr="name"
                 className="font-style-title mr-auto items-center"
               />
-              <ClaimProfileButton
-                data-superjson
-                profile={profile}
-                className="mb-10 mt-6 w-full sm:hidden"
-              />
+              <ClaimProfileButton className="mb-10 mt-6 w-full sm:hidden" />
               <Field
                 attr="description"
                 className="text-16 mt-4 max-w-prose"
@@ -62,11 +58,7 @@ export async function ProfilePage({ segment, slug }: ProfilePageProps) {
               <EditableAvatar />
               <div className="flex items-center gap-2">
                 <FavouriteButton profileId={profile.id} />
-                <ClaimProfileButton
-                  data-superjson
-                  profile={profile}
-                  className="hidden sm:flex"
-                />
+                <ClaimProfileButton className="hidden sm:flex" />
                 <ProfileOverflow profile={profile} data-superjson />
               </div>
             </div>

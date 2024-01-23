@@ -1,36 +1,32 @@
 'use client'
 
-import { Profile } from '@books-about-food/core/models/profile'
-import { can } from '@books-about-food/core/policies'
 import cn from 'classnames'
 import { FC, useMemo } from 'react'
 import { Loader } from 'src/components/atoms/icons'
-import { useCurrentUser } from 'src/hooks/use-current-user'
 import { usePromise } from 'src/hooks/use-promise'
 import { Button } from '../../atoms/button'
 import { useSheet } from '../../sheets/global-sheet'
 import { useParamSheet } from '../../sheets/use-param-sheet'
+import { useEditProfile } from '../edit/context'
 import { EditProfileButton } from '../edit/edit-profile-button'
 import { fetch } from './action'
 
 export type ClaimProfileButtonProps = {
-  profile: Profile
   className?: string
 }
 
 export const ClaimProfileButton: FC<ClaimProfileButtonProps> = ({
-  className,
-  profile
+  className
 }) => {
   const { openSheet } = useSheet()
+  const { profile, enabled } = useEditProfile()
   const { loading, value: claim } = usePromise(() => fetch(profile.id), null, [
     profile.id
   ])
   const modalProps = useMemo(() => ({ profile }), [profile])
   useParamSheet('claimProfile', modalProps)
-  const currentUser = useCurrentUser()
 
-  if (currentUser && can(currentUser, profile).update) {
+  if (enabled) {
     return <EditProfileButton className={className} />
   }
   if (profile.userId) return null
