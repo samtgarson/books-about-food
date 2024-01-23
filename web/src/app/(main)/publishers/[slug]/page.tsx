@@ -64,6 +64,7 @@ export default async ({
       <ListContainer title="All Releases">
         <Suspense fallback={<Loader className="mx-auto" />}>
           <BookList
+            itemProps={{ mobileColorful: true }}
             filters={{
               publisherSlug: slug,
               page: page ? parseInt(`${page}`) : 0,

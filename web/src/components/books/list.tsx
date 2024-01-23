@@ -2,6 +2,7 @@ import {
   FetchBooksInput,
   fetchBooks
 } from '@books-about-food/core/services/books/fetch-books'
+import { ComponentPropsWithoutRef } from 'react'
 import { Pagination } from 'src/components/lists/pagination'
 import { call } from 'src/utils/service'
 import { GridContainer } from '../lists/grid-container'
@@ -12,12 +13,14 @@ export type BookListProps = {
   filters?: FetchBooksInput
   showEmpty?: boolean
   title?: string
+  itemProps?: Partial<ComponentPropsWithoutRef<typeof Item>>
 }
 
 export const BookList = async ({
   filters = {},
   showEmpty = true,
-  title
+  title,
+  itemProps
 }: BookListProps) => {
   const { data } = await call(fetchBooks, filters)
   if (!data) return null
@@ -34,7 +37,7 @@ export const BookList = async ({
       {title && <h3 className="all-caps my-4 sm:mb-8 sm:mt-0 ">{title}</h3>}
       <GridContainer className={'sm:gap-y-16'}>
         {books.map((book) => (
-          <Wrap c={Item} key={book.id} props={{ book }} />
+          <Wrap c={Item} key={book.id} props={{ book, ...itemProps }} />
         ))}
       </GridContainer>
       {books.length === 0 && showEmpty && <p>No books found</p>}
