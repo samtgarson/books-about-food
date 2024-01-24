@@ -12,9 +12,10 @@ export type UpdatePublisherInput = z.infer<typeof updatePublisher.input>
 export const updatePublisher = new AuthedService(
   z.object({
     slug: z.string(),
-    logo: z.string().nullish()
+    logo: z.string().nullish(),
+    hiddenBooks: z.array(z.string()).optional()
   }),
-  async function ({ slug, logo } = {}, user) {
+  async function ({ slug, logo, ...data } = {}, user) {
     const { data: publisher } = await fetchPublisher.call({ slug })
 
     if (!publisher) throw new AppError('NotFound', 'Publisher not found')
@@ -26,7 +27,7 @@ export const updatePublisher = new AuthedService(
     }
 
     const updated = await prisma.publisher.update({
-      data: { logo: logoProps(logo) },
+      data: { logo: logoProps(logo), ...data },
       where: { slug },
       include: publisherIncludes
     })

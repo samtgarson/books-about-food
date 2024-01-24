@@ -42,7 +42,8 @@ export const SimilarBooks = async ({ slug, className }: SimilarBooksProps) => {
             <Wrap
               c={Item}
               key={book.id.toString()}
-              props={{ book, mobileColorful: true }}
+              book={book}
+              mobileColorful
             />
           ))}
         </GridContainer>

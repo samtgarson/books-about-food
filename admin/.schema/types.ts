@@ -240,6 +240,7 @@ export type Schema = {
       'book:publisher:created_at': string;
       'book:publisher:direct_contact': string;
       'book:publisher:generic_contact': string;
+      'book:publisher:hidden_books': Array<string>;
       'book:publisher:id': string;
       'book:publisher:imprint_id': string;
       'book:publisher:instagram': string;
@@ -322,6 +323,7 @@ export type Schema = {
       'book:image:publisher:created_at': string;
       'book:image:publisher:direct_contact': string;
       'book:image:publisher:generic_contact': string;
+      'book:image:publisher:hidden_books': Array<string>;
       'book:image:publisher:id': string;
       'book:image:publisher:imprint_id': string;
       'book:image:publisher:instagram': string;
@@ -347,6 +349,7 @@ export type Schema = {
       'book:publisher:imprint:created_at': string;
       'book:publisher:imprint:direct_contact': string;
       'book:publisher:imprint:generic_contact': string;
+      'book:publisher:imprint:hidden_books': Array<string>;
       'book:publisher:imprint:id': string;
       'book:publisher:imprint:imprint_id': string;
       'book:publisher:imprint:instagram': string;
@@ -422,6 +425,7 @@ export type Schema = {
       'profile:image:publisher:created_at': string;
       'profile:image:publisher:direct_contact': string;
       'profile:image:publisher:generic_contact': string;
+      'profile:image:publisher:hidden_books': Array<string>;
       'profile:image:publisher:id': string;
       'profile:image:publisher:imprint_id': string;
       'profile:image:publisher:instagram': string;
@@ -447,6 +451,7 @@ export type Schema = {
       'book:image:preview_for:publisher:created_at': string;
       'book:image:preview_for:publisher:direct_contact': string;
       'book:image:preview_for:publisher:generic_contact': string;
+      'book:image:preview_for:publisher:hidden_books': Array<string>;
       'book:image:preview_for:publisher:id': string;
       'book:image:preview_for:publisher:imprint_id': string;
       'book:image:preview_for:publisher:instagram': string;
@@ -480,6 +485,7 @@ export type Schema = {
       'book:image:publisher:imprint:created_at': string;
       'book:image:publisher:imprint:direct_contact': string;
       'book:image:publisher:imprint:generic_contact': string;
+      'book:image:publisher:imprint:hidden_books': Array<string>;
       'book:image:publisher:imprint:id': string;
       'book:image:publisher:imprint:imprint_id': string;
       'book:image:publisher:imprint:instagram': string;
@@ -568,6 +574,7 @@ export type Schema = {
       'book:publisher:imprint:imprint:created_at': string;
       'book:publisher:imprint:imprint:direct_contact': string;
       'book:publisher:imprint:imprint:generic_contact': string;
+      'book:publisher:imprint:imprint:hidden_books': Array<string>;
       'book:publisher:imprint:imprint:id': string;
       'book:publisher:imprint:imprint:imprint_id': string;
       'book:publisher:imprint:imprint:instagram': string;
@@ -603,6 +610,7 @@ export type Schema = {
       'profile:image:cover_for:publisher:created_at': string;
       'profile:image:cover_for:publisher:direct_contact': string;
       'profile:image:cover_for:publisher:generic_contact': string;
+      'profile:image:cover_for:publisher:hidden_books': Array<string>;
       'profile:image:cover_for:publisher:id': string;
       'profile:image:cover_for:publisher:imprint_id': string;
       'profile:image:cover_for:publisher:instagram': string;
@@ -636,6 +644,7 @@ export type Schema = {
       'profile:image:preview_for:publisher:created_at': string;
       'profile:image:preview_for:publisher:direct_contact': string;
       'profile:image:preview_for:publisher:generic_contact': string;
+      'profile:image:preview_for:publisher:hidden_books': Array<string>;
       'profile:image:preview_for:publisher:id': string;
       'profile:image:preview_for:publisher:imprint_id': string;
       'profile:image:preview_for:publisher:instagram': string;
@@ -656,6 +665,7 @@ export type Schema = {
       'profile:image:publisher:imprint:created_at': string;
       'profile:image:publisher:imprint:direct_contact': string;
       'profile:image:publisher:imprint:generic_contact': string;
+      'profile:image:publisher:imprint:hidden_books': Array<string>;
       'profile:image:publisher:imprint:id': string;
       'profile:image:publisher:imprint:imprint_id': string;
       'profile:image:publisher:imprint:instagram': string;
@@ -709,6 +719,7 @@ export type Schema = {
       'book:image:preview_for:image:publisher:created_at': string;
       'book:image:preview_for:image:publisher:direct_contact': string;
       'book:image:preview_for:image:publisher:generic_contact': string;
+      'book:image:preview_for:image:publisher:hidden_books': Array<string>;
       'book:image:preview_for:image:publisher:id': string;
       'book:image:preview_for:image:publisher:imprint_id': string;
       'book:image:preview_for:image:publisher:instagram': string;
@@ -734,6 +745,7 @@ export type Schema = {
       'book:image:preview_for:publisher:imprint:created_at': string;
       'book:image:preview_for:publisher:imprint:direct_contact': string;
       'book:image:preview_for:publisher:imprint:generic_contact': string;
+      'book:image:preview_for:publisher:imprint:hidden_books': Array<string>;
       'book:image:preview_for:publisher:imprint:id': string;
       'book:image:preview_for:publisher:imprint:imprint_id': string;
       'book:image:preview_for:publisher:imprint:instagram': string;
@@ -765,6 +777,7 @@ export type Schema = {
       'book:image:publisher:imprint:imprint:created_at': string;
       'book:image:publisher:imprint:imprint:direct_contact': string;
       'book:image:publisher:imprint:imprint:generic_contact': string;
+      'book:image:publisher:imprint:imprint:hidden_books': Array<string>;
       'book:image:publisher:imprint:imprint:id': string;
       'book:image:publisher:imprint:imprint:imprint_id': string;
       'book:image:publisher:imprint:imprint:instagram': string;
@@ -782,6 +795,7 @@ export type Schema = {
       'book:publisher:image:cover_for:publisher:created_at': string;
       'book:publisher:image:cover_for:publisher:direct_contact': string;
       'book:publisher:image:cover_for:publisher:generic_contact': string;
+      'book:publisher:image:cover_for:publisher:hidden_books': Array<string>;
       'book:publisher:image:cover_for:publisher:id': string;
       'book:publisher:image:cover_for:publisher:imprint_id': string;
       'book:publisher:image:cover_for:publisher:instagram': string;
@@ -815,6 +829,7 @@ export type Schema = {
       'book:publisher:image:preview_for:publisher:created_at': string;
       'book:publisher:image:preview_for:publisher:direct_contact': string;
       'book:publisher:image:preview_for:publisher:generic_contact': string;
+      'book:publisher:image:preview_for:publisher:hidden_books': Array<string>;
       'book:publisher:image:preview_for:publisher:id': string;
       'book:publisher:image:preview_for:publisher:imprint_id': string;
       'book:publisher:image:preview_for:publisher:instagram': string;
@@ -919,6 +934,7 @@ export type Schema = {
       'book:publisher:imprint:imprint:imprint:created_at': string;
       'book:publisher:imprint:imprint:imprint:direct_contact': string;
       'book:publisher:imprint:imprint:imprint:generic_contact': string;
+      'book:publisher:imprint:imprint:imprint:hidden_books': Array<string>;
       'book:publisher:imprint:imprint:imprint:id': string;
       'book:publisher:imprint:imprint:imprint:imprint_id': string;
       'book:publisher:imprint:imprint:imprint:instagram': string;
@@ -980,6 +996,7 @@ export type Schema = {
       'book:submitter:profile:image:publisher:created_at': string;
       'book:submitter:profile:image:publisher:direct_contact': string;
       'book:submitter:profile:image:publisher:generic_contact': string;
+      'book:submitter:profile:image:publisher:hidden_books': Array<string>;
       'book:submitter:profile:image:publisher:id': string;
       'book:submitter:profile:image:publisher:imprint_id': string;
       'book:submitter:profile:image:publisher:instagram': string;
@@ -1005,6 +1022,7 @@ export type Schema = {
       'profile:image:cover_for:publisher:imprint:created_at': string;
       'profile:image:cover_for:publisher:imprint:direct_contact': string;
       'profile:image:cover_for:publisher:imprint:generic_contact': string;
+      'profile:image:cover_for:publisher:imprint:hidden_books': Array<string>;
       'profile:image:cover_for:publisher:imprint:id': string;
       'profile:image:cover_for:publisher:imprint:imprint_id': string;
       'profile:image:cover_for:publisher:imprint:instagram': string;
@@ -1058,6 +1076,7 @@ export type Schema = {
       'profile:image:preview_for:image:publisher:created_at': string;
       'profile:image:preview_for:image:publisher:direct_contact': string;
       'profile:image:preview_for:image:publisher:generic_contact': string;
+      'profile:image:preview_for:image:publisher:hidden_books': Array<string>;
       'profile:image:preview_for:image:publisher:id': string;
       'profile:image:preview_for:image:publisher:imprint_id': string;
       'profile:image:preview_for:image:publisher:instagram': string;
@@ -1083,6 +1102,7 @@ export type Schema = {
       'profile:image:preview_for:publisher:imprint:created_at': string;
       'profile:image:preview_for:publisher:imprint:direct_contact': string;
       'profile:image:preview_for:publisher:imprint:generic_contact': string;
+      'profile:image:preview_for:publisher:imprint:hidden_books': Array<string>;
       'profile:image:preview_for:publisher:imprint:id': string;
       'profile:image:preview_for:publisher:imprint:imprint_id': string;
       'profile:image:preview_for:publisher:imprint:instagram': string;
@@ -1114,6 +1134,7 @@ export type Schema = {
       'profile:image:publisher:imprint:imprint:created_at': string;
       'profile:image:publisher:imprint:imprint:direct_contact': string;
       'profile:image:publisher:imprint:imprint:generic_contact': string;
+      'profile:image:publisher:imprint:imprint:hidden_books': Array<string>;
       'profile:image:publisher:imprint:imprint:id': string;
       'profile:image:publisher:imprint:imprint:imprint_id': string;
       'profile:image:publisher:imprint:imprint:instagram': string;
@@ -1183,6 +1204,7 @@ export type Schema = {
       'book:publisher:created_at': string;
       'book:publisher:direct_contact': string;
       'book:publisher:generic_contact': string;
+      'book:publisher:hidden_books': Array<string>;
       'book:publisher:id': string;
       'book:publisher:imprint_id': string;
       'book:publisher:instagram': string;
@@ -1239,6 +1261,7 @@ export type Schema = {
       'book:image:publisher:created_at': string;
       'book:image:publisher:direct_contact': string;
       'book:image:publisher:generic_contact': string;
+      'book:image:publisher:hidden_books': Array<string>;
       'book:image:publisher:id': string;
       'book:image:publisher:imprint_id': string;
       'book:image:publisher:instagram': string;
@@ -1264,6 +1287,7 @@ export type Schema = {
       'book:publisher:imprint:created_at': string;
       'book:publisher:imprint:direct_contact': string;
       'book:publisher:imprint:generic_contact': string;
+      'book:publisher:imprint:hidden_books': Array<string>;
       'book:publisher:imprint:id': string;
       'book:publisher:imprint:imprint_id': string;
       'book:publisher:imprint:instagram': string;
@@ -1308,6 +1332,7 @@ export type Schema = {
       'book:image:preview_for:publisher:created_at': string;
       'book:image:preview_for:publisher:direct_contact': string;
       'book:image:preview_for:publisher:generic_contact': string;
+      'book:image:preview_for:publisher:hidden_books': Array<string>;
       'book:image:preview_for:publisher:id': string;
       'book:image:preview_for:publisher:imprint_id': string;
       'book:image:preview_for:publisher:instagram': string;
@@ -1341,6 +1366,7 @@ export type Schema = {
       'book:image:publisher:imprint:created_at': string;
       'book:image:publisher:imprint:direct_contact': string;
       'book:image:publisher:imprint:generic_contact': string;
+      'book:image:publisher:imprint:hidden_books': Array<string>;
       'book:image:publisher:imprint:id': string;
       'book:image:publisher:imprint:imprint_id': string;
       'book:image:publisher:imprint:instagram': string;
@@ -1429,6 +1455,7 @@ export type Schema = {
       'book:publisher:imprint:imprint:created_at': string;
       'book:publisher:imprint:imprint:direct_contact': string;
       'book:publisher:imprint:imprint:generic_contact': string;
+      'book:publisher:imprint:imprint:hidden_books': Array<string>;
       'book:publisher:imprint:imprint:id': string;
       'book:publisher:imprint:imprint:imprint_id': string;
       'book:publisher:imprint:imprint:instagram': string;
@@ -1500,6 +1527,7 @@ export type Schema = {
       'book:image:preview_for:image:publisher:created_at': string;
       'book:image:preview_for:image:publisher:direct_contact': string;
       'book:image:preview_for:image:publisher:generic_contact': string;
+      'book:image:preview_for:image:publisher:hidden_books': Array<string>;
       'book:image:preview_for:image:publisher:id': string;
       'book:image:preview_for:image:publisher:imprint_id': string;
       'book:image:preview_for:image:publisher:instagram': string;
@@ -1525,6 +1553,7 @@ export type Schema = {
       'book:image:preview_for:publisher:imprint:created_at': string;
       'book:image:preview_for:publisher:imprint:direct_contact': string;
       'book:image:preview_for:publisher:imprint:generic_contact': string;
+      'book:image:preview_for:publisher:imprint:hidden_books': Array<string>;
       'book:image:preview_for:publisher:imprint:id': string;
       'book:image:preview_for:publisher:imprint:imprint_id': string;
       'book:image:preview_for:publisher:imprint:instagram': string;
@@ -1556,6 +1585,7 @@ export type Schema = {
       'book:image:publisher:imprint:imprint:created_at': string;
       'book:image:publisher:imprint:imprint:direct_contact': string;
       'book:image:publisher:imprint:imprint:generic_contact': string;
+      'book:image:publisher:imprint:imprint:hidden_books': Array<string>;
       'book:image:publisher:imprint:imprint:id': string;
       'book:image:publisher:imprint:imprint:imprint_id': string;
       'book:image:publisher:imprint:imprint:instagram': string;
@@ -1573,6 +1603,7 @@ export type Schema = {
       'book:publisher:image:cover_for:publisher:created_at': string;
       'book:publisher:image:cover_for:publisher:direct_contact': string;
       'book:publisher:image:cover_for:publisher:generic_contact': string;
+      'book:publisher:image:cover_for:publisher:hidden_books': Array<string>;
       'book:publisher:image:cover_for:publisher:id': string;
       'book:publisher:image:cover_for:publisher:imprint_id': string;
       'book:publisher:image:cover_for:publisher:instagram': string;
@@ -1606,6 +1637,7 @@ export type Schema = {
       'book:publisher:image:preview_for:publisher:created_at': string;
       'book:publisher:image:preview_for:publisher:direct_contact': string;
       'book:publisher:image:preview_for:publisher:generic_contact': string;
+      'book:publisher:image:preview_for:publisher:hidden_books': Array<string>;
       'book:publisher:image:preview_for:publisher:id': string;
       'book:publisher:image:preview_for:publisher:imprint_id': string;
       'book:publisher:image:preview_for:publisher:instagram': string;
@@ -1710,6 +1742,7 @@ export type Schema = {
       'book:publisher:imprint:imprint:imprint:created_at': string;
       'book:publisher:imprint:imprint:imprint:direct_contact': string;
       'book:publisher:imprint:imprint:imprint:generic_contact': string;
+      'book:publisher:imprint:imprint:imprint:hidden_books': Array<string>;
       'book:publisher:imprint:imprint:imprint:id': string;
       'book:publisher:imprint:imprint:imprint:imprint_id': string;
       'book:publisher:imprint:imprint:imprint:instagram': string;
@@ -1771,6 +1804,7 @@ export type Schema = {
       'book:submitter:profile:image:publisher:created_at': string;
       'book:submitter:profile:image:publisher:direct_contact': string;
       'book:submitter:profile:image:publisher:generic_contact': string;
+      'book:submitter:profile:image:publisher:hidden_books': Array<string>;
       'book:submitter:profile:image:publisher:id': string;
       'book:submitter:profile:image:publisher:imprint_id': string;
       'book:submitter:profile:image:publisher:instagram': string;
@@ -1903,6 +1937,7 @@ export type Schema = {
       'user:profile:image:publisher:created_at': string;
       'user:profile:image:publisher:direct_contact': string;
       'user:profile:image:publisher:generic_contact': string;
+      'user:profile:image:publisher:hidden_books': Array<string>;
       'user:profile:image:publisher:id': string;
       'user:profile:image:publisher:imprint_id': string;
       'user:profile:image:publisher:instagram': string;
@@ -1915,6 +1950,7 @@ export type Schema = {
       'user:profile:image:cover_for:publisher:created_at': string;
       'user:profile:image:cover_for:publisher:direct_contact': string;
       'user:profile:image:cover_for:publisher:generic_contact': string;
+      'user:profile:image:cover_for:publisher:hidden_books': Array<string>;
       'user:profile:image:cover_for:publisher:id': string;
       'user:profile:image:cover_for:publisher:imprint_id': string;
       'user:profile:image:cover_for:publisher:instagram': string;
@@ -1948,6 +1984,7 @@ export type Schema = {
       'user:profile:image:preview_for:publisher:created_at': string;
       'user:profile:image:preview_for:publisher:direct_contact': string;
       'user:profile:image:preview_for:publisher:generic_contact': string;
+      'user:profile:image:preview_for:publisher:hidden_books': Array<string>;
       'user:profile:image:preview_for:publisher:id': string;
       'user:profile:image:preview_for:publisher:imprint_id': string;
       'user:profile:image:preview_for:publisher:instagram': string;
@@ -1968,6 +2005,7 @@ export type Schema = {
       'user:profile:image:publisher:imprint:created_at': string;
       'user:profile:image:publisher:imprint:direct_contact': string;
       'user:profile:image:publisher:imprint:generic_contact': string;
+      'user:profile:image:publisher:imprint:hidden_books': Array<string>;
       'user:profile:image:publisher:imprint:id': string;
       'user:profile:image:publisher:imprint:imprint_id': string;
       'user:profile:image:publisher:imprint:instagram': string;
@@ -2031,6 +2069,7 @@ export type Schema = {
       'publisher:created_at': string;
       'publisher:direct_contact': string;
       'publisher:generic_contact': string;
+      'publisher:hidden_books': Array<string>;
       'publisher:id': string;
       'publisher:imprint_id': string;
       'publisher:instagram': string;
@@ -2087,6 +2126,7 @@ export type Schema = {
       'image:publisher:created_at': string;
       'image:publisher:direct_contact': string;
       'image:publisher:generic_contact': string;
+      'image:publisher:hidden_books': Array<string>;
       'image:publisher:id': string;
       'image:publisher:imprint_id': string;
       'image:publisher:instagram': string;
@@ -2112,6 +2152,7 @@ export type Schema = {
       'publisher:imprint:created_at': string;
       'publisher:imprint:direct_contact': string;
       'publisher:imprint:generic_contact': string;
+      'publisher:imprint:hidden_books': Array<string>;
       'publisher:imprint:id': string;
       'publisher:imprint:imprint_id': string;
       'publisher:imprint:instagram': string;
@@ -2156,6 +2197,7 @@ export type Schema = {
       'image:preview_for:publisher:created_at': string;
       'image:preview_for:publisher:direct_contact': string;
       'image:preview_for:publisher:generic_contact': string;
+      'image:preview_for:publisher:hidden_books': Array<string>;
       'image:preview_for:publisher:id': string;
       'image:preview_for:publisher:imprint_id': string;
       'image:preview_for:publisher:instagram': string;
@@ -2189,6 +2231,7 @@ export type Schema = {
       'image:publisher:imprint:created_at': string;
       'image:publisher:imprint:direct_contact': string;
       'image:publisher:imprint:generic_contact': string;
+      'image:publisher:imprint:hidden_books': Array<string>;
       'image:publisher:imprint:id': string;
       'image:publisher:imprint:imprint_id': string;
       'image:publisher:imprint:instagram': string;
@@ -2277,6 +2320,7 @@ export type Schema = {
       'publisher:imprint:imprint:created_at': string;
       'publisher:imprint:imprint:direct_contact': string;
       'publisher:imprint:imprint:generic_contact': string;
+      'publisher:imprint:imprint:hidden_books': Array<string>;
       'publisher:imprint:imprint:id': string;
       'publisher:imprint:imprint:imprint_id': string;
       'publisher:imprint:imprint:instagram': string;
@@ -2348,6 +2392,7 @@ export type Schema = {
       'image:preview_for:image:publisher:created_at': string;
       'image:preview_for:image:publisher:direct_contact': string;
       'image:preview_for:image:publisher:generic_contact': string;
+      'image:preview_for:image:publisher:hidden_books': Array<string>;
       'image:preview_for:image:publisher:id': string;
       'image:preview_for:image:publisher:imprint_id': string;
       'image:preview_for:image:publisher:instagram': string;
@@ -2373,6 +2418,7 @@ export type Schema = {
       'image:preview_for:publisher:imprint:created_at': string;
       'image:preview_for:publisher:imprint:direct_contact': string;
       'image:preview_for:publisher:imprint:generic_contact': string;
+      'image:preview_for:publisher:imprint:hidden_books': Array<string>;
       'image:preview_for:publisher:imprint:id': string;
       'image:preview_for:publisher:imprint:imprint_id': string;
       'image:preview_for:publisher:imprint:instagram': string;
@@ -2404,6 +2450,7 @@ export type Schema = {
       'image:publisher:imprint:imprint:created_at': string;
       'image:publisher:imprint:imprint:direct_contact': string;
       'image:publisher:imprint:imprint:generic_contact': string;
+      'image:publisher:imprint:imprint:hidden_books': Array<string>;
       'image:publisher:imprint:imprint:id': string;
       'image:publisher:imprint:imprint:imprint_id': string;
       'image:publisher:imprint:imprint:instagram': string;
@@ -2421,6 +2468,7 @@ export type Schema = {
       'publisher:image:cover_for:publisher:created_at': string;
       'publisher:image:cover_for:publisher:direct_contact': string;
       'publisher:image:cover_for:publisher:generic_contact': string;
+      'publisher:image:cover_for:publisher:hidden_books': Array<string>;
       'publisher:image:cover_for:publisher:id': string;
       'publisher:image:cover_for:publisher:imprint_id': string;
       'publisher:image:cover_for:publisher:instagram': string;
@@ -2454,6 +2502,7 @@ export type Schema = {
       'publisher:image:preview_for:publisher:created_at': string;
       'publisher:image:preview_for:publisher:direct_contact': string;
       'publisher:image:preview_for:publisher:generic_contact': string;
+      'publisher:image:preview_for:publisher:hidden_books': Array<string>;
       'publisher:image:preview_for:publisher:id': string;
       'publisher:image:preview_for:publisher:imprint_id': string;
       'publisher:image:preview_for:publisher:instagram': string;
@@ -2558,6 +2607,7 @@ export type Schema = {
       'publisher:imprint:imprint:imprint:created_at': string;
       'publisher:imprint:imprint:imprint:direct_contact': string;
       'publisher:imprint:imprint:imprint:generic_contact': string;
+      'publisher:imprint:imprint:imprint:hidden_books': Array<string>;
       'publisher:imprint:imprint:imprint:id': string;
       'publisher:imprint:imprint:imprint:imprint_id': string;
       'publisher:imprint:imprint:imprint:instagram': string;
@@ -2619,6 +2669,7 @@ export type Schema = {
       'submitter:profile:image:publisher:created_at': string;
       'submitter:profile:image:publisher:direct_contact': string;
       'submitter:profile:image:publisher:generic_contact': string;
+      'submitter:profile:image:publisher:hidden_books': Array<string>;
       'submitter:profile:image:publisher:id': string;
       'submitter:profile:image:publisher:imprint_id': string;
       'submitter:profile:image:publisher:instagram': string;
@@ -2644,6 +2695,7 @@ export type Schema = {
       'image:preview_for:image:preview_for:publisher:created_at': string;
       'image:preview_for:image:preview_for:publisher:direct_contact': string;
       'image:preview_for:image:preview_for:publisher:generic_contact': string;
+      'image:preview_for:image:preview_for:publisher:hidden_books': Array<string>;
       'image:preview_for:image:preview_for:publisher:id': string;
       'image:preview_for:image:preview_for:publisher:imprint_id': string;
       'image:preview_for:image:preview_for:publisher:instagram': string;
@@ -2677,6 +2729,7 @@ export type Schema = {
       'image:preview_for:image:publisher:imprint:created_at': string;
       'image:preview_for:image:publisher:imprint:direct_contact': string;
       'image:preview_for:image:publisher:imprint:generic_contact': string;
+      'image:preview_for:image:publisher:imprint:hidden_books': Array<string>;
       'image:preview_for:image:publisher:imprint:id': string;
       'image:preview_for:image:publisher:imprint:imprint_id': string;
       'image:preview_for:image:publisher:imprint:instagram': string;
@@ -2743,6 +2796,7 @@ export type Schema = {
       'image:preview_for:publisher:imprint:imprint:created_at': string;
       'image:preview_for:publisher:imprint:imprint:direct_contact': string;
       'image:preview_for:publisher:imprint:imprint:generic_contact': string;
+      'image:preview_for:publisher:imprint:imprint:hidden_books': Array<string>;
       'image:preview_for:publisher:imprint:imprint:id': string;
       'image:preview_for:publisher:imprint:imprint:imprint_id': string;
       'image:preview_for:publisher:imprint:imprint:instagram': string;
@@ -2778,6 +2832,7 @@ export type Schema = {
       'image:publisher:imprint:imprint:imprint:created_at': string;
       'image:publisher:imprint:imprint:imprint:direct_contact': string;
       'image:publisher:imprint:imprint:imprint:generic_contact': string;
+      'image:publisher:imprint:imprint:imprint:hidden_books': Array<string>;
       'image:publisher:imprint:imprint:imprint:id': string;
       'image:publisher:imprint:imprint:imprint:imprint_id': string;
       'image:publisher:imprint:imprint:imprint:instagram': string;
@@ -2808,6 +2863,7 @@ export type Schema = {
       'publisher:image:cover_for:publisher:imprint:created_at': string;
       'publisher:image:cover_for:publisher:imprint:direct_contact': string;
       'publisher:image:cover_for:publisher:imprint:generic_contact': string;
+      'publisher:image:cover_for:publisher:imprint:hidden_books': Array<string>;
       'publisher:image:cover_for:publisher:imprint:id': string;
       'publisher:image:cover_for:publisher:imprint:imprint_id': string;
       'publisher:image:cover_for:publisher:imprint:instagram': string;
@@ -2888,6 +2944,7 @@ export type Schema = {
       'publisher:image:preview_for:publisher:imprint:created_at': string;
       'publisher:image:preview_for:publisher:imprint:direct_contact': string;
       'publisher:image:preview_for:publisher:imprint:generic_contact': string;
+      'publisher:image:preview_for:publisher:imprint:hidden_books': Array<string>;
       'publisher:image:preview_for:publisher:imprint:id': string;
       'publisher:image:preview_for:publisher:imprint:imprint_id': string;
       'publisher:image:preview_for:publisher:imprint:instagram': string;
@@ -2919,6 +2976,7 @@ export type Schema = {
       'publisher:imprint:image:cover_for:publisher:created_at': string;
       'publisher:imprint:image:cover_for:publisher:direct_contact': string;
       'publisher:imprint:image:cover_for:publisher:generic_contact': string;
+      'publisher:imprint:image:cover_for:publisher:hidden_books': Array<string>;
       'publisher:imprint:image:cover_for:publisher:id': string;
       'publisher:imprint:image:cover_for:publisher:imprint_id': string;
       'publisher:imprint:image:cover_for:publisher:instagram': string;
@@ -2952,6 +3010,7 @@ export type Schema = {
       'publisher:imprint:image:preview_for:publisher:created_at': string;
       'publisher:imprint:image:preview_for:publisher:direct_contact': string;
       'publisher:imprint:image:preview_for:publisher:generic_contact': string;
+      'publisher:imprint:image:preview_for:publisher:hidden_books': Array<string>;
       'publisher:imprint:image:preview_for:publisher:id': string;
       'publisher:imprint:image:preview_for:publisher:imprint_id': string;
       'publisher:imprint:image:preview_for:publisher:instagram': string;
@@ -3056,6 +3115,7 @@ export type Schema = {
       'publisher:imprint:imprint:imprint:imprint:created_at': string;
       'publisher:imprint:imprint:imprint:imprint:direct_contact': string;
       'publisher:imprint:imprint:imprint:imprint:generic_contact': string;
+      'publisher:imprint:imprint:imprint:imprint:hidden_books': Array<string>;
       'publisher:imprint:imprint:imprint:imprint:id': string;
       'publisher:imprint:imprint:imprint:imprint:imprint_id': string;
       'publisher:imprint:imprint:imprint:imprint:instagram': string;
@@ -3073,6 +3133,7 @@ export type Schema = {
       'submitter:profile:image:cover_for:publisher:created_at': string;
       'submitter:profile:image:cover_for:publisher:direct_contact': string;
       'submitter:profile:image:cover_for:publisher:generic_contact': string;
+      'submitter:profile:image:cover_for:publisher:hidden_books': Array<string>;
       'submitter:profile:image:cover_for:publisher:id': string;
       'submitter:profile:image:cover_for:publisher:imprint_id': string;
       'submitter:profile:image:cover_for:publisher:instagram': string;
@@ -3106,6 +3167,7 @@ export type Schema = {
       'submitter:profile:image:preview_for:publisher:created_at': string;
       'submitter:profile:image:preview_for:publisher:direct_contact': string;
       'submitter:profile:image:preview_for:publisher:generic_contact': string;
+      'submitter:profile:image:preview_for:publisher:hidden_books': Array<string>;
       'submitter:profile:image:preview_for:publisher:id': string;
       'submitter:profile:image:preview_for:publisher:imprint_id': string;
       'submitter:profile:image:preview_for:publisher:instagram': string;
@@ -3126,6 +3188,7 @@ export type Schema = {
       'submitter:profile:image:publisher:imprint:created_at': string;
       'submitter:profile:image:publisher:imprint:direct_contact': string;
       'submitter:profile:image:publisher:imprint:generic_contact': string;
+      'submitter:profile:image:publisher:imprint:hidden_books': Array<string>;
       'submitter:profile:image:publisher:imprint:id': string;
       'submitter:profile:image:publisher:imprint:imprint_id': string;
       'submitter:profile:image:publisher:imprint:instagram': string;
@@ -3266,6 +3329,7 @@ export type Schema = {
       'profile:image:publisher:created_at': string;
       'profile:image:publisher:direct_contact': string;
       'profile:image:publisher:generic_contact': string;
+      'profile:image:publisher:hidden_books': Array<string>;
       'profile:image:publisher:id': string;
       'profile:image:publisher:imprint_id': string;
       'profile:image:publisher:instagram': string;
@@ -3296,6 +3360,7 @@ export type Schema = {
       'profile:image:cover_for:publisher:created_at': string;
       'profile:image:cover_for:publisher:direct_contact': string;
       'profile:image:cover_for:publisher:generic_contact': string;
+      'profile:image:cover_for:publisher:hidden_books': Array<string>;
       'profile:image:cover_for:publisher:id': string;
       'profile:image:cover_for:publisher:imprint_id': string;
       'profile:image:cover_for:publisher:instagram': string;
@@ -3329,6 +3394,7 @@ export type Schema = {
       'profile:image:preview_for:publisher:created_at': string;
       'profile:image:preview_for:publisher:direct_contact': string;
       'profile:image:preview_for:publisher:generic_contact': string;
+      'profile:image:preview_for:publisher:hidden_books': Array<string>;
       'profile:image:preview_for:publisher:id': string;
       'profile:image:preview_for:publisher:imprint_id': string;
       'profile:image:preview_for:publisher:instagram': string;
@@ -3349,6 +3415,7 @@ export type Schema = {
       'profile:image:publisher:imprint:created_at': string;
       'profile:image:publisher:imprint:direct_contact': string;
       'profile:image:publisher:imprint:generic_contact': string;
+      'profile:image:publisher:imprint:hidden_books': Array<string>;
       'profile:image:publisher:imprint:id': string;
       'profile:image:publisher:imprint:imprint_id': string;
       'profile:image:publisher:imprint:instagram': string;
@@ -3410,6 +3477,7 @@ export type Schema = {
       'user:profile:image:publisher:created_at': string;
       'user:profile:image:publisher:direct_contact': string;
       'user:profile:image:publisher:generic_contact': string;
+      'user:profile:image:publisher:hidden_books': Array<string>;
       'user:profile:image:publisher:id': string;
       'user:profile:image:publisher:imprint_id': string;
       'user:profile:image:publisher:instagram': string;
@@ -3435,6 +3503,7 @@ export type Schema = {
       'profile:image:cover_for:publisher:imprint:created_at': string;
       'profile:image:cover_for:publisher:imprint:direct_contact': string;
       'profile:image:cover_for:publisher:imprint:generic_contact': string;
+      'profile:image:cover_for:publisher:imprint:hidden_books': Array<string>;
       'profile:image:cover_for:publisher:imprint:id': string;
       'profile:image:cover_for:publisher:imprint:imprint_id': string;
       'profile:image:cover_for:publisher:imprint:instagram': string;
@@ -3488,6 +3557,7 @@ export type Schema = {
       'profile:image:preview_for:image:publisher:created_at': string;
       'profile:image:preview_for:image:publisher:direct_contact': string;
       'profile:image:preview_for:image:publisher:generic_contact': string;
+      'profile:image:preview_for:image:publisher:hidden_books': Array<string>;
       'profile:image:preview_for:image:publisher:id': string;
       'profile:image:preview_for:image:publisher:imprint_id': string;
       'profile:image:preview_for:image:publisher:instagram': string;
@@ -3513,6 +3583,7 @@ export type Schema = {
       'profile:image:preview_for:publisher:imprint:created_at': string;
       'profile:image:preview_for:publisher:imprint:direct_contact': string;
       'profile:image:preview_for:publisher:imprint:generic_contact': string;
+      'profile:image:preview_for:publisher:imprint:hidden_books': Array<string>;
       'profile:image:preview_for:publisher:imprint:id': string;
       'profile:image:preview_for:publisher:imprint:imprint_id': string;
       'profile:image:preview_for:publisher:imprint:instagram': string;
@@ -3544,6 +3615,7 @@ export type Schema = {
       'profile:image:publisher:imprint:imprint:created_at': string;
       'profile:image:publisher:imprint:imprint:direct_contact': string;
       'profile:image:publisher:imprint:imprint:generic_contact': string;
+      'profile:image:publisher:imprint:imprint:hidden_books': Array<string>;
       'profile:image:publisher:imprint:imprint:id': string;
       'profile:image:publisher:imprint:imprint:imprint_id': string;
       'profile:image:publisher:imprint:imprint:instagram': string;
@@ -3561,6 +3633,7 @@ export type Schema = {
       'user:profile:image:cover_for:publisher:created_at': string;
       'user:profile:image:cover_for:publisher:direct_contact': string;
       'user:profile:image:cover_for:publisher:generic_contact': string;
+      'user:profile:image:cover_for:publisher:hidden_books': Array<string>;
       'user:profile:image:cover_for:publisher:id': string;
       'user:profile:image:cover_for:publisher:imprint_id': string;
       'user:profile:image:cover_for:publisher:instagram': string;
@@ -3594,6 +3667,7 @@ export type Schema = {
       'user:profile:image:preview_for:publisher:created_at': string;
       'user:profile:image:preview_for:publisher:direct_contact': string;
       'user:profile:image:preview_for:publisher:generic_contact': string;
+      'user:profile:image:preview_for:publisher:hidden_books': Array<string>;
       'user:profile:image:preview_for:publisher:id': string;
       'user:profile:image:preview_for:publisher:imprint_id': string;
       'user:profile:image:preview_for:publisher:instagram': string;
@@ -3614,6 +3688,7 @@ export type Schema = {
       'user:profile:image:publisher:imprint:created_at': string;
       'user:profile:image:publisher:imprint:direct_contact': string;
       'user:profile:image:publisher:imprint:generic_contact': string;
+      'user:profile:image:publisher:imprint:hidden_books': Array<string>;
       'user:profile:image:publisher:imprint:id': string;
       'user:profile:image:publisher:imprint:imprint_id': string;
       'user:profile:image:publisher:imprint:instagram': string;
@@ -3706,6 +3781,7 @@ export type Schema = {
       'book:publisher:created_at': string;
       'book:publisher:direct_contact': string;
       'book:publisher:generic_contact': string;
+      'book:publisher:hidden_books': Array<string>;
       'book:publisher:id': string;
       'book:publisher:imprint_id': string;
       'book:publisher:instagram': string;
@@ -3788,6 +3864,7 @@ export type Schema = {
       'book:image:publisher:created_at': string;
       'book:image:publisher:direct_contact': string;
       'book:image:publisher:generic_contact': string;
+      'book:image:publisher:hidden_books': Array<string>;
       'book:image:publisher:id': string;
       'book:image:publisher:imprint_id': string;
       'book:image:publisher:instagram': string;
@@ -3813,6 +3890,7 @@ export type Schema = {
       'book:publisher:imprint:created_at': string;
       'book:publisher:imprint:direct_contact': string;
       'book:publisher:imprint:generic_contact': string;
+      'book:publisher:imprint:hidden_books': Array<string>;
       'book:publisher:imprint:id': string;
       'book:publisher:imprint:imprint_id': string;
       'book:publisher:imprint:instagram': string;
@@ -3888,6 +3966,7 @@ export type Schema = {
       'profile:image:publisher:created_at': string;
       'profile:image:publisher:direct_contact': string;
       'profile:image:publisher:generic_contact': string;
+      'profile:image:publisher:hidden_books': Array<string>;
       'profile:image:publisher:id': string;
       'profile:image:publisher:imprint_id': string;
       'profile:image:publisher:instagram': string;
@@ -3913,6 +3992,7 @@ export type Schema = {
       'book:image:preview_for:publisher:created_at': string;
       'book:image:preview_for:publisher:direct_contact': string;
       'book:image:preview_for:publisher:generic_contact': string;
+      'book:image:preview_for:publisher:hidden_books': Array<string>;
       'book:image:preview_for:publisher:id': string;
       'book:image:preview_for:publisher:imprint_id': string;
       'book:image:preview_for:publisher:instagram': string;
@@ -3946,6 +4026,7 @@ export type Schema = {
       'book:image:publisher:imprint:created_at': string;
       'book:image:publisher:imprint:direct_contact': string;
       'book:image:publisher:imprint:generic_contact': string;
+      'book:image:publisher:imprint:hidden_books': Array<string>;
       'book:image:publisher:imprint:id': string;
       'book:image:publisher:imprint:imprint_id': string;
       'book:image:publisher:imprint:instagram': string;
@@ -4034,6 +4115,7 @@ export type Schema = {
       'book:publisher:imprint:imprint:created_at': string;
       'book:publisher:imprint:imprint:direct_contact': string;
       'book:publisher:imprint:imprint:generic_contact': string;
+      'book:publisher:imprint:imprint:hidden_books': Array<string>;
       'book:publisher:imprint:imprint:id': string;
       'book:publisher:imprint:imprint:imprint_id': string;
       'book:publisher:imprint:imprint:instagram': string;
@@ -4069,6 +4151,7 @@ export type Schema = {
       'profile:image:cover_for:publisher:created_at': string;
       'profile:image:cover_for:publisher:direct_contact': string;
       'profile:image:cover_for:publisher:generic_contact': string;
+      'profile:image:cover_for:publisher:hidden_books': Array<string>;
       'profile:image:cover_for:publisher:id': string;
       'profile:image:cover_for:publisher:imprint_id': string;
       'profile:image:cover_for:publisher:instagram': string;
@@ -4102,6 +4185,7 @@ export type Schema = {
       'profile:image:preview_for:publisher:created_at': string;
       'profile:image:preview_for:publisher:direct_contact': string;
       'profile:image:preview_for:publisher:generic_contact': string;
+      'profile:image:preview_for:publisher:hidden_books': Array<string>;
       'profile:image:preview_for:publisher:id': string;
       'profile:image:preview_for:publisher:imprint_id': string;
       'profile:image:preview_for:publisher:instagram': string;
@@ -4122,6 +4206,7 @@ export type Schema = {
       'profile:image:publisher:imprint:created_at': string;
       'profile:image:publisher:imprint:direct_contact': string;
       'profile:image:publisher:imprint:generic_contact': string;
+      'profile:image:publisher:imprint:hidden_books': Array<string>;
       'profile:image:publisher:imprint:id': string;
       'profile:image:publisher:imprint:imprint_id': string;
       'profile:image:publisher:imprint:instagram': string;
@@ -4175,6 +4260,7 @@ export type Schema = {
       'book:image:preview_for:image:publisher:created_at': string;
       'book:image:preview_for:image:publisher:direct_contact': string;
       'book:image:preview_for:image:publisher:generic_contact': string;
+      'book:image:preview_for:image:publisher:hidden_books': Array<string>;
       'book:image:preview_for:image:publisher:id': string;
       'book:image:preview_for:image:publisher:imprint_id': string;
       'book:image:preview_for:image:publisher:instagram': string;
@@ -4200,6 +4286,7 @@ export type Schema = {
       'book:image:preview_for:publisher:imprint:created_at': string;
       'book:image:preview_for:publisher:imprint:direct_contact': string;
       'book:image:preview_for:publisher:imprint:generic_contact': string;
+      'book:image:preview_for:publisher:imprint:hidden_books': Array<string>;
       'book:image:preview_for:publisher:imprint:id': string;
       'book:image:preview_for:publisher:imprint:imprint_id': string;
       'book:image:preview_for:publisher:imprint:instagram': string;
@@ -4231,6 +4318,7 @@ export type Schema = {
       'book:image:publisher:imprint:imprint:created_at': string;
       'book:image:publisher:imprint:imprint:direct_contact': string;
       'book:image:publisher:imprint:imprint:generic_contact': string;
+      'book:image:publisher:imprint:imprint:hidden_books': Array<string>;
       'book:image:publisher:imprint:imprint:id': string;
       'book:image:publisher:imprint:imprint:imprint_id': string;
       'book:image:publisher:imprint:imprint:instagram': string;
@@ -4248,6 +4336,7 @@ export type Schema = {
       'book:publisher:image:cover_for:publisher:created_at': string;
       'book:publisher:image:cover_for:publisher:direct_contact': string;
       'book:publisher:image:cover_for:publisher:generic_contact': string;
+      'book:publisher:image:cover_for:publisher:hidden_books': Array<string>;
       'book:publisher:image:cover_for:publisher:id': string;
       'book:publisher:image:cover_for:publisher:imprint_id': string;
       'book:publisher:image:cover_for:publisher:instagram': string;
@@ -4281,6 +4370,7 @@ export type Schema = {
       'book:publisher:image:preview_for:publisher:created_at': string;
       'book:publisher:image:preview_for:publisher:direct_contact': string;
       'book:publisher:image:preview_for:publisher:generic_contact': string;
+      'book:publisher:image:preview_for:publisher:hidden_books': Array<string>;
       'book:publisher:image:preview_for:publisher:id': string;
       'book:publisher:image:preview_for:publisher:imprint_id': string;
       'book:publisher:image:preview_for:publisher:instagram': string;
@@ -4385,6 +4475,7 @@ export type Schema = {
       'book:publisher:imprint:imprint:imprint:created_at': string;
       'book:publisher:imprint:imprint:imprint:direct_contact': string;
       'book:publisher:imprint:imprint:imprint:generic_contact': string;
+      'book:publisher:imprint:imprint:imprint:hidden_books': Array<string>;
       'book:publisher:imprint:imprint:imprint:id': string;
       'book:publisher:imprint:imprint:imprint:imprint_id': string;
       'book:publisher:imprint:imprint:imprint:instagram': string;
@@ -4446,6 +4537,7 @@ export type Schema = {
       'book:submitter:profile:image:publisher:created_at': string;
       'book:submitter:profile:image:publisher:direct_contact': string;
       'book:submitter:profile:image:publisher:generic_contact': string;
+      'book:submitter:profile:image:publisher:hidden_books': Array<string>;
       'book:submitter:profile:image:publisher:id': string;
       'book:submitter:profile:image:publisher:imprint_id': string;
       'book:submitter:profile:image:publisher:instagram': string;
@@ -4471,6 +4563,7 @@ export type Schema = {
       'profile:image:cover_for:publisher:imprint:created_at': string;
       'profile:image:cover_for:publisher:imprint:direct_contact': string;
       'profile:image:cover_for:publisher:imprint:generic_contact': string;
+      'profile:image:cover_for:publisher:imprint:hidden_books': Array<string>;
       'profile:image:cover_for:publisher:imprint:id': string;
       'profile:image:cover_for:publisher:imprint:imprint_id': string;
       'profile:image:cover_for:publisher:imprint:instagram': string;
@@ -4524,6 +4617,7 @@ export type Schema = {
       'profile:image:preview_for:image:publisher:created_at': string;
       'profile:image:preview_for:image:publisher:direct_contact': string;
       'profile:image:preview_for:image:publisher:generic_contact': string;
+      'profile:image:preview_for:image:publisher:hidden_books': Array<string>;
       'profile:image:preview_for:image:publisher:id': string;
       'profile:image:preview_for:image:publisher:imprint_id': string;
       'profile:image:preview_for:image:publisher:instagram': string;
@@ -4549,6 +4643,7 @@ export type Schema = {
       'profile:image:preview_for:publisher:imprint:created_at': string;
       'profile:image:preview_for:publisher:imprint:direct_contact': string;
       'profile:image:preview_for:publisher:imprint:generic_contact': string;
+      'profile:image:preview_for:publisher:imprint:hidden_books': Array<string>;
       'profile:image:preview_for:publisher:imprint:id': string;
       'profile:image:preview_for:publisher:imprint:imprint_id': string;
       'profile:image:preview_for:publisher:imprint:instagram': string;
@@ -4580,6 +4675,7 @@ export type Schema = {
       'profile:image:publisher:imprint:imprint:created_at': string;
       'profile:image:publisher:imprint:imprint:direct_contact': string;
       'profile:image:publisher:imprint:imprint:generic_contact': string;
+      'profile:image:publisher:imprint:imprint:hidden_books': Array<string>;
       'profile:image:publisher:imprint:imprint:id': string;
       'profile:image:publisher:imprint:imprint:imprint_id': string;
       'profile:image:publisher:imprint:imprint:instagram': string;
@@ -4718,6 +4814,7 @@ export type Schema = {
       'profile:image:publisher:created_at': string;
       'profile:image:publisher:direct_contact': string;
       'profile:image:publisher:generic_contact': string;
+      'profile:image:publisher:hidden_books': Array<string>;
       'profile:image:publisher:id': string;
       'profile:image:publisher:imprint_id': string;
       'profile:image:publisher:instagram': string;
@@ -4748,6 +4845,7 @@ export type Schema = {
       'profile:image:cover_for:publisher:created_at': string;
       'profile:image:cover_for:publisher:direct_contact': string;
       'profile:image:cover_for:publisher:generic_contact': string;
+      'profile:image:cover_for:publisher:hidden_books': Array<string>;
       'profile:image:cover_for:publisher:id': string;
       'profile:image:cover_for:publisher:imprint_id': string;
       'profile:image:cover_for:publisher:instagram': string;
@@ -4781,6 +4879,7 @@ export type Schema = {
       'profile:image:preview_for:publisher:created_at': string;
       'profile:image:preview_for:publisher:direct_contact': string;
       'profile:image:preview_for:publisher:generic_contact': string;
+      'profile:image:preview_for:publisher:hidden_books': Array<string>;
       'profile:image:preview_for:publisher:id': string;
       'profile:image:preview_for:publisher:imprint_id': string;
       'profile:image:preview_for:publisher:instagram': string;
@@ -4801,6 +4900,7 @@ export type Schema = {
       'profile:image:publisher:imprint:created_at': string;
       'profile:image:publisher:imprint:direct_contact': string;
       'profile:image:publisher:imprint:generic_contact': string;
+      'profile:image:publisher:imprint:hidden_books': Array<string>;
       'profile:image:publisher:imprint:id': string;
       'profile:image:publisher:imprint:imprint_id': string;
       'profile:image:publisher:imprint:instagram': string;
@@ -4862,6 +4962,7 @@ export type Schema = {
       'user:profile:image:publisher:created_at': string;
       'user:profile:image:publisher:direct_contact': string;
       'user:profile:image:publisher:generic_contact': string;
+      'user:profile:image:publisher:hidden_books': Array<string>;
       'user:profile:image:publisher:id': string;
       'user:profile:image:publisher:imprint_id': string;
       'user:profile:image:publisher:instagram': string;
@@ -4887,6 +4988,7 @@ export type Schema = {
       'profile:image:cover_for:publisher:imprint:created_at': string;
       'profile:image:cover_for:publisher:imprint:direct_contact': string;
       'profile:image:cover_for:publisher:imprint:generic_contact': string;
+      'profile:image:cover_for:publisher:imprint:hidden_books': Array<string>;
       'profile:image:cover_for:publisher:imprint:id': string;
       'profile:image:cover_for:publisher:imprint:imprint_id': string;
       'profile:image:cover_for:publisher:imprint:instagram': string;
@@ -4940,6 +5042,7 @@ export type Schema = {
       'profile:image:preview_for:image:publisher:created_at': string;
       'profile:image:preview_for:image:publisher:direct_contact': string;
       'profile:image:preview_for:image:publisher:generic_contact': string;
+      'profile:image:preview_for:image:publisher:hidden_books': Array<string>;
       'profile:image:preview_for:image:publisher:id': string;
       'profile:image:preview_for:image:publisher:imprint_id': string;
       'profile:image:preview_for:image:publisher:instagram': string;
@@ -4965,6 +5068,7 @@ export type Schema = {
       'profile:image:preview_for:publisher:imprint:created_at': string;
       'profile:image:preview_for:publisher:imprint:direct_contact': string;
       'profile:image:preview_for:publisher:imprint:generic_contact': string;
+      'profile:image:preview_for:publisher:imprint:hidden_books': Array<string>;
       'profile:image:preview_for:publisher:imprint:id': string;
       'profile:image:preview_for:publisher:imprint:imprint_id': string;
       'profile:image:preview_for:publisher:imprint:instagram': string;
@@ -4996,6 +5100,7 @@ export type Schema = {
       'profile:image:publisher:imprint:imprint:created_at': string;
       'profile:image:publisher:imprint:imprint:direct_contact': string;
       'profile:image:publisher:imprint:imprint:generic_contact': string;
+      'profile:image:publisher:imprint:imprint:hidden_books': Array<string>;
       'profile:image:publisher:imprint:imprint:id': string;
       'profile:image:publisher:imprint:imprint:imprint_id': string;
       'profile:image:publisher:imprint:imprint:instagram': string;
@@ -5013,6 +5118,7 @@ export type Schema = {
       'user:profile:image:cover_for:publisher:created_at': string;
       'user:profile:image:cover_for:publisher:direct_contact': string;
       'user:profile:image:cover_for:publisher:generic_contact': string;
+      'user:profile:image:cover_for:publisher:hidden_books': Array<string>;
       'user:profile:image:cover_for:publisher:id': string;
       'user:profile:image:cover_for:publisher:imprint_id': string;
       'user:profile:image:cover_for:publisher:instagram': string;
@@ -5046,6 +5152,7 @@ export type Schema = {
       'user:profile:image:preview_for:publisher:created_at': string;
       'user:profile:image:preview_for:publisher:direct_contact': string;
       'user:profile:image:preview_for:publisher:generic_contact': string;
+      'user:profile:image:preview_for:publisher:hidden_books': Array<string>;
       'user:profile:image:preview_for:publisher:id': string;
       'user:profile:image:preview_for:publisher:imprint_id': string;
       'user:profile:image:preview_for:publisher:instagram': string;
@@ -5066,6 +5173,7 @@ export type Schema = {
       'user:profile:image:publisher:imprint:created_at': string;
       'user:profile:image:publisher:imprint:direct_contact': string;
       'user:profile:image:publisher:imprint:generic_contact': string;
+      'user:profile:image:publisher:imprint:hidden_books': Array<string>;
       'user:profile:image:publisher:imprint:id': string;
       'user:profile:image:publisher:imprint:imprint_id': string;
       'user:profile:image:publisher:imprint:instagram': string;
@@ -5176,6 +5284,7 @@ export type Schema = {
       'profile:image:publisher:created_at': string;
       'profile:image:publisher:direct_contact': string;
       'profile:image:publisher:generic_contact': string;
+      'profile:image:publisher:hidden_books': Array<string>;
       'profile:image:publisher:id': string;
       'profile:image:publisher:imprint_id': string;
       'profile:image:publisher:instagram': string;
@@ -5188,6 +5297,7 @@ export type Schema = {
       'profile:image:cover_for:publisher:created_at': string;
       'profile:image:cover_for:publisher:direct_contact': string;
       'profile:image:cover_for:publisher:generic_contact': string;
+      'profile:image:cover_for:publisher:hidden_books': Array<string>;
       'profile:image:cover_for:publisher:id': string;
       'profile:image:cover_for:publisher:imprint_id': string;
       'profile:image:cover_for:publisher:instagram': string;
@@ -5221,6 +5331,7 @@ export type Schema = {
       'profile:image:preview_for:publisher:created_at': string;
       'profile:image:preview_for:publisher:direct_contact': string;
       'profile:image:preview_for:publisher:generic_contact': string;
+      'profile:image:preview_for:publisher:hidden_books': Array<string>;
       'profile:image:preview_for:publisher:id': string;
       'profile:image:preview_for:publisher:imprint_id': string;
       'profile:image:preview_for:publisher:instagram': string;
@@ -5241,6 +5352,7 @@ export type Schema = {
       'profile:image:publisher:imprint:created_at': string;
       'profile:image:publisher:imprint:direct_contact': string;
       'profile:image:publisher:imprint:generic_contact': string;
+      'profile:image:publisher:imprint:hidden_books': Array<string>;
       'profile:image:publisher:imprint:id': string;
       'profile:image:publisher:imprint:imprint_id': string;
       'profile:image:publisher:imprint:instagram': string;
@@ -5271,6 +5383,7 @@ export type Schema = {
       'profile:image:cover_for:publisher:imprint:created_at': string;
       'profile:image:cover_for:publisher:imprint:direct_contact': string;
       'profile:image:cover_for:publisher:imprint:generic_contact': string;
+      'profile:image:cover_for:publisher:imprint:hidden_books': Array<string>;
       'profile:image:cover_for:publisher:imprint:id': string;
       'profile:image:cover_for:publisher:imprint:imprint_id': string;
       'profile:image:cover_for:publisher:imprint:instagram': string;
@@ -5324,6 +5437,7 @@ export type Schema = {
       'profile:image:preview_for:image:publisher:created_at': string;
       'profile:image:preview_for:image:publisher:direct_contact': string;
       'profile:image:preview_for:image:publisher:generic_contact': string;
+      'profile:image:preview_for:image:publisher:hidden_books': Array<string>;
       'profile:image:preview_for:image:publisher:id': string;
       'profile:image:preview_for:image:publisher:imprint_id': string;
       'profile:image:preview_for:image:publisher:instagram': string;
@@ -5349,6 +5463,7 @@ export type Schema = {
       'profile:image:preview_for:publisher:imprint:created_at': string;
       'profile:image:preview_for:publisher:imprint:direct_contact': string;
       'profile:image:preview_for:publisher:imprint:generic_contact': string;
+      'profile:image:preview_for:publisher:imprint:hidden_books': Array<string>;
       'profile:image:preview_for:publisher:imprint:id': string;
       'profile:image:preview_for:publisher:imprint:imprint_id': string;
       'profile:image:preview_for:publisher:imprint:instagram': string;
@@ -5380,6 +5495,7 @@ export type Schema = {
       'profile:image:publisher:imprint:imprint:created_at': string;
       'profile:image:publisher:imprint:imprint:direct_contact': string;
       'profile:image:publisher:imprint:imprint:generic_contact': string;
+      'profile:image:publisher:imprint:imprint:hidden_books': Array<string>;
       'profile:image:publisher:imprint:imprint:id': string;
       'profile:image:publisher:imprint:imprint:imprint_id': string;
       'profile:image:publisher:imprint:imprint:instagram': string;
@@ -5448,6 +5564,7 @@ export type Schema = {
       'book:publisher:created_at': string;
       'book:publisher:direct_contact': string;
       'book:publisher:generic_contact': string;
+      'book:publisher:hidden_books': Array<string>;
       'book:publisher:id': string;
       'book:publisher:imprint_id': string;
       'book:publisher:instagram': string;
@@ -5504,6 +5621,7 @@ export type Schema = {
       'book:image:publisher:created_at': string;
       'book:image:publisher:direct_contact': string;
       'book:image:publisher:generic_contact': string;
+      'book:image:publisher:hidden_books': Array<string>;
       'book:image:publisher:id': string;
       'book:image:publisher:imprint_id': string;
       'book:image:publisher:instagram': string;
@@ -5529,6 +5647,7 @@ export type Schema = {
       'book:publisher:imprint:created_at': string;
       'book:publisher:imprint:direct_contact': string;
       'book:publisher:imprint:generic_contact': string;
+      'book:publisher:imprint:hidden_books': Array<string>;
       'book:publisher:imprint:id': string;
       'book:publisher:imprint:imprint_id': string;
       'book:publisher:imprint:instagram': string;
@@ -5573,6 +5692,7 @@ export type Schema = {
       'book:image:preview_for:publisher:created_at': string;
       'book:image:preview_for:publisher:direct_contact': string;
       'book:image:preview_for:publisher:generic_contact': string;
+      'book:image:preview_for:publisher:hidden_books': Array<string>;
       'book:image:preview_for:publisher:id': string;
       'book:image:preview_for:publisher:imprint_id': string;
       'book:image:preview_for:publisher:instagram': string;
@@ -5606,6 +5726,7 @@ export type Schema = {
       'book:image:publisher:imprint:created_at': string;
       'book:image:publisher:imprint:direct_contact': string;
       'book:image:publisher:imprint:generic_contact': string;
+      'book:image:publisher:imprint:hidden_books': Array<string>;
       'book:image:publisher:imprint:id': string;
       'book:image:publisher:imprint:imprint_id': string;
       'book:image:publisher:imprint:instagram': string;
@@ -5694,6 +5815,7 @@ export type Schema = {
       'book:publisher:imprint:imprint:created_at': string;
       'book:publisher:imprint:imprint:direct_contact': string;
       'book:publisher:imprint:imprint:generic_contact': string;
+      'book:publisher:imprint:imprint:hidden_books': Array<string>;
       'book:publisher:imprint:imprint:id': string;
       'book:publisher:imprint:imprint:imprint_id': string;
       'book:publisher:imprint:imprint:instagram': string;
@@ -5765,6 +5887,7 @@ export type Schema = {
       'book:image:preview_for:image:publisher:created_at': string;
       'book:image:preview_for:image:publisher:direct_contact': string;
       'book:image:preview_for:image:publisher:generic_contact': string;
+      'book:image:preview_for:image:publisher:hidden_books': Array<string>;
       'book:image:preview_for:image:publisher:id': string;
       'book:image:preview_for:image:publisher:imprint_id': string;
       'book:image:preview_for:image:publisher:instagram': string;
@@ -5790,6 +5913,7 @@ export type Schema = {
       'book:image:preview_for:publisher:imprint:created_at': string;
       'book:image:preview_for:publisher:imprint:direct_contact': string;
       'book:image:preview_for:publisher:imprint:generic_contact': string;
+      'book:image:preview_for:publisher:imprint:hidden_books': Array<string>;
       'book:image:preview_for:publisher:imprint:id': string;
       'book:image:preview_for:publisher:imprint:imprint_id': string;
       'book:image:preview_for:publisher:imprint:instagram': string;
@@ -5821,6 +5945,7 @@ export type Schema = {
       'book:image:publisher:imprint:imprint:created_at': string;
       'book:image:publisher:imprint:imprint:direct_contact': string;
       'book:image:publisher:imprint:imprint:generic_contact': string;
+      'book:image:publisher:imprint:imprint:hidden_books': Array<string>;
       'book:image:publisher:imprint:imprint:id': string;
       'book:image:publisher:imprint:imprint:imprint_id': string;
       'book:image:publisher:imprint:imprint:instagram': string;
@@ -5838,6 +5963,7 @@ export type Schema = {
       'book:publisher:image:cover_for:publisher:created_at': string;
       'book:publisher:image:cover_for:publisher:direct_contact': string;
       'book:publisher:image:cover_for:publisher:generic_contact': string;
+      'book:publisher:image:cover_for:publisher:hidden_books': Array<string>;
       'book:publisher:image:cover_for:publisher:id': string;
       'book:publisher:image:cover_for:publisher:imprint_id': string;
       'book:publisher:image:cover_for:publisher:instagram': string;
@@ -5871,6 +5997,7 @@ export type Schema = {
       'book:publisher:image:preview_for:publisher:created_at': string;
       'book:publisher:image:preview_for:publisher:direct_contact': string;
       'book:publisher:image:preview_for:publisher:generic_contact': string;
+      'book:publisher:image:preview_for:publisher:hidden_books': Array<string>;
       'book:publisher:image:preview_for:publisher:id': string;
       'book:publisher:image:preview_for:publisher:imprint_id': string;
       'book:publisher:image:preview_for:publisher:instagram': string;
@@ -5975,6 +6102,7 @@ export type Schema = {
       'book:publisher:imprint:imprint:imprint:created_at': string;
       'book:publisher:imprint:imprint:imprint:direct_contact': string;
       'book:publisher:imprint:imprint:imprint:generic_contact': string;
+      'book:publisher:imprint:imprint:imprint:hidden_books': Array<string>;
       'book:publisher:imprint:imprint:imprint:id': string;
       'book:publisher:imprint:imprint:imprint:imprint_id': string;
       'book:publisher:imprint:imprint:imprint:instagram': string;
@@ -6036,6 +6164,7 @@ export type Schema = {
       'book:submitter:profile:image:publisher:created_at': string;
       'book:submitter:profile:image:publisher:direct_contact': string;
       'book:submitter:profile:image:publisher:generic_contact': string;
+      'book:submitter:profile:image:publisher:hidden_books': Array<string>;
       'book:submitter:profile:image:publisher:id': string;
       'book:submitter:profile:image:publisher:imprint_id': string;
       'book:submitter:profile:image:publisher:instagram': string;
@@ -6142,6 +6271,7 @@ export type Schema = {
       'publisher:created_at': string;
       'publisher:direct_contact': string;
       'publisher:generic_contact': string;
+      'publisher:hidden_books': Array<string>;
       'publisher:id': string;
       'publisher:imprint_id': string;
       'publisher:instagram': string;
@@ -6154,6 +6284,7 @@ export type Schema = {
       'cover_for:publisher:created_at': string;
       'cover_for:publisher:direct_contact': string;
       'cover_for:publisher:generic_contact': string;
+      'cover_for:publisher:hidden_books': Array<string>;
       'cover_for:publisher:id': string;
       'cover_for:publisher:imprint_id': string;
       'cover_for:publisher:instagram': string;
@@ -6187,6 +6318,7 @@ export type Schema = {
       'preview_for:publisher:created_at': string;
       'preview_for:publisher:direct_contact': string;
       'preview_for:publisher:generic_contact': string;
+      'preview_for:publisher:hidden_books': Array<string>;
       'preview_for:publisher:id': string;
       'preview_for:publisher:imprint_id': string;
       'preview_for:publisher:instagram': string;
@@ -6220,6 +6352,7 @@ export type Schema = {
       'publisher:imprint:created_at': string;
       'publisher:imprint:direct_contact': string;
       'publisher:imprint:generic_contact': string;
+      'publisher:imprint:hidden_books': Array<string>;
       'publisher:imprint:id': string;
       'publisher:imprint:imprint_id': string;
       'publisher:imprint:instagram': string;
@@ -6250,6 +6383,7 @@ export type Schema = {
       'cover_for:publisher:imprint:created_at': string;
       'cover_for:publisher:imprint:direct_contact': string;
       'cover_for:publisher:imprint:generic_contact': string;
+      'cover_for:publisher:imprint:hidden_books': Array<string>;
       'cover_for:publisher:imprint:id': string;
       'cover_for:publisher:imprint:imprint_id': string;
       'cover_for:publisher:imprint:instagram': string;
@@ -6317,6 +6451,7 @@ export type Schema = {
       'preview_for:image:publisher:created_at': string;
       'preview_for:image:publisher:direct_contact': string;
       'preview_for:image:publisher:generic_contact': string;
+      'preview_for:image:publisher:hidden_books': Array<string>;
       'preview_for:image:publisher:id': string;
       'preview_for:image:publisher:imprint_id': string;
       'preview_for:image:publisher:instagram': string;
@@ -6342,6 +6477,7 @@ export type Schema = {
       'preview_for:publisher:imprint:created_at': string;
       'preview_for:publisher:imprint:direct_contact': string;
       'preview_for:publisher:imprint:generic_contact': string;
+      'preview_for:publisher:imprint:hidden_books': Array<string>;
       'preview_for:publisher:imprint:id': string;
       'preview_for:publisher:imprint:imprint_id': string;
       'preview_for:publisher:imprint:instagram': string;
@@ -6373,6 +6509,7 @@ export type Schema = {
       'publisher:imprint:imprint:created_at': string;
       'publisher:imprint:imprint:direct_contact': string;
       'publisher:imprint:imprint:generic_contact': string;
+      'publisher:imprint:imprint:hidden_books': Array<string>;
       'publisher:imprint:imprint:id': string;
       'publisher:imprint:imprint:imprint_id': string;
       'publisher:imprint:imprint:instagram': string;
@@ -6461,6 +6598,7 @@ export type Schema = {
       'cover_for:publisher:imprint:imprint:created_at': string;
       'cover_for:publisher:imprint:imprint:direct_contact': string;
       'cover_for:publisher:imprint:imprint:generic_contact': string;
+      'cover_for:publisher:imprint:imprint:hidden_books': Array<string>;
       'cover_for:publisher:imprint:imprint:id': string;
       'cover_for:publisher:imprint:imprint:imprint_id': string;
       'cover_for:publisher:imprint:imprint:instagram': string;
@@ -6509,6 +6647,7 @@ export type Schema = {
       'preview_for:image:preview_for:publisher:created_at': string;
       'preview_for:image:preview_for:publisher:direct_contact': string;
       'preview_for:image:preview_for:publisher:generic_contact': string;
+      'preview_for:image:preview_for:publisher:hidden_books': Array<string>;
       'preview_for:image:preview_for:publisher:id': string;
       'preview_for:image:preview_for:publisher:imprint_id': string;
       'preview_for:image:preview_for:publisher:instagram': string;
@@ -6542,6 +6681,7 @@ export type Schema = {
       'preview_for:image:publisher:imprint:created_at': string;
       'preview_for:image:publisher:imprint:direct_contact': string;
       'preview_for:image:publisher:imprint:generic_contact': string;
+      'preview_for:image:publisher:imprint:hidden_books': Array<string>;
       'preview_for:image:publisher:imprint:id': string;
       'preview_for:image:publisher:imprint:imprint_id': string;
       'preview_for:image:publisher:imprint:instagram': string;
@@ -6630,6 +6770,7 @@ export type Schema = {
       'preview_for:publisher:imprint:imprint:created_at': string;
       'preview_for:publisher:imprint:imprint:direct_contact': string;
       'preview_for:publisher:imprint:imprint:generic_contact': string;
+      'preview_for:publisher:imprint:imprint:hidden_books': Array<string>;
       'preview_for:publisher:imprint:imprint:id': string;
       'preview_for:publisher:imprint:imprint:imprint_id': string;
       'preview_for:publisher:imprint:imprint:instagram': string;
@@ -6665,6 +6806,7 @@ export type Schema = {
       'publisher:imprint:imprint:imprint:created_at': string;
       'publisher:imprint:imprint:imprint:direct_contact': string;
       'publisher:imprint:imprint:imprint:generic_contact': string;
+      'publisher:imprint:imprint:imprint:hidden_books': Array<string>;
       'publisher:imprint:imprint:imprint:id': string;
       'publisher:imprint:imprint:imprint:imprint_id': string;
       'publisher:imprint:imprint:imprint:instagram': string;
@@ -6682,6 +6824,7 @@ export type Schema = {
       'cover_for:publisher:image:cover_for:publisher:created_at': string;
       'cover_for:publisher:image:cover_for:publisher:direct_contact': string;
       'cover_for:publisher:image:cover_for:publisher:generic_contact': string;
+      'cover_for:publisher:image:cover_for:publisher:hidden_books': Array<string>;
       'cover_for:publisher:image:cover_for:publisher:id': string;
       'cover_for:publisher:image:cover_for:publisher:imprint_id': string;
       'cover_for:publisher:image:cover_for:publisher:instagram': string;
@@ -6702,6 +6845,7 @@ export type Schema = {
       'cover_for:publisher:image:preview_for:publisher:created_at': string;
       'cover_for:publisher:image:preview_for:publisher:direct_contact': string;
       'cover_for:publisher:image:preview_for:publisher:generic_contact': string;
+      'cover_for:publisher:image:preview_for:publisher:hidden_books': Array<string>;
       'cover_for:publisher:image:preview_for:publisher:id': string;
       'cover_for:publisher:image:preview_for:publisher:imprint_id': string;
       'cover_for:publisher:image:preview_for:publisher:instagram': string;
@@ -6806,6 +6950,7 @@ export type Schema = {
       'cover_for:publisher:imprint:imprint:imprint:created_at': string;
       'cover_for:publisher:imprint:imprint:imprint:direct_contact': string;
       'cover_for:publisher:imprint:imprint:imprint:generic_contact': string;
+      'cover_for:publisher:imprint:imprint:imprint:hidden_books': Array<string>;
       'cover_for:publisher:imprint:imprint:imprint:id': string;
       'cover_for:publisher:imprint:imprint:imprint:imprint_id': string;
       'cover_for:publisher:imprint:imprint:imprint:instagram': string;
@@ -6867,6 +7012,7 @@ export type Schema = {
       'cover_for:submitter:profile:image:publisher:created_at': string;
       'cover_for:submitter:profile:image:publisher:direct_contact': string;
       'cover_for:submitter:profile:image:publisher:generic_contact': string;
+      'cover_for:submitter:profile:image:publisher:hidden_books': Array<string>;
       'cover_for:submitter:profile:image:publisher:id': string;
       'cover_for:submitter:profile:image:publisher:imprint_id': string;
       'cover_for:submitter:profile:image:publisher:instagram': string;
@@ -6915,6 +7061,7 @@ export type Schema = {
       'preview_for:image:preview_for:image:publisher:created_at': string;
       'preview_for:image:preview_for:image:publisher:direct_contact': string;
       'preview_for:image:preview_for:image:publisher:generic_contact': string;
+      'preview_for:image:preview_for:image:publisher:hidden_books': Array<string>;
       'preview_for:image:preview_for:image:publisher:id': string;
       'preview_for:image:preview_for:image:publisher:imprint_id': string;
       'preview_for:image:preview_for:image:publisher:instagram': string;
@@ -6940,6 +7087,7 @@ export type Schema = {
       'preview_for:image:preview_for:publisher:imprint:created_at': string;
       'preview_for:image:preview_for:publisher:imprint:direct_contact': string;
       'preview_for:image:preview_for:publisher:imprint:generic_contact': string;
+      'preview_for:image:preview_for:publisher:imprint:hidden_books': Array<string>;
       'preview_for:image:preview_for:publisher:imprint:id': string;
       'preview_for:image:preview_for:publisher:imprint:imprint_id': string;
       'preview_for:image:preview_for:publisher:imprint:instagram': string;
@@ -6971,6 +7119,7 @@ export type Schema = {
       'preview_for:image:publisher:imprint:imprint:created_at': string;
       'preview_for:image:publisher:imprint:imprint:direct_contact': string;
       'preview_for:image:publisher:imprint:imprint:generic_contact': string;
+      'preview_for:image:publisher:imprint:imprint:hidden_books': Array<string>;
       'preview_for:image:publisher:imprint:imprint:id': string;
       'preview_for:image:publisher:imprint:imprint:imprint_id': string;
       'preview_for:image:publisher:imprint:imprint:instagram': string;
@@ -6988,6 +7137,7 @@ export type Schema = {
       'preview_for:publisher:image:cover_for:publisher:created_at': string;
       'preview_for:publisher:image:cover_for:publisher:direct_contact': string;
       'preview_for:publisher:image:cover_for:publisher:generic_contact': string;
+      'preview_for:publisher:image:cover_for:publisher:hidden_books': Array<string>;
       'preview_for:publisher:image:cover_for:publisher:id': string;
       'preview_for:publisher:image:cover_for:publisher:imprint_id': string;
       'preview_for:publisher:image:cover_for:publisher:instagram': string;
@@ -7021,6 +7171,7 @@ export type Schema = {
       'preview_for:publisher:image:preview_for:publisher:created_at': string;
       'preview_for:publisher:image:preview_for:publisher:direct_contact': string;
       'preview_for:publisher:image:preview_for:publisher:generic_contact': string;
+      'preview_for:publisher:image:preview_for:publisher:hidden_books': Array<string>;
       'preview_for:publisher:image:preview_for:publisher:id': string;
       'preview_for:publisher:image:preview_for:publisher:imprint_id': string;
       'preview_for:publisher:image:preview_for:publisher:instagram': string;
@@ -7125,6 +7276,7 @@ export type Schema = {
       'preview_for:publisher:imprint:imprint:imprint:created_at': string;
       'preview_for:publisher:imprint:imprint:imprint:direct_contact': string;
       'preview_for:publisher:imprint:imprint:imprint:generic_contact': string;
+      'preview_for:publisher:imprint:imprint:imprint:hidden_books': Array<string>;
       'preview_for:publisher:imprint:imprint:imprint:id': string;
       'preview_for:publisher:imprint:imprint:imprint:imprint_id': string;
       'preview_for:publisher:imprint:imprint:imprint:instagram': string;
@@ -7186,6 +7338,7 @@ export type Schema = {
       'preview_for:submitter:profile:image:publisher:created_at': string;
       'preview_for:submitter:profile:image:publisher:direct_contact': string;
       'preview_for:submitter:profile:image:publisher:generic_contact': string;
+      'preview_for:submitter:profile:image:publisher:hidden_books': Array<string>;
       'preview_for:submitter:profile:image:publisher:id': string;
       'preview_for:submitter:profile:image:publisher:imprint_id': string;
       'preview_for:submitter:profile:image:publisher:instagram': string;
@@ -7198,6 +7351,7 @@ export type Schema = {
       'publisher:imprint:imprint:imprint:imprint:created_at': string;
       'publisher:imprint:imprint:imprint:imprint:direct_contact': string;
       'publisher:imprint:imprint:imprint:imprint:generic_contact': string;
+      'publisher:imprint:imprint:imprint:imprint:hidden_books': Array<string>;
       'publisher:imprint:imprint:imprint:imprint:id': string;
       'publisher:imprint:imprint:imprint:imprint:imprint_id': string;
       'publisher:imprint:imprint:imprint:imprint:instagram': string;
@@ -7278,6 +7432,7 @@ export type Schema = {
       'book:publisher:created_at': string;
       'book:publisher:direct_contact': string;
       'book:publisher:generic_contact': string;
+      'book:publisher:hidden_books': Array<string>;
       'book:publisher:id': string;
       'book:publisher:imprint_id': string;
       'book:publisher:instagram': string;
@@ -7334,6 +7489,7 @@ export type Schema = {
       'book:image:publisher:created_at': string;
       'book:image:publisher:direct_contact': string;
       'book:image:publisher:generic_contact': string;
+      'book:image:publisher:hidden_books': Array<string>;
       'book:image:publisher:id': string;
       'book:image:publisher:imprint_id': string;
       'book:image:publisher:instagram': string;
@@ -7359,6 +7515,7 @@ export type Schema = {
       'book:publisher:imprint:created_at': string;
       'book:publisher:imprint:direct_contact': string;
       'book:publisher:imprint:generic_contact': string;
+      'book:publisher:imprint:hidden_books': Array<string>;
       'book:publisher:imprint:id': string;
       'book:publisher:imprint:imprint_id': string;
       'book:publisher:imprint:instagram': string;
@@ -7403,6 +7560,7 @@ export type Schema = {
       'book:image:preview_for:publisher:created_at': string;
       'book:image:preview_for:publisher:direct_contact': string;
       'book:image:preview_for:publisher:generic_contact': string;
+      'book:image:preview_for:publisher:hidden_books': Array<string>;
       'book:image:preview_for:publisher:id': string;
       'book:image:preview_for:publisher:imprint_id': string;
       'book:image:preview_for:publisher:instagram': string;
@@ -7436,6 +7594,7 @@ export type Schema = {
       'book:image:publisher:imprint:created_at': string;
       'book:image:publisher:imprint:direct_contact': string;
       'book:image:publisher:imprint:generic_contact': string;
+      'book:image:publisher:imprint:hidden_books': Array<string>;
       'book:image:publisher:imprint:id': string;
       'book:image:publisher:imprint:imprint_id': string;
       'book:image:publisher:imprint:instagram': string;
@@ -7524,6 +7683,7 @@ export type Schema = {
       'book:publisher:imprint:imprint:created_at': string;
       'book:publisher:imprint:imprint:direct_contact': string;
       'book:publisher:imprint:imprint:generic_contact': string;
+      'book:publisher:imprint:imprint:hidden_books': Array<string>;
       'book:publisher:imprint:imprint:id': string;
       'book:publisher:imprint:imprint:imprint_id': string;
       'book:publisher:imprint:imprint:instagram': string;
@@ -7595,6 +7755,7 @@ export type Schema = {
       'book:image:preview_for:image:publisher:created_at': string;
       'book:image:preview_for:image:publisher:direct_contact': string;
       'book:image:preview_for:image:publisher:generic_contact': string;
+      'book:image:preview_for:image:publisher:hidden_books': Array<string>;
       'book:image:preview_for:image:publisher:id': string;
       'book:image:preview_for:image:publisher:imprint_id': string;
       'book:image:preview_for:image:publisher:instagram': string;
@@ -7620,6 +7781,7 @@ export type Schema = {
       'book:image:preview_for:publisher:imprint:created_at': string;
       'book:image:preview_for:publisher:imprint:direct_contact': string;
       'book:image:preview_for:publisher:imprint:generic_contact': string;
+      'book:image:preview_for:publisher:imprint:hidden_books': Array<string>;
       'book:image:preview_for:publisher:imprint:id': string;
       'book:image:preview_for:publisher:imprint:imprint_id': string;
       'book:image:preview_for:publisher:imprint:instagram': string;
@@ -7651,6 +7813,7 @@ export type Schema = {
       'book:image:publisher:imprint:imprint:created_at': string;
       'book:image:publisher:imprint:imprint:direct_contact': string;
       'book:image:publisher:imprint:imprint:generic_contact': string;
+      'book:image:publisher:imprint:imprint:hidden_books': Array<string>;
       'book:image:publisher:imprint:imprint:id': string;
       'book:image:publisher:imprint:imprint:imprint_id': string;
       'book:image:publisher:imprint:imprint:instagram': string;
@@ -7668,6 +7831,7 @@ export type Schema = {
       'book:publisher:image:cover_for:publisher:created_at': string;
       'book:publisher:image:cover_for:publisher:direct_contact': string;
       'book:publisher:image:cover_for:publisher:generic_contact': string;
+      'book:publisher:image:cover_for:publisher:hidden_books': Array<string>;
       'book:publisher:image:cover_for:publisher:id': string;
       'book:publisher:image:cover_for:publisher:imprint_id': string;
       'book:publisher:image:cover_for:publisher:instagram': string;
@@ -7701,6 +7865,7 @@ export type Schema = {
       'book:publisher:image:preview_for:publisher:created_at': string;
       'book:publisher:image:preview_for:publisher:direct_contact': string;
       'book:publisher:image:preview_for:publisher:generic_contact': string;
+      'book:publisher:image:preview_for:publisher:hidden_books': Array<string>;
       'book:publisher:image:preview_for:publisher:id': string;
       'book:publisher:image:preview_for:publisher:imprint_id': string;
       'book:publisher:image:preview_for:publisher:instagram': string;
@@ -7805,6 +7970,7 @@ export type Schema = {
       'book:publisher:imprint:imprint:imprint:created_at': string;
       'book:publisher:imprint:imprint:imprint:direct_contact': string;
       'book:publisher:imprint:imprint:imprint:generic_contact': string;
+      'book:publisher:imprint:imprint:imprint:hidden_books': Array<string>;
       'book:publisher:imprint:imprint:imprint:id': string;
       'book:publisher:imprint:imprint:imprint:imprint_id': string;
       'book:publisher:imprint:imprint:imprint:instagram': string;
@@ -7866,6 +8032,7 @@ export type Schema = {
       'book:submitter:profile:image:publisher:created_at': string;
       'book:submitter:profile:image:publisher:direct_contact': string;
       'book:submitter:profile:image:publisher:generic_contact': string;
+      'book:submitter:profile:image:publisher:hidden_books': Array<string>;
       'book:submitter:profile:image:publisher:id': string;
       'book:submitter:profile:image:publisher:imprint_id': string;
       'book:submitter:profile:image:publisher:instagram': string;
@@ -7983,6 +8150,7 @@ export type Schema = {
       'user:profile:image:publisher:created_at': string;
       'user:profile:image:publisher:direct_contact': string;
       'user:profile:image:publisher:generic_contact': string;
+      'user:profile:image:publisher:hidden_books': Array<string>;
       'user:profile:image:publisher:id': string;
       'user:profile:image:publisher:imprint_id': string;
       'user:profile:image:publisher:instagram': string;
@@ -7995,6 +8163,7 @@ export type Schema = {
       'user:profile:image:cover_for:publisher:created_at': string;
       'user:profile:image:cover_for:publisher:direct_contact': string;
       'user:profile:image:cover_for:publisher:generic_contact': string;
+      'user:profile:image:cover_for:publisher:hidden_books': Array<string>;
       'user:profile:image:cover_for:publisher:id': string;
       'user:profile:image:cover_for:publisher:imprint_id': string;
       'user:profile:image:cover_for:publisher:instagram': string;
@@ -8028,6 +8197,7 @@ export type Schema = {
       'user:profile:image:preview_for:publisher:created_at': string;
       'user:profile:image:preview_for:publisher:direct_contact': string;
       'user:profile:image:preview_for:publisher:generic_contact': string;
+      'user:profile:image:preview_for:publisher:hidden_books': Array<string>;
       'user:profile:image:preview_for:publisher:id': string;
       'user:profile:image:preview_for:publisher:imprint_id': string;
       'user:profile:image:preview_for:publisher:instagram': string;
@@ -8048,6 +8218,7 @@ export type Schema = {
       'user:profile:image:publisher:imprint:created_at': string;
       'user:profile:image:publisher:imprint:direct_contact': string;
       'user:profile:image:publisher:imprint:generic_contact': string;
+      'user:profile:image:publisher:imprint:hidden_books': Array<string>;
       'user:profile:image:publisher:imprint:id': string;
       'user:profile:image:publisher:imprint:imprint_id': string;
       'user:profile:image:publisher:imprint:instagram': string;
@@ -8163,6 +8334,7 @@ export type Schema = {
       'author:profile:image:publisher:created_at': string;
       'author:profile:image:publisher:direct_contact': string;
       'author:profile:image:publisher:generic_contact': string;
+      'author:profile:image:publisher:hidden_books': Array<string>;
       'author:profile:image:publisher:id': string;
       'author:profile:image:publisher:imprint_id': string;
       'author:profile:image:publisher:instagram': string;
@@ -8175,6 +8347,7 @@ export type Schema = {
       'author:profile:image:cover_for:publisher:created_at': string;
       'author:profile:image:cover_for:publisher:direct_contact': string;
       'author:profile:image:cover_for:publisher:generic_contact': string;
+      'author:profile:image:cover_for:publisher:hidden_books': Array<string>;
       'author:profile:image:cover_for:publisher:id': string;
       'author:profile:image:cover_for:publisher:imprint_id': string;
       'author:profile:image:cover_for:publisher:instagram': string;
@@ -8208,6 +8381,7 @@ export type Schema = {
       'author:profile:image:preview_for:publisher:created_at': string;
       'author:profile:image:preview_for:publisher:direct_contact': string;
       'author:profile:image:preview_for:publisher:generic_contact': string;
+      'author:profile:image:preview_for:publisher:hidden_books': Array<string>;
       'author:profile:image:preview_for:publisher:id': string;
       'author:profile:image:preview_for:publisher:imprint_id': string;
       'author:profile:image:preview_for:publisher:instagram': string;
@@ -8228,6 +8402,7 @@ export type Schema = {
       'author:profile:image:publisher:imprint:created_at': string;
       'author:profile:image:publisher:imprint:direct_contact': string;
       'author:profile:image:publisher:imprint:generic_contact': string;
+      'author:profile:image:publisher:imprint:hidden_books': Array<string>;
       'author:profile:image:publisher:imprint:id': string;
       'author:profile:image:publisher:imprint:imprint_id': string;
       'author:profile:image:publisher:imprint:instagram': string;
@@ -8340,6 +8515,7 @@ export type Schema = {
       'image:publisher:created_at': string;
       'image:publisher:direct_contact': string;
       'image:publisher:generic_contact': string;
+      'image:publisher:hidden_books': Array<string>;
       'image:publisher:id': string;
       'image:publisher:imprint_id': string;
       'image:publisher:instagram': string;
@@ -8352,6 +8528,7 @@ export type Schema = {
       'image:cover_for:publisher:created_at': string;
       'image:cover_for:publisher:direct_contact': string;
       'image:cover_for:publisher:generic_contact': string;
+      'image:cover_for:publisher:hidden_books': Array<string>;
       'image:cover_for:publisher:id': string;
       'image:cover_for:publisher:imprint_id': string;
       'image:cover_for:publisher:instagram': string;
@@ -8385,6 +8562,7 @@ export type Schema = {
       'image:preview_for:publisher:created_at': string;
       'image:preview_for:publisher:direct_contact': string;
       'image:preview_for:publisher:generic_contact': string;
+      'image:preview_for:publisher:hidden_books': Array<string>;
       'image:preview_for:publisher:id': string;
       'image:preview_for:publisher:imprint_id': string;
       'image:preview_for:publisher:instagram': string;
@@ -8405,6 +8583,7 @@ export type Schema = {
       'image:publisher:imprint:created_at': string;
       'image:publisher:imprint:direct_contact': string;
       'image:publisher:imprint:generic_contact': string;
+      'image:publisher:imprint:hidden_books': Array<string>;
       'image:publisher:imprint:id': string;
       'image:publisher:imprint:imprint_id': string;
       'image:publisher:imprint:instagram': string;
@@ -8435,6 +8614,7 @@ export type Schema = {
       'image:cover_for:publisher:imprint:created_at': string;
       'image:cover_for:publisher:imprint:direct_contact': string;
       'image:cover_for:publisher:imprint:generic_contact': string;
+      'image:cover_for:publisher:imprint:hidden_books': Array<string>;
       'image:cover_for:publisher:imprint:id': string;
       'image:cover_for:publisher:imprint:imprint_id': string;
       'image:cover_for:publisher:imprint:instagram': string;
@@ -8488,6 +8668,7 @@ export type Schema = {
       'image:preview_for:image:publisher:created_at': string;
       'image:preview_for:image:publisher:direct_contact': string;
       'image:preview_for:image:publisher:generic_contact': string;
+      'image:preview_for:image:publisher:hidden_books': Array<string>;
       'image:preview_for:image:publisher:id': string;
       'image:preview_for:image:publisher:imprint_id': string;
       'image:preview_for:image:publisher:instagram': string;
@@ -8513,6 +8694,7 @@ export type Schema = {
       'image:preview_for:publisher:imprint:created_at': string;
       'image:preview_for:publisher:imprint:direct_contact': string;
       'image:preview_for:publisher:imprint:generic_contact': string;
+      'image:preview_for:publisher:imprint:hidden_books': Array<string>;
       'image:preview_for:publisher:imprint:id': string;
       'image:preview_for:publisher:imprint:imprint_id': string;
       'image:preview_for:publisher:imprint:instagram': string;
@@ -8544,6 +8726,7 @@ export type Schema = {
       'image:publisher:imprint:imprint:created_at': string;
       'image:publisher:imprint:imprint:direct_contact': string;
       'image:publisher:imprint:imprint:generic_contact': string;
+      'image:publisher:imprint:imprint:hidden_books': Array<string>;
       'image:publisher:imprint:imprint:id': string;
       'image:publisher:imprint:imprint:imprint_id': string;
       'image:publisher:imprint:imprint:instagram': string;
@@ -8618,6 +8801,7 @@ export type Schema = {
       'image:cover_for:publisher:imprint:imprint:created_at': string;
       'image:cover_for:publisher:imprint:imprint:direct_contact': string;
       'image:cover_for:publisher:imprint:imprint:generic_contact': string;
+      'image:cover_for:publisher:imprint:imprint:hidden_books': Array<string>;
       'image:cover_for:publisher:imprint:imprint:id': string;
       'image:cover_for:publisher:imprint:imprint:imprint_id': string;
       'image:cover_for:publisher:imprint:imprint:instagram': string;
@@ -8666,6 +8850,7 @@ export type Schema = {
       'image:preview_for:image:preview_for:publisher:created_at': string;
       'image:preview_for:image:preview_for:publisher:direct_contact': string;
       'image:preview_for:image:preview_for:publisher:generic_contact': string;
+      'image:preview_for:image:preview_for:publisher:hidden_books': Array<string>;
       'image:preview_for:image:preview_for:publisher:id': string;
       'image:preview_for:image:preview_for:publisher:imprint_id': string;
       'image:preview_for:image:preview_for:publisher:instagram': string;
@@ -8686,6 +8871,7 @@ export type Schema = {
       'image:preview_for:image:publisher:imprint:created_at': string;
       'image:preview_for:image:publisher:imprint:direct_contact': string;
       'image:preview_for:image:publisher:imprint:generic_contact': string;
+      'image:preview_for:image:publisher:imprint:hidden_books': Array<string>;
       'image:preview_for:image:publisher:imprint:id': string;
       'image:preview_for:image:publisher:imprint:imprint_id': string;
       'image:preview_for:image:publisher:imprint:instagram': string;
@@ -8760,6 +8946,7 @@ export type Schema = {
       'image:preview_for:publisher:imprint:imprint:created_at': string;
       'image:preview_for:publisher:imprint:imprint:direct_contact': string;
       'image:preview_for:publisher:imprint:imprint:generic_contact': string;
+      'image:preview_for:publisher:imprint:imprint:hidden_books': Array<string>;
       'image:preview_for:publisher:imprint:imprint:id': string;
       'image:preview_for:publisher:imprint:imprint:imprint_id': string;
       'image:preview_for:publisher:imprint:imprint:instagram': string;
@@ -8795,6 +8982,7 @@ export type Schema = {
       'image:publisher:imprint:imprint:imprint:created_at': string;
       'image:publisher:imprint:imprint:imprint:direct_contact': string;
       'image:publisher:imprint:imprint:imprint:generic_contact': string;
+      'image:publisher:imprint:imprint:imprint:hidden_books': Array<string>;
       'image:publisher:imprint:imprint:imprint:id': string;
       'image:publisher:imprint:imprint:imprint:imprint_id': string;
       'image:publisher:imprint:imprint:imprint:instagram': string;
@@ -8816,6 +9004,7 @@ export type Schema = {
       'created_at': string;
       'direct_contact': string;
       'generic_contact': string;
+      'hidden_books': Array<string>;
       'id': string;
       'imprint_id': string;
       'instagram': string;
@@ -8848,6 +9037,7 @@ export type Schema = {
       'imprint:created_at': string;
       'imprint:direct_contact': string;
       'imprint:generic_contact': string;
+      'imprint:hidden_books': Array<string>;
       'imprint:id': string;
       'imprint:imprint_id': string;
       'imprint:instagram': string;
@@ -8936,6 +9126,7 @@ export type Schema = {
       'imprint:imprint:created_at': string;
       'imprint:imprint:direct_contact': string;
       'imprint:imprint:generic_contact': string;
+      'imprint:imprint:hidden_books': Array<string>;
       'imprint:imprint:id': string;
       'imprint:imprint:imprint_id': string;
       'imprint:imprint:instagram': string;
@@ -8953,6 +9144,7 @@ export type Schema = {
       'image:cover_for:publisher:created_at': string;
       'image:cover_for:publisher:direct_contact': string;
       'image:cover_for:publisher:generic_contact': string;
+      'image:cover_for:publisher:hidden_books': Array<string>;
       'image:cover_for:publisher:id': string;
       'image:cover_for:publisher:imprint_id': string;
       'image:cover_for:publisher:instagram': string;
@@ -8986,6 +9178,7 @@ export type Schema = {
       'image:preview_for:publisher:created_at': string;
       'image:preview_for:publisher:direct_contact': string;
       'image:preview_for:publisher:generic_contact': string;
+      'image:preview_for:publisher:hidden_books': Array<string>;
       'image:preview_for:publisher:id': string;
       'image:preview_for:publisher:imprint_id': string;
       'image:preview_for:publisher:instagram': string;
@@ -9090,6 +9283,7 @@ export type Schema = {
       'imprint:imprint:imprint:created_at': string;
       'imprint:imprint:imprint:direct_contact': string;
       'imprint:imprint:imprint:generic_contact': string;
+      'imprint:imprint:imprint:hidden_books': Array<string>;
       'imprint:imprint:imprint:id': string;
       'imprint:imprint:imprint:imprint_id': string;
       'imprint:imprint:imprint:instagram': string;
@@ -9120,6 +9314,7 @@ export type Schema = {
       'image:cover_for:publisher:imprint:created_at': string;
       'image:cover_for:publisher:imprint:direct_contact': string;
       'image:cover_for:publisher:imprint:generic_contact': string;
+      'image:cover_for:publisher:imprint:hidden_books': Array<string>;
       'image:cover_for:publisher:imprint:id': string;
       'image:cover_for:publisher:imprint:imprint_id': string;
       'image:cover_for:publisher:imprint:instagram': string;
@@ -9200,6 +9395,7 @@ export type Schema = {
       'image:preview_for:publisher:imprint:created_at': string;
       'image:preview_for:publisher:imprint:direct_contact': string;
       'image:preview_for:publisher:imprint:generic_contact': string;
+      'image:preview_for:publisher:imprint:hidden_books': Array<string>;
       'image:preview_for:publisher:imprint:id': string;
       'image:preview_for:publisher:imprint:imprint_id': string;
       'image:preview_for:publisher:imprint:instagram': string;
@@ -9231,6 +9427,7 @@ export type Schema = {
       'imprint:image:cover_for:publisher:created_at': string;
       'imprint:image:cover_for:publisher:direct_contact': string;
       'imprint:image:cover_for:publisher:generic_contact': string;
+      'imprint:image:cover_for:publisher:hidden_books': Array<string>;
       'imprint:image:cover_for:publisher:id': string;
       'imprint:image:cover_for:publisher:imprint_id': string;
       'imprint:image:cover_for:publisher:instagram': string;
@@ -9264,6 +9461,7 @@ export type Schema = {
       'imprint:image:preview_for:publisher:created_at': string;
       'imprint:image:preview_for:publisher:direct_contact': string;
       'imprint:image:preview_for:publisher:generic_contact': string;
+      'imprint:image:preview_for:publisher:hidden_books': Array<string>;
       'imprint:image:preview_for:publisher:id': string;
       'imprint:image:preview_for:publisher:imprint_id': string;
       'imprint:image:preview_for:publisher:instagram': string;
@@ -9368,6 +9566,7 @@ export type Schema = {
       'imprint:imprint:imprint:imprint:created_at': string;
       'imprint:imprint:imprint:imprint:direct_contact': string;
       'imprint:imprint:imprint:imprint:generic_contact': string;
+      'imprint:imprint:imprint:imprint:hidden_books': Array<string>;
       'imprint:imprint:imprint:imprint:id': string;
       'imprint:imprint:imprint:imprint:imprint_id': string;
       'imprint:imprint:imprint:imprint:instagram': string;
@@ -9456,6 +9655,7 @@ export type Schema = {
       'image:cover_for:publisher:imprint:imprint:created_at': string;
       'image:cover_for:publisher:imprint:imprint:direct_contact': string;
       'image:cover_for:publisher:imprint:imprint:generic_contact': string;
+      'image:cover_for:publisher:imprint:imprint:hidden_books': Array<string>;
       'image:cover_for:publisher:imprint:imprint:id': string;
       'image:cover_for:publisher:imprint:imprint:imprint_id': string;
       'image:cover_for:publisher:imprint:imprint:instagram': string;
@@ -9504,6 +9704,7 @@ export type Schema = {
       'image:preview_for:image:preview_for:publisher:created_at': string;
       'image:preview_for:image:preview_for:publisher:direct_contact': string;
       'image:preview_for:image:preview_for:publisher:generic_contact': string;
+      'image:preview_for:image:preview_for:publisher:hidden_books': Array<string>;
       'image:preview_for:image:preview_for:publisher:id': string;
       'image:preview_for:image:preview_for:publisher:imprint_id': string;
       'image:preview_for:image:preview_for:publisher:instagram': string;
@@ -9608,6 +9809,7 @@ export type Schema = {
       'image:preview_for:publisher:imprint:imprint:created_at': string;
       'image:preview_for:publisher:imprint:imprint:direct_contact': string;
       'image:preview_for:publisher:imprint:imprint:generic_contact': string;
+      'image:preview_for:publisher:imprint:imprint:hidden_books': Array<string>;
       'image:preview_for:publisher:imprint:imprint:id': string;
       'image:preview_for:publisher:imprint:imprint:imprint_id': string;
       'image:preview_for:publisher:imprint:imprint:instagram': string;
@@ -9656,6 +9858,7 @@ export type Schema = {
       'imprint:image:cover_for:publisher:imprint:created_at': string;
       'imprint:image:cover_for:publisher:imprint:direct_contact': string;
       'imprint:image:cover_for:publisher:imprint:generic_contact': string;
+      'imprint:image:cover_for:publisher:imprint:hidden_books': Array<string>;
       'imprint:image:cover_for:publisher:imprint:id': string;
       'imprint:image:cover_for:publisher:imprint:imprint_id': string;
       'imprint:image:cover_for:publisher:imprint:instagram': string;
@@ -9736,6 +9939,7 @@ export type Schema = {
       'imprint:image:preview_for:publisher:imprint:created_at': string;
       'imprint:image:preview_for:publisher:imprint:direct_contact': string;
       'imprint:image:preview_for:publisher:imprint:generic_contact': string;
+      'imprint:image:preview_for:publisher:imprint:hidden_books': Array<string>;
       'imprint:image:preview_for:publisher:imprint:id': string;
       'imprint:image:preview_for:publisher:imprint:imprint_id': string;
       'imprint:image:preview_for:publisher:imprint:instagram': string;
@@ -9767,6 +9971,7 @@ export type Schema = {
       'imprint:imprint:image:cover_for:publisher:created_at': string;
       'imprint:imprint:image:cover_for:publisher:direct_contact': string;
       'imprint:imprint:image:cover_for:publisher:generic_contact': string;
+      'imprint:imprint:image:cover_for:publisher:hidden_books': Array<string>;
       'imprint:imprint:image:cover_for:publisher:id': string;
       'imprint:imprint:image:cover_for:publisher:imprint_id': string;
       'imprint:imprint:image:cover_for:publisher:instagram': string;
@@ -9800,6 +10005,7 @@ export type Schema = {
       'imprint:imprint:image:preview_for:publisher:created_at': string;
       'imprint:imprint:image:preview_for:publisher:direct_contact': string;
       'imprint:imprint:image:preview_for:publisher:generic_contact': string;
+      'imprint:imprint:image:preview_for:publisher:hidden_books': Array<string>;
       'imprint:imprint:image:preview_for:publisher:id': string;
       'imprint:imprint:image:preview_for:publisher:imprint_id': string;
       'imprint:imprint:image:preview_for:publisher:instagram': string;
@@ -9904,6 +10110,7 @@ export type Schema = {
       'imprint:imprint:imprint:imprint:imprint:created_at': string;
       'imprint:imprint:imprint:imprint:imprint:direct_contact': string;
       'imprint:imprint:imprint:imprint:imprint:generic_contact': string;
+      'imprint:imprint:imprint:imprint:imprint:hidden_books': Array<string>;
       'imprint:imprint:imprint:imprint:imprint:id': string;
       'imprint:imprint:imprint:imprint:imprint:imprint_id': string;
       'imprint:imprint:imprint:imprint:imprint:instagram': string;
@@ -10018,6 +10225,7 @@ export type Schema = {
       'user:profile:image:publisher:created_at': string;
       'user:profile:image:publisher:direct_contact': string;
       'user:profile:image:publisher:generic_contact': string;
+      'user:profile:image:publisher:hidden_books': Array<string>;
       'user:profile:image:publisher:id': string;
       'user:profile:image:publisher:imprint_id': string;
       'user:profile:image:publisher:instagram': string;
@@ -10030,6 +10238,7 @@ export type Schema = {
       'user:profile:image:cover_for:publisher:created_at': string;
       'user:profile:image:cover_for:publisher:direct_contact': string;
       'user:profile:image:cover_for:publisher:generic_contact': string;
+      'user:profile:image:cover_for:publisher:hidden_books': Array<string>;
       'user:profile:image:cover_for:publisher:id': string;
       'user:profile:image:cover_for:publisher:imprint_id': string;
       'user:profile:image:cover_for:publisher:instagram': string;
@@ -10063,6 +10272,7 @@ export type Schema = {
       'user:profile:image:preview_for:publisher:created_at': string;
       'user:profile:image:preview_for:publisher:direct_contact': string;
       'user:profile:image:preview_for:publisher:generic_contact': string;
+      'user:profile:image:preview_for:publisher:hidden_books': Array<string>;
       'user:profile:image:preview_for:publisher:id': string;
       'user:profile:image:preview_for:publisher:imprint_id': string;
       'user:profile:image:preview_for:publisher:instagram': string;
@@ -10083,6 +10293,7 @@ export type Schema = {
       'user:profile:image:publisher:imprint:created_at': string;
       'user:profile:image:publisher:imprint:direct_contact': string;
       'user:profile:image:publisher:imprint:generic_contact': string;
+      'user:profile:image:publisher:imprint:hidden_books': Array<string>;
       'user:profile:image:publisher:imprint:id': string;
       'user:profile:image:publisher:imprint:imprint_id': string;
       'user:profile:image:publisher:imprint:instagram': string;
@@ -10218,6 +10429,7 @@ export type Schema = {
       'invited_by:profile:image:publisher:created_at': string;
       'invited_by:profile:image:publisher:direct_contact': string;
       'invited_by:profile:image:publisher:generic_contact': string;
+      'invited_by:profile:image:publisher:hidden_books': Array<string>;
       'invited_by:profile:image:publisher:id': string;
       'invited_by:profile:image:publisher:imprint_id': string;
       'invited_by:profile:image:publisher:instagram': string;
@@ -10230,6 +10442,7 @@ export type Schema = {
       'invited_by:profile:image:cover_for:publisher:created_at': string;
       'invited_by:profile:image:cover_for:publisher:direct_contact': string;
       'invited_by:profile:image:cover_for:publisher:generic_contact': string;
+      'invited_by:profile:image:cover_for:publisher:hidden_books': Array<string>;
       'invited_by:profile:image:cover_for:publisher:id': string;
       'invited_by:profile:image:cover_for:publisher:imprint_id': string;
       'invited_by:profile:image:cover_for:publisher:instagram': string;
@@ -10263,6 +10476,7 @@ export type Schema = {
       'invited_by:profile:image:preview_for:publisher:created_at': string;
       'invited_by:profile:image:preview_for:publisher:direct_contact': string;
       'invited_by:profile:image:preview_for:publisher:generic_contact': string;
+      'invited_by:profile:image:preview_for:publisher:hidden_books': Array<string>;
       'invited_by:profile:image:preview_for:publisher:id': string;
       'invited_by:profile:image:preview_for:publisher:imprint_id': string;
       'invited_by:profile:image:preview_for:publisher:instagram': string;
@@ -10283,6 +10497,7 @@ export type Schema = {
       'invited_by:profile:image:publisher:imprint:created_at': string;
       'invited_by:profile:image:publisher:imprint:direct_contact': string;
       'invited_by:profile:image:publisher:imprint:generic_contact': string;
+      'invited_by:profile:image:publisher:imprint:hidden_books': Array<string>;
       'invited_by:profile:image:publisher:imprint:id': string;
       'invited_by:profile:image:publisher:imprint:imprint_id': string;
       'invited_by:profile:image:publisher:imprint:instagram': string;
@@ -10404,6 +10619,7 @@ export type Schema = {
       'profile:image:publisher:created_at': string;
       'profile:image:publisher:direct_contact': string;
       'profile:image:publisher:generic_contact': string;
+      'profile:image:publisher:hidden_books': Array<string>;
       'profile:image:publisher:id': string;
       'profile:image:publisher:imprint_id': string;
       'profile:image:publisher:instagram': string;
@@ -10416,6 +10632,7 @@ export type Schema = {
       'profile:image:cover_for:publisher:created_at': string;
       'profile:image:cover_for:publisher:direct_contact': string;
       'profile:image:cover_for:publisher:generic_contact': string;
+      'profile:image:cover_for:publisher:hidden_books': Array<string>;
       'profile:image:cover_for:publisher:id': string;
       'profile:image:cover_for:publisher:imprint_id': string;
       'profile:image:cover_for:publisher:instagram': string;
@@ -10449,6 +10666,7 @@ export type Schema = {
       'profile:image:preview_for:publisher:created_at': string;
       'profile:image:preview_for:publisher:direct_contact': string;
       'profile:image:preview_for:publisher:generic_contact': string;
+      'profile:image:preview_for:publisher:hidden_books': Array<string>;
       'profile:image:preview_for:publisher:id': string;
       'profile:image:preview_for:publisher:imprint_id': string;
       'profile:image:preview_for:publisher:instagram': string;
@@ -10469,6 +10687,7 @@ export type Schema = {
       'profile:image:publisher:imprint:created_at': string;
       'profile:image:publisher:imprint:direct_contact': string;
       'profile:image:publisher:imprint:generic_contact': string;
+      'profile:image:publisher:imprint:hidden_books': Array<string>;
       'profile:image:publisher:imprint:id': string;
       'profile:image:publisher:imprint:imprint_id': string;
       'profile:image:publisher:imprint:instagram': string;
@@ -10499,6 +10718,7 @@ export type Schema = {
       'profile:image:cover_for:publisher:imprint:created_at': string;
       'profile:image:cover_for:publisher:imprint:direct_contact': string;
       'profile:image:cover_for:publisher:imprint:generic_contact': string;
+      'profile:image:cover_for:publisher:imprint:hidden_books': Array<string>;
       'profile:image:cover_for:publisher:imprint:id': string;
       'profile:image:cover_for:publisher:imprint:imprint_id': string;
       'profile:image:cover_for:publisher:imprint:instagram': string;
@@ -10552,6 +10772,7 @@ export type Schema = {
       'profile:image:preview_for:image:publisher:created_at': string;
       'profile:image:preview_for:image:publisher:direct_contact': string;
       'profile:image:preview_for:image:publisher:generic_contact': string;
+      'profile:image:preview_for:image:publisher:hidden_books': Array<string>;
       'profile:image:preview_for:image:publisher:id': string;
       'profile:image:preview_for:image:publisher:imprint_id': string;
       'profile:image:preview_for:image:publisher:instagram': string;
@@ -10577,6 +10798,7 @@ export type Schema = {
       'profile:image:preview_for:publisher:imprint:created_at': string;
       'profile:image:preview_for:publisher:imprint:direct_contact': string;
       'profile:image:preview_for:publisher:imprint:generic_contact': string;
+      'profile:image:preview_for:publisher:imprint:hidden_books': Array<string>;
       'profile:image:preview_for:publisher:imprint:id': string;
       'profile:image:preview_for:publisher:imprint:imprint_id': string;
       'profile:image:preview_for:publisher:imprint:instagram': string;
@@ -10608,6 +10830,7 @@ export type Schema = {
       'profile:image:publisher:imprint:imprint:created_at': string;
       'profile:image:publisher:imprint:imprint:direct_contact': string;
       'profile:image:publisher:imprint:imprint:generic_contact': string;
+      'profile:image:publisher:imprint:imprint:hidden_books': Array<string>;
       'profile:image:publisher:imprint:imprint:id': string;
       'profile:image:publisher:imprint:imprint:imprint_id': string;
       'profile:image:publisher:imprint:imprint:instagram': string;

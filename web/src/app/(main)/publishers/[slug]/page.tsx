@@ -7,8 +7,7 @@ import { Container } from 'src/components/atoms/container'
 import { Detail } from 'src/components/atoms/detail'
 import { Loader } from 'src/components/atoms/loader'
 import { Pill } from 'src/components/atoms/pill'
-import { BookList } from 'src/components/books/list'
-import { ListContainer } from 'src/components/lists/list-context'
+import { PublisherBookList } from 'src/components/publishers/book-list'
 import { ClaimPublisherButton } from 'src/components/publishers/claim-button'
 import { EditPublisherProvider } from 'src/components/publishers/edit/context'
 import { EditableLogo } from 'src/components/publishers/edit/editable-logo'
@@ -46,18 +45,12 @@ export default async ({
             <ClaimPublisherButton />
           </div>
         </div>
-        <ListContainer title="All Releases">
-          <Suspense fallback={<Loader className="mx-auto" />}>
-            <BookList
-              itemProps={{ mobileColorful: true }}
-              filters={{
-                publisherSlug: slug,
-                page: page ? parseInt(`${page}`) : 0,
-                perPage: 12
-              }}
-            />
-          </Suspense>
-        </ListContainer>
+        <Suspense fallback={<Loader className="mx-auto" />}>
+          <PublisherBookList
+            publisher={publisher}
+            page={parseInt(`${page}`) || 0}
+          />
+        </Suspense>
         <div className="py-8 md:py-20">
           {publisher.house && (
             <Detail maxWidth className="flex flex-col gap-2 items-start">

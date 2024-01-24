@@ -34,10 +34,8 @@ export const ContributionList = async ({
             <Wrap
               c={ContributionVisibility}
               key={book.id}
-              props={{
-                book,
-                hidden: !!found?.hidden
-              }}
+              book={book}
+              hidden={!!found?.hidden}
             />
           )
         })}
