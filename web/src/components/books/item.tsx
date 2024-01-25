@@ -97,7 +97,7 @@ export const Cover = ({
   book,
   className,
   colorful,
-  mobileColorful,
+  mobileColorful = !colorful && !centered,
   ...props
 }: CookbookItemProps & { colorful?: boolean; mobileColorful?: boolean }) => {
   const { display } = useListDisplay()
