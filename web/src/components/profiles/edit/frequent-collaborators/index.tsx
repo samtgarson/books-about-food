@@ -1,96 +1,61 @@
-'use client'
-
 import { Profile } from '@books-about-food/core/models/profile'
 import cn from 'classnames'
-import { FC, useCallback, useMemo, useState } from 'react'
-import { Eye, EyeOff } from 'src/components/atoms/icons'
-import { Loader } from 'src/components/atoms/loader'
-import { ProfileList } from 'src/components/atoms/profile-list'
+import { Lock } from 'react-feather'
+import { AuthedButton } from 'src/components/auth/authed-button'
 import { GridContainer } from 'src/components/lists/grid-container'
-import { Content, Wrapper } from 'src/components/profiles/item'
-import { useEditProfile } from '../context'
+import { getUser } from 'src/utils/user'
+import { ProfileItem } from '../../item'
+import { FrequentCollaboratorsClient } from './client'
+import { dummyProfiles } from './dummy'
 
 export type FrequentCollaboratorsProps = {
   className?: string
   profiles: Profile[]
 }
 
-export const FrequentCollaborators: FC<FrequentCollaboratorsProps> = ({
+export async function FrequentCollaborators({
   className,
   profiles
-}) => {
-  const { profile, editMode, onSave } = useEditProfile()
-  const [loading, setLoading] = useState<Map<string, boolean>>(new Map())
-  const ids = useMemo(() => profile.hiddenCollaborators, [profile])
+}: FrequentCollaboratorsProps) {
+  const user = await getUser()
 
-  const toggle = useCallback(
-    async (id: string, hidden: boolean) => {
-      setLoading((prev) => new Map(prev.set(id, true)))
-      const newIds = hidden ? [...ids, id] : ids.filter((i) => i !== id)
-      await onSave({ hiddenCollaborators: newIds })
-      setLoading((prev) => new Map(prev.set(id, false)))
-    },
-    [ids, onSave]
-  )
+  if (user)
+    return (
+      <FrequentCollaboratorsClient
+        profiles={profiles}
+        className={className}
+        data-superjson
+      />
+    )
 
-  const allHidden = profiles.every((p) => ids.includes(p.id))
-  if (!profiles.length || (allHidden && !editMode)) return null
   return (
-    <ProfileList
-      profiles={profiles}
-      title="Frequent Collaborators"
-      className={className}
-    >
-      <GridContainer className={cn('-mt-px sm:mt-0')}>
-        {profiles.map((profile) => {
-          const hidden = ids.includes(profile.id)
-          const profileLoading = loading.get(profile.id)
-
-          if (!editMode && hidden) return null
-          return (
-            <Wrapper
-              key={profile.id}
+    <div className={className}>
+      <h2 className="all-caps mb-4 w-full text-left">Frequent Collaborators</h2>
+      <GridContainer className={cn('-mt-px sm:mt-0 relative')}>
+        {dummyProfiles.map((profile) => (
+          <div aria-hidden key={profile.id}>
+            <ProfileItem
+              display="list"
               profile={profile}
-              className={cn(hidden && 'border-opacity-30')}
-            >
-              <Content
-                profile={profile}
-                display="list"
-                disabled={editMode}
-                className={cn(
-                  'transition',
-                  editMode
-                    ? hidden
-                      ? 'opacity-30 saturate-0'
-                      : 'opacity-80'
-                    : ''
-                )}
-              />
-              {editMode && (
-                <button
-                  className="absolute inset-0 bottom-0 top-0 z-20 flex items-center justify-end px-4 sm:justify-center"
-                  title={
-                    hidden
-                      ? `Show ${profile.name} on your public profile`
-                      : `Hide ${profile.name} on your public profile`
-                  }
-                  onClick={() => toggle(profile.id, !hidden)}
-                >
-                  <div className="flex h-10 w-10 items-center justify-center bg-white">
-                    {profileLoading ? (
-                      <Loader />
-                    ) : hidden ? (
-                      <EyeOff strokeWidth={1} />
-                    ) : (
-                      <Eye strokeWidth={1} />
-                    )}
-                  </div>
-                </button>
-              )}
-            </Wrapper>
-          )
-        })}
+              className="blur-md opacity-30"
+            />
+          </div>
+        ))}
+        <div className="absolute inset-0 flex gap-4 items-center justify-center text-16">
+          <Lock strokeWidth={1} />
+          <p className="text-center text-22">
+            Please{' '}
+            <AuthedButton>
+              <a className="underline">login</a>
+            </AuthedButton>{' '}
+            or{' '}
+            <AuthedButton>
+              <a className="underline">create a free account</a>
+            </AuthedButton>{' '}
+            to view collaborators
+          </p>
+        </div>
       </GridContainer>
-    </ProfileList>
+    </div>
   )
 }

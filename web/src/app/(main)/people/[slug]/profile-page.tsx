@@ -64,11 +64,12 @@ export async function ProfilePage({ segment, slug }: ProfilePageProps) {
             </div>
           </div>
           {collaborators.length > 0 && (
-            <FrequentCollaborators
-              data-superjson
-              profiles={collaborators}
-              className="mt-4 sm:mt-20"
-            />
+            <Suspense fallback={null}>
+              <FrequentCollaborators
+                profiles={collaborators}
+                className="mt-4 sm:mt-20"
+              />
+            </Suspense>
           )}
         </div>
       </Container>
