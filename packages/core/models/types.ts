@@ -1,6 +1,7 @@
 import {
   bookIncludes,
   profileIncludes,
+  promoIncludes,
   publisherIncludes,
   teamIncludes
 } from '@books-about-food/core/services/utils'
@@ -32,3 +33,14 @@ export type ProfileAttrs = Prisma.ProfileGetPayload<{
 export type TeamAttrs = Prisma.TeamGetPayload<{
   include: typeof teamIncludes
 }>
+
+export type PromoAttrs = Prisma.PromoGetPayload<{
+  include: typeof promoIncludes
+}>
+
+export type BookResult = {
+  id: string
+  title: string
+  authors: string[]
+  image?: string
+}

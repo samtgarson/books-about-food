@@ -20,12 +20,14 @@ export function SearchInput<
   selection,
   createButtonSelected,
   createOption,
-  inputValue
+  inputValue,
+  placeholder
 }: SelectContext<Value, ValueKey>) {
   return (
     <input
       {...getInputProps({
         ref: searchInputRef,
+        placeholder,
         onKeyDown(e) {
           if (e.key === 'Backspace' && !searchInputRef.current?.value.length) {
             if (multi && selection.length) {

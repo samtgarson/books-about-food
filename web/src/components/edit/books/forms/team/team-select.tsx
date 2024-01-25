@@ -62,7 +62,7 @@ export function TeamSelect({ book }: { book: FullBook }) {
       render={(value) => ({
         title: value.name,
         subtitle: `${value.jobName}${value.assistant ? ' (Assistant)' : ''}`,
-        avatar: (
+        image: (
           <BaseAvatar
             size="xs"
             imgProps={value.avatar?.imageAttrs()}

@@ -1,7 +1,7 @@
 'use server'
 
 import { createInvite } from '@books-about-food/core/services/teams/create-invite'
-import { CreateInviteInput } from '@books-about-food/core/services/teams/create-invite-schema'
+import { CreateInviteInput } from '@books-about-food/core/services/teams/schemas/create-invite'
 import { revalidatePath } from 'next/cache'
 import { call } from 'src/utils/service'
 import { parseAppError } from '../form/utils'

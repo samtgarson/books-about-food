@@ -1,5 +1,6 @@
 import { Publisher } from '@books-about-food/core/models/publisher'
 import { fetchBooks } from '@books-about-food/core/services/books/fetch-books'
+import { SkeletonBookList } from 'src/components/books/list'
 import { GridContainer } from 'src/components/lists/grid-container'
 import { ListContainer } from 'src/components/lists/list-context'
 import { Pagination } from 'src/components/lists/pagination'
@@ -40,6 +41,14 @@ export async function PublisherBookList({
           })}
         </GridContainer>
       </Pagination>
+    </ListContainer>
+  )
+}
+
+export function SkeletonPublisherBookList() {
+  return (
+    <ListContainer title="All Releases">
+      <SkeletonBookList />
     </ListContainer>
   )
 }

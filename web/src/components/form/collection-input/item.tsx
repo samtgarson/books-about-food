@@ -6,7 +6,7 @@ import { SheetContent } from './sheet-content'
 import { CollectionInputItemProps } from './types'
 
 export function CollectionInputItem<Value extends { id: string }>({
-  avatar,
+  image: avatar,
   title,
   subtitle,
   value

@@ -36,3 +36,10 @@ export const teamIncludes = {
   invitations: { where: { acceptedAt: null }, include: { invitedBy: true } },
   publishers: { include: publisherIncludes }
 } satisfies Prisma.TeamDefaultArgs['include']
+
+export const promoIncludes = {
+  promoItems: {
+    include: { book: { include: bookIncludes } },
+    orderBy: { order: 'asc' }
+  }
+} satisfies Prisma.PromoDefaultArgs['include']

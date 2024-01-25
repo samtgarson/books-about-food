@@ -24,7 +24,7 @@ const Page = async () => {
 
   return (
     <>
-      <FeatureCarousel features={features} data-superjson />
+      <FeatureCarousel features={features} title data-superjson />
       <Marquee className="fixed bottom-0 left-0 -right-[25%] z-40 -rotate-[15deg]">
         <a
           href="https://www.instagram.com/books.about.food"

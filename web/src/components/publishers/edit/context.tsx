@@ -5,16 +5,17 @@ import { UpdatePublisherInput } from '@books-about-food/core/services/publishers
 import { ReactNode, useCallback, useContext } from 'react'
 import {
   EditInPlaceProvider,
-  createInplaceContext
+  createInPlaceContext
 } from 'src/components/edit/in-place/context'
 import { usePolicy } from 'src/hooks/use-policy'
 import { parse } from 'src/utils/superjson'
 import { action } from './action'
 
-const context = createInplaceContext<
+const context = createInPlaceContext<
   Publisher,
   Omit<UpdatePublisherInput, 'slug'>
 >()
+
 export function useEditPublisher() {
   const ctx = useContext(context)
   return { ...ctx, publisher: ctx.resource }

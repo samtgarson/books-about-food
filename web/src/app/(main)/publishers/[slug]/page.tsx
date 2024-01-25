@@ -5,9 +5,11 @@ import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { Container } from 'src/components/atoms/container'
 import { Detail } from 'src/components/atoms/detail'
-import { Loader } from 'src/components/atoms/loader'
 import { Pill } from 'src/components/atoms/pill'
-import { PublisherBookList } from 'src/components/publishers/book-list'
+import {
+  PublisherBookList,
+  SkeletonPublisherBookList
+} from 'src/components/publishers/book-list'
 import { ClaimPublisherButton } from 'src/components/publishers/claim-button'
 import { EditPublisherProvider } from 'src/components/publishers/edit/context'
 import { EditableLogo } from 'src/components/publishers/edit/editable-logo'
@@ -31,7 +33,13 @@ export default async ({
   params: { slug },
   searchParams: { page }
 }: PublisherPageProps) => {
-  const { data: publisher } = await call(fetchPublisher, { slug })
+  const [
+    { data: publisher }
+    // { data: promos }
+  ] = await Promise.all([
+    call(fetchPublisher, { slug })
+    // call(fetchPromos, { publisherSlug: slug })
+  ])
   if (!publisher) return notFound()
 
   return (
@@ -45,7 +53,7 @@ export default async ({
             <ClaimPublisherButton />
           </div>
         </div>
-        <Suspense fallback={<Loader className="mx-auto" />}>
+        <Suspense fallback={<SkeletonPublisherBookList />}>
           <PublisherBookList
             publisher={publisher}
             page={parseInt(`${page}`) || 0}

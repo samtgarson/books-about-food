@@ -1,6 +1,7 @@
 import { ComponentProps, FC } from 'react'
 import { ClaimProfileSheet } from './claim-profile'
 import { CookbookSubmittedSheet } from './cookbook-submitted'
+import { EditPromoSheet } from './edit-promo'
 import { SignInSheet } from './sign-in'
 import { SuggestEditSheet } from './suggest-edit'
 
@@ -10,7 +11,8 @@ export const SheetMap = {
   signIn: SignInSheet,
   claimProfile: ClaimProfileSheet,
   suggestEdit: SuggestEditSheet,
-  submitted: CookbookSubmittedSheet
+  submitted: CookbookSubmittedSheet,
+  editPromo: EditPromoSheet
 } as const
 
 export type SheetMap = {

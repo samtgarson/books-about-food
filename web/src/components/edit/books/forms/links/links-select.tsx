@@ -29,7 +29,7 @@ export function LinksSelect({ book }: { book: FullBook }) {
       render={(value) => ({
         title: value.site,
         subtitle: value.url,
-        avatar: linkLogo(value.site)
+        image: linkLogo(value.site)
       })}
     />
   )

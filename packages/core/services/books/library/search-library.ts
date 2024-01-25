@@ -1,13 +1,9 @@
 import { GoogleBooksGateway } from '@books-about-food/core/gateways/google-books'
 import { Service } from '@books-about-food/core/services/base'
 import { z } from 'zod'
+import { BookResult } from '../../../types'
 
-export type BookLibrarySearchResult = {
-  id: string
-  title: string
-  authors: string[]
-  image?: string
-}
+export type BookLibrarySearchResult = BookResult
 
 const client = new GoogleBooksGateway()
 

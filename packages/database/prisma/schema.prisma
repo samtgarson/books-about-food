@@ -213,6 +213,7 @@ model Book {
   features      Feature[]
   submitter     User?          @relation("submitted_books", fields: [submitterId], references: [id], onDelete: SetNull)
   authors       Profile[]      @relation("authored_books")
+  promoItems    PromoItem[]
 
   @@index([googleBooksId], name: "google_books_id")
   @@map("books")
@@ -237,6 +238,7 @@ model Publisher {
   imprints Publisher[] @relation("imprint")
   house    Publisher?  @relation("imprint", fields: [houseId], references: [id], onDelete: SetNull)
   team     Team?       @relation(fields: [teamId], references: [id], onDelete: SetNull)
+  promos   Promo[]
 
   @@map("publishers")
 }
@@ -399,4 +401,29 @@ model TeamInvitation {
 
   @@unique([teamId, email])
   @@map("team_invitations")
+}
+
+model Promo {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  until       DateTime? @db.Date
+  publisherId String    @map("publisher_id") @db.Uuid
+  title       String
+
+  promoItems PromoItem[]
+  publisher  Publisher   @relation(fields: [publisherId], references: [id], onDelete: Cascade)
+
+  @@map("promos")
+}
+
+model PromoItem {
+  id      String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  bookId  String @map("book_id") @db.Uuid
+  promoId String @map("promo_id") @db.Uuid
+  order   Int
+
+  promo Promo @relation(fields: [promoId], references: [id], onDelete: Cascade)
+  book  Book  @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@unique([promoId, bookId])
+  @@map("promo_items")
 }

@@ -1,7 +1,7 @@
 import prisma from '@books-about-food/database'
 import { AuthedService } from '../base'
 import { AppError } from '../utils/errors'
-import { createInviteSchema } from './create-invite-schema'
+import { createInviteSchema } from './schemas/create-invite'
 
 export const createInvite = new AuthedService(
   createInviteSchema,

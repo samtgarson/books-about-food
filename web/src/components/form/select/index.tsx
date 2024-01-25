@@ -5,7 +5,15 @@ import * as Form from '@radix-ui/react-form'
 import * as Popover from '@radix-ui/react-popover'
 import cn from 'classnames'
 import { useCombobox } from 'downshift'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import {
+  ForwardedRef,
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState
+} from 'react'
 import { parse } from 'src/utils/superjson'
 import { useForm } from '../context'
 import { inputClasses } from '../input'
@@ -21,26 +29,41 @@ import {
 } from './components'
 import { SelectContext, SelectProps, SelectValue } from './types'
 
-export const Select = function Select<
+declare module 'react' {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  function forwardRef<T, P = {}>(
+    render: (props: P, ref: React.Ref<T>) => React.ReactNode | null
+  ): (props: P & React.RefAttributes<T>) => React.ReactNode | null
+}
+
+export type SelectControl = {
+  clear: () => void
+}
+
+export const Select = forwardRef(function Select<
   Value extends { [key in ValueKey]: string },
   Multi extends boolean,
   ValueKey extends string
->({
-  render,
-  name,
-  label,
-  options,
-  loadOptions,
-  defaultValue,
-  valueKey,
-  multi,
-  allowCreate,
-  onChange: externalOnChange,
-  onCreate,
-  showChevron = false,
-  separator = ',',
-  ...props
-}: SelectProps<Value, Multi, ValueKey>) {
+>(
+  {
+    render,
+    name,
+    label,
+    options,
+    loadOptions,
+    defaultValue,
+    valueKey,
+    multi,
+    allowCreate,
+    onChange: externalOnChange,
+    onCreate,
+    showChevron = false,
+    separator = ',',
+    placeholder,
+    ...props
+  }: SelectProps<Value, Multi, ValueKey>,
+  ref: ForwardedRef<SelectControl>
+) {
   const input = useRef<HTMLInputElement>(null)
   const searchInputRef = useRef<HTMLInputElement>(null)
   const { variant } = useForm()
@@ -60,6 +83,12 @@ export const Select = function Select<
         document.body
       : undefined
   const showCreateButton = (val: string) => !!allowCreate && val.length > 0
+
+  useImperativeHandle(ref, () => ({
+    async clear() {
+      setSelection([])
+    }
+  }))
 
   const loadItems = useCallback(
     async (search?: string) => {
@@ -216,6 +245,7 @@ export const Select = function Select<
 
   const context: SelectContext<Value, ValueKey> = {
     ...comboBox,
+    placeholder,
     multi,
     createOption,
     createButtonSelected,
@@ -238,9 +268,11 @@ export const Select = function Select<
         searchInputRef.current?.click()
       }}
     >
-      <Label required={props.required} {...getLabelProps()}>
-        {label}
-      </Label>
+      {label && (
+        <Label required={props.required} {...getLabelProps()}>
+          {label}
+        </Label>
+      )}
       <Form.Control asChild>
         <input
           tabIndex={-1}
@@ -313,7 +345,7 @@ export const Select = function Select<
           </Popover.Content>
         </Popover.Portal>
       </Popover.Root>
-      <Messages label={label} name={name} {...props} />
+      {label && <Messages label={label} name={name} {...props} />}
     </Form.Field>
   )
-}
+})

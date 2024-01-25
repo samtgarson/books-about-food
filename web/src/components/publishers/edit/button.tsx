@@ -6,9 +6,11 @@ export function EditPublisherButton({ className }: { className?: string }) {
   const { editMode, setEditMode } = useEditPublisher()
 
   return (
-    <Button onClick={() => setEditMode(!editMode)} className={className}>
-      {editMode ? <Check strokeWidth={1} /> : <Edit2 strokeWidth={1} />}
-      {editMode ? 'Finish Editing' : 'Edit'}
-    </Button>
+    <>
+      <Button onClick={() => setEditMode(!editMode)} className={className}>
+        {editMode ? <Check strokeWidth={1} /> : <Edit2 strokeWidth={1} />}
+        {editMode ? 'Finish Editing' : 'Edit'}
+      </Button>
+    </>
   )
 }

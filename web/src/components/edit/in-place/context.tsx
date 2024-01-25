@@ -12,37 +12,45 @@ import { errorToast, successToast } from 'src/components/utils/toaster'
 
 export type EditInPlaceContext<
   Resource extends BaseModel,
-  UpdateAttrs extends Record<string, any>
+  UpdateAttrs extends Record<string, any>,
+  ExtraContext extends Record<string, any> = Record<string, unknown>
 > = {
   resource: Resource
   editMode: boolean
   setEditMode: (editMode: boolean) => void
   onSave: (data: UpdateAttrs) => Promise<boolean>
   enabled: boolean
-}
+} & ExtraContext
 
-export function createInplaceContext<
+export function createInPlaceContext<
   Resource extends BaseModel,
-  UpdateAttrs extends Record<string, any>
+  UpdateAttrs extends Record<string, any>,
+  ExtraContext extends Record<string, any> = Record<string, unknown>
 >() {
-  return createContext({} as EditInPlaceContext<Resource, UpdateAttrs>)
+  return createContext({
+    editMode: false,
+    enabled: false
+  } as EditInPlaceContext<Resource, UpdateAttrs, ExtraContext>)
 }
 
 export function EditInPlaceProvider<
   Resource extends BaseModel,
-  UpdateAttrs extends Record<string, any>
+  UpdateAttrs extends Record<string, any>,
+  ExtraContext extends Record<string, any> = Record<string, unknown>
 >({
   context: Context,
   children,
   resource: initialResource,
   onSave: save,
-  enabled = false
+  enabled = false,
+  extra
 }: {
-  context: Context<EditInPlaceContext<Resource, UpdateAttrs>>
+  context: Context<EditInPlaceContext<Resource, UpdateAttrs, ExtraContext>>
   children: ReactNode
   resource: Resource
   onSave: (data: UpdateAttrs) => Promise<Resource | string | undefined>
   enabled?: boolean
+  extra?: ExtraContext
 }) {
   const [resource, setResource] = useState(initialResource)
   const [editMode, setEditMode] = useState(false)
@@ -55,10 +63,8 @@ export function EditInPlaceProvider<
     }
   }, [editMode])
 
-  const onSave = useCallback<
-    EditInPlaceContext<Resource, UpdateAttrs>['onSave']
-  >(
-    async function (data) {
+  const onSave = useCallback(
+    async function (data: UpdateAttrs) {
       const result = await save(data)
 
       if (BaseModel.isModel(result)) {
@@ -75,13 +81,16 @@ export function EditInPlaceProvider<
 
   return (
     <Context.Provider
-      value={{
-        resource,
-        editMode,
-        setEditMode: enabled ? setEditMode : () => {},
-        onSave,
-        enabled
-      }}
+      value={
+        {
+          resource,
+          editMode,
+          setEditMode: enabled ? setEditMode : () => {},
+          onSave,
+          enabled,
+          ...extra
+        } as EditInPlaceContext<Resource, UpdateAttrs, ExtraContext>
+      }
     >
       {children}
     </Context.Provider>

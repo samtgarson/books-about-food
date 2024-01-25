@@ -12,27 +12,37 @@ import { Title } from './title'
 
 export type FeatureCarouselProps = {
   features: Feature[]
+  title?: boolean
 }
 
 type Item =
   | { feature: Feature; title?: never }
   | { feature?: never; title: true }
 
-const createLoop = (features: Feature[]): Item[] => {
+const createLoop = (features: Feature[], showTitle = false): Item[] => {
   const featureItems = features.map((feature) => ({ feature }))
   const title = { title: true } as const
 
-  const batch = [title, ...featureItems]
+  const batch = showTitle ? [title, ...featureItems] : featureItems
+  while (batch.length < 3) {
+    batch.push(...batch)
+  }
   return [...batch, ...batch, ...batch]
 }
 
-export const FeatureCarousel: FC<FeatureCarouselProps> = ({ features }) => {
+export const FeatureCarousel: FC<FeatureCarouselProps> = ({
+  features,
+  title: showTitle = false
+}) => {
   const [[currentIndex, offset], setState] = useState([features.length + 1, 0])
-  const loop = createLoop(features)
-  const totalSlides = useMemo(() => features.length + 1, [features.length])
+  const loop = createLoop(features, showTitle)
+  const totalSlides = useMemo(
+    () => features.length + (showTitle ? 1 : 0),
+    [showTitle, features.length]
+  )
   const showingTitle = useMemo(
-    () => currentIndex % totalSlides === 0,
-    [currentIndex, totalSlides]
+    () => showTitle && currentIndex % totalSlides === 0,
+    [showTitle, currentIndex, totalSlides]
   )
   const { setTheme, theme } = useNav()
   const activeIndex = currentIndex - (offset + 1) * totalSlides
@@ -124,8 +134,8 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({ features }) => {
               key={id}
               id={id}
               onClick={() => onClick(virtualIndex)}
-              preTitle={index % totalSlides === totalSlides - 1}
-              postTitle={index % totalSlides === 1}
+              preTitle={showTitle && index % totalSlides === totalSlides - 1}
+              postTitle={showTitle && index % totalSlides === 1}
             />
           )
         })}

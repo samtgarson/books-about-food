@@ -39,11 +39,6 @@ export function useFeatureCarouselItem({
       'z-20': pos.next,
       'left-5 md:left-16 lg:left-44': pos.current && !title,
       'left-5 md:left-16': pos.current && title,
-      //   [`relative flex-grow sm:z-50`]: pos.current,
-      //   'absolute right-full lg:right-auto lg:ml-[7vw] lg:left-[var(--imageWidth)] z-20':
-      //     pos.prev,
-      //   'absolute left-full lg:-ml-[10.5rem] lg:pl-[7rem] sm:-ml-24 z-20':
-      //     pos.next,
       'right-full': pos.offPrev,
       'left-full': pos.offNext,
       'pointer-events-none': pos.offNext || pos.offPrev,
@@ -57,7 +52,6 @@ export function useFeatureCarouselItem({
     style: { '--imageWidth': `${imageWidth}px` } as CSSProperties,
     animate: {
       opacity: hidden ? 0 : 1
-      // z: pos.current ? '10px' : '0px'
     },
     whileHover: pos.next ? { x: -20 } : pos.prev ? { x: 20 } : {},
     initial: false

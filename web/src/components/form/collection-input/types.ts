@@ -2,7 +2,7 @@ import { ComponentType, ReactNode } from 'react'
 import { Serializable } from 'src/utils/types'
 
 export type CollectionInputItemProps = {
-  avatar?: ReactNode
+  image?: ReactNode
   title: string
   subtitle?: string
 }

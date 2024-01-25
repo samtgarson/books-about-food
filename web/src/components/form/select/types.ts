@@ -1,5 +1,5 @@
 import { UseComboboxReturnValue } from 'downshift'
-import { MutableRefObject, ReactNode } from 'react'
+import { ComponentPropsWithoutRef, MutableRefObject, ReactNode } from 'react'
 import { Stringified } from 'src/utils/superjson'
 
 export type SelectValue<
@@ -12,11 +12,11 @@ export interface SelectProps<
   Multi extends boolean,
   ValueKey extends string
 > extends Omit<
-    React.ComponentProps<'input'>,
+    ComponentPropsWithoutRef<'input'>,
     'onChange' | 'defaultValue' | 'multiple' | 'value'
   > {
   name: string
-  label: string
+  label?: string
   options?: Value[]
   loadOptions?: (query: string) => Promise<Stringified<Value[]>>
   render:
@@ -46,4 +46,5 @@ export interface SelectContext<
   createButtonSelected: boolean
   showCreateButton: (val: string) => boolean
   createOption: (val: string) => Promise<Value | void>
+  placeholder?: string
 }

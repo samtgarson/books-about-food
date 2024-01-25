@@ -102,7 +102,7 @@ export function QuickSearchContent({ onSelect }: { onSelect?: () => void }) {
         />
       </div>
       <div
-        className="overflow-y-auto flex flex-col gap-1 empty:pb-0 group"
+        className="overflow-y-auto flex flex-col gap-1 empty:hidden group"
         onClick={onSelect}
       >
         {!loading && !results.length && (

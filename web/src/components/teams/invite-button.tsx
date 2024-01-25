@@ -1,7 +1,7 @@
 'use client'
 
 import { Team } from '@books-about-food/core/models/team'
-import { createInviteSchema } from '@books-about-food/core/services/teams/create-invite-schema'
+import { createInviteSchema } from '@books-about-food/core/services/teams/schemas/create-invite'
 import { MembershipRole } from '@books-about-food/database'
 import { titleize } from 'inflection'
 import * as Sheet from 'src/components/atoms/sheet'
