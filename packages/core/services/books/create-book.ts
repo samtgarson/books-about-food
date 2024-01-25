@@ -2,8 +2,10 @@ import { AuthedService } from '@books-about-food/core/services/base'
 import prisma from '@books-about-food/database'
 import { slugify } from '@books-about-food/shared/utils/slugify'
 import { z } from 'zod'
+import { User } from '../../types'
+import { createImages } from '../images/create-images'
+import { findOrCreateProfile } from '../profiles/find-or-create-profile'
 import { AppError } from '../utils/errors'
-import { createCoverFromUrl } from '../utils/resources'
 import { fetchLibraryBook } from './library/fetch-library-book'
 import { updateBook } from './update-book'
 
@@ -19,7 +21,7 @@ export const createBook = new AuthedService(
   }),
   async ({ tags, authorIds, ...data } = {}, user) => {
     const { googleBooksId } = data
-    let coverImageId: string | undefined
+    let coverUrl: string | undefined
 
     if (googleBooksId) {
       if (await prisma.book.count({ where: { googleBooksId } }))
@@ -37,17 +39,16 @@ export const createBook = new AuthedService(
       )
       if (!libraryBook) throw new Error('Book not found')
 
-      const { authors: authorNames, cover: coverUrl, ...attrs } = libraryBook
+      const { authors: authorNames, cover, ...attrs } = libraryBook
+      coverUrl = cover
       data = { ...attrs, ...data }
 
-      if (!authorIds?.length) {
+      if (!authorIds?.length && authorNames.length) {
         const ids = await Promise.all(
-          authorNames.map(async (name) => findOrCreateAuthor(name))
+          authorNames.map(async (name) => findOrCreateAuthor(name, user))
         )
         authorIds = ids.filter((id): id is string => !!id)
       }
-
-      coverImageId = await createCoverFromUrl(coverUrl)
     }
 
     const book = await prisma.book.create({
@@ -59,6 +60,15 @@ export const createBook = new AuthedService(
         submitterId: user.id
       }
     })
+
+    let coverImageId: string | undefined = undefined
+    if (coverUrl) {
+      const imageRes = await createImages.call({
+        prefix: `books/${book.id}/cover`,
+        files: [{ url: coverUrl }]
+      })
+      if (imageRes.success) coverImageId = imageRes.data[0].id
+    }
 
     const update = await updateBook.call(
       {
@@ -75,14 +85,8 @@ export const createBook = new AuthedService(
   }
 )
 
-async function findOrCreateAuthor(name?: string) {
+async function findOrCreateAuthor(name: string | undefined, user: User) {
   if (!name) return undefined
-  const found = await prisma.profile.findMany({ where: { name } })
-  if (found.length > 1) return undefined
-  if (found.length) return found[0].id
-
-  const created = await prisma.profile.create({
-    data: { name, slug: slugify(name) }
-  })
-  return created.id
+  const { data } = await findOrCreateProfile.call({ name }, user)
+  return data?.id
 }

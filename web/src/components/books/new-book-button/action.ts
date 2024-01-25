@@ -2,8 +2,8 @@
 
 import { searchLibrary } from '@books-about-food/core/services/books/library/search-library'
 import { updateBook } from '@books-about-food/core/services/books/update-book'
+import { createImages } from '@books-about-food/core/services/images/create-images'
 import { array } from '@books-about-food/core/services/utils/inputs'
-import { createCoverFromUrl } from '@books-about-food/core/services/utils/resources'
 import { redirect } from 'next/navigation'
 import { parseAppError } from 'src/components/form/utils'
 import { call, parseAndCall } from 'src/utils/service'
@@ -21,8 +21,17 @@ const actionSchema = z.object({
 
 export const action = async (values: unknown) => {
   const { cover, ...data } = actionSchema.parse(values)
-  const coverImageId = await createCoverFromUrl(cover)
-  const result = await parseAndCall(updateBook, { ...data, coverImageId })
+  const id = crypto.randomUUID()
+  let coverImageId: string | undefined
+  if (cover) {
+    const imageRes = await call(createImages, {
+      prefix: `books/${id}/cover`,
+      files: [{ url: cover }]
+    })
+    if (imageRes.success) coverImageId = imageRes.data[0].id
+  }
+
+  const result = await parseAndCall(updateBook, { ...data, id, coverImageId })
 
   if (result.success) redirect(`/edit/${result.data.slug}?action=created`)
   return parseAppError(

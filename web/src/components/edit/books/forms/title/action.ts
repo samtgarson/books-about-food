@@ -2,7 +2,7 @@
 
 import { Profile } from '@books-about-food/core/models/profile'
 import { fetchLibraryBook } from '@books-about-food/core/services/books/library/fetch-library-book'
-import { findOrCreateAuthor } from '@books-about-food/core/services/utils/resources'
+import { findOrCreateProfile } from '@books-about-food/core/services/profiles/find-or-create-profile'
 import { call } from 'src/utils/service'
 import { Stringified, stringify } from 'src/utils/superjson'
 import { TitleFormContentProps } from './form-content'
@@ -21,8 +21,13 @@ export const fetchAttrs = async (
   const { id: googleBooksId, ...data } = result.data
 
   const authors = (
-    await Promise.all(result.data.authors.map(findOrCreateAuthor))
-  ).filter((id): id is Profile => !!id)
+    await Promise.all(
+      result.data.authors.map(async function (name) {
+        const { data } = await call(findOrCreateProfile, { name })
+        return data
+      })
+    )
+  ).filter((profile): profile is Profile => !!profile)
 
   return stringify({ ...data, googleBooksId, authors })
 }

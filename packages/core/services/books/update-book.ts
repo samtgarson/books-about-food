@@ -29,7 +29,8 @@ const updateBookInput = z
       releaseDate: processString(z.coerce.date().optional()),
       pages: z.coerce.number().optional(),
       tags: array(z.string()).optional(),
-      source: z.nativeEnum(BookSource).optional().default('submitted')
+      source: z.nativeEnum(BookSource).optional().default('submitted'),
+      id: z.string().optional()
     })
   )
 
