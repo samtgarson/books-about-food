@@ -5,7 +5,7 @@ import { useFormStatus } from 'react-dom'
 import { Button, ButtonProps } from '../atoms/button'
 import { useForm } from './context'
 
-export function Submit({ variant = 'dark', ...props }: ButtonProps<'button'>) {
+export function Submit({ variant = 'dark', ...props }: ButtonProps) {
   const { pending } = useFormStatus()
   const { errors } = useForm()
 

@@ -1,25 +1,13 @@
 import cn from 'classnames'
-import Link from 'next/link'
-import { ElementType, forwardRef } from 'react'
+import Link, { LinkProps } from 'next/link'
+import { ComponentPropsWithoutRef, ForwardedRef, forwardRef } from 'react'
 import { Loader } from './loader'
-import {
-  PolymorphicComponentPropWithRef,
-  PolymorphicRef
-} from './polymorhphic-types'
 
-export type ButtonVariant = keyof typeof variants
-export type ButtonProps<C extends ElementType> =
-  PolymorphicComponentPropWithRef<
-    C,
-    {
-      variant?: ButtonVariant
-      loading?: boolean
-    }
-  >
-
-type Button = <C extends 'a' | 'button'>(
-  props: ButtonProps<C>
-) => JSX.Element | null
+type BaseButtonProps = {
+  variant?: keyof typeof variants
+  loading?: boolean
+  disabled?: boolean
+}
 
 const variants = {
   primary: 'bg-white',
@@ -29,33 +17,68 @@ const variants = {
   outline: 'border border-black'
 } as const
 
-export const Button = forwardRef(function Button<
-  C extends ElementType = 'button'
->(
+export type ButtonProps = BaseButtonProps &
+  (
+    | ({
+        href: LinkProps['href']
+      } & ComponentPropsWithoutRef<typeof Link>)
+    | ({
+        href?: never
+      } & ComponentPropsWithoutRef<'button'>)
+  )
+
+export const Button = forwardRef(function Button(
   {
-    as,
     variant = 'primary',
     loading,
     className,
     children,
+    disabled,
     ...props
-  }: ButtonProps<C>,
-  ref: PolymorphicRef<C>
+  }: ButtonProps,
+  ref
 ) {
-  const Component =
-    as === 'a' || props.href?.startsWith('/') ? Link : as || 'button'
+  const classes = cn(
+    'text-16 relative block flex-shrink-0 whitespace-nowrap px-4 py-2.5',
+    variants[variant],
+    className,
+    loading && 'pointer-events-none',
+    disabled && 'opacity-50 pointer-events-none'
+  )
+  if ('href' in props === false) {
+    return (
+      <button
+        ref={ref as ForwardedRef<HTMLButtonElement>}
+        className={classes}
+        {...(props as ComponentPropsWithoutRef<'button'>)}
+        disabled={disabled}
+      >
+        <ButtonContents loading={loading}>{children}</ButtonContents>
+      </button>
+    )
+  }
+
   return (
-    <Component
-      ref={ref}
-      className={cn(
-        'text-16 relative block flex-shrink-0 whitespace-nowrap px-4 py-2.5',
-        variants[variant],
-        className,
-        loading && 'pointer-events-none',
-        props.disabled && 'opacity-50 pointer-events-none'
-      )}
-      {...props}
+    <Link
+      aria-disabled={disabled}
+      className={classes}
+      {...(props as ComponentPropsWithoutRef<typeof Link>)}
+      ref={ref as ForwardedRef<HTMLAnchorElement>}
     >
+      <ButtonContents loading={loading}>{children}</ButtonContents>
+    </Link>
+  )
+})
+
+function ButtonContents({
+  loading,
+  children
+}: {
+  loading?: boolean
+  children: React.ReactNode
+}) {
+  return (
+    <>
       <span
         className={cn(
           'flex items-center justify-center gap-2',
@@ -65,8 +88,6 @@ export const Button = forwardRef(function Button<
         {children}
       </span>
       {loading && <Loader className="absolute inset-0 m-auto" />}
-    </Component>
+    </>
   )
-})
-
-Button.displayName = 'Button'
+}

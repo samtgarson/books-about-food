@@ -1,13 +1,14 @@
 'use client'
 
+import { ComponentPropsWithRef } from 'react'
 import { useSheet } from 'src/components/sheets/global-sheet'
 import { SheetMap } from 'src/components/sheets/types'
-import { Button, ButtonProps } from '../button'
+import { Button } from '../button'
 
 export type SheetButtonProps<
   K extends keyof SheetMap,
   P extends SheetMap[K]
-> = Omit<ButtonProps<'button'>, 'onClick'> & {
+> = Omit<ComponentPropsWithRef<'button'>, 'onClick'> & {
   sheet: K
   props: P
 }

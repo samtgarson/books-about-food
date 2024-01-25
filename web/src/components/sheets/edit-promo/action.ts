@@ -1,7 +1,7 @@
 'use server'
 
+import { BookResult } from '@books-about-food/core/models/types'
 import { fetchBooks } from '@books-about-food/core/services/books/fetch-books'
-import { BookLibrarySearchResult } from '@books-about-food/core/services/books/library/search-library'
 import { bookToResult } from '@books-about-food/core/services/books/utils/to-result'
 import { upsertPromoSchema } from '@books-about-food/core/services/publishers/schemas/upsert-promo'
 import { upsertPromo } from '@books-about-food/core/services/publishers/upsert-promo'
@@ -14,7 +14,7 @@ import { z } from 'zod'
 export async function fetchOptions(
   publisherSlug: string,
   search: string
-): Promise<Stringified<BookLibrarySearchResult[]>> {
+): Promise<Stringified<BookResult[]>> {
   const books = await call(fetchBooks, {
     publisherSlug,
     search

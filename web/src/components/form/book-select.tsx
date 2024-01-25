@@ -1,4 +1,4 @@
-import { BookLibrarySearchResult } from '@books-about-food/core/services/books/library/search-library'
+import { BookResult } from '@books-about-food/core/models/types'
 import cn from 'classnames'
 import { forwardRef } from 'react'
 import { Stringified } from 'src/utils/superjson'
@@ -7,11 +7,9 @@ import { Select, SelectControl } from './select'
 type BookSelectProps = {
   label?: string
   name: string
-  value?: BookLibrarySearchResult
-  loadOptions: (
-    query: string
-  ) => Promise<Stringified<BookLibrarySearchResult[]>>
-  onChange: (value?: BookLibrarySearchResult) => void
+  value?: BookResult
+  loadOptions: (query: string) => Promise<Stringified<BookResult[]>>
+  onChange: (value?: BookResult) => void
   allowCreate?: boolean
   required?: boolean
   placeholder?: string
@@ -25,17 +23,15 @@ export const BookSelect = forwardRef<SelectControl, BookSelectProps>(
         {...props}
         placeholder={placeholder}
         valueKey="id"
-        render={BookResult}
+        render={BookResultRow}
         multi={false}
-        onCreate={async (title) =>
-          ({ title, id: 'new' }) as BookLibrarySearchResult
-        }
+        onCreate={async (title) => ({ title, id: 'new' }) as BookResult}
       />
     )
   }
 )
 
-export function BookResult(result: BookLibrarySearchResult) {
+export function BookResultRow(result: BookResult) {
   const title = result.title
   const authors = result.authors ?? []
 

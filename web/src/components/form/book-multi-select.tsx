@@ -1,22 +1,20 @@
 'use client'
 
-import { BookLibrarySearchResult } from '@books-about-food/core/services/books/library/search-library'
+import { BookResult } from '@books-about-food/core/models/types'
 import * as Form from '@radix-ui/react-form'
 import { AnimatePresence, Reorder } from 'framer-motion'
 import { useRef, useState } from 'react'
 import { Menu, X } from 'react-feather'
 import { Stringified } from 'src/utils/superjson'
-import { BookResult, BookSelect } from './book-select'
+import { BookResultRow, BookSelect } from './book-select'
 import { Label } from './label'
 import { SelectControl } from './select'
 
 type BookMultiSelectProps = {
   name: string
   label?: string
-  value?: BookLibrarySearchResult[]
-  loadOptions: (
-    search: string
-  ) => Promise<Stringified<BookLibrarySearchResult[]>>
+  value?: BookResult[]
+  loadOptions: (search: string) => Promise<Stringified<BookResult[]>>
   required?: boolean
 }
 
@@ -27,7 +25,7 @@ export function BookMultiSelect({
   label,
   required
 }: BookMultiSelectProps) {
-  const [values, setValues] = useState<BookLibrarySearchResult[]>(defaultValue)
+  const [values, setValues] = useState<BookResult[]>(defaultValue)
   const select = useRef<SelectControl>(null)
 
   return (
@@ -54,7 +52,7 @@ export function BookMultiSelect({
               className="flex py-2 pr-2 items-center gap-2 overflow-hidden"
             >
               <Menu strokeWidth={1} size={15} />
-              <BookResult {...value} />
+              <BookResultRow {...value} />
               <button
                 className="ml-auto"
                 title={`Remove ${value.title}`}
