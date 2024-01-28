@@ -15,7 +15,9 @@ export default function Page() {
       <Form
         action={async function (data) {
           'use server'
+          console.time('edelweissImport')
           const res = await parseAndCall(edelweissImport, data)
+          console.timeEnd('edelweissImport')
           if (!res.success) return parseAppError(res.errors)
 
           redirect(`/edit/${res.data.slug}`)

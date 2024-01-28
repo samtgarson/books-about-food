@@ -8,7 +8,7 @@ import { UpdateBookInput, updateBook } from '../../books/update-book'
 import { updateLinks } from '../../books/update-links'
 import { createImages } from '../../images/create-images'
 import { findOrCreateProfile } from '../../profiles/find-or-create-profile'
-import { openBrowser } from '../../utils/browser'
+import { blockResources, openBrowser } from '../../utils/browser'
 import { AppError } from '../../utils/errors'
 
 export const edelweissImport = new AuthedService(
@@ -23,8 +23,16 @@ export const edelweissImport = new AuthedService(
   async function ({ url } = {}, user) {
     const browser = await openBrowser()
     const context = await browser.newContext({ locale: 'en-GB' })
-    const page: Page = await context.newPage()
-    await page.goto(url, { waitUntil: 'networkidle' })
+    context.setDefaultTimeout(7500)
+    let page: Page = await context.newPage()
+    page = blockResources(page)
+    await page.goto(url)
+
+    try {
+      await page.waitForSelector('.pve_title', { state: 'visible' })
+    } catch (e) {
+      throw new AppError('ServerError', 'Could not load Edelweiss+ page')
+    }
 
     const attrs = await generateAttrs(page, user)
     await browser.close()
@@ -37,7 +45,7 @@ export const edelweissImport = new AuthedService(
     }
 
     const res = await updateBook.call(attrs, user)
-    if (!res.success) throw res.originalError
+    if (!res.success) throw res
 
     const book = res.data
     await updateLinks.call(
