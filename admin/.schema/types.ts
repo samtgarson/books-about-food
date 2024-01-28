@@ -217,7 +217,7 @@ export type Schema = {
       'book:publisher_id': string;
       'book:release_date': string;
       'book:slug': string;
-      'book:source': 'admin' | 'import' | 'submitted';
+      'book:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:status': 'draft' | 'inReview' | 'published';
       'book:submitter_id': string;
       'book:subtitle': string;
@@ -313,7 +313,7 @@ export type Schema = {
       'book:image:preview_for:publisher_id': string;
       'book:image:preview_for:release_date': string;
       'book:image:preview_for:slug': string;
-      'book:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:image:preview_for:submitter_id': string;
       'book:image:preview_for:subtitle': string;
@@ -407,7 +407,7 @@ export type Schema = {
       'profile:image:cover_for:publisher_id': string;
       'profile:image:cover_for:release_date': string;
       'profile:image:cover_for:slug': string;
-      'profile:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'profile:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:cover_for:submitter_id': string;
       'profile:image:cover_for:subtitle': string;
@@ -429,7 +429,7 @@ export type Schema = {
       'profile:image:preview_for:publisher_id': string;
       'profile:image:preview_for:release_date': string;
       'profile:image:preview_for:slug': string;
-      'profile:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'profile:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:preview_for:submitter_id': string;
       'profile:image:preview_for:subtitle': string;
@@ -529,7 +529,7 @@ export type Schema = {
       'book:publisher:image:cover_for:publisher_id': string;
       'book:publisher:image:cover_for:release_date': string;
       'book:publisher:image:cover_for:slug': string;
-      'book:publisher:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'book:publisher:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:image:cover_for:submitter_id': string;
       'book:publisher:image:cover_for:subtitle': string;
@@ -551,7 +551,7 @@ export type Schema = {
       'book:publisher:image:preview_for:publisher_id': string;
       'book:publisher:image:preview_for:release_date': string;
       'book:publisher:image:preview_for:slug': string;
-      'book:publisher:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:publisher:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:image:preview_for:submitter_id': string;
       'book:publisher:image:preview_for:subtitle': string;
@@ -709,7 +709,7 @@ export type Schema = {
       'book:image:preview_for:image:preview_for:publisher_id': string;
       'book:image:preview_for:image:preview_for:release_date': string;
       'book:image:preview_for:image:preview_for:slug': string;
-      'book:image:preview_for:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:image:preview_for:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:image:preview_for:image:preview_for:submitter_id': string;
       'book:image:preview_for:image:preview_for:subtitle': string;
@@ -889,7 +889,7 @@ export type Schema = {
       'book:publisher:imprint:image:cover_for:publisher_id': string;
       'book:publisher:imprint:image:cover_for:release_date': string;
       'book:publisher:imprint:image:cover_for:slug': string;
-      'book:publisher:imprint:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'book:publisher:imprint:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:publisher:imprint:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:imprint:image:cover_for:submitter_id': string;
       'book:publisher:imprint:image:cover_for:subtitle': string;
@@ -911,7 +911,7 @@ export type Schema = {
       'book:publisher:imprint:image:preview_for:publisher_id': string;
       'book:publisher:imprint:image:preview_for:release_date': string;
       'book:publisher:imprint:image:preview_for:slug': string;
-      'book:publisher:imprint:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:publisher:imprint:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:publisher:imprint:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:imprint:image:preview_for:submitter_id': string;
       'book:publisher:imprint:image:preview_for:subtitle': string;
@@ -978,7 +978,7 @@ export type Schema = {
       'book:submitter:profile:image:cover_for:publisher_id': string;
       'book:submitter:profile:image:cover_for:release_date': string;
       'book:submitter:profile:image:cover_for:slug': string;
-      'book:submitter:profile:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'book:submitter:profile:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:submitter:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:profile:image:cover_for:submitter_id': string;
       'book:submitter:profile:image:cover_for:subtitle': string;
@@ -1000,7 +1000,7 @@ export type Schema = {
       'book:submitter:profile:image:preview_for:publisher_id': string;
       'book:submitter:profile:image:preview_for:release_date': string;
       'book:submitter:profile:image:preview_for:slug': string;
-      'book:submitter:profile:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:submitter:profile:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:submitter:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:profile:image:preview_for:submitter_id': string;
       'book:submitter:profile:image:preview_for:subtitle': string;
@@ -1080,7 +1080,7 @@ export type Schema = {
       'profile:image:preview_for:image:preview_for:publisher_id': string;
       'profile:image:preview_for:image:preview_for:release_date': string;
       'profile:image:preview_for:image:preview_for:slug': string;
-      'profile:image:preview_for:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'profile:image:preview_for:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'profile:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:preview_for:image:preview_for:submitter_id': string;
       'profile:image:preview_for:image:preview_for:subtitle': string;
@@ -1190,7 +1190,7 @@ export type Schema = {
       'book:publisher_id': string;
       'book:release_date': string;
       'book:slug': string;
-      'book:source': 'admin' | 'import' | 'submitted';
+      'book:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:status': 'draft' | 'inReview' | 'published';
       'book:submitter_id': string;
       'book:subtitle': string;
@@ -1251,7 +1251,7 @@ export type Schema = {
       'book:image:preview_for:publisher_id': string;
       'book:image:preview_for:release_date': string;
       'book:image:preview_for:slug': string;
-      'book:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:image:preview_for:submitter_id': string;
       'book:image:preview_for:subtitle': string;
@@ -1410,7 +1410,7 @@ export type Schema = {
       'book:publisher:image:cover_for:publisher_id': string;
       'book:publisher:image:cover_for:release_date': string;
       'book:publisher:image:cover_for:slug': string;
-      'book:publisher:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'book:publisher:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:image:cover_for:submitter_id': string;
       'book:publisher:image:cover_for:subtitle': string;
@@ -1432,7 +1432,7 @@ export type Schema = {
       'book:publisher:image:preview_for:publisher_id': string;
       'book:publisher:image:preview_for:release_date': string;
       'book:publisher:image:preview_for:slug': string;
-      'book:publisher:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:publisher:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:image:preview_for:submitter_id': string;
       'book:publisher:image:preview_for:subtitle': string;
@@ -1517,7 +1517,7 @@ export type Schema = {
       'book:image:preview_for:image:preview_for:publisher_id': string;
       'book:image:preview_for:image:preview_for:release_date': string;
       'book:image:preview_for:image:preview_for:slug': string;
-      'book:image:preview_for:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:image:preview_for:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:image:preview_for:image:preview_for:submitter_id': string;
       'book:image:preview_for:image:preview_for:subtitle': string;
@@ -1697,7 +1697,7 @@ export type Schema = {
       'book:publisher:imprint:image:cover_for:publisher_id': string;
       'book:publisher:imprint:image:cover_for:release_date': string;
       'book:publisher:imprint:image:cover_for:slug': string;
-      'book:publisher:imprint:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'book:publisher:imprint:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:publisher:imprint:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:imprint:image:cover_for:submitter_id': string;
       'book:publisher:imprint:image:cover_for:subtitle': string;
@@ -1719,7 +1719,7 @@ export type Schema = {
       'book:publisher:imprint:image:preview_for:publisher_id': string;
       'book:publisher:imprint:image:preview_for:release_date': string;
       'book:publisher:imprint:image:preview_for:slug': string;
-      'book:publisher:imprint:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:publisher:imprint:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:publisher:imprint:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:imprint:image:preview_for:submitter_id': string;
       'book:publisher:imprint:image:preview_for:subtitle': string;
@@ -1786,7 +1786,7 @@ export type Schema = {
       'book:submitter:profile:image:cover_for:publisher_id': string;
       'book:submitter:profile:image:cover_for:release_date': string;
       'book:submitter:profile:image:cover_for:slug': string;
-      'book:submitter:profile:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'book:submitter:profile:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:submitter:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:profile:image:cover_for:submitter_id': string;
       'book:submitter:profile:image:cover_for:subtitle': string;
@@ -1808,7 +1808,7 @@ export type Schema = {
       'book:submitter:profile:image:preview_for:publisher_id': string;
       'book:submitter:profile:image:preview_for:release_date': string;
       'book:submitter:profile:image:preview_for:slug': string;
-      'book:submitter:profile:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:submitter:profile:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:submitter:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:profile:image:preview_for:submitter_id': string;
       'book:submitter:profile:image:preview_for:subtitle': string;
@@ -1919,7 +1919,7 @@ export type Schema = {
       'user:profile:image:cover_for:publisher_id': string;
       'user:profile:image:cover_for:release_date': string;
       'user:profile:image:cover_for:slug': string;
-      'user:profile:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'user:profile:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'user:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'user:profile:image:cover_for:submitter_id': string;
       'user:profile:image:cover_for:subtitle': string;
@@ -1941,7 +1941,7 @@ export type Schema = {
       'user:profile:image:preview_for:publisher_id': string;
       'user:profile:image:preview_for:release_date': string;
       'user:profile:image:preview_for:slug': string;
-      'user:profile:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'user:profile:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'user:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'user:profile:image:preview_for:submitter_id': string;
       'user:profile:image:preview_for:subtitle': string;
@@ -2053,7 +2053,7 @@ export type Schema = {
       'publisher_id': string;
       'release_date': string;
       'slug': string;
-      'source': 'admin' | 'import' | 'submitted';
+      'source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'status': 'draft' | 'inReview' | 'published';
       'submitter_id': string;
       'subtitle': string;
@@ -2116,7 +2116,7 @@ export type Schema = {
       'image:preview_for:publisher_id': string;
       'image:preview_for:release_date': string;
       'image:preview_for:slug': string;
-      'image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'image:preview_for:status': 'draft' | 'inReview' | 'published';
       'image:preview_for:submitter_id': string;
       'image:preview_for:subtitle': string;
@@ -2275,7 +2275,7 @@ export type Schema = {
       'publisher:image:cover_for:publisher_id': string;
       'publisher:image:cover_for:release_date': string;
       'publisher:image:cover_for:slug': string;
-      'publisher:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'publisher:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'publisher:image:cover_for:submitter_id': string;
       'publisher:image:cover_for:subtitle': string;
@@ -2297,7 +2297,7 @@ export type Schema = {
       'publisher:image:preview_for:publisher_id': string;
       'publisher:image:preview_for:release_date': string;
       'publisher:image:preview_for:slug': string;
-      'publisher:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'publisher:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'publisher:image:preview_for:submitter_id': string;
       'publisher:image:preview_for:subtitle': string;
@@ -2382,7 +2382,7 @@ export type Schema = {
       'image:preview_for:image:preview_for:publisher_id': string;
       'image:preview_for:image:preview_for:release_date': string;
       'image:preview_for:image:preview_for:slug': string;
-      'image:preview_for:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'image:preview_for:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'image:preview_for:image:preview_for:submitter_id': string;
       'image:preview_for:image:preview_for:subtitle': string;
@@ -2562,7 +2562,7 @@ export type Schema = {
       'publisher:imprint:image:cover_for:publisher_id': string;
       'publisher:imprint:image:cover_for:release_date': string;
       'publisher:imprint:image:cover_for:slug': string;
-      'publisher:imprint:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'publisher:imprint:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'publisher:imprint:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'publisher:imprint:image:cover_for:submitter_id': string;
       'publisher:imprint:image:cover_for:subtitle': string;
@@ -2584,7 +2584,7 @@ export type Schema = {
       'publisher:imprint:image:preview_for:publisher_id': string;
       'publisher:imprint:image:preview_for:release_date': string;
       'publisher:imprint:image:preview_for:slug': string;
-      'publisher:imprint:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'publisher:imprint:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'publisher:imprint:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'publisher:imprint:image:preview_for:submitter_id': string;
       'publisher:imprint:image:preview_for:subtitle': string;
@@ -2651,7 +2651,7 @@ export type Schema = {
       'submitter:profile:image:cover_for:publisher_id': string;
       'submitter:profile:image:cover_for:release_date': string;
       'submitter:profile:image:cover_for:slug': string;
-      'submitter:profile:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'submitter:profile:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'submitter:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'submitter:profile:image:cover_for:submitter_id': string;
       'submitter:profile:image:cover_for:subtitle': string;
@@ -2673,7 +2673,7 @@ export type Schema = {
       'submitter:profile:image:preview_for:publisher_id': string;
       'submitter:profile:image:preview_for:release_date': string;
       'submitter:profile:image:preview_for:slug': string;
-      'submitter:profile:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'submitter:profile:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'submitter:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'submitter:profile:image:preview_for:submitter_id': string;
       'submitter:profile:image:preview_for:subtitle': string;
@@ -2773,7 +2773,7 @@ export type Schema = {
       'image:preview_for:publisher:image:preview_for:publisher_id': string;
       'image:preview_for:publisher:image:preview_for:release_date': string;
       'image:preview_for:publisher:image:preview_for:slug': string;
-      'image:preview_for:publisher:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'image:preview_for:publisher:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'image:preview_for:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'image:preview_for:publisher:image:preview_for:submitter_id': string;
       'image:preview_for:publisher:image:preview_for:subtitle': string;
@@ -2921,7 +2921,7 @@ export type Schema = {
       'publisher:image:preview_for:image:preview_for:publisher_id': string;
       'publisher:image:preview_for:image:preview_for:release_date': string;
       'publisher:image:preview_for:image:preview_for:slug': string;
-      'publisher:image:preview_for:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'publisher:image:preview_for:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'publisher:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'publisher:image:preview_for:image:preview_for:submitter_id': string;
       'publisher:image:preview_for:image:preview_for:subtitle': string;
@@ -3070,7 +3070,7 @@ export type Schema = {
       'publisher:imprint:imprint:image:cover_for:publisher_id': string;
       'publisher:imprint:imprint:image:cover_for:release_date': string;
       'publisher:imprint:imprint:image:cover_for:slug': string;
-      'publisher:imprint:imprint:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'publisher:imprint:imprint:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'publisher:imprint:imprint:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'publisher:imprint:imprint:image:cover_for:submitter_id': string;
       'publisher:imprint:imprint:image:cover_for:subtitle': string;
@@ -3092,7 +3092,7 @@ export type Schema = {
       'publisher:imprint:imprint:image:preview_for:publisher_id': string;
       'publisher:imprint:imprint:image:preview_for:release_date': string;
       'publisher:imprint:imprint:image:preview_for:slug': string;
-      'publisher:imprint:imprint:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'publisher:imprint:imprint:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'publisher:imprint:imprint:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'publisher:imprint:imprint:image:preview_for:submitter_id': string;
       'publisher:imprint:imprint:image:preview_for:subtitle': string;
@@ -3311,7 +3311,7 @@ export type Schema = {
       'profile:image:cover_for:publisher_id': string;
       'profile:image:cover_for:release_date': string;
       'profile:image:cover_for:slug': string;
-      'profile:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'profile:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:cover_for:submitter_id': string;
       'profile:image:cover_for:subtitle': string;
@@ -3333,7 +3333,7 @@ export type Schema = {
       'profile:image:preview_for:publisher_id': string;
       'profile:image:preview_for:release_date': string;
       'profile:image:preview_for:slug': string;
-      'profile:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'profile:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:preview_for:submitter_id': string;
       'profile:image:preview_for:subtitle': string;
@@ -3459,7 +3459,7 @@ export type Schema = {
       'user:profile:image:cover_for:publisher_id': string;
       'user:profile:image:cover_for:release_date': string;
       'user:profile:image:cover_for:slug': string;
-      'user:profile:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'user:profile:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'user:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'user:profile:image:cover_for:submitter_id': string;
       'user:profile:image:cover_for:subtitle': string;
@@ -3481,7 +3481,7 @@ export type Schema = {
       'user:profile:image:preview_for:publisher_id': string;
       'user:profile:image:preview_for:release_date': string;
       'user:profile:image:preview_for:slug': string;
-      'user:profile:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'user:profile:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'user:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'user:profile:image:preview_for:submitter_id': string;
       'user:profile:image:preview_for:subtitle': string;
@@ -3561,7 +3561,7 @@ export type Schema = {
       'profile:image:preview_for:image:preview_for:publisher_id': string;
       'profile:image:preview_for:image:preview_for:release_date': string;
       'profile:image:preview_for:image:preview_for:slug': string;
-      'profile:image:preview_for:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'profile:image:preview_for:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'profile:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:preview_for:image:preview_for:submitter_id': string;
       'profile:image:preview_for:image:preview_for:subtitle': string;
@@ -3753,7 +3753,7 @@ export type Schema = {
       'book:publisher_id': string;
       'book:release_date': string;
       'book:slug': string;
-      'book:source': 'admin' | 'import' | 'submitted';
+      'book:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:status': 'draft' | 'inReview' | 'published';
       'book:submitter_id': string;
       'book:subtitle': string;
@@ -3854,7 +3854,7 @@ export type Schema = {
       'book:image:preview_for:publisher_id': string;
       'book:image:preview_for:release_date': string;
       'book:image:preview_for:slug': string;
-      'book:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:image:preview_for:submitter_id': string;
       'book:image:preview_for:subtitle': string;
@@ -3948,7 +3948,7 @@ export type Schema = {
       'profile:image:cover_for:publisher_id': string;
       'profile:image:cover_for:release_date': string;
       'profile:image:cover_for:slug': string;
-      'profile:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'profile:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:cover_for:submitter_id': string;
       'profile:image:cover_for:subtitle': string;
@@ -3970,7 +3970,7 @@ export type Schema = {
       'profile:image:preview_for:publisher_id': string;
       'profile:image:preview_for:release_date': string;
       'profile:image:preview_for:slug': string;
-      'profile:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'profile:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:preview_for:submitter_id': string;
       'profile:image:preview_for:subtitle': string;
@@ -4070,7 +4070,7 @@ export type Schema = {
       'book:publisher:image:cover_for:publisher_id': string;
       'book:publisher:image:cover_for:release_date': string;
       'book:publisher:image:cover_for:slug': string;
-      'book:publisher:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'book:publisher:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:image:cover_for:submitter_id': string;
       'book:publisher:image:cover_for:subtitle': string;
@@ -4092,7 +4092,7 @@ export type Schema = {
       'book:publisher:image:preview_for:publisher_id': string;
       'book:publisher:image:preview_for:release_date': string;
       'book:publisher:image:preview_for:slug': string;
-      'book:publisher:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:publisher:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:image:preview_for:submitter_id': string;
       'book:publisher:image:preview_for:subtitle': string;
@@ -4250,7 +4250,7 @@ export type Schema = {
       'book:image:preview_for:image:preview_for:publisher_id': string;
       'book:image:preview_for:image:preview_for:release_date': string;
       'book:image:preview_for:image:preview_for:slug': string;
-      'book:image:preview_for:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:image:preview_for:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:image:preview_for:image:preview_for:submitter_id': string;
       'book:image:preview_for:image:preview_for:subtitle': string;
@@ -4430,7 +4430,7 @@ export type Schema = {
       'book:publisher:imprint:image:cover_for:publisher_id': string;
       'book:publisher:imprint:image:cover_for:release_date': string;
       'book:publisher:imprint:image:cover_for:slug': string;
-      'book:publisher:imprint:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'book:publisher:imprint:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:publisher:imprint:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:imprint:image:cover_for:submitter_id': string;
       'book:publisher:imprint:image:cover_for:subtitle': string;
@@ -4452,7 +4452,7 @@ export type Schema = {
       'book:publisher:imprint:image:preview_for:publisher_id': string;
       'book:publisher:imprint:image:preview_for:release_date': string;
       'book:publisher:imprint:image:preview_for:slug': string;
-      'book:publisher:imprint:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:publisher:imprint:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:publisher:imprint:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:imprint:image:preview_for:submitter_id': string;
       'book:publisher:imprint:image:preview_for:subtitle': string;
@@ -4519,7 +4519,7 @@ export type Schema = {
       'book:submitter:profile:image:cover_for:publisher_id': string;
       'book:submitter:profile:image:cover_for:release_date': string;
       'book:submitter:profile:image:cover_for:slug': string;
-      'book:submitter:profile:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'book:submitter:profile:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:submitter:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:profile:image:cover_for:submitter_id': string;
       'book:submitter:profile:image:cover_for:subtitle': string;
@@ -4541,7 +4541,7 @@ export type Schema = {
       'book:submitter:profile:image:preview_for:publisher_id': string;
       'book:submitter:profile:image:preview_for:release_date': string;
       'book:submitter:profile:image:preview_for:slug': string;
-      'book:submitter:profile:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:submitter:profile:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:submitter:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:profile:image:preview_for:submitter_id': string;
       'book:submitter:profile:image:preview_for:subtitle': string;
@@ -4621,7 +4621,7 @@ export type Schema = {
       'profile:image:preview_for:image:preview_for:publisher_id': string;
       'profile:image:preview_for:image:preview_for:release_date': string;
       'profile:image:preview_for:image:preview_for:slug': string;
-      'profile:image:preview_for:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'profile:image:preview_for:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'profile:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:preview_for:image:preview_for:submitter_id': string;
       'profile:image:preview_for:image:preview_for:subtitle': string;
@@ -4796,7 +4796,7 @@ export type Schema = {
       'profile:image:cover_for:publisher_id': string;
       'profile:image:cover_for:release_date': string;
       'profile:image:cover_for:slug': string;
-      'profile:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'profile:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:cover_for:submitter_id': string;
       'profile:image:cover_for:subtitle': string;
@@ -4818,7 +4818,7 @@ export type Schema = {
       'profile:image:preview_for:publisher_id': string;
       'profile:image:preview_for:release_date': string;
       'profile:image:preview_for:slug': string;
-      'profile:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'profile:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:preview_for:submitter_id': string;
       'profile:image:preview_for:subtitle': string;
@@ -4944,7 +4944,7 @@ export type Schema = {
       'user:profile:image:cover_for:publisher_id': string;
       'user:profile:image:cover_for:release_date': string;
       'user:profile:image:cover_for:slug': string;
-      'user:profile:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'user:profile:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'user:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'user:profile:image:cover_for:submitter_id': string;
       'user:profile:image:cover_for:subtitle': string;
@@ -4966,7 +4966,7 @@ export type Schema = {
       'user:profile:image:preview_for:publisher_id': string;
       'user:profile:image:preview_for:release_date': string;
       'user:profile:image:preview_for:slug': string;
-      'user:profile:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'user:profile:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'user:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'user:profile:image:preview_for:submitter_id': string;
       'user:profile:image:preview_for:subtitle': string;
@@ -5046,7 +5046,7 @@ export type Schema = {
       'profile:image:preview_for:image:preview_for:publisher_id': string;
       'profile:image:preview_for:image:preview_for:release_date': string;
       'profile:image:preview_for:image:preview_for:slug': string;
-      'profile:image:preview_for:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'profile:image:preview_for:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'profile:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:preview_for:image:preview_for:submitter_id': string;
       'profile:image:preview_for:image:preview_for:subtitle': string;
@@ -5266,7 +5266,7 @@ export type Schema = {
       'profile:image:cover_for:publisher_id': string;
       'profile:image:cover_for:release_date': string;
       'profile:image:cover_for:slug': string;
-      'profile:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'profile:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:cover_for:submitter_id': string;
       'profile:image:cover_for:subtitle': string;
@@ -5288,7 +5288,7 @@ export type Schema = {
       'profile:image:preview_for:publisher_id': string;
       'profile:image:preview_for:release_date': string;
       'profile:image:preview_for:slug': string;
-      'profile:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'profile:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:preview_for:submitter_id': string;
       'profile:image:preview_for:subtitle': string;
@@ -5441,7 +5441,7 @@ export type Schema = {
       'profile:image:preview_for:image:preview_for:publisher_id': string;
       'profile:image:preview_for:image:preview_for:release_date': string;
       'profile:image:preview_for:image:preview_for:slug': string;
-      'profile:image:preview_for:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'profile:image:preview_for:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'profile:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:preview_for:image:preview_for:submitter_id': string;
       'profile:image:preview_for:image:preview_for:subtitle': string;
@@ -5555,7 +5555,7 @@ export type Schema = {
       'book:publisher_id': string;
       'book:release_date': string;
       'book:slug': string;
-      'book:source': 'admin' | 'import' | 'submitted';
+      'book:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:status': 'draft' | 'inReview' | 'published';
       'book:submitter_id': string;
       'book:subtitle': string;
@@ -5611,7 +5611,7 @@ export type Schema = {
       'book:image:preview_for:publisher_id': string;
       'book:image:preview_for:release_date': string;
       'book:image:preview_for:slug': string;
-      'book:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:image:preview_for:submitter_id': string;
       'book:image:preview_for:subtitle': string;
@@ -5770,7 +5770,7 @@ export type Schema = {
       'book:publisher:image:cover_for:publisher_id': string;
       'book:publisher:image:cover_for:release_date': string;
       'book:publisher:image:cover_for:slug': string;
-      'book:publisher:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'book:publisher:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:image:cover_for:submitter_id': string;
       'book:publisher:image:cover_for:subtitle': string;
@@ -5792,7 +5792,7 @@ export type Schema = {
       'book:publisher:image:preview_for:publisher_id': string;
       'book:publisher:image:preview_for:release_date': string;
       'book:publisher:image:preview_for:slug': string;
-      'book:publisher:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:publisher:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:image:preview_for:submitter_id': string;
       'book:publisher:image:preview_for:subtitle': string;
@@ -5877,7 +5877,7 @@ export type Schema = {
       'book:image:preview_for:image:preview_for:publisher_id': string;
       'book:image:preview_for:image:preview_for:release_date': string;
       'book:image:preview_for:image:preview_for:slug': string;
-      'book:image:preview_for:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:image:preview_for:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:image:preview_for:image:preview_for:submitter_id': string;
       'book:image:preview_for:image:preview_for:subtitle': string;
@@ -6057,7 +6057,7 @@ export type Schema = {
       'book:publisher:imprint:image:cover_for:publisher_id': string;
       'book:publisher:imprint:image:cover_for:release_date': string;
       'book:publisher:imprint:image:cover_for:slug': string;
-      'book:publisher:imprint:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'book:publisher:imprint:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:publisher:imprint:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:imprint:image:cover_for:submitter_id': string;
       'book:publisher:imprint:image:cover_for:subtitle': string;
@@ -6079,7 +6079,7 @@ export type Schema = {
       'book:publisher:imprint:image:preview_for:publisher_id': string;
       'book:publisher:imprint:image:preview_for:release_date': string;
       'book:publisher:imprint:image:preview_for:slug': string;
-      'book:publisher:imprint:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:publisher:imprint:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:publisher:imprint:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:imprint:image:preview_for:submitter_id': string;
       'book:publisher:imprint:image:preview_for:subtitle': string;
@@ -6146,7 +6146,7 @@ export type Schema = {
       'book:submitter:profile:image:cover_for:publisher_id': string;
       'book:submitter:profile:image:cover_for:release_date': string;
       'book:submitter:profile:image:cover_for:slug': string;
-      'book:submitter:profile:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'book:submitter:profile:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:submitter:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:profile:image:cover_for:submitter_id': string;
       'book:submitter:profile:image:cover_for:subtitle': string;
@@ -6168,7 +6168,7 @@ export type Schema = {
       'book:submitter:profile:image:preview_for:publisher_id': string;
       'book:submitter:profile:image:preview_for:release_date': string;
       'book:submitter:profile:image:preview_for:slug': string;
-      'book:submitter:profile:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:submitter:profile:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:submitter:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:profile:image:preview_for:submitter_id': string;
       'book:submitter:profile:image:preview_for:subtitle': string;
@@ -6239,7 +6239,7 @@ export type Schema = {
       'cover_for:publisher_id': string;
       'cover_for:release_date': string;
       'cover_for:slug': string;
-      'cover_for:source': 'admin' | 'import' | 'submitted';
+      'cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'cover_for:status': 'draft' | 'inReview' | 'published';
       'cover_for:submitter_id': string;
       'cover_for:subtitle': string;
@@ -6261,7 +6261,7 @@ export type Schema = {
       'preview_for:publisher_id': string;
       'preview_for:release_date': string;
       'preview_for:slug': string;
-      'preview_for:source': 'admin' | 'import' | 'submitted';
+      'preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'preview_for:status': 'draft' | 'inReview' | 'published';
       'preview_for:submitter_id': string;
       'preview_for:subtitle': string;
@@ -6441,7 +6441,7 @@ export type Schema = {
       'preview_for:image:preview_for:publisher_id': string;
       'preview_for:image:preview_for:release_date': string;
       'preview_for:image:preview_for:slug': string;
-      'preview_for:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'preview_for:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'preview_for:image:preview_for:submitter_id': string;
       'preview_for:image:preview_for:subtitle': string;
@@ -6553,7 +6553,7 @@ export type Schema = {
       'cover_for:publisher:image:cover_for:publisher_id': string;
       'cover_for:publisher:image:cover_for:release_date': string;
       'cover_for:publisher:image:cover_for:slug': string;
-      'cover_for:publisher:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'cover_for:publisher:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'cover_for:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'cover_for:publisher:image:cover_for:submitter_id': string;
       'cover_for:publisher:image:cover_for:subtitle': string;
@@ -6575,7 +6575,7 @@ export type Schema = {
       'cover_for:publisher:image:preview_for:publisher_id': string;
       'cover_for:publisher:image:preview_for:release_date': string;
       'cover_for:publisher:image:preview_for:slug': string;
-      'cover_for:publisher:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'cover_for:publisher:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'cover_for:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'cover_for:publisher:image:preview_for:submitter_id': string;
       'cover_for:publisher:image:preview_for:subtitle': string;
@@ -6725,7 +6725,7 @@ export type Schema = {
       'preview_for:publisher:image:cover_for:publisher_id': string;
       'preview_for:publisher:image:cover_for:release_date': string;
       'preview_for:publisher:image:cover_for:slug': string;
-      'preview_for:publisher:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'preview_for:publisher:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'preview_for:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'preview_for:publisher:image:cover_for:submitter_id': string;
       'preview_for:publisher:image:cover_for:subtitle': string;
@@ -6747,7 +6747,7 @@ export type Schema = {
       'preview_for:publisher:image:preview_for:publisher_id': string;
       'preview_for:publisher:image:preview_for:release_date': string;
       'preview_for:publisher:image:preview_for:slug': string;
-      'preview_for:publisher:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'preview_for:publisher:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'preview_for:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'preview_for:publisher:image:preview_for:submitter_id': string;
       'preview_for:publisher:image:preview_for:subtitle': string;
@@ -6905,7 +6905,7 @@ export type Schema = {
       'cover_for:publisher:imprint:image:cover_for:publisher_id': string;
       'cover_for:publisher:imprint:image:cover_for:release_date': string;
       'cover_for:publisher:imprint:image:cover_for:slug': string;
-      'cover_for:publisher:imprint:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'cover_for:publisher:imprint:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'cover_for:publisher:imprint:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'cover_for:publisher:imprint:image:cover_for:submitter_id': string;
       'cover_for:publisher:imprint:image:cover_for:subtitle': string;
@@ -6927,7 +6927,7 @@ export type Schema = {
       'cover_for:publisher:imprint:image:preview_for:publisher_id': string;
       'cover_for:publisher:imprint:image:preview_for:release_date': string;
       'cover_for:publisher:imprint:image:preview_for:slug': string;
-      'cover_for:publisher:imprint:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'cover_for:publisher:imprint:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'cover_for:publisher:imprint:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'cover_for:publisher:imprint:image:preview_for:submitter_id': string;
       'cover_for:publisher:imprint:image:preview_for:subtitle': string;
@@ -6994,7 +6994,7 @@ export type Schema = {
       'cover_for:submitter:profile:image:cover_for:publisher_id': string;
       'cover_for:submitter:profile:image:cover_for:release_date': string;
       'cover_for:submitter:profile:image:cover_for:slug': string;
-      'cover_for:submitter:profile:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'cover_for:submitter:profile:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'cover_for:submitter:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'cover_for:submitter:profile:image:cover_for:submitter_id': string;
       'cover_for:submitter:profile:image:cover_for:subtitle': string;
@@ -7016,7 +7016,7 @@ export type Schema = {
       'cover_for:submitter:profile:image:preview_for:publisher_id': string;
       'cover_for:submitter:profile:image:preview_for:release_date': string;
       'cover_for:submitter:profile:image:preview_for:slug': string;
-      'cover_for:submitter:profile:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'cover_for:submitter:profile:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'cover_for:submitter:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'cover_for:submitter:profile:image:preview_for:submitter_id': string;
       'cover_for:submitter:profile:image:preview_for:subtitle': string;
@@ -7051,7 +7051,7 @@ export type Schema = {
       'preview_for:image:preview_for:image:preview_for:publisher_id': string;
       'preview_for:image:preview_for:image:preview_for:release_date': string;
       'preview_for:image:preview_for:image:preview_for:slug': string;
-      'preview_for:image:preview_for:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'preview_for:image:preview_for:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'preview_for:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'preview_for:image:preview_for:image:preview_for:submitter_id': string;
       'preview_for:image:preview_for:image:preview_for:subtitle': string;
@@ -7231,7 +7231,7 @@ export type Schema = {
       'preview_for:publisher:imprint:image:cover_for:publisher_id': string;
       'preview_for:publisher:imprint:image:cover_for:release_date': string;
       'preview_for:publisher:imprint:image:cover_for:slug': string;
-      'preview_for:publisher:imprint:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'preview_for:publisher:imprint:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'preview_for:publisher:imprint:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'preview_for:publisher:imprint:image:cover_for:submitter_id': string;
       'preview_for:publisher:imprint:image:cover_for:subtitle': string;
@@ -7253,7 +7253,7 @@ export type Schema = {
       'preview_for:publisher:imprint:image:preview_for:publisher_id': string;
       'preview_for:publisher:imprint:image:preview_for:release_date': string;
       'preview_for:publisher:imprint:image:preview_for:slug': string;
-      'preview_for:publisher:imprint:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'preview_for:publisher:imprint:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'preview_for:publisher:imprint:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'preview_for:publisher:imprint:image:preview_for:submitter_id': string;
       'preview_for:publisher:imprint:image:preview_for:subtitle': string;
@@ -7320,7 +7320,7 @@ export type Schema = {
       'preview_for:submitter:profile:image:cover_for:publisher_id': string;
       'preview_for:submitter:profile:image:cover_for:release_date': string;
       'preview_for:submitter:profile:image:cover_for:slug': string;
-      'preview_for:submitter:profile:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'preview_for:submitter:profile:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'preview_for:submitter:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'preview_for:submitter:profile:image:cover_for:submitter_id': string;
       'preview_for:submitter:profile:image:cover_for:subtitle': string;
@@ -7342,7 +7342,7 @@ export type Schema = {
       'preview_for:submitter:profile:image:preview_for:publisher_id': string;
       'preview_for:submitter:profile:image:preview_for:release_date': string;
       'preview_for:submitter:profile:image:preview_for:slug': string;
-      'preview_for:submitter:profile:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'preview_for:submitter:profile:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'preview_for:submitter:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'preview_for:submitter:profile:image:preview_for:submitter_id': string;
       'preview_for:submitter:profile:image:preview_for:subtitle': string;
@@ -7423,7 +7423,7 @@ export type Schema = {
       'book:publisher_id': string;
       'book:release_date': string;
       'book:slug': string;
-      'book:source': 'admin' | 'import' | 'submitted';
+      'book:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:status': 'draft' | 'inReview' | 'published';
       'book:submitter_id': string;
       'book:subtitle': string;
@@ -7479,7 +7479,7 @@ export type Schema = {
       'book:image:preview_for:publisher_id': string;
       'book:image:preview_for:release_date': string;
       'book:image:preview_for:slug': string;
-      'book:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:image:preview_for:submitter_id': string;
       'book:image:preview_for:subtitle': string;
@@ -7638,7 +7638,7 @@ export type Schema = {
       'book:publisher:image:cover_for:publisher_id': string;
       'book:publisher:image:cover_for:release_date': string;
       'book:publisher:image:cover_for:slug': string;
-      'book:publisher:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'book:publisher:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:image:cover_for:submitter_id': string;
       'book:publisher:image:cover_for:subtitle': string;
@@ -7660,7 +7660,7 @@ export type Schema = {
       'book:publisher:image:preview_for:publisher_id': string;
       'book:publisher:image:preview_for:release_date': string;
       'book:publisher:image:preview_for:slug': string;
-      'book:publisher:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:publisher:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:image:preview_for:submitter_id': string;
       'book:publisher:image:preview_for:subtitle': string;
@@ -7745,7 +7745,7 @@ export type Schema = {
       'book:image:preview_for:image:preview_for:publisher_id': string;
       'book:image:preview_for:image:preview_for:release_date': string;
       'book:image:preview_for:image:preview_for:slug': string;
-      'book:image:preview_for:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:image:preview_for:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:image:preview_for:image:preview_for:submitter_id': string;
       'book:image:preview_for:image:preview_for:subtitle': string;
@@ -7925,7 +7925,7 @@ export type Schema = {
       'book:publisher:imprint:image:cover_for:publisher_id': string;
       'book:publisher:imprint:image:cover_for:release_date': string;
       'book:publisher:imprint:image:cover_for:slug': string;
-      'book:publisher:imprint:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'book:publisher:imprint:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:publisher:imprint:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:imprint:image:cover_for:submitter_id': string;
       'book:publisher:imprint:image:cover_for:subtitle': string;
@@ -7947,7 +7947,7 @@ export type Schema = {
       'book:publisher:imprint:image:preview_for:publisher_id': string;
       'book:publisher:imprint:image:preview_for:release_date': string;
       'book:publisher:imprint:image:preview_for:slug': string;
-      'book:publisher:imprint:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:publisher:imprint:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:publisher:imprint:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:imprint:image:preview_for:submitter_id': string;
       'book:publisher:imprint:image:preview_for:subtitle': string;
@@ -8014,7 +8014,7 @@ export type Schema = {
       'book:submitter:profile:image:cover_for:publisher_id': string;
       'book:submitter:profile:image:cover_for:release_date': string;
       'book:submitter:profile:image:cover_for:slug': string;
-      'book:submitter:profile:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'book:submitter:profile:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:submitter:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:profile:image:cover_for:submitter_id': string;
       'book:submitter:profile:image:cover_for:subtitle': string;
@@ -8036,7 +8036,7 @@ export type Schema = {
       'book:submitter:profile:image:preview_for:publisher_id': string;
       'book:submitter:profile:image:preview_for:release_date': string;
       'book:submitter:profile:image:preview_for:slug': string;
-      'book:submitter:profile:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:submitter:profile:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:submitter:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:profile:image:preview_for:submitter_id': string;
       'book:submitter:profile:image:preview_for:subtitle': string;
@@ -8132,7 +8132,7 @@ export type Schema = {
       'user:profile:image:cover_for:publisher_id': string;
       'user:profile:image:cover_for:release_date': string;
       'user:profile:image:cover_for:slug': string;
-      'user:profile:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'user:profile:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'user:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'user:profile:image:cover_for:submitter_id': string;
       'user:profile:image:cover_for:subtitle': string;
@@ -8154,7 +8154,7 @@ export type Schema = {
       'user:profile:image:preview_for:publisher_id': string;
       'user:profile:image:preview_for:release_date': string;
       'user:profile:image:preview_for:slug': string;
-      'user:profile:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'user:profile:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'user:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'user:profile:image:preview_for:submitter_id': string;
       'user:profile:image:preview_for:subtitle': string;
@@ -8316,7 +8316,7 @@ export type Schema = {
       'author:profile:image:cover_for:publisher_id': string;
       'author:profile:image:cover_for:release_date': string;
       'author:profile:image:cover_for:slug': string;
-      'author:profile:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'author:profile:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'author:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'author:profile:image:cover_for:submitter_id': string;
       'author:profile:image:cover_for:subtitle': string;
@@ -8338,7 +8338,7 @@ export type Schema = {
       'author:profile:image:preview_for:publisher_id': string;
       'author:profile:image:preview_for:release_date': string;
       'author:profile:image:preview_for:slug': string;
-      'author:profile:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'author:profile:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'author:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'author:profile:image:preview_for:submitter_id': string;
       'author:profile:image:preview_for:subtitle': string;
@@ -8497,7 +8497,7 @@ export type Schema = {
       'image:cover_for:publisher_id': string;
       'image:cover_for:release_date': string;
       'image:cover_for:slug': string;
-      'image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'image:cover_for:status': 'draft' | 'inReview' | 'published';
       'image:cover_for:submitter_id': string;
       'image:cover_for:subtitle': string;
@@ -8519,7 +8519,7 @@ export type Schema = {
       'image:preview_for:publisher_id': string;
       'image:preview_for:release_date': string;
       'image:preview_for:slug': string;
-      'image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'image:preview_for:status': 'draft' | 'inReview' | 'published';
       'image:preview_for:submitter_id': string;
       'image:preview_for:subtitle': string;
@@ -8672,7 +8672,7 @@ export type Schema = {
       'image:preview_for:image:preview_for:publisher_id': string;
       'image:preview_for:image:preview_for:release_date': string;
       'image:preview_for:image:preview_for:slug': string;
-      'image:preview_for:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'image:preview_for:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'image:preview_for:image:preview_for:submitter_id': string;
       'image:preview_for:image:preview_for:subtitle': string;
@@ -8770,7 +8770,7 @@ export type Schema = {
       'image:cover_for:publisher:image:cover_for:publisher_id': string;
       'image:cover_for:publisher:image:cover_for:release_date': string;
       'image:cover_for:publisher:image:cover_for:slug': string;
-      'image:cover_for:publisher:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'image:cover_for:publisher:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'image:cover_for:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'image:cover_for:publisher:image:cover_for:submitter_id': string;
       'image:cover_for:publisher:image:cover_for:subtitle': string;
@@ -8792,7 +8792,7 @@ export type Schema = {
       'image:cover_for:publisher:image:preview_for:publisher_id': string;
       'image:cover_for:publisher:image:preview_for:release_date': string;
       'image:cover_for:publisher:image:preview_for:slug': string;
-      'image:cover_for:publisher:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'image:cover_for:publisher:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'image:cover_for:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'image:cover_for:publisher:image:preview_for:submitter_id': string;
       'image:cover_for:publisher:image:preview_for:subtitle': string;
@@ -8915,7 +8915,7 @@ export type Schema = {
       'image:preview_for:publisher:image:cover_for:publisher_id': string;
       'image:preview_for:publisher:image:cover_for:release_date': string;
       'image:preview_for:publisher:image:cover_for:slug': string;
-      'image:preview_for:publisher:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'image:preview_for:publisher:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'image:preview_for:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'image:preview_for:publisher:image:cover_for:submitter_id': string;
       'image:preview_for:publisher:image:cover_for:subtitle': string;
@@ -8937,7 +8937,7 @@ export type Schema = {
       'image:preview_for:publisher:image:preview_for:publisher_id': string;
       'image:preview_for:publisher:image:preview_for:release_date': string;
       'image:preview_for:publisher:image:preview_for:slug': string;
-      'image:preview_for:publisher:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'image:preview_for:publisher:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'image:preview_for:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'image:preview_for:publisher:image:preview_for:submitter_id': string;
       'image:preview_for:publisher:image:preview_for:subtitle': string;
@@ -9040,7 +9040,7 @@ export type Schema = {
       'book:publisher_id': string;
       'book:release_date': string;
       'book:slug': string;
-      'book:source': 'admin' | 'import' | 'submitted';
+      'book:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:status': 'draft' | 'inReview' | 'published';
       'book:submitter_id': string;
       'book:subtitle': string;
@@ -9113,7 +9113,7 @@ export type Schema = {
       'book:image:preview_for:publisher_id': string;
       'book:image:preview_for:release_date': string;
       'book:image:preview_for:slug': string;
-      'book:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:image:preview_for:submitter_id': string;
       'book:image:preview_for:subtitle': string;
@@ -9303,7 +9303,7 @@ export type Schema = {
       'book:publisher:image:cover_for:publisher_id': string;
       'book:publisher:image:cover_for:release_date': string;
       'book:publisher:image:cover_for:slug': string;
-      'book:publisher:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'book:publisher:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:image:cover_for:submitter_id': string;
       'book:publisher:image:cover_for:subtitle': string;
@@ -9325,7 +9325,7 @@ export type Schema = {
       'book:publisher:image:preview_for:publisher_id': string;
       'book:publisher:image:preview_for:release_date': string;
       'book:publisher:image:preview_for:slug': string;
-      'book:publisher:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:publisher:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:image:preview_for:submitter_id': string;
       'book:publisher:image:preview_for:subtitle': string;
@@ -9410,7 +9410,7 @@ export type Schema = {
       'promo:publisher:image:cover_for:publisher_id': string;
       'promo:publisher:image:cover_for:release_date': string;
       'promo:publisher:image:cover_for:slug': string;
-      'promo:publisher:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'promo:publisher:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'promo:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'promo:publisher:image:cover_for:submitter_id': string;
       'promo:publisher:image:cover_for:subtitle': string;
@@ -9432,7 +9432,7 @@ export type Schema = {
       'promo:publisher:image:preview_for:publisher_id': string;
       'promo:publisher:image:preview_for:release_date': string;
       'promo:publisher:image:preview_for:slug': string;
-      'promo:publisher:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'promo:publisher:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'promo:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'promo:publisher:image:preview_for:submitter_id': string;
       'promo:publisher:image:preview_for:subtitle': string;
@@ -9499,7 +9499,7 @@ export type Schema = {
       'book:image:preview_for:image:preview_for:publisher_id': string;
       'book:image:preview_for:image:preview_for:release_date': string;
       'book:image:preview_for:image:preview_for:slug': string;
-      'book:image:preview_for:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:image:preview_for:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:image:preview_for:image:preview_for:submitter_id': string;
       'book:image:preview_for:image:preview_for:subtitle': string;
@@ -9679,7 +9679,7 @@ export type Schema = {
       'book:publisher:imprint:image:cover_for:publisher_id': string;
       'book:publisher:imprint:image:cover_for:release_date': string;
       'book:publisher:imprint:image:cover_for:slug': string;
-      'book:publisher:imprint:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'book:publisher:imprint:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:publisher:imprint:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:imprint:image:cover_for:submitter_id': string;
       'book:publisher:imprint:image:cover_for:subtitle': string;
@@ -9701,7 +9701,7 @@ export type Schema = {
       'book:publisher:imprint:image:preview_for:publisher_id': string;
       'book:publisher:imprint:image:preview_for:release_date': string;
       'book:publisher:imprint:image:preview_for:slug': string;
-      'book:publisher:imprint:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:publisher:imprint:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:publisher:imprint:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:publisher:imprint:image:preview_for:submitter_id': string;
       'book:publisher:imprint:image:preview_for:subtitle': string;
@@ -9768,7 +9768,7 @@ export type Schema = {
       'book:submitter:profile:image:cover_for:publisher_id': string;
       'book:submitter:profile:image:cover_for:release_date': string;
       'book:submitter:profile:image:cover_for:slug': string;
-      'book:submitter:profile:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'book:submitter:profile:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:submitter:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:profile:image:cover_for:submitter_id': string;
       'book:submitter:profile:image:cover_for:subtitle': string;
@@ -9790,7 +9790,7 @@ export type Schema = {
       'book:submitter:profile:image:preview_for:publisher_id': string;
       'book:submitter:profile:image:preview_for:release_date': string;
       'book:submitter:profile:image:preview_for:slug': string;
-      'book:submitter:profile:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'book:submitter:profile:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'book:submitter:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'book:submitter:profile:image:preview_for:submitter_id': string;
       'book:submitter:profile:image:preview_for:subtitle': string;
@@ -9893,7 +9893,7 @@ export type Schema = {
       'promo:publisher:imprint:image:cover_for:publisher_id': string;
       'promo:publisher:imprint:image:cover_for:release_date': string;
       'promo:publisher:imprint:image:cover_for:slug': string;
-      'promo:publisher:imprint:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'promo:publisher:imprint:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'promo:publisher:imprint:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'promo:publisher:imprint:image:cover_for:submitter_id': string;
       'promo:publisher:imprint:image:cover_for:subtitle': string;
@@ -9915,7 +9915,7 @@ export type Schema = {
       'promo:publisher:imprint:image:preview_for:publisher_id': string;
       'promo:publisher:imprint:image:preview_for:release_date': string;
       'promo:publisher:imprint:image:preview_for:slug': string;
-      'promo:publisher:imprint:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'promo:publisher:imprint:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'promo:publisher:imprint:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'promo:publisher:imprint:image:preview_for:submitter_id': string;
       'promo:publisher:imprint:image:preview_for:subtitle': string;
@@ -10039,7 +10039,7 @@ export type Schema = {
       'publisher:image:cover_for:publisher_id': string;
       'publisher:image:cover_for:release_date': string;
       'publisher:image:cover_for:slug': string;
-      'publisher:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'publisher:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'publisher:image:cover_for:submitter_id': string;
       'publisher:image:cover_for:subtitle': string;
@@ -10061,7 +10061,7 @@ export type Schema = {
       'publisher:image:preview_for:publisher_id': string;
       'publisher:image:preview_for:release_date': string;
       'publisher:image:preview_for:slug': string;
-      'publisher:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'publisher:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'publisher:image:preview_for:submitter_id': string;
       'publisher:image:preview_for:subtitle': string;
@@ -10196,7 +10196,7 @@ export type Schema = {
       'publisher:imprint:image:cover_for:publisher_id': string;
       'publisher:imprint:image:cover_for:release_date': string;
       'publisher:imprint:image:cover_for:slug': string;
-      'publisher:imprint:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'publisher:imprint:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'publisher:imprint:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'publisher:imprint:image:cover_for:submitter_id': string;
       'publisher:imprint:image:cover_for:subtitle': string;
@@ -10218,7 +10218,7 @@ export type Schema = {
       'publisher:imprint:image:preview_for:publisher_id': string;
       'publisher:imprint:image:preview_for:release_date': string;
       'publisher:imprint:image:preview_for:slug': string;
-      'publisher:imprint:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'publisher:imprint:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'publisher:imprint:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'publisher:imprint:image:preview_for:submitter_id': string;
       'publisher:imprint:image:preview_for:subtitle': string;
@@ -10330,7 +10330,7 @@ export type Schema = {
       'publisher:image:preview_for:image:preview_for:publisher_id': string;
       'publisher:image:preview_for:image:preview_for:release_date': string;
       'publisher:image:preview_for:image:preview_for:slug': string;
-      'publisher:image:preview_for:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'publisher:image:preview_for:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'publisher:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'publisher:image:preview_for:image:preview_for:submitter_id': string;
       'publisher:image:preview_for:image:preview_for:subtitle': string;
@@ -10479,7 +10479,7 @@ export type Schema = {
       'publisher:imprint:imprint:image:cover_for:publisher_id': string;
       'publisher:imprint:imprint:image:cover_for:release_date': string;
       'publisher:imprint:imprint:image:cover_for:slug': string;
-      'publisher:imprint:imprint:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'publisher:imprint:imprint:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'publisher:imprint:imprint:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'publisher:imprint:imprint:image:cover_for:submitter_id': string;
       'publisher:imprint:imprint:image:cover_for:subtitle': string;
@@ -10501,7 +10501,7 @@ export type Schema = {
       'publisher:imprint:imprint:image:preview_for:publisher_id': string;
       'publisher:imprint:imprint:image:preview_for:release_date': string;
       'publisher:imprint:imprint:image:preview_for:slug': string;
-      'publisher:imprint:imprint:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'publisher:imprint:imprint:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'publisher:imprint:imprint:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'publisher:imprint:imprint:image:preview_for:submitter_id': string;
       'publisher:imprint:imprint:image:preview_for:subtitle': string;
@@ -10623,7 +10623,7 @@ export type Schema = {
       'image:cover_for:publisher_id': string;
       'image:cover_for:release_date': string;
       'image:cover_for:slug': string;
-      'image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'image:cover_for:status': 'draft' | 'inReview' | 'published';
       'image:cover_for:submitter_id': string;
       'image:cover_for:subtitle': string;
@@ -10645,7 +10645,7 @@ export type Schema = {
       'image:preview_for:publisher_id': string;
       'image:preview_for:release_date': string;
       'image:preview_for:slug': string;
-      'image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'image:preview_for:status': 'draft' | 'inReview' | 'published';
       'image:preview_for:submitter_id': string;
       'image:preview_for:subtitle': string;
@@ -10780,7 +10780,7 @@ export type Schema = {
       'imprint:image:cover_for:publisher_id': string;
       'imprint:image:cover_for:release_date': string;
       'imprint:image:cover_for:slug': string;
-      'imprint:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'imprint:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'imprint:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'imprint:image:cover_for:submitter_id': string;
       'imprint:image:cover_for:subtitle': string;
@@ -10802,7 +10802,7 @@ export type Schema = {
       'imprint:image:preview_for:publisher_id': string;
       'imprint:image:preview_for:release_date': string;
       'imprint:image:preview_for:slug': string;
-      'imprint:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'imprint:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'imprint:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'imprint:image:preview_for:submitter_id': string;
       'imprint:image:preview_for:subtitle': string;
@@ -10914,7 +10914,7 @@ export type Schema = {
       'image:preview_for:image:preview_for:publisher_id': string;
       'image:preview_for:image:preview_for:release_date': string;
       'image:preview_for:image:preview_for:slug': string;
-      'image:preview_for:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'image:preview_for:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'image:preview_for:image:preview_for:submitter_id': string;
       'image:preview_for:image:preview_for:subtitle': string;
@@ -11063,7 +11063,7 @@ export type Schema = {
       'imprint:imprint:image:cover_for:publisher_id': string;
       'imprint:imprint:image:cover_for:release_date': string;
       'imprint:imprint:image:cover_for:slug': string;
-      'imprint:imprint:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'imprint:imprint:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'imprint:imprint:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'imprint:imprint:image:cover_for:submitter_id': string;
       'imprint:imprint:image:cover_for:subtitle': string;
@@ -11085,7 +11085,7 @@ export type Schema = {
       'imprint:imprint:image:preview_for:publisher_id': string;
       'imprint:imprint:image:preview_for:release_date': string;
       'imprint:imprint:image:preview_for:slug': string;
-      'imprint:imprint:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'imprint:imprint:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'imprint:imprint:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'imprint:imprint:image:preview_for:submitter_id': string;
       'imprint:imprint:image:preview_for:subtitle': string;
@@ -11152,7 +11152,7 @@ export type Schema = {
       'image:cover_for:publisher:image:cover_for:publisher_id': string;
       'image:cover_for:publisher:image:cover_for:release_date': string;
       'image:cover_for:publisher:image:cover_for:slug': string;
-      'image:cover_for:publisher:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'image:cover_for:publisher:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'image:cover_for:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'image:cover_for:publisher:image:cover_for:submitter_id': string;
       'image:cover_for:publisher:image:cover_for:subtitle': string;
@@ -11174,7 +11174,7 @@ export type Schema = {
       'image:cover_for:publisher:image:preview_for:publisher_id': string;
       'image:cover_for:publisher:image:preview_for:release_date': string;
       'image:cover_for:publisher:image:preview_for:slug': string;
-      'image:cover_for:publisher:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'image:cover_for:publisher:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'image:cover_for:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'image:cover_for:publisher:image:preview_for:submitter_id': string;
       'image:cover_for:publisher:image:preview_for:subtitle': string;
@@ -11306,7 +11306,7 @@ export type Schema = {
       'image:preview_for:publisher:image:cover_for:publisher_id': string;
       'image:preview_for:publisher:image:cover_for:release_date': string;
       'image:preview_for:publisher:image:cover_for:slug': string;
-      'image:preview_for:publisher:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'image:preview_for:publisher:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'image:preview_for:publisher:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'image:preview_for:publisher:image:cover_for:submitter_id': string;
       'image:preview_for:publisher:image:cover_for:subtitle': string;
@@ -11328,7 +11328,7 @@ export type Schema = {
       'image:preview_for:publisher:image:preview_for:publisher_id': string;
       'image:preview_for:publisher:image:preview_for:release_date': string;
       'image:preview_for:publisher:image:preview_for:slug': string;
-      'image:preview_for:publisher:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'image:preview_for:publisher:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'image:preview_for:publisher:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'image:preview_for:publisher:image:preview_for:submitter_id': string;
       'image:preview_for:publisher:image:preview_for:subtitle': string;
@@ -11458,7 +11458,7 @@ export type Schema = {
       'imprint:image:preview_for:image:preview_for:publisher_id': string;
       'imprint:image:preview_for:image:preview_for:release_date': string;
       'imprint:image:preview_for:image:preview_for:slug': string;
-      'imprint:image:preview_for:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'imprint:image:preview_for:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'imprint:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'imprint:image:preview_for:image:preview_for:submitter_id': string;
       'imprint:image:preview_for:image:preview_for:subtitle': string;
@@ -11607,7 +11607,7 @@ export type Schema = {
       'imprint:imprint:imprint:image:cover_for:publisher_id': string;
       'imprint:imprint:imprint:image:cover_for:release_date': string;
       'imprint:imprint:imprint:image:cover_for:slug': string;
-      'imprint:imprint:imprint:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'imprint:imprint:imprint:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'imprint:imprint:imprint:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'imprint:imprint:imprint:image:cover_for:submitter_id': string;
       'imprint:imprint:imprint:image:cover_for:subtitle': string;
@@ -11629,7 +11629,7 @@ export type Schema = {
       'imprint:imprint:imprint:image:preview_for:publisher_id': string;
       'imprint:imprint:imprint:image:preview_for:release_date': string;
       'imprint:imprint:imprint:image:preview_for:slug': string;
-      'imprint:imprint:imprint:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'imprint:imprint:imprint:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'imprint:imprint:imprint:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'imprint:imprint:imprint:image:preview_for:submitter_id': string;
       'imprint:imprint:imprint:image:preview_for:subtitle': string;
@@ -11749,7 +11749,7 @@ export type Schema = {
       'user:profile:image:cover_for:publisher_id': string;
       'user:profile:image:cover_for:release_date': string;
       'user:profile:image:cover_for:slug': string;
-      'user:profile:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'user:profile:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'user:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'user:profile:image:cover_for:submitter_id': string;
       'user:profile:image:cover_for:subtitle': string;
@@ -11771,7 +11771,7 @@ export type Schema = {
       'user:profile:image:preview_for:publisher_id': string;
       'user:profile:image:preview_for:release_date': string;
       'user:profile:image:preview_for:slug': string;
-      'user:profile:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'user:profile:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'user:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'user:profile:image:preview_for:submitter_id': string;
       'user:profile:image:preview_for:subtitle': string;
@@ -11953,7 +11953,7 @@ export type Schema = {
       'invited_by:profile:image:cover_for:publisher_id': string;
       'invited_by:profile:image:cover_for:release_date': string;
       'invited_by:profile:image:cover_for:slug': string;
-      'invited_by:profile:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'invited_by:profile:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'invited_by:profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'invited_by:profile:image:cover_for:submitter_id': string;
       'invited_by:profile:image:cover_for:subtitle': string;
@@ -11975,7 +11975,7 @@ export type Schema = {
       'invited_by:profile:image:preview_for:publisher_id': string;
       'invited_by:profile:image:preview_for:release_date': string;
       'invited_by:profile:image:preview_for:slug': string;
-      'invited_by:profile:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'invited_by:profile:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'invited_by:profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'invited_by:profile:image:preview_for:submitter_id': string;
       'invited_by:profile:image:preview_for:subtitle': string;
@@ -12143,7 +12143,7 @@ export type Schema = {
       'profile:image:cover_for:publisher_id': string;
       'profile:image:cover_for:release_date': string;
       'profile:image:cover_for:slug': string;
-      'profile:image:cover_for:source': 'admin' | 'import' | 'submitted';
+      'profile:image:cover_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'profile:image:cover_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:cover_for:submitter_id': string;
       'profile:image:cover_for:subtitle': string;
@@ -12165,7 +12165,7 @@ export type Schema = {
       'profile:image:preview_for:publisher_id': string;
       'profile:image:preview_for:release_date': string;
       'profile:image:preview_for:slug': string;
-      'profile:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'profile:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'profile:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:preview_for:submitter_id': string;
       'profile:image:preview_for:subtitle': string;
@@ -12318,7 +12318,7 @@ export type Schema = {
       'profile:image:preview_for:image:preview_for:publisher_id': string;
       'profile:image:preview_for:image:preview_for:release_date': string;
       'profile:image:preview_for:image:preview_for:slug': string;
-      'profile:image:preview_for:image:preview_for:source': 'admin' | 'import' | 'submitted';
+      'profile:image:preview_for:image:preview_for:source': 'admin' | 'edelweiss' | 'import' | 'submitted';
       'profile:image:preview_for:image:preview_for:status': 'draft' | 'inReview' | 'published';
       'profile:image:preview_for:image:preview_for:submitter_id': string;
       'profile:image:preview_for:image:preview_for:subtitle': string;

@@ -10,7 +10,12 @@ const nextConfig = {
     serverActions: {
       bodySizeLimit: '4mb'
     },
-    serverComponentsExternalPackages: ['mjml', 'sharp']
+    serverComponentsExternalPackages: [
+      'mjml',
+      'sharp',
+      'chrome-aws-lambda',
+      'playwright-core'
+    ]
   },
   transpilePackages: ['shared', 'database', 'email', 'core'],
   images: {

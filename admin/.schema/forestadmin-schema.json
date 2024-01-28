@@ -986,7 +986,7 @@
         },
         {
           "defaultValue": "admin",
-          "enums": ["admin", "import", "submitted"],
+          "enums": ["admin", "edelweiss", "import", "submitted"],
           "field": "source",
           "integration": null,
           "inverseOf": null,

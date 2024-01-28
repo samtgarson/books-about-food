@@ -75,6 +75,7 @@ export const updateBook = new AuthedService(
         where: { slug },
         data: {
           ...properties,
+          id: undefined,
           previewImages: { set: previewImages },
           tags: { set: tagNames },
           authors: { set: authors }
