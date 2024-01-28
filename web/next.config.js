@@ -13,7 +13,7 @@ const nextConfig = {
     serverComponentsExternalPackages: [
       'mjml',
       'sharp',
-      'chrome-aws-lambda',
+      '@sparticuz/chromium',
       'playwright-core'
     ]
   },
