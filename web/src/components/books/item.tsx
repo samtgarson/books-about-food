@@ -112,7 +112,7 @@ export const Cover = ({
         colorful && 'bg-[var(--book-bg)]',
         mobileColorful && [
           mobileGrid && 'mobile-only:bg-[var(--book-bg)]',
-          'sm:transition group-hover:bg-[var(--book-bg)]'
+          'sm:transition sm:group-hover:bg-[var(--book-bg)]'
         ]
       )}
       {...props}
