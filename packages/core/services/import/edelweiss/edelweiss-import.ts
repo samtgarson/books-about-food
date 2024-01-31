@@ -1,4 +1,5 @@
 import prisma from '@books-about-food/database'
+import { getEnv } from '@books-about-food/shared/utils/get-env'
 import { parse } from 'date-fns'
 import type { Page } from 'playwright-core'
 import z from 'zod'
@@ -24,6 +25,15 @@ export const edelweissImport = new AuthedService(
     const browser = await openBrowser()
     const context = await browser.newContext({ locale: 'en-GB' })
     context.setDefaultTimeout(7500)
+    await context.addCookies([
+      {
+        name: 'treeline.session',
+        value: getEnv('EDELWEISS_SESSION'),
+        domain: '.edelweiss.plus',
+        path: '/',
+        secure: true
+      }
+    ])
     let page: Page = await context.newPage()
     page = blockResources(page)
     await page.goto(url)
