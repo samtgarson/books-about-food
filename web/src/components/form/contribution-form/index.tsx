@@ -16,7 +16,7 @@ export function ContributionForm({
   onSubmit,
   value
 }: {
-  onSubmit: (value: ContributionAttrs) => void
+  onSubmit: (value: ContributionAttrs) => string | void
   value?: ContributionAttrs
 }) {
   const [profile, setProfile] = useState<Profile | undefined>(value?.profile)
@@ -25,10 +25,14 @@ export function ContributionForm({
 
   return (
     <Form
-      onSubmit={(e) => {
-        e.preventDefault()
+      action={async () => {
         if (!profile || !job) return
-        onSubmit({ profile, job, tag: isAssistant ? 'Assistant' : undefined })
+        const message = onSubmit({
+          profile,
+          job,
+          tag: isAssistant ? 'Assistant' : undefined
+        })
+        if (message) return { _: { message } }
       }}
       variant="bordered"
     >
@@ -57,7 +61,7 @@ export function ContributionForm({
         checked={isAssistant}
         onChange={(e) => setIsAssistant(e.target.checked)}
       />
-      <Submit className="mt-4">Save</Submit>
+      <Submit>Save</Submit>
       <p className="text-14 mt-4">
         Note: If the role you would like to assign to this team member isn’t
         listed please choose the most similar then{' '}

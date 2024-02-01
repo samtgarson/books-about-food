@@ -173,8 +173,7 @@ export const customiseBooks = (
       async getValues(records) {
         return records.map(
           (record) =>
-            record.background_color.length &&
-            Color.rgb(record.background_color).hex()
+            record.background_color && Color.rgb(record.background_color).hex()
         )
       },
       columnType: 'String',

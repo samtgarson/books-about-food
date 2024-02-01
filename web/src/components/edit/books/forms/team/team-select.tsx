@@ -19,12 +19,11 @@ export type TeamSelectValue = ContributorAttrs & {
 }
 
 const toValue = (
-  id: string,
   profile: Profile,
   job: Job,
   assistant?: boolean
 ): TeamSelectValue => ({
-  id: id,
+  id: `${profile.id}|${job.id}`,
   profileId: profile.id,
   name: profile.name,
   jobName: job.name,
@@ -46,7 +45,6 @@ export function TeamSelect({ book }: { book: FullBook }) {
       defaultValue={book.contributions
         .map((contribution) =>
           toValue(
-            contribution.id,
             contribution.profile,
             contribution.job,
             contribution.assistant
@@ -80,7 +78,7 @@ function TeamForm({
   onSubmit,
   value
 }: {
-  onSubmit: (value: TeamSelectValue) => void
+  onSubmit: (value: TeamSelectValue) => string | void
   value?: TeamSelectValue
 }) {
   const defaultProfile = value
@@ -105,9 +103,7 @@ function TeamForm({
         }
       }
       onSubmit={(v) =>
-        onSubmit(
-          toValue(value?.id || '', v.profile, v.job, v.tag === 'Assistant')
-        )
+        onSubmit(toValue(v.profile, v.job, v.tag === 'Assistant'))
       }
     />
   )

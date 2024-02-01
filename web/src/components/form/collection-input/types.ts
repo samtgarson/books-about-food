@@ -18,7 +18,7 @@ export type CollectionInputProps<
   render: (value: Value) => CollectionInputItemProps
   serialize?: (value: Value) => Serialized
   form: ComponentType<{
-    onSubmit: (e: Value) => void
+    onSubmit: (e: Value) => string | void
     value?: Value
   }>
 } & Omit<React.ComponentProps<'input'>, 'defaultValue' | 'value' | 'form'>

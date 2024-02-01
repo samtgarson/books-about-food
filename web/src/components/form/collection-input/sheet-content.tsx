@@ -12,10 +12,13 @@ export function SheetContent<Value extends { id: string }>({
   title
 }: SheetContentProps<Value>) {
   const Provider = createCollectionInputContext<Value>()
-  const { FormComponent, addValue } = useContext(Provider)
+  const { FormComponent, addValue, values } = useContext(Provider)
   const { close } = Sheet.useSheetContext()
 
   const onSubmit = (val: Value) => {
+    if (values.find((v) => v.id === val.id))
+      return 'This item has already been added'
+
     close()
     addValue(val)
   }

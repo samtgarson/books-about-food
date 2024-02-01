@@ -142,6 +142,10 @@ export const Select = forwardRef(function Select<
         ? onChangeMulti(selectedItem)
         : onChangeSingle(selectedItem)
       setSelection(newValue)
+      setTimeout(() => {
+        input.current?.dispatchEvent(new Event('change', { bubbles: true }))
+      }, 0)
+
       if (multi) externalOnChange?.(newValue as SelectValue<Value, Multi>)
       else externalOnChange?.(newValue[0] as SelectValue<Value, Multi>)
     },

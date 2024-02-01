@@ -32,11 +32,11 @@ export function CollectionInput<
   return (
     <Context.Provider
       value={{
+        values: value,
         FormComponent,
         addValue: (val) => {
-          const existing = value.findIndex((v) => v.id === val.id)
-          const index = existing >= 0 ? existing : value.length
-          setValue((v) => [...v.slice(0, index), val, ...v.slice(index + 1)])
+          if (value.find((v) => v.id === val.id)) return
+          setValue((v) => [...v, val])
         },
         removeValue: (id) => {
           setValue((v) => v.filter((v) => v.id !== id))
