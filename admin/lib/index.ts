@@ -11,7 +11,7 @@ Sentry.init({
 const app = new Koa()
 
 const allowedOrigins = [
-  'https://booksaboutfood.info',
+  'https://www.booksaboutfood.info',
   'https://app.forestadmin.com'
 ]
 app.use(
