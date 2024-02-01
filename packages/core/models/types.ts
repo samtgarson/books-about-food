@@ -1,5 +1,6 @@
 import {
   bookIncludes,
+  fullBookIncludes,
   profileIncludes,
   promoIncludes,
   publisherIncludes,
@@ -14,12 +15,7 @@ export type BookAttrs = Prisma.BookGetPayload<{
 }>
 
 export type FullBookAttrs = Prisma.BookGetPayload<{
-  include: typeof bookIncludes & {
-    previewImages: true
-    publisher: { include: typeof publisherIncludes }
-    tags: true
-    links: true
-  }
+  include: typeof fullBookIncludes
 }>
 
 export type PublisherAttrs = Prisma.PublisherGetPayload<{

@@ -97,10 +97,12 @@ model Image {
   placeholderUrl String?  @map("placeholder_url")
 
   // Prisma doesn't support polymorphic relations yet so some of these will always be null
-  coverFor   Book?      @relation("cover_for", fields: [coverForId], references: [id], onDelete: Cascade)
-  previewFor Book?      @relation("preview_for", fields: [previewForId], references: [id], onDelete: Cascade)
-  publisher  Publisher? @relation("publisher_logo", fields: [publisherId], references: [id], onDelete: Cascade)
-  profile    Profile?   @relation("profile_for", fields: [profileId], references: [id], onDelete: Cascade)
+  // We SetNull insteaf of Cascade so the remove image is deleted in R2 by the cleanImage job
+  // instead of being orphaned.
+  coverFor   Book?      @relation("cover_for", fields: [coverForId], references: [id], onDelete: SetNull)
+  previewFor Book?      @relation("preview_for", fields: [previewForId], references: [id], onDelete: SetNull)
+  publisher  Publisher? @relation("publisher_logo", fields: [publisherId], references: [id], onDelete: SetNull)
+  profile    Profile?   @relation("profile_for", fields: [profileId], references: [id], onDelete: SetNull)
 
   @@map("images")
 }
@@ -184,6 +186,7 @@ enum BookSource {
   admin
   import
   submitted
+  edelweiss
 }
 
 model Book {

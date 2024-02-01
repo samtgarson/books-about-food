@@ -15,18 +15,20 @@ export type RequestMeta = {
   authorized?: boolean
 }
 
+export type ServiceError = {
+  success: false
+  data?: never
+  errors: AppErrorJSON[]
+  originalError?: unknown
+}
+
 export type ServiceResult<T> =
   | {
       success: true
       data: T
       errors?: never
     }
-  | {
-      success: false
-      data?: never
-      errors: AppErrorJSON[]
-      originalError?: unknown
-    }
+  | ServiceError
 
 export type ServiceReturn<S extends BaseService<any, any, any>> =
   S extends BaseService<any, any, infer R> ? ServiceResult<R> : never
@@ -36,24 +38,16 @@ abstract class BaseService<
   Input extends z.ZodTypeAny,
   Return
 > {
-  private _call: (
-    ...args: Authed extends true
-      ? [input: z.output<Input> | undefined, user: User]
-      : [input: z.output<Input> | undefined, user?: never]
-  ) => Promise<Return>
-
   constructor(
     public authed: Authed,
     public input: Input,
-    call: (
+    private _call: (
       ...args: Authed extends true
         ? [input: z.output<Input> | undefined, user: User]
         : [input: z.output<Input> | undefined, user?: never]
     ) => Promise<Return>,
     public requestMeta: RequestMeta = {}
-  ) {
-    this._call = call
-  }
+  ) {}
 
   public async call(
     ...args: Authed extends true
@@ -68,6 +62,7 @@ abstract class BaseService<
       }
     } catch (e) {
       console.log('Service failure', e)
+      if (isServiceError(e)) return e
       Sentry.captureException(e)
       return {
         success: false,
@@ -102,4 +97,31 @@ export class AuthedService<
   ) {
     super(true, input, call, requestMeta)
   }
+
+  async call(
+    input: z.input<Input> | undefined,
+    user: User
+  ): Promise<ServiceResult<Return>> {
+    if (!user)
+      return {
+        success: false,
+        errors: [
+          {
+            type: 'Unauthorized',
+            message: 'This action requires authentication',
+            status: 401
+          }
+        ]
+      }
+    return super.call(input, user)
+  }
+}
+
+function isServiceError(res: unknown): res is ServiceError {
+  return (
+    typeof res === 'object' &&
+    res !== null &&
+    'success' in res &&
+    res.success === false
+  )
 }

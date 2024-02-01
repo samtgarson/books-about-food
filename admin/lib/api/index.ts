@@ -7,6 +7,7 @@ import Router from '@koa/router'
 import { serve } from 'inngest/koa'
 import jwt from 'koa-jwt'
 import { logger } from 'lib/utils/logger'
+import { appRouter } from './app-router'
 
 const secret = process.env.FOREST_AUTH_SECRET
 if (!secret) throw new Error('Missing FOREST_AUTH_SECRET')
@@ -33,3 +34,6 @@ apiRouter.get('/link-sites', async (ctx) => {
     data: [...websites, 'Other']
   }
 })
+
+// @ts-expect-error how to type this with koa router
+apiRouter.use(appRouter.routes()).use(appRouter.allowedMethods())

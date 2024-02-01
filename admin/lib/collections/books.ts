@@ -200,23 +200,6 @@ export const customiseBooks = (
       })
     })
 
-  collection
-    .removeField('background_color')
-    .addField('BackgroundColor', {
-      async getValues(records) {
-        return records.map(
-          (record) =>
-            record.background_color && Color(record.background_color).hex()
-        )
-      },
-      columnType: 'String',
-      dependencies: ['background_color']
-    })
-    .replaceFieldWriting('BackgroundColor', async (value) => {
-      const rgb = Color(value).rgb().array()
-      return { background_color: rgb }
-    })
-
   /* =============================================
    * ACTIONS
    * ============================================= */
