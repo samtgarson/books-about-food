@@ -20,17 +20,21 @@
     "@koa/bodyparser": "^5.0.0",
     "@koa/cors": "^5.0.0",
     "@koa/router": "^12.0.1",
+    "@playwright/browser-chromium": "^1.41.1",
     "@sentry/node": "^7.93.0",
     "@sentry/utils": "^7.93.0",
     "async-parallel": "^1.2.3",
     "buffer-image-size": "^0.6.4",
     "color": "^4.2.3",
+    "date-fns": "^2.30.0",
     "inngest": "^3.10.0",
     "koa": "^2.15.0",
     "koa-jwt": "^4.0.4",
     "pg": "^8.11.3",
     "pg-connection-string": "^2.6.2",
-    "pkg-dir": "^5.0.0"
+    "pkg-dir": "^5.0.0",
+    "playwright-core": "^1.41.1",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@sentry/esbuild-plugin": "^2.10.2",

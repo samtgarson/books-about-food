@@ -1,12 +1,12 @@
-import { Book } from '@books-about-food/core/models/book'
-import { BookAttrs } from '@books-about-food/core/models/types'
+import { FullBookAttrs } from '@books-about-food/core/models/types'
 import { can } from '@books-about-food/core/policies'
 import { AuthedService } from '@books-about-food/core/services/base'
 import prisma, { BookSource, Prisma } from '@books-about-food/database'
 import { slugify } from '@books-about-food/shared/utils/slugify'
 import { z } from 'zod'
 import { inngest } from '../../jobs'
-import { bookIncludes } from '../utils'
+import { FullBook } from '../../models/full-book'
+import { fullBookIncludes } from '../utils'
 import { AppError } from '../utils/errors'
 import { array, processString } from '../utils/inputs'
 import { fetchBook } from './fetch-book'
@@ -69,7 +69,7 @@ export const updateBook = new AuthedService(
     const tagNames = tags?.map((name) => ({ name }))
     const authors = authorIds?.map((id) => ({ id }))
 
-    let result: BookAttrs | undefined = undefined
+    let result: FullBookAttrs | undefined = undefined
     if (slug) {
       result = await prisma.book.update({
         where: { slug },
@@ -80,7 +80,7 @@ export const updateBook = new AuthedService(
           tags: { set: tagNames },
           authors: { set: authors }
         },
-        include: bookIncludes
+        include: fullBookIncludes
       })
     } else if (title) {
       result = await prisma.book.create({
@@ -93,7 +93,7 @@ export const updateBook = new AuthedService(
           submitter: { connect: { id: user.id } },
           authors: { connect: authors }
         },
-        include: bookIncludes
+        include: fullBookIncludes
       })
     }
     if (!result) throw new AppError('InvalidInput', 'Title or slug is required')
@@ -104,6 +104,6 @@ export const updateBook = new AuthedService(
       data: { id: result.id, coverImageChanged: !!coverImageId }
     })
 
-    return new Book(result)
+    return new FullBook(result)
   }
 )

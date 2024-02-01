@@ -1,16 +1,18 @@
+import { AuthedService } from '@books-about-food/core/services/base'
+import {
+  UpdateBookInput,
+  updateBook
+} from '@books-about-food/core/services/books/update-book'
+import { updateLinks } from '@books-about-food/core/services/books/update-links'
+import { createImages } from '@books-about-food/core/services/images/create-images'
+import { findOrCreateProfile } from '@books-about-food/core/services/profiles/find-or-create-profile'
+import { AppError } from '@books-about-food/core/services/utils/errors'
+import { User } from '@books-about-food/core/types'
 import prisma from '@books-about-food/database'
 import { getEnv } from '@books-about-food/shared/utils/get-env'
 import { parse } from 'date-fns'
-import type { Page } from 'playwright-core'
+import { Page, chromium } from 'playwright-core'
 import z from 'zod'
-import { User } from '../../../types'
-import { AuthedService } from '../../base'
-import { UpdateBookInput, updateBook } from '../../books/update-book'
-import { updateLinks } from '../../books/update-links'
-import { createImages } from '../../images/create-images'
-import { findOrCreateProfile } from '../../profiles/find-or-create-profile'
-import { blockResources, openBrowser } from '../../utils/browser'
-import { AppError } from '../../utils/errors'
 
 export const edelweissImport = new AuthedService(
   z.object({
@@ -22,20 +24,14 @@ export const edelweissImport = new AuthedService(
       })
   }),
   async function ({ url } = {}, user) {
-    const browser = await openBrowser()
+    const browser = await chromium.launch({
+      headless: false,
+      args: ['--no-incognito']
+    })
     const context = await browser.newContext({ locale: 'en-GB' })
     context.setDefaultTimeout(7500)
-    await context.addCookies([
-      {
-        name: 'treeline.session',
-        value: getEnv('EDELWEISS_SESSION'),
-        domain: '.edelweiss.plus',
-        path: '/',
-        secure: true
-      }
-    ])
-    let page: Page = await context.newPage()
-    page = blockResources(page)
+    await context.addCookies([edelweissSession()])
+    const page: Page = await context.newPage()
     await page.goto(url)
 
     try {
@@ -66,6 +62,14 @@ export const edelweissImport = new AuthedService(
     return book
   }
 )
+
+const edelweissSession = () => ({
+  name: 'treeline.session',
+  value: getEnv('EDELWEISS_SESSION'),
+  domain: '.edelweiss.plus',
+  path: '/',
+  secure: true
+})
 
 async function generateAttrs(page: Page, user: User) {
   try {

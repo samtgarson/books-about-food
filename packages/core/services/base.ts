@@ -97,6 +97,24 @@ export class AuthedService<
   ) {
     super(true, input, call, requestMeta)
   }
+
+  async call(
+    input: z.input<Input> | undefined,
+    user: User
+  ): Promise<ServiceResult<Return>> {
+    if (!user)
+      return {
+        success: false,
+        errors: [
+          {
+            type: 'Unauthorized',
+            message: 'This action requires authentication',
+            status: 401
+          }
+        ]
+      }
+    return super.call(input, user)
+  }
 }
 
 function isServiceError(res: unknown): res is ServiceError {

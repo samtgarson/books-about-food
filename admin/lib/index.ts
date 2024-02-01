@@ -10,9 +10,22 @@ Sentry.init({
 
 const app = new Koa()
 
+const allowedOrigins = [
+  'https://booksaboutfood.info',
+  'https://app.forestadmin.com'
+]
 app.use(
   cors({
-    origin: 'https://app.forestadmin.com',
+    origin(ctx) {
+      if (process.env.NODE_ENV !== 'production') return '*'
+      if (
+        ctx.request.headers.origin &&
+        allowedOrigins.includes(ctx.request.headers.origin)
+      ) {
+        return ctx.request.headers.origin
+      }
+      return allowedOrigins[0]
+    },
     credentials: true,
     privateNetworkAccess: true
   })

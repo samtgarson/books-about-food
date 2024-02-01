@@ -10,7 +10,12 @@ const ErrorTypeStatusMap = {
   InvalidInput: 400
 }
 
-export type AppErrorJSON = ReturnType<AppError['toJSON']>
+export type AppErrorJSON = {
+  type: ErrorType
+  message: string
+  status: number
+  field?: string
+}
 
 const isPrismaError = (
   e: unknown
@@ -55,7 +60,7 @@ export class AppError extends Error {
     super(message)
   }
 
-  toJSON() {
+  toJSON(): AppErrorJSON {
     return {
       type: this.type,
       message: this.message,
