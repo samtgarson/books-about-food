@@ -1,5 +1,14 @@
 #!/usr/bin/env zsh
 
+##
+# This script is used to dump production data into your local database.
+# It will:
+# - save your local non-static data (users, accounts, teams, etc.)
+# - reset your local database
+# - dump and restore production static data
+# - restore your local non-static data
+##
+
 set -e
 
 function dump () {
