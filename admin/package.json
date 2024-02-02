@@ -8,7 +8,8 @@
     "dev": "nodemon -r dotenv/config --exec node -r ts-node/register --watch '.' --watch '../packages/*' ./lib/index.ts",
     "debug": "nodemon -r dotenv/config --exec node -r ts-node/register --watch '.' --watch '../packages/*' --inspect-brk ./lib/index.ts",
     "build": "node build.js",
-    "deploy": "forest deploy -f && forest branch -d main --force && forest branch main -o Production"
+    "deploy": "forest deploy -f && forest branch -d main --force && forest branch main -o Production",
+    "heroku-cleanup": "npx playwright install chromium"
   },
   "dependencies": {
     "@books-about-food/core": "*",
@@ -20,9 +21,9 @@
     "@koa/bodyparser": "^5.0.0",
     "@koa/cors": "^5.0.0",
     "@koa/router": "^12.0.1",
-    "@playwright/browser-chromium": "^1.41.1",
     "@sentry/node": "^7.93.0",
     "@sentry/utils": "^7.93.0",
+    "@sparticuz/chromium-min": "^121.0.0",
     "async-parallel": "^1.2.3",
     "buffer-image-size": "^0.6.4",
     "color": "^4.2.3",
@@ -33,7 +34,7 @@
     "pg": "^8.11.3",
     "pg-connection-string": "^2.6.2",
     "pkg-dir": "^5.0.0",
-    "playwright-core": "^1.41.1",
+    "playwright-chromium": "^1.41.2",
     "zod": "^3.22.4"
   },
   "devDependencies": {

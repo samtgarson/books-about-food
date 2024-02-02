@@ -11,7 +11,8 @@ import { User } from '@books-about-food/core/types'
 import prisma from '@books-about-food/database'
 import { getEnv } from '@books-about-food/shared/utils/get-env'
 import { parse } from 'date-fns'
-import { Page, chromium } from 'playwright-core'
+import { openBrowser } from 'lib/utils/browser'
+import { Page } from 'playwright-chromium'
 import z from 'zod'
 
 export const edelweissImport = new AuthedService(
@@ -24,10 +25,7 @@ export const edelweissImport = new AuthedService(
       })
   }),
   async function ({ url } = {}, user) {
-    const browser = await chromium.launch({
-      headless: false,
-      args: ['--no-incognito']
-    })
+    const browser = await openBrowser()
     const context = await browser.newContext({ locale: 'en-GB' })
     context.setDefaultTimeout(7500)
     await context.addCookies([edelweissSession()])

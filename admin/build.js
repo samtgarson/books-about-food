@@ -34,10 +34,12 @@ esbuild.build({
   outfile: path.resolve(__dirname, 'dist/index.js'),
   platform: 'node',
   external: [
+    '@prisma/client',
+    '@sparticuz/chromium-min',
     'fastify',
     'pg-hstore',
     'pg-native',
-    '@prisma/client',
+    'playwright-chromium',
     'sharp',
     'uglify-js'
   ],

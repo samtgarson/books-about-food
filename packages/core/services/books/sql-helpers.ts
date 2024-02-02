@@ -114,11 +114,11 @@ export interface BookRow extends Record<string, unknown> {
   palette: number[]
   background_color: number[]
   primary_color: number[]
-  cover_image: CoverImage
+  cover_image: Image
   authors: Array<Profile | null>
   contributions: Array<ContributionsEntity | null>
 }
-export interface CoverImage extends Record<string, unknown> {
+export interface Image extends Record<string, unknown> {
   id: string
   path: string
   width: number
@@ -131,20 +131,7 @@ export interface CoverImage extends Record<string, unknown> {
   publisher_id: null
   preview_for_id: null
   placeholder_url: string
-}
-export interface Avatar extends Record<string, unknown> {
-  id: string
-  path: string
-  width: number
-  height: number
-  caption: null
-  created_at: Date
-  profile_id: string
-  updated_at: Date
-  cover_for_id: null
-  publisher_id: null
-  preview_for_id: null
-  placeholder_url: string
+  order: number
 }
 export interface ContributionsEntity extends Record<string, unknown> {
   id: string
@@ -169,7 +156,7 @@ export interface Profile extends Record<string, unknown> {
   id: string
   name: string
   slug: string
-  avatar: Avatar | null
+  avatar: Image | null
   user_id: null
   website: string
   location: null

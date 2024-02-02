@@ -21,7 +21,8 @@ export class User extends Colourful(
               width: 32,
               height: 32,
               caption: null,
-              placeholderUrl: null
+              placeholderUrl: null,
+              order: 0
             },
             `Avatar for ${attrs.name}`
           )
