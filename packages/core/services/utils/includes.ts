@@ -25,7 +25,7 @@ export const bookIncludes = {
 
 export const fullBookIncludes = {
   ...bookIncludes,
-  previewImages: { orderBy: { createdAt: 'asc' } },
+  previewImages: { orderBy: [{ order: 'asc' }, { createdAt: 'asc' }] },
   publisher: { include: publisherIncludes },
   tags: true,
   links: { orderBy: { site: 'asc' } }

@@ -9,27 +9,28 @@ export class Image {
   height: number
   caption: string
   placeholderUrl?: string
+  order: number
 
   constructor(
-    {
-      path,
-      width,
-      height,
-      caption,
-      placeholderUrl,
-      id
-    }: Pick<
+    attrs: Pick<
       Prisma.Image,
-      'path' | 'width' | 'height' | 'caption' | 'placeholderUrl' | 'id'
+      | 'path'
+      | 'width'
+      | 'height'
+      | 'caption'
+      | 'placeholderUrl'
+      | 'id'
+      | 'order'
     >,
     defaultCaption: string
   ) {
-    this.id = id
-    this.path = path
-    this.width = width
-    this.height = height
-    this.caption = caption || defaultCaption
-    this.placeholderUrl = placeholderUrl ?? undefined
+    this.id = attrs.id
+    this.path = attrs.path
+    this.width = attrs.width
+    this.height = attrs.height
+    this.caption = attrs.caption || defaultCaption
+    this.placeholderUrl = attrs.placeholderUrl ?? undefined
+    this.order = attrs.order
   }
 
   get src() {

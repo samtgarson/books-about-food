@@ -95,6 +95,7 @@ model Image {
   publisherId    String?  @unique @map("publisher_id") @db.Uuid
   profileId      String?  @unique @map("profile_id") @db.Uuid
   placeholderUrl String?  @map("placeholder_url")
+  order          Int      @default(0)
 
   // Prisma doesn't support polymorphic relations yet so some of these will always be null
   // We SetNull insteaf of Cascade so the remove image is deleted in R2 by the cleanImage job

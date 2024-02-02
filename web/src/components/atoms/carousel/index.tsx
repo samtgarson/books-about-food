@@ -130,12 +130,10 @@ export const Scroller = ({
         className,
         padded &&
           cn(
-            containerProps === false
-              ? null
-              : [
-                  containerClasses(containerProps),
-                  containerClasses({ ...containerProps, scroll: true })
-                ]
+            containerProps !== false && [
+              containerClasses(containerProps),
+              containerClasses({ ...containerProps, scroll: true })
+            ]
           )
       )}
       onScroll={onScrollEnd}

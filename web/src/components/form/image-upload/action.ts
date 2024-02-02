@@ -1,11 +1,12 @@
 'use server'
 
 import { createImages } from '@books-about-food/core/services/images/create-images'
+import prisma from '@books-about-food/database'
 import sharp from 'sharp'
 import { call } from 'src/utils/service'
 import type { Area } from './cropper-sheet'
 
-export async function action(
+export async function upload(
   prefix: string,
   formData: FormData,
   cropArea?: Area
@@ -39,4 +40,15 @@ async function cropImage(file: Buffer, cropArea: Area) {
     .toBuffer()
 
   return output
+}
+
+export async function reorderImages(ids: string[]) {
+  await prisma.$transaction(
+    ids.map((id, order) =>
+      prisma.image.update({
+        where: { id },
+        data: { order }
+      })
+    )
+  )
 }

@@ -4,7 +4,7 @@ import { ReactNode, forwardRef, useState, useTransition } from 'react'
 import { Loader } from 'src/components/atoms/loader'
 import { errorToast } from 'src/components/utils/toaster'
 import { useFormField } from '../context'
-import { action } from './action'
+import { upload } from './action'
 import { Area, CropperSheet } from './cropper-sheet'
 
 export type ImageUploadButtonProps = {
@@ -38,7 +38,7 @@ export const ImageUploadButton = forwardRef<
   async function uploadImage(file: File, cropArea?: Area) {
     const fd = new FormData()
     fd.append('image', file, file.name)
-    const { data: [result] = [] } = await action(prefix, fd, cropArea)
+    const { data: [result] = [] } = await upload(prefix, fd, cropArea)
 
     return new Image(result, 'Uploaded image')
   }

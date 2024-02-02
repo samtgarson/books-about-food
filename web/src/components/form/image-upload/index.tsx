@@ -3,14 +3,16 @@
 import { Image } from '@books-about-food/core/models/image'
 import * as Form from '@radix-ui/react-form'
 import cn from 'classnames'
+import { Reorder } from 'framer-motion'
 import Img from 'next/image'
 import { useRef, useState } from 'react'
-import * as Carousel from 'src/components/atoms/carousel'
+import { containerClasses } from 'src/components/atoms/container'
 import { Plus, X } from 'src/components/atoms/icons'
 import { mouseAttrs } from 'src/components/atoms/mouse'
 import { InputProps, useRequired } from '../input-props'
 import { Label } from '../label'
 import { Messages } from '../messages'
+import { reorderImages } from './action'
 import { ImageUploadButton } from './upload-button'
 
 export type ImageUploadProps<Multi extends boolean> = {
@@ -53,74 +55,77 @@ export function ImageUpload<Multi extends boolean = false>({
           value={images.map((i) => i.id).join(',')}
         />
       </Form.Control>
-      <Carousel.Root totalItems={multi ? images?.length + 1 || 1 : 1}>
-        <Carousel.Scroller
-          className={cn(
-            'bg-sand w-full gap-6 py-12',
-            !images.length && 'cursor-pointer'
-          )}
-          {...mouseAttrs({ mode: 'clickable', enabled: !images.length })}
-          padded
-          onClick={(e) => {
-            if (images.length) return
-            if ((e.target as Node).contains(uploadButton.current)) return
-            uploadButton.current?.click()
-          }}
-        >
-          {images.map((image) => (
-            <Carousel.Item index={0} key={image.id}>
-              <li
-                className={cn(
-                  'relative',
-                  images.length === 1 && !multi && 'mx-auto'
-                )}
-              >
-                <Img className="h-52" {...image.imageAttrs(208)} />
-                <button
-                  type="button"
-                  className="absolute -right-3 -top-3 flex h-6 w-6 items-center justify-center rounded-full bg-white"
-                  onClick={() => {
-                    setImages((existing) =>
-                      existing.filter((i) => i.id !== image.id)
-                    )
-                  }}
-                  title="Remove this image"
-                >
-                  <X size={16} strokeWidth={1} />
-                </button>
-              </li>
-            </Carousel.Item>
-          ))}
-          {(multi || !images?.length) && (
-            <Carousel.Item index={0}>
-              <li
-                className={cn(
-                  'group flex items-center justify-center',
-                  !images.length && 'mx-auto'
-                )}
-              >
-                <ImageUploadButton
-                  name={name}
-                  ref={uploadButton}
-                  multi={multi}
-                  prefix={prefix}
-                  onSuccess={(images) => {
-                    setImages((existing) => [...existing, ...images])
-                    setTimeout(() => {
-                      input.current?.dispatchEvent(
-                        new Event('change', { bubbles: true })
-                      )
-                    }, 10)
-                  }}
-                  className="mx-12 my-20 flex h-11 w-11 items-center justify-center bg-white"
-                >
-                  <Plus strokeWidth={1} size={28} />
-                </ImageUploadButton>
-              </li>
-            </Carousel.Item>
-          )}
-        </Carousel.Scroller>
-      </Carousel.Root>
+      <Reorder.Group
+        axis="x"
+        values={images}
+        onReorder={async function (images) {
+          setImages(images)
+          await reorderImages(images.map((i) => i.id))
+        }}
+        layoutScroll
+        className={cn(
+          'bg-sand w-full gap-6 py-12 flex overflow-auto',
+          !images.length && 'cursor-pointer',
+          containerClasses(),
+          containerClasses({ scroll: true })
+        )}
+      >
+        {images.map((image) => (
+          <Reorder.Item
+            key={image.id}
+            value={image}
+            className={cn(
+              'relative shrink-0',
+              images.length === 1 && !multi && 'mx-auto',
+              images.length > 1 && 'cursor-grab active:cursor-grabbing'
+            )}
+            {...mouseAttrs({ mode: 'clickable' })}
+          >
+            <Img
+              className="h-52 pointer-events-none"
+              {...image.imageAttrs(208)}
+            />
+            <button
+              type="button"
+              className="absolute -right-3 -top-3 flex h-6 w-6 items-center justify-center rounded-full bg-white"
+              onClick={() => {
+                setImages((existing) =>
+                  existing.filter((i) => i.id !== image.id)
+                )
+              }}
+              title="Remove this image"
+            >
+              <X size={16} strokeWidth={1} />
+            </button>
+          </Reorder.Item>
+        ))}
+        {(multi || !images?.length) && (
+          <li
+            className={cn(
+              'group flex items-center justify-center',
+              !images.length && 'mx-auto'
+            )}
+          >
+            <ImageUploadButton
+              name={name}
+              ref={uploadButton}
+              multi={multi}
+              prefix={prefix}
+              onSuccess={(images) => {
+                setImages((existing) => [...existing, ...images])
+                setTimeout(() => {
+                  input.current?.dispatchEvent(
+                    new Event('change', { bubbles: true })
+                  )
+                }, 10)
+              }}
+              className="mx-12 my-20 flex h-11 w-11 items-center justify-center bg-white"
+            >
+              <Plus strokeWidth={1} size={28} />
+            </ImageUploadButton>
+          </li>
+        )}
+      </Reorder.Group>
       <Messages label={label} name={name} {...props} />
     </Form.Field>
   )
