@@ -75,9 +75,7 @@ export const ClaimPublisherButton: FC<ClaimPublisherButtonProps> = ({
           </div>
         </Sheet.Body>
         <Sheet.Footer>
-          {' '}
           <Button
-            as="a"
             className="w-full"
             {...contactProps(`Publisher Claim: ${publisher.name}`)}
             variant="dark"

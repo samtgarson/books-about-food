@@ -195,7 +195,6 @@ function FilterSelectContent<Value extends string | number = string>({
           <ParamLink {...{ [param]: value }}>
             <Button
               onClick={close}
-              as="a"
               className="w-full"
               variant="dark"
               scroll={false}

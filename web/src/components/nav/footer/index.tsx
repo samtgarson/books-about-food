@@ -43,7 +43,6 @@ export const Footer = async () => {
           <LogoShape text className="w-16 h-auto" />
           <div className="flex flex-col sm:flex-row gap-4">
             <Button
-              as="a"
               href="https://www.buymeacoffee.com/booksaboutfood"
               variant="outline"
               target="_blank"
@@ -52,12 +51,12 @@ export const Footer = async () => {
               <span>☕️</span> Buy me a coffee
             </Button>
             <AuthedButton>
-              <Button as="a" href="/account/submissions" variant="outline">
+              <Button href="/account/submissions" variant="outline">
                 Submit Cookbook
               </Button>
             </AuthedButton>
             <AuthedButton hidden="authed">
-              <Button as="a" href="/account" variant="outline">
+              <Button href="/account" variant="outline">
                 Create Account
               </Button>
             </AuthedButton>
