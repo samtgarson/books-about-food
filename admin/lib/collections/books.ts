@@ -173,16 +173,16 @@ export const customiseBooks = (
       async getValues(records) {
         return records.map(
           (record) =>
-            record.background_color && Color.rgb(record.background_color).hex()
+            record.background_color && Color.hsl(record.background_color).hex()
         )
       },
       columnType: 'String',
       dependencies: ['background_color']
     })
     .replaceFieldWriting('BackgroundColor', async (value) => {
-      if (!value) return { background_color: [] }
-      const rgb = Color(value).rgb().array()
-      return { background_color: rgb }
+      if (!value) return { background_color: null }
+      const hsl = Color.rgb(value).hsl().object()
+      return { background_color: hsl }
     })
 
   Array(3)
