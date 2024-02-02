@@ -86,11 +86,7 @@ export function FeatureCarouselItem({
         <div className="flex items-center gap-2">
           {feature.book.authors.map((author) => (
             <Fragment key={author.slug}>
-              <Avatar
-                profile={author}
-                size="2xs"
-                className="border border-black"
-              />
+              <Avatar profile={author} size="2xs" />
               <p>{author.name}</p>
             </Fragment>
           ))}
