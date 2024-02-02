@@ -35,7 +35,7 @@ export function Title({
       className={cn(
         className,
         'justify-center lg:justify-between',
-        // current && 'z-0 pointer-events-none',
+        current && 'pointer-events-none',
         !current && 'cursor-pointer'
       )}
       onClick={(e) => {

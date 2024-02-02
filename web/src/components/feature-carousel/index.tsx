@@ -5,7 +5,9 @@ import cn from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FC, useEffect, useMemo, useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'src/components/atoms/icons'
+import { useCurrentUser } from 'src/hooks/use-current-user'
 import { useNav } from '../nav/context'
+import { EditFeatureCarouselDialog } from './edit-dialog'
 import { Faces } from './faces'
 import { FeatureCarouselItem } from './item'
 import { Title } from './title'
@@ -34,6 +36,7 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({
   features,
   title: showTitle = false
 }) => {
+  const currentUser = useCurrentUser()
   const [[currentIndex, offset], setState] = useState([features.length + 1, 0])
   const loop = createLoop(features, showTitle)
   const totalSlides = useMemo(
@@ -171,6 +174,9 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({
           <ChevronRight size={40} strokeWidth={1} />
         </button>
       </div>
+      {currentUser?.role === 'admin' && (
+        <EditFeatureCarouselDialog features={features} />
+      )}
     </motion.div>
   )
 }

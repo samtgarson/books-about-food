@@ -5532,6 +5532,7 @@ export type Schema = {
       'created_at': string;
       'description': string;
       'id': string;
+      'order': number;
       'tag_line': string;
       'until': string;
       'updated_at': string;

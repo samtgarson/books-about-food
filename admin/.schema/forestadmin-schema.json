@@ -1654,6 +1654,22 @@
           "validations": []
         },
         {
+          "defaultValue": 0,
+          "enums": [],
+          "field": "order",
+          "integration": null,
+          "inverseOf": null,
+          "isFilterable": true,
+          "isPrimaryKey": false,
+          "isReadOnly": false,
+          "isRequired": true,
+          "isSortable": true,
+          "isVirtual": false,
+          "reference": null,
+          "type": "Number",
+          "validations": [{"type": "is present", "message": "Field is required"}]
+        },
+        {
           "defaultValue": null,
           "enums": [],
           "field": "tag_line",

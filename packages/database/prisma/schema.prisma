@@ -280,6 +280,7 @@ model Feature {
   tagLine     String?   @map("tag_line")
   until       DateTime? @db.Date
   description String?
+  order       Int       @default(0)
 
   book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
 

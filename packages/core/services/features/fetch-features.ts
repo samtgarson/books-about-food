@@ -11,7 +11,7 @@ export type Feature = Exclude<
 
 export const fetchFeatures = new Service(z.undefined(), async () => {
   const raw = await prisma.feature.findMany({
-    orderBy: { createdAt: 'desc' },
+    orderBy: [{ order: 'asc' }, { createdAt: 'desc' }],
     where: {
       OR: [{ until: null }, { until: { gte: new Date() } }]
     },

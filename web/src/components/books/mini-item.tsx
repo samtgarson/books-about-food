@@ -1,13 +1,26 @@
 import { Book } from '@books-about-food/core/models/book'
+import cn from 'classnames'
 import Image from 'next/image'
 import Link from 'next/link'
+import { ReactNode } from 'react'
 import { StatusTag } from './status-tag'
 
-export function MiniItem({ book }: { book: Book }) {
+export function MiniItem({
+  book,
+  children,
+  className
+}: {
+  book: Book
+  children?: ReactNode
+  className?: string
+}) {
   return (
     <Link
       href={`/edit/${book.slug}`}
-      className="h-[85px] px-5 py-4 border border-black flex gap-4 -mb-px sm:-mr-px items-center"
+      className={cn(
+        'h-[85px] px-5 py-4 border border-black flex gap-4 -mb-px sm:-mr-px items-center',
+        className
+      )}
     >
       {book.cover ? (
         <Image {...book.cover.imageAttrs(50)} />
@@ -24,7 +37,9 @@ export function MiniItem({ book }: { book: Book }) {
           </p>
         )}
       </div>
-      <StatusTag className="ml-auto !text-10" status={book.status} />
+      {children ?? (
+        <StatusTag className="ml-auto !text-10" status={book.status} />
+      )}
     </Link>
   )
 }
