@@ -1,6 +1,7 @@
 'use client'
 
 import { FC } from 'react'
+import { getHostname } from 'src/utils/url-helpers'
 import { Detail } from '../atoms/detail'
 import { useEditProfile } from '../profiles/edit/context'
 import { Field } from '../profiles/edit/field'
@@ -12,14 +13,6 @@ const Anchor = ({ children, url }: { url: string; children: string }) => (
     {children}
   </a>
 )
-
-function getHostname(url: string) {
-  try {
-    return new URL(url).hostname
-  } catch (e) {
-    return ''
-  }
-}
 
 export const LinkList: FC = () => {
   const { profile, editMode } = useEditProfile()

@@ -28,3 +28,11 @@ export const mergeParams = (
 
   return [definedPath, definedParams.toString()].filter(Boolean).join('?')
 }
+
+export function getHostname(url: string) {
+  try {
+    return new URL(url).hostname
+  } catch (e) {
+    return ''
+  }
+}

@@ -15,6 +15,7 @@ import { EditPublisherProvider } from 'src/components/publishers/edit/context'
 import { EditableLogo } from 'src/components/publishers/edit/editable-logo'
 import { PageProps } from 'src/components/types'
 import { call } from 'src/utils/service'
+import { getHostname } from 'src/utils/url-helpers'
 
 type PublisherPageProps = PageProps<{ slug: string }>
 
@@ -91,7 +92,7 @@ export default async ({
                   target="_blank"
                   rel="noreferrer"
                 >
-                  {publisher.website}
+                  {getHostname(publisher.website)}
                 </a>
               )}
               {publisher.website && publisher.instagram && ' • '}
