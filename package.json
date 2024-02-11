@@ -52,7 +52,7 @@
   },
   "dependencies": {
     "sharp": "^0.32.6",
-    "turbo": "^1.11.3"
+    "turbo": "^1.12.3"
   },
   "eslintConfig": {
     "root": true,
