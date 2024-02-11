@@ -55,11 +55,9 @@ export function CollectionInput<
             name={name}
             {...props}
             className="h-0"
-            value={
-              value.length
-                ? stringify(value.map((v) => (serialize ? serialize(v) : v)))
-                : ''
-            }
+            value={stringify(
+              value.length ? value.map((v) => serialize?.(v) ?? v) : null
+            )}
           />
         </Form.Control>
         <Sheet.Root>

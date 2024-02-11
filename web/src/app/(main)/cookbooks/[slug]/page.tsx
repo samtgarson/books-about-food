@@ -145,7 +145,7 @@ export default async ({ params: { slug } }: CookbooksPageProps) => {
         )}
         {!!book.colors?.length && (
           <Detail className="flex flex-col gap-2" column>
-            <p className="all-caps">Colors</p>
+            <p className="all-caps">Colours</p>
             <div className="flex flex-wrap gap-2">
               {book.colors.map((color) => (
                 <Link

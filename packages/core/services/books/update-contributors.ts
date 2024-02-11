@@ -13,7 +13,7 @@ export type ContributorAttrs = z.infer<typeof contributorSchema>
 export const updateContributors = new AuthedService(
   z.object({
     slug: z.string(),
-    contributors: contributorSchema.array()
+    contributors: contributorSchema.array().nullish()
   }),
   async ({ slug, contributors } = {}) => {
     const book = await prisma.book.findUnique({
@@ -23,6 +23,13 @@ export const updateContributors = new AuthedService(
     if (!book) throw new Error('Book not found')
     const bookId = book.id
 
+    if (!contributors) {
+      await prisma.contribution.deleteMany({
+        where: { book: { slug } }
+      })
+      return
+    }
+
     const resources = await Promise.all(contributors.map(createProfileAndJob))
     const contributions = await Promise.all(resources.map(createContributions))
 
@@ -30,9 +37,7 @@ export const updateContributors = new AuthedService(
       where: { slug },
       data: {
         contributions: {
-          delete: book.contributions
-            .filter((c) => contributions.every(({ id }) => id !== c.id))
-            .map(({ id }) => ({ id })),
+          deleteMany: { id: { notIn: contributions.map(({ id }) => id) } },
           connect: contributions.map(({ id }) => ({ id }))
         }
       }
