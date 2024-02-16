@@ -1,10 +1,12 @@
 'use client'
 
 import { FullBook } from '@books-about-food/core/models/full-book'
-import { PencilMini } from 'src/components/atoms/icons'
+import { hashtags } from '@books-about-food/core/services/books/utils/hashtags'
+import { Copy, PencilMini } from 'src/components/atoms/icons'
 import * as Overflow from 'src/components/atoms/overflow'
 import { usePolicy } from 'src/hooks/use-policy'
 import { useSheet } from '../sheets/global-sheet'
+import { successToast } from '../utils/toaster'
 
 export const BookOverflow = ({
   book,
@@ -31,6 +33,16 @@ export const BookOverflow = ({
         rel="noopener noreferrer"
       >
         View in Forest
+      </Overflow.Item>
+      <Overflow.Item
+        variant="admin"
+        onClick={async function () {
+          await navigator.clipboard.writeText(hashtags(book))
+          successToast('Hashtags copied to your clipboard')
+        }}
+        icon={Copy}
+      >
+        Copy Hashtags
       </Overflow.Item>
     </Overflow.Root>
   )
