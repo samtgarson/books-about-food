@@ -23,8 +23,8 @@ export const ContributionVisibility: FC<ContributionVisibilityProps> = ({
       book={book}
       editMode={editMode}
       hidden={hidden}
-      updateVisibility={async (newValue) => {
-        await action({ profileId: profile.id, bookId, hidden: newValue })
+      updateVisibility={async (hidden) => {
+        await action({ profileId: profile.id, bookId, hidden })
       }}
     />
   )

@@ -21,11 +21,11 @@ export function PublisherBookListItem({
       book={book}
       editMode={editMode}
       hidden={hidden}
-      updateVisibility={async function (newValue: boolean) {
+      updateVisibility={async function (hidden) {
         const updatedHidden = toggleItem(
           publisher.hiddenBooks,
           book.id,
-          newValue
+          !hidden
         )
 
         await updateVisibility(publisher.slug, updatedHidden)
