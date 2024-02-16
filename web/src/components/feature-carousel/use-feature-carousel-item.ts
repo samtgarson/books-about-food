@@ -3,6 +3,7 @@ import cn from 'classnames'
 import { MotionProps } from 'framer-motion'
 import { CSSProperties } from 'react'
 import { MouseState } from '../atoms/mouse/utils'
+import { useNav } from '../nav/context'
 
 export type CarouselPosition = ReturnType<
   typeof useFeatureCarouselItem
@@ -13,7 +14,6 @@ export function useFeatureCarouselItem({
   currentIndex,
   centered = true,
   preTitle = false,
-  postTitle = false,
   imageWidth = 260,
   title = false
 }: {
@@ -25,6 +25,7 @@ export function useFeatureCarouselItem({
   imageWidth?: number
   title?: boolean
 }) {
+  const { theme } = useNav()
   const pos = {
     prev: index === currentIndex - 1,
     current: index === currentIndex,
@@ -68,7 +69,7 @@ export function useFeatureCarouselItem({
 
   const mouseProps: MouseState = {
     mode: pos.next ? 'next' : pos.prev ? 'prev' : 'clickable',
-    theme: (postTitle && pos.next) || (preTitle && pos.prev) ? 'dark' : 'light'
+    theme: (pos.next || pos.prev) && theme === 'dark' ? 'dark' : 'light'
   }
 
   return {

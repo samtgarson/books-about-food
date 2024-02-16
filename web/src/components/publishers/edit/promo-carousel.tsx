@@ -94,7 +94,6 @@ function PromoTitleSlide({
       className={cn(
         className,
         'justify-center lg:justify-between',
-        current && 'pointer-events-none',
         !current && 'cursor-pointer'
       )}
       onClick={onClick}

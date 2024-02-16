@@ -41,12 +41,7 @@ export function Title({
     <FeatureCarouselSlide
       id={id}
       {...attrs}
-      className={cn(
-        className,
-        'justify-center lg:justify-between',
-        current && 'pointer-events-none',
-        !current && 'cursor-pointer'
-      )}
+      className={cn(className, 'justify-center lg:justify-between')}
       onClick={onClick}
       position={position}
       {...mouseAttrs({
