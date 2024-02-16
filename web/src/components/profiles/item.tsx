@@ -57,11 +57,11 @@ export const Content = ({
       size={display === 'grid' ? 'md' : 'sm'}
       mobileSize="sm"
     />
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-1">
       {profile ? (
         <>
           <p className="text-16 font-medium leading-none">{profile.name}</p>
-          {meta && <p className="text-14">{meta}</p>}
+          {meta && <p className="text-14 leading-tight">{meta}</p>}
         </>
       ) : (
         <>
