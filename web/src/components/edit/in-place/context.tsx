@@ -57,9 +57,13 @@ export function EditInPlaceProvider<
 
   useEffect(() => {
     if (!editMode) {
-      document.body.classList.remove('bg-blue-grey')
+      document.body.classList.remove('editing')
     } else {
-      document.body.classList.add('bg-blue-grey')
+      document.body.classList.add('editing')
+    }
+
+    return () => {
+      document.body.classList.remove('editing')
     }
   }, [editMode])
 

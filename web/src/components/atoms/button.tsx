@@ -3,8 +3,10 @@ import Link, { LinkProps } from 'next/link'
 import { ComponentPropsWithoutRef, ForwardedRef, forwardRef } from 'react'
 import { Loader } from './loader'
 
+export type ButtonVariant = keyof typeof variants
+
 type BaseButtonProps = {
-  variant?: keyof typeof variants
+  variant?: ButtonVariant
   loading?: boolean
   disabled?: boolean
 }
@@ -14,7 +16,8 @@ const variants = {
   secondary: 'bg-grey',
   tertiary: 'bg-khaki',
   dark: 'bg-black text-white',
-  outline: 'border border-black'
+  outline: 'border border-black',
+  danger: 'border border-primary-red text-primary-red'
 } as const
 
 export type ButtonProps = BaseButtonProps &
@@ -39,7 +42,7 @@ export const Button = forwardRef(function Button(
   ref
 ) {
   const classes = cn(
-    'text-16 relative block flex-shrink-0 whitespace-nowrap px-4 py-2.5',
+    'text-16 relative block flex-shrink-0 whitespace-nowrap px-4 py-2.5 transition',
     variants[variant],
     className,
     loading && 'pointer-events-none',

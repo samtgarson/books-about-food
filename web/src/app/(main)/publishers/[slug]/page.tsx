@@ -1,4 +1,6 @@
+import { fetchPromo } from '@books-about-food/core/services/publishers/fetch-promo'
 import { fetchPublisher } from '@books-about-food/core/services/publishers/fetch-publisher'
+import cn from 'classnames'
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -13,6 +15,7 @@ import {
 import { ClaimPublisherButton } from 'src/components/publishers/claim-button'
 import { EditPublisherProvider } from 'src/components/publishers/edit/context'
 import { EditableLogo } from 'src/components/publishers/edit/editable-logo'
+import { PromoCarousel } from 'src/components/publishers/edit/promo-carousel'
 import { PageProps } from 'src/components/types'
 import { call } from 'src/utils/service'
 import { getHostname } from 'src/utils/url-helpers'
@@ -34,19 +37,19 @@ export default async ({
   params: { slug },
   searchParams: { page }
 }: PublisherPageProps) => {
-  const [
-    { data: publisher }
-    // { data: promos }
-  ] = await Promise.all([
-    call(fetchPublisher, { slug })
-    // call(fetchPromos, { publisherSlug: slug })
+  const [{ data: publisher }, { data: promo }] = await Promise.all([
+    call(fetchPublisher, { slug }),
+    call(fetchPromo, { publisherSlug: slug })
   ])
   if (!publisher) return notFound()
 
   return (
-    <EditPublisherProvider publisher={publisher} data-superjson>
-      <Container belowNav>
-        <div className="py-8 md:py-20">
+    <EditPublisherProvider publisher={publisher} promo={promo} data-superjson>
+      <Container
+        belowNav
+        className={cn(promo && 'edit-bg bg-white pb-8 sm:pb-20')}
+      >
+        <div className={cn('pt-8 md:pt-16 z-30 relative')}>
           <div className="font-style-title mb-6 flex items-center justify-between sm:mb-4">
             <h1 title={publisher.name}>
               <EditableLogo />
@@ -54,6 +57,9 @@ export default async ({
             <ClaimPublisherButton />
           </div>
         </div>
+        <PromoCarousel />
+      </Container>
+      <Container className="mt-8 sm:mt-20">
         <Suspense fallback={<SkeletonPublisherBookList />}>
           <PublisherBookList
             publisher={publisher}

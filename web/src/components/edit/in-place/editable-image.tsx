@@ -7,13 +7,15 @@ export type EditableImageProps = {
   children: ReactNode
   onSave: (id: string | null) => void
   croppeable?: boolean
+  label?: string
 }
 
 export function EditableImage({
   editMode,
   children,
   onSave,
-  croppeable = false
+  croppeable = false,
+  label
 }: EditableImageProps) {
   return (
     <div className="relative pr-5">
@@ -24,10 +26,11 @@ export function EditableImage({
             croppable={croppeable}
             name="avatar"
             prefix="profile-avatars"
-            className="flex h-10 w-10 items-center justify-center bg-white"
+            className="flex text-16 h-10 min-w-10 px-2 items-center justify-center bg-white gap-2"
             onSuccess={([{ id }]) => onSave(id)}
           >
             <Edit2 strokeWidth={1} size={24} />
+            {label}
           </ImageUploadButton>
           <button
             className="flex h-10 w-10 items-center justify-center bg-white"

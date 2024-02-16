@@ -1,27 +1,29 @@
 'use client'
 
-import { Feature } from '@books-about-food/core/services/features/fetch-features'
 import cn from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
-import { FC, useEffect, useMemo, useRef, useState } from 'react'
+import { FC, ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'src/components/atoms/icons'
-import { useCurrentUser } from 'src/hooks/use-current-user'
 import { useNav } from '../nav/context'
-import { EditFeatureCarouselDialog } from './edit-dialog'
 import { Faces } from './faces'
-import { FeatureCarouselItem } from './item'
+import { FeatureCarouselFeature, FeatureCarouselItem } from './item'
 import { Title } from './title'
 
 export type FeatureCarouselProps = {
-  features: Feature[]
+  features: FeatureCarouselFeature[]
   title?: boolean
+  faces?: boolean
+  children?: ReactNode
 }
 
 type Item =
-  | { feature: Feature; title?: never }
+  | { feature: FeatureCarouselFeature; title?: never }
   | { feature?: never; title: true }
 
-const createLoop = (features: Feature[], showTitle = false): Item[] => {
+const createLoop = (
+  features: FeatureCarouselFeature[],
+  showTitle: boolean
+): Item[] => {
   const featureItems = features.map((feature) => ({ feature }))
   const title = { title: true } as const
 
@@ -34,10 +36,14 @@ const createLoop = (features: Feature[], showTitle = false): Item[] => {
 
 export const FeatureCarousel: FC<FeatureCarouselProps> = ({
   features,
-  title: showTitle = false
+  title: showTitle = false,
+  faces: showFaces = false,
+  children
 }) => {
-  const currentUser = useCurrentUser()
-  const [[currentIndex, offset], setState] = useState([features.length + 1, 0])
+  const [[currentIndex, offset], setState] = useState([
+    features.length + (showTitle ? 1 : 0),
+    0
+  ])
   const loop = createLoop(features, showTitle)
   const totalSlides = useMemo(
     () => features.length + (showTitle ? 1 : 0),
@@ -105,11 +111,13 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({
       }}
       className={cn(
         'relative overflow-x-clip transition-colors w-full h-[90vh] max-h-[800px]',
-        showingTitle ? 'bg-black' : 'bg-white'
+        theme === 'dark' ? 'bg-black' : 'bg-transparent'
       )}
     >
       <AnimatePresence>
-        {showingTitle && <Faces features={features} />}
+        {showFaces && showingTitle && (
+          <Faces books={features.map((f) => f.book)} />
+        )}
       </AnimatePresence>
       <div className={cn('absolute inset-x-0 bottom-16 sm:bottom-0 top-16')}>
         {loop.map(({ title, feature }, index) => {
@@ -174,9 +182,6 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({
           <ChevronRight size={40} strokeWidth={1} />
         </button>
       </div>
-      {currentUser?.role === 'admin' && (
-        <EditFeatureCarouselDialog features={features} />
-      )}
     </motion.div>
   )
 }

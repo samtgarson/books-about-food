@@ -1,5 +1,5 @@
+import { Book } from '@books-about-food/core/models/book'
 import { Profile } from '@books-about-food/core/models/profile'
-import { Feature } from '@books-about-food/core/services/features/fetch-features'
 import { randomBelow, sample } from 'src/utils/array-helpers'
 import { Dot, RandomPlacer } from 'src/utils/random-placer'
 import { AvatarSize } from '../atoms/avatar'
@@ -13,8 +13,8 @@ export class Face {
     public profile: Profile
   ) {}
 
-  static forFeatures(features: Feature[]) {
-    const authors = features.reduce((arr, { book }) => {
+  static forBooks(books: Book[]) {
+    const authors = books.reduce((arr, book) => {
       book.authors.forEach((author) => {
         if (!arr.find((a) => a.id === author.id)) arr.push(author)
       })

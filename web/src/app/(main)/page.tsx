@@ -6,16 +6,19 @@ import { Marquee } from 'src/components/atoms/marquee'
 import { ItemCarousel } from 'src/components/books/item-carousel'
 import { NewBookButton } from 'src/components/books/new-book-button'
 import { FeatureCarousel } from 'src/components/feature-carousel'
+import { EditFeatureCarouselDialog } from 'src/components/feature-carousel/edit-dialog'
 import { HomepageModule } from 'src/components/home/module'
 import { USP } from 'src/components/home/usp'
 import { FeaturedJobsList } from 'src/components/jobs/featured-jobs-list'
 import { ProfileCarousel } from 'src/components/profiles/profile-carousel'
 import { call } from 'src/utils/service'
+import { getSessionUser } from 'src/utils/user'
 import { PublisherGrid } from './publishers/grid'
 
 export * from 'app/default-static-config'
 
 const Page = async () => {
+  const currentUser = await getSessionUser()
   const [{ data: features }, { data: home }] = await Promise.all([
     call(fetchFeatures),
     call(fetchHome)
@@ -24,7 +27,12 @@ const Page = async () => {
 
   return (
     <>
-      <FeatureCarousel features={features} title data-superjson />
+      <div className="bg-white">
+        <FeatureCarousel features={features} title faces data-superjson />
+      </div>
+      {currentUser?.role === 'admin' && (
+        <EditFeatureCarouselDialog features={features} data-superjson />
+      )}
       <Marquee className="fixed bottom-0 left-0 -right-[25%] z-40 -rotate-[15deg]">
         <a
           href="https://www.instagram.com/books.about.food"

@@ -9125,9 +9125,11 @@ export type Schema = {
   'promo_items': {
     plain: {
       'book_id': string;
+      'created_at': string;
       'id': string;
       'order': number;
       'promo_id': string;
+      'updated_at': string;
     };
     nested: {
       'book': Schema['books']['plain'] & Schema['books']['nested'];
@@ -9156,10 +9158,12 @@ export type Schema = {
       'book:Tags': Array<string>;
       'book:title': string;
       'book:updated_at': string;
+      'promo:created_at': string;
       'promo:id': string;
       'promo:publisher_id': string;
       'promo:title': string;
       'promo:until': string;
+      'promo:updated_at': string;
       'book:image:caption': string;
       'book:image:cover_for_id': string;
       'book:image:created_at': string;
@@ -10092,10 +10096,12 @@ export type Schema = {
   };
   'promos': {
     plain: {
+      'created_at': string;
       'id': string;
       'publisher_id': string;
       'title': string;
       'until': string;
+      'updated_at': string;
     };
     nested: {
       'publisher': Schema['publishers']['plain'] & Schema['publishers']['nested'];

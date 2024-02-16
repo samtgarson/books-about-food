@@ -40,6 +40,20 @@
   }
 }
 
+@layer components {
+  body.editing {
+    @apply bg-blue-grey;
+  }
+
+  .edit-bg {
+    @apply transition duration-700;
+  }
+
+  body.editing .edit-bg {
+    @apply bg-blue-grey;
+  }
+}
+
 @layer utilities {
   .all-caps {
     @apply text-10 font-medium uppercase tracking-[0.12em] sm:text-12;

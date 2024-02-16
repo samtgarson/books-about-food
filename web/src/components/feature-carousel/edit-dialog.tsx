@@ -1,3 +1,5 @@
+'use client'
+
 import { Feature } from '@books-about-food/core/services/features/fetch-features'
 import { Reorder } from 'framer-motion'
 import { useState } from 'react'
@@ -17,7 +19,7 @@ export function EditFeatureCarouselDialog({
 
   return (
     <Sheet.Root>
-      <Sheet.Trigger className="absolute bottom-0 inset-x-0 bg-primary-purple p-2 text-center all-caps z-10">
+      <Sheet.Trigger className="bg-primary-purple p-2 text-center all-caps z-10 w-full">
         Edit Carousel
       </Sheet.Trigger>
       <Sheet.Content>

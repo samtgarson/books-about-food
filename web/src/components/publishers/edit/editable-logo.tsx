@@ -8,7 +8,11 @@ export function EditableLogo() {
   const { editMode, publisher, onSave } = useEditPublisher()
 
   return (
-    <EditableImage editMode={editMode} onSave={(logo) => onSave({ logo })}>
+    <EditableImage
+      editMode={editMode}
+      onSave={(logo) => onSave({ logo })}
+      label={publisher.logo ? undefined : 'Add Logo'}
+    >
       {publisher.logo ? (
         <Image
           {...publisher.logo.imageAttrs(80)}

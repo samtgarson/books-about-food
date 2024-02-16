@@ -4,6 +4,10 @@ import { MotionProps } from 'framer-motion'
 import { CSSProperties } from 'react'
 import { MouseState } from '../atoms/mouse/utils'
 
+export type CarouselPosition = ReturnType<
+  typeof useFeatureCarouselItem
+>['position']
+
 export function useFeatureCarouselItem({
   index,
   currentIndex,
@@ -73,6 +77,8 @@ export function useFeatureCarouselItem({
     next: pos.next,
     prev: pos.prev,
     mouseProps,
-    position: Object.keys(pos).find((key) => pos[key as keyof typeof pos])
+    position: Object.keys(pos).find(
+      (key) => pos[key as keyof typeof pos]
+    ) as keyof typeof pos
   }
 }

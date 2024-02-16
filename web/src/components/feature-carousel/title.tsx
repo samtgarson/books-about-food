@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import format from 'date-fns/format'
-import { motion } from 'framer-motion'
 import { mouseAttrs } from '../atoms/mouse'
+import { FeatureCarouselSlide } from './slide'
 import { useFeatureCarouselItem } from './use-feature-carousel-item'
 
 export function Title({
@@ -13,24 +13,32 @@ export function Title({
   index: number
   currentIndex: number
   id: string
-  onClick?: () => void
+  onClick: () => void
 }) {
-  const { display, attrs, current, next, prev, className, mouseProps } =
-    useFeatureCarouselItem({
-      index,
-      currentIndex,
-      centered: false,
-      imageWidth: 100,
-      title: true
-    })
+  const {
+    position,
+    display,
+    attrs,
+    current,
+    next,
+    prev,
+    className,
+    mouseProps
+  } = useFeatureCarouselItem({
+    index,
+    currentIndex,
+    centered: false,
+    imageWidth: 100,
+    title: true
+  })
 
   if (!display) return null
   const date = format(new Date(), 'EEE d MMM')
 
   return (
-    <motion.div
+    <FeatureCarouselSlide
       layoutId={id}
-      layout="position"
+      id={id}
       {...attrs}
       className={cn(
         className,
@@ -38,10 +46,9 @@ export function Title({
         current && 'pointer-events-none',
         !current && 'cursor-pointer'
       )}
-      onClick={(e) => {
-        e.preventDefault()
-        if (!current) onClick?.()
-      }}
+      onClick={onClick}
+      position={position}
+      href="#"
       {...mouseAttrs({
         ...mouseProps,
         mode: next ? 'next' : prev ? 'prev' : 'default'
@@ -56,6 +63,6 @@ export function Title({
         <p className="all-caps">{date}</p>
         <h2 className="text-64">Today&apos;s Specials</h2>
       </div>
-    </motion.div>
+    </FeatureCarouselSlide>
   )
 }

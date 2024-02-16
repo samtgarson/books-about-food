@@ -413,6 +413,8 @@ model Promo {
   until       DateTime? @db.Date
   publisherId String    @map("publisher_id") @db.Uuid
   title       String
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at")
 
   promoItems PromoItem[]
   publisher  Publisher   @relation(fields: [publisherId], references: [id], onDelete: Cascade)
@@ -421,10 +423,12 @@ model Promo {
 }
 
 model PromoItem {
-  id      String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  bookId  String @map("book_id") @db.Uuid
-  promoId String @map("promo_id") @db.Uuid
-  order   Int
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  bookId    String   @map("book_id") @db.Uuid
+  promoId   String   @map("promo_id") @db.Uuid
+  order     Int
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   promo Promo @relation(fields: [promoId], references: [id], onDelete: Cascade)
   book  Book  @relation(fields: [bookId], references: [id], onDelete: Cascade)

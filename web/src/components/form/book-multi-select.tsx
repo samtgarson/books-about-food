@@ -56,6 +56,7 @@ export function BookMultiSelect({
               <button
                 className="ml-auto"
                 title={`Remove ${value.title}`}
+                type="button"
                 onClick={function () {
                   setValues(values.filter((v) => v.id !== value.id))
                 }}

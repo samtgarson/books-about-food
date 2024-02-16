@@ -1,16 +1,16 @@
-import { Feature } from '@books-about-food/core/services/features/fetch-features'
+import { Book } from '@books-about-food/core/models/book'
 import { motion } from 'framer-motion'
 import { FC, useEffect, useMemo, useState } from 'react'
 import { Avatar } from '../atoms/avatar'
 import { Face } from './face'
 
 export type FacesProps = {
-  features: Feature[]
+  books: Book[]
 }
 
-export const Faces: FC<FacesProps> = ({ features }) => {
+export const Faces: FC<FacesProps> = ({ books }) => {
   const [display, setDisplay] = useState(false)
-  const faces = useMemo(() => Face.forFeatures(features), [features])
+  const faces = useMemo(() => Face.forBooks(books), [books])
 
   useEffect(() => {
     setDisplay(true)
