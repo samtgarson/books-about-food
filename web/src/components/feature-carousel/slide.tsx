@@ -7,7 +7,7 @@ const MotionLink = motion(Link)
 
 export function FeatureCarouselSlide({
   id,
-  href,
+  href = '#',
   className,
   position,
   onClick,
@@ -16,7 +16,8 @@ export function FeatureCarouselSlide({
 }: {
   position: CarouselPosition
   onClick(): void
-} & Omit<ComponentProps<typeof MotionLink>, 'onClick'>) {
+  href?: string
+} & Omit<ComponentProps<typeof MotionLink>, 'onClick' | 'href'>) {
   return (
     <MotionLink
       layoutId={id}

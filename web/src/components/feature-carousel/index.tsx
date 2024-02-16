@@ -2,30 +2,29 @@
 
 import cn from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
-import { FC, ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import { FC, ReactNode, useMemo, useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'src/components/atoms/icons'
 import { useNav } from '../nav/context'
 import { Faces } from './faces'
 import { FeatureCarouselFeature, FeatureCarouselItem } from './item'
-import { Title } from './title'
+import { FeatureCarouselTitleProps, Title } from './title'
 
 export type FeatureCarouselProps = {
   features: FeatureCarouselFeature[]
-  title?: boolean
+  title?: boolean | ((props: FeatureCarouselTitleProps) => ReactNode)
   faces?: boolean
-  children?: ReactNode
 }
 
 type Item =
-  | { feature: FeatureCarouselFeature; title?: never }
-  | { feature?: never; title: true }
+  | { feature: FeatureCarouselFeature; isTitle?: never }
+  | { feature?: never; isTitle: true }
 
 const createLoop = (
   features: FeatureCarouselFeature[],
   showTitle: boolean
 ): Item[] => {
   const featureItems = features.map((feature) => ({ feature }))
-  const title = { title: true } as const
+  const title = { isTitle: true } as const
 
   const batch = showTitle ? [title, ...featureItems] : featureItems
   while (batch.length < 3) {
@@ -36,10 +35,10 @@ const createLoop = (
 
 export const FeatureCarousel: FC<FeatureCarouselProps> = ({
   features,
-  title: showTitle = false,
-  faces: showFaces = false,
-  children
+  title = false,
+  faces: showFaces = false
 }) => {
+  const showTitle = !!title
   const [[currentIndex, offset], setState] = useState([
     features.length + (showTitle ? 1 : 0),
     0
@@ -53,13 +52,9 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({
     () => showTitle && currentIndex % totalSlides === 0,
     [showTitle, currentIndex, totalSlides]
   )
-  const { setTheme, theme } = useNav()
+  const { theme } = useNav()
   const activeIndex = currentIndex - (offset + 1) * totalSlides
   const mouseRef = useRef<[number, number][] | null>(null)
-
-  useEffect(() => {
-    setTheme(showingTitle ? 'dark' : 'light')
-  }, [showingTitle, setTheme])
 
   const onClick = (virtualIndex: number) => {
     const rangeStart = (offset + 1) * totalSlides
@@ -120,20 +115,19 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({
         )}
       </AnimatePresence>
       <div className={cn('absolute inset-x-0 bottom-16 sm:bottom-0 top-16')}>
-        {loop.map(({ title, feature }, index) => {
+        {loop.map(({ isTitle, feature }, index) => {
           const virtualIndex = offset * totalSlides + index
           const batch = Math.floor(index / totalSlides) + offset
-          if (title) {
-            const id = `${batch}-title`
-            return (
-              <Title
-                index={virtualIndex}
-                currentIndex={currentIndex}
-                id={id}
-                key={id}
-                onClick={() => onClick(virtualIndex)}
-              />
-            )
+          if (isTitle) {
+            const props = {
+              index: virtualIndex,
+              currentIndex,
+              id: `${batch}-title`,
+              onClick: () => onClick(virtualIndex)
+            }
+
+            if (typeof title === 'function') return title(props)
+            return <Title key={props.id} {...props} />
           }
 
           const id = `${batch}-${feature.id}`

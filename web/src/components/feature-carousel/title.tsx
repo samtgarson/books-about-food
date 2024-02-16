@@ -1,43 +1,44 @@
 import cn from 'classnames'
 import format from 'date-fns/format'
+import { useEffect } from 'react'
 import { mouseAttrs } from '../atoms/mouse'
+import { useNav } from '../nav/context'
 import { FeatureCarouselSlide } from './slide'
 import { useFeatureCarouselItem } from './use-feature-carousel-item'
+
+export type FeatureCarouselTitleProps = {
+  index: number
+  currentIndex: number
+  id: string
+  onClick: () => void
+}
 
 export function Title({
   index,
   currentIndex,
   id,
   onClick
-}: {
-  index: number
-  currentIndex: number
-  id: string
-  onClick: () => void
-}) {
-  const {
-    position,
-    display,
-    attrs,
-    current,
-    next,
-    prev,
-    className,
-    mouseProps
-  } = useFeatureCarouselItem({
-    index,
-    currentIndex,
-    centered: false,
-    imageWidth: 100,
-    title: true
-  })
+}: FeatureCarouselTitleProps) {
+  const { position, display, attrs, current, className, mouseProps } =
+    useFeatureCarouselItem({
+      index,
+      currentIndex,
+      centered: false,
+      imageWidth: 100,
+      title: true
+    })
+  const { setTheme } = useNav()
+
+  useEffect(() => {
+    if (!['prev', 'current', 'next'].includes(position)) return
+    setTheme(position === 'current' ? 'dark' : 'light')
+  }, [position, setTheme])
 
   if (!display) return null
   const date = format(new Date(), 'EEE d MMM')
 
   return (
     <FeatureCarouselSlide
-      layoutId={id}
       id={id}
       {...attrs}
       className={cn(
@@ -48,10 +49,9 @@ export function Title({
       )}
       onClick={onClick}
       position={position}
-      href="#"
       {...mouseAttrs({
         ...mouseProps,
-        mode: next ? 'next' : prev ? 'prev' : 'default'
+        mode: mouseProps.mode === 'clickable' ? 'default' : mouseProps.mode
       })}
     >
       <div

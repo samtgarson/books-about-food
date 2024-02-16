@@ -2,10 +2,16 @@
 
 import { Promo } from '@books-about-food/core/models/promo'
 import cn from 'classnames'
+import { AnimatePresence, motion } from 'framer-motion'
 import { Edit2, Plus } from 'react-feather'
 import { AntiContainer } from 'src/components/atoms/container'
+import { mouseAttrs } from 'src/components/atoms/mouse'
 import { SheetButton } from 'src/components/atoms/sheet/button'
+import { Bookshelf } from 'src/components/books/bookshelf'
 import { FeatureCarousel } from 'src/components/feature-carousel'
+import { FeatureCarouselSlide } from 'src/components/feature-carousel/slide'
+import { FeatureCarouselTitleProps } from 'src/components/feature-carousel/title'
+import { useFeatureCarouselItem } from 'src/components/feature-carousel/use-feature-carousel-item'
 import { useEditPublisher } from './context'
 
 export function PromoCarousel() {
@@ -29,9 +35,12 @@ export function PromoCarousel() {
   }))
   return (
     <AntiContainer className="-mt-36 relative">
-      <FeatureCarousel features={features} />
+      <FeatureCarousel
+        features={features}
+        title={PromoTitleSlide}
+      ></FeatureCarousel>
       {editMode && (
-        <div className="animate-fade-in absolute inset-0 z-[21] bg-opacity-50 backdrop-blur-lg flex items-center justify-center">
+        <div className="animate-fade-in absolute inset-0 z-[21] bg-opacity-50 backdrop-blur-lg flex items-center justify-center lg:-mb-20">
           <CreatePromoButton slug={publisher.slug} promo={promo} />
         </div>
       )}
@@ -57,5 +66,64 @@ function CreatePromoButton({
       {promo ? <Edit2 strokeWidth={1} /> : <Plus strokeWidth={1} />}
       {promo ? 'Edit Header Carousel' : 'Add Header Carousel'}
     </SheetButton>
+  )
+}
+
+function PromoTitleSlide({
+  id,
+  index,
+  currentIndex,
+  onClick
+}: FeatureCarouselTitleProps) {
+  const { promo } = useEditPublisher()
+  const { position, display, attrs, current, className, mouseProps } =
+    useFeatureCarouselItem({
+      index,
+      currentIndex,
+      centered: false,
+      imageWidth: 100,
+      title: true
+    })
+
+  if (!promo || !display) return
+  return (
+    <FeatureCarouselSlide
+      id={id}
+      key={id}
+      {...attrs}
+      className={cn(
+        className,
+        'justify-center lg:justify-between',
+        current && 'pointer-events-none',
+        !current && 'cursor-pointer'
+      )}
+      onClick={onClick}
+      position={position}
+      {...mouseAttrs({
+        ...mouseProps,
+        mode: mouseProps.mode === 'clickable' ? 'default' : mouseProps.mode
+      })}
+    >
+      <h1
+        className={cn(
+          'text-48 w-full lg:w-1/2 max-w-xl transition-opacity duration-300',
+          !current && 'opacity-10'
+        )}
+      >
+        {promo.title}
+      </h1>
+      <AnimatePresence>
+        {current && (
+          <motion.div
+            className="grow h-full relative items-end justify-center hidden lg:flex -mb-40"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <Bookshelf books={promo.books} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </FeatureCarouselSlide>
   )
 }

@@ -43,6 +43,8 @@ export function useFeatureCarouselItem({
       'z-20': pos.next,
       'left-5 md:left-16 lg:left-44': pos.current && !title,
       'left-5 md:left-16': pos.current && title,
+      'pr-10 md:pr-32 lg:pr-80': !title,
+      'pr-10 md:pr-32': title,
       'right-full': pos.offPrev,
       'left-full': pos.offNext,
       'pointer-events-none': pos.offNext || pos.offPrev,
