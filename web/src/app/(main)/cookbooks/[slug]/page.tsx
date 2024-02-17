@@ -61,7 +61,7 @@ export default async ({ params: { slug } }: CookbooksPageProps) => {
   if (!book) notFound()
 
   return (
-    <div className="relative flex-grow lg:pr-[50vw] flex flex-col gap-8 sm:gap-16">
+    <div className="relative flex-grow lg:pr-[50vw] flex flex-col sm:gap-y-16">
       <Container className="flex flex-col md:gap-8" key="header" belowNav>
         <div className="pt-6 sm:pt-20 flex flex-col gap-4">
           <div
@@ -108,13 +108,18 @@ export default async ({ params: { slug } }: CookbooksPageProps) => {
           </Container>
         </AntiContainer>
       </Container>
-      <Container>
+      <Container className="mobile-only:my-8">
         <BookLinks
           links={book.links}
           className="order-last w-full sm:order-first"
         />
       </Container>
-      <Container className={cn('flex flex-wrap gap-x-4')}>
+      <Container
+        className={cn(
+          'flex flex-wrap gap-x-4',
+          !book.links.length && 'mobile-only:-mt-px'
+        )}
+      >
         {book.publisher && (
           <Detail className="flex flex-col gap-2 items-start" column>
             <p className="all-caps">Publisher</p>
@@ -165,7 +170,7 @@ export default async ({ params: { slug } }: CookbooksPageProps) => {
           </Detail>
         )}
       </Container>
-      <Container>
+      <Container className="mobile-only:mt-8">
         <SimilarBooks slug={book.slug} />
       </Container>
     </div>
