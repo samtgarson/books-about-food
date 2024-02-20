@@ -27,7 +27,7 @@ export function SearchInput<
     <input
       {...getInputProps({
         ref: searchInputRef,
-        placeholder,
+        placeholder: !multi && selection.length ? undefined : placeholder,
         onKeyDown(e) {
           if (e.key === 'Backspace' && !searchInputRef.current?.value.length) {
             if (multi && selection.length) {

@@ -28,6 +28,7 @@ export const EditPublisherForm = async ({ book }: { book: FullBook }) => {
         loadOptions={options}
         label="Publisher"
         name="publisherId"
+        placeholder="Select a publisher"
         valueKey="id"
         render="name"
         defaultValue={book.publisher}
