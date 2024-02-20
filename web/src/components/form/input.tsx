@@ -17,7 +17,7 @@ export const inputClasses = (
   props: React.ComponentProps<'input'>
 ) =>
   cn(
-    'bg-white bg-opacity-60 p-4 transition-colors placeholder:text-black/20 focus-within:bg-opacity-100 focus-within:outline-none',
+    'bg-white bg-opacity-60 p-4 transition-colors placeholder:text-black/20 focus-within:bg-opacity-100 focus-within:outline-none rounded-none',
     props.disabled && 'text-neutral-grey',
     variant === 'bordered' && 'border-neutral-grey border'
   )
