@@ -1,6 +1,6 @@
 'use client'
 
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import z from 'zod'
 import { Button } from '../atoms/button'
 import { Form } from '../form'
@@ -23,6 +23,7 @@ export const SignInButtons: FC<SignInButtonsProps> = ({
   emailButtonLabel = 'Continue with Email',
   successMessage = 'We’ve just sent you a secure magic link to your inbox. When you click this link we’ll log you into your account automatically.'
 }) => {
+  const [googleLoading, setGoogleLoading] = useState(false)
   return (
     <Form
       action={emailSignIn}
@@ -40,9 +41,13 @@ export const SignInButtons: FC<SignInButtonsProps> = ({
       </div>
       <p className="text-center">or</p>
       <Button
-        onClick={() => googleSignIn(callbackUrl)}
+        onClick={() => {
+          setGoogleLoading(true)
+          googleSignIn(callbackUrl)
+        }}
         className="relative flex items-center justify-center gap-3"
         type="button"
+        loading={googleLoading}
       >
         <Google className="absolute left-4" size={20} />
         Continue with Google
