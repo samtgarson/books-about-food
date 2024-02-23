@@ -4165,7 +4165,7 @@
           "validations": []
         },
         {
-          "defaultValue": "waitlist",
+          "defaultValue": "user",
           "enums": ["admin", "user", "waitlist"],
           "field": "role",
           "integration": null,

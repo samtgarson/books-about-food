@@ -77,11 +77,7 @@ export const authOptions = {
 
       return token
     },
-    async session({ session, token, trigger }) {
-      if (trigger === 'update') {
-        console.log('session', session)
-      }
-
+    async session({ session, token }) {
       if (token) {
         session.user = {
           email: token.email,

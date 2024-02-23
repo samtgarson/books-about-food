@@ -66,7 +66,7 @@ model User {
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at")
   image         String?
-  role          UserRole  @default(waitlist)
+  role          UserRole  @default(user)
   accounts      Account[]
   sessions      Session[]
 
