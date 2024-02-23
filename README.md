@@ -69,7 +69,7 @@ To get a local copy up and running, please follow these simple steps.
 
 ### End To End Tests
 
-Right now, the end to end tests in the `smoke-test` project are run on merge to main against a production preview deployment. These require a production-equivalent environment to pass.
+Right now, the end to end tests in the `e2e/tests` project are run on merge to main against a production preview deployment. These require a production-equivalent environment to pass.
 
 Run `npx playwright install chromium` to download a test browser.
 

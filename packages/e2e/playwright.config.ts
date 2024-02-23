@@ -6,7 +6,7 @@ if (!process.env.CI) {
 }
 
 export default defineConfig({
-  testDir: './app-tests',
+  testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -23,24 +23,11 @@ export default defineConfig({
     baseURL: process.env.DEPLOYMENT_URL || 'http://localhost:5000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'retain-on-failure'
+    trace: 'retain-on-failure',
+    ...devices['Desktop Chrome']
   },
 
   expect: {
     timeout: 15000
-  },
-
-  /* Configure projects for major browsers */
-  projects: [
-    {
-      name: 'app-tests',
-      use: { ...devices['Desktop Chrome'] }
-    },
-    {
-      name: 'smoke-tests',
-      use: { ...devices['Desktop Chrome'] },
-      testDir: './smoke-tests',
-      retries: 0
-    }
-  ]
+  }
 })

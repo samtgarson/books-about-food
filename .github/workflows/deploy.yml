@@ -69,6 +69,8 @@ jobs:
             --build-env DATABASE_DIRECT_URL="$direct_db_url" \
             --env DATABASE_URL="$db_url" \
             --env DATABASE_DIRECT_URL="$direct_db_url" \
+            --prod \
+            --skip-domain \
           )
 
           if [ -z "$preview_url" ]
@@ -125,7 +127,7 @@ jobs:
           echo ${{ secrets.GMAIL_CREDENTIALS_JSON }} | base64 -d > ./packages/e2e/gmail-credentials.json
           echo ${{ secrets.GMAIL_TOKEN_JSON }} | base64 -d > ./packages/e2e/gmail-token.json
       - name: Run Playwright tests
-        run: npx -w packages/e2e playwright test --project smoke-tests
+        run: npx -w packages/e2e playwright test
         env:
           DEPLOYMENT_URL: ${{ needs.deploy-preview.outputs.preview-url }}
           DATABASE_URL: ${{ steps.install-deps.outputs.database-url }}
@@ -152,39 +154,12 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 20
-      - name: Deploy production to Vercel
+      - name: Promote Vercel deployment
         id: vercel-deploy
-        if: always()
-        uses: BetaHuhn/deploy-to-vercel-action@v1
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VERCEL_TOKEN: ${{ secrets.VERCEL_DEPLOY_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.BAF_VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.BAF_VERCEL_PROJECT_ID }}
-          VERCEL_SCOPE: 'radical-innovation'
-          PRODUCTION: true
-          CREATE_COMMENT: false
-          GITHUB_DEPLOYMENT: true
-
-  cleanup:
-    name: 'Clean Up'
-    needs: [deploy-preview, test, deploy-prod]
-    runs-on: ubuntu-latest
-    if: ${{ always() && github.run_attempt == 1 && github.ref == 'refs/heads/main' }}
-    env:
-      VERCEL_ORG_ID: ${{ secrets.BAF_VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ secrets.BAF_VERCEL_PROJECT_ID }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 20
-      - name: Install CLI deps
-        run: npm install --global vercel@latest neonctl
-      - name: Remove preview deployment
-        if: ${{ needs.deploy-preview.outputs.preview-url }}
-        run: vercel rm ${{ needs.deploy-preview.outputs.preview-url }} --token=${{ secrets.VERCEL_DEPLOY_TOKEN }} --scope=radical-innovation --yes || true
-      - name: Remove database branch
-        if: ${{ needs.deploy-preview.outputs.database-id }}
-        run: neonctl branches delete ${{ needs.deploy-preview.outputs.database-id }} || true
+        run: |
+          primary_db=$(neonctl branches list -o json | jq '.[] | select(.primary) | .id' -r)
+          vercel promote ${{ needs.deploy-preview.outputs.preview-url }}  \
+            --token=${{ secrets.VERCEL_DEPLOY_TOKEN }} \
+            --scope=radical-innovation
+          neonctl branches set-primary ${{ needs.deploy-preview.outputs.database-id }}
+          neonctl branches delete $primary_db
