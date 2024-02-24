@@ -35,7 +35,7 @@ export const ProfileList: FC<ProfileListProps> = ({
               />
             ))}
           </div>
-          <Eye className="sm:hidden shrink-0" size={22} strokeWidth={1}>
+          <Eye className="sm:hidden shrink-0 ml-4" size={22} strokeWidth={1}>
             Open
           </Eye>
         </Sheet.Trigger>
