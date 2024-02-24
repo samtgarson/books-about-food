@@ -106,7 +106,7 @@ jobs:
         id: playwright-version
         run: echo "PLAYWRIGHT_VERSION=$(npm why @playwright/test --json | jq '.[0].version' -r)" >> $GITHUB_ENV
       - name: Cache playwright binaries
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: playwright-cache
         with:
           path: |
@@ -131,12 +131,12 @@ jobs:
           DATABASE_URL: ${{ steps.install-deps.outputs.database-url }}
           DATABASE_DIRECT_URL: ${{ steps.install-deps.outputs.database-direct-url }}
           NEXTAUTH_SECRET: ${{ secrets.AUTH_SECRET }}
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: test-results
           path: packages/e2e/test-results
-          retention-days: 30
+          retention-days: 10
 
   deploy-prod:
     name: 'Deploy to Production'
