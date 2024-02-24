@@ -8,10 +8,8 @@ export const getSessionUser = cache(async () => {
   if (!session?.user) return null
   return {
     ...session.user,
-    name: session.user.name || null,
-    email: session.user.email,
-    image: session.user.image || null,
-    role: session.user.role || 'waitlist'
+    role: session.user.role || 'user',
+    teams: []
   } as User
 })
 

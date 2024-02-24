@@ -2,8 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    S3_DOMAIN: process.env.S3_DOMAIN,
-    ENABLE_SPLASH: process.env.ENABLE_SPLASH || 'false'
+    S3_DOMAIN: process.env.S3_DOMAIN
   },
   experimental: {
     swcPlugins: [['next-superjson-plugin', {}]],
