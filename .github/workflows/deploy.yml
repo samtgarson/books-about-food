@@ -15,8 +15,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy-staging:
-    name: 'Deploy to Staging'
+  deploy-preview:
+    name: 'Deploy to Preview'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -24,7 +24,7 @@ jobs:
       deployments: write
     outputs:
       database-id: ${{ steps.create-db.outputs.branch_id }}
-      staging-url: ${{ steps.vercel-deploy.outputs.staging_url }}
+      preview-url: ${{ steps.vercel-deploy.outputs.preview_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,7 +33,7 @@ jobs:
       - name: Destroy previously missed database branches
         run: |
           neonctl branches list -o json \
-          | jq '.[] | select(.primary != true) | select(.name | startswith("github-deploy-main")) | .id' -c \
+          | jq '.[].name | select(. | startswith("github-deploy-${{ github.ref_name }}"))' -c \
           | xargs -I % neonctl branches delete %
       - name: Create database branch
         uses: neondatabase/create-branch-action@v4
@@ -42,23 +42,22 @@ jobs:
           api_key: ${{ secrets.NEON_API_KEY }}
           branch_name: github-deploy-${{ github.ref_name }}-${{ github.run_id}}-${{ github.run_attempt }}
           database: books-about-food-prod
-          parent: main
         id: create-db
-      - name: Deploy staging to Vercel
+      - name: Deploy preview to Vercel
         id: vercel-deploy
         env:
           VERCEL_ORG_ID: ${{ secrets.BAF_VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.BAF_VERCEL_PROJECT_ID }}
         run: |
-          db_url="$(neonctl cs ${{ steps.create-db.outputs.branch_id }} --database-name books-about-food-prod --prisma --pooled)"
-          direct_db_url="$(neonctl cs ${{ steps.create-db.outputs.branch_id }} --database-name books-about-food-prod --prisma)"
+          db_url=$(neonctl cs ${{ steps.create-db.outputs.branch_id }} --database-name books-about-food-prod --prisma --pooled)
+          direct_db_url=$(neonctl cs ${{ steps.create-db.outputs.branch_id }} --database-name books-about-food-prod --prisma)
 
-          staging_url=$(vercel \
+          preview_url=$(vercel \
             --token=${{ secrets.VERCEL_DEPLOY_TOKEN }} \
             --scope=radical-innovation \
             --meta githubCommitAuthorName=${{ github.actor }} \
             --meta githubCommitAuthorLogin=${{ github.actor }} \
-            --meta githubCommitMessage="${{github.event.head_commit.message}}" \
+            --meta githubCommitMessage="${{ github.event.head_commit.message }}" \
             --meta githubCommitOrg=${{ github.repository_owner }} \
             --meta githubCommitRepo=books-about-food \
             --meta githubCommitRef=${{ github.ref_name }} \
@@ -70,19 +69,15 @@ jobs:
             --build-env DATABASE_DIRECT_URL="$direct_db_url" \
             --env DATABASE_URL="$db_url" \
             --env DATABASE_DIRECT_URL="$direct_db_url" \
-            --prod \
-            --skip-domain \
           )
 
-          if [ -z "$staging_url" ]
+          if [ -z "$preview_url" ]
           then
-            echo "Staging URL not found"
+            echo "Preview URL not found"
             exit 1
           else
-            echo "staging_url=$staging_url" >> $GITHUB_OUTPUT
-            echo "$db_url"
-            echo $GITHUB_OUTPUT
-            vercel alias $staging_url \
+            echo "preview_url=$preview_url" >> $GITHUB_OUTPUT
+            vercel alias $preview_url \
               books-about-food-git-${{ github.ref_name }}.vercel.app \
               --scope=radical-innovation \
               --token=${{ secrets.VERCEL_DEPLOY_TOKEN }}
@@ -90,7 +85,7 @@ jobs:
 
   test:
     name: 'Run E2E tests'
-    needs: [deploy-staging]
+    needs: [deploy-preview]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -103,10 +98,8 @@ jobs:
         run: |
           npm -w packages/e2e ci
           npm i -g neonctl
-
-          echo "database-url=$(neonctl cs ${{ needs.deploy-staging.outputs.database-id }} --database-name books-about-food-prod --prisma --pooled)" >> $GITHUB_OUTPUT
-          echo "database-direct-url=$(neonctl cs ${{ needs.deploy-staging.outputs.database-id }} --database-name books-about-food-prod --prisma)" >> $GITHUB_OUTPUT
-
+          echo "database-url=$(neonctl cs ${{ needs.deploy-preview.outputs.database-id }} --database-name books-about-food-prod --prisma --pooled)" >> $GITHUB_OUTPUT
+          echo "database-direct-url=$(neonctl cs ${{ needs.deploy-preview.outputs.database-id }} --database-name books-about-food-prod --prisma)" >> $GITHUB_OUTPUT
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
       - name: Get installed Playwright version
@@ -134,7 +127,7 @@ jobs:
       - name: Run Playwright tests
         run: npx -w packages/e2e playwright test
         env:
-          DEPLOYMENT_URL: ${{ needs.deploy-staging.outputs.staging-url }}
+          DEPLOYMENT_URL: ${{ needs.deploy-preview.outputs.preview-url }}
           DATABASE_URL: ${{ steps.install-deps.outputs.database-url }}
           DATABASE_DIRECT_URL: ${{ steps.install-deps.outputs.database-direct-url }}
           NEXTAUTH_SECRET: ${{ secrets.AUTH_SECRET }}
@@ -147,7 +140,7 @@ jobs:
 
   deploy-prod:
     name: 'Deploy to Production'
-    needs: [deploy-staging, test]
+    needs: [deploy-preview, test]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     env:
@@ -159,28 +152,23 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Install CLI deps
-        run: npm install -g neonctl vercel@latest
-      - name: Promote Vercel deployment
+      - name: Deploy production to Vercel
         id: vercel-deploy
-        run: |
-          vercel promote ${{ needs.deploy-staging.outputs.staging-url }}  \
-            --token=${{ secrets.VERCEL_DEPLOY_TOKEN }} \
-            --scope=radical-innovation
-
-          neonctl branches set-primary ${{ needs.deploy-staging.outputs.database-id }}
-      - name: Update Admin Database URL
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: |
-          db_url="$(neonctl cs ${{ needs.deploy-staging.outputs.database-id }} --database-name books-about-food-prod --prisma --pooled)"
-          direct_db_url="$(neonctl cs ${{ needs.deploy-staging.outputs.database-id }} --database-name books-about-food-prod --prisma)"
-
-          heroku config:set -a books-about-food-admin DATABASE_URL=$db_url DATABASE_DIRECT_URL=$direct_db_url
+        if: always()
+        uses: BetaHuhn/deploy-to-vercel-action@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_DEPLOY_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.BAF_VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.BAF_VERCEL_PROJECT_ID }}
+          VERCEL_SCOPE: 'radical-innovation'
+          PRODUCTION: true
+          CREATE_COMMENT: false
+          GITHUB_DEPLOYMENT: true
 
   cleanup:
     name: 'Clean Up'
-    needs: [deploy-staging, test, deploy-prod]
+    needs: [deploy-preview, test, deploy-prod]
     runs-on: ubuntu-latest
     if: ${{ always() && github.run_attempt == 1 && github.ref == 'refs/heads/main' }}
     env:
@@ -194,11 +182,9 @@ jobs:
           node-version: 20
       - name: Install CLI deps
         run: npm install --global vercel@latest neonctl
-      - name: Remove staging deployment
-        if: '${{ cancelled() || failure() }}'
-        run: vercel rm ${{ needs.deploy-staging.outputs.staging-url }} --token=${{ secrets.VERCEL_DEPLOY_TOKEN }} --scope=radical-innovation --yes || true
-      - name: Remove unused database branches
-        run: |
-          neonctl branches list -o json \
-          | jq '.[] | select(.primary != true) | select(.name | startswith("github-deploy-main")) | .id' -c \
-          | xargs -I % neonctl branches delete %
+      - name: Remove preview deployment
+        if: ${{ needs.deploy-preview.outputs.preview-url }}
+        run: vercel rm ${{ needs.deploy-preview.outputs.preview-url }} --token=${{ secrets.VERCEL_DEPLOY_TOKEN }} --scope=radical-innovation --yes || true
+      - name: Remove database branch
+        if: ${{ needs.deploy-preview.outputs.database-id }}
+        run: neonctl branches delete ${{ needs.deploy-preview.outputs.database-id }} || true
