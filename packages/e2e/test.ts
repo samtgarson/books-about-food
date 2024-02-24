@@ -30,7 +30,8 @@ const helpers = ({
         name: 'Sam Garson',
         email,
         userId: user.id,
-        role: 'user'
+        role: 'user',
+        teams: []
       },
       salt: cookieName,
       secret: process.env.NEXTAUTH_SECRET as string

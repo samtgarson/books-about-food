@@ -15,7 +15,6 @@
     "mime-types": "^2.1.35",
     "neat-csv": "^6",
     "plaiceholder": "^2.5.0",
-    "playwright-core": "^1.41.1",
     "zod": "^3.22.4"
   },
   "devDependencies": {

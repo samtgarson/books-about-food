@@ -10,12 +10,7 @@ const nextConfig = {
     serverActions: {
       bodySizeLimit: '4mb'
     },
-    serverComponentsExternalPackages: [
-      'mjml',
-      'sharp',
-      '@sparticuz/chromium',
-      'playwright-core'
-    ]
+    serverComponentsExternalPackages: ['mjml', 'sharp', '@sparticuz/chromium']
   },
   transpilePackages: ['shared', 'database', 'email', 'core'],
   images: {
