@@ -4321,6 +4321,6 @@
     "liana": "forest-nodejs-agent",
     "liana_version": "1.36.12",
     "liana_features": null,
-    "stack": {"engine": "nodejs", "engine_version": "20.6.1"}
+    "stack": {"engine": "nodejs", "engine_version": "20.11.1"}
   }
 }
