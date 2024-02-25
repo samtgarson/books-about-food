@@ -8,6 +8,8 @@ export const metadata: Metadata = {
   title: 'Frequently Asked Questions'
 }
 
+export * from 'src/app/default-static-config'
+
 export default async function FrequentlyAskedQuestions() {
   const questions = await prisma.frequentlyAskedQuestion.findMany({
     orderBy: { question: 'asc' }
