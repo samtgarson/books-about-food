@@ -320,9 +320,9 @@ export const Select = forwardRef(function Select<
               style: {
                 maxHeight:
                   itemHeight &&
-                  `max(${
+                  `min(300px, max(${
                     Math.min(2, items.length) * itemHeight
-                  }px, calc(var(--radix-popover-content-available-height)) - 8px)`
+                  }px, calc(var(--radix-popover-content-available-height)) - 8px))`
               }
             })}
           >

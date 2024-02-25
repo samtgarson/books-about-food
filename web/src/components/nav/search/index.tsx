@@ -37,7 +37,7 @@ export function QuickSearch({ className }: { className?: string }) {
         showCloseButton={false}
         overlay={false}
         focusTriggerOnClose={false}
-        className="self-start mt-[20vh] bg-white/70 backdrop-blur-md max-h-[65vh] max-w-[90vw] rounded-lg !pb-0"
+        className="self-start mt-[20vh] bg-white/70 backdrop-blur-md !max-h-[50vh] max-w-[90vw] rounded-lg !pb-0"
       >
         <QuickSearchContent onSelect={() => sheet.current?.setOpen(false)} />
       </Sheet.Content>
