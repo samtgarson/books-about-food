@@ -19,7 +19,7 @@ export function EditFeatureCarouselDialog({
 
   return (
     <Sheet.Root>
-      <Sheet.Trigger className="bg-primary-purple p-2 text-center all-caps z-10 w-full">
+      <Sheet.Trigger className="absolute left-4 bottom-4 bg-white px-4 py-3">
         Edit Carousel
       </Sheet.Trigger>
       <Sheet.Content>

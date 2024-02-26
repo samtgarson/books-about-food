@@ -28,9 +28,6 @@ export async function generateMetadata(
 
   return {
     title: book.title,
-    alternates: {
-      canonical: `https://booksaboutfood.info/cookbooks/${book.slug}`
-    },
     openGraph: {
       ...(await parent).openGraph,
       title: book.title,

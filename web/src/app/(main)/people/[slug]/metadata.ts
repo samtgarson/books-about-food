@@ -19,7 +19,7 @@ export const metadata = (segment: ProfilePageProps['segment']) =>
       alternates:
         process.env.NODE_ENV === 'production'
           ? {
-              canonical: `https://booksaboutfood.info/${segment}/${profile.slug}`
+              canonical: `https://www.booksaboutfood.info/${segment}/${profile.slug}`
             }
           : undefined,
       openGraph: {
