@@ -27,4 +27,8 @@ export const customiseContributions = (
     .replaceFieldWriting('Assistant', (value) => {
       return { tag: value ? 'Assistant' : undefined }
     })
+
+  collection.addHook('Before', 'Update', async (context) => {
+    context.patch.updated_at = new Date().toISOString()
+  })
 }

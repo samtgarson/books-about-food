@@ -60,4 +60,8 @@ export const customisePublishers = (
       records.map((record) => deleteImage({ publisherId: record.id }))
     )
   })
+
+  collection.addHook('Before', 'Update', async (context) => {
+    context.patch.updated_at = new Date().toISOString()
+  })
 }

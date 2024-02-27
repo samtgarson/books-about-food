@@ -30,4 +30,8 @@ export const customiseUsers = (
     successMessage: 'Approved! The user(s) has been notified 🚀',
     fn: approveUser
   })
+
+  collection.addHook('Before', 'Update', async (context) => {
+    context.patch.updated_at = new Date().toISOString()
+  })
 }

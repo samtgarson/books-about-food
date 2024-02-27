@@ -20,5 +20,6 @@ export const customiseTeams = (
     if (ctx.patch.name) {
       ctx.patch.slug = slugify(ctx.patch.name)
     }
+    ctx.patch.updated_at = new Date().toISOString()
   })
 }

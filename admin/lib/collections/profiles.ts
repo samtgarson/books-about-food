@@ -81,6 +81,10 @@ export const customiseProfiles = (
     )
   })
 
+  collection.addHook('Before', 'Update', async (context) => {
+    context.patch.updated_at = new Date().toISOString()
+  })
+
   /* =============================================
    * ACTIONS
    * ============================================= */

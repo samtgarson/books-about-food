@@ -56,4 +56,8 @@ export const customiseLinks = (
       context.patch.site =
         context.patch.Website || context.patch['WebsiteOther']
     })
+
+  collection.addHook('Before', 'Update', async (context) => {
+    context.patch.updated_at = new Date().toISOString()
+  })
 }

@@ -13,5 +13,6 @@ export const customiseTags = (
 
   collection.addHook('Before', 'Update', async (context) => {
     if (context.patch.name) context.patch.slug = slugify(context.patch.name)
+    context.patch.updated_at = new Date().toISOString()
   })
 }

@@ -327,6 +327,7 @@ export const customiseBooks = (
 
   collection.addHook('Before', 'Update', async (context) => {
     if (context.patch.title) context.patch.slug = slugify(context.patch.title)
+    context.patch.updated_at = new Date().toISOString()
   })
 
   collection.addHook('After', 'Create', async (context) => {

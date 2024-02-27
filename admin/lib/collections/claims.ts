@@ -53,4 +53,8 @@ export const customiseClaims = (
     successMessage: 'Approved! The user(s) has been notified 🚀',
     fn: approveClaim
   })
+
+  collection.addHook('Before', 'Update', async (context) => {
+    context.patch.updated_at = new Date().toISOString()
+  })
 }
