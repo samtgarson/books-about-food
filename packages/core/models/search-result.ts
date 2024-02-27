@@ -27,6 +27,7 @@ export class SearchResult extends Colourful(
     image?: Image
     description?: string
     slug: string
+    updatedAt: Date
 
     constructor(attrs: PrismaSearchResult) {
       this.id = attrs.id
@@ -34,6 +35,7 @@ export class SearchResult extends Colourful(
       this.type = attrs.type
       this.description = attrs.description ?? undefined
       this.slug = attrs.slug
+      this.updatedAt = attrs.updatedAt
 
       if (attrs.image) {
         const imageAttrs = imageSchema.parse(attrs.image)

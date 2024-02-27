@@ -343,6 +343,7 @@ view SearchResult {
   image       Json?
   type        SearchResultType
   slug        String
+  updatedAt   DateTime         @default(now()) @map("updated_at")
 
   @@map("search_results")
 }
