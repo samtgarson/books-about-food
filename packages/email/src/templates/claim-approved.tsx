@@ -1,6 +1,5 @@
 import { Template } from 'mailing-core'
 import BaseLayout from '../components/base-layout'
-import Button from '../components/button'
 import { ProfilePreview } from '../components/profile-preview'
 import { Section } from '../components/section'
 import Text from '../components/text'
@@ -25,9 +24,11 @@ export const ClaimApproved: Template<ClaimApprovedProps> = ({
           Congrats! 🎉 We&apos;ve approved your claim and you can now log in and
           manage your profile on Books About Food.
         </Text>
-      </Section>
-      <Section white>
+        <Text>Click below to view your profile on the website.</Text>
         <ProfilePreview
+          href={`https://booksaboutfood.info/${
+            author ? 'authors' : 'people'
+          }/${profileSlug}`}
           resourceName={profileName}
           resourceAvatar={profileAvatarUrl ?? null}
         />
@@ -35,14 +36,6 @@ export const ClaimApproved: Template<ClaimApprovedProps> = ({
           We hope you&apos;ll find Books About Food to be a useful resource and
           we&apos;d love to hear your feedback.
         </Text>
-        <Button
-          href={`https://booksaboutfood.info/${
-            author ? 'authors' : 'people'
-          }/${profileSlug}`}
-          paddingBottom={0}
-        >
-          Go to your profile
-        </Button>
       </Section>
     </BaseLayout>
   )

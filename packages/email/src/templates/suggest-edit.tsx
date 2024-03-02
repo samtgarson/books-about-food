@@ -24,14 +24,16 @@ export const SuggestEdit: Template<SuggestEditProps> = ({
       <Section>
         <Text>
           You&apos;ve got a new suggestion about a {resourceType} from{' '}
-          <strong>{userEmail}</strong>
+          <a href={`mailto:${userEmail}`}>{userEmail}</a>
         </Text>
-      </Section>
-      <Section white>
         <Text fontWeight="bold">Re: {resourceName}</Text>
+      </Section>
+      <Section box paddingBottom={0}>
         <Text fontStyle="italic">{suggestion}</Text>
+      </Section>
+      <Section>
         <Button href={url} paddingBottom={0}>
-          Edit in Forest
+          Edit {resourceType} in Forest
         </Button>
       </Section>
     </BaseLayout>

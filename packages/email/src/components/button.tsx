@@ -1,6 +1,6 @@
-import React from 'react'
-import cx from 'classnames'
 import { MjmlButton } from '@faire/mjml-react'
+import cx from 'classnames'
+import React from 'react'
 
 import { colors, fontSize, lineHeight, spacing } from '../theme'
 
@@ -12,10 +12,9 @@ export default function Button(props: ButtonProps) {
       lineHeight={lineHeight.tight}
       fontSize={fontSize.base}
       innerPadding="10px 16px"
-      paddingBottom={spacing.s8}
+      paddingBottom={props.paddingBottom || spacing.s8}
       align="left"
       backgroundColor={colors.white}
-      border="1px solid #000000"
       borderRadius="0px"
       color={colors.black}
       cssClass={cx('button', props.cssClass)}

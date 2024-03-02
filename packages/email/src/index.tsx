@@ -3,6 +3,10 @@ import nodemailer from 'nodemailer'
 import { resolve } from 'path'
 import { ClaimApproved, ClaimApprovedProps } from './templates/claim-approved'
 import { NewClaim, NewClaimProps } from './templates/new-claim'
+import {
+  SubmissionPublished,
+  SubmissionPublishedProps
+} from './templates/submission-published'
 import { SuggestEdit, SuggestEditProps } from './templates/suggest-edit'
 import { UserApproved, UserApprovedProps } from './templates/user-approved'
 import { VerifyEmail, VerifyEmailProps } from './templates/verify-email'
@@ -32,6 +36,8 @@ export const renderEmailTemplate = ({ key, props }: EmailTemplate) => {
       return <UserApproved {...props} />
     case 'claimApproved':
       return <ClaimApproved {...props} />
+    case 'submissionPublished':
+      return <SubmissionPublished {...props} />
   }
 }
 
@@ -40,7 +46,8 @@ export type EmailTemplates = [
   { key: 'suggestEdit'; props: SuggestEditProps },
   { key: 'verifyEmail'; props: VerifyEmailProps },
   { key: 'userApproved'; props: UserApprovedProps },
-  { key: 'claimApproved'; props: ClaimApprovedProps }
+  { key: 'claimApproved'; props: ClaimApprovedProps },
+  { key: 'submissionPublished'; props: SubmissionPublishedProps }
 ]
 export type EmailTemplate = EmailTemplates[number]
 

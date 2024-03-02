@@ -65,6 +65,17 @@ export default function BaseLayout({
             mso-hide: all;
           }
 
+          /* Mobile only */
+          @media (max-width:${screens.xs}) {
+            .button table {
+              width: 100%;
+            }
+
+            .button td {
+              text-align: left;
+            }
+          }
+
           /* Large screens */
           @media (min-width:${screens.xs}) {
             .sm-hidden {
@@ -88,7 +99,7 @@ export default function BaseLayout({
       `}</MjmlStyle>
       </MjmlHead>
 
-      <MjmlBody width={width}>
+      <MjmlBody width={width} backgroundColor={colors.grey}>
         <MjmlWrapper padding="40px 20px 0">
           <MjmlSection>
             <MjmlColumn>

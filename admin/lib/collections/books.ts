@@ -216,9 +216,37 @@ export const customiseBooks = (
     name: '📤 Publish',
     successMessage: 'Published',
     async fn(id) {
+      const book = await prisma.book.findUnique({
+        where: { id: id.toString() },
+        include: { submitter: true, authors: true, coverImage: true }
+      })
+
       await prisma.book.update({
         where: { id: id.toString() },
         data: { status: 'published' }
+      })
+
+      if (
+        !book?.submitter ||
+        book?.status !== 'inReview' ||
+        book.source !== 'submitted'
+      )
+        return
+
+      await inngest.send({
+        name: 'jobs.email',
+        data: {
+          key: 'submissionPublished',
+          props: {
+            recipientName: book.submitter.name || undefined,
+            author: book.authors.map((a) => a.name).join(' • '),
+            coverUrl: book.coverImage
+              ? imageUrl(book.coverImage?.path)
+              : undefined,
+            slug: book.slug,
+            title: book.title
+          }
+        }
       })
     }
   })
