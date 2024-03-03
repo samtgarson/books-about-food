@@ -5,7 +5,10 @@ import { BookList, SkeletonBookList } from 'src/components/books/list'
 import { createIndexPage } from 'src/components/pages/index-page'
 
 export const metadata: Metadata = {
-  title: 'Cookbooks'
+  title: 'Cookbooks',
+  alternates: {
+    canonical: '/cookbooks'
+  }
 }
 
 export * from 'app/default-static-config'

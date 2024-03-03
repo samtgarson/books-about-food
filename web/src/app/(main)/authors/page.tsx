@@ -6,7 +6,10 @@ import { SkeletonAuthorsGrid } from './grid'
 import { AuthorsList } from './list'
 
 export const metadata: Metadata = {
-  title: 'Authors'
+  title: 'Authors',
+  alternates: {
+    canonical: '/authors'
+  }
 }
 
 export * from 'app/default-static-config'

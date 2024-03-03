@@ -8,7 +8,10 @@ import { createIndexPage } from 'src/components/pages/index-page'
 import { PublishersList } from './list'
 
 export const metadata: Metadata = {
-  title: 'Publishers'
+  title: 'Publishers',
+  alternates: {
+    canonical: '/publishers'
+  }
 }
 
 export * from 'app/default-static-config'

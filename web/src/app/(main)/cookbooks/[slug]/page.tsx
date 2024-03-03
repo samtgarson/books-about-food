@@ -47,6 +47,9 @@ export async function generateMetadata(
           alt: `${book.title} on Books About Food`
         }
       ]
+    },
+    alternates: {
+      canonical: `/cookbooks/${book.slug}`
     }
   }
 }

@@ -28,7 +28,12 @@ export async function generateMetadata({
   const { data: publisher } = await call(fetchPublisher, { slug })
   if (!publisher) notFound()
 
-  return { title: publisher.name }
+  return {
+    title: publisher.name,
+    alternates: {
+      canonical: `/publishers/${publisher.slug}`
+    }
+  }
 }
 
 export * from 'app/default-static-config'

@@ -6,7 +6,10 @@ import { SkeletonPeopleGrid } from './grid'
 import { PeopleList } from './list'
 
 export const metadata: Metadata = {
-  title: 'People'
+  title: 'People',
+  alternates: {
+    canonical: '/people'
+  }
 }
 
 export * from 'app/default-static-config'

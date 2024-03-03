@@ -1,3 +1,4 @@
+import { Metadata } from 'next'
 import Image from 'next/image'
 import { ComponentProps } from 'react'
 import jamin from 'src/assets/images/jamin.png'
@@ -5,6 +6,13 @@ import sam from 'src/assets/images/sam.png'
 import { ContactLink } from 'src/components/atoms/contact-link'
 import { Container } from 'src/components/atoms/container'
 import { PageTitle } from 'src/components/atoms/page-title'
+
+export const metadata: Metadata = {
+  title: 'About',
+  alternates: {
+    canonical: '/about'
+  }
+}
 
 export default function AboutPage() {
   return (

@@ -5,7 +5,10 @@ import { PageTitle } from 'src/components/atoms/page-title'
 import { Faqs } from 'src/components/home/faqs'
 
 export const metadata: Metadata = {
-  title: 'Frequently Asked Questions'
+  title: 'Frequently Asked Questions',
+  alternates: {
+    canonical: '/frequently-asked-questions'
+  }
 }
 
 export * from 'src/app/default-static-config'

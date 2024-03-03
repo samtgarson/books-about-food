@@ -16,12 +16,9 @@ export const metadata = (segment: ProfilePageProps['segment']) =>
     const [firstName, ...names] = profile.name.split(' ')
     return {
       title: profile.name,
-      alternates:
-        process.env.NODE_ENV === 'production'
-          ? {
-              canonical: `https://www.booksaboutfood.info/${segment}/${profile.slug}`
-            }
-          : undefined,
+      alternates: {
+        canonical: `/${segment}/${profile.slug}`
+      },
       openGraph: {
         ...(await parent).openGraph,
         images: [

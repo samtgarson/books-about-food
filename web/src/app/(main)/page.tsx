@@ -1,5 +1,6 @@
 import { fetchFeatures } from '@books-about-food/core/services/features/fetch-features'
 import { fetchHome } from '@books-about-food/core/services/home/fetch'
+import { Metadata } from 'next'
 import { Suspense } from 'react'
 import { Container } from 'src/components/atoms/container'
 import { Marquee } from 'src/components/atoms/marquee'
@@ -16,6 +17,12 @@ import { getSessionUser } from 'src/utils/user'
 import { PublisherGrid } from './publishers/grid'
 
 export * from 'app/default-static-config'
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: '/'
+  }
+}
 
 const Page = async () => {
   const currentUser = await getSessionUser()

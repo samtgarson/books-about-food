@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/edit/', '/account/']
+      disallow: ['/edit/', '/account/', '/splash', '/_next/', '/api/']
     },
     sitemap: 'https://www.booksaboutfood.info/sitemap.xml'
   }
