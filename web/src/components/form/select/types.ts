@@ -48,3 +48,7 @@ export interface SelectContext<
   createOption: (val: string) => Promise<Value | void>
   placeholder?: string
 }
+
+export type SelectControl = {
+  clear: () => void
+}
