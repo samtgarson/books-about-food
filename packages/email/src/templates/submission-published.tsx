@@ -1,26 +1,20 @@
-import { Template } from 'mailing-core'
-import BaseLayout from '../components/base-layout'
 import { BookPreview } from '../components/book-preview'
 import { Section } from '../components/section'
 import Text from '../components/text'
+import { createTemplate } from '../utils/create-template'
 
 export type SubmissionPublishedProps = {
-  recipientName?: string
   title: string
   author: string
   slug: string
   coverUrl?: string | null
 }
 
-export const SubmissionPublished: Template<SubmissionPublishedProps> = ({
-  recipientName,
-  title,
-  author,
-  slug,
-  coverUrl
-}) => {
-  return (
-    <BaseLayout preview="You're in!" recipientName={recipientName}>
+export const SubmissionPublished = createTemplate<SubmissionPublishedProps>({
+  subject: 'We’ve published your submission',
+  preview: 'Thanks for submitting, check out your book on Books About Food',
+  content({ title, author, slug, coverUrl }) {
+    return (
       <Section>
         <Text>
           The book you submitted for review has now been published on the
@@ -35,7 +29,6 @@ export const SubmissionPublished: Template<SubmissionPublishedProps> = ({
         />
         <Text>Thanks for submitting!</Text>
       </Section>
-    </BaseLayout>
-  )
-}
-SubmissionPublished.subject = 'We’ve published your submission'
+    )
+  }
+})

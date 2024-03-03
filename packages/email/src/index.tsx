@@ -1,15 +1,13 @@
 import { buildSendMail } from 'mailing-core'
 import nodemailer from 'nodemailer'
 import { resolve } from 'path'
-import { ClaimApproved, ClaimApprovedProps } from './templates/claim-approved'
-import { NewClaim, NewClaimProps } from './templates/new-claim'
-import {
-  SubmissionPublished,
-  SubmissionPublishedProps
-} from './templates/submission-published'
-import { SuggestEdit, SuggestEditProps } from './templates/suggest-edit'
-import { UserApproved, UserApprovedProps } from './templates/user-approved'
-import { VerifyEmail, VerifyEmailProps } from './templates/verify-email'
+import { ComponentProps, JSXElementConstructor } from 'react'
+import { ClaimApproved } from './templates/claim-approved'
+import { NewClaim } from './templates/new-claim'
+import { SubmissionPublished } from './templates/submission-published'
+import { SuggestEdit } from './templates/suggest-edit'
+import { UserApproved } from './templates/user-approved'
+import { VerifyEmail } from './templates/verify-email'
 
 export const sendMail = buildSendMail({
   transport: nodemailer.createTransport({
@@ -24,30 +22,42 @@ export const sendMail = buildSendMail({
   configPath: resolve(__dirname, '../mailing.config.json')
 })
 
-export const renderEmailTemplate = ({ key, props }: EmailTemplate) => {
+export const renderEmailTemplate = (
+  name: string | null,
+  { key, props }: EmailTemplate
+) => {
   switch (key) {
     case 'newClaim':
-      return <NewClaim {...props} />
+      return <NewClaim recipientName={name} {...props} />
     case 'suggestEdit':
-      return <SuggestEdit {...props} />
+      return <SuggestEdit recipientName={name} {...props} />
     case 'verifyEmail':
-      return <VerifyEmail {...props} />
+      return <VerifyEmail recipientName={name} {...props} />
     case 'userApproved':
-      return <UserApproved {...props} />
+      return <UserApproved recipientName={name} {...props} />
     case 'claimApproved':
-      return <ClaimApproved {...props} />
+      return <ClaimApproved recipientName={name} {...props} />
     case 'submissionPublished':
-      return <SubmissionPublished {...props} />
+      return <SubmissionPublished recipientName={name} {...props} />
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type EmailProps<Component extends JSXElementConstructor<any>> = Omit<
+  ComponentProps<Component>,
+  'recipientName'
+>
+
 export type EmailTemplates = [
-  { key: 'newClaim'; props: NewClaimProps },
-  { key: 'suggestEdit'; props: SuggestEditProps },
-  { key: 'verifyEmail'; props: VerifyEmailProps },
-  { key: 'userApproved'; props: UserApprovedProps },
-  { key: 'claimApproved'; props: ClaimApprovedProps },
-  { key: 'submissionPublished'; props: SubmissionPublishedProps }
+  { key: 'newClaim'; props: EmailProps<typeof NewClaim> },
+  { key: 'suggestEdit'; props: EmailProps<typeof SuggestEdit> },
+  { key: 'verifyEmail'; props: EmailProps<typeof VerifyEmail> },
+  { key: 'userApproved'; props: EmailProps<typeof UserApproved> },
+  { key: 'claimApproved'; props: EmailProps<typeof ClaimApproved> },
+  {
+    key: 'submissionPublished'
+    props: EmailProps<typeof SubmissionPublished>
+  }
 ]
 export type EmailTemplate = EmailTemplates[number]
 

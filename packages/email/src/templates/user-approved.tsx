@@ -1,14 +1,13 @@
-import { Template } from 'mailing-core'
-import BaseLayout from '../components/base-layout'
 import Button from '../components/button'
 import { Section } from '../components/section'
 import Text from '../components/text'
+import { createTemplate } from '../utils/create-template'
 
-export type UserApprovedProps = { userName?: string | null }
-
-export const UserApproved: Template<UserApprovedProps> = ({ userName }) => {
-  return (
-    <BaseLayout preview="You're in!" recipientName={userName ?? undefined}>
+export const UserApproved = createTemplate({
+  subject: 'Welcome to Books About Food!',
+  preview: "You're off the waiting list",
+  content() {
+    return (
       <Section>
         <Text>
           You&apos;re in! Your account has been approved and you can now log
@@ -23,7 +22,6 @@ export const UserApproved: Template<UserApprovedProps> = ({ userName }) => {
           Show me some cookbooks
         </Button>
       </Section>
-    </BaseLayout>
-  )
-}
-UserApproved.subject = 'Welcome to Books About Food!'
+    )
+  }
+})

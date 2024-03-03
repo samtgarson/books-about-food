@@ -1,24 +1,20 @@
-import { Template } from 'mailing-core'
-import BaseLayout from '../components/base-layout'
 import { ProfilePreview } from '../components/profile-preview'
 import { Section } from '../components/section'
 import Text from '../components/text'
+import { createTemplate } from '../utils/create-template'
 
-export type ClaimApprovedProps = {
+type ClaimApprovedProps = {
   profileName: string
   profileSlug: string
   profileAvatarUrl?: string | null
   author: boolean
 }
 
-export const ClaimApproved: Template<ClaimApprovedProps> = ({
-  profileName,
-  profileSlug,
-  profileAvatarUrl,
-  author
-}) => {
-  return (
-    <BaseLayout preview="You're in!" recipientName={profileName}>
+export const ClaimApproved = createTemplate<ClaimApprovedProps>({
+  subject: 'Welcome to Books About Food!',
+  preview: "We've approved your claim, go manage your profile now",
+  content({ profileName, profileSlug, profileAvatarUrl, author }) {
+    return (
       <Section>
         <Text>
           Congrats! 🎉 We&apos;ve approved your claim and you can now log in and
@@ -37,7 +33,6 @@ export const ClaimApproved: Template<ClaimApprovedProps> = ({
           we&apos;d love to hear your feedback.
         </Text>
       </Section>
-    </BaseLayout>
-  )
-}
-ClaimApproved.subject = 'Welcome to Books About Food!'
+    )
+  }
+})

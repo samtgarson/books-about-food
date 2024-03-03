@@ -1,26 +1,20 @@
-import { Template } from 'mailing-core'
-import BaseLayout from '../components/base-layout'
 import { ProfilePreview } from '../components/profile-preview'
 import { Section } from '../components/section'
 import Text from '../components/text'
+import { createTemplate } from '../utils/create-template'
 
-export type NewClaimProps = {
-  recipientName: string
+type NewClaimProps = {
   claimId: string
   resourceName: string
   resourceAvatar: string | null
   userEmail: string
 }
 
-export const NewClaim: Template<NewClaimProps> = ({
-  claimId,
-  resourceName,
-  resourceAvatar,
-  recipientName,
-  userEmail
-}) => {
-  return (
-    <BaseLayout recipientName={recipientName}>
+export const NewClaim = createTemplate<NewClaimProps>({
+  subject: 'New claim for review',
+  preview: 'Review on Forest now',
+  content({ claimId, resourceName, resourceAvatar, userEmail }) {
+    return (
       <Section>
         <Text>
           You&apos;ve got a new profile claim to review from:{' '}
@@ -36,7 +30,6 @@ export const NewClaim: Template<NewClaimProps> = ({
           Look out for a message on Instagram with the three random words.
         </Text>
       </Section>
-    </BaseLayout>
-  )
-}
-NewClaim.subject = 'New claim for review'
+    )
+  }
+})

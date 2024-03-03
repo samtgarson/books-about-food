@@ -238,7 +238,6 @@ export const customiseBooks = (
         data: {
           key: 'submissionPublished',
           props: {
-            recipientName: book.submitter.name || undefined,
             author: book.authors.map((a) => a.name).join(' • '),
             coverUrl: book.coverImage
               ? imageUrl(book.coverImage?.path)
@@ -246,7 +245,8 @@ export const customiseBooks = (
             slug: book.slug,
             title: book.title
           }
-        }
+        },
+        user: book.submitter
       })
     }
   })

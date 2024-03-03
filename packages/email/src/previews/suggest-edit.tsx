@@ -9,6 +9,7 @@ const userEmail = 'imnotharry@styles.com'
 export function book() {
   return (
     <SuggestEdit
+      recipientName="BAF Admins"
       resourceName={resourceName}
       resourceType="book"
       suggestion={suggestion}
@@ -21,6 +22,7 @@ export function book() {
 export function profile() {
   return (
     <SuggestEdit
+      recipientName="BAF Admins"
       resourceName={resourceName}
       resourceType="profile"
       suggestion={suggestion}

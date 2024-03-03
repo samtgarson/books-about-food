@@ -6,8 +6,8 @@ export const email = inngest.createFunction(
   { id: 'email', name: 'Send an email' },
   { event: 'jobs.email' },
   async ({ event }) => {
-    if (!event.user?.email) return { success: false, message: 'No user' }
-    const component = renderEmailTemplate(event.data)
+    if (!event.user) return { success: false, message: 'No user' }
+    const component = renderEmailTemplate(event.user.name || null, event.data)
 
     const id = crypto.randomUUID()
     const sentMessage = await sendMail({

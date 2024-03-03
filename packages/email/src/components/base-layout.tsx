@@ -20,7 +20,7 @@ type BaseLayoutProps = {
   width?: number
   style?: string
   children: ReactNode
-  recipientName?: string
+  recipientName?: string | null
   preview?: string
 }
 

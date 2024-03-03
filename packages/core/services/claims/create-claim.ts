@@ -39,13 +39,12 @@ export const createClaim = new AuthedService(
         key: 'newClaim',
         props: {
           claimId: claim.id,
-          recipientName: 'Admin',
           resourceName: resourceName as string,
           resourceAvatar: null,
           userEmail: user.email
         }
       },
-      user: { email: 'aboutcookbooks@gmail.com' }
+      user: { name: 'BAF Admins', email: 'aboutcookbooks@gmail.com' }
     })
     return claim
   }

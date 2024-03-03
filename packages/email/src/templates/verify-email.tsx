@@ -1,17 +1,19 @@
-import { Template } from 'mailing-core'
-import BaseLayout from '../components/base-layout'
 import Button from '../components/button'
 import { Section } from '../components/section'
 import Text from '../components/text'
+import { createTemplate } from '../utils/create-template'
 
 export type VerifyEmailProps = {
   url: string
   newUser?: boolean
 }
 
-export const VerifyEmail: Template<VerifyEmailProps> = ({ url, newUser }) => {
-  return (
-    <BaseLayout preview="Verify your email address">
+export const VerifyEmail = createTemplate<VerifyEmailProps>({
+  subject: ({ newUser }) =>
+    newUser ? `Welcome to Books About Food!` : `Sign in to Books About Food`,
+  preview: 'Verify your email address',
+  content({ url, newUser }) {
+    return (
       <Section>
         {newUser ? (
           <>
@@ -30,8 +32,6 @@ export const VerifyEmail: Template<VerifyEmailProps> = ({ url, newUser }) => {
           <a href={url}>{url}</a>
         </Text>
       </Section>
-    </BaseLayout>
-  )
-}
-VerifyEmail.subject = ({ newUser }) =>
-  newUser ? `Welcome to Books About Food!` : `Sign in to Books About Food`
+    )
+  }
+})
