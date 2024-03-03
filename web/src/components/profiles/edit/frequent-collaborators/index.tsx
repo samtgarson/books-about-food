@@ -1,6 +1,7 @@
 import { Profile } from '@books-about-food/core/models/profile'
 import cn from 'classnames'
 import { Lock } from 'react-feather'
+import { Avatar } from 'src/components/atoms/avatar'
 import { AuthedButton } from 'src/components/auth/authed-button'
 import { GridContainer } from 'src/components/lists/grid-container'
 import { getUser } from 'src/utils/user'
@@ -31,19 +32,25 @@ export async function FrequentCollaborators({
   return (
     <div className={className}>
       <h2 className="all-caps mb-4 w-full text-left">Frequent Collaborators</h2>
-      <GridContainer className={cn('-mt-px sm:mt-0 relative')}>
-        {dummyProfiles.map((profile) => (
-          <div aria-hidden key={profile.id}>
-            <ProfileItem
-              display="list"
-              profile={profile}
-              className="blur-md opacity-30"
-            />
-          </div>
-        ))}
-        <div className="absolute inset-0 flex gap-4 items-center justify-center text-16">
-          <Lock strokeWidth={1} />
-          <p className="text-center text-22">
+      <div className="relative">
+        <GridContainer
+          className={cn(
+            '-mt-px sm:mt-0 relative mobile-only:hidden blur-md opacity-30'
+          )}
+        >
+          {dummyProfiles.map((profile) => (
+            <div aria-hidden key={profile.id}>
+              <ProfileItem display="list" profile={profile} />
+            </div>
+          ))}
+        </GridContainer>
+        <div className="sm:hidden flex gap-4 blur-md opacity-30">
+          {dummyProfiles.map((profile) => (
+            <Avatar profile={profile} key={profile.id} size="xs" />
+          ))}
+        </div>
+        <div className="absolute inset-0 flex gap-4 items-center justify-center">
+          <p className="sm:text-center text-14">
             Please{' '}
             <AuthedButton>
               <a className="underline">login</a>
@@ -54,8 +61,9 @@ export async function FrequentCollaborators({
             </AuthedButton>{' '}
             to view collaborators
           </p>
+          <Lock strokeWidth={1} className="sm:order-first shrink-0" />
         </div>
-      </GridContainer>
+      </div>
     </div>
   )
 }

@@ -73,9 +73,9 @@ export async function ProfilePage({ segment, slug }: ProfilePageProps) {
           )}
         </div>
       </Container>
-      <Container className="empty:hidden">
+      <Container className="empty:hidden mobile-only:border-t border-black">
         <Suspense fallback={null}>
-          <ContributionList profile={profile} className="mt-8 sm:mt-20" />
+          <ContributionList profile={profile} className="sm:mt-20" />
         </Suspense>
       </Container>
     </EditProfileProvider>
