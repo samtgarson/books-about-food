@@ -34,7 +34,7 @@ export async function generateMetadata(
       description: book.subtitle,
       type: 'book',
       releaseDate: book.isoReleaseDate,
-      tags: ['Cookbook', ...book.tags],
+      tags: ['Cookbook', ...book.tagNames],
       url: `https://booksaboutfood.info/cookbooks/${book.slug}`,
       authors: book.authors.map(
         (author) => `https://booksaboutfood.info/authors/${author.slug}`

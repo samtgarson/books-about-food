@@ -66,7 +66,7 @@ export const updateBook = new AuthedService(
     } satisfies Prisma.BookUpdateInput
 
     const previewImages = previewImageIds?.map((id) => ({ id }))
-    const tagNames = tags?.map((name) => ({ name }))
+    const connectTags = tags?.map((slug) => ({ slug }))
     const authors = authorIds?.map((id) => ({ id }))
 
     let result: FullBookAttrs | undefined = undefined
@@ -77,7 +77,7 @@ export const updateBook = new AuthedService(
           ...properties,
           id: undefined,
           previewImages: { set: previewImages },
-          tags: { set: tagNames },
+          tags: { set: connectTags },
           authors: { set: authors }
         },
         include: fullBookIncludes
@@ -89,7 +89,7 @@ export const updateBook = new AuthedService(
           title,
           slug: slugify(title),
           previewImages: { connect: previewImages },
-          tags: { connect: tagNames },
+          tags: { connect: connectTags },
           submitter: { connect: { id: user.id } },
           authors: { connect: authors }
         },

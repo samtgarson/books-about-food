@@ -27,7 +27,7 @@ export const fullBookIncludes = {
   ...bookIncludes,
   previewImages: { orderBy: [{ order: 'asc' }, { createdAt: 'asc' }] },
   publisher: { include: publisherIncludes },
-  tags: true,
+  tags: { select: { slug: true, name: true } },
   links: { orderBy: { site: 'asc' } }
 } satisfies Prisma.BookDefaultArgs['include']
 
