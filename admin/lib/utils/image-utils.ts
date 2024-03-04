@@ -1,15 +1,14 @@
+import { createImages } from '@books-about-food/core/services/images/create-images'
 import { FileUploader } from '@books-about-food/core/services/images/file-uploader'
-import { ImageBlurrer } from '@books-about-food/core/services/images/image-blurrer'
 import prisma, { Prisma } from '@books-about-food/database'
-import sizeOf from 'buffer-image-size'
 
 const s3 = new FileUploader()
 
 export const parseDataUri = (dataUri: string) => {
   const [header, data] = dataUri.substring(5).split(',')
-  const [mimeType] = header.split(';')
+  const [type] = header.split(';')
 
-  return { mimeType, buffer: Buffer.from(data, 'base64') }
+  return { type, buffer: Buffer.from(data, 'base64') }
 }
 
 export const uploadImage = async (
@@ -25,19 +24,22 @@ export const uploadImage = async (
     return image
   }
 
-  const { buffer, mimeType } = parseDataUri(dataUri)
-  const { id, path } = await s3.upload(buffer, mimeType, prefix)
-  const { width, height } = sizeOf(buffer)
+  const { buffer, type } = parseDataUri(dataUri)
 
   if (replace && key && foreignKey) {
     await deleteExisting(key, foreignKey)
   }
 
-  const blurrer = new ImageBlurrer({ s3path: path })
-  const placeholderUrl = await blurrer.call()
+  const { data } = await createImages.call({
+    prefix,
+    files: [{ buffer, type }]
+  })
+  const image = data?.at(0)
+  if (!image) return
 
-  const image = await prisma.image.create({
-    data: { id, path, [key]: foreignKey, width, height, placeholderUrl }
+  await prisma.image.update({
+    where: { id: image?.id },
+    data: { [key]: foreignKey }
   })
 
   return image

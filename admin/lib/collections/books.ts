@@ -22,8 +22,12 @@ const uploadCover = async (dataUri: string | null, bookId: string) => {
 const uploadPreviews = async (dataUris: string[] = [], bookId: string) => {
   const images = await Promise.all(
     dataUris.map((dataUri) => {
-      if (!dataUri.startsWith('data:'))
-        return prisma.image.findUnique({ where: { path: dataUri } })
+      if (!dataUri.startsWith('data:')) {
+        // extract pathname and remove leading and
+        const path = new URL(dataUri).pathname.slice(1)
+        return prisma.image.findUnique({ where: { path } })
+      }
+
       const prefix = `books/${bookId}/previews`
       return uploadImage(dataUri, prefix, 'previewForId', bookId)
     })
