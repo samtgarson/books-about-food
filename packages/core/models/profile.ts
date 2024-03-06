@@ -30,7 +30,7 @@ export class Profile extends Colourful(
       this.website = normalizeUrl(attrs.website ?? undefined)
       this.instagram = attrs.instagram ?? undefined
       this.avatar = attrs.avatar
-        ? new Image(attrs.avatar, `Avatar for ${attrs.name}`)
+        ? new Image(attrs.avatar, `Avatar for ${attrs.name}`, true)
         : undefined
       this.jobTitle = attrs.jobTitle ?? undefined
       this.mostRecentlyPublishedOn = attrs.mostRecentlyPublishedOn ?? undefined

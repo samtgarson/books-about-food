@@ -32,7 +32,7 @@ export class Book extends BaseModel {
     this.subtitle = attrs.subtitle ?? undefined
     this.slug = attrs.slug
     this.cover = attrs.coverImage
-      ? new Image(attrs.coverImage, `Cover for ${attrs.title}`)
+      ? new Image(attrs.coverImage, `Cover for ${attrs.title}`, true)
       : undefined
     this.releaseDate = attrs.releaseDate ?? undefined
     this.pages = attrs.pages ?? undefined

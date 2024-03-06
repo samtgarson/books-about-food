@@ -13,7 +13,7 @@ export class FullBook extends Book {
   constructor(attrs: FullBookAttrs) {
     super(attrs)
     this.previewImages = attrs.previewImages.map(
-      (image, i) => new Image(image, `Preview ${i} for ${attrs.title}`)
+      (image, i) => new Image(image, `Preview ${i} for ${attrs.title}`, true)
     )
     this.tags = attrs.tags
     this.publisher = attrs.publisher

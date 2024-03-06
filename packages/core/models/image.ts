@@ -1,6 +1,7 @@
 import * as Prisma from '@books-about-food/database'
 import { imageUrl } from '@books-about-food/shared/utils/image-url'
 import { ImageProps } from 'next/image'
+import { cloudflareLoader } from '../utils/image-loader'
 
 export class Image {
   id: string
@@ -22,7 +23,8 @@ export class Image {
       | 'id'
       | 'order'
     >,
-    defaultCaption: string
+    defaultCaption: string,
+    private optimized = false
   ) {
     this.id = attrs.id
     this.path = attrs.path
@@ -46,7 +48,7 @@ export class Image {
       width?: number
       height?: number
     } = {
-      src: this.src,
+      src: this.optimized ? cloudflareLoader(this.path, height) : this.src,
       alt: this.caption
     }
 
