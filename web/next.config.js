@@ -13,14 +13,9 @@ const nextConfig = {
   },
   transpilePackages: ['shared', 'database', 'email', 'core'],
   images: {
-    unoptimized: true,
     minimumCacheTTL: 60 * 60 * 24 * 90, // 90 days
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: new URL(process.env.S3_DOMAIN).hostname
-      }
-    ]
+    loader: 'custom',
+    loaderFile: './src/lib/cloudflare/image-loader.ts'
   }
 }
 

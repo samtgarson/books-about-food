@@ -24,7 +24,7 @@ export const AuthorItem = ({
       )}
       style={{ animationDelay: `${index * 150}ms` }}
     >
-      <Avatar profile={profile} size="fill" />
+      <Avatar profile={profile} size="3xl" fill />
       {profile ? (
         <p className="mt-auto font-medium">{profile.name}</p>
       ) : (

@@ -1,22 +1,21 @@
 import { NullProfile, Profile } from '@books-about-food/core/models/profile'
 import cn from 'classnames'
 import Image, { ImageProps } from 'next/image'
-import { ComponentProps, FC } from 'react'
+import { CSSProperties, ComponentProps, FC, useId } from 'react'
 
-export const avatarSize = [
-  '3xs',
-  '2xs',
-  'xs',
-  'sm',
-  'md',
-  'lg',
-  'xl',
-  '2xl',
-  '3xl',
-  'fill'
-] as const
+export const avatarSize = {
+  '3xs': 24,
+  '2xs': 32,
+  xs: 40,
+  sm: 48,
+  md: 64,
+  lg: 96,
+  xl: 128,
+  '2xl': 192,
+  '3xl': 256
+} as const
 
-export type AvatarSize = (typeof avatarSize)[number]
+export type AvatarSize = keyof typeof avatarSize
 
 export type BaseAvatarProps = {
   imgProps?: ImageProps | null
@@ -25,9 +24,10 @@ export type BaseAvatarProps = {
   mobileSize?: AvatarSize
   backgroundColour?: string
   foregroundColour?: string
+  fill?: boolean
 } & ComponentProps<'div'>
 
-export const BaseAvatar: FC<BaseAvatarProps> = ({
+export function BaseAvatar({
   imgProps,
   backup,
   backgroundColour,
@@ -35,56 +35,65 @@ export const BaseAvatar: FC<BaseAvatarProps> = ({
   size = 'md',
   mobileSize = size,
   className,
+  fill,
   ...props
-}) => (
-  <div
-    {...props}
-    className={cn(
-      className,
-      'relative flex aspect-square flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-white bg-opacity-50',
-      {
-        'w-16': mobileSize === 'md' || (!mobileSize && size === 'md'),
-        'w-12': mobileSize === 'sm' || (!mobileSize && size === 'sm'),
-        'w-10': mobileSize === 'xs' || (!mobileSize && size === 'xs'),
-        'w-32': mobileSize === 'xl' || (!mobileSize && size === 'xl'),
-        'w-48': mobileSize === '2xl' || (!mobileSize && size === '2xl'),
-        'w-64': mobileSize === '3xl' || (!mobileSize && size === '3xl'),
-        'text-12 w-8': mobileSize === '2xs' || (!mobileSize && size === '2xs'),
-        'text-10 w-6': mobileSize === '3xs' || (!mobileSize && size === '3xs'),
-        'w-full': mobileSize === 'fill' || (!mobileSize && size === 'fill'),
-        'md:w-48': size === '3xl',
-        'md:w-32': size === '2xl',
-        'md:w-16': size === 'md',
-        'md:w-12': size === 'sm',
-        'md:w-10': size === 'xs',
-        'md:w-36': size === 'xl',
-        'md:w-8': size === '2xs',
-        'md:w-full': size === 'fill'
-      }
-    )}
-    style={
-      imgProps
-        ? undefined
-        : {
-            backgroundColor: backgroundColour,
-            color: foregroundColour
+}: BaseAvatarProps) {
+  const sizeVal = avatarSize[size]
+  const id = useId()
+  const style: CSSProperties = {}
+
+  if (imgProps) {
+    imgProps.width = sizeVal
+    imgProps.height = sizeVal
+    imgProps.fill = false
+  } else {
+    style.backgroundColor = backgroundColour
+    style.color = foregroundColour
+  }
+
+  if (!fill) {
+    style.width = sizeVal
+    style.height = sizeVal
+  }
+
+  return (
+    <>
+      <div
+        {...props}
+        id={id}
+        className={cn(
+          className,
+          'relative flex aspect-square flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-white bg-opacity-50'
+        )}
+        style={style}
+      >
+        {imgProps ? (
+          <Image
+            {...imgProps}
+            className={cn(
+              'inset-0 object-cover aspect-square',
+              fill && 'w-full h-full'
+            )}
+          />
+        ) : (
+          <span className="leading-none mt-px">
+            {backup.split(' ').map((word) => word[0]?.toUpperCase())}
+          </span>
+        )}
+      </div>
+      {mobileSize !== size && (
+        <style>{`
+        @media (max-width: 640px) {
+          #${id} {
+            width: ${avatarSize[mobileSize]}px !important;
+            height: ${avatarSize[mobileSize]}px !important;
           }
-    }
-  >
-    {imgProps ? (
-      <Image
-        {...imgProps}
-        fill
-        className="inset-0 object-cover"
-        sizes="300px"
-      />
-    ) : (
-      <span className="leading-none mt-px">
-        {backup.split(' ').map((word) => word[0]?.toUpperCase())}
-      </span>
-    )}
-  </div>
-)
+        }
+      `}</style>
+      )}
+    </>
+  )
+}
 
 export type AvatarProps = Omit<
   BaseAvatarProps,

@@ -13,7 +13,7 @@ export const EditableAvatar = () => {
       onSave={(avatar) => onSave({ avatar })}
       croppeable
     >
-      <Avatar profile={profile} size="xl" mobileSize="md" />
+      <Avatar profile={profile} size="2xl" mobileSize="md" />
     </EditableImage>
   )
 }
