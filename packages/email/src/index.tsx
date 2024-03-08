@@ -6,6 +6,7 @@ import { ClaimApproved } from './templates/claim-approved'
 import { NewClaim } from './templates/new-claim'
 import { SubmissionPublished } from './templates/submission-published'
 import { SuggestEdit } from './templates/suggest-edit'
+import { TeamInvite } from './templates/team-invite'
 import { UserApproved } from './templates/user-approved'
 import { VerifyEmail } from './templates/verify-email'
 
@@ -39,6 +40,8 @@ export const renderEmailTemplate = (
       return <ClaimApproved recipientName={name} {...props} />
     case 'submissionPublished':
       return <SubmissionPublished recipientName={name} {...props} />
+    case 'teamInvite':
+      return <TeamInvite recipientName={name} {...props} />
   }
 }
 
@@ -57,6 +60,10 @@ export type EmailTemplates = [
   {
     key: 'submissionPublished'
     props: EmailProps<typeof SubmissionPublished>
+  },
+  {
+    key: 'teamInvite'
+    props: EmailProps<typeof TeamInvite>
   }
 ]
 export type EmailTemplate = EmailTemplates[number]

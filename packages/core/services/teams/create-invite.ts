@@ -1,4 +1,5 @@
 import prisma from '@books-about-food/database'
+import { inngest } from '../../jobs'
 import { AuthedService } from '../base'
 import { AppError } from '../utils/errors'
 import { createInviteSchema } from './schemas/create-invite'
@@ -23,7 +24,20 @@ export const createInvite = new AuthedService(
         email,
         role,
         invitedById: user.id
-      }
+      },
+      include: { team: { select: { name: true } } }
+    })
+
+    inngest.send({
+      name: 'jobs.email',
+      data: {
+        key: 'teamInvite',
+        props: {
+          inviterName: user.name || user.email,
+          teamName: invite.team.name
+        }
+      },
+      user: { email }
     })
 
     return invite
