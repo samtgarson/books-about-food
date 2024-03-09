@@ -1,3 +1,11 @@
+const imagesConfig =
+  process.env.NODE_ENV === 'production'
+    ? {
+        loader: 'custom',
+        loaderFile: './src/lib/cloudflare/image-loader.ts'
+      }
+    : { unoptimized: true }
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -12,15 +20,12 @@ const nextConfig = {
     serverComponentsExternalPackages: ['mjml', 'sharp', '@sparticuz/chromium']
   },
   transpilePackages: ['shared', 'database', 'email', 'core'],
-  images: {
-    minimumCacheTTL: 60 * 60 * 24 * 90, // 90 days
-    loader: 'custom',
-    loaderFile: './src/lib/cloudflare/image-loader.ts'
-  }
+  images: Object.assign(imagesConfig, {
+    minimumCacheTTL: 60 * 60 * 24 * 90 // 90 days
+  })
 }
 
 // Injected content via Sentry wizard below
-
 const { withSentryConfig } = require('@sentry/nextjs')
 
 module.exports = withSentryConfig(
