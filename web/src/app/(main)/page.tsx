@@ -33,20 +33,18 @@ export const metadata: Metadata = {
 
 const Page = async () => {
   const currentUser = await getSessionUser()
-  const [{ data: features }, { data: home }] = await Promise.all([
-    call(fetchFeatures),
-    call(fetchHome)
-  ])
-  if (!features || !home) throw new Error('Server error')
+  const { data: features } = await call(fetchFeatures)
 
   return (
     <>
-      <div className="bg-white relative">
-        <FeatureCarousel features={features} title faces data-superjson />
-        {currentUser?.role === 'admin' && (
-          <EditFeatureCarouselDialog features={features} data-superjson />
-        )}
-      </div>
+      {features && (
+        <div className="bg-white relative">
+          <FeatureCarousel features={features} title faces data-superjson />
+          {currentUser?.role === 'admin' && (
+            <EditFeatureCarouselDialog features={features} data-superjson />
+          )}
+        </div>
+      )}
       <Marquee className="fixed bottom-0 left-0 -right-[25%] z-40 -rotate-[15deg]">
         <a
           href="https://www.instagram.com/books.about.food"
@@ -57,12 +55,20 @@ const Page = async () => {
         </a>
         <NewBookButton className="text-white">Submit a cookbook</NewBookButton>
       </Marquee>
-      <Container
-        mobile={false}
-        desktop={false}
-        belowNav={!features.length}
-        className="-mt-px"
-      >
+      <Suspense fallback={null}>
+        <HomepageContent />
+      </Suspense>
+    </>
+  )
+}
+
+async function HomepageContent() {
+  const { data: home } = await call(fetchHome)
+  if (!home) return null
+
+  return (
+    <>
+      <Container mobile={false} desktop={false} className="-mt-px">
         <div className="flex flex-wrap">
           <HomepageModule
             title="Coming Soon"
