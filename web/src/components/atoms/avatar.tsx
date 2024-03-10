@@ -70,6 +70,7 @@ export function BaseAvatar({
         {imgProps ? (
           <Image
             {...imgProps}
+            placeholder={sizeVal >= 40 ? imgProps.placeholder : undefined}
             className={cn(
               'inset-0 object-cover aspect-square',
               fill && 'w-full h-full'
