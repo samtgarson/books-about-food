@@ -1,13 +1,13 @@
 import { fetchFeatures } from '@books-about-food/core/services/features/fetch-features'
 import { fetchHome } from '@books-about-food/core/services/home/fetch'
 import { Metadata } from 'next'
+import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
 import { Container } from 'src/components/atoms/container'
 import { Marquee } from 'src/components/atoms/marquee'
 import { ItemCarousel } from 'src/components/books/item-carousel'
 import { NewBookButton } from 'src/components/books/new-book-button'
 import { FeatureCarousel } from 'src/components/feature-carousel'
-import { EditFeatureCarouselDialog } from 'src/components/feature-carousel/edit-dialog'
 import { HomepageModule } from 'src/components/home/module'
 import { USP } from 'src/components/home/usp'
 import { FeaturedJobsList } from 'src/components/jobs/featured-jobs-list'
@@ -15,6 +15,13 @@ import { ProfileCarousel } from 'src/components/profiles/profile-carousel'
 import { call } from 'src/utils/service'
 import { getSessionUser } from 'src/utils/user'
 import { PublisherGrid } from './publishers/grid'
+
+const EditFeatureCarouselDialog = dynamic(
+  async () =>
+    (await import('src/components/feature-carousel/edit-dialog'))
+      .EditFeatureCarouselDialog,
+  { ssr: false }
+)
 
 export * from 'app/default-static-config'
 
