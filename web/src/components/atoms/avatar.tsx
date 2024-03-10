@@ -39,7 +39,7 @@ export function BaseAvatar({
   ...props
 }: BaseAvatarProps) {
   const sizeVal = avatarSize[size]
-  const id = useId()
+  const id = `avatar-${useId()}`
   const style: CSSProperties = {}
 
   if (imgProps) {
@@ -85,7 +85,7 @@ export function BaseAvatar({
       {mobileSize !== size && (
         <style>{`
         @media (max-width: 640px) {
-          #${id} {
+          [id="${id}"] {
             width: ${avatarSize[mobileSize]}px !important;
             height: ${avatarSize[mobileSize]}px !important;
           }
