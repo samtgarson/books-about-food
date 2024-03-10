@@ -1,5 +1,5 @@
 import { FullBook } from '@books-about-food/core/models/full-book'
-import { User } from 'next-auth/types'
+import { User } from '@books-about-food/core/types'
 import { FC } from 'react'
 import { BookEditState } from './state'
 import { Step } from './step'

@@ -3,10 +3,12 @@ import { PrismaAdapter } from '@auth/prisma-adapter'
 import { inngest } from '@books-about-food/core/jobs'
 import prisma from '@books-about-food/database'
 import { getEnv } from '@books-about-food/shared/utils/get-env'
+import 'next-auth'
 import NextAuth, { NextAuthConfig } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 
 export const authOptions = {
+  basePath: '/api/auth',
   providers: [
     GoogleProvider({
       clientId: getEnv('GOOGLE_CLIENT_ID'),
@@ -52,7 +54,7 @@ export const authOptions = {
   ],
   callbacks: {
     async jwt({ token, user, trigger }) {
-      if (user) {
+      if (user?.id) {
         token.userId = user.id
         token.role = user.role
         token.image = user.image || undefined
@@ -79,6 +81,7 @@ export const authOptions = {
     },
     async session({ session, token }) {
       if (token) {
+        // @ts-expect-error next types have broken
         session.user = {
           email: token.email,
           name: token.name || null,
