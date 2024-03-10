@@ -9,7 +9,7 @@ Sentry.init({
 
   debug: false,
 
-  replaysOnErrorSampleRate: process.env.NODE_ENV === 'production' ? 1 : 0,
+  replaysOnErrorSampleRate: 0,
 
   replaysSessionSampleRate: 0,
 
