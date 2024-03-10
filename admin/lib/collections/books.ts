@@ -290,9 +290,15 @@ export const customiseBooks = (
     execute: async (context, result) => {
       const bookId = `${await context.getRecordId()}`
       const jobId = context.formValues.Job[0]
+
+      if (!jobId) return result.error('Job is required')
+
       const job = await prisma.job.findUnique({ where: { id: jobId } })
       const tag = context.formValues.Assistant ? 'Assistant' : undefined
       const profileIdOrName = context.formValues.Name
+
+      if (!profileIdOrName) return result.error('Name is required')
+
       let profileId: string
       if (profileIdOrName.startsWith('||')) {
         const name = profileIdOrName.slice(2, -2)
