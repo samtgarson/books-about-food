@@ -38,7 +38,7 @@ export async function GET(
           display: 'flex',
           width: dims.width,
           height: dims.height,
-          backgroundColor: 'white',
+          backgroundColor: '#F0EEEB',
           position: 'relative',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -47,34 +47,6 @@ export async function GET(
           fontFamily: '"Graphik"'
         }}
       >
-        {avatar && (
-          <img
-            src={avatar.src}
-            width={dims.width / 2 + 100}
-            height={dims.height}
-            style={{
-              position: 'absolute',
-              left: dims.width / 2 - 100,
-              right: 0,
-              objectFit: 'cover',
-              filter: 'blur(50px)',
-              opacity: 0.2
-            }}
-          />
-        )}
-        {avatar && (
-          <div
-            style={{
-              position: 'absolute',
-              left: dims.width / 2 - 100,
-              backgroundImage:
-                'linear-gradient(to right, white, rgba(255,255,255,0))',
-              width: 200,
-              top: 0,
-              height: dims.height
-            }}
-          />
-        )}
         <div
           style={{
             display: 'flex',
