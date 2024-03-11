@@ -1,3 +1,4 @@
+import 'server-only'
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   AppError,

@@ -1,4 +1,4 @@
-import { MembershipRole } from '@books-about-food/database'
+import { MembershipRole } from '@books-about-food/database/client'
 import z from 'zod'
 
 export const createInviteSchema = z.object({

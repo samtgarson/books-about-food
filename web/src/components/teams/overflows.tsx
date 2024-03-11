@@ -1,5 +1,5 @@
 'use client'
-import { MembershipRole } from '@books-about-food/database'
+import type { MembershipRole } from '@books-about-food/database'
 import { ChevronsDown, ChevronsUp, Trash2 } from 'react-feather'
 import * as Overflow from 'src/components/atoms/overflow'
 

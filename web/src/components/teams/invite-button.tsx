@@ -2,7 +2,7 @@
 
 import { Team } from '@books-about-food/core/models/team'
 import { createInviteSchema } from '@books-about-food/core/services/teams/schemas/create-invite'
-import { MembershipRole } from '@books-about-food/database'
+import { MembershipRole } from '@books-about-food/database/client'
 import { titleize } from 'inflection'
 import * as Sheet from 'src/components/atoms/sheet'
 import { z } from 'zod'

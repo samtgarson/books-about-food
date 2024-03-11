@@ -1,4 +1,4 @@
-import { BookStatus } from '@books-about-food/database'
+import { BookStatus } from '@books-about-food/database/client'
 import { Tag, TagProps } from '../atoms/tag'
 
 export function StatusTag({

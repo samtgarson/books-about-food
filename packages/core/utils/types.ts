@@ -8,3 +8,5 @@ export type CamelCaseKeys<T extends Record<string, unknown>> = {
     ? CamelCase<K>
     : never]: T[K] extends Record<string, unknown> ? CamelCaseKeys<T[K]> : T[K]
 }
+
+export type NonEmptyArray<T> = [T, ...T[]]

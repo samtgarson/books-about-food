@@ -1,4 +1,4 @@
-import { BookStatus } from '@books-about-food/database'
+import { BookStatus } from '@books-about-food/database/client'
 import { DraftNotes } from './draft'
 import { InReviewNotes } from './in-review'
 
