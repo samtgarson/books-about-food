@@ -1,6 +1,6 @@
 export const appUrl = () => {
-  let url = process.env.NEXTAUTH_URL
+  let url = process.env.BASE_URL
   url ||= `https://${process.env.VERCEL_URL}`
-  if (!url) throw new Error('NEXTAUTH_URL not set in environment')
+  if (!url) throw new Error('BASE_URL not set in environment')
   return url
 }

@@ -1,17 +1,16 @@
 import { fetchBooks } from '@books-about-food/core/services/books/fetch-books'
-import { Metadata } from 'next'
 import { BookFilters } from 'src/components/books/filters'
 import { BookList, SkeletonBookList } from 'src/components/books/list'
 import { createIndexPage } from 'src/components/pages/index-page'
-
-export const metadata: Metadata = {
-  title: 'Cookbooks',
-  alternates: {
-    canonical: '/cookbooks'
-  }
-}
+import { indexPageMetadata } from 'src/components/pages/index-page-metadata'
 
 export * from 'app/default-static-config'
+
+export const generateMetadata = indexPageMetadata({
+  title: 'Cookbooks',
+  schema: fetchBooks.input,
+  path: '/cookbooks'
+})
 
 export default createIndexPage({
   content: BookList,

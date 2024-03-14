@@ -2,17 +2,16 @@ import {
   FetchPublishersInput,
   fetchPublishers
 } from '@books-about-food/core/services/publishers/fetch-publishers'
-import { Metadata } from 'next'
 import { FilterBar } from 'src/components/lists/filter-bar'
 import { createIndexPage } from 'src/components/pages/index-page'
+import { indexPageMetadata } from 'src/components/pages/index-page-metadata'
 import { PublishersList } from './list'
 
-export const metadata: Metadata = {
+export const generateMetadata = indexPageMetadata({
   title: 'Publishers',
-  alternates: {
-    canonical: '/publishers'
-  }
-}
+  schema: fetchPublishers.input,
+  path: '/publishers'
+})
 
 export * from 'app/default-static-config'
 

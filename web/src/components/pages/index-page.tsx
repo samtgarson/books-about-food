@@ -29,5 +29,6 @@ export const createIndexPage = <Input extends z.ZodTypeAny>({
       </Container>
     )
   }
+
   return IndexPage
 }

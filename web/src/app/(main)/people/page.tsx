@@ -1,16 +1,15 @@
 import { fetchProfiles } from '@books-about-food/core/services/profiles/fetch-profiles'
-import { Metadata } from 'next'
 import { createIndexPage } from 'src/components/pages/index-page'
+import { indexPageMetadata } from 'src/components/pages/index-page-metadata'
 import { PeopleFilters } from './filters'
 import { SkeletonPeopleGrid } from './grid'
 import { PeopleList } from './list'
 
-export const metadata: Metadata = {
+export const generateMetadata = indexPageMetadata({
   title: 'People',
-  alternates: {
-    canonical: '/people'
-  }
-}
+  schema: fetchProfiles.input,
+  path: '/people'
+})
 
 export * from 'app/default-static-config'
 
