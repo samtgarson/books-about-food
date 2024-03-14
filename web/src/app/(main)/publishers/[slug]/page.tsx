@@ -38,10 +38,7 @@ export async function generateMetadata({
 
 export * from 'app/default-static-config'
 
-export default async ({
-  params: { slug },
-  searchParams: { page }
-}: PublisherPageProps) => {
+export default async ({ params: { slug } }: PublisherPageProps) => {
   const [{ data: publisher }, { data: promo }] = await Promise.all([
     call(fetchPublisher, { slug }),
     call(fetchPromo, { publisherSlug: slug })
@@ -66,10 +63,7 @@ export default async ({
       </Container>
       <Container className="mt-8 sm:mt-20">
         <Suspense fallback={<SkeletonPublisherBookList />}>
-          <PublisherBookList
-            publisher={publisher}
-            page={parseInt(`${page}`) || 0}
-          />
+          <PublisherBookList publisher={publisher} />
         </Suspense>
         <div className="py-8 md:py-20">
           {publisher.house && (
