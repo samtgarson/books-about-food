@@ -8,11 +8,11 @@ export default function Header() {
       <Link
         fontSize={fontSize.xl}
         fontWeight={fontWeight.bold}
-        href="https://booksaboutfood.info"
+        href="https://www.booksaboutfood.info"
         textDecoration="none"
       >
         <img
-          src="https://booksaboutfood.info/wordmark.png"
+          src="https://www.booksaboutfood.info/wordmark.png"
           alt="Books About Food"
           width="180"
         />
