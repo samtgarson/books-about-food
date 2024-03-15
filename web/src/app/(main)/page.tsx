@@ -1,7 +1,6 @@
 import { fetchFeatures } from '@books-about-food/core/services/features/fetch-features'
 import { fetchHome } from '@books-about-food/core/services/home/fetch'
 import { Metadata } from 'next'
-import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
 import { Container } from 'src/components/atoms/container'
 import { Marquee } from 'src/components/atoms/marquee'
@@ -13,15 +12,14 @@ import { USP } from 'src/components/home/usp'
 import { FeaturedJobsList } from 'src/components/jobs/featured-jobs-list'
 import { ProfileCarousel } from 'src/components/profiles/profile-carousel'
 import { call } from 'src/utils/service'
-import { getSessionUser } from 'src/utils/user'
 import { PublisherGrid } from './publishers/grid'
 
-const EditFeatureCarouselDialog = dynamic(
-  async () =>
-    (await import('src/components/feature-carousel/edit-dialog'))
-      .EditFeatureCarouselDialog,
-  { ssr: false }
-)
+// const EditFeatureCarouselDialog = dynamic(
+//   async () =>
+//     (await import('src/components/feature-carousel/edit-dialog'))
+//       .EditFeatureCarouselDialog,
+//   { ssr: false }
+// )
 
 export * from 'app/default-static-config'
 
@@ -32,7 +30,6 @@ export const metadata: Metadata = {
 }
 
 const Page = async () => {
-  const currentUser = await getSessionUser()
   const { data: features } = await call(fetchFeatures)
 
   return (
@@ -40,9 +37,6 @@ const Page = async () => {
       {features && (
         <div className="bg-white relative">
           <FeatureCarousel features={features} title faces data-superjson />
-          {currentUser?.role === 'admin' && (
-            <EditFeatureCarouselDialog features={features} data-superjson />
-          )}
         </div>
       )}
       <Marquee className="fixed bottom-0 left-0 -right-[25%] z-40 -rotate-[15deg]">

@@ -18,7 +18,6 @@
     "@books-about-food/shared": "*",
     "@neondatabase/serverless": "^0.6",
     "@prisma/adapter-neon": "5.8.1",
-    "@prisma/client": "^5.8.1",
-    "server-only": "^0.0.1"
+    "@prisma/client": "^5.8.1"
   }
 }

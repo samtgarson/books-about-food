@@ -1,7 +1,6 @@
 import { Pool } from '@neondatabase/serverless'
 import { PrismaNeon } from '@prisma/adapter-neon'
 import { PrismaClient } from '@prisma/client'
-import 'server-only'
 
 let prisma: PrismaClient
 
