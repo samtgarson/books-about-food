@@ -20,41 +20,6 @@ import { call } from 'src/utils/service'
 
 export type CookbooksPageProps = PageProps<{ slug: string }>
 
-export async function generateMetadata(
-  { params: { slug } }: CookbooksPageProps,
-  parent: Promise<ResolvedMetadata>
-): Promise<Metadata> {
-  const { data: book } = await call(fetchBook, { slug, onlyPublished: true })
-  if (!book) notFound()
-
-  return {
-    title: book.title,
-    openGraph: {
-      ...(await parent).openGraph,
-      title: book.title,
-      description: book.subtitle,
-      type: 'book',
-      releaseDate: book.isoReleaseDate,
-      tags: ['Cookbook', ...book.tagNames],
-      url: `https://booksaboutfood.info/cookbooks/${book.slug}`,
-      authors: book.authors.map(
-        (author) => `https://booksaboutfood.info/authors/${author.slug}`
-      ),
-      images: [
-        {
-          url: `/cookbooks/${book.slug}/og-image.png`,
-          width: 1200,
-          height: 630,
-          alt: `${book.title} on Books About Food`
-        }
-      ]
-    },
-    alternates: {
-      canonical: `/cookbooks/${book.slug}`
-    }
-  }
-}
-
 export * from 'app/default-static-config'
 
 export default async ({ params: { slug } }: CookbooksPageProps) => {
@@ -178,4 +143,39 @@ export default async ({ params: { slug } }: CookbooksPageProps) => {
       </Container>
     </div>
   )
+}
+
+export async function generateMetadata(
+  { params: { slug } }: CookbooksPageProps,
+  parent: Promise<ResolvedMetadata>
+): Promise<Metadata> {
+  const { data: book } = await call(fetchBook, { slug, onlyPublished: true })
+  if (!book) notFound()
+
+  return {
+    title: book.title,
+    openGraph: {
+      ...(await parent).openGraph,
+      title: book.title,
+      description: book.subtitle,
+      type: 'book',
+      releaseDate: book.isoReleaseDate,
+      tags: ['Cookbook', ...book.tagNames],
+      url: `https://booksaboutfood.info/cookbooks/${book.slug}`,
+      authors: book.authors.map(
+        (author) => `https://booksaboutfood.info/authors/${author.slug}`
+      ),
+      images: [
+        {
+          url: `/cookbooks/${book.slug}/og-image.png`,
+          width: 1200,
+          height: 630,
+          alt: `${book.title} on Books About Food`
+        }
+      ]
+    },
+    alternates: {
+      canonical: `/cookbooks/${book.slug}`
+    }
+  }
 }

@@ -1,9 +1,6 @@
-'use client'
-
 import { Contribution } from '@books-about-food/core/models/contribution'
 import { Profile } from '@books-about-food/core/models/profile'
 import cn from 'classnames'
-import { FC, useMemo } from 'react'
 import { ProfileList } from '../atoms/profile-list'
 import { GridContainer } from '../lists/grid-container'
 import { ProfileItem } from '../profiles/item'
@@ -13,23 +10,20 @@ export type TeamListProps = {
   className?: string
 }
 
-export const TeamList: FC<TeamListProps> = ({ contributions, className }) => {
-  const [profiles, profileMap] = useMemo(() => {
-    const profiles: Profile[] = []
-    const profileMap = contributions.reduce<Map<string, string[]>>(
-      (map, { profile, jobName }) => {
-        if (!profiles.find((p) => p.id === profile.id)) {
-          profiles.push(profile)
-        }
+export function TeamList({ contributions, className }: TeamListProps) {
+  const profiles: Profile[] = []
+  const profileMap = contributions.reduce<Map<string, string[]>>(
+    (map, { profile, jobName }) => {
+      if (!profiles.find((p) => p.id === profile.id)) {
+        profiles.push(profile)
+      }
 
-        const jobs = map.get(profile.id) || []
-        map.set(profile.id, [...jobs, jobName])
-        return map
-      },
-      new Map()
-    )
-    return [profiles, profileMap]
-  }, [contributions])
+      const jobs = map.get(profile.id) || []
+      map.set(profile.id, [...jobs, jobName])
+      return map
+    },
+    new Map()
+  )
 
   return (
     <ProfileList
