@@ -38,7 +38,7 @@ export const Container = forwardRef<
   const { display } = useListDisplay()
   const WrapperEl = book?.href && link ? Link : 'div'
   return (
-    <li className={cn('group', className)} ref={ref}>
+    <li className={cn('group', className)} ref={ref} aria-label={book?.title}>
       <WrapperEl
         href={book?.href || '#'}
         className={cn(

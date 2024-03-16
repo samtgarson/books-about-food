@@ -43,7 +43,7 @@ export const Search: FC<SearchProps> = ({
     >
       <input
         autoFocus={autoFocus || internalValue.length > 0}
-        type="text"
+        type="search"
         value={internalValue}
         onChange={(e) => {
           setInternalValue(e.target.value)
