@@ -1,7 +1,9 @@
 import { Team } from '@books-about-food/core/models/team'
 import { can } from '@books-about-food/core/policies'
 import { deleteInvite } from '@books-about-food/core/services/teams/delete-invite'
+import { destroyMembership } from '@books-about-food/core/services/teams/destroy-membership'
 import { fetchTeam } from '@books-about-food/core/services/teams/fetch-team'
+import { resendInvite } from '@books-about-food/core/services/teams/resend-invite'
 import { updateMembership } from '@books-about-food/core/services/teams/update-membership'
 import { User } from '@books-about-food/core/types'
 import { PublisherGrid } from 'app/(main)/publishers/grid'
@@ -9,7 +11,7 @@ import cn from 'classnames'
 import { formatRelative } from 'date-fns'
 import { capitalize } from 'inflection'
 import { revalidatePath } from 'next/cache'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { AccountHeader } from 'src/components/accounts/header'
 import { BaseAvatar } from 'src/components/atoms/avatar'
 import { Tag } from 'src/components/atoms/tag'
@@ -37,8 +39,8 @@ export default async function TeamPage({
         action="invite-accepted"
         type="success"
         message="Invite accepted"
-        refreshSession
       />
+      <Toaster action="invite-resent" type="success" message="Invite resent" />
       <AccountHeader title={team.name} />
       {team.publishers.length > 0 && (
         <PublisherGrid publishers={team.publishers} square={false} />
@@ -52,14 +54,14 @@ export default async function TeamPage({
 function Memberships({ team, currentUser }: { team: Team; currentUser: User }) {
   return (
     <div className="flex flex-col">
-      <h3 className="font-medium">Memberships</h3>
+      <h3 className="font-medium">Members</h3>
       <ul>
         {team.memberships.map(({ user, id, role }) => (
           <li
             key={id}
             className={cn(
               'flex gap-4 py-4 items-center border-b border-neutral-grey',
-              user.is(currentUser) && 'pr-10'
+              user.is(currentUser) && can(currentUser, team).update && 'pr-10'
             )}
           >
             <BaseAvatar
@@ -67,21 +69,35 @@ function Memberships({ team, currentUser }: { team: Team; currentUser: User }) {
               backup={user.displayName}
               size="2xs"
             />
-            <p>{user.is(currentUser) ? 'You' : user.displayName}</p>
-            <p className="mr-auto opacity-50">{user.email}</p>
-            <Tag color={role === 'admin' ? 'white' : 'grey'}>{role}</Tag>
+            <div className="flex flex-col gap-x-4 sm:flex-row">
+              <p>{user.is(currentUser) ? 'You' : user.displayName}</p>
+              {user.name && (
+                <p className="opacity-50 shrink truncate">{user.email}</p>
+              )}
+            </div>
+            <Tag
+              color={role === 'admin' ? 'white' : 'grey'}
+              className="ml-auto"
+            >
+              {role}
+            </Tag>
             {can(currentUser, team).update && !user.is(currentUser) && (
               <MembershipsOverflow
                 id={id}
                 role={role}
-                onToggleRole={async function (id) {
+                onToggleRole={async function (membershipId) {
+                  'use server'
+                  if (!membershipId) return
+
+                  const newRole = role === 'admin' ? 'member' : 'admin'
+                  await call(updateMembership, { membershipId, role: newRole })
+                  revalidatePath(`/account/teams/${team.slug}`)
+                }}
+                onRemoveUser={async function (id) {
                   'use server'
                   if (!id) return
 
-                  await call(updateMembership, {
-                    membershipId: id,
-                    role: role === 'admin' ? 'member' : 'admin'
-                  })
+                  await call(destroyMembership, { id })
                   revalidatePath(`/account/teams/${team.slug}`)
                 }}
               />
@@ -94,6 +110,8 @@ function Memberships({ team, currentUser }: { team: Team; currentUser: User }) {
 }
 
 function Invites({ team, currentUser }: { team: Team; currentUser: User }) {
+  if (team.userRole(currentUser.id) !== 'admin') return null
+
   return (
     <div className="flex flex-col">
       <div className="flex justify-between">
@@ -122,6 +140,13 @@ function Invites({ team, currentUser }: { team: Team; currentUser: User }) {
 
                   await call(deleteInvite, { inviteId: id })
                   revalidatePath(`/account/teams/${team.slug}`)
+                }}
+                onResend={async function (id) {
+                  'use server'
+                  if (!id) return
+
+                  await call(resendInvite, { id })
+                  redirect(`/account/teams/${team.slug}?action=invite-resent`)
                 }}
               />
             )}

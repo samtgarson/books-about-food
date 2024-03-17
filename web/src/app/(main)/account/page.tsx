@@ -8,7 +8,6 @@ import { ContactLink } from 'src/components/atoms/contact-link'
 import { ArrowUpRight } from 'src/components/atoms/icons'
 import { ProfileItem } from 'src/components/profiles/item'
 import { InviteWidget } from 'src/components/teams/invite-widget'
-import { RefreshSession } from 'src/components/utils/refresh-session'
 import { call } from 'src/utils/service'
 import { getUser } from 'src/utils/user'
 
@@ -26,7 +25,6 @@ const Page = async () => {
 
   return (
     <>
-      <RefreshSession />
       <Suspense>
         <InviteWidget />
       </Suspense>

@@ -34,11 +34,12 @@ export function PromoCarousel() {
     description: book.subtitle
   }))
   return (
-    <AntiContainer className="-mt-36 relative">
+    <AntiContainer className="-mt-56 relative">
       <FeatureCarousel
         features={features}
         title={PromoTitleSlide}
-      ></FeatureCarousel>
+        className="h-[80vh] max-h-[700px]"
+      />
       {editMode && (
         <div className="animate-fade-in absolute inset-0 z-[21] bg-opacity-50 backdrop-blur-lg flex items-center justify-center lg:-mb-20">
           <CreatePromoButton slug={publisher.slug} promo={promo} />

@@ -2,7 +2,7 @@
 
 import cn from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
-import { FC, ReactNode, useMemo, useRef, useState } from 'react'
+import { ReactNode, useMemo, useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'src/components/atoms/icons'
 import { useNav } from '../nav/context'
 import { Faces } from './faces'
@@ -13,6 +13,7 @@ export type FeatureCarouselProps = {
   features: FeatureCarouselFeature[]
   title?: boolean | ((props: FeatureCarouselTitleProps) => ReactNode)
   faces?: boolean
+  className?: string
 }
 
 type Item =
@@ -33,11 +34,12 @@ const createLoop = (
   return [...batch, ...batch, ...batch]
 }
 
-export const FeatureCarousel: FC<FeatureCarouselProps> = ({
+export function FeatureCarousel({
   features,
   title = false,
-  faces: showFaces = false
-}) => {
+  faces: showFaces = false,
+  className
+}: FeatureCarouselProps) {
   const showTitle = !!title
   const [[currentIndex, offset], setState] = useState([
     features.length + (showTitle ? 1 : 0),
@@ -105,7 +107,8 @@ export const FeatureCarousel: FC<FeatureCarouselProps> = ({
         mouseRef.current = null
       }}
       className={cn(
-        'relative overflow-x-clip transition-colors w-full h-[90vh] max-h-[800px]',
+        'relative overflow-x-clip transition-colors w-full',
+        className,
         theme === 'dark' ? 'bg-black' : 'bg-transparent'
       )}
     >

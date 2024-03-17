@@ -33,5 +33,5 @@ export const Select = forwardRef(function Select<
   ref: ForwardedRef<SelectControl>
 ) {
   // @ts-expect-error Generics make this more difficlut to type
-  return <SelectClient {...props} ref={ref} />
+  return <SelectClient {...props} fref={ref} />
 })

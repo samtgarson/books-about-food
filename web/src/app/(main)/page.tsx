@@ -29,14 +29,20 @@ export const metadata: Metadata = {
   }
 }
 
-const Page = async () => {
+async function Page() {
   const { data: features } = await call(fetchFeatures)
 
   return (
     <>
       {features && (
         <div className="bg-white relative">
-          <FeatureCarousel features={features} title faces data-superjson />
+          <FeatureCarousel
+            features={features}
+            title
+            faces
+            data-superjson
+            className="h-[90vh] max-h-[800px]"
+          />
         </div>
       )}
       <Marquee className="fixed bottom-0 left-0 -right-[25%] z-40 -rotate-[15deg]">

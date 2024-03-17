@@ -7,7 +7,6 @@ import cn from 'classnames'
 import { useCombobox } from 'downshift'
 import {
   ForwardedRef,
-  forwardRef,
   useCallback,
   useEffect,
   useImperativeHandle,
@@ -36,30 +35,30 @@ declare module 'react' {
   ): (props: P & React.RefAttributes<T>) => React.ReactNode | null
 }
 
-export const SelectClient = forwardRef(function Select<
+export const SelectClient = function Select<
   Value extends { [key in ValueKey]: string },
   Multi extends boolean,
   ValueKey extends string
->(
-  {
-    render,
-    name,
-    label,
-    options,
-    loadOptions,
-    defaultValue,
-    valueKey,
-    multi,
-    allowCreate,
-    onChange: externalOnChange,
-    onCreate,
-    showChevron = false,
-    separator = ',',
-    placeholder,
-    ...props
-  }: SelectProps<Value, Multi, ValueKey>,
-  ref: ForwardedRef<SelectControl>
-) {
+>({
+  render,
+  name,
+  label,
+  options,
+  loadOptions,
+  defaultValue,
+  valueKey,
+  multi,
+  allowCreate,
+  onChange: externalOnChange,
+  onCreate,
+  showChevron = false,
+  separator = ',',
+  placeholder,
+  fref: ref,
+  ...props
+}: SelectProps<Value, Multi, ValueKey> & {
+  fref?: ForwardedRef<SelectControl>
+}) {
   const input = useRef<HTMLInputElement>(null)
   const searchInputRef = useRef<HTMLInputElement>(null)
   const { variant } = useForm()
@@ -348,4 +347,4 @@ export const SelectClient = forwardRef(function Select<
       {label && <Messages label={label} name={name} {...props} />}
     </Form.Field>
   )
-})
+}

@@ -4,6 +4,7 @@ import { TeamsNav } from 'src/components/accounts/teams-nav'
 import { Container } from 'src/components/atoms/container'
 import { PageTitle } from 'src/components/atoms/page-title'
 import { SignOutButton } from 'src/components/auth/sign-out-button'
+import { RefreshSession } from 'src/components/utils/refresh-session'
 import { getSessionUser } from 'src/utils/user'
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
@@ -12,6 +13,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
 
   return (
     <Container belowNav>
+      <RefreshSession />
       <PageTitle>Account</PageTitle>
       <div className="flex flex-wrap gap-x-32 gap-y-12">
         <div className="w-80">
