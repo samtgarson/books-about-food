@@ -12,6 +12,7 @@ export function EditableLogo() {
       editMode={editMode}
       onSave={(logo) => onSave({ logo })}
       label={publisher.logo ? undefined : 'Add Logo'}
+      showDelete={!!publisher.logo}
     >
       {publisher.logo ? (
         <Image
@@ -19,7 +20,7 @@ export function EditableLogo() {
           className="h-[80px] w-[150px] object-contain object-left mix-blend-darken"
         />
       ) : (
-        publisher.name
+        <span className="mr-32">{publisher.name}</span>
       )}
     </EditableImage>
   )

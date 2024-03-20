@@ -8,6 +8,7 @@ export type EditableImageProps = {
   onSave: (id: string | null) => void
   croppeable?: boolean
   label?: string
+  showDelete?: boolean
 }
 
 export function EditableImage({
@@ -15,7 +16,8 @@ export function EditableImage({
   children,
   onSave,
   croppeable = false,
-  label
+  label,
+  showDelete = true
 }: EditableImageProps) {
   return (
     <div className="relative pr-5">
@@ -32,12 +34,14 @@ export function EditableImage({
             <Edit2 strokeWidth={1} size={24} />
             {label}
           </ImageUploadButton>
-          <button
-            className="flex h-10 w-10 items-center justify-center bg-white"
-            onClick={() => onSave(null)}
-          >
-            <Trash2 strokeWidth={1} size={24} />
-          </button>
+          {showDelete && (
+            <button
+              className="flex h-10 w-10 items-center justify-center bg-white"
+              onClick={() => onSave(null)}
+            >
+              <Trash2 strokeWidth={1} size={24} />
+            </button>
+          )}
         </div>
       )}
     </div>
