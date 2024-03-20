@@ -57,7 +57,7 @@ export default function AboutPage() {
             <h3 className="mb-6 font-medium">Who’s behind this project?</h3>
             <div className="w-full xl:w-[450px] 2xl:w-[550px] mb-6 flex min-h-96 aspect-auto xl:aspect-[1.1] bg-sand items-center justify-center gap-2 relative xl:absolute xl:right-0 xl:top-0 pb-14">
               <Image src={jamin} alt="Jamin Galea" height={200} />
-              <Image src={sam} alt="Sam Garson" height={190} className="pt-8" />
+              <Image src={sam} alt="Sam Garson" height={195} className="pt-8" />
               <p className="mt-auto absolute inset-x-0 bottom-0 p-5 md:p-8">
                 Jam (left), Sam (right)
               </p>
