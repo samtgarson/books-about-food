@@ -1,7 +1,7 @@
 import { fetchPromo } from '@books-about-food/core/services/publishers/fetch-promo'
 import { fetchPublisher } from '@books-about-food/core/services/publishers/fetch-publisher'
 import cn from 'classnames'
-import { Metadata } from 'next'
+import { Metadata, ResolvedMetadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
@@ -22,16 +22,32 @@ import { getHostname } from 'src/utils/url-helpers'
 
 type PublisherPageProps = PageProps<{ slug: string }>
 
-export async function generateMetadata({
-  params: { slug }
-}: PublisherPageProps): Promise<Metadata> {
+export async function generateMetadata(
+  { params: { slug } }: PublisherPageProps,
+  parent: Promise<ResolvedMetadata>
+): Promise<Metadata> {
   const { data: publisher } = await call(fetchPublisher, { slug })
   if (!publisher) notFound()
 
   return {
     title: publisher.name,
+    description: `${publisher.name} on Books About Food`,
     alternates: {
       canonical: `/publishers/${publisher.slug}`
+    },
+    openGraph: {
+      ...(await parent).openGraph,
+      images: [
+        {
+          url: `/publishers/${publisher.slug}/og-image.png`,
+          width: 1200,
+          height: 630,
+          alt: `${publisher.name} on Books About Food`
+        }
+      ],
+      title: publisher.name,
+      description: `${publisher.name} on Books About Food`,
+      url: `https://booksaboutfood.info/publishers/${publisher.slug}`
     }
   }
 }

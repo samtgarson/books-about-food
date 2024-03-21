@@ -1,19 +1,10 @@
 import { fetchBook } from '@books-about-food/core/services/books/fetch-book'
 import { appUrl } from '@books-about-food/core/utils/app-url'
 import Color from 'color'
-import { ImageResponse } from 'next/og'
 import { NextRequest } from 'next/server'
 import comingSoon from 'src/assets/images/cover-coming-soon.png'
-import { loadFonts } from 'src/utils/image-response-helpers'
+import { OGTemplate } from 'src/utils/image-response-helpers'
 import { call } from 'src/utils/service'
-
-const dims = {
-  width: 1200,
-  height: 630,
-  margin: 136,
-  gap: 95,
-  title: 505
-}
 
 export const revalidate = 60 * 60 // 1 hour
 
@@ -39,78 +30,36 @@ export async function GET(
   })
   if (!book) return new Response('Not Found', { status: 404 })
   const { cover } = book
-  const fonts = await loadFonts()
 
   const backgroundColor = book.backgroundColor
     ? new Color(book.backgroundColor).hex()
     : '#F0EEEB'
 
-  return new ImageResponse(
-    (
-      <div
-        style={{
-          display: 'flex',
-          width: dims.width,
-          height: dims.height,
-          backgroundColor,
-          position: 'relative',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          paddingLeft: 136,
-          paddingRight: 136,
-          fontFamily: '"Graphik"'
-        }}
-      >
+  return OGTemplate.response(
+    <OGTemplate.Root backgroundColor={backgroundColor}>
+      <OGTemplate.Half>
+        <OGTemplate.Title>{book.title}</OGTemplate.Title>
+        {book.authorNames && (
+          <OGTemplate.Description>{book.authorNames}</OGTemplate.Description>
+        )}
+      </OGTemplate.Half>
+      <OGTemplate.Half right centered>
         {cover ? (
           <img
             src={cover.src}
-            width={cover.widthFor(420)}
-            height={420}
+            width={cover.widthFor(430)}
+            height={430}
             style={{ boxShadow: bookShadow }}
           />
         ) : (
           <img
             src={`${appUrl()}${comingSoon.src}`}
-            height={420}
-            width={comingSoon.width * (420 / comingSoon.height)}
+            height={430}
+            width={comingSoon.width * (430 / comingSoon.height)}
             style={{ boxShadow: bookShadow }}
           />
         )}
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            marginLeft: dims.gap,
-            flexGrow: 1,
-            flexShrink: 1,
-            color: book.foregroundColor || '#000'
-          }}
-        >
-          <p
-            style={{
-              fontSize: 64,
-              lineHeight: 1.2
-            }}
-          >
-            {book.title}
-          </p>
-          {book.authorNames && (
-            <p
-              style={{
-                fontSize: 32,
-                opacity: 0.6
-              }}
-            >
-              {book.authorNames}
-            </p>
-          )}
-        </div>
-      </div>
-    ),
-    {
-      width: dims.width,
-      height: dims.height,
-      fonts
-    }
+      </OGTemplate.Half>
+    </OGTemplate.Root>
   )
 }
