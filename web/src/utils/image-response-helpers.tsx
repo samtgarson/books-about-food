@@ -133,7 +133,8 @@ function Title({ children }: { children: ReactNode }) {
     <p
       style={{
         fontSize: 64,
-        lineHeight: 1.2
+        lineHeight: 1.4,
+        marginBottom: 0
       }}
     >
       {children}
@@ -145,7 +146,8 @@ function Description({ children }: { children: ReactNode }) {
     <p
       style={{
         fontSize: 32,
-        opacity: 0.6
+        opacity: 0.6,
+        marginBottom: 0
       }}
     >
       {children}
