@@ -9,7 +9,7 @@ import { PublishersList } from './list'
 
 export const generateMetadata = indexPageMetadata({
   title: 'Publishers',
-  schema: fetchPublishers.input,
+  service: fetchPublishers,
   path: '/publishers'
 })
 

@@ -7,6 +7,7 @@ import {
 import { AppError } from '@books-about-food/core/services/utils/errors'
 import { cache } from 'react'
 import z from 'zod'
+import { Stringified, parse, stringify } from './superjson'
 import { getSessionUser } from './user'
 
 export type RequestMeta = {
@@ -21,10 +22,19 @@ type ServiceClass<I extends z.ZodTypeAny, R> =
   | Service<I, R>
   | AuthedService<I, R>
 
-export const call = cache(async function <S extends ServiceClass<any, any>>(
-  service: S,
-  args?: S extends ServiceClass<infer I, any> ? z.infer<I> : never
-) {
+export async function call<
+  I extends z.ZodTypeAny,
+  S extends ServiceClass<I, any>
+>(service: S, args?: z.infer<I>) {
+  const stringArgs = stringify(args)
+  return rawCall(service, stringArgs)
+}
+
+const rawCall = cache(async function <
+  I extends z.ZodTypeAny,
+  S extends ServiceClass<I, any>
+>(service: S, stringArgs?: Stringified<z.infer<I>>) {
+  const args = stringArgs ? parse(stringArgs) : undefined
   if (service.authed) {
     const user = await getSessionUser()
     if (!user)
@@ -47,9 +57,10 @@ export const call = cache(async function <S extends ServiceClass<any, any>>(
   >
 })
 
-export const parseAndCall = cache(async function <
-  S extends ServiceClass<any, any>
->(service: S, args?: unknown) {
+export const parseAndCall = async function <S extends ServiceClass<any, any>>(
+  service: S,
+  args?: unknown
+) {
   try {
     const input = service.input.parse(args)
     return call(service, input) as Promise<
@@ -70,4 +81,4 @@ export const parseAndCall = cache(async function <
       )
     } as S extends ServiceClass<any, infer R> ? ServiceResult<R> : never
   }
-})
+}

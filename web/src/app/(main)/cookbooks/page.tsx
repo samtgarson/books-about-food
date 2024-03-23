@@ -8,7 +8,7 @@ export * from 'app/default-static-config'
 
 export const generateMetadata = indexPageMetadata({
   title: 'Cookbooks',
-  schema: fetchBooks.input,
+  service: fetchBooks,
   path: '/cookbooks'
 })
 

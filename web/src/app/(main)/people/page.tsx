@@ -7,7 +7,7 @@ import { PeopleList } from './list'
 
 export const generateMetadata = indexPageMetadata({
   title: 'People',
-  schema: fetchProfiles.input,
+  service: fetchProfiles,
   path: '/people'
 })
 
