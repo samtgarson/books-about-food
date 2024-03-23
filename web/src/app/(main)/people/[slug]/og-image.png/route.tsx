@@ -1,5 +1,6 @@
 import { fetchProfile } from '@books-about-food/core/services/profiles/fetch-profile'
 import { NextRequest } from 'next/server'
+import cloudflareLoader from 'src/lib/cloudflare/image-loader'
 import { OGTemplate } from 'src/utils/image-response-helpers'
 import { call } from 'src/utils/service'
 
@@ -35,7 +36,11 @@ export async function GET(
       <OGTemplate.Half right centered>
         {avatar ? (
           <img
-            src={avatar.src}
+            src={cloudflareLoader({
+              src: avatar.path,
+              width: dims.avatar,
+              format: 'png'
+            })}
             width={dims.avatar}
             height={dims.avatar}
             style={{ borderRadius: dims.avatar, objectFit: 'cover' }}

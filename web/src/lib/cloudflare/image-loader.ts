@@ -8,13 +8,16 @@ const s3Host = process.env.S3_DOMAIN as string
 export default function cloudflareLoader({
   src,
   width,
-  quality
-}: ImageLoaderProps): string {
+  quality,
+  format = 'auto'
+}: ImageLoaderProps & { format?: string }): string {
   if (src.startsWith('/_next')) return src
   if (src.startsWith('http')) src = new URL(src).pathname
+  else if (!src.startsWith('/')) src = `/${src}`
 
   let params = `w=${normalizeWidth(width)},fit=scale-down`
   if (quality) params += `,q=${quality}`
+  if (format) params += `,f=${format}`
 
   return new URL(`/cdn-cgi/image/${params}${src}`, s3Host).toString()
 }
