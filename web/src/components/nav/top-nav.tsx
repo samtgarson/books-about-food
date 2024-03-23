@@ -2,8 +2,9 @@
 
 import * as Dialog from '@radix-ui/react-dialog'
 import cn from 'classnames'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
-import { usePathname, useSelectedLayoutSegment } from 'next/navigation'
+import { useSelectedLayoutSegment } from 'next/navigation'
 import { FC, useState } from 'react'
 import { Menu, Plus, User, X } from 'src/components/atoms/icons'
 import { useCurrentUser } from 'src/hooks/use-current-user'
@@ -16,9 +17,12 @@ import { useNav } from './context'
 import { QuickSearch } from './search'
 
 const AccountLink = ({ className }: { className?: string }) => {
-  const currentUser = useCurrentUser()
+  const session = useSession()
   const { theme } = useNav()
-  const pathname = usePathname()
+
+  if (session.status === 'loading')
+    return <Loader className={cn(className, 'opacity-50')} />
+  const currentUser = session.data?.user
 
   if (currentUser)
     return (
@@ -28,7 +32,7 @@ const AccountLink = ({ className }: { className?: string }) => {
     )
 
   return (
-    <AuthedButton redirect={pathname}>
+    <AuthedButton>
       <button className={className} aria-label="Account">
         <User strokeWidth={1} color={theme === 'dark' ? 'white' : 'black'} />
       </button>
