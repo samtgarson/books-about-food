@@ -41,7 +41,7 @@ async function Page() {
             title
             faces
             data-superjson
-            className="h-[90vh] max-h-[800px]"
+            className="h-[90vh] max-h-[800px] overflow-y-hidden"
           />
         </div>
       )}

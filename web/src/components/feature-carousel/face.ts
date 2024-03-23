@@ -5,7 +5,7 @@ import { Dot, RandomPlacer } from 'src/utils/random-placer'
 import { AvatarSize } from '../atoms/avatar'
 
 const placer = new RandomPlacer(80, 60)
-const sizes: AvatarSize[] = ['xl', '2xl', '2xl', '2xl', '3xl', '3xl']
+const sizes: AvatarSize[] = ['lg', 'xl', 'xl', 'xl', '2xl', '2xl']
 
 export class Face {
   constructor(

@@ -56,7 +56,7 @@ export function FeatureCarouselItem({
       {feature.book.cover && (
         <Image
           {...feature.book.cover?.imageAttrs(360)}
-          className="book-shadow pointer-events-none h-[250px] w-auto max-w-none sm:h-[360px]"
+          className="book-shadow pointer-events-none h-[250px] w-auto max-w-none sm:h-[360px] short:h-[200px]"
         />
       )}
       <div
@@ -67,7 +67,7 @@ export function FeatureCarouselItem({
         })}
       >
         {feature.tagLine && (
-          <p className="all-caps-sm mb-4 w-max bg-black px-2.5 py-1.5 text-white">
+          <p className="all-caps-sm mb-4 w-max bg-black px-2.5 py-1.5 text-white short:hidden">
             {feature.tagLine}
           </p>
         )}
@@ -75,14 +75,14 @@ export function FeatureCarouselItem({
           <p className="text-24 lg:text-40 mb-2 max-w-xl">{feature.title}</p>
         )}
         {feature.description && (
-          <p className="text-14 lg:text-18 mb-4 max-w-xl lg:mb-8">
+          <p className="text-14 lg:text-18 mb-4 max-w-xl lg:mb-8 line-clamp-3">
             {feature.description}
           </p>
         )}
         <div className="flex items-center gap-2">
           {feature.book.authors.map((author) => (
             <Fragment key={author.slug}>
-              <Avatar profile={author} size="2xs" />
+              <Avatar profile={author} size="2xs" mobileSize="3xs" />
               <p>{author.name}</p>
             </Fragment>
           ))}
