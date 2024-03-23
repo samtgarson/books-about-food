@@ -85,7 +85,7 @@ export function BaseAvatar({
       {mobileSize !== size && (
         <style>{`
         @media (max-width: 640px) {
-          [id="${id}"] {
+          [id=${id}] {
             width: ${avatarSize[mobileSize]}px !important;
             height: ${avatarSize[mobileSize]}px !important;
           }
