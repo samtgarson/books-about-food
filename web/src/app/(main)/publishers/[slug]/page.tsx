@@ -13,12 +13,13 @@ import {
   SkeletonPublisherBookList
 } from 'src/components/publishers/book-list'
 import { ClaimPublisherButton } from 'src/components/publishers/claim-button'
+import { ContactInfo } from 'src/components/publishers/edit/contact-info'
 import { EditPublisherProvider } from 'src/components/publishers/edit/context'
 import { EditableLogo } from 'src/components/publishers/edit/editable-logo'
+import { LinkList } from 'src/components/publishers/edit/link-list'
 import { PromoCarousel } from 'src/components/publishers/edit/promo-carousel'
 import { PageProps } from 'src/components/types'
 import { call } from 'src/utils/service'
-import { getHostname } from 'src/utils/url-helpers'
 
 type PublisherPageProps = PageProps<{ slug: string }>
 
@@ -104,31 +105,8 @@ export default async ({ params: { slug } }: PublisherPageProps) => {
               ))}
             </Detail>
           )}
-          {(publisher.website || publisher.instagram) && (
-            <Detail maxWidth>
-              {publisher.website && (
-                <a
-                  className="underline"
-                  href={publisher.website}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {getHostname(publisher.website)}
-                </a>
-              )}
-              {publisher.website && publisher.instagram && ' • '}
-              {publisher.instagram && (
-                <a
-                  className="underline"
-                  href={`https://instagram.com/${publisher.instagram}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  @{publisher.instagram}
-                </a>
-              )}
-            </Detail>
-          )}
+          <LinkList />
+          <ContactInfo />
         </div>
       </Container>
     </EditPublisherProvider>

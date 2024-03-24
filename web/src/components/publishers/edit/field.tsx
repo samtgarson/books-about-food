@@ -1,24 +1,25 @@
 'use client'
 
-import { Profile } from '@books-about-food/core/models/profile'
-import { UpdateProfileInput } from '@books-about-food/core/services/profiles/update-profile'
+import { Publisher } from '@books-about-food/core/models/publisher'
+import { UpdatePublisherInput } from '@books-about-food/core/services/publishers/update-publisher'
 import {
   InPlaceField,
   InPlaceFieldProps
 } from 'src/components/edit/in-place/field'
 import { KeysMatching } from 'src/utils/types'
-import { useEditProfile } from './context'
+import { useEditPublisher } from './context'
 
 export type FieldProps = {
   attr: Exclude<
-    KeysMatching<Profile, string | null | undefined> & keyof UpdateProfileInput,
+    KeysMatching<Publisher, string | null | undefined> &
+      keyof UpdatePublisherInput,
     'slug'
   >
 } & Omit<InPlaceFieldProps, 'onSave' | 'value' | 'editMode'>
 
 export const Field = ({ attr, ...props }: FieldProps) => {
-  const { profile, editMode, onSave } = useEditProfile()
-  const value = profile[attr]
+  const { publisher, editMode, onSave } = useEditPublisher()
+  const value = publisher[attr]
 
   return (
     <InPlaceField

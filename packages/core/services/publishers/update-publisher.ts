@@ -5,6 +5,7 @@ import { can } from '../../policies'
 import { AuthedService } from '../base'
 import { publisherIncludes } from '../utils'
 import { AppError } from '../utils/errors'
+import { sanitizeHtml } from '../utils/html'
 import { fetchPublisher } from './fetch-publisher'
 
 export type UpdatePublisherInput = z.infer<typeof updatePublisher.input>
@@ -13,9 +14,12 @@ export const updatePublisher = new AuthedService(
   z.object({
     slug: z.string(),
     logo: z.string().nullish(),
-    hiddenBooks: z.array(z.string()).optional()
+    hiddenBooks: z.array(z.string()).optional(),
+    contactInfo: z.string().nullish(),
+    website: z.string().nullish(),
+    instagram: z.string().nullish()
   }),
-  async function ({ slug, logo, ...data } = {}, user) {
+  async function ({ slug, logo, contactInfo, ...data } = {}, user) {
     const { data: publisher } = await fetchPublisher.call({ slug })
 
     if (!publisher) throw new AppError('NotFound', 'Publisher not found')
@@ -27,7 +31,11 @@ export const updatePublisher = new AuthedService(
     }
 
     const updated = await prisma.publisher.update({
-      data: { logo: logoProps(logo), ...data },
+      data: {
+        logo: logoProps(logo),
+        contactInfo: sanitizeHtml(contactInfo),
+        ...data
+      },
       where: { slug },
       include: publisherIncludes
     })

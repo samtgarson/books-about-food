@@ -236,6 +236,7 @@ model Publisher {
   slug           String   @unique
   teamId         String?  @map("team_id") @db.Uuid
   hiddenBooks    String[] @default([]) @map("hidden_books")
+  contactInfo    String?  @map("contact_info")
 
   books    Book[]
   logo     Image?      @relation("publisher_logo")
