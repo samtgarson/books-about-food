@@ -9,7 +9,7 @@ export type SignInSheetProps =
     }
   | undefined
 
-export const SignInSheet: SheetComponent<SignInSheetProps> = ({
+const SignInSheet: SheetComponent<SignInSheetProps> = ({
   redirect = '/account'
 } = {}) => {
   const currentPath = usePathname()
@@ -25,3 +25,5 @@ export const SignInSheet: SheetComponent<SignInSheetProps> = ({
 }
 
 SignInSheet.grey = true
+
+export default SignInSheet

@@ -1,22 +1,21 @@
-import { ComponentProps, FC } from 'react'
-import { ClaimProfileSheet } from './claim-profile'
-import { CookbookSubmittedSheet } from './cookbook-submitted'
-import { EditPromoSheet } from './edit-promo'
-import { SignInSheet } from './sign-in'
-import { SuggestEditSheet } from './suggest-edit'
+import { FC } from 'react'
 
 export type SheetComponent<P> = FC<P> & { grey?: boolean }
 
 export const SheetMap = {
-  signIn: SignInSheet,
-  claimProfile: ClaimProfileSheet,
-  suggestEdit: SuggestEditSheet,
-  submitted: CookbookSubmittedSheet,
-  editPromo: EditPromoSheet
+  signIn: async () => import('./sign-in'),
+  claimProfile: async () => import('./claim-profile'),
+  suggestEdit: async () => import('./suggest-edit'),
+  submitted: async () => import('./cookbook-submitted'),
+  editPromo: async () => import('./edit-promo')
 } as const
 
 export type SheetMap = {
-  [K in keyof typeof SheetMap]: ComponentProps<(typeof SheetMap)[K]>
+  [K in keyof typeof SheetMap]: Awaited<
+    ReturnType<(typeof SheetMap)[K]>
+  >['default'] extends SheetComponent<infer P>
+    ? P
+    : never
 }
 
 export type GlobalSheetContext = {
@@ -28,6 +27,6 @@ export type GlobalSheetContext = {
 }
 
 export type SheetState = {
-  Component: (typeof SheetMap)[keyof SheetMap]
+  Component: SheetComponent<SheetMap[keyof SheetMap]>
   props: SheetMap[keyof SheetMap]
 }

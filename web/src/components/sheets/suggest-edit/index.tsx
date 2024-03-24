@@ -19,7 +19,7 @@ const schema = z.object({
   suggestion: z.string()
 })
 
-export const SuggestEditSheet: SheetComponent<SuggestEditSheetProps> = ({
+const SuggestEditSheet: SheetComponent<SuggestEditSheetProps> = ({
   resource
 }) => {
   const [success, setSuccess] = useState(false)
@@ -83,3 +83,5 @@ function ResourceDisplay({ resource }: SuggestEditSheetProps) {
       )
   }
 }
+
+export default SuggestEditSheet

@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react'
 import { ReactNode, useEffect, useMemo } from 'react'
 import { Loader, X } from 'src/components/atoms/icons'
 import { useSheet } from 'src/components/sheets/global-sheet'
-import { SheetMap } from 'src/components/sheets/types'
+import type { SheetMap } from 'src/components/sheets/types'
 import { Body } from './body'
 import { useSheetContext } from './context'
 

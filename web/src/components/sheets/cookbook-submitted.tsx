@@ -7,9 +7,9 @@ export type CookbookSubmittedSheetProps = {
   title: string
 }
 
-export const CookbookSubmittedSheet: SheetComponent<
-  CookbookSubmittedSheetProps
-> = ({ title }) => {
+const CookbookSubmittedSheet: SheetComponent<CookbookSubmittedSheetProps> = ({
+  title
+}) => {
   return (
     <Content>
       <Body title={`${title}`}>
@@ -25,3 +25,5 @@ export const CookbookSubmittedSheet: SheetComponent<
     </Content>
   )
 }
+
+export default CookbookSubmittedSheet

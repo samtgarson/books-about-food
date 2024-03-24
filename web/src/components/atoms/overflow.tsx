@@ -31,7 +31,7 @@ export const Root = ({ children, ...props }: RootProps) => (
 export type ItemVariant = 'default' | 'danger' | 'admin'
 
 const containerClasses =
-  'bg-white rounded-lg flex flex-col animate-scale-in origin-[var(--radix-dropdown-menu-content-transform-origin)] shadow-md p-1'
+  'float-menu flex flex-col animate-scale-in origin-[var(--radix-dropdown-menu-content-transform-origin)]'
 
 const itemClasses = (variant: ItemVariant) =>
   cn(

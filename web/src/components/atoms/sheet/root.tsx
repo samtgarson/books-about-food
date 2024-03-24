@@ -3,9 +3,7 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import { usePathname } from 'next/navigation'
 import {
-  Dispatch,
   ReactNode,
-  SetStateAction,
   forwardRef,
   useEffect,
   useImperativeHandle,
@@ -21,7 +19,7 @@ export type SheetProps = {
   defaultOpen?: boolean
 }
 
-export type SheetControl = { setOpen: Dispatch<SetStateAction<boolean>> }
+export type SheetControl = { setOpen(open: boolean): void }
 
 export const Root = forwardRef<SheetControl, SheetProps>(function Root(
   { children, mobileOnly, grey, onClose, defaultOpen = false },
@@ -34,7 +32,16 @@ export const Root = forwardRef<SheetControl, SheetProps>(function Root(
     bottom: true
   })
 
-  useImperativeHandle(ref, () => ({ setOpen }), [setOpen])
+  useImperativeHandle(
+    ref,
+    () => ({
+      setOpen(val: boolean) {
+        setOpen(val)
+        if (!val) onClose?.()
+      }
+    }),
+    [setOpen, onClose]
+  )
 
   useEffect(() => {
     setOpen(false)

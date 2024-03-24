@@ -2,8 +2,8 @@
 import { Promo } from '@books-about-food/core/models/promo'
 import { bookToResult } from '@books-about-food/core/services/books/utils/to-result'
 import { upsertPromoSchema } from '@books-about-food/core/services/publishers/schemas/upsert-promo'
-import { Trash2 } from 'react-feather'
 import { Button } from 'src/components/atoms/button'
+import { Trash2 } from 'src/components/atoms/icons'
 import { Body, Content } from 'src/components/atoms/sheet'
 import { Form } from 'src/components/form'
 import { BookMultiSelect } from 'src/components/form/book-multi-select'
@@ -18,7 +18,7 @@ export type EditPromoSheetProps = {
   promo?: Promo
 }
 
-export const EditPromoSheet: SheetComponent<EditPromoSheetProps> = ({
+const EditPromoSheet: SheetComponent<EditPromoSheetProps> = ({
   publisherSlug,
   promo
 }) => {
@@ -62,3 +62,5 @@ export const EditPromoSheet: SheetComponent<EditPromoSheetProps> = ({
     </Content>
   )
 }
+
+export default EditPromoSheet

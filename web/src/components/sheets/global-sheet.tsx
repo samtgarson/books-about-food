@@ -12,10 +12,10 @@ import * as Sheet from 'src/components/atoms/sheet'
 import { SheetControl } from 'src/components/atoms/sheet'
 import { GlobalSheetContext, SheetMap, SheetState } from './types'
 
-const globalSheetContext = createContext<GlobalSheetContext>(
+const GlobalSheetContext = createContext<GlobalSheetContext>(
   {} as GlobalSheetContext
 )
-export const useSheet = () => useContext(globalSheetContext)
+export const useSheet = () => useContext(GlobalSheetContext)
 
 export const GlobalSheetProvider = ({ children }: { children: ReactNode }) => {
   const sheet = useRef<SheetControl>(null)
@@ -23,8 +23,9 @@ export const GlobalSheetProvider = ({ children }: { children: ReactNode }) => {
   const { Component, props } = state || {}
 
   const openSheet = useCallback<GlobalSheetContext['openSheet']>(
-    (...[key, props]) => {
-      setSheet({ Component: SheetMap[key], props })
+    async (...[key, props]) => {
+      const Component = (await SheetMap[key]()).default
+      setSheet({ Component, props } as SheetState)
       sheet.current?.setOpen(true)
     },
     []
@@ -35,19 +36,17 @@ export const GlobalSheetProvider = ({ children }: { children: ReactNode }) => {
   }, [])
 
   return (
-    <globalSheetContext.Provider value={{ openSheet, closeSheet }}>
+    <GlobalSheetContext.Provider value={{ openSheet, closeSheet }}>
       {children}
       <Sheet.Root
         ref={sheet}
         grey={Component?.grey}
         onClose={() => {
-          sheet.current?.setOpen(false)
           setSheet(null)
         }}
       >
-        {/* @ts-expect-error how to type this */}
         {Component && <Component {...props} />}
       </Sheet.Root>
-    </globalSheetContext.Provider>
+    </GlobalSheetContext.Provider>
   )
 }

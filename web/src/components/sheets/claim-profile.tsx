@@ -19,7 +19,7 @@ export type ClaimProfileSheetProps = {
   profile: Profile
 }
 
-export const ClaimProfileSheet: SheetComponent<ClaimProfileSheetProps> = ({
+const ClaimProfileSheet: SheetComponent<ClaimProfileSheetProps> = ({
   profile
 }) => {
   const router = useRouter()
@@ -152,3 +152,5 @@ export const ClaimProfileSheet: SheetComponent<ClaimProfileSheetProps> = ({
     </Content>
   )
 }
+
+export default ClaimProfileSheet

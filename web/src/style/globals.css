@@ -104,4 +104,8 @@
   [class*='auto-grid'] > * {
     max-width: calc(100% + 1px);
   }
+
+  .float-menu {
+    @apply rounded-md bg-white p-1 shadow-md;
+  }
 }

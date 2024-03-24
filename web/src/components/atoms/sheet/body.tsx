@@ -108,11 +108,18 @@ const Header = ({
   )
 }
 
-export const Footer = ({ children }: { children: ReactNode }) => {
+export const Footer = ({
+  children,
+  className
+}: {
+  children: ReactNode
+  className?: string
+}) => {
   const { grey, scrollState } = useSheetContext()
   return (
     <div
       className={cn(
+        className,
         'bg-white p-5 sm:p-8 -mt-5 sm:-mt-8 z-30 border-t transition-colors',
         grey ? 'bg-grey' : 'bg-white',
         !scrollState.bottom ? 'border-neutral-grey' : 'border-transparent'
