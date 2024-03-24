@@ -57,7 +57,7 @@ export function Editor({
     content: value,
     editorProps: {
       attributes: {
-        class: cn(className, 'bg-white p-4', htmlClasses)
+        class: cn(className, 'bg-white', htmlClasses)
       }
     },
     onUpdate({ editor }) {
