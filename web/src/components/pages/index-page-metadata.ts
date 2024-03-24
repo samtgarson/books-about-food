@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Service } from '@books-about-food/core/services/base'
 import { appUrl } from '@books-about-food/core/utils/app-url'
 import { PageProps } from 'src/components/types'

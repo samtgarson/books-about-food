@@ -154,10 +154,11 @@ export async function generateMetadata(
 
   return {
     title: book.title,
+    description: `${book.title} is on Books About Food, the cookbook industry's new digital home.`,
     openGraph: {
       ...(await parent).openGraph,
-      title: book.title,
-      description: book.subtitle,
+      title: `${book.title} on Books About Food`,
+      description: `${book.title} is on Books About Food, the cookbook industry's new digital home.`,
       type: 'book',
       releaseDate: book.isoReleaseDate,
       tags: ['Cookbook', ...book.tagNames],

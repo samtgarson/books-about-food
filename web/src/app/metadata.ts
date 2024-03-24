@@ -3,14 +3,26 @@ import { Metadata, Viewport } from 'next'
 
 export const metadata = {
   title: {
-    template: '%s | Books About Food',
+    template: '%s on Books About Food',
     default: 'Books About Food'
   },
-  description: "The cookbook industry's new digital home.",
+  description:
+    'Books About Food is a unique, design-forward space created to showcase books about food and the people involved in making them.',
   metadataBase: new URL(appUrl()),
+  keywords: [
+    'Cookbooks',
+    'Food',
+    'Recipes',
+    'Publishing',
+    'Books',
+    'Cover Design'
+  ],
   openGraph: {
     siteName: 'Books About Food',
-    locale: 'en_GB'
+    locale: 'en_GB',
+    title: "Books About Food - The cookbook industry's new digital home.",
+    description:
+      'Books About Food is a unique, design-forward space created to showcase books about food and the people involved in making them.'
   }
 } satisfies Metadata
 

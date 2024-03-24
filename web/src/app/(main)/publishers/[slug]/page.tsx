@@ -32,7 +32,7 @@ export async function generateMetadata(
 
   return {
     title: publisher.name,
-    description: `${publisher.name} on Books About Food`,
+    description: `${publisher.name} is on Books About Food, the cookbook industry's new digital home.`,
     alternates: {
       canonical: `/publishers/${publisher.slug}`
     },
@@ -46,8 +46,8 @@ export async function generateMetadata(
           alt: `${publisher.name} on Books About Food`
         }
       ],
-      title: publisher.name,
-      description: `${publisher.name} on Books About Food`,
+      title: `${publisher.name} on Books About Food`,
+      description: `${publisher.name} is on Books About Food, the cookbook industry's new digital home.`,
       url: `https://booksaboutfood.info/publishers/${publisher.slug}`
     }
   }

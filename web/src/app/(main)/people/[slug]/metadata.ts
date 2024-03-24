@@ -16,6 +16,7 @@ export const metadata = (segment: ProfilePageProps['segment']) =>
     const [firstName, ...names] = profile.name.split(' ')
     return {
       title: profile.name,
+      description: `${profile.name} is on Books About Food, the cookbook industry's new digital home.`,
       alternates: {
         canonical: `/${segment}/${profile.slug}`
       },
@@ -29,8 +30,8 @@ export const metadata = (segment: ProfilePageProps['segment']) =>
             alt: `${profile.name} on Books About Food`
           }
         ],
-        title: profile.name,
-        description: profile.jobTitle,
+        title: `${profile.name} on Books About Food`,
+        description: `${profile.name} is on Books About Food, the cookbook industry's new digital home.`,
         type: 'profile',
         url: `https://booksaboutfood.info/${segment}/${profile.slug}`,
         username: profile.instagram,
