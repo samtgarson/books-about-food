@@ -1,6 +1,11 @@
 'use client'
 import type { MembershipRole } from '@books-about-food/database'
-import { ChevronsDown, ChevronsUp, Mail, Trash2 } from 'react-feather'
+import {
+  ChevronsDown,
+  ChevronsUp,
+  Mail,
+  Trash2
+} from 'src/components/atoms/icons'
 import * as Overflow from 'src/components/atoms/overflow'
 
 export function MembershipsOverflow({

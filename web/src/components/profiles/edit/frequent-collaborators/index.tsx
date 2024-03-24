@@ -1,7 +1,7 @@
 import { Profile } from '@books-about-food/core/models/profile'
 import cn from 'classnames'
-import { Lock } from 'react-feather'
 import { Avatar } from 'src/components/atoms/avatar'
+import { Lock } from 'src/components/atoms/icons'
 import { AuthedButton } from 'src/components/auth/authed-button'
 import { GridContainer } from 'src/components/lists/grid-container'
 import { getUser } from 'src/utils/user'
