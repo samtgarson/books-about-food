@@ -2,7 +2,7 @@
 
 import { FullBook } from '@books-about-food/core/models/full-book'
 import { hashtags } from '@books-about-food/core/services/books/utils/hashtags'
-import { Copy, PencilMini } from 'src/components/atoms/icons'
+import { Hash, PencilMini } from 'src/components/atoms/icons'
 import * as Overflow from 'src/components/atoms/overflow'
 import { usePolicy } from 'src/hooks/use-policy'
 import { useSheet } from '../sheets/global-sheet'
@@ -40,7 +40,7 @@ export const BookOverflow = ({
           await navigator.clipboard.writeText(hashtags(book))
           successToast('Hashtags copied to your clipboard')
         }}
-        icon={Copy}
+        icon={Hash}
       >
         Copy Hashtags
       </Overflow.Item>

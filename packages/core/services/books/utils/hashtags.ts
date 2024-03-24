@@ -9,18 +9,20 @@ export function hashtags(book: FullBook) {
   const authors = authorHandles(book.authors)
   if (authors.length) tags += ` by ${authors.join(' ')}`
 
+  const extras = []
   const contribs = contribHandles(book.contributions)
   if (contribs.length) {
-    tags += ' • ' + contribs.join(' • ')
+    extras.push(contribs.join(' • '))
   }
 
   if (book.publisher) {
-    tags += ` • Publisher ${handle(book.publisher)}`
+    extras.push(`Publisher ${handle(book.publisher)}`)
   }
 
+  if (extras.length) tags += `\n•\n${extras.join(' • ')}`
   return `${tags}
 •
-#food #recipes #recipebooks #bookstagram #bookcovers #covers #design #books #booksactually #booksonbooksonbooks #cooking #cookbook #booksaboutfoodclub #foodporn #foodstagram #nutrition #talkcookbooks #cookbooks #booksaboutfood`
+#food #recipes #bookstagram #bookcovers #design #books #cooking #cookbook #booksaboutfoodclub #foodstagram #cookbooks #booksaboutfood`
 }
 
 function authorHandles(profiles: Profile[]) {
