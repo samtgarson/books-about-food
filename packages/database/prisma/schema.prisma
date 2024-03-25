@@ -256,10 +256,24 @@ model Tag {
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
   name      String   @unique
   slug      String   @unique
+  groupId   String   @map("group_id") @db.Uuid
 
-  books Book[] @relation("books_tags")
+  books Book[]   @relation("books_tags")
+  group TagGroup @relation(fields: [groupId], references: [id])
 
   @@map("tags")
+}
+
+model TagGroup {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  name      String   @unique
+  slug      String   @unique
+
+  tags Tag[]
+
+  @@map("tag_groups")
 }
 
 model Favourite {

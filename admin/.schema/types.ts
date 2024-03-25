@@ -155,6 +155,13 @@ export type SessionsFilter = TPaginatedFilter<Schema, 'sessions'>;
 export type SessionsSortClause = TSortClause<Schema, 'sessions'>;
 export type SessionsAggregation = TAggregation<Schema, 'sessions'>;
 
+export type TagGroupsCustomizer = CollectionCustomizer<Schema, 'tag_groups'>;
+export type TagGroupsRecord = TPartialRow<Schema, 'tag_groups'>;
+export type TagGroupsConditionTree = TConditionTree<Schema, 'tag_groups'>;
+export type TagGroupsFilter = TPaginatedFilter<Schema, 'tag_groups'>;
+export type TagGroupsSortClause = TSortClause<Schema, 'tag_groups'>;
+export type TagGroupsAggregation = TAggregation<Schema, 'tag_groups'>;
+
 export type TagsCustomizer = CollectionCustomizer<Schema, 'tags'>;
 export type TagsRecord = TPartialRow<Schema, 'tags'>;
 export type TagsConditionTree = TConditionTree<Schema, 'tags'>;
@@ -1257,6 +1264,7 @@ export type Schema = {
       'book:title': string;
       'book:updated_at': string;
       'tag:created_at': string;
+      'tag:group_id': string;
       'tag:id': string;
       'tag:name': string;
       'tag:slug': string;
@@ -1297,6 +1305,11 @@ export type Schema = {
       'book:submitter:name': string;
       'book:submitter:role': 'admin' | 'user' | 'waitlist';
       'book:submitter:updated_at': string;
+      'tag:group:created_at': string;
+      'tag:group:id': string;
+      'tag:group:name': string;
+      'tag:group:slug': string;
+      'tag:group:updated_at': string;
       'book:image:preview_for:background_color': any;
       'book:image:preview_for:BackgroundColor': string;
       'book:image:preview_for:blurb': string;
@@ -12544,7 +12557,7 @@ export type Schema = {
       'user:profile:image:publisher:team:updated_at': string;
     };
   };
-  'tags': {
+  'tag_groups': {
     plain: {
       'created_at': string;
       'id': string;
@@ -12554,6 +12567,26 @@ export type Schema = {
     };
     nested: {};
     flat: {};
+  };
+  'tags': {
+    plain: {
+      'created_at': string;
+      'group_id': string;
+      'id': string;
+      'name': string;
+      'slug': string;
+      'updated_at': string;
+    };
+    nested: {
+      'group': Schema['tag_groups']['plain'] & Schema['tag_groups']['nested'];
+    };
+    flat: {
+      'group:created_at': string;
+      'group:id': string;
+      'group:name': string;
+      'group:slug': string;
+      'group:updated_at': string;
+    };
   };
   'team_invitations': {
     plain: {

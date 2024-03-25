@@ -13,6 +13,7 @@ import { customiseJobs } from './collections/jobs'
 import { customiseLinks } from './collections/links'
 import { customiseProfiles } from './collections/profiles'
 import { customisePublishers } from './collections/publishers'
+import { customiseTagGroups } from './collections/tag-groups'
 import { customiseTags } from './collections/tags'
 import { customiseTeams } from './collections/teams'
 import { customiseUsers } from './collections/users'
@@ -51,4 +52,5 @@ agent
   .customizeCollection('verification_tokens', customiseVerificationTokens)
   .customizeCollection('tags', customiseTags)
   .customizeCollection('teams', customiseTeams)
+  .customizeCollection('tag_groups', customiseTagGroups)
   .start()
