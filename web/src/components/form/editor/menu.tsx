@@ -1,8 +1,7 @@
 import { BubbleMenu, Editor } from '@tiptap/react'
 import cn from 'classnames'
-import { forwardRef, useRef } from 'react'
+import { forwardRef } from 'react'
 import { Bold, Icon, Italic, Link, Underline } from 'src/components/atoms/icons'
-import * as Sheet from 'src/components/atoms/sheet'
 import EditorLinkSheet from './link-sheet'
 
 const iconAttrs = { size: 18, strokeWidth: 1 }
@@ -30,42 +29,39 @@ const Item = forwardRef<
   )
 })
 
-export const EditorMenu = forwardRef<HTMLDivElement, { editor: Editor | null }>(
-  function EditorMenu({ editor }, ref) {
-    const linkSheet = useRef<Sheet.SheetControl>(null)
-
-    if (!editor) return null
-    return (
-      <Sheet.Root ref={linkSheet} onClose={() => editor.commands.focus()}>
-        <BubbleMenu
-          editor={editor}
-          tippyOptions={{ animation: 'fade', interactive: true }}
-        >
-          <div
-            ref={ref}
-            className={cn('float-menu flex justify-between relative')}
-          >
-            <Item
-              onClick={() => editor.chain().focus().toggleBold().run()}
-              active={editor.isActive('bold')}
-              icon={Bold}
-            />
-            <Item
-              onClick={() => editor.chain().focus().toggleItalic().run()}
-              active={editor.isActive('italic')}
-              icon={Italic}
-            />
-            <Item
-              onClick={() => editor.chain().focus().toggleUnderline().run()}
-              active={editor.isActive('underline')}
-              icon={Underline}
-            />
-            <EditorLinkSheet editor={editor}>
-              <Item active={editor.isActive('link')} icon={Link} />
-            </EditorLinkSheet>
-          </div>
-        </BubbleMenu>
-      </Sheet.Root>
-    )
-  }
-)
+export function EditorMenu({
+  editor,
+  container
+}: {
+  editor: Editor | null
+  container?: HTMLElement
+}) {
+  if (!editor) return null
+  return (
+    <BubbleMenu
+      editor={editor}
+      tippyOptions={{ animation: 'fade', interactive: true, zIndex: 60 }}
+    >
+      <div className={cn('float-menu flex justify-between relative')}>
+        <Item
+          onClick={() => editor.chain().focus().toggleBold().run()}
+          active={editor.isActive('bold')}
+          icon={Bold}
+        />
+        <Item
+          onClick={() => editor.chain().focus().toggleItalic().run()}
+          active={editor.isActive('italic')}
+          icon={Italic}
+        />
+        <Item
+          onClick={() => editor.chain().focus().toggleUnderline().run()}
+          active={editor.isActive('underline')}
+          icon={Underline}
+        />
+        <EditorLinkSheet editor={editor} container={container}>
+          <Item active={editor.isActive('link')} icon={Link} />
+        </EditorLinkSheet>
+      </div>
+    </BubbleMenu>
+  )
+}

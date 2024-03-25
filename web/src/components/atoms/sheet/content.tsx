@@ -17,6 +17,7 @@ type SheetContentProps = {
   focusTriggerOnClose?: boolean
   showCloseButton?: boolean
   className?: string
+  container?: HTMLElement
 }
 
 export const Content = ({
@@ -25,12 +26,13 @@ export const Content = ({
   focusTriggerOnClose = true,
   className,
   showCloseButton = true,
+  container,
   ...props
 }: SheetContentProps) => {
   const { close } = useSheetContext()
 
   return (
-    <Dialog.Portal>
+    <Dialog.Portal container={container}>
       <Dialog.Overlay
         className={cn(
           'animate-fade-in fixed inset-0 z-sheet',

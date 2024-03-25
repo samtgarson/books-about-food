@@ -12,7 +12,7 @@ import Typography from '@tiptap/extension-typography'
 import Underline from '@tiptap/extension-underline'
 import { EditorContent, useEditor } from '@tiptap/react'
 import cn from 'classnames'
-import { useRef } from 'react'
+import { useState } from 'react'
 import { EditorMenu } from './menu'
 import './styles.css'
 import { htmlClasses } from './util'
@@ -32,7 +32,7 @@ export function Editor({
   onBlur,
   className
 }: EditorProps) {
-  const menu = useRef<HTMLDivElement>(null)
+  const [wrapper, setWrapper] = useState<HTMLElement | null>(null)
   const editor = useEditor({
     extensions: [
       Bold,
@@ -67,14 +67,13 @@ export function Editor({
       onChange?.(html)
     },
     onBlur({ event }) {
-      if (!menu.current?.contains(event.relatedTarget as Node))
-        return onBlur?.()
+      if (!wrapper?.contains(event.relatedTarget as Node)) onBlur?.()
     }
   })
 
   return (
-    <div>
-      <EditorMenu editor={editor} ref={menu} />
+    <div ref={setWrapper}>
+      <EditorMenu editor={editor} container={wrapper || undefined} />
       <EditorContent editor={editor} />
     </div>
   )

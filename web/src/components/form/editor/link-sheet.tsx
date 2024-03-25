@@ -9,18 +9,22 @@ import { Submit } from 'src/components/form/submit'
 
 export type EditorLinkSheetProps = {
   editor: Editor
+  container?: HTMLElement
   children?: ReactNode
 }
 
-function EditorLinkSheet({ editor, children }: EditorLinkSheetProps) {
+function EditorLinkSheet({
+  editor,
+  children,
+  container
+}: EditorLinkSheetProps) {
   const sheet = useRef<Sheet.SheetControl>(null)
   const handleLink = useCallback(
     function (link: string) {
       if (!editor || !link.length) return
 
-      const currentPosition = editor.state.selection
       sheet.current?.setOpen(false)
-      editor.chain().setLink({ href: link }).focus(currentPosition.to).run()
+      editor.chain().setLink({ href: link }).focus().run()
     },
     [editor, sheet]
   )
@@ -28,7 +32,7 @@ function EditorLinkSheet({ editor, children }: EditorLinkSheetProps) {
   return (
     <Sheet.Root ref={sheet} onClose={() => editor.commands.focus()}>
       <Sheet.Trigger asChild>{children}</Sheet.Trigger>
-      <Sheet.Content focusTriggerOnClose={false}>
+      <Sheet.Content focusTriggerOnClose={false} container={container}>
         <Sheet.Body>
           <Form
             variant="bordered"

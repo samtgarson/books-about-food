@@ -19,7 +19,9 @@ export type SheetProps = {
   defaultOpen?: boolean
 }
 
-export type SheetControl = { setOpen(open: boolean): void }
+export type SheetControl = {
+  setOpen(open: boolean | ((current: boolean) => boolean)): void
+}
 
 export const Root = forwardRef<SheetControl, SheetProps>(function Root(
   { children, mobileOnly, grey, onClose, defaultOpen = false },
@@ -35,9 +37,12 @@ export const Root = forwardRef<SheetControl, SheetProps>(function Root(
   useImperativeHandle(
     ref,
     () => ({
-      setOpen(val: boolean) {
-        setOpen(val)
-        if (!val) onClose?.()
+      setOpen(val) {
+        setOpen((current) => {
+          const newVal = typeof val === 'function' ? val(current) : val
+          if (!newVal) onClose?.()
+          return newVal
+        })
       }
     }),
     [setOpen, onClose]
@@ -61,14 +66,7 @@ export const Root = forwardRef<SheetControl, SheetProps>(function Root(
         setScrollState
       }}
     >
-      <Dialog.Root
-        modal
-        open={open}
-        onOpenChange={(o) => {
-          setOpen(o)
-          if (!o) onClose?.()
-        }}
-      >
+      <Dialog.Root modal open={open} onOpenChange={setOpen}>
         {children}
       </Dialog.Root>
     </SheetContext.Provider>
