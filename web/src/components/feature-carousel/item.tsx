@@ -12,7 +12,6 @@ export type FeatureCarouselFeature = {
   id: string
   book: Book
   title?: string | null
-  description?: string | null
   tagLine?: string | null
 }
 
@@ -74,9 +73,9 @@ export function FeatureCarouselItem({
         {feature.title && (
           <p className="text-24 lg:text-40 mb-2 max-w-xl">{feature.title}</p>
         )}
-        {feature.description && (
+        {feature.book.designCommentary && (
           <p className="text-14 lg:text-18 mb-4 max-w-xl lg:mb-8 line-clamp-3">
-            {feature.description}
+            {feature.book.designCommentary}
           </p>
         )}
         <div className="flex items-center gap-2">

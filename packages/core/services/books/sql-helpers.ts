@@ -117,6 +117,8 @@ export interface BookRow extends Record<string, unknown> {
   cover_image: Image
   authors: Array<Profile | null>
   contributions: Array<ContributionsEntity | null>
+  design_commentary: string | null
+  blurb: string | null
 }
 export interface Image extends Record<string, unknown> {
   id: string

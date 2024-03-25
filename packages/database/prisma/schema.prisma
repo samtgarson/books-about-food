@@ -191,22 +191,24 @@ enum BookSource {
 }
 
 model Book {
-  id              String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt       DateTime   @default(now()) @map("created_at")
-  updatedAt       DateTime   @default(now()) @map("updated_at")
-  title           String
-  subtitle        String?
-  releaseDate     DateTime?  @map("release_date") @db.Date
-  pages           Int?
-  publisherId     String?    @map("publisher_id") @db.Uuid
-  slug            String     @unique
-  status          BookStatus @default(draft)
-  submitterId     String?    @map("submitter_id") @db.Uuid
+  id               String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt        DateTime   @default(now()) @map("created_at")
+  updatedAt        DateTime   @default(now()) @map("updated_at")
+  title            String
+  subtitle         String?
+  releaseDate      DateTime?  @map("release_date") @db.Date
+  pages            Int?
+  publisherId      String?    @map("publisher_id") @db.Uuid
+  slug             String     @unique
+  status           BookStatus @default(draft)
+  submitterId      String?    @map("submitter_id") @db.Uuid
   // TODO: make this unique https://github.com/prisma/prisma/issues/3387
-  googleBooksId   String?    @map("google_books_id")
-  source          BookSource @default(admin)
-  backgroundColor Json?      @map("background_color")
-  palette         Json?
+  googleBooksId    String?    @map("google_books_id")
+  source           BookSource @default(admin)
+  backgroundColor  Json?      @map("background_color")
+  palette          Json?
+  designCommentary String?    @map("design_commentary")
+  blurb            String?
 
   coverImage    Image?         @relation("cover_for")
   previewImages Image[]        @relation("preview_for")
@@ -275,14 +277,13 @@ model Favourite {
 }
 
 model Feature {
-  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at")
-  bookId      String    @map("book_id") @db.Uuid
-  tagLine     String?   @map("tag_line")
-  until       DateTime? @db.Date
-  description String?
-  order       Int       @default(0)
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @default(now()) @updatedAt @map("updated_at")
+  bookId    String    @map("book_id") @db.Uuid
+  tagLine   String?   @map("tag_line")
+  until     DateTime? @db.Date
+  order     Int       @default(0)
 
   book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
 

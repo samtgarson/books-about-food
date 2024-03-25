@@ -24,6 +24,8 @@ export class Book extends BaseModel {
   submitterId?: string
   backgroundColor?: string
   colors: Hsl[]
+  blurb?: string
+  designCommentary?: string
 
   constructor(attrs: BookAttrs) {
     super()
@@ -48,6 +50,8 @@ export class Book extends BaseModel {
     this.colors = Array.isArray(attrs.palette)
       ? attrs.palette.filter(isHsl)
       : []
+    this.blurb = attrs.blurb ?? undefined
+    this.designCommentary = attrs.designCommentary ?? undefined
   }
 
   get name() {

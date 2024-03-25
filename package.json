@@ -34,7 +34,8 @@
     "dev:web": "turbo run dev --filter web",
     "dev:test": "DANGER_SEND_EMAILS=true npm run dev",
     "heroku-postbuild": "turbo run build --filter admin",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "type-check": "npx -ws tsc --noEmit"
   },
   "devDependencies": {
     "@books-about-food/prettier-config": "*",
