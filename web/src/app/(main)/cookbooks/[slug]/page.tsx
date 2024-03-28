@@ -16,6 +16,7 @@ import { TagList } from 'src/components/books/tag-list'
 import { TeamList } from 'src/components/books/team-list'
 import { ProfileListSection } from 'src/components/profiles/list-section'
 import { PageProps } from 'src/components/types'
+import { genMetadata } from 'src/utils/metadata'
 import { call } from 'src/utils/service'
 
 export type CookbooksPageProps = PageProps<{ slug: string }>
@@ -152,17 +153,11 @@ export async function generateMetadata(
   const { data: book } = await call(fetchBook, { slug, onlyPublished: true })
   if (!book) notFound()
 
-  return {
-    title: book.title,
-    description: `${book.title} is on Books About Food, the cookbook industry's new digital home.`,
+  return genMetadata(book.title, `/cookbooks/${book.slug}`, await parent, {
     openGraph: {
-      ...(await parent).openGraph,
-      title: `${book.title} on Books About Food`,
-      description: `${book.title} is on Books About Food, the cookbook industry's new digital home.`,
       type: 'book',
       releaseDate: book.isoReleaseDate,
       tags: ['Cookbook', ...book.tagNames],
-      url: `https://booksaboutfood.info/cookbooks/${book.slug}`,
       authors: book.authors.map(
         (author) => `https://booksaboutfood.info/authors/${author.slug}`
       ),
@@ -174,9 +169,6 @@ export async function generateMetadata(
           alt: `${book.title} on Books About Food`
         }
       ]
-    },
-    alternates: {
-      canonical: `/cookbooks/${book.slug}`
     }
-  }
+  })
 }

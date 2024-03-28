@@ -2,6 +2,7 @@ import { fetchProfile } from '@books-about-food/core/services/profiles/fetch-pro
 import { Metadata, ResolvedMetadata } from 'next'
 import { notFound } from 'next/navigation'
 import { PageProps } from 'src/components/types'
+import { genMetadata } from 'src/utils/metadata'
 import { call } from 'src/utils/service'
 import { ProfilePageProps } from './profile-page'
 
@@ -14,29 +15,25 @@ export const metadata = (segment: ProfilePageProps['segment']) =>
     if (!profile) notFound()
 
     const [firstName, ...names] = profile.name.split(' ')
-    return {
-      title: profile.name,
-      description: `${profile.name} is on Books About Food, the cookbook industry's new digital home.`,
-      alternates: {
-        canonical: `/${segment}/${profile.slug}`
-      },
-      openGraph: {
-        ...(await parent).openGraph,
-        images: [
-          {
-            url: `/${segment}/${profile.slug}/og-image.png`,
-            width: 1200,
-            height: 630,
-            alt: `${profile.name} on Books About Food`
-          }
-        ],
-        title: `${profile.name} on Books About Food`,
-        description: `${profile.name} is on Books About Food, the cookbook industry's new digital home.`,
-        type: 'profile',
-        url: `https://booksaboutfood.info/${segment}/${profile.slug}`,
-        username: profile.instagram,
-        firstName,
-        lastName: names.join(' ')
+    return genMetadata(
+      profile.name,
+      `/${segment}/${profile.slug}`,
+      await parent,
+      {
+        openGraph: {
+          images: [
+            {
+              url: `/${segment}/${profile.slug}/og-image.png`,
+              width: 1200,
+              height: 630,
+              alt: `${profile.name} on Books About Food`
+            }
+          ],
+          type: 'profile',
+          username: profile.instagram,
+          firstName,
+          lastName: names.join(' ')
+        }
       }
-    }
+    )
   }

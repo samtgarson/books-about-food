@@ -8,7 +8,7 @@ import { Container } from 'src/components/atoms/container'
 import { PageTitle } from 'src/components/atoms/page-title'
 
 export const metadata: Metadata = {
-  title: 'About',
+  title: { absolute: 'About Books About Food' },
   alternates: {
     canonical: '/about'
   }

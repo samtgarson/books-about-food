@@ -19,6 +19,7 @@ import { EditableLogo } from 'src/components/publishers/edit/editable-logo'
 import { LinkList } from 'src/components/publishers/edit/link-list'
 import { PromoCarousel } from 'src/components/publishers/edit/promo-carousel'
 import { PageProps } from 'src/components/types'
+import { genMetadata } from 'src/utils/metadata'
 import { call } from 'src/utils/service'
 
 type PublisherPageProps = PageProps<{ slug: string }>
@@ -30,14 +31,8 @@ export async function generateMetadata(
   const { data: publisher } = await call(fetchPublisher, { slug })
   if (!publisher) notFound()
 
-  return {
-    title: publisher.name,
-    description: `${publisher.name} is on Books About Food, the cookbook industry's new digital home.`,
-    alternates: {
-      canonical: `/publishers/${publisher.slug}`
-    },
+  return genMetadata(publisher.name, `/publishers/${slug}`, await parent, {
     openGraph: {
-      ...(await parent).openGraph,
       images: [
         {
           url: `/publishers/${publisher.slug}/og-image.png`,
@@ -45,12 +40,9 @@ export async function generateMetadata(
           height: 630,
           alt: `${publisher.name} on Books About Food`
         }
-      ],
-      title: `${publisher.name} on Books About Food`,
-      description: `${publisher.name} is on Books About Food, the cookbook industry's new digital home.`,
-      url: `https://booksaboutfood.info/publishers/${publisher.slug}`
+      ]
     }
-  }
+  })
 }
 
 export * from 'app/default-static-config'
