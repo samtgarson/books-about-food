@@ -2,6 +2,7 @@ import { Image } from '@books-about-food/core/models/image'
 import { bookIncludes } from '@books-about-food/core/services/utils'
 import prisma from '@books-about-food/database'
 import { getColors } from '@books-about-food/jobs/lib/generate-palette/get-colors'
+import { toColorString } from '@books-about-food/shared/utils/types'
 import Img from 'next/image'
 import { Suspense } from 'react'
 import { Container } from 'src/components/atoms/container'
@@ -75,7 +76,7 @@ function Palette({ palette }: { palette: Hsl[] }) {
           key={i}
           className="size-8 rounded-full"
           style={{
-            backgroundColor: `hsl(${color.h}, ${color.s}%, ${color.l}%)`
+            backgroundColor: toColorString(color)
           }}
         />
       ))}

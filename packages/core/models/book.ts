@@ -1,5 +1,5 @@
 import { BookStatus } from '@books-about-food/database'
-import { Hsl, isHsl } from '@books-about-food/shared/utils/types'
+import { Hsl, isHsl, toColorString } from '@books-about-food/shared/utils/types'
 import Color from 'color'
 import format from 'date-fns/format'
 import isFuture from 'date-fns/isFuture'
@@ -45,7 +45,7 @@ export class Book extends BaseModel {
     this.submitterId = attrs.submitterId ?? undefined
     this.authors = attrs.authors?.map((author) => new Profile(author)) ?? []
     this.backgroundColor = isHsl(attrs.backgroundColor)
-      ? `hsl(${attrs.backgroundColor.h}, ${attrs.backgroundColor.s}%, ${attrs.backgroundColor.l}%)`
+      ? toColorString(attrs.backgroundColor)
       : undefined
     this.colors = Array.isArray(attrs.palette)
       ? attrs.palette.filter(isHsl)

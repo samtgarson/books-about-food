@@ -1,4 +1,5 @@
 import { fetchBook } from '@books-about-food/core/services/books/fetch-book'
+import { toColorString } from '@books-about-food/shared/utils/types'
 import cn from 'classnames'
 import { Metadata, ResolvedMetadata } from 'next'
 import Link from 'next/link'
@@ -121,7 +122,7 @@ export default async ({ params: { slug } }: CookbooksPageProps) => {
             <div className="flex flex-wrap gap-2">
               {book.colors.map((color) => (
                 <Link
-                  key={`${color}`}
+                  key={toColorString(color)}
                   href={`/cookbooks?color=${[
                     Math.round(color.h),
                     Math.round(color.s),
@@ -129,7 +130,7 @@ export default async ({ params: { slug } }: CookbooksPageProps) => {
                   ].join(',')}`}
                   className="size-6 rounded-full"
                   style={{
-                    backgroundColor: `hsl(${color.h}, ${color.s}%, ${color.l}%)`
+                    backgroundColor: toColorString(color)
                   }}
                 />
               ))}
