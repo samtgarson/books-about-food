@@ -1,6 +1,12 @@
+import dynamic from 'next/dynamic'
 import { ReactNode } from 'react'
 import { Edit2, Trash2 } from 'src/components/atoms/icons'
-import { ImageUploadButton } from 'src/components/form/image-upload/upload-button'
+
+const ImageUploadButton = dynamic(
+  async () =>
+    (await import('src/components/form/image-upload/upload-button'))
+      .ImageUploadButton
+)
 
 export type EditableImageProps = {
   editMode: boolean

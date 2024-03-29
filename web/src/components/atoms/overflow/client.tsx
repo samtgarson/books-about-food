@@ -6,10 +6,7 @@ import Link from 'next/link'
 import { ComponentProps, FC, ReactNode } from 'react'
 import { ArrowUpRight, Icon, MoreHorizontal } from 'src/components/atoms/icons'
 import { useCurrentUser } from 'src/hooks/use-current-user'
-
-export type RootProps = {
-  children: ReactNode
-} & DropdownMenu.DropdownMenuTriggerProps
+import { ItemVariant, RootProps } from './types'
 
 export const Root = ({ children, ...props }: RootProps) => (
   <DropdownMenu.Root>
@@ -27,8 +24,6 @@ export const Root = ({ children, ...props }: RootProps) => (
     </DropdownMenu.Portal>
   </DropdownMenu.Root>
 )
-
-export type ItemVariant = 'default' | 'danger' | 'admin'
 
 const containerClasses =
   'float-menu flex flex-col animate-scale-in origin-[var(--radix-dropdown-menu-content-transform-origin)]'
