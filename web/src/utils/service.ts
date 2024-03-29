@@ -27,10 +27,10 @@ export async function call<S extends ServiceClass<any, any>>(
   args?: S extends ServiceClass<infer I, any> ? z.infer<I> : never
 ) {
   const stringArgs = stringify(args)
-  return rawCall(service, stringArgs)
+  return cachedCall(service, stringArgs)
 }
 
-const rawCall = cache(async function <S extends ServiceClass<any, any>>(
+const cachedCall = cache(async function <S extends ServiceClass<any, any>>(
   service: S,
   stringArgs?: string
 ) {

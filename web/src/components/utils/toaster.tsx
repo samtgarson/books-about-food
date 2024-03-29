@@ -1,24 +1,26 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { ExternalToast, toast } from 'sonner'
 import { AlertTriangle, Check } from 'src/components/atoms/icons'
 import { useUpdateSession } from 'src/hooks/use-update-session'
 
-export function Toaster({
-  action,
-  message,
-  data,
-  type = 'message',
-  refreshSession = false
-}: {
+type ToasterProps = {
   action: string
   message: string
   data?: ExternalToast
   type?: 'message' | 'success' | 'error'
   refreshSession?: boolean
-}) {
+}
+
+function ToasterContent({
+  action,
+  message,
+  data,
+  type = 'message',
+  refreshSession = false
+}: ToasterProps) {
   const searchParams = useSearchParams()
   const router = useRouter()
   const updateSession = useUpdateSession()
@@ -60,4 +62,12 @@ export const errorToast = (message: string, data?: ExternalToast) => {
     ...data,
     icon: <AlertTriangle size={24} strokeWidth={1} />
   })
+}
+
+export function Toaster(props: ToasterProps) {
+  return (
+    <Suspense fallback={null}>
+      <ToasterContent {...props} />
+    </Suspense>
+  )
 }
