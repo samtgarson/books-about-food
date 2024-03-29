@@ -26,7 +26,7 @@ export class Publisher extends BaseModel {
     this.website = attrs.website ?? undefined
     this.instagram = attrs.instagram ?? undefined
     this.logo = attrs.logo
-      ? new Image(attrs.logo, `Logo for ${attrs.name}`)
+      ? new Image(attrs.logo, `Logo for ${attrs.name}`, true)
       : undefined
     this.imprints = attrs.imprints
     this.house = attrs.house ?? undefined
