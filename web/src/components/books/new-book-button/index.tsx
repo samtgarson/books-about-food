@@ -1,4 +1,5 @@
 'use client'
+import { DialogTriggerProps } from '@radix-ui/react-dialog'
 import cn from 'classnames'
 import dynamic from 'next/dynamic'
 import { ReactNode } from 'react'
@@ -9,11 +10,12 @@ const Form = dynamic(async () => (await import('./content')).NewBookForm)
 
 export const NewBookButton = ({
   children,
-  className
+  className,
+  ...triggerProps
 }: {
   children?: ReactNode
   className?: string
-}) => {
+} & DialogTriggerProps) => {
   const triggerContent = children ?? (
     <>
       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white">
@@ -27,6 +29,7 @@ export const NewBookButton = ({
       <Sheet.Trigger
         className={cn('flex items-center gap-4', className)}
         aria-label="Submit a new cookbook"
+        {...triggerProps}
       >
         {triggerContent}
       </Sheet.Trigger>

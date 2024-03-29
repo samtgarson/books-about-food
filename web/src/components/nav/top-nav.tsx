@@ -153,7 +153,7 @@ export const TopNav: FC = () => {
       >
         <Dialog.Root modal open={open} onOpenChange={setOpen}>
           <div className="flex items-center gap-8">
-            <Dialog.Trigger>
+            <Dialog.Trigger title="Menu">
               <Menu
                 strokeWidth={1}
                 color={theme === 'dark' ? 'white' : 'black'}
