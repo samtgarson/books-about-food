@@ -1,4 +1,9 @@
 import { fetchBook } from '@books-about-food/core/services/books/fetch-book'
+import { fetchBooks } from '@books-about-food/core/services/books/fetch-books'
+import {
+  fetchComingSoon,
+  fetchNewlyAdded
+} from '@books-about-food/core/services/home/fetch'
 import { toColorString } from '@books-about-food/shared/utils/types'
 import cn from 'classnames'
 import { Metadata, ResolvedMetadata } from 'next'
@@ -23,6 +28,20 @@ import { call } from 'src/utils/service'
 export type CookbooksPageProps = PageProps<{ slug: string }>
 
 export * from 'app/default-static-config'
+
+export async function generateStaticParams() {
+  const [{ data }, newlyAdded, comingSoon] = await Promise.all([
+    call(fetchBooks),
+    fetchNewlyAdded(),
+    fetchComingSoon()
+  ])
+
+  return (
+    [...(data?.books ?? []), ...newlyAdded, ...comingSoon].map((book) => ({
+      slug: book.slug
+    })) ?? []
+  )
+}
 
 export default async ({ params: { slug } }: CookbooksPageProps) => {
   const { data: book } = await call(fetchBook, { slug, onlyPublished: true })

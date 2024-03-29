@@ -21,7 +21,8 @@ import { PublisherGrid } from './publishers/grid'
 //   { ssr: false }
 // )
 
-export * from 'app/default-static-config'
+export const dynamic = 'error'
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   alternates: {

@@ -13,7 +13,7 @@ export const generateMetadata = indexPageMetadata({
   path: '/publishers'
 })
 
-export * from 'app/default-static-config'
+export const revalidate = 3600
 
 const filters = ({ filters = {} }: { filters?: FetchPublishersInput }) => (
   <FilterBar

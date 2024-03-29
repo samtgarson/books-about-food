@@ -11,7 +11,7 @@ export const generateMetadata = indexPageMetadata({
   path: '/authors'
 })
 
-export * from 'app/default-static-config'
+export const revalidate = 3600
 
 export default createIndexPage({
   content: AuthorsList,

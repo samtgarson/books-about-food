@@ -1,4 +1,6 @@
+import { fetchProfiles } from '@books-about-food/core/services/profiles/fetch-profiles'
 import { PageProps } from 'src/components/types'
+import { call } from 'src/utils/service'
 import { metadata } from './metadata'
 import { ProfilePage } from './profile-page'
 
@@ -10,4 +12,10 @@ export const generateMetadata = metadata('people')
 
 export default function PeoplePage({ params: { slug } }: ProfilePageProps) {
   return <ProfilePage segment="people" slug={slug} />
+}
+
+export async function generateStaticParams() {
+  const { data } = await call(fetchProfiles, { onlyAuthors: false })
+
+  return data?.profiles.map((profile) => ({ slug: profile.slug })) ?? []
 }
