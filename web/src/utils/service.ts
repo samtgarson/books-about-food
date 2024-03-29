@@ -6,8 +6,8 @@ import {
 } from '@books-about-food/core/services/base'
 import { AppError } from '@books-about-food/core/services/utils/errors'
 import { cache } from 'react'
+import { parse, stringify } from 'superjson'
 import z from 'zod'
-import { Stringified, parse, stringify } from './superjson'
 import { getSessionUser } from './user'
 
 export type RequestMeta = {
@@ -22,18 +22,18 @@ type ServiceClass<I extends z.ZodTypeAny, R> =
   | Service<I, R>
   | AuthedService<I, R>
 
-export async function call<
-  I extends z.ZodTypeAny,
-  S extends ServiceClass<I, any>
->(service: S, args?: z.infer<I>) {
+export async function call<S extends ServiceClass<any, any>>(
+  service: S,
+  args?: S extends ServiceClass<infer I, any> ? z.infer<I> : never
+) {
   const stringArgs = stringify(args)
   return rawCall(service, stringArgs)
 }
 
-const rawCall = cache(async function <
-  I extends z.ZodTypeAny,
-  S extends ServiceClass<I, any>
->(service: S, stringArgs?: Stringified<z.infer<I>>) {
+const rawCall = cache(async function <S extends ServiceClass<any, any>>(
+  service: S,
+  stringArgs?: string
+) {
   const args = stringArgs ? parse(stringArgs) : undefined
   if (service.authed) {
     const user = await getSessionUser()
