@@ -1,3 +1,4 @@
+import { appUrl } from '@books-about-food/core/utils/app-url'
 import * as Sentry from '@sentry/nextjs'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ReactNode } from 'react'
@@ -12,6 +13,14 @@ import 'src/utils/superjson'
 
 export * from './metadata'
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Books About Food',
+  alternateName: 'BAF',
+  url: new URL(appUrl()).toString()
+}
+
 export default async function RootLayout({
   children
 }: {
@@ -25,6 +34,10 @@ export default async function RootLayout({
             // defines globalThis in environments where it's not
             __html: `!function(t){function e(){var e=this||self;e.globalThis=e,delete t.prototype._T_}"object"!=typeof globalThis&&(this?e():(t.defineProperty(t.prototype,"_T_",{configurable:!0,get:e}),_T_))}(Object);`
           }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
       <body className="relative flex min-h-screen flex-col transition-colors duration-700">

@@ -30,7 +30,8 @@ export const fetchProfiles = new Service(
       onlyAuthors: z.boolean().optional(),
       search: z.string().optional(),
       jobs: array(z.string()).optional(),
-      onlyPublished: z.boolean().optional()
+      onlyPublished: z.boolean().optional(),
+      withAvatar: z.boolean().optional()
     })
     .merge(paginationInput),
   async ({
@@ -40,7 +41,8 @@ export const fetchProfiles = new Service(
     onlyAuthors,
     sort = 'name',
     search,
-    onlyPublished = true
+    onlyPublished = true,
+    withAvatar
   } = {}) => {
     const contains = search?.trim()
     const hasSearch = (contains && contains.length > 0) || undefined
@@ -70,7 +72,8 @@ export const fetchProfiles = new Service(
                 { contributions: { some: { book: { status: 'published' } } } }
               ]
             }
-          : {}
+          : {},
+        withAvatar ? { avatar: { isNot: null } } : {}
       ]
     }
 
@@ -83,8 +86,8 @@ export const fetchProfiles = new Service(
       prisma.profile.findMany({
         orderBy,
         where,
-        take: perPage === 0 ? undefined : perPage,
-        skip: perPage * page,
+        take: perPage === 'all' ? undefined : perPage,
+        skip: perPage === 'all' ? 0 : perPage * page,
         include: profileIncludes
       }),
       prisma.profile.count({ where: baseWhere }),

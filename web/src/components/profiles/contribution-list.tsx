@@ -17,7 +17,7 @@ export const ContributionList = async ({
 }: ContributionListProps) => {
   const { data } = await call(fetchBooks, {
     profile: profile.slug,
-    perPage: 0
+    perPage: 'all'
   })
   if (!data) return null
   const { books, filteredTotal } = data

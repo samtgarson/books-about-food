@@ -8,7 +8,9 @@ import { PeopleList } from './list'
 export const generateMetadata = indexPageMetadata({
   title: 'People',
   service: fetchProfiles,
-  path: '/people'
+  collection: "people who've worked on cookbooks",
+  path: '/people',
+  image: true
 })
 
 export const revalidate = 3600

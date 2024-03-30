@@ -40,13 +40,19 @@ const dims = {
   gap: 100
 }
 
+export const size = { width: dims.width, height: dims.height }
+
 async function response(content: JSX.Element) {
   const fonts = await loadFonts()
 
   return new ImageResponse(content, {
     width: dims.width,
     height: dims.height,
-    fonts
+    fonts,
+    debug: false,
+    headers: {
+      'Cache-Control': 'public, max-age=86400'
+    }
   })
 }
 
@@ -104,21 +110,24 @@ function Half({
   centered?: boolean
   children: ReactNode
   right?: boolean
-  expanded?: boolean
+  expanded?: boolean | number
 }) {
   const flex: CSSProperties = centered
     ? { alignItems: 'center', justifyContent: 'center' }
     : { alignItems: 'flex-start', justifyContent: 'flex-end', flexShrink: 1 }
 
+  const expandedMargin =
+    typeof expanded === 'number' ? expanded + dims.margin : dims.margin
   return (
     <div
       style={{
         display: 'flex',
+        position: 'relative',
         flexDirection: 'column',
         marginLeft: right ? dims.gap : 0,
-        marginRight: expanded ? dims.margin * -1 : 0,
-        marginTop: expanded ? dims.margin * -1 : 0,
-        marginBottom: expanded ? dims.margin * -1 : 0,
+        marginRight: expanded ? expandedMargin * -1 : 0,
+        marginTop: expanded ? expandedMargin * -1 : 0,
+        marginBottom: expanded ? expandedMargin * -1 : 0,
         ...flex,
         ...style
       }}
@@ -134,7 +143,9 @@ function Title({ children }: { children: ReactNode }) {
       style={{
         fontSize: 64,
         lineHeight: 1.4,
-        marginBottom: 0
+        marginBottom: 0,
+        flexDirection: 'column',
+        gap: 6
       }}
     >
       {children}

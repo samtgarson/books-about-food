@@ -15,7 +15,7 @@ type PublisherBookListProps = {
 export async function PublisherBookList({ publisher }: PublisherBookListProps) {
   const { data } = await call(fetchBooks, {
     publisherSlug: publisher.slug,
-    perPage: 0
+    perPage: 'all'
   })
 
   if (!data?.total) return null

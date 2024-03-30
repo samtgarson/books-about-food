@@ -29,8 +29,8 @@ export const fetchPublishers = new Service(
           { logo: { publisher: { books: { _count: 'desc' } } } },
           { name: 'asc' }
         ],
-        take: perPage === 0 ? undefined : perPage,
-        skip: perPage * page,
+        take: perPage === 'all' ? undefined : perPage,
+        skip: perPage === 'all' ? 0 : perPage * page,
         include: publisherIncludes
       }),
       prisma.publisher.count(),

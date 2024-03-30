@@ -9,6 +9,7 @@ export const revalidate = 3600
 export const generateMetadata = indexPageMetadata({
   title: 'Cookbooks',
   service: fetchBooks,
+  collection: 'curated cookbooks',
   path: '/cookbooks'
 })
 

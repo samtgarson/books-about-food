@@ -6,14 +6,19 @@ import { PageProps } from 'src/components/types'
 import { genMetadata } from 'src/utils/metadata'
 import { call } from 'src/utils/service'
 
-export function indexPageMetadata<Svc extends Service<any, any>>({
+type Result = { total: number; filteredTotal: number; perPage: number | 'all' }
+export function indexPageMetadata<Svc extends Service<any, Result>>({
   title: pageTitle,
+  collection,
   path,
-  service
+  service,
+  image = false
 }: {
   title: string
+  collection: string
   path: string
   service: Svc
+  image?: boolean
 }) {
   return async function generateMetadata(
     { searchParams }: PageProps,
@@ -23,19 +28,26 @@ export function indexPageMetadata<Svc extends Service<any, any>>({
     const { page } = parsed
     const canonical = page ? `${path}?page=${page}` : path
     const title = page ? `${pageTitle} (Page ${page + 1})` : pageTitle
-    const links = await getLinks(page, service, parsed)
+    const { data } = await call(service, parsed)
+    const links = getLinks(page, data)
+    const count = data
+      ? Math.floor(data.total / 100) * 100
+      : 'our collection of'
 
-    return genMetadata(title, canonical, await parent, {
+    return genMetadata(canonical, await parent, {
+      title,
+      description: `Browse through more than ${count} ${collection} on Books About Food — the cookbook industry's new digital home.`,
       icons: links.length
         ? {
             other: links
           }
-        : undefined
+        : undefined,
+      image: image ? `${path}/meta/og-image.png` : undefined
     })
   }
 }
 
-async function getLinks(page: number, service: Service<any, any>, parsed: any) {
+function getLinks(page: number, data?: Result) {
   const links = []
   if (!page) return []
   if (page > 1) {
@@ -45,9 +57,11 @@ async function getLinks(page: number, service: Service<any, any>, parsed: any) {
     })
   }
 
-  const { data } = await call(service, parsed)
-  if (data.filteredTotal && data.perPage) {
-    const isLastPage = data.filteredTotal <= (page + 1) * data.perPage
+  if (data) {
+    const isLastPage =
+      data.perPage === 'all'
+        ? true
+        : data.filteredTotal <= (page + 1) * data.perPage
     if (!isLastPage) {
       links.push({
         rel: 'next',

@@ -4,7 +4,7 @@ export const numeric = z.coerce.number()
 
 export const paginationInput = z.object({
   page: numeric.optional(),
-  perPage: numeric.optional()
+  perPage: numeric.or(z.literal('all')).optional()
 })
 
 const preprocessArray = (val: unknown) => {

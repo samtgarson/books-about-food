@@ -10,7 +10,9 @@ import { PublishersList } from './list'
 export const generateMetadata = indexPageMetadata({
   title: 'Publishers',
   service: fetchPublishers,
-  path: '/publishers'
+  collection: 'cookbook publishers',
+  path: '/publishers',
+  image: true
 })
 
 export const revalidate = 3600

@@ -6,7 +6,7 @@ import { Button, Wrapper } from './utils'
 export type PaginationProps = {
   filteredTotal?: number
   total: number
-  perPage: number
+  perPage: number | 'all'
   page?: number
   children: ReactNode
   onPageClick?: (page: number) => void
@@ -29,7 +29,7 @@ export function PaginationButtons({
   onPageClick,
   className
 }: Omit<PaginationProps, 'children'> & { className?: string }) {
-  const totalPages = Math.ceil(filteredTotal / perPage)
+  const totalPages = perPage === 'all' ? 1 : Math.ceil(filteredTotal / perPage)
 
   const displayPages = useMemo(() => {
     const pages = Array.from({ length: totalPages }, (_, i) => i)

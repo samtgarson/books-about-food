@@ -62,7 +62,8 @@ function baseQuery({
 }: FetchBooksInput) {
   const filters = sqlFilters(input)
   const sort = sortQuery(input.color ? 'color' : sortKey)
-  const limit = perPage === 0 ? empty : sql`limit ${perPage}`
+  const limit = perPage === 'all' ? empty : sql`limit ${perPage}`
+  const offset = perPage === 'all' ? 0 : page * perPage
 
   const query = queryBooks`
     select distinct
@@ -73,7 +74,7 @@ function baseQuery({
     group by books.id, cover_image.id, sort
     order by sort desc nulls last
     ${limit}
-    offset ${page * perPage}`
+    offset ${offset}`
 
   return { query, perPage }
 }

@@ -8,7 +8,9 @@ import { AuthorsList } from './list'
 export const generateMetadata = indexPageMetadata({
   title: 'Authors',
   service: fetchProfiles,
-  path: '/authors'
+  collection: 'cookbook authors',
+  path: '/authors',
+  image: true
 })
 
 export const revalidate = 3600

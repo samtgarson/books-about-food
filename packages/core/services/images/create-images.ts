@@ -1,4 +1,4 @@
-import { AuthedService } from '@books-about-food/core/services/base'
+import { Service } from '@books-about-food/core/services/base'
 import { FileUploader } from '@books-about-food/core/services/images/file-uploader'
 import { ImageBlurrer } from '@books-about-food/core/services/images/image-blurrer'
 import prisma from '@books-about-food/database'
@@ -9,7 +9,7 @@ import { z } from 'zod'
 export type CreateImageInput = z.infer<typeof createImages.input>
 const uploader = new FileUploader()
 
-export const createImages = new AuthedService(
+export const createImages = new Service(
   z.object({
     prefix: z.string(),
     files: z.array(
