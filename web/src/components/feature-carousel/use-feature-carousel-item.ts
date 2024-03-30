@@ -1,7 +1,7 @@
 'use client'
 import cn from 'classnames'
 import { MotionProps } from 'framer-motion'
-import { CSSProperties } from 'react'
+import { CSSProperties, HTMLAttributes } from 'react'
 import { MouseState } from '../atoms/mouse/utils'
 import { useNav } from '../nav/context'
 
@@ -61,8 +61,10 @@ export function useFeatureCarouselItem({
       opacity: hidden ? 0 : 1
     },
     whileHover: pos.next ? { x: -20 } : pos.prev ? { x: 20 } : {},
-    initial: false
-  } satisfies MotionProps
+    initial: false,
+    'aria-hidden': hidden,
+    tabIndex: hidden ? -1 : undefined
+  } satisfies MotionProps & HTMLAttributes<HTMLElement>
 
   const display =
     pos.prev || pos.current || pos.next || pos.offNext || pos.offPrev

@@ -14,7 +14,7 @@ export async function FeaturedJobsList() {
             className="border-khaki text-20 md:text-32 flex gap-2 rounded-full border px-4 py-2 transition-colors hover:border-white hover:bg-white md:px-6 md:py-3"
             href={`/people?jobs=${job.id}`}
           >
-            <p className="opacity-45">{job.count}</p>
+            <p className="opacity-50">{job.count}</p>
             <p>{job.count === '1' ? job.name : pluralize(job.name)}</p>
           </Link>
         </li>

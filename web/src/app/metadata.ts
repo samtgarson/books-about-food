@@ -29,5 +29,5 @@ export const viewport: Viewport = {
   initialScale: 1,
   minimumScale: 1,
   maximumScale: 5,
-  userScalable: false
+  userScalable: true
 }
