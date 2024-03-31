@@ -1,4 +1,4 @@
-import { appUrl } from '@books-about-food/core/utils/app-url'
+import { appUrl } from '@books-about-food/shared/utils/app-url'
 import * as Sentry from '@sentry/nextjs'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ReactNode } from 'react'
@@ -18,7 +18,7 @@ const jsonLd = {
   '@type': 'WebSite',
   name: 'Books About Food',
   alternateName: 'BAF',
-  url: new URL(appUrl()).toString()
+  url: appUrl()
 }
 
 export default async function RootLayout({

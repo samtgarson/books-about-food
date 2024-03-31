@@ -1,3 +1,4 @@
+import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { ProfilePreview } from '../components/profile-preview'
 import { Section } from '../components/section'
 import Text from '../components/text'
@@ -22,9 +23,7 @@ export const ClaimApproved = createTemplate<ClaimApprovedProps>({
         </Text>
         <Text>Click below to view your profile on the website.</Text>
         <ProfilePreview
-          href={`https://booksaboutfood.info/${
-            author ? 'authors' : 'people'
-          }/${profileSlug}`}
+          href={appUrl(`${author ? 'authors' : 'people'}/${profileSlug}`)}
           resourceName={profileName}
           resourceAvatar={profileAvatarUrl ?? null}
         />

@@ -1,5 +1,5 @@
 import { fetchBook } from '@books-about-food/core/services/books/fetch-book'
-import { appUrl } from '@books-about-food/core/utils/app-url'
+import { appUrl } from '@books-about-food/shared/utils/app-url'
 import Color from 'color'
 import { NextRequest } from 'next/server'
 import comingSoon from 'src/assets/images/cover-coming-soon.png'
@@ -53,7 +53,7 @@ export async function GET(
           />
         ) : (
           <img
-            src={`${appUrl()}${comingSoon.src}`}
+            src={appUrl(comingSoon.src)}
             height={430}
             width={comingSoon.width * (430 / comingSoon.height)}
             style={{ boxShadow: bookShadow }}

@@ -3,7 +3,7 @@
 import { inngest } from '@books-about-food/core/jobs'
 import { fetchBook } from '@books-about-food/core/services/books/fetch-book'
 import { fetchProfile } from '@books-about-food/core/services/profiles/fetch-profile'
-import { appUrl } from '@books-about-food/core/utils/app-url'
+import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { call } from 'src/utils/service'
 import { getSessionUser } from 'src/utils/user'
 
@@ -35,7 +35,7 @@ export async function action(
         userEmail: user.email,
         resourceName: resource.name,
         resourceType: resource._type,
-        url: new URL(resource.href, appUrl()).toString(),
+        url: appUrl(resource.href),
         suggestion
       }
     },

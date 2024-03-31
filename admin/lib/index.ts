@@ -12,6 +12,7 @@ const app = new Koa()
 
 const allowedOrigins = [
   'https://www.booksaboutfood.info',
+  'https://www.booksabout.food',
   'https://app.forestadmin.com'
 ]
 app.use(

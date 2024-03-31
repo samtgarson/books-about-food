@@ -4,6 +4,7 @@ import {
   fetchComingSoon,
   fetchNewlyAdded
 } from '@books-about-food/core/services/home/fetch'
+import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { toColorString } from '@books-about-food/shared/utils/types'
 import cn from 'classnames'
 import { Metadata, ResolvedMetadata } from 'next'
@@ -185,9 +186,7 @@ export async function generateMetadata(
       type: 'book',
       releaseDate: book.isoReleaseDate,
       tags: ['Cookbook', ...book.tagNames],
-      authors: book.authors.map(
-        (author) => `https://booksaboutfood.info/authors/${author.slug}`
-      ),
+      authors: book.authors.map((author) => appUrl(`/authors/${author.slug}`)),
       images: [
         {
           url: `/cookbooks/${book.slug}/og-image.png`,

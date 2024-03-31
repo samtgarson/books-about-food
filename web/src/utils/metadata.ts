@@ -1,7 +1,7 @@
 import { fetchBooks } from '@books-about-food/core/services/books/fetch-books'
 import { fetchProfiles } from '@books-about-food/core/services/profiles/fetch-profiles'
 import { fetchPublishers } from '@books-about-food/core/services/publishers/fetch-publishers'
-import { appUrl } from '@books-about-food/core/utils/app-url'
+import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { Metadata, ResolvedMetadata } from 'next'
 import { call } from './service'
 

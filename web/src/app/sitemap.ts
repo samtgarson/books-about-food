@@ -1,5 +1,6 @@
 import { SearchResult } from '@books-about-food/core/models/search-result'
 import prisma from '@books-about-food/database'
+import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { MetadataRoute } from 'next'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -9,43 +10,43 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     {
-      url: 'https://www.booksaboutfood.info',
+      url: appUrl(),
       priority: 1,
       lastModified: new Date(),
       changeFrequency: 'daily'
     },
     {
-      url: 'https://www.booksaboutfood.info/about',
+      url: appUrl('/about'),
       priority: 0.9,
       lastModified: new Date(),
       changeFrequency: 'monthly'
     },
     {
-      url: 'https://www.booksaboutfood.info/frequently-asked-questions',
+      url: appUrl('/frequently-asked-questions'),
       priority: 0.2,
       lastModified: new Date(),
       changeFrequency: 'monthly'
     },
     {
-      url: 'https://www.booksaboutfood.info/cookbooks',
+      url: appUrl('/cookbooks'),
       priority: 0.9,
       lastModified: new Date(),
       changeFrequency: 'daily'
     },
     {
-      url: 'https://www.booksaboutfood.info/authors',
+      url: appUrl('/authors'),
       priority: 0.9,
       lastModified: new Date(),
       changeFrequency: 'daily'
     },
     {
-      url: 'https://www.booksaboutfood.info/people',
+      url: appUrl('/people'),
       priority: 0.9,
       lastModified: new Date(),
       changeFrequency: 'daily'
     },
     {
-      url: 'https://www.booksaboutfood.info/publishers',
+      url: appUrl('/publishers'),
       priority: 0.9,
       lastModified: new Date(),
       changeFrequency: 'daily'
@@ -53,7 +54,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...records.map(function (record): MetadataRoute.Sitemap[number] {
       const model = new SearchResult(record)
       return {
-        url: new URL(model.href, 'https://www.booksaboutfood.info').toString(),
+        url: appUrl(model.href),
         priority: 0.8,
         lastModified: model.updatedAt,
         changeFrequency: 'weekly'

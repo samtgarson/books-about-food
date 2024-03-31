@@ -1,6 +1,7 @@
 import { inngest } from '@books-about-food/core/jobs'
 import { fetchProfiles } from '@books-about-food/core/services/profiles/fetch-profiles'
 import prisma, { Prisma } from '@books-about-food/database'
+import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { imageUrl } from '@books-about-food/shared/utils/image-url'
 import { slugify } from '@books-about-food/shared/utils/slugify'
 import { CollectionCustomizer } from '@forestadmin/agent'
@@ -211,7 +212,7 @@ export const customiseBooks = (
     scope: 'Single',
     execute: async (context, result) => {
       const { slug } = await context.getRecord(['slug'])
-      return result.redirectTo(`https://booksaboutfood.info/cookbooks/${slug}`)
+      return result.redirectTo(appUrl(`/cookbooks/${slug}`))
     }
   })
 

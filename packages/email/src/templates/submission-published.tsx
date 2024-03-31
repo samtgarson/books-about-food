@@ -1,3 +1,4 @@
+import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { BookPreview } from '../components/book-preview'
 import { Section } from '../components/section'
 import Text from '../components/text'
@@ -22,7 +23,7 @@ export const SubmissionPublished = createTemplate<SubmissionPublishedProps>({
         </Text>
         <Text>Click the preview below to view it on the website.</Text>
         <BookPreview
-          href={`https://booksaboutfood.info/cookbooks/${slug}`}
+          href={appUrl(`/cookbooks/${slug}`)}
           title={title}
           author={author}
           cover={coverUrl ?? null}

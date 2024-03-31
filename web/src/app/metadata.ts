@@ -1,4 +1,4 @@
-import { appUrl } from '@books-about-food/core/utils/app-url'
+import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { Metadata, Viewport } from 'next'
 
 export const metadata = {

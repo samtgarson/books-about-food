@@ -1,3 +1,4 @@
+import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
@@ -7,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/edit/', '/account/', '/splash', '/_next/', '/api/', '/auth/']
     },
-    sitemap: 'https://www.booksaboutfood.info/sitemap.xml'
+    sitemap: new URL('/sitemap.xml', appUrl()).toString()
   }
 }

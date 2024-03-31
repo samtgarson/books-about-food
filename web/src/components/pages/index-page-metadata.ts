@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Service } from '@books-about-food/core/services/base'
-import { appUrl } from '@books-about-food/core/utils/app-url'
+import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { Metadata, ResolvedMetadata } from 'next'
 import { PageProps } from 'src/components/types'
 import { genMetadata } from 'src/utils/metadata'

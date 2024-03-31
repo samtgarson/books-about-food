@@ -1,3 +1,4 @@
+import { appUrl } from '@books-about-food/shared/utils/app-url'
 import Button from '../components/button'
 import { Section } from '../components/section'
 import Text from '../components/text'
@@ -18,9 +19,7 @@ export const UserApproved = createTemplate({
           claim your profile.
         </Text>
         <Text>Click the button below to take a look.</Text>
-        <Button href="https://booksaboutfood.info">
-          Show me some cookbooks
-        </Button>
+        <Button href={appUrl()}>Show me some cookbooks</Button>
       </Section>
     )
   }

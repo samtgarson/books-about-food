@@ -1,9 +1,8 @@
 import { inngest } from '@books-about-food/core/jobs'
+import { appUrl } from '@books-about-food/shared/utils/app-url'
 
 const url =
-  process.env.NODE_ENV === 'development'
-    ? 'http://localhost:5000'
-    : 'https://www.booksaboutfood.info'
+  process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : appUrl()
 
 export const sendVerification = inngest.createFunction(
   { id: 'send-verification', name: 'Resend user verification email' },

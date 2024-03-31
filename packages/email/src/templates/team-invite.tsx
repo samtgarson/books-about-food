@@ -1,3 +1,4 @@
+import { appUrl } from '@books-about-food/shared/utils/app-url'
 import Button from '../components/button'
 import { Section } from '../components/section'
 import Text from '../components/text'
@@ -20,9 +21,7 @@ export const TeamInvite = createTemplate<TeamInviteProps>({
           <strong>{teamName}</strong> on Books About Food.
         </Text>
         <Text>Click below to view your profile on the website.</Text>
-        <Button href="https://booksaboutfood.info/account/">
-          View and accept invite
-        </Button>
+        <Button href={appUrl('/account')}>View and accept invite</Button>
         <Text>
           We hope you&apos;ll find Books About Food to be a useful resource and
           we&apos;d love to hear your feedback.

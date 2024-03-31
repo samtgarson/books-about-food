@@ -2,6 +2,7 @@ import type { Adapter } from '@auth/core/adapters'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import { inngest } from '@books-about-food/core/jobs'
 import prisma from '@books-about-food/database'
+import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { getEnv } from '@books-about-food/shared/utils/get-env'
 import NextAuth, { NextAuthConfig } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
@@ -19,9 +20,7 @@ export const authOptions = {
       },
       allowDangerousEmailAccountLinking: true,
       redirectProxyUrl:
-        process.env.NODE_ENV === 'development'
-          ? undefined
-          : 'https://www.booksaboutfood.info/api/auth'
+        process.env.NODE_ENV === 'development' ? undefined : appUrl('/api/auth')
     }),
     {
       id: 'email',
