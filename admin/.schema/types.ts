@@ -1305,6 +1305,7 @@ export type Schema = {
       'book:submitter:name': string;
       'book:submitter:role': 'admin' | 'user' | 'waitlist';
       'book:submitter:updated_at': string;
+      'tag:group:admin_only': boolean;
       'tag:group:created_at': string;
       'tag:group:id': string;
       'tag:group:name': string;
@@ -12559,6 +12560,7 @@ export type Schema = {
   };
   'tag_groups': {
     plain: {
+      'admin_only': boolean;
       'created_at': string;
       'id': string;
       'name': string;
@@ -12581,6 +12583,7 @@ export type Schema = {
       'group': Schema['tag_groups']['plain'] & Schema['tag_groups']['nested'];
     };
     flat: {
+      'group:admin_only': boolean;
       'group:created_at': string;
       'group:id': string;
       'group:name': string;

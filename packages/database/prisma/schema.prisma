@@ -3,7 +3,7 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["fullTextSearch", "views", "driverAdapters"]
+  previewFeatures = ["fullTextSearch", "views", "driverAdapters", "relationJoins"]
 }
 
 datasource db {
@@ -270,6 +270,7 @@ model TagGroup {
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
   name      String   @unique
   slug      String   @unique
+  adminOnly Boolean  @default(false) @map("admin_only")
 
   tags Tag[]
 

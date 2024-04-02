@@ -7,6 +7,10 @@ export const fetchTags = new Service(
   async ({ search } = {}) =>
     prisma.tag.findMany({
       orderBy: { name: 'asc' },
-      where: { name: { contains: search, mode: 'insensitive' } }
+      where: {
+        name: { contains: search, mode: 'insensitive' },
+        group: { adminOnly: false },
+        books: { some: { status: 'published' } }
+      }
     })
 )

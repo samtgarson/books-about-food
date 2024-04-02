@@ -3552,6 +3552,22 @@
       "actions": [],
       "fields": [
         {
+          "defaultValue": false,
+          "enums": [],
+          "field": "admin_only",
+          "integration": null,
+          "inverseOf": null,
+          "isFilterable": true,
+          "isPrimaryKey": false,
+          "isReadOnly": false,
+          "isRequired": true,
+          "isSortable": true,
+          "isVirtual": false,
+          "reference": null,
+          "type": "Boolean",
+          "validations": [{"type": "is present", "message": "Field is required"}]
+        },
+        {
           "defaultValue": null,
           "enums": [],
           "field": "created_at",
