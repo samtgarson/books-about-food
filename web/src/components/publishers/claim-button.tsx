@@ -52,24 +52,23 @@ export const ClaimPublisherButton: FC<ClaimPublisherButtonProps> = ({
             <p className="bg-tertiary-blue px-4 py-6">
               <ul className="flex list-disc flex-col gap-1 pl-4">
                 <li>
-                  Forget the PDFs, announce seasonal new releases in the most
-                  modern way currently available online
+                  Forget PDFs, promote new releases in the most modern way
+                  currently available online
                 </li>
                 <li>
                   Simple tools to create custom carousels of cookbooks on your
                   dedicated publisher homepage
                 </li>
                 <li>
-                  Affordable marketing tools to promote cookbooks and spotlight
-                  authors to the main homepage
+                  Get access to marketing tools to promote your cookbooks on the
+                  homepage
                 </li>
-                <li>Link to key articles on other websites </li>
+                <li>White glove service to set up your publisher profile</li>
+                <li>Add links to industry news on your page</li>
                 <li>
-                  Be part of a creative community solely dedicated to the
-                  world’s best selling non-fiction books.
+                  Support a creative community solely dedicated to cookbooks
                 </li>
-                <li>Contribute to the cookbook industry’s new digital home </li>
-                <li>Get early access to all new features </li>
+                <li>Get early access to all new features</li>
               </ul>
             </p>
           </div>
