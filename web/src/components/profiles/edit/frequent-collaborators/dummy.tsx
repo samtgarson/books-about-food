@@ -6,7 +6,7 @@ import { GridContainer } from 'src/components/lists/grid-container'
 import { ProfileItem } from '../../item'
 import { dummyProfiles } from './dummy-data'
 
-export async function FrequentCollaboratorsDummy({
+export function FrequentCollaboratorsDummy({
   className
 }: {
   className?: string
