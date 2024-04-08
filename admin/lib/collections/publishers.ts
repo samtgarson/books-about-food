@@ -2,6 +2,7 @@ import prisma from '@books-about-food/database'
 import { imageUrl } from '@books-about-food/shared/utils/image-url'
 import { slugify } from '@books-about-food/shared/utils/slugify'
 import { CollectionCustomizer } from '@forestadmin/agent'
+import { revalidatePath } from 'lib/services/revalidate-path'
 import { deleteImage, uploadImage } from 'lib/utils/image-utils'
 import { Schema } from '../../.schema/types'
 
@@ -63,5 +64,14 @@ export const customisePublishers = (
 
   collection.addHook('Before', 'Update', async (context) => {
     context.patch.updated_at = new Date().toISOString()
+  })
+
+  collection.addHook('After', 'Update', async (context) => {
+    const records = await context.collection.list(context.filter, ['id'])
+    await Promise.all(
+      records.map(async (record) => {
+        await revalidatePath('publishers', record.slug)
+      })
+    )
   })
 }

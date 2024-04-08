@@ -2,6 +2,7 @@ import prisma from '@books-about-food/database'
 import { imageUrl } from '@books-about-food/shared/utils/image-url'
 import { slugify } from '@books-about-food/shared/utils/slugify'
 import { CollectionCustomizer } from '@forestadmin/agent'
+import { revalidatePath } from 'lib/services/revalidate-path'
 import { resourceAction } from 'lib/utils/actions'
 import { deleteImage, uploadImage } from 'lib/utils/image-utils'
 import { Schema } from '../../.schema/types'
@@ -41,11 +42,6 @@ export const customiseProfiles = (
       await Promise.all(
         records.map((record) => uploadAvatar(dataUri, record.id))
       )
-
-      // if (context.patch.Avatar) {
-      //   const image = await uploadAvatar(context.patch.Avatar, record.id)
-      //   if (image) context.patch.Avatar = imageUrl(image.path)
-      // }
     })
 
   collection.addManyToManyRelation(
@@ -85,6 +81,16 @@ export const customiseProfiles = (
     context.patch.updated_at = new Date().toISOString()
   })
 
+  collection.addHook('After', 'Update', async (context) => {
+    const records = await context.collection.list(context.filter, ['id'])
+    await Promise.all(
+      records.map(async (record) => {
+        await revalidatePath('authors', record.slug)
+        await revalidatePath('people', record.slug)
+      })
+    )
+  })
+
   /* =============================================
    * ACTIONS
    * ============================================= */
@@ -110,6 +116,7 @@ export const customiseProfiles = (
         create: { profileId },
         update: {}
       })
+      await revalidatePath('')
     }
   })
 }

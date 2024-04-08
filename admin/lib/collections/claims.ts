@@ -3,6 +3,7 @@ import { profileIncludes } from '@books-about-food/core/services/utils'
 import prisma from '@books-about-food/database'
 import { imageUrl } from '@books-about-food/shared/utils/image-url'
 import { CollectionCustomizer } from '@forestadmin/agent'
+import { revalidatePath } from 'lib/services/revalidate-path'
 import { resourceAction } from 'lib/utils/actions'
 import { Schema } from '../../.schema/types'
 
@@ -40,7 +41,9 @@ async function approveClaim(idVal: string | number) {
         }
       },
       user
-    })
+    }),
+    revalidatePath('people', profile.slug),
+    revalidatePath('authors', profile.slug)
   ])
 }
 

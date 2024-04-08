@@ -8,6 +8,8 @@ import pkgDir from 'pkg-dir'
 import { customiseBooks } from './collections/books'
 import { customiseClaims } from './collections/claims'
 import { customiseContributions } from './collections/contributions'
+import { customiseFAQs } from './collections/faqs'
+import { customiseFeatures } from './collections/features'
 import { customiseImages } from './collections/images'
 import { customiseJobs } from './collections/jobs'
 import { customiseLinks } from './collections/links'
@@ -53,4 +55,6 @@ agent
   .customizeCollection('tags', customiseTags)
   .customizeCollection('teams', customiseTeams)
   .customizeCollection('tag_groups', customiseTagGroups)
+  .customizeCollection('features', customiseFeatures)
+  .customizeCollection('frequently_asked_questions', customiseFAQs)
   .start()

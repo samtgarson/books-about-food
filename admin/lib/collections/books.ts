@@ -6,6 +6,7 @@ import { imageUrl } from '@books-about-food/shared/utils/image-url'
 import { slugify } from '@books-about-food/shared/utils/slugify'
 import { CollectionCustomizer } from '@forestadmin/agent'
 import Color from 'color'
+import { revalidatePath } from 'lib/services/revalidate-path'
 import { resourceAction } from 'lib/utils/actions'
 import { deleteImage, uploadImage } from 'lib/utils/image-utils'
 import { Schema } from '../../.schema/types'
@@ -238,6 +239,8 @@ export const customiseBooks = (
       )
         return
 
+      await revalidatePath('cookbooks', book.slug)
+
       await inngest.send({
         name: 'jobs.email',
         data: {
@@ -386,6 +389,7 @@ export const customiseBooks = (
         ])
       })
     )
+    revalidatePath('')
   })
 
   collection.addHook('Before', 'Delete', async (context) => {
@@ -407,7 +411,9 @@ export const customiseBooks = (
           name: 'book.updated',
           data: { id: record.id, coverImageChanged: !!context.patch.Cover }
         })
+        await revalidatePath('cookbooks', record.slug)
       })
     )
+    revalidatePath('')
   })
 }
