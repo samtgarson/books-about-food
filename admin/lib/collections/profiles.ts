@@ -68,6 +68,7 @@ export const customiseProfiles = (
         await uploadAvatar(data.Avatar, record.id)
       })
     )
+    await revalidatePath('')
   })
 
   collection.addHook('Before', 'Delete', async (context) => {
@@ -92,6 +93,11 @@ export const customiseProfiles = (
         await revalidatePath('people', record.slug)
       })
     )
+    await revalidatePath('')
+  })
+
+  collection.addHook('After', 'Delete', async () => {
+    await revalidatePath('')
   })
 
   /* =============================================

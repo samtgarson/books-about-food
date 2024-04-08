@@ -419,4 +419,8 @@ export const customiseBooks = (
     )
     revalidatePath('')
   })
+
+  collection.addHook('After', 'Delete', async () => {
+    await revalidatePath('')
+  })
 }
