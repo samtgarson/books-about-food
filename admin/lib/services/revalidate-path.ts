@@ -1,7 +1,8 @@
 import { appUrl } from '@books-about-food/shared/utils/app-url'
 
 export async function revalidatePath(...segments: string[]) {
-  const url = appUrl(`/api/admin/revalidate-path?path=/${segments.join('/')}`)
+  const path = encodeURIComponent(`/${segments.join('/')}`)
+  const url = appUrl(`/api/admin/revalidate-path?path=${path}`)
   const res = await fetch(url, {
     method: 'GET',
     headers: {

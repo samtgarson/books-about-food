@@ -403,16 +403,19 @@ export const customiseBooks = (
   })
 
   collection.addHook('After', 'Update', async (context) => {
-    const records = await context.collection.list(context.filter, ['id'])
+    const records = await context.collection.list(context.filter, [
+      'id',
+      'slug'
+    ])
     await Promise.all(
-      records.map(async (record) => {
-        await updateProfiles(record.id)
-        await inngest.send({
+      records.flatMap(async (record) => [
+        updateProfiles(record.id),
+        inngest.send({
           name: 'book.updated',
           data: { id: record.id, coverImageChanged: !!context.patch.Cover }
-        })
-        await revalidatePath('cookbooks', record.slug)
-      })
+        }),
+        revalidatePath('cookbooks', record.slug)
+      ])
     )
     revalidatePath('')
   })

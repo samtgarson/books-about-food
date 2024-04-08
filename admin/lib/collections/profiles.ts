@@ -82,7 +82,10 @@ export const customiseProfiles = (
   })
 
   collection.addHook('After', 'Update', async (context) => {
-    const records = await context.collection.list(context.filter, ['id'])
+    const records = await context.collection.list(context.filter, [
+      'id',
+      'slug'
+    ])
     await Promise.all(
       records.map(async (record) => {
         await revalidatePath('authors', record.slug)
