@@ -25,7 +25,7 @@ export const FavouriteButton: FC<FavouriteButtonProps> = ({
     [profileId]
   )
   const [updating, setUpdating] = useState(false)
-  const { editMode } = useEditProfile()
+  const { editMode, profile } = useEditProfile()
   const setFavourite = async (isFavourite: boolean) => {
     setUpdating(true)
     const newValue = await mutate(profileId, isFavourite)
@@ -40,7 +40,7 @@ export const FavouriteButton: FC<FavouriteButtonProps> = ({
   return (
     <AuthedButton redirect={false}>
       <Button
-        variant="secondary"
+        variant={profile.userId ? 'primary' : 'secondary'}
         onClick={() => setFavourite(!value)}
         className={cn(
           'flex items-center gap-2 transition-opacity mobile-only:bg-transparent',

@@ -15,15 +15,16 @@ export const ProfileOverflow = ({
   const editable =
     profile.userId === currentUser?.id || currentUser?.role === 'admin'
 
-  if (editable) return null
   return (
     <Overflow.Root {...props}>
-      <Overflow.Item
-        onClick={() => openSheet('suggestEdit', { resource: profile })}
-        icon={PencilMini}
-      >
-        Suggest an edit
-      </Overflow.Item>
+      {!editable && (
+        <Overflow.Item
+          onClick={() => openSheet('suggestEdit', { resource: profile })}
+          icon={PencilMini}
+        >
+          Suggest an edit
+        </Overflow.Item>
+      )}
       <Overflow.Item
         variant="admin"
         href={`https://app.forestadmin.com/Books%20About%20Food/Production/Core%20Team/data/profiles/index/record/books/${profile.id}/details`}
