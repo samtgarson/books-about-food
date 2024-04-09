@@ -65,7 +65,7 @@ function CreatePromoButton({
       className={cn('flex items-center', className)}
     >
       {promo ? <Edit2 strokeWidth={1} /> : <Plus strokeWidth={1} />}
-      {promo ? 'Edit Header Carousel' : 'Add Header Carousel'}
+      {promo ? 'Edit Promo Carousel' : 'Add Promo Carousel'}
     </SheetButton>
   )
 }
