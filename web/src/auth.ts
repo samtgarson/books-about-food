@@ -6,6 +6,7 @@ import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { getEnv } from '@books-about-food/shared/utils/get-env'
 import NextAuth, { NextAuthConfig } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
+import { identify } from './lib/tracking/identify'
 
 export const authOptions = {
   providers: [
@@ -95,6 +96,11 @@ export const authOptions = {
     signIn: '/auth/sign-in',
     signOut: '/account',
     error: '/auth/sign-in'
+  },
+  events: {
+    async signIn({ user }) {
+      await identify(user)
+    }
   }
 } satisfies NextAuthConfig
 

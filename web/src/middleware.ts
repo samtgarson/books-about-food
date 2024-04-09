@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { auth } from './auth'
+import { track } from './lib/tracking/track'
 
 const protectedPath = (pathname: string) =>
   ['/account', '/edit'].some((path) => pathname.startsWith(path))
@@ -7,7 +8,7 @@ const protectedPath = (pathname: string) =>
 const systemPath = (pathname: string) =>
   ['/api', '/_next', '/auth'].some((path) => pathname.startsWith(path))
 
-export default auth(function middleware(request) {
+export default auth(async function middleware(request) {
   if (request.method === 'POST' || systemPath(request.nextUrl.pathname)) {
     return NextResponse.next()
   }
@@ -21,6 +22,21 @@ export default auth(function middleware(request) {
       status: 307
     })
   }
+
+  const response = NextResponse.next()
+
+  await track(
+    user?.id,
+    'Viewed a page',
+    {
+      Path: request.nextUrl.pathname,
+      Ref: request.nextUrl.searchParams.get('ref')
+    },
+    request,
+    response
+  )
+
+  return response
 })
 
 export const config = {
