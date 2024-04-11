@@ -28,7 +28,7 @@ import { call } from 'src/utils/service'
 
 export type CookbooksPageProps = PageProps<{ slug: string }>
 
-export * from 'app/default-static-config'
+export { dynamic, dynamicParams, revalidate } from 'app/default-static-config'
 
 export async function generateStaticParams() {
   const [{ data }, newlyAdded, comingSoon] = await Promise.all([

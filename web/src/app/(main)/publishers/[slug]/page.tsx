@@ -52,7 +52,7 @@ export async function generateMetadata(
   })
 }
 
-export * from 'app/default-static-config'
+export { dynamic, dynamicParams, revalidate } from 'app/default-static-config'
 
 export default async ({ params: { slug } }: PublisherPageProps) => {
   const [{ data: publisher }, { data: promo }] = await Promise.all([

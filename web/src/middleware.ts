@@ -1,5 +1,6 @@
+import NextAuth from 'next-auth'
 import { NextResponse } from 'next/server'
-import { auth } from './auth'
+import { authConfig } from './auth'
 import { track } from './lib/tracking/track'
 
 const protectedPath = (pathname: string) =>
@@ -7,6 +8,8 @@ const protectedPath = (pathname: string) =>
 
 const systemPath = (pathname: string) =>
   ['/api', '/_next', '/auth'].some((path) => pathname.startsWith(path))
+
+const { auth } = NextAuth(authConfig)
 
 export default auth(async function middleware(request) {
   if (request.method === 'POST' || systemPath(request.nextUrl.pathname)) {

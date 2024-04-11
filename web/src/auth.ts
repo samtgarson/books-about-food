@@ -1,3 +1,4 @@
+import { AuthConfig } from '@auth/core'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import { inngest } from '@books-about-food/core/jobs'
 import prisma from '@books-about-food/database'
@@ -7,12 +8,7 @@ import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import { identify } from './lib/tracking/identify'
 
-export const {
-  handlers: { GET, POST },
-  auth,
-  ...actions
-} = NextAuth({
-  adapter: PrismaAdapter(prisma),
+export const authConfig = {
   session: {
     strategy: 'jwt'
   },
@@ -110,4 +106,10 @@ export const {
       await identify(user)
     }
   }
-})
+} satisfies AuthConfig
+
+export const {
+  handlers: { GET, POST },
+  auth,
+  ...actions
+} = NextAuth({ ...authConfig, adapter: PrismaAdapter(prisma) })

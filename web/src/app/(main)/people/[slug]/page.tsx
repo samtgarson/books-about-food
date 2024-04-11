@@ -6,7 +6,7 @@ import { ProfilePage } from './profile-page'
 
 type ProfilePageProps = PageProps<{ slug: string }>
 
-export * from 'app/default-static-config'
+export { dynamic, dynamicParams, revalidate } from 'app/default-static-config'
 
 export const generateMetadata = metadata('people')
 

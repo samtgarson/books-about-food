@@ -11,7 +11,11 @@ export const metadata: Metadata = {
   }
 }
 
-export * from 'src/app/default-static-config'
+export {
+  dynamic,
+  dynamicParams,
+  revalidate
+} from 'src/app/default-static-config'
 
 export default async function FrequentlyAskedQuestions() {
   const questions = await prisma.frequentlyAskedQuestion.findMany({
