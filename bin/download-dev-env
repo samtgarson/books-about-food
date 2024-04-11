@@ -1,0 +1,6 @@
+#!/bin/zsh
+
+op read "op://Books About Food/Development Env/Web/.env" --out-file ./web/.env
+op read "op://Books About Food/Development Env/Admin/.env" --out-file ./admin/.env
+op read "op://Books About Food/Development Env/Database/.env" --out-file ./packages/database/.env
+op read "op://Books About Food/Development Env/Email/.env" --out-file ./packages/email/.env
