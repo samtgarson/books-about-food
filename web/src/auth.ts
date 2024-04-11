@@ -1,14 +1,21 @@
-import type { Adapter } from '@auth/core/adapters'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import { inngest } from '@books-about-food/core/jobs'
 import prisma from '@books-about-food/database'
 import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { getEnv } from '@books-about-food/shared/utils/get-env'
-import NextAuth, { NextAuthConfig } from 'next-auth'
+import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import { identify } from './lib/tracking/identify'
 
-export const authOptions = {
+export const {
+  handlers: { GET, POST },
+  auth,
+  ...actions
+} = NextAuth({
+  adapter: PrismaAdapter(prisma),
+  session: {
+    strategy: 'jwt'
+  },
   providers: [
     GoogleProvider({
       clientId: getEnv('GOOGLE_CLIENT_ID'),
@@ -53,7 +60,7 @@ export const authOptions = {
   callbacks: {
     async jwt({ token, user, trigger }) {
       if (user) {
-        token.userId = user.id
+        token.userId = user.id as string
         token.role = user.role
         token.image = user.image || undefined
 
@@ -79,6 +86,7 @@ export const authOptions = {
     },
     async session({ session, token }) {
       if (token) {
+        // @ts-expect-error next-auth types are still weird
         session.user = {
           email: token.email,
           name: token.name || null,
@@ -101,17 +109,5 @@ export const authOptions = {
     async signIn({ user }) {
       await identify(user)
     }
-  }
-} satisfies NextAuthConfig
-
-export const {
-  handlers: { GET, POST },
-  auth,
-  ...actions
-} = NextAuth({
-  ...authOptions,
-  adapter: PrismaAdapter(prisma) as Adapter,
-  session: {
-    strategy: 'jwt'
   }
 })

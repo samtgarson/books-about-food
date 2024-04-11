@@ -11,7 +11,7 @@ import { fontClassname } from 'src/style/font'
 import 'src/style/globals.css'
 import 'src/utils/superjson'
 
-export * from './metadata'
+export { metadata, viewport } from './metadata'
 
 const jsonLd = {
   '@context': 'https://schema.org',
