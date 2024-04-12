@@ -2,7 +2,7 @@ import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { BookPreview } from '../components/book-preview'
 import { Section } from '../components/section'
 import Text from '../components/text'
-import { createTemplate } from '../utils/create-template'
+import { EmailTemplate } from '../utils/create-template'
 
 export type SubmissionPublishedProps = {
   title: string
@@ -11,10 +11,11 @@ export type SubmissionPublishedProps = {
   coverUrl?: string | null
 }
 
-export const SubmissionPublished = createTemplate<SubmissionPublishedProps>({
-  subject: 'We’ve published your submission',
-  preview: 'Thanks for submitting, check out your book on Books About Food',
-  content({ title, author, slug, coverUrl }) {
+export class SubmissionPublished extends EmailTemplate<SubmissionPublishedProps> {
+  subject = 'We’ve published your submission'
+  preview = 'Thanks for submitting, check out your book on Books About Food'
+
+  content({ title, author, slug, coverUrl }: SubmissionPublishedProps) {
     return (
       <Section>
         <Text>
@@ -32,4 +33,4 @@ export const SubmissionPublished = createTemplate<SubmissionPublishedProps>({
       </Section>
     )
   }
-})
+}

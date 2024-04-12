@@ -2,18 +2,15 @@ import { appUrl } from '@books-about-food/shared/utils/app-url'
 import Button from '../components/button'
 import { Section } from '../components/section'
 import Text from '../components/text'
-import { createTemplate } from '../utils/create-template'
+import { EmailTemplate } from '../utils/create-template'
 
 type TeamInviteProps = {
   teamName: string
   inviterName: string
 }
 
-export const TeamInvite = createTemplate<TeamInviteProps>({
-  subject: "You've got a new invite",
-  preview: ({ teamName }) =>
-    `You've been invited to join ${teamName} on Books About Food`,
-  content({ teamName, inviterName }) {
+export class TeamInvite extends EmailTemplate<TeamInviteProps> {
+  content({ teamName, inviterName }: TeamInviteProps) {
     return (
       <Section>
         <Text>
@@ -29,4 +26,8 @@ export const TeamInvite = createTemplate<TeamInviteProps>({
       </Section>
     )
   }
-})
+
+  subject = "You've got a new invite"
+  preview = ({ teamName }: Partial<TeamInviteProps>) =>
+    `You've been invited to join ${teamName} on Books About Food`
+}

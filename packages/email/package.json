@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@books-about-food/shared": "*",
+    "@books-about-food/database": "*",
     "@faire/mjml-react": "main-alpha",
     "@sendgrid/mail": "^8.1.1",
     "classnames": "^2.5.1",

@@ -5,3 +5,5 @@ admin/dist
 admin/.schema
 
 web/src/utils/passphrase/words.ts
+
+.mailing

@@ -1,7 +1,7 @@
 import Button from '../components/button'
 import { Section } from '../components/section'
 import Text from '../components/text'
-import { createTemplate } from '../utils/create-template'
+import { EmailTemplate } from '../utils/create-template'
 
 export type SuggestEditProps = {
   resourceType: string
@@ -11,10 +11,18 @@ export type SuggestEditProps = {
   userEmail: string
 }
 
-export const SuggestEdit = createTemplate<SuggestEditProps>({
-  subject: 'New suggestion',
-  preview: ({ resourceName }) => `New suggestion for ${resourceName}`,
-  content({ resourceType, url, suggestion, resourceName, userEmail }) {
+export class SuggestEdit extends EmailTemplate<SuggestEditProps> {
+  subject = 'New suggestion'
+  preview = ({ resourceName }: Partial<SuggestEditProps>) =>
+    `New suggestion for ${resourceName}`
+
+  content({
+    resourceType,
+    url,
+    suggestion,
+    resourceName,
+    userEmail
+  }: SuggestEditProps) {
     return (
       <>
         <Section>
@@ -35,4 +43,4 @@ export const SuggestEdit = createTemplate<SuggestEditProps>({
       </>
     )
   }
-})
+}

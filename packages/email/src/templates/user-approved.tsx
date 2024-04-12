@@ -2,11 +2,13 @@ import { appUrl } from '@books-about-food/shared/utils/app-url'
 import Button from '../components/button'
 import { Section } from '../components/section'
 import Text from '../components/text'
-import { createTemplate } from '../utils/create-template'
+import { EmailTemplate } from '../utils/create-template'
 
-export const UserApproved = createTemplate({
-  subject: 'Welcome to Books About Food!',
-  preview: "You're off the waiting list",
+export class UserApproved extends EmailTemplate {
+  static key = 'userApproved' as const
+  subject = 'Welcome to Books About Food!'
+  preview = "You're off the waiting list"
+
   content() {
     return (
       <Section>
@@ -23,4 +25,4 @@ export const UserApproved = createTemplate({
       </Section>
     )
   }
-})
+}

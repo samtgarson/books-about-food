@@ -16,7 +16,7 @@ async function approveUser(id: string | number) {
   })
   await inngest.send({
     name: 'jobs.email',
-    data: { key: 'userApproved', props: { userName: user.name } },
+    data: { key: 'userApproved', props: undefined },
     user
   })
 }

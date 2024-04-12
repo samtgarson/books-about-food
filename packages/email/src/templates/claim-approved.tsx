@@ -2,7 +2,7 @@ import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { ProfilePreview } from '../components/profile-preview'
 import { Section } from '../components/section'
 import Text from '../components/text'
-import { createTemplate } from '../utils/create-template'
+import { EmailTemplate } from '../utils/create-template'
 
 type ClaimApprovedProps = {
   profileName: string
@@ -11,10 +11,15 @@ type ClaimApprovedProps = {
   author: boolean
 }
 
-export const ClaimApproved = createTemplate<ClaimApprovedProps>({
-  subject: 'Welcome to Books About Food!',
-  preview: "We've approved your claim, go manage your profile now",
-  content({ profileName, profileSlug, profileAvatarUrl, author }) {
+export class ClaimApproved extends EmailTemplate<ClaimApprovedProps> {
+  subject = 'Welcome to Books About Food!'
+  preview = "We've approved your claim, go manage your profile now"
+  content({
+    profileName,
+    profileSlug,
+    profileAvatarUrl,
+    author
+  }: ClaimApprovedProps) {
     return (
       <Section>
         <Text>
@@ -34,4 +39,4 @@ export const ClaimApproved = createTemplate<ClaimApprovedProps>({
       </Section>
     )
   }
-})
+}

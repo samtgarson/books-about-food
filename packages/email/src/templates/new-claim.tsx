@@ -1,7 +1,7 @@
 import { ProfilePreview } from '../components/profile-preview'
 import { Section } from '../components/section'
 import Text from '../components/text'
-import { createTemplate } from '../utils/create-template'
+import { EmailTemplate } from '../utils/create-template'
 
 type NewClaimProps = {
   claimId: string
@@ -10,10 +10,11 @@ type NewClaimProps = {
   userEmail: string
 }
 
-export const NewClaim = createTemplate<NewClaimProps>({
-  subject: 'New claim for review',
-  preview: 'Review on Forest now',
-  content({ claimId, resourceName, resourceAvatar, userEmail }) {
+export class NewClaim extends EmailTemplate<NewClaimProps> {
+  subject = 'New claim for review'
+  preview = 'Review on Forest now'
+
+  content({ claimId, resourceName, resourceAvatar, userEmail }: NewClaimProps) {
     return (
       <Section>
         <Text>
@@ -32,4 +33,4 @@ export const NewClaim = createTemplate<NewClaimProps>({
       </Section>
     )
   }
-})
+}

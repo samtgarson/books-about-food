@@ -10,7 +10,7 @@ import {
 } from 'react'
 import * as Sheet from 'src/components/atoms/sheet'
 import { SheetControl } from 'src/components/atoms/sheet'
-import { GlobalSheetContext, SheetMap, SheetState } from './types'
+import { SheetMap, type GlobalSheetContext, type SheetState } from './types'
 
 const GlobalSheetContext = createContext<GlobalSheetContext>(
   {} as GlobalSheetContext

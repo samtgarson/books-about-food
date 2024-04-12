@@ -1,31 +1,19 @@
-import { AuthConfig } from '@auth/core'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import { inngest } from '@books-about-food/core/jobs'
 import prisma from '@books-about-food/database'
-import { appUrl } from '@books-about-food/shared/utils/app-url'
-import { getEnv } from '@books-about-food/shared/utils/get-env'
 import NextAuth from 'next-auth'
-import GoogleProvider from 'next-auth/providers/google'
 import { identify } from './lib/tracking/identify'
+import { authConfig } from './utils/auth-config'
 
-export const authConfig = {
-  session: {
-    strategy: 'jwt'
-  },
+export const {
+  handlers: { GET, POST },
+  auth,
+  ...actions
+} = NextAuth({
+  ...authConfig,
+  adapter: PrismaAdapter(prisma),
   providers: [
-    GoogleProvider({
-      clientId: getEnv('GOOGLE_CLIENT_ID'),
-      clientSecret: getEnv('GOOGLE_CLIENT_SECRET'),
-      authorization: {
-        params: {
-          scope: 'openid email profile',
-          access_type: 'offline'
-        }
-      },
-      allowDangerousEmailAccountLinking: true,
-      redirectProxyUrl:
-        process.env.NODE_ENV === 'development' ? undefined : appUrl('/api/auth')
-    }),
+    ...authConfig.providers,
     {
       id: 'email',
       type: 'email',
@@ -36,15 +24,10 @@ export const authConfig = {
       options: {},
       async sendVerificationRequest({ url, identifier: email }) {
         try {
-          const user = await prisma.user.findUnique({
-            where: { email }
-          })
-          const newUser = !user || !user?.emailVerified
-
           await inngest.send({
             name: 'jobs.email',
-            data: { key: 'verifyEmail', props: { url, newUser } },
-            user: user || { email }
+            data: { key: 'verifyEmail', props: { url, email } },
+            user: { email }
           })
           console.log(`Sent verification email to ${email}`)
         } catch (error) {
@@ -96,20 +79,9 @@ export const authConfig = {
       return session
     }
   },
-  pages: {
-    signIn: '/auth/sign-in',
-    signOut: '/account',
-    error: '/auth/sign-in'
-  },
   events: {
     async signIn({ user }) {
       await identify(user)
     }
   }
-} satisfies AuthConfig
-
-export const {
-  handlers: { GET, POST },
-  auth,
-  ...actions
-} = NextAuth({ ...authConfig, adapter: PrismaAdapter(prisma) })
+})

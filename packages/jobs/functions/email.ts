@@ -7,11 +7,15 @@ export const email = inngest.createFunction(
   { event: 'jobs.email' },
   async ({ event }) => {
     if (!event.user) return { success: false, message: 'No user' }
-    const component = renderEmailTemplate(event.user.name || null, event.data)
+    const { component, subject } = await renderEmailTemplate(
+      event.user.name,
+      event.data
+    )
 
     const id = crypto.randomUUID()
     const sentMessage = await sendMail({
       component,
+      subject,
       to: event.user.email,
       messageId: id,
       dangerouslyForceDeliver: process.env.DANGER_SEND_EMAILS === 'true'

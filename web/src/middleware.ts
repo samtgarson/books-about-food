@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth'
 import { NextResponse } from 'next/server'
-import { authConfig } from './auth'
 import { track } from './lib/tracking/track'
+import { authConfig } from './utils/auth-config'
 
 const protectedPath = (pathname: string) =>
   ['/account', '/edit'].some((path) => pathname.startsWith(path))
