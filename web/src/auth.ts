@@ -38,46 +38,22 @@ export const {
     }
   ],
   callbacks: {
+    ...authConfig.callbacks,
     async jwt({ token, user, trigger }) {
-      if (user) {
-        token.userId = user.id as string
-        token.role = user.role
-        token.image = user.image || undefined
+      const db = await prisma.user.findUnique({
+        where: { id: user?.id || token.userId },
+        include: { memberships: { select: { teamId: true } } }
+      })
+      if (!db) return token
 
-        const db = await prisma.membership.findMany({
-          where: { userId: user.id },
-          select: { teamId: true }
-        })
-        token.teams = db.map((m) => m.teamId)
-      }
-
-      if (trigger === 'update') {
-        const db = await prisma.user.findUnique({
-          where: { id: token.userId },
-          include: { memberships: { select: { teamId: true } } }
-        })
-
-        if (!db) return token
-        token.role = db.role
-        token.teams = db.memberships.map((m) => m.teamId)
-      }
+      token.email = db.email
+      token.name = db.name
+      token.userId = db.id
+      token.role = db.role
+      token.image = db?.image || undefined
+      token.teams = db.memberships.map((m) => m.teamId)
 
       return token
-    },
-    async session({ session, token }) {
-      if (token) {
-        // @ts-expect-error next-auth types are still weird
-        session.user = {
-          email: token.email,
-          name: token.name || null,
-          id: token.userId,
-          role: token.role,
-          image: token.picture || null,
-          teams: token.teams
-        }
-      }
-
-      return session
     }
   },
   events: {

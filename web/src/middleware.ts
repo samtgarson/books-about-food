@@ -50,6 +50,13 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon and apple icon images
      */
-    '/((?!_next/static|_next/image|.+.png|.+.jpe?g|api/|monitoring).*)'
+    {
+      source:
+        '/((?!_next/static|_next/image|.+.png|.+.ico|.+.jpe?g|api/|monitoring).*)',
+      missing: [
+        { type: 'header', key: 'next-router-prefetch' },
+        { type: 'header', key: 'purpose', value: 'prefetch' }
+      ]
+    }
   ]
 }

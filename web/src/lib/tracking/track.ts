@@ -4,6 +4,7 @@ import { cookies, headers } from 'next/headers'
 import { NextRequest, NextResponse, userAgent } from 'next/server'
 
 import { ResponseCookies } from 'next/dist/compiled/@edge-runtime/cookies'
+import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies'
 import { TrackableEvents } from './events'
 import { token, trackingEnabled } from './utils'
 
@@ -28,15 +29,16 @@ export async function track<T extends keyof TrackableEvents>(
   if (!trackingEnabled) return
   if (!token) return
 
-  const distinct_id =
-    userId || getSessionId(req) || generateAnonymousId(res?.cookies)
-
+  const sessionId =
+    getSessionId(req?.cookies) ||
+    (userId ? undefined : generateAnonymousId(res?.cookies))
   const body = {
     event,
     properties: {
       ...getCommonProperties(req),
       ...properties,
-      distinct_id,
+      $device_id: sessionId,
+      $user_id: userId,
       token
     }
   }
@@ -47,7 +49,8 @@ export async function track<T extends keyof TrackableEvents>(
     headers: { 'content-type': 'application/json', accept: 'text/plain' }
   })
 
-  if (userId && distinct_id !== userId) clearSessionId(req)
+  console.log('== tracked', event, userId, sessionId)
+  if (userId && sessionId && sessionId !== userId) clearSessionId(req?.cookies)
 }
 
 function getCommonProperties(req?: NextRequest): CommonEventProperties {
@@ -60,7 +63,6 @@ function getCommonProperties(req?: NextRequest): CommonEventProperties {
       $device: ua.device.type,
       $os: ua.os.name,
       $referrer: h.get('referer'),
-      $device_id: getSessionId(req),
       ip:
         h.get('cf-connecting-ip') ||
         req?.ip ||
@@ -72,7 +74,7 @@ function getCommonProperties(req?: NextRequest): CommonEventProperties {
   }
 }
 
-function generateAnonymousId(c: ResponseCookies = cookies()) {
+function generateAnonymousId(c: Pick<ResponseCookies, 'set'> = cookies()) {
   const anonId = crypto.randomUUID()
   c.set({
     name: 'baf-session-id',
@@ -84,12 +86,11 @@ function generateAnonymousId(c: ResponseCookies = cookies()) {
   return anonId
 }
 
-function getSessionId(req?: NextRequest) {
-  if (req) return req?.cookies.get(BAF_SESSION_ID)?.value
-  return cookies().get(BAF_SESSION_ID)?.value
+function getSessionId(c: Pick<ReadonlyRequestCookies, 'get'> = cookies()) {
+  return c.get(BAF_SESSION_ID)?.value
 }
 
-function clearSessionId(req?: NextRequest) {
-  if (req) return req?.cookies.delete(BAF_SESSION_ID)
-  return cookies().delete(BAF_SESSION_ID)
+function clearSessionId(c: { delete(name: string): void } = cookies()) {
+  console.log('== clearing session')
+  return c.delete(BAF_SESSION_ID)
 }

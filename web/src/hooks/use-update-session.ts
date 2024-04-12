@@ -1,8 +1,9 @@
+import { updateSession } from 'app/auth/actions'
 import { useSession } from 'next-auth/react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 export function useUpdateSession() {
-  const { update: updateSession, status } = useSession()
+  const { status } = useSession()
   const [ready, setReady] = useState(false)
 
   useEffect(() => {
@@ -12,9 +13,7 @@ export function useUpdateSession() {
 
   const update = useCallback(async () => {
     if (!ready) return
-    const updated = await updateSession({
-      user: { data: 'update' }
-    })
+    const updated = await updateSession()
     return updated?.user
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready])

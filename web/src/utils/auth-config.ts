@@ -26,5 +26,31 @@ export const authConfig = {
     signIn: '/auth/sign-in',
     signOut: '/account',
     error: '/auth/sign-in'
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.userId = user.id as string
+        token.role = user.role
+        token.image = user.image || undefined
+      }
+
+      return token
+    },
+    async session({ session, token }) {
+      if (token) {
+        // @ts-expect-error next-auth types are still weird
+        session.user = {
+          email: token.email,
+          name: token.name || null,
+          id: token.userId,
+          role: token.role,
+          image: token.picture || null,
+          teams: token.teams
+        }
+      }
+
+      return session
+    }
   }
 } satisfies AuthConfig
