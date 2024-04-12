@@ -3,6 +3,7 @@ import { inngest } from '@books-about-food/core/jobs'
 import prisma from '@books-about-food/database'
 import NextAuth from 'next-auth'
 import { identify } from './lib/tracking/identify'
+import { track } from './lib/tracking/track'
 import { authConfig } from './utils/auth-config'
 
 export const {
@@ -80,8 +81,11 @@ export const {
     }
   },
   events: {
-    async signIn({ user }) {
-      await identify(user)
+    async signIn({ user, isNewUser }) {
+      await Promise.all([
+        identify(user),
+        track(user.id as string, 'Signed In', { 'First Time': !!isNewUser })
+      ])
     }
   }
 })

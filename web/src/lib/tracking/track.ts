@@ -10,10 +10,13 @@ import { token, trackingEnabled } from './utils'
 type CommonEventProperties = {
   $browser?: string
   $device?: string
+  $device_id?: string
   $os?: string
   $referrer?: string | null
   ip?: string | null
 }
+
+const BAF_SESSION_ID = 'baf-session-id'
 
 export async function track<T extends keyof TrackableEvents>(
   userId: string | undefined,
@@ -26,9 +29,7 @@ export async function track<T extends keyof TrackableEvents>(
   if (!token) return
 
   const distinct_id =
-    userId ||
-    req?.cookies.get('baf-session-id')?.value ||
-    generateAnonymousId(res?.cookies)
+    userId || getSessionId(req) || generateAnonymousId(res?.cookies)
 
   const body = {
     event,
@@ -45,6 +46,8 @@ export async function track<T extends keyof TrackableEvents>(
     body: JSON.stringify([body]),
     headers: { 'content-type': 'application/json', accept: 'text/plain' }
   })
+
+  if (userId && distinct_id !== userId) clearSessionId(req)
 }
 
 function getCommonProperties(req?: NextRequest): CommonEventProperties {
@@ -57,6 +60,7 @@ function getCommonProperties(req?: NextRequest): CommonEventProperties {
       $device: ua.device.type,
       $os: ua.os.name,
       $referrer: h.get('referer'),
+      $device_id: getSessionId(req),
       ip:
         h.get('cf-connecting-ip') ||
         req?.ip ||
@@ -78,4 +82,14 @@ function generateAnonymousId(c: ResponseCookies = cookies()) {
     httpOnly: true
   })
   return anonId
+}
+
+function getSessionId(req?: NextRequest) {
+  if (req) return req?.cookies.get(BAF_SESSION_ID)?.value
+  return cookies().get(BAF_SESSION_ID)?.value
+}
+
+function clearSessionId(req?: NextRequest) {
+  if (req) return req?.cookies.delete(BAF_SESSION_ID)
+  return cookies().delete(BAF_SESSION_ID)
 }
