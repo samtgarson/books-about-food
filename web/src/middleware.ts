@@ -1,6 +1,5 @@
 import NextAuth from 'next-auth'
 import { NextResponse } from 'next/server'
-import { track } from './lib/tracking/track'
 import { authConfig } from './utils/auth-config'
 
 const protectedPath = (pathname: string) =>
@@ -25,21 +24,6 @@ export default auth(async function middleware(request) {
       status: 307
     })
   }
-
-  const response = NextResponse.next()
-
-  await track(
-    user?.id,
-    'Viewed a page',
-    {
-      Path: request.nextUrl.pathname,
-      Ref: request.nextUrl.searchParams.get('ref')
-    },
-    request,
-    response
-  )
-
-  return response
 })
 
 export const config = {
