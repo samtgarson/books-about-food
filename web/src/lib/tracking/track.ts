@@ -7,7 +7,7 @@ import { ResponseCookies } from 'next/dist/compiled/@edge-runtime/cookies'
 import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies'
 import { auth } from 'src/auth'
 import { TrackableEvents } from './events'
-import { token, trackingEnabled } from './utils'
+import { ip, token, trackingEnabled } from './utils'
 
 type CommonEventProperties = {
   $browser?: string
@@ -45,7 +45,6 @@ export async function track<T extends keyof TrackableEvents>(
       token
     }
   }
-  console.log('== tracking', userId, body.properties.$device_id, properties)
 
   await fetch(`https://api.mixpanel.com/track?ip=0`, {
     method: 'POST',
@@ -66,7 +65,7 @@ function getCommonProperties(req?: NextRequest): CommonEventProperties {
       $device: ua.device.type,
       $os: ua.os.name,
       $referrer: h.get('referer'),
-      ip: IP(req?.ip, h)
+      ip: ip(req?.ip, h)
     }
   } catch (e) {
     return {}
@@ -92,14 +91,4 @@ function getSessionId(c: Pick<ReadonlyRequestCookies, 'get'> = cookies()) {
 function clearSessionId(c: { delete(name: string): void } = cookies()) {
   console.log('== clearing session')
   return c.delete(BAF_SESSION_ID)
-}
-
-function IP(ip: string | undefined, h = headers()) {
-  if (ip) return ip
-  if (h.get('cf-connecting-ip')) return h.get('cf-connecting-ip')
-
-  const forwardedFor = h.get('x-forwarded-for')
-  if (forwardedFor) return forwardedFor.split(',')[0]
-
-  return h.get('x-real-ip')
 }

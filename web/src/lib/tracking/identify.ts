@@ -1,6 +1,6 @@
 import { User } from 'next-auth'
 
-import { token, trackingEnabled } from './utils'
+import { ip, token, trackingEnabled } from './utils'
 
 export const identify = async ({ id, name, email, image }: User) => {
   if (!trackingEnabled) return
@@ -9,7 +9,7 @@ export const identify = async ({ id, name, email, image }: User) => {
   const body = {
     $token: token,
     $distinct_id: id,
-    $ip: 0,
+    $ip: ip(),
     $set: {
       $name: name,
       $email: email,
