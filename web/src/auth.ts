@@ -60,7 +60,7 @@ export const {
     async signIn({ user, isNewUser, account }) {
       await Promise.all([
         identify(user),
-        track('Signed In', {
+        track('Signed in', {
           'First Time': !!isNewUser,
           userId: user.id,
           Provider: account?.provider

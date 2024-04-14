@@ -3,6 +3,7 @@
 import { load, trackPageview } from 'fathom-client'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { Suspense, useEffect } from 'react'
+import { useRoute } from 'src/hooks/use-route'
 import { track } from 'src/lib/tracking/track'
 
 const siteId =
@@ -38,14 +39,16 @@ function TrackPageView() {
 function Track() {
   const pathname = usePathname()
   const search = Object.fromEntries(useSearchParams().entries())
+  const route = useRoute()
 
   useEffect(() => {
     if (!pathname) return
     track('Viewed a page', {
       Path: pathname,
-      Search: Object.keys(search).length > 0 ? search : undefined
+      Search: Object.keys(search).length > 0 ? search : undefined,
+      Route: route
     })
-  }, [pathname, search])
+  }, [pathname, search, route])
 
   return null
 }
