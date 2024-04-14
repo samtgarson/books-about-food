@@ -38,7 +38,7 @@ export const FavouriteButton: FC<FavouriteButtonProps> = ({
 
   if (editMode) return null
   return (
-    <AuthedButton redirect={false}>
+    <AuthedButton redirect={false} source="Favourite profile">
       <Button
         variant={profile.userId ? 'primary' : 'secondary'}
         onClick={() => setFavourite(!value)}

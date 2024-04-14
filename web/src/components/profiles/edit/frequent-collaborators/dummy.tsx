@@ -34,11 +34,11 @@ export function FrequentCollaboratorsDummy({
         <div className="absolute inset-0 flex gap-4 items-center justify-center">
           <p className="sm:text-center text-14">
             Please{' '}
-            <AuthedButton>
+            <AuthedButton source="Frequent collaborators">
               <a className="underline">login</a>
             </AuthedButton>{' '}
             or{' '}
-            <AuthedButton>
+            <AuthedButton source="Frequent collaborators">
               <a className="underline">create a free account</a>
             </AuthedButton>{' '}
             to view collaborators

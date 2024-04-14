@@ -50,12 +50,12 @@ export const Footer = async () => {
             >
               <span>☕️</span> Buy me a coffee
             </Button>
-            <AuthedButton>
+            <AuthedButton source="Footer (submit)">
               <Button href="/account/submissions" variant="outline">
                 Submit Cookbook
               </Button>
             </AuthedButton>
-            <AuthedButton hidden="authed">
+            <AuthedButton hidden="authed" source="Footer (create account)">
               <Button href="/account" variant="outline">
                 Create Account
               </Button>

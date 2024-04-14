@@ -41,7 +41,7 @@ function Track() {
 
   useEffect(() => {
     if (!pathname) return
-    track(undefined, 'Viewed a page', {
+    track('Viewed a page', {
       Path: pathname,
       Search: Object.keys(search).length > 0 ? search : undefined
     })

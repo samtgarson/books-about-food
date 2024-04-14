@@ -21,16 +21,18 @@ type CommonEventProperties = {
 const BAF_SESSION_ID = 'baf-session-id'
 
 export async function track<T extends keyof TrackableEvents>(
-  userId: string | undefined,
   event: T,
-  properties: TrackableEvents[T],
+  properties: TrackableEvents[T] & { userId?: string },
   req?: NextRequest,
   res?: NextResponse
 ) {
-  if (!trackingEnabled) return
+  if (!trackingEnabled) {
+    console.debug(`Tracking Event: ${event}`, properties)
+    return
+  }
   if (!token) return
 
-  userId ||= (await auth())?.user?.id
+  const userId = properties.userId || (await auth())?.user?.id
 
   const sessionId =
     getSessionId(req?.cookies) ||

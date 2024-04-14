@@ -10,6 +10,7 @@ import {
 } from 'react'
 import * as Sheet from 'src/components/atoms/sheet'
 import { SheetControl } from 'src/components/atoms/sheet'
+import { track } from 'src/lib/tracking/track'
 import { SheetMap, type GlobalSheetContext, type SheetState } from './types'
 
 const GlobalSheetContext = createContext<GlobalSheetContext>(
@@ -27,6 +28,7 @@ export const GlobalSheetProvider = ({ children }: { children: ReactNode }) => {
       const Component = (await SheetMap[key]()).default
       setSheet({ Component, props } as SheetState)
       sheet.current?.setOpen(true)
+      track('Opened a modal', { Modal: key, Extra: props })
     },
     []
   )

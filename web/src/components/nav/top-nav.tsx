@@ -32,7 +32,7 @@ const AccountLink = ({ className }: { className?: string }) => {
     )
 
   return (
-    <AuthedButton>
+    <AuthedButton source="Top navigation">
       <button className={className} aria-label="Account">
         <User strokeWidth={1} color={theme === 'dark' ? 'white' : 'black'} />
       </button>
@@ -129,7 +129,7 @@ const NavContent = () => {
           Account
         </TopNavItem>
       ) : (
-        <AuthedButton redirect="/account">
+        <AuthedButton redirect="/account" source="Main menu">
           <button {...navItemAttrs(6)}>Login</button>
         </AuthedButton>
       )}
