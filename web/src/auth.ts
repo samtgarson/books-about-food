@@ -39,7 +39,7 @@ export const {
   ],
   callbacks: {
     ...authConfig.callbacks,
-    async jwt({ token, user, trigger }) {
+    async jwt({ token, user }) {
       const db = await prisma.user.findUnique({
         where: { id: user?.id || token.userId },
         include: { memberships: { select: { teamId: true } } }
@@ -57,10 +57,14 @@ export const {
     }
   },
   events: {
-    async signIn({ user, isNewUser }) {
+    async signIn({ user, isNewUser, account }) {
       await Promise.all([
         identify(user),
-        track(user.id as string, 'Signed In', { 'First Time': !!isNewUser })
+        track('Signed In', {
+          'First Time': !!isNewUser,
+          userId: user.id,
+          Provider: account?.provider
+        })
       ])
     }
   }
