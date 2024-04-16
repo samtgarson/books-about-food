@@ -5,19 +5,16 @@ import { parse } from 'pg-connection-string'
 
 const parsed = parse(getEnv('DATABASE_URL', process.env.DATABASE_URL))
 
-const sslOptions =
-  process.env.NODE_ENV === 'production'
-    ? {
-        sslMode: 'required',
-        dialectOptions: {
-          application_name: 'admin',
-          ssl: {
-            rejectUnauthorized: false,
-            require: true
-          }
-        }
-      }
-    : {}
+const sslOptions = {
+  sslMode: 'required',
+  dialectOptions: {
+    application_name: 'admin',
+    ssl: {
+      rejectUnauthorized: false,
+      require: true
+    }
+  }
+}
 
 // @ts-expect-error weird typing here
 export const datasource = createSqlDataSource({
