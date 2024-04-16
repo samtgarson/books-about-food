@@ -1,5 +1,5 @@
-import { ImageBlurrer } from '@books-about-food/core/services/images/image-blurrer'
 import prisma from '@books-about-food/database'
+import { ImageBlurrer } from '@books-about-food/jobs/lib/image-blurrer'
 import { imageUrl } from '@books-about-food/shared/utils/image-url'
 import { CollectionCustomizer } from '@forestadmin/agent'
 import { map } from 'async-parallel'

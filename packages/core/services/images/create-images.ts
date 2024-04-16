@@ -1,9 +1,8 @@
+import { inngest } from '@books-about-food/core/jobs'
 import { Service } from '@books-about-food/core/services/base'
 import { FileUploader } from '@books-about-food/core/services/images/file-uploader'
-import { ImageBlurrer } from '@books-about-food/core/services/images/image-blurrer'
 import prisma from '@books-about-food/database'
 import sizeOf from 'buffer-image-size'
-import { contentType } from 'mime-types'
 import { z } from 'zod'
 
 export type CreateImageInput = z.infer<typeof createImages.input>
@@ -29,18 +28,26 @@ export const createImages = new Service(
         }
         const { buffer, type } = file
         const { path, id } = await uploader.upload(buffer, type, prefix)
-        const blurrer = new ImageBlurrer({ s3path: path })
-        const placeholderUrl = await blurrer.call()
         const { width, height } = sizeOf(buffer)
 
-        return { id, path, width, height, placeholderUrl }
+        return { id, path, width, height }
       })
     )
 
     await prisma.image.createMany({ data })
+    const ids = data.map(({ id }) => id)
+
+    await Promise.all(
+      ids.map((id) =>
+        inngest.send({
+          name: 'image.created',
+          data: { id }
+        })
+      )
+    )
 
     return prisma.image.findMany({
-      where: { id: { in: data.map(({ id }) => id) } }
+      where: { id: { in: ids } }
     })
   }
 )
@@ -48,8 +55,7 @@ export const createImages = new Service(
 async function fileFromUrl(url: string) {
   const res = await fetch(url)
   const buffer = Buffer.from(await res.arrayBuffer())
-  const type =
-    contentType(res.headers.get('content-type') || 'image/jpeg') || 'image/jpeg'
+  const type = res.headers.get('content-type')?.split(';')?.[0] || 'image/jpeg'
 
   return { buffer, type }
 }

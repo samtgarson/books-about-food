@@ -19,6 +19,7 @@
     "@vibrant/quantizer-mmcq": "^3.2.1-alpha.1",
     "color": "^4.2.3",
     "inngest": "^3.6.2",
+    "plaiceholder": "^2.5.0",
     "sharp": "^0.32.6"
   },
   "devDependencies": {

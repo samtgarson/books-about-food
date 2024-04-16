@@ -21,6 +21,7 @@ export const inngest = new Inngest({
       id: string | string[] | 'all'
       coverImageChanged?: boolean
     }>
+    'image.created': JobData<{ id: string }>
     'jobs.email': JobData<EmailTemplate>
     'jobs.send-verification': JobData<{ email: string }>
   }>(),

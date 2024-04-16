@@ -1,6 +1,6 @@
 import { getEnv } from '@books-about-food/shared/utils/get-env'
 import { S3 } from 'aws-sdk'
-import { extension } from 'mime-types'
+import Mime from 'mime/lite'
 
 const defaultClient = new S3({
   endpoint: getEnv('AWS_S3_ENDPOINT'),
@@ -19,7 +19,7 @@ export class FileUploader {
   ) {}
 
   async upload(contents: Buffer, mimeType: string, path: string) {
-    const ext = extension(mimeType)
+    const ext = Mime.extension(mimeType)
     if (!ext) {
       throw new Error('Unknown file type')
     }
