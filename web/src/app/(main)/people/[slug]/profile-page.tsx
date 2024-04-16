@@ -63,13 +63,11 @@ export async function ProfilePage({ segment, slug }: ProfilePageProps) {
               </div>
             </div>
           </div>
-          {collaborators.length > 0 && (
-            <FrequentCollaborators
-              profiles={collaborators}
-              className="mt-4 sm:mt-20"
-              data-superjson
-            />
-          )}
+          <FrequentCollaborators
+            profiles={collaborators}
+            className="mt-4 sm:mt-20"
+            data-superjson
+          />
         </div>
       </Container>
       <Container className="empty:hidden mobile-only:border-t border-black">

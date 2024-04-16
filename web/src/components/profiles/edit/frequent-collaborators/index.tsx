@@ -37,8 +37,8 @@ export function FrequentCollaborators({
   )
 
   const allHidden = profiles.every((p) => ids.includes(p.id))
-  if (isServer || !profiles.length || (allHidden && !editMode)) return null
   if (!currentUser) return <FrequentCollaboratorsDummy className={className} />
+  if (isServer || !profiles.length || (allHidden && !editMode)) return null
 
   return (
     <ProfileList

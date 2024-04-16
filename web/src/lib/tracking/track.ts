@@ -9,20 +9,28 @@ import { auth } from 'src/auth'
 import { TrackableEvents } from './events'
 import { ip, token, trackingEnabled } from './utils'
 
-type CommonEventProperties = {
+type SystemEventProperties = {
   $browser?: string
   $device?: string
   $device_id?: string
   $os?: string
   $referrer?: string | null
   ip?: string | null
+  time?: number
+}
+
+type CommonEventProperties = {
+  'Tracked from (path)'?: string
+  'Tracked from (route)'?: string
+  userId?: string
+  $referrer?: string
 }
 
 const BAF_SESSION_ID = 'baf-session-id'
 
 export async function track<T extends keyof TrackableEvents>(
   event: T,
-  properties: TrackableEvents[T] & { userId?: string },
+  { userId, ...properties }: TrackableEvents[T] & CommonEventProperties,
   req?: NextRequest,
   res?: NextResponse
 ) {
@@ -32,7 +40,7 @@ export async function track<T extends keyof TrackableEvents>(
   }
   if (!token) return
 
-  const userId = properties.userId || (await auth())?.user?.id
+  userId ||= (await auth())?.user?.id
 
   const sessionId =
     getSessionId(req?.cookies) ||
@@ -57,7 +65,7 @@ export async function track<T extends keyof TrackableEvents>(
   if (userId && sessionId && sessionId !== userId) clearSessionId(req?.cookies)
 }
 
-function getCommonProperties(req?: NextRequest): CommonEventProperties {
+function getCommonProperties(req?: NextRequest): SystemEventProperties {
   try {
     const h = req?.headers || headers()
     const ua = userAgent({ headers: h })
@@ -67,7 +75,8 @@ function getCommonProperties(req?: NextRequest): CommonEventProperties {
       $device: ua.device.type,
       $os: ua.os.name,
       $referrer: h.get('referer'),
-      ip: ip(req?.ip, h)
+      ip: ip(req?.ip, h),
+      time: Date.now()
     }
   } catch (e) {
     return {}

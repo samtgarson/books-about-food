@@ -3,28 +3,23 @@
 import { load, trackPageview } from 'fathom-client'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { Suspense, useEffect } from 'react'
-import { useRoute } from 'src/hooks/use-route'
-import { track } from 'src/lib/tracking/track'
 
-const siteId =
+const siteIdVar =
   process.env.NODE_ENV === 'production'
     ? process.env.NEXT_PUBLIC_FATHOM_ID
     : null
 
-function TrackPageView() {
+function TrackPageView({ siteId }: { siteId: string }) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
   useEffect(() => {
-    if (!siteId) return
     load(siteId, {
       auto: false
     })
-  }, [])
+  }, [siteId])
 
   useEffect(() => {
-    if (!siteId || !pathname) return
-
     const search = searchParams.toString().length ? `?${searchParams}` : ''
 
     trackPageview({
@@ -36,28 +31,10 @@ function TrackPageView() {
   return null
 }
 
-function Track() {
-  const pathname = usePathname()
-  const search = Object.fromEntries(useSearchParams().entries())
-  const route = useRoute()
-
-  useEffect(() => {
-    if (!pathname) return
-    track('Viewed a page', {
-      Path: pathname,
-      Search: Object.keys(search).length > 0 ? search : undefined,
-      Route: route
-    })
-  }, [pathname, search, route])
-
-  return null
-}
-
 export function Fathom() {
   return (
     <Suspense fallback={null}>
-      {siteId && <TrackPageView />}
-      <Track />
+      {siteIdVar && <TrackPageView siteId={siteIdVar} />}
     </Suspense>
   )
 }
