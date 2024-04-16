@@ -14,6 +14,8 @@ import 'src/utils/superjson'
 
 export { metadata, viewport } from './metadata'
 
+export const runtime = 'edge'
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
