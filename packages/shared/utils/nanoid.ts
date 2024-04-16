@@ -1,6 +1,6 @@
 // https://github.com/ai/nanoid/blob/main/index.js
 
-import { getRandomValues } from 'node:crypto'
+import { getRandomValues } from 'crypto'
 
 // It is best to make fewer, larger requests to the crypto module to
 // avoid system call overhead. So, random numbers are generated in a
