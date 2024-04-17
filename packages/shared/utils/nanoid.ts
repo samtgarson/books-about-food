@@ -1,7 +1,5 @@
 // https://github.com/ai/nanoid/blob/main/index.js
 
-import { getRandomValues } from 'crypto'
-
 // It is best to make fewer, larger requests to the crypto module to
 // avoid system call overhead. So, random numbers are generated in a
 // pool. The pool is a Buffer that is larger than the initial random
@@ -13,10 +11,10 @@ let pool: Buffer, poolOffset: number
 function fillPool(bytes: number) {
   if (!pool || pool.length < bytes) {
     pool = Buffer.allocUnsafe(bytes * POOL_SIZE_MULTIPLIER)
-    getRandomValues(pool)
+    crypto.getRandomValues(pool)
     poolOffset = 0
   } else if (poolOffset + bytes > pool.length) {
-    getRandomValues(pool)
+    crypto.getRandomValues(pool)
     poolOffset = 0
   }
   poolOffset += bytes

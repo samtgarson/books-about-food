@@ -1,7 +1,5 @@
 import Color from 'color'
-import { readFile } from 'fs/promises'
 import { ImageResponse } from 'next/og'
-import { join } from 'node:path'
 import { CSSProperties, ReactNode } from 'react'
 import { LogoShape } from 'src/components/icons/logo-shape'
 
@@ -12,19 +10,23 @@ type FontOptions = Exclude<
 
 export async function loadFonts(): Promise<FontOptions> {
   const [regularData, mediumData] = await Promise.all([
-    readFile(join(process.cwd(), 'src/assets/fonts/Graphik-Regular-Trial.otf')),
-    readFile(join(process.cwd(), 'src/assets/fonts/Graphik-Medium-Trial.otf'))
+    fetch(
+      'https://assets.booksaboutfood.info/fonts%2FGraphik-Regular-Trial.otf'
+    ).then((res) => res.arrayBuffer()),
+    fetch(
+      'https://assets.booksaboutfood.info/fonts%2FGraphik-Medium-Trial.otf'
+    ).then((res) => res.arrayBuffer())
   ])
 
   return [
     {
-      data: regularData,
+      data: Buffer.from(regularData),
       name: 'Graphik',
       style: 'normal',
       weight: 400
     },
     {
-      data: mediumData,
+      data: Buffer.from(mediumData),
       name: 'Graphik',
       style: 'normal',
       weight: 700

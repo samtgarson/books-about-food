@@ -1,19 +1,14 @@
 'use server'
 
-import {
-  ImportBooksInput,
-  importBooks
-} from '@books-about-food/core/services/import/import-books'
-import {
-  ProcessBookImportInput,
-  processBookImport
-} from '@books-about-food/core/services/import/import-books/process-book-import'
-import { parseAndCall } from 'src/utils/service'
+import { ImportBooksInput } from '@books-about-food/core/services/import/import-books'
+import { ProcessBookImportInput } from '@books-about-food/core/services/import/import-books/process-book-import'
 
-export async function parseCsv(input: ImportBooksInput) {
-  return parseAndCall(importBooks, input)
+// TODO: Move import to admin API
+
+export async function parseCsv(_input: ImportBooksInput) {
+  // return parseAndCall(importBooks, input)
 }
 
-export async function process(input: ProcessBookImportInput) {
-  return parseAndCall(processBookImport, input)
+export async function process(_input: ProcessBookImportInput) {
+  // return parseAndCall(processBookImport, input)
 }
