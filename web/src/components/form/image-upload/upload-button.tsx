@@ -73,10 +73,9 @@ export const ImageUploadButton = forwardRef<
             return
           }
 
-          startTransition(async () => {
-            const ops = files.map((f) => uploadImage(f))
-            const result = await Promise.all(ops)
-
+          const ops = files.map((f) => uploadImage(f))
+          const result = await Promise.all(ops)
+          startTransition(() => {
             onSuccess(result.flat())
           })
         }}
