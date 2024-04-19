@@ -1,0 +1,24 @@
+diff --git a/node_modules/@prisma/client/generator-build/index.js b/node_modules/@prisma/client/generator-build/index.js
+index 15279a1..8f2245f 100644
+--- a/node_modules/@prisma/client/generator-build/index.js
++++ b/node_modules/@prisma/client/generator-build/index.js
+@@ -16644,7 +16644,7 @@ function buildQueryEngineWasmModule(wasm, copyEngine, runtimeNameJs) {
+     return `config.engineWasm = {
+   getRuntime: () => require('./query_engine_bg.js'),
+   getQueryEngineWasmModule: async () => {
+-    return (await import('#wasm-engine-loader')).default
++    return (await (await import('#wasm-engine-loader')).default).default
+   }
+ }`;
+   }
+@@ -18320,8 +18320,8 @@ async function buildClient({
+   if (generator.previewFeatures.includes("driverAdapters")) {
+     fileMap["default.js"] = await JS(trampolineTsClient);
+     fileMap["default.d.ts"] = await TS(trampolineTsClient);
+-    fileMap["wasm-worker-loader.js"] = `export default (await import('./query_engine_bg.wasm')).default`;
+-    fileMap["wasm-edge-light-loader.js"] = `export default (await import('./query_engine_bg.wasm?module')).default`;
++    fileMap["wasm-worker-loader.js"] = `export default import('./query_engine_bg.wasm')`;
++    fileMap["wasm-edge-light-loader.js"] = `export default import('./query_engine_bg.wasm?module')`;
+     pkgJson["browser"] = "default.js";
+     pkgJson["imports"] = {
+       // when `import('#wasm-engine-loader')` is called, it will be resolved to the correct file
