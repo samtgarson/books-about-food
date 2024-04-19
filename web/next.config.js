@@ -22,9 +22,15 @@ const nextConfig = {
     serverActions: {
       bodySizeLimit: '4mb'
     },
-    serverComponentsExternalPackages: ['mjml', 'sharp', '@sparticuz/chromium']
+    serverComponentsExternalPackages: ['mjml', 'sharp']
   },
-  transpilePackages: ['shared', 'database', 'email', 'core'],
+  transpilePackages: [
+    '@books-about-food/shared',
+    '@books-about-food/database',
+    '@books-about-food/email',
+    '@books-about-food/core',
+    '@books-about-food/jobs'
+  ],
   images: Object.assign(imagesConfig, {
     minimumCacheTTL: 60 * 60 * 24 * 90 // 90 days
   })
@@ -36,31 +42,15 @@ const { withSentryConfig } = require('@sentry/nextjs')
 module.exports = withSentryConfig(
   withBundleAnalyzer(nextConfig),
   {
-    // For all available options, see:
-    // https://github.com/getsentry/sentry-webpack-plugin#options
-
-    // Suppresses source map uploading logs during build
     silent: true,
     org: 'books-about-food',
     project: 'baf-web'
   },
   {
-    // For all available options, see:
-    // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
-
-    // Upload a larger set of source maps for prettier stack traces (increases build time)
     widenClientFileUpload: true,
-
-    // Transpiles SDK to be compatible with IE11 (increases bundle size)
     transpileClientSDK: true,
-
-    // Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers (increases server load)
     tunnelRoute: '/monitoring',
-
-    // Hides source maps from generated client bundles
     hideSourceMaps: true,
-
-    // Automatically tree-shake Sentry logger statements to reduce bundle size
     disableLogger: true
   }
 )
