@@ -1,3 +1,4 @@
+const { withSentryConfig } = require('@sentry/nextjs')
 // eslint-disable-next-line import/no-extraneous-dependencies
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true'
@@ -35,9 +36,6 @@ const nextConfig = {
     minimumCacheTTL: 60 * 60 * 24 * 90 // 90 days
   })
 }
-
-// Injected content via Sentry wizard below
-const { withSentryConfig } = require('@sentry/nextjs')
 
 module.exports = withSentryConfig(
   withBundleAnalyzer(nextConfig),

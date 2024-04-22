@@ -69,6 +69,7 @@
   },
   "devDependencies": {
     "@books-about-food/prettier-config": "*",
+    "@cloudflare/next-on-pages": "^1.11.0",
     "@next/bundle-analyzer": "^14.1.3",
     "@tailwindcss/typography": "^0.5.10",
     "@types/color": "^3.0.6",
