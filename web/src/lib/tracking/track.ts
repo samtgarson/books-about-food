@@ -90,7 +90,8 @@ function generateAnonymousId(c: Pick<ResponseCookies, 'set'> = cookies()) {
     value: anonId,
     maxAge: 60 * 60 * 24 * 365,
     secure: true,
-    httpOnly: true
+    httpOnly: true,
+    sameSite: 'lax'
   })
   return anonId
 }
