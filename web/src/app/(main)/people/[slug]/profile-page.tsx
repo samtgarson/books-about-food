@@ -65,7 +65,7 @@ export async function ProfilePage({ segment, slug }: ProfilePageProps) {
           </div>
           <FrequentCollaborators
             profiles={collaborators}
-            className="mt-4 sm:mt-20"
+            className="my-4 sm:mb-0 sm:mt-20"
             data-superjson
           />
         </div>
