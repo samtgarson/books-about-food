@@ -19,7 +19,7 @@ type EditPageProps = {
 }
 
 export default async function Page({ params: { slug } }: EditPageProps) {
-  const { data: book } = await call(fetchBook, { slug, cache: false })
+  const { data: book } = await call(fetchBook, { slug })
   const currentUser = await getSessionUser()
 
   if (!book || !currentUser) notFound()

@@ -34,18 +34,22 @@ export type FetchBooksInput = z.output<typeof validator>
 export type FetchBooksOutput = Awaited<ReturnType<(typeof fetchBooks)['call']>>
 type BookSort = FetchBooksInput['sort']
 
-export const fetchBooks = new Service(validator, async (input = {}) => {
-  const { query, perPage } = baseQuery(input)
+export const fetchBooks = new Service(
+  validator,
+  async (input = {}) => {
+    const { query, perPage } = baseQuery(input)
 
-  const [books, filteredCount, total] = await Promise.all([
-    query,
-    prisma.$queryRaw<{ count: number }[]>(countQuery(input)),
-    prisma.book.count()
-  ])
-  const filteredTotal = Number(filteredCount[0].count)
+    const [books, filteredCount, total] = await Promise.all([
+      query,
+      prisma.$queryRaw<{ count: number }[]>(countQuery(input)),
+      prisma.book.count()
+    ])
+    const filteredTotal = Number(filteredCount[0].count)
 
-  return { books, filteredTotal, total, perPage }
-})
+    return { books, filteredTotal, total, perPage }
+  },
+  { cache: true }
+)
 
 function countQuery(input: FetchBooksInput) {
   const filters = sqlFilters(input)

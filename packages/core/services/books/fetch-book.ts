@@ -7,7 +7,6 @@ import { fullBookIncludes } from '../utils/includes'
 export const fetchBook = new Service(
   z.object({
     slug: z.string(),
-    cache: z.boolean().optional(),
     onlyPublished: z.boolean().optional()
   }),
   async ({ slug, onlyPublished } = {}) => {

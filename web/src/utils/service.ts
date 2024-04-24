@@ -9,25 +9,21 @@ import * as Sentry from '@sentry/nextjs'
 import { cache } from 'react'
 import { parse, stringify } from 'superjson'
 import z from 'zod'
+import { getOrPopulateKv } from './kv'
 import { getSessionUser } from './user'
-
-export type RequestMeta = {
-  cache?: {
-    maxAge?: number
-    staleFor?: number
-  }
-  authorized?: boolean
-}
 
 class DeserializationError extends Error {}
 
+type CallOptions = { bypassCache?: boolean; maxAgeOverride?: number }
+
 export async function call<S extends ServiceClass<any, any>>(
   service: S,
-  args?: ServiceInput<S>
+  args?: ServiceInput<S>,
+  options: CallOptions = {}
 ) {
   const stringArgs = stringify(args)
   try {
-    return await cachedCall(service, stringArgs)
+    return await cachedCall(service, stringArgs, options)
   } catch (e) {
     if (e instanceof DeserializationError) return rawCall(service, args)
     throw e
@@ -36,7 +32,8 @@ export async function call<S extends ServiceClass<any, any>>(
 
 const cachedCall = cache(async function <S extends ServiceClass<any, any>>(
   service: S,
-  stringArgs?: string
+  stringArgs?: string,
+  { bypassCache = false, maxAgeOverride }: CallOptions = {}
 ) {
   let args: ServiceInput<S> | undefined
   try {
@@ -44,7 +41,14 @@ const cachedCall = cache(async function <S extends ServiceClass<any, any>>(
   } catch (e) {
     throw new DeserializationError()
   }
-  return rawCall(service, args)
+  return getOrPopulateKv(
+    ['svc', service.cacheKey, btoa(stringArgs ?? '')],
+    () => rawCall(service, args),
+    {
+      enabled: !service.authed && !!service.cacheKey && !bypassCache,
+      expiry: maxAgeOverride || service.defaultCacheMaxAge
+    }
+  )
 })
 
 async function rawCall<S extends ServiceClass<any, any>>(

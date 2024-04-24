@@ -17,12 +17,5 @@ export const fetchClaim = new AuthedService(
         }
       }
     })
-  },
-  {
-    cache: {
-      maxAge: 0,
-      staleFor: 0
-    },
-    authorized: true
   }
 )

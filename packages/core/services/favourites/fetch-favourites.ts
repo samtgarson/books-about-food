@@ -18,12 +18,5 @@ export const fetchFavourites = new AuthedService(
     })
 
     return favourites.map((favourite) => new Profile(favourite.profile))
-  },
-  {
-    cache: {
-      maxAge: 0,
-      staleFor: 0
-    },
-    authorized: true
   }
 )

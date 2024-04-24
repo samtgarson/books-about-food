@@ -13,12 +13,5 @@ export const fetchAuthoredPitches = new AuthedService(
     return prisma.pitch.findMany({
       where: { authorId: userId }
     })
-  },
-  {
-    cache: {
-      maxAge: 0,
-      staleFor: 0
-    },
-    authorized: true
   }
 )

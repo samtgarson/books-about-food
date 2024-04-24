@@ -8,11 +8,7 @@ import * as Sentry from '@sentry/nextjs'
 import { z } from 'zod'
 
 export type RequestMeta = {
-  cache?: {
-    maxAge?: number
-    staleFor?: number
-  }
-  authorized?: boolean
+  cache?: true | { maxAge?: number }
 }
 
 export type ServiceError = {
@@ -86,6 +82,18 @@ abstract class BaseService<
         errors: [AppError.fromError(e).toJSON()]
       }
     }
+  }
+
+  public get cacheKey() {
+    return btoa(this._call.toString())
+  }
+
+  public get defaultCacheMaxAge() {
+    if (
+      typeof this.requestMeta.cache === 'object' &&
+      this.requestMeta.cache.maxAge
+    )
+      return this.requestMeta.cache.maxAge
   }
 }
 
