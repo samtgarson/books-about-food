@@ -1,5 +1,6 @@
 import { inngest } from '@books-about-food/core/jobs'
 import { fetchProfiles } from '@books-about-food/core/services/profiles/fetch-profiles'
+import { AppError } from '@books-about-food/core/services/utils/errors'
 import prisma, { Prisma } from '@books-about-food/database'
 import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { imageUrl } from '@books-about-food/shared/utils/image-url'
@@ -318,16 +319,28 @@ export const customiseBooks = (
         profileId = profileIdOrName
       }
 
-      await prisma.contribution.create({
-        data: {
-          bookId,
-          profileId,
-          jobId,
-          tag
-        }
-      })
+      try {
+        await prisma.contribution.create({
+          data: {
+            bookId,
+            profileId,
+            jobId,
+            tag
+          }
+        })
 
-      return result.success('🎉 Collaborator added')
+        return result.success('🎉 Collaborator added')
+      } catch (e) {
+        const parsed = AppError.fromError(e)
+        switch (parsed.type) {
+          case 'UniqueConstraintViolation':
+            return result.error(
+              'This collaborator is already added in that role'
+            )
+          default:
+            return result.error('Something went wrong, devs have been notified')
+        }
+      }
     }
   })
 
