@@ -4,6 +4,7 @@ import { SuperJSONResult } from 'superjson/dist/types'
 import { stringify } from './superjson'
 
 const CACHE_VERSION = 'v1'
+const ROOT_SKIP = !!process.env.SKIP_REDIS_CACHE
 
 const redis = new Redis({
   url: process.env.UPSTASH_REDIS_URL,
@@ -25,7 +26,7 @@ export async function getOrPopulateKv<R>(
     skipResult?: (data: R) => boolean
   } = {}
 ) {
-  if (!enabled) return exec()
+  if (!enabled || ROOT_SKIP) return exec()
 
   const key = ['baf', CACHE_VERSION, ...keys].join(':')
   try {
