@@ -37,7 +37,7 @@ const cachedCall = cache(async function <S extends ServiceClass<any, any>>(
 ) {
   let args: ServiceInput<S> | undefined
   try {
-    args = stringArgs ? (parse(stringArgs) as ServiceInput<S>) : undefined
+    args = stringArgs ? parse(stringArgs) : undefined
   } catch (e) {
     throw new DeserializationError()
   }
@@ -46,7 +46,8 @@ const cachedCall = cache(async function <S extends ServiceClass<any, any>>(
     () => rawCall(service, args),
     {
       enabled: !service.authed && !!service.cacheKey && !bypassCache,
-      expiry: maxAgeOverride || service.defaultCacheMaxAge
+      expiry: maxAgeOverride || service.defaultCacheMaxAge,
+      skipResult: (data) => !data.success
     }
   )
 })
