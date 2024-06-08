@@ -15,8 +15,10 @@ export default function AuthorsPage({ params: { slug } }: ProfilePageProps) {
 }
 
 export async function generateStaticParams() {
-  const { data } = await call(fetchProfiles, { onlyAuthors: true })
-  const featured = await fetchFeaturedProfiles()
+  const [{ data }, featured] = await Promise.all([
+    call(fetchProfiles, { onlyAuthors: true }, { bypassCache: true }),
+    fetchFeaturedProfiles()
+  ])
 
   return [...(data?.profiles ?? []), ...featured].map((profile) => ({
     slug: profile.slug

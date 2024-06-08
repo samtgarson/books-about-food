@@ -16,6 +16,13 @@ const authorFilter = (onlyAuthors?: boolean): Prisma.ProfileWhereInput => {
   }
 }
 
+export const FETCH_PROFILES_ONLY_PUBLISHED_QUERY = {
+  OR: [
+    { authoredBooks: { some: { status: 'published' as const } } },
+    { contributions: { some: { book: { status: 'published' as const } } } }
+  ]
+}
+
 export type FetchProfilesInput = NonNullable<
   z.infer<(typeof fetchProfiles)['input']>
 >
@@ -65,14 +72,7 @@ export const fetchProfiles = new Service(
             { contributions: { some: { job: { id: { in: jobs } } } } }
           ]
         },
-        onlyPublished
-          ? {
-              OR: [
-                { authoredBooks: { some: { status: 'published' } } },
-                { contributions: { some: { book: { status: 'published' } } } }
-              ]
-            }
-          : {},
+        onlyPublished ? FETCH_PROFILES_ONLY_PUBLISHED_QUERY : {},
         withAvatar ? { avatar: { isNot: null } } : {}
       ]
     }
@@ -97,5 +97,6 @@ export const fetchProfiles = new Service(
     const profiles = raw.map((profile) => new Profile(profile))
 
     return { profiles, total, filteredTotal, perPage }
-  }
+  },
+  { cache: 'fetch-profiles' }
 )

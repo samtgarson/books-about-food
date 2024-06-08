@@ -30,7 +30,7 @@ export async function call<S extends ServiceClass<any, any>>(
   }
 }
 
-const cachedCall = cache(async function <S extends ServiceClass<any, any>>(
+async function _cachedCall<S extends ServiceClass<any, any>>(
   service: S,
   stringArgs?: string,
   { bypassCache = false, maxAgeOverride }: CallOptions = {}
@@ -41,16 +41,19 @@ const cachedCall = cache(async function <S extends ServiceClass<any, any>>(
   } catch (e) {
     throw new DeserializationError()
   }
+  const enabled = !service.authed && !!service.cacheKey && !bypassCache
+  if (!enabled) return rawCall(service, args)
+
   return getOrPopulateKv(
     ['svc', service.cacheKey, btoa(stringArgs ?? '')],
     () => rawCall(service, args),
     {
-      enabled: !service.authed && !!service.cacheKey && !bypassCache,
       expiry: maxAgeOverride || service.defaultCacheMaxAge,
       skipResult: (data) => !data.success
     }
   )
-})
+}
+const cachedCall = cache(_cachedCall)
 
 async function rawCall<S extends ServiceClass<any, any>>(
   service: S,

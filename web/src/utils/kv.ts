@@ -1,9 +1,16 @@
-import { kv } from '@vercel/kv'
+import { Redis } from '@upstash/redis'
 import { deserialize } from 'superjson'
 import { SuperJSONResult } from 'superjson/dist/types'
 import { stringify } from './superjson'
 
 const CACHE_VERSION = 'v1'
+
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_URL,
+  token: process.env.UPSTASH_REDIS_TOKEN,
+  cache: 'default',
+  enableAutoPipelining: true
+})
 
 export async function getOrPopulateKv<R>(
   keys: string[],
@@ -21,14 +28,14 @@ export async function getOrPopulateKv<R>(
   if (!enabled) return exec()
 
   const key = ['baf', CACHE_VERSION, ...keys].join(':')
-  const cached = await kv.get<SuperJSONResult>(key)
-  if (cached) {
-    console.log('Cache hit:', key)
-    try {
+  try {
+    const cached = await redis.get<SuperJSONResult>(key)
+    if (cached) {
+      console.log('Cache hit:', key)
       return deserialize(cached) as R
-    } catch (e) {
-      console.error('Failed to parse cache:', e)
     }
+  } catch (e) {
+    console.error('Failed to get cache:', e)
   }
 
   console.log('Cache miss:', key)
@@ -36,6 +43,10 @@ export async function getOrPopulateKv<R>(
   if (!data) return data
   if (skipResult?.(data)) return data
   const stringified = stringify(data)
-  await kv.set(key, stringified, { ex: expiry })
+  try {
+    await redis.set(key, stringified, { ex: expiry })
+  } catch (e) {
+    console.error('Failed to set cache:', e)
+  }
   return data
 }

@@ -48,7 +48,7 @@ export const fetchBooks = new Service(
 
     return { books, filteredTotal, total, perPage }
   },
-  { cache: true }
+  { cache: 'fetch-books' }
 )
 
 function countQuery(input: FetchBooksInput) {
