@@ -1,9 +1,7 @@
-import { fetchBooks } from '@books-about-food/core/services/books/fetch-books'
-import { fetchProfiles } from '@books-about-food/core/services/profiles/fetch-profiles'
-import { fetchPublishers } from '@books-about-food/core/services/publishers/fetch-publishers'
+import { FETCH_PROFILES_ONLY_PUBLISHED_QUERY } from '@books-about-food/core/services/profiles/fetch-profiles'
+import prisma from '@books-about-food/database'
 import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { Metadata, ResolvedMetadata } from 'next'
-import { call } from './service'
 
 const titleTemplate = (t: string) => `${t} on Books About Food`
 
@@ -45,12 +43,10 @@ export const genMetadata = (
   ...rest
 })
 
-export const bookTotal = call(fetchBooks, { perPage: 0 }).then(
-  (res) => res.data?.total
-)
-export const profileTotal = call(fetchProfiles, { perPage: 0 }).then(
-  (res) => res.data?.total
-)
-export const publisherTotal = call(fetchPublishers, { perPage: 0 }).then(
-  (res) => res.data?.total
-)
+export const bookTotal = prisma.book.count({ where: { status: 'published' } })
+export const profileTotal = prisma.profile.count({
+  where: FETCH_PROFILES_ONLY_PUBLISHED_QUERY
+})
+export const publisherTotal = prisma.publisher.count({
+  where: { books: { some: { status: 'published' } } }
+})

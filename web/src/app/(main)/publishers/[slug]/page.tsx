@@ -28,7 +28,7 @@ export async function generateMetadata(
   { params: { slug } }: PublisherPageProps,
   parent: Promise<ResolvedMetadata>
 ): Promise<Metadata> {
-  const [{ data: publisher }, total = 1000] = await Promise.all([
+  const [{ data: publisher }, total] = await Promise.all([
     call(fetchPublisher, { slug }),
     publisherTotal
   ])

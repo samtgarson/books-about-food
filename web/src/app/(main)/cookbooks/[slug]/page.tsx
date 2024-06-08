@@ -171,7 +171,7 @@ export async function generateMetadata(
   { params: { slug } }: CookbooksPageProps,
   parent: Promise<ResolvedMetadata>
 ): Promise<Metadata> {
-  const [{ data: book }, count = 0] = await Promise.all([
+  const [{ data: book }, count] = await Promise.all([
     call(fetchBook, { slug, onlyPublished: true }),
     bookTotal
   ])

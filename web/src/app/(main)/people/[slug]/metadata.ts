@@ -11,7 +11,7 @@ export const metadata = (segment: ProfilePageProps['segment']) =>
     { params: { slug } }: PageProps<{ slug: string }>,
     parent: Promise<ResolvedMetadata>
   ): Promise<Metadata> {
-    const [{ data: profile }, total = 1000] = await Promise.all([
+    const [{ data: profile }, total] = await Promise.all([
       call(fetchProfile, { slug }),
       profileTotal
     ])
