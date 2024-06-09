@@ -71,7 +71,7 @@ export const Footer = async () => {
             <FooterItem path="/people">People</FooterItem>
             <FooterItem path="/publishers">Publishers</FooterItem>
             <FooterItem path="/frequently-asked-questions">FAQs</FooterItem>
-            <FooterItemExternal href="https://www.instagram.com/books.about.food/">
+            <FooterItemExternal href="https://www.instagram.com/booksabout.food/">
               Instagram
             </FooterItemExternal>
           </div>

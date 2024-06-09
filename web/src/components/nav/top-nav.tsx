@@ -116,7 +116,7 @@ const NavContent = () => {
         Publishers
       </TopNavItem>
       <TopNavItemExternal
-        href="https://www.instagram.com/books.about.food"
+        href="https://www.instagram.com/booksabout.food"
         index={5}
       >
         Instagram

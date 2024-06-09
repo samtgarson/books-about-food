@@ -95,12 +95,12 @@ const ClaimProfileSheet: SheetComponent<ClaimProfileSheetProps> = ({
                 Nice one! In order for us to verify your identity, please send
                 us an Instagram direct message on{' '}
                 <a
-                  href="https://instagram.com/books.about.food"
+                  href="https://instagram.com/booksabout.food"
                   className="font-medium underline"
                   target="_blank"
                   rel="noreferrer"
                 >
-                  @books.about.food
+                  @booksabout.food
                 </a>{' '}
                 with the three randomly generated words you see below:
               </p>

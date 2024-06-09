@@ -28,7 +28,7 @@ export default function AboutPage() {
               Thousands of books are released every year, but we’re only
               obsessed with the ones that involve food, eating and drinking.
               When the project started on{' '}
-              <Link href="https://www.instagram.com/books.about.food/">
+              <Link href="https://www.instagram.com/booksabout.food/">
                 Instagram
               </Link>{' '}
               in 2016, our aim was to surface what we considered beautifully
