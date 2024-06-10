@@ -32,14 +32,12 @@ export async function getOrPopulateKv<R>(
   try {
     const cached = await redis.get<SuperJSONResult>(key)
     if (cached) {
-      console.log('Cache hit:', key)
       return deserialize(cached) as R
     }
   } catch (e) {
     console.error('Failed to get cache:', e)
   }
 
-  console.log('Cache miss:', key)
   const data = await exec()
   if (!data) return data
   if (skipResult?.(data)) return data

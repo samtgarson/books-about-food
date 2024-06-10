@@ -1,12 +1,12 @@
 import Link from 'next/link'
 import { FC } from 'react'
-import { Pill } from '../atoms/pill'
+import { Pill, PillList } from '../atoms/pill'
 
 export type TagListProps = { tags: Array<{ name: string; slug: string }> }
 
 export const TagList: FC<TagListProps> = ({ tags }) => {
   return (
-    <p className="flex justify-start gap-2">
+    <PillList>
       {tags.map(({ slug, name }) => (
         <Link href={`/cookbooks?tags=${slug}`} key={slug}>
           <Pill small variant="filled">
@@ -14,6 +14,6 @@ export const TagList: FC<TagListProps> = ({ tags }) => {
           </Pill>
         </Link>
       ))}
-    </p>
+    </PillList>
   )
 }

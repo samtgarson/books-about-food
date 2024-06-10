@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import { ComponentProps, forwardRef } from 'react'
+import { ComponentProps, ReactNode, forwardRef } from 'react'
 
 export type PillProps = {
   selected?: boolean
@@ -25,7 +25,7 @@ export const Pill = forwardRef<HTMLSpanElement, PillProps>(function Pill(
       ref={ref}
       {...props}
       className={cn(
-        'text-14 flex flex-shrink-0 items-center justify-center rounded-full leading-none',
+        'text-14 flex flex-shrink-0 items-center justify-center rounded-full leading-none whitespace-nowrap',
         small ? 'px-3 py-1 leading-6 text-16' : 'px-4 py-3',
         selected ? 'bg-black text-white' : 'text-black',
         disabled && 'pointer-events-none',
@@ -38,3 +38,17 @@ export const Pill = forwardRef<HTMLSpanElement, PillProps>(function Pill(
     </span>
   )
 })
+
+export function PillList({
+  children,
+  className
+}: {
+  children: ReactNode
+  className?: string
+}) {
+  return (
+    <p className={cn(className, 'flex justify-start gap-2 flex-wrap')}>
+      {children}
+    </p>
+  )
+}

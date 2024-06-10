@@ -7,7 +7,7 @@ import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { Container } from 'src/components/atoms/container'
 import { Detail } from 'src/components/atoms/detail'
-import { Pill } from 'src/components/atoms/pill'
+import { Pill, PillList } from 'src/components/atoms/pill'
 import {
   PublisherBookList,
   SkeletonPublisherBookList
@@ -95,13 +95,15 @@ export default async ({ params: { slug } }: PublisherPageProps) => {
           {publisher.imprints.length > 0 && (
             <Detail maxWidth className="flex flex-col gap-2 items-start">
               <p className="all-caps">Imprints</p>
-              {publisher.imprints.map((imprint) => (
-                <Link href={`/publishers/${imprint.slug}`} key={imprint.slug}>
-                  <Pill variant="filled" small>
-                    {imprint.name}
-                  </Pill>
-                </Link>
-              ))}
+              <PillList>
+                {publisher.imprints.map((imprint) => (
+                  <Link href={`/publishers/${imprint.slug}`} key={imprint.slug}>
+                    <Pill variant="filled" small>
+                      {imprint.name}
+                    </Pill>
+                  </Link>
+                ))}
+              </PillList>
             </Detail>
           )}
           <LinkList />
