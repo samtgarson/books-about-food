@@ -16,9 +16,9 @@ export function CollectionInputItem<Value extends { id: string }>({
   return (
     <div className="-mb-px flex items-center gap-4 border-t border-neutral-grey py-4">
       {avatar}
-      <div className="flex flex-col">
-        <p className="font-bold">{title}</p>
-        {subtitle && <p className="opacity-50">{subtitle}</p>}
+      <div className="flex flex-col overflow-hidden">
+        <p className="truncate font-bold">{title}</p>
+        {subtitle && <p className="truncate opacity-50">{subtitle}</p>}
       </div>
       <Sheet.Root>
         <Sheet.Trigger className="text-14 ml-auto underline">
