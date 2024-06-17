@@ -33,6 +33,7 @@ export const EditPublisherForm = async ({ book }: { book: FullBook }) => {
         render="name"
         defaultValue={book.publisher}
         required
+        hideDropdownWhenEmpty
         data-superjson
       />
       <Input

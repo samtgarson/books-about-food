@@ -55,6 +55,7 @@ export const SelectClient = function Select<
   separator = ',',
   placeholder,
   fref: ref,
+  hideDropdownWhenEmpty = false,
   ...props
 }: SelectProps<Value, Multi, ValueKey> & {
   fref?: ForwardedRef<SelectControl>
@@ -221,6 +222,18 @@ export const SelectClient = function Select<
             highlightedIndex:
               (state.highlightedIndex - 1 + items.length) % items.length
           }
+        case useCombobox.stateChangeTypes.InputChange:
+          if (!changes.inputValue?.length && hideDropdownWhenEmpty) {
+            return { ...changes, isOpen: false }
+          }
+
+          return changes
+        case useCombobox.stateChangeTypes.InputClick:
+          if (!changes.inputValue?.length && hideDropdownWhenEmpty) {
+            return { ...changes, isOpen: false }
+          }
+
+          return changes
         default:
           return changes
       }

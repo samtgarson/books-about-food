@@ -30,6 +30,7 @@ export interface SelectProps<
   onCreate?: (value: string) => Promise<Value | void>
   showChevron?: boolean
   separator?: string
+  hideDropdownWhenEmpty?: boolean
 }
 
 export interface SelectContext<
