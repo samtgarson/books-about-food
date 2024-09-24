@@ -46,7 +46,7 @@ export function FrequentCollaborators({
       title="Frequent Collaborators"
       className={className}
     >
-      <GridContainer className={cn('-mt-px sm:mt-0')}>
+      <GridContainer>
         {profiles.map((profile) => {
           const hidden = ids.includes(profile.id)
 

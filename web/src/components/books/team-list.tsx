@@ -1,6 +1,5 @@
 import { Contribution } from '@books-about-food/core/models/contribution'
 import { Profile } from '@books-about-food/core/models/profile'
-import cn from 'classnames'
 import { ProfileList } from '../atoms/profile-list'
 import { GridContainer } from '../lists/grid-container'
 import { ProfileItem } from '../profiles/item'
@@ -32,7 +31,7 @@ export function TeamList({ contributions, className }: TeamListProps) {
       className={className}
       data-superjson
     >
-      <GridContainer className={cn('-mt-px sm:mt-0')}>
+      <GridContainer>
         {profiles.map((profile) => (
           <ProfileItem
             key={profile.id}

@@ -1,5 +1,4 @@
 import { Profile } from '@books-about-food/core/models/profile'
-import cn from 'classnames'
 import { FC } from 'react'
 import { ProfileList } from '../atoms/profile-list'
 import { GridContainer } from '../lists/grid-container'
@@ -25,7 +24,7 @@ export const ProfileListSection: FC<ProfileListSectionProps> = ({
       className={className}
       data-superjson
     >
-      <GridContainer className={cn('-mt-px sm:mt-0')}>
+      <GridContainer>
         {profiles.map((profile) => (
           <ProfileItem
             key={profile.id}
