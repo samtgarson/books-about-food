@@ -10,7 +10,7 @@ module.exports = {
     es6: true
   },
   root: true,
-  ignorePatterns: ['packages/e2e/bin/generate-google-token.js'],
+  ignorePatterns: ['packages/e2e/bin/generate-google-token.js', '.vercel'],
   overrides: [
     {
       files: ['**/*.ts', '**/*.tsx'],

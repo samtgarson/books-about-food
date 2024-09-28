@@ -1,5 +1,5 @@
-import React from 'react'
 import { MjmlText } from '@faire/mjml-react'
+import React from 'react'
 import { fontWeight } from '../theme'
 
 type HrefProps = { href?: string; rel?: string; target?: string }

@@ -11,7 +11,7 @@ import { Search, SearchProps } from './search'
 export type FilterBarProps = {
   children?: ReactNode
   search?: Omit<SearchProps, 'className'>
-  label?: string
+  label?: string | null
   title?: string
 }
 
@@ -83,7 +83,7 @@ export const FilterBar: FC<FilterBarProps> = ({
                 desktop={false}
                 className="flex w-max items-center gap-2"
               >
-                <p className="all-caps mr-2">{label}</p>
+                {label && <p className="all-caps mr-2">{label}</p>}
                 {children}
               </Container>
             </div>

@@ -1,5 +1,6 @@
 /node_modules
 .next/
+.vercel
 admin/dist
 
 admin/.schema

@@ -1,11 +1,10 @@
 import { FetchBooksInput } from '@books-about-food/core/services/books/fetch-books'
 import { fetchTags } from '@books-about-food/core/services/tags/fetch'
-import { wrapArray } from '@books-about-food/shared/utils/array'
+import Link from 'next/link'
 import { FilterBar } from 'src/components/lists/filter-bar'
-import { FilterSelect } from 'src/components/lists/filter-select'
-import { Sort } from 'src/components/lists/sort'
 import { call } from 'src/utils/service'
-import { ColorFilter } from './color-filter'
+import stringify from 'stable-hash'
+import { BookFilterPopup } from './popup'
 
 type Filters = Omit<FetchBooksInput, 'page' | 'perPage'>
 type BookFiltersProps = {
@@ -16,21 +15,18 @@ export function BookFilters({ filters = {} }: BookFiltersProps) {
   return (
     <FilterBar
       title="Cookbooks"
+      label={null}
       search={{
         value: filters.search
       }}
     >
-      <Sort<NonNullable<Filters['sort']>>
-        sorts={{
-          releaseDate: 'Release Date',
-          createdAt: 'Recently Added'
-        }}
-        defaultValue="releaseDate"
-        value={filters.sort ?? 'releaseDate'}
-      />
-      <FilterSelect
-        search
-        options={async () => {
+      <Link className="all-caps mr-2" href="/cookbooks">
+        Reset
+      </Link>
+      <BookFilterPopup
+        key={stringify(filters)}
+        filters={filters}
+        fetchTags={async () => {
           'use server'
           const { data: tags = [] } = await call(fetchTags)
           return tags.map((tag) => ({
@@ -38,12 +34,7 @@ export function BookFilters({ filters = {} }: BookFiltersProps) {
             value: tag.slug
           }))
         }}
-        placeholder="Tags"
-        param="tags"
-        value={wrapArray(filters.tags ?? [])}
-        multi
       />
-      <ColorFilter value={filters.color} />
     </FilterBar>
   )
 }

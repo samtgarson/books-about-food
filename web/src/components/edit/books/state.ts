@@ -6,15 +6,15 @@ import prisma from '@books-about-food/database'
 export type StepCompletionMeta =
   | undefined
   | {
-    text?: string
-    profiles?: Profile[]
-  }
+      text?: string
+      profiles?: Profile[]
+    }
 
 export class BookEditState {
   constructor(
     private book: FullBook,
     private user?: User
-  ) { }
+  ) {}
 
   get complete() {
     return this.book.status !== 'draft'

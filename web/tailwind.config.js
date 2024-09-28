@@ -46,7 +46,7 @@ module.exports = {
         'accordion-close': 'accordion-close 0.2s ease-out both'
       },
       screens: {
-        'mobile-only': { max: '640px' },
+        'mobile-only': { max: '700px' },
         short: { raw: '(max-height: 650px)' }
       },
       zIndex: {

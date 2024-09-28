@@ -39,7 +39,7 @@ export const Content = ({
           overlay && 'bg-black bg-opacity-80'
         )}
       />
-      <div className="pointer-events-none fixed inset-0 z-sheet flex items-end justify-center sm:items-center backdrop-filter">
+      <div className="pointer-events-none fixed inset-0 z-sheet flex items-end justify-center sm:items-start sm:pt-[15dvh] sm:short:pt-[5dvh] backdrop-filter">
         <Dialog.Content
           onEscapeKeyDown={close}
           onPointerDownOutside={close}
@@ -48,7 +48,7 @@ export const Content = ({
             if (!focusTriggerOnClose) e.preventDefault()
           }}
           className={cn(
-            'animate-fade-in pointer-events-none flex w-full flex-shrink-0 flex-col relative book-shadow max-h-[calc(100dvh)] sm:max-h-[80dvh] focus:outline-none',
+            'animate-fade-in pointer-events-none flex w-full flex-shrink-0 flex-col relative book-shadow max-h-[calc(100dvh)] sm:max-h-[75dvh] sm:short:max-h-[80dvh] focus:outline-none',
             {
               'sm:max-w-lg': size === 'md',
               'sm:max-w-xl': size === 'lg',

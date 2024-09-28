@@ -14,6 +14,7 @@ export type SearchProps = {
   className?: string
   onBlur?: () => void
   autoFocus?: boolean
+  debounceDelay?: number
 }
 
 export const Search: FC<SearchProps> = ({
@@ -23,7 +24,8 @@ export const Search: FC<SearchProps> = ({
   className,
   onReset,
   onBlur,
-  autoFocus = false
+  autoFocus = false,
+  debounceDelay = 500
 }) => {
   const [internalValue, setInternalValue] = useState(value)
   const loading = value !== internalValue
@@ -32,7 +34,7 @@ export const Search: FC<SearchProps> = ({
     startTransition(() => {
       onChange?.(value)
     })
-  }, 500)
+  }, debounceDelay)
 
   return (
     <div
@@ -62,7 +64,7 @@ export const Search: FC<SearchProps> = ({
         <div className="absolute inset-y-0 right-0 flex items-center">
           <Loader />
         </div>
-      ) : (
+      ) : internalValue.length ? (
         <button
           onClick={() => {
             setInternalValue('')
@@ -77,7 +79,7 @@ export const Search: FC<SearchProps> = ({
         >
           <X strokeWidth={1} size={24} />
         </button>
-      )}
+      ) : null}
     </div>
   )
 }
