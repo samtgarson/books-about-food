@@ -19,7 +19,7 @@ export const sendMail = buildSendMail({
       pass: process.env.SMTP_PASS
     }
   }),
-  defaultFrom: 'Books About Food <no-reply@booksaboutfood.info',
+  defaultFrom: 'Books About Food <no-reply@booksabout.food',
   configPath: resolve(__dirname, '../mailing.config.json')
 })
 
