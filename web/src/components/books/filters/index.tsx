@@ -5,6 +5,7 @@ import { FilterBar } from 'src/components/lists/filter-bar'
 import { call } from 'src/utils/service'
 import stringify from 'stable-hash'
 import { BookFilterPopup } from './popup'
+import { count } from './util'
 
 type Filters = Omit<FetchBooksInput, 'page' | 'perPage'>
 type BookFiltersProps = {
@@ -12,6 +13,8 @@ type BookFiltersProps = {
 }
 
 export function BookFilters({ filters = {} }: BookFiltersProps) {
+  const showReset = count(filters) > 0 || !!filters.sort
+
   return (
     <FilterBar
       title="Cookbooks"
@@ -20,9 +23,11 @@ export function BookFilters({ filters = {} }: BookFiltersProps) {
         value: filters.search
       }}
     >
-      <Link className="all-caps mr-2" href="/cookbooks">
-        Reset
-      </Link>
+      {showReset && (
+        <Link className="all-caps mr-2" href="/cookbooks">
+          Reset
+        </Link>
+      )}
       <BookFilterPopup
         key={stringify(filters)}
         filters={filters}

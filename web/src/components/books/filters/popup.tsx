@@ -1,7 +1,6 @@
 'use client'
 
 import { NamedColor } from '@books-about-food/core/services/books/colors'
-import { FetchBooksInput } from '@books-about-food/core/services/books/fetch-books'
 import { ReactNode, useState } from 'react'
 import { FilterSheet } from 'src/components/lists/filter-sheet'
 import { Sort } from 'src/components/lists/sort'
@@ -9,8 +8,7 @@ import { usePromise } from 'src/hooks/use-promise'
 import { toggleItemAuto } from 'src/utils/array-helpers'
 import { ColorCircle, colorMap } from './colors'
 import { PillList, Tag } from './pill-list'
-
-type Filters = Omit<FetchBooksInput, 'page' | 'perPage'>
+import { Filters, count } from './util'
 
 export type BookFilterPopupProps = {
   filters?: Filters
@@ -107,12 +105,4 @@ function FilterItem({
       {children}
     </div>
   )
-}
-
-function count(filters: Filters) {
-  if (Object.keys(filters).length === 0) return 0
-
-  let count = filters.tags?.length ?? 0
-  if (filters.color) count++
-  return count
 }
