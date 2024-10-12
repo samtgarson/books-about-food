@@ -13,6 +13,7 @@ import Underline from '@tiptap/extension-underline'
 import { EditorContent, useEditor } from '@tiptap/react'
 import cn from 'classnames'
 import { useState } from 'react'
+import { ImageUploader } from './file-handler'
 import { EditorMenu } from './menu'
 import './styles.css'
 import { htmlClasses } from './util'
@@ -33,7 +34,9 @@ export function Editor({
   className
 }: EditorProps) {
   const [wrapper, setWrapper] = useState<HTMLElement | null>(null)
+  const [loading, setLoading] = useState(false)
   const editor = useEditor({
+    immediatelyRender: false,
     extensions: [
       Bold,
       Document,
@@ -52,7 +55,8 @@ export function Editor({
       }),
       Text,
       Typography,
-      Underline
+      Underline,
+      ImageUploader(setLoading)
     ],
     content: value,
     editorProps: {
@@ -72,7 +76,7 @@ export function Editor({
   })
 
   return (
-    <div ref={setWrapper}>
+    <div ref={setWrapper} className={cn("relative transition-opacity", loading && 'opacity-50')}>
       <EditorMenu editor={editor} container={wrapper || undefined} />
       <EditorContent editor={editor} />
     </div>
