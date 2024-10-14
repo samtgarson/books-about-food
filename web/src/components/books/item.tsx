@@ -21,6 +21,8 @@ export const Container = forwardRef<
   HTMLLIElement,
   CookbookItemProps & {
     link?: boolean
+    onClick?: () => void
+    disabled?: boolean
   }
 >(function Container(
   {
@@ -31,26 +33,30 @@ export const Container = forwardRef<
     children,
     link = true,
     centered,
-    style
+    style,
+    onClick,
+    disabled
   },
   ref
 ) {
   const { display } = useListDisplay()
-  const WrapperEl = book?.href && link ? Link : 'div'
+  const WrapperEl = book?.href && link ? Link : onClick ? 'button' : 'div'
   return (
     <li className={cn('group', className)} ref={ref} aria-label={book?.title}>
       <WrapperEl
         href={book?.href || '#'}
         className={cn(
-          'relative -mb-px flex h-full items-center gap-6 border border-black group-last:mb-0 sm:-mr-px sm:mb-0 sm:w-auto sm:flex-col sm:items-start sm:gap-0 sm:border-none sm:p-0',
+          'relative -mb-px flex h-full items-center gap-6 border border-black group-last:mb-0 sm:-mr-px sm:mb-0 sm:w-[calc(100%+1px)] sm:flex-col sm:items-start sm:gap-0 sm:border-none sm:p-0',
           display === 'grid'
-            ? '-mr-px sm:mb-0 w-auto flex-col items-start gap-0 border-none p-0'
-            : 'p-4',
+            ? '-mr-px sm:mb-0 w-[calc(100%+1px) flex-col items-start gap-0 border-none p-0'
+            : 'p-4 w-full',
           skeleton && `animate-pulse`
         )}
         style={{ ...style, animationDelay: `${index * 150}ms` }}
         aria-label={book?.ariaLabel}
         title={book?.title}
+        onClick={onClick}
+        disabled={disabled}
       >
         {children}
         {book?.publishedInFuture && !centered && (
@@ -109,7 +115,8 @@ export const Cover = ({
       book={book}
       className={cn(
         className,
-        colorful && 'bg-[var(--book-bg)]',
+        colorful &&
+        (mobileGrid ? 'bg-[var(--book-bg)]' : 'sm:bg-[var(--book-bg)]'),
         mobileColorful && [
           mobileGrid && 'mobile-only:bg-[var(--book-bg)]',
           'sm:transition sm:group-hover:bg-[var(--book-bg)]'
@@ -140,11 +147,25 @@ export const Cover = ({
 
 export const Footer = ({
   centered,
+  book,
   children,
   className
 }: CookbookItemProps) => {
   const { display } = useListDisplay()
   const mobileGrid = display === 'grid'
+  const content =
+    children ||
+    (book && (
+      <>
+        {' '}
+        <p className="text-16 mb-1 overflow-hidden overflow-ellipsis whitespace-nowrap font-medium">
+          {book.title}
+        </p>
+        <p className="text-14 overflow-hidden overflow-ellipsis whitespace-nowrap">
+          {book.authorNames}
+        </p>
+      </>
+    ))
 
   return (
     <div
@@ -152,10 +173,10 @@ export const Footer = ({
         className,
         'min-w-0 sm:w-full',
         mobileGrid && !centered && 'pr-4',
-        centered ? '-mt-[50px] text-center px-14' : 'sm:pr-4'
+        centered ? '-mt-[50px] text-center px-14' : 'sm:pr-4 text-left'
       )}
     >
-      {children}
+      {content}
     </div>
   )
 }
@@ -181,15 +202,9 @@ export const Item = forwardRef<
       />
       <Footer
         centered={centered}
+        book={book}
         className={cn(display === 'grid' && 'hidden sm:block')}
-      >
-        <p className="text-16 mb-1 overflow-hidden overflow-ellipsis whitespace-nowrap font-medium">
-          {book.title}
-        </p>
-        <p className="text-14 overflow-hidden overflow-ellipsis whitespace-nowrap">
-          {book.authorNames}
-        </p>
-      </Footer>
+      />
     </Container>
   )
 })

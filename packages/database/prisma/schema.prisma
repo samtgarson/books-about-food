@@ -78,6 +78,7 @@ model User {
 
   memberships     Membership[]
   sentInvitations TeamInvitation[]
+  bookVote        BookVote[]
 
   @@map("users")
 }
@@ -220,6 +221,7 @@ model Book {
   submitter     User?          @relation("submitted_books", fields: [submitterId], references: [id], onDelete: SetNull)
   authors       Profile[]      @relation("authored_books")
   promoItems    PromoItem[]
+  bookVote      BookVote[]
 
   @@index([googleBooksId], name: "google_books_id")
   @@map("books")
@@ -453,4 +455,17 @@ model PromoItem {
 
   @@unique([promoId, bookId])
   @@map("promo_items")
+}
+
+model BookVote {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  bookId    String   @map("book_id") @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+
+  book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, bookId])
+  @@map("book_votes")
 }

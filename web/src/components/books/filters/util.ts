@@ -7,6 +7,6 @@ export function count(filters: Filters) {
 
   let count = filters.tags?.length ?? 0
   if (filters.color) count++
-  if (filters.sort !== 'releaseDate') count++
+  if (filters.sort && filters.sort !== 'releaseDate') count++
   return count
 }

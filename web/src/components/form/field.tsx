@@ -1,4 +1,5 @@
 import * as Form from '@radix-ui/react-form'
+import cn from 'classnames'
 import { useFormField } from './context'
 import { InputProps, useRequired } from './input-props'
 import { Label } from './label'
@@ -17,7 +18,7 @@ export function Field<T extends keyof JSX.IntrinsicElements>({
   return (
     <Form.Field
       name={name}
-      className="flex flex-col gap-2"
+      className={cn(className, 'flex flex-col gap-2')}
       serverInvalid={!!error}
     >
       {label && <Label required={required}>{label}</Label>}

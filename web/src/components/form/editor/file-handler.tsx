@@ -27,6 +27,7 @@ export function ImageUploader(setLoading: (loading: boolean) => void) {
                 event.preventDefault()
 
                 setLoading(true)
+                // eslint-disable-next-line promise/prefer-await-to-then
                 uploadImage(file).then(({ url }) => {
                   editor.chain().setImage({ src: url }).run()
 

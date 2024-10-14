@@ -22,6 +22,7 @@ const validator = z.object({
   submitterId: z.string().optional(),
   publisherSlug: z.string().optional(),
   color: z.nativeEnum(NamedColor).or(array(z.coerce.number())).optional(),
+  releaseYear: z.number().optional(),
   pageCount: z
     .custom<FetchBooksPageFilters>((key) => {
       return fetchBooksPageFilterValues.includes(key as FetchBooksPageFilters)
@@ -102,7 +103,8 @@ function whereQuery({
   publisherSlug,
   pageCount,
   color,
-  search
+  search,
+  releaseYear
 }: FetchBooksInput) {
   const where: Prisma.Sql[] = []
   where.push(sql`status::text in (${join(wrapArray(status))})`)
@@ -112,6 +114,8 @@ function whereQuery({
   if (pageCount) where.push(pageCountQuery(pageCount))
   if (publisherSlug) where.push(sql`publishers.slug = ${publisherSlug}`)
   if (color?.length) where.push(sql`matched_palette.color is not null`)
+  if (releaseYear)
+    where.push(sql`extract(year from books.release_date) = ${releaseYear}`)
 
   const searchWhere = searchQuery(search)
   if (searchWhere) where.push(searchWhere)
@@ -162,9 +166,8 @@ function specificColorJoin(color: number[]) {
 
 function namedColorJoin(color: NamedColor) {
   return sql`left outer join lateral (
-      select abs(${
-        namedHueMap[color]
-      }::int - (c.color ->> 'h')::decimal) * -1 as color
+      select abs(${namedHueMap[color]
+    }::int - (c.color ->> 'h')::decimal) * -1 as color
       from (
         select jsonb_array_elements(books.palette) color from books b
         where b.id = books.id
