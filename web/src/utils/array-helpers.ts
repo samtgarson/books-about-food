@@ -9,3 +9,5 @@ export const toggleItem = <T>(arr: T[], item: T, included: boolean) =>
   included ? arr.filter((i) => i !== item) : [...arr, item]
 
 export const shuffle = <T>(arr: T[]) => arr.sort(() => 0.5 - Math.random())
+
+export const range = (n: number) => Array.from({ length: n }, (_, i) => i)

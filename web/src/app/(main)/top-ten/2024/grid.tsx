@@ -7,10 +7,11 @@ import * as Book from 'src/components/books/item'
 import { GridContainer } from 'src/components/lists/grid-container'
 import { Search } from 'src/components/lists/search'
 import { toggleItemAuto } from 'src/utils/array-helpers'
+import { TopTenSheet } from './sheet'
 
 export function TopTenGrid({ books }: { books: Model[] }) {
   const [search, setSearch] = useState('')
-  const [selected, setSelected] = useState<string[]>([])
+  const [selected, setSelected] = useState<Model[]>([])
   const filteredBooks = books.filter(
     (book) =>
       book.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -21,17 +22,17 @@ export function TopTenGrid({ books }: { books: Model[] }) {
 
   const canVote = selected.length < 3
   function isSelected(book: Model) {
-    return selected.includes(book.id)
+    return selected.includes(book)
   }
   function toggle(book: Model) {
-    const isSelected = selected.includes(book.id)
-    console.log({ isSelected, canVote })
+    const isSelected = selected.includes(book)
     if (!canVote && !isSelected) return
-    setSelected((a) => toggleItemAuto(a, book.id))
+    setSelected((a) => toggleItemAuto(a, book))
   }
 
   return (
     <>
+      <TopTenSheet selected={selected} unselectBook={toggle} />
       <Search
         value={search}
         onChange={setSearch}
