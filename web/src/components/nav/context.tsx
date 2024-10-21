@@ -26,14 +26,16 @@ const NavContext = createContext({} as NavContext)
 
 export const NavProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const path = usePathname()
-  const [theme, setTheme] = useState<NavTheme>(path === '/' ? 'dark' : 'light')
+  const [theme, setTheme] = useState<NavTheme>(
+    path === '/' && !process.env.SHOW_TAKEOVER ? 'dark' : 'light'
+  )
   const [open, setOpen] = useState(false)
   const transition = useRef<TransitionControl>(null)
   const [footerVisible, setFooterVisible] = useState(false)
 
   useEffect(() => {
     setOpen(false)
-    setTheme(path === '/' ? 'dark' : 'light')
+    setTheme(path === '/' && !process.env.SHOW_TAKEOVER ? 'dark' : 'light')
   }, [path])
 
   return (

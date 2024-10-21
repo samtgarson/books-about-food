@@ -7,6 +7,7 @@ import { ChevronLeft, ChevronRight } from 'src/components/atoms/icons'
 import { useNav } from '../nav/context'
 import { Faces } from './faces'
 import { FeatureCarouselFeature, FeatureCarouselItem } from './item'
+import { Takeover } from './takeover'
 import { FeatureCarouselTitleProps, Title } from './title'
 
 export type FeatureCarouselProps = {
@@ -14,20 +15,26 @@ export type FeatureCarouselProps = {
   title?: boolean | ((props: FeatureCarouselTitleProps) => ReactNode)
   faces?: boolean
   className?: string
+  showTakeover?: boolean
 }
 
 type Item =
-  | { feature: FeatureCarouselFeature; isTitle?: never }
-  | { feature?: never; isTitle: true }
+  | { feature: FeatureCarouselFeature; isTitle?: never; isTakeover?: never }
+  | { feature?: never; isTitle: true; isTakeover?: never }
+  | { feature?: never; isTitle?: never; isTakeover: true }
 
 const createLoop = (
   features: FeatureCarouselFeature[],
-  showTitle: boolean
+  showTitle: boolean,
+  showTakeover: boolean
 ): Item[] => {
   const featureItems = features.map((feature) => ({ feature }))
   const title = { isTitle: true } as const
+  const takeover = { isTakeover: true } as const
 
-  const batch = showTitle ? [title, ...featureItems] : featureItems
+  let batch: Item[] = featureItems
+  if (showTitle) batch = [title, ...batch]
+  if (showTakeover) batch = [takeover, ...batch]
   while (batch.length < 3) {
     batch.push(...batch)
   }
@@ -38,21 +45,18 @@ export function FeatureCarousel({
   features,
   title = false,
   faces: showFaces = false,
-  className
+  className,
+  showTakeover = false
 }: FeatureCarouselProps) {
   const showTitle = !!title
-  const [[currentIndex, offset], setState] = useState([
-    features.length + (showTitle ? 1 : 0),
-    0
-  ])
-  const loop = createLoop(features, showTitle)
-  const totalSlides = useMemo(
-    () => features.length + (showTitle ? 1 : 0),
-    [showTitle, features.length]
-  )
+  const totalSlides =
+    features.length + (showTitle ? 1 : 0) + (showTakeover ? 1 : 0)
+  const [[currentIndex, offset], setState] = useState([totalSlides, 0])
+  const loop = createLoop(features, showTitle, showTakeover)
+  const titleIndex = showTakeover ? 1 : 0
   const showingTitle = useMemo(
-    () => showTitle && currentIndex % totalSlides === 0,
-    [showTitle, currentIndex, totalSlides]
+    () => showTitle && currentIndex % totalSlides === titleIndex,
+    [showTitle, currentIndex, totalSlides, titleIndex]
   )
   const { theme } = useNav()
   const activeIndex = currentIndex - (offset + 1) * totalSlides
@@ -69,6 +73,7 @@ export function FeatureCarousel({
         : offset
 
     setState([virtualIndex, newOffset])
+    console.log('virtualIndex', virtualIndex)
   }
 
   const onSwipe = () => {
@@ -118,7 +123,7 @@ export function FeatureCarousel({
         )}
       </AnimatePresence>
       <div className={cn('absolute inset-x-0 bottom-16 sm:bottom-0 top-16')}>
-        {loop.map(({ isTitle, feature }, index) => {
+        {loop.map(({ isTitle, feature, isTakeover }, index) => {
           const virtualIndex = offset * totalSlides + index
           const batch = Math.floor(index / totalSlides) + offset
           if (isTitle) {
@@ -131,6 +136,16 @@ export function FeatureCarousel({
 
             if (typeof title === 'function') return title(props)
             return <Title key={props.id} {...props} />
+          }
+
+          if (isTakeover) {
+            const props = {
+              index: virtualIndex,
+              currentIndex,
+              id: `${batch}-takeover`,
+              onClick: () => onClick(virtualIndex)
+            }
+            return <Takeover key={props.id} {...props} />
           }
 
           const id = `${batch}-${feature.id}`

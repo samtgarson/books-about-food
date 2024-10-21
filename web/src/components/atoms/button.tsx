@@ -12,7 +12,7 @@ type BaseButtonProps = {
 }
 
 const variants = {
-  primary: 'bg-white',
+  primary: 'bg-white border border-black',
   secondary: 'bg-grey',
   tertiary: 'bg-khaki',
   dark: 'bg-black text-white',
@@ -42,7 +42,7 @@ export const Button = forwardRef(function Button(
   ref
 ) {
   const classes = cn(
-    'text-16 relative block flex-shrink-0 whitespace-nowrap px-4 py-2.5 transition',
+    'text-16 relative block flex-shrink-0 whitespace-nowrap px-4 py-2.5 transition ease-out',
     variants[variant],
     className,
     loading && 'pointer-events-none',
@@ -84,7 +84,7 @@ function ButtonContents({
     <>
       <span
         className={cn(
-          'flex items-center justify-center gap-2',
+          'flex items-center justify-center gap-2 transition ease-out',
           loading && 'opacity-0'
         )}
       >

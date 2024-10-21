@@ -2,9 +2,7 @@ import cn from 'classnames'
 import { ComponentProps, FC } from 'react'
 
 export const contactProps = (subject: string) => ({
-  href: `mailto:aboutcookbooks@gmail.com?subject=${encodeURIComponent(
-    subject
-  )}`,
+  href: `mailto:jamin@booksabout.food?subject=${encodeURIComponent(subject)}`,
   target: '_blank',
   rel: 'noreferrer'
 })

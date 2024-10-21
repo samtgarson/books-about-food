@@ -43,6 +43,7 @@ async function Page() {
             faces
             data-superjson
             className="h-[90vh] max-h-[800px] overflow-y-hidden"
+            showTakeover={!!process.env.SHOW_TAKEOVER}
           />
         </div>
       )}
