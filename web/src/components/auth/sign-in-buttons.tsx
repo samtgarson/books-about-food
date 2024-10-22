@@ -29,6 +29,7 @@ export const SignInButtons: FC<SignInButtonsProps> = ({
       action={emailSignIn}
       schema={z.object({ email: z.string() })}
       successMessage={successMessage}
+      variant="bordered"
     >
       <Input
         name="email"

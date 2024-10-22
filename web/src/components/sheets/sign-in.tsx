@@ -24,6 +24,6 @@ const SignInSheet: SheetComponent<SignInSheetProps> = ({
   )
 }
 
-SignInSheet.grey = true
+//SignInSheet.grey = true
 
 export default SignInSheet

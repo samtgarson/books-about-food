@@ -58,7 +58,7 @@ export function Takeover({
           src={bg}
           aria-hidden
           className={cn(
-            'absolute inset-0 h-[calc(100%-1px)] object-cover object-right z-0 transition-opacity ease-out',
+            'absolute inset-0 w-full h-[calc(100%-1px)] object-cover object-right z-0 transition-opacity ease-out',
             !current && 'opacity-0'
           )}
           alt="BAF Top 10"

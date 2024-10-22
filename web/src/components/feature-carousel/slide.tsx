@@ -23,7 +23,7 @@ export function FeatureCarouselSlide({
       layoutId={id}
       data-position={position}
       layout="position"
-      href={href}
+      href={position == 'current' ? href : '#'}
       {...attrs}
       className={className}
       onClick={(e) => {

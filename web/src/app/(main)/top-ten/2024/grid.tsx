@@ -4,14 +4,21 @@ import { Book as Model } from '@books-about-food/core/models/book'
 import { useMemo, useState } from 'react'
 import { GridContainer } from 'src/components/lists/grid-container'
 import { Search } from 'src/components/lists/search'
+import { usePromise } from 'src/hooks/use-promise'
 import { toggleItemAuto } from 'src/utils/array-helpers'
 import { useLocalStorage } from 'usehooks-ts'
+import { createVotes, fetchVotesCount } from './actions'
 import { TopTenGridItem } from './item'
 import { TopTenSheet } from './sheet'
 
 export function TopTenGrid({ books }: { books: Model[] }) {
+  const {
+    value: existingVoteCount,
+    loading: voteCountLoading,
+    revalidate
+  } = usePromise(fetchVotesCount, 0)
   const [search, setSearch] = useState('')
-  const [selected, setSelected] = useLocalStorage<Model[]>(
+  const [selected, setSelected, removeSelected] = useLocalStorage<Model[]>(
     'baf-top-ten-selection',
     [],
     {
@@ -42,6 +49,7 @@ export function TopTenGrid({ books }: { books: Model[] }) {
     [books, search]
   )
 
+  const alreadyVoted = existingVoteCount >= 3
   const canVote = selected.length < 3
   function isSelected(book: Model) {
     return selected.includes(book)
@@ -54,7 +62,17 @@ export function TopTenGrid({ books }: { books: Model[] }) {
 
   return (
     <>
-      <TopTenSheet selected={selected} unselectBook={toggle} />
+      <TopTenSheet
+        selected={selected}
+        unselectBook={toggle}
+        alreadyVoted={alreadyVoted}
+        onSubmit={async function () {
+          await createVotes(selected.map((book) => book.id))
+          removeSelected()
+          revalidate()
+        }}
+        loading={voteCountLoading}
+      />
       <Search
         value={search}
         onChange={setSearch}
@@ -66,7 +84,7 @@ export function TopTenGrid({ books }: { books: Model[] }) {
           <TopTenGridItem
             key={book.id}
             book={book}
-            disabled={!canVote && !isSelected(book)}
+            disabled={alreadyVoted || (!canVote && !isSelected(book))}
             selected={isSelected(book)}
             onClick={() => toggle(book)}
           />
