@@ -23,7 +23,8 @@ const nextConfig = {
     serverActions: {
       bodySizeLimit: '4mb'
     },
-    serverComponentsExternalPackages: ['mjml', 'sharp', '@sparticuz/chromium']
+    serverComponentsExternalPackages: ['mjml', 'sharp', '@sparticuz/chromium'],
+    instrumentationHook: true
   },
   transpilePackages: ['shared', 'database', 'email', 'core'],
   images: Object.assign(imagesConfig, {

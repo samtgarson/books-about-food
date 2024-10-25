@@ -11,13 +11,12 @@ Sentry.init({
 
   replaysOnErrorSampleRate: 0,
 
-  replaysSessionSampleRate: 0,
+  replaysSessionSampleRate: 0
 
-  integrations: [
-    new Sentry.Replay({
-      // Additional Replay configuration goes in here, for example:
-      mask: ['input[type=password]', 'input[type=email]'],
-      blockAllMedia: true
-    })
-  ]
+  // integrations: [
+  //   Sentry.replayIntegration({
+  //     mask: ['input[type=password]', 'input[type=email]'],
+  //     blockAllMedia: true
+  //   })
+  // ]
 })

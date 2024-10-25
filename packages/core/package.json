@@ -6,7 +6,8 @@
   "dependencies": {
     "@books-about-food/database": "*",
     "@books-about-food/shared": "*",
-    "@sentry/nextjs": "^7.88.0",
+    "@inngest/middleware-sentry": "^0.1.1",
+    "@sentry/nextjs": "^8.35.0",
     "aws-sdk": "^2.1286.0",
     "buffer-image-size": "^0.6.4",
     "date-fns": "^2.30.0",

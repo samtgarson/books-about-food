@@ -1,11 +1,10 @@
 import { EmailTemplate } from '@books-about-food/email'
+import { sentryMiddleware } from '@inngest/middleware-sentry'
 import { EventSchemas, Inngest } from 'inngest'
-import { createSentryMiddleware } from './middleware/sentry'
 
 let middleware: ConstructorParameters<typeof Inngest>[0]['middleware']
 if (process.env.SENTRY_DSN) {
-  const sentry = createSentryMiddleware(process.env.SENTRY_DSN)
-  middleware = [sentry]
+  middleware = [sentryMiddleware()]
 }
 
 type JobData<Data extends Record<string, unknown>> = {
