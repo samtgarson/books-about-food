@@ -19,7 +19,7 @@ export default function AboutPage() {
       <Container belowNav className="pb-10">
         <PageTitle>About</PageTitle>
         <div className="relative">
-          <div className="max-w-prose">
+          <div className="max-w-[60ch]">
             <p className="text-18 md:text-24 mb-8">
               Books About Food is a unique, design-forward space created to
               showcase books about food and the people involved in making them.
@@ -78,7 +78,7 @@ export default function AboutPage() {
         </div>
       </Container>
       <Container className="bg-sand py-8 md:py-16 -mb-20">
-        <div className="max-w-prose">
+        <div className="max-w-[60ch]">
           <h2 className="text-24 md:text-48 mb-8">Get in touch</h2>
           <P>
             If you have any questions, suggestions or just want to say hi please{' '}
