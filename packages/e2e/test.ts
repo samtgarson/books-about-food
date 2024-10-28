@@ -36,7 +36,7 @@ const helpers = ({
         teams: []
       },
       salt: cookieName,
-      secret: process.env.NEXTAUTH_SECRET as string
+      secret: process.env.AUTH_SECRET as string
     })
 
     context.addCookies([{ ...authCookie, name: cookieName, value: token }])

@@ -31,7 +31,7 @@ async function fillInTitleForm(page: Page) {
   const dialog = page.getByRole('dialog', { name: 'Submit a new cookbook' })
   await dialog
     .getByRole('combobox', { name: 'Title' })
-    .fill('a good day to', { timeout: 60 * 1000 })
+    .fill('a good day to bak', { timeout: 60 * 1000 })
 
   const option = page
     .getByRole('option')

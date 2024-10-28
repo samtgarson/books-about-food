@@ -13,8 +13,9 @@ export const searchLibrary = new Service(
     const result = await client.search(`intitle:"${query}" subject:Cooking`)
 
     if (!result) return []
-    return result.flatMap((item) => {
+    return result.flatMap((item, index) => {
       if (!item.id || !item.volumeInfo?.title) return []
+      if (result.findIndex((i) => i.id === item.id) !== index) return []
 
       return {
         id: item.id,
