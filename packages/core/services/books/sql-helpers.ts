@@ -134,6 +134,7 @@ export interface Image extends Record<string, unknown> {
   preview_for_id: null
   placeholder_url: string
   order: number
+  post_id: null
 }
 export interface ContributionsEntity extends Record<string, unknown> {
   id: string

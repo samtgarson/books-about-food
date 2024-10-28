@@ -6,8 +6,10 @@
   pointer-events: none;
 }
 
-.tiptap p.editor-loading {
-  width: 20px;
-  height: 20px;
-  background: black;
+img {
+  @apply border border-transparent max-w-full;
+}
+
+img.ProseMirror-selectednode {
+  @apply border border-black;
 }

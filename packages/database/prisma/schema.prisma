@@ -79,6 +79,7 @@ model User {
   memberships     Membership[]
   sentInvitations TeamInvitation[]
   bookVote        BookVote[]
+  posts           Post[]
 
   @@map("users")
 }
@@ -96,6 +97,7 @@ model Image {
   publisherId    String?  @unique @map("publisher_id") @db.Uuid
   profileId      String?  @unique @map("profile_id") @db.Uuid
   placeholderUrl String?  @map("placeholder_url")
+  postId         String?  @db.Uuid
   order          Int      @default(0)
 
   // Prisma doesn't support polymorphic relations yet so some of these will always be null
@@ -105,6 +107,7 @@ model Image {
   previewFor Book?      @relation("preview_for", fields: [previewForId], references: [id], onDelete: SetNull)
   publisher  Publisher? @relation("publisher_logo", fields: [publisherId], references: [id], onDelete: SetNull)
   profile    Profile?   @relation("profile_for", fields: [profileId], references: [id], onDelete: SetNull)
+  post       Post?      @relation(fields: [postId], references: [id])
 
   @@map("images")
 }
@@ -468,4 +471,20 @@ model BookVote {
 
   @@unique([userId, bookId])
   @@map("book_votes")
+}
+
+model Post {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  slug      String    @unique
+  title     String
+  content   String
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @default(now()) @updatedAt @map("updated_at")
+  publishAt DateTime? @map("publish_at")
+  authorId  String    @map("author_id") @db.Uuid
+
+  author User    @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  images Image[]
+
+  @@map("posts")
 }

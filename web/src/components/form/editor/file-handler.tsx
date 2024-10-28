@@ -1,15 +1,57 @@
+import { imageUrl } from '@books-about-food/shared/utils/image-url'
 import Image from '@tiptap/extension-image'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
+import { Editor } from '@tiptap/react'
+import { upload } from '../image-upload/action'
 
-async function uploadImage(file: File) {
+async function uploadImage(prefix: string, file: File) {
   console.log('uploading image', file)
-  await new Promise((resolve) => setTimeout(resolve, 2000))
-  return {
-    url: 'https://i.redd.it/i-got-bored-so-i-decided-to-draw-a-random-image-on-the-v0-4ig97vv85vjb1.png?width=1280&format=png&auto=webp&s=7177756d1f393b6e093596d06e1ba539f723264b'
-  }
+  const fd = new FormData()
+  fd.append('image', file, file.name)
+  const { data: [result] = [] } = await upload(`editor/${prefix}`, fd)
+
+  return imageUrl(result.path)
 }
 
-export function ImageUploader(setLoading: (loading: boolean) => void) {
+function getFileList(event: ClipboardEvent | DragEvent) {
+  if (event instanceof ClipboardEvent) {
+    return Array.from(event.clipboardData?.files || [])
+  } else if (event instanceof DragEvent) {
+    return Array.from(event.dataTransfer?.files || [])
+  }
+
+  return []
+}
+
+async function insertImages(
+  editor: Editor,
+  prefix: string,
+  setLoading: (loading: boolean) => void,
+  event: ClipboardEvent | DragEvent
+) {
+  const files = getFileList(event)
+  if (!files.length) return
+  event.preventDefault()
+
+  setLoading(true)
+  const urls = await Promise.all(
+    Array.from(files).map((file) => uploadImage(prefix, file))
+  )
+
+  urls.forEach((url) => {
+    editor.commands.setImage({ src: url })
+    editor.commands.createParagraphNear()
+  })
+
+  setLoading(false)
+
+  return false
+}
+
+export function ImageUploader(
+  setLoading: (loading: boolean) => void,
+  prefix: string
+) {
   return Image.extend({
     addProseMirrorPlugins() {
       const { editor } = this
@@ -20,22 +62,11 @@ export function ImageUploader(setLoading: (loading: boolean) => void) {
           props: {
             handleDOMEvents: {
               drop(_view, event) {
-                if (!event?.dataTransfer?.files) return
-                const files = event.dataTransfer.files
-                const file = files.item(0)
-                if (!file) return
-                event.preventDefault()
-
-                setLoading(true)
-                // eslint-disable-next-line promise/prefer-await-to-then
-                uploadImage(file).then(({ url }) => {
-                  editor.chain().setImage({ src: url }).run()
-
-                  setLoading(false)
-                })
-
-                return false
+                insertImages(editor, prefix, setLoading, event)
               }
+            },
+            handlePaste(_view, event) {
+              insertImages(editor, prefix, setLoading, event)
             }
           }
         })

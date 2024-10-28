@@ -2,6 +2,7 @@
 
 import Bold from '@tiptap/extension-bold'
 import Document from '@tiptap/extension-document'
+import Dropcursor from '@tiptap/extension-dropcursor'
 import History from '@tiptap/extension-history'
 import Italic from '@tiptap/extension-italic'
 import Link from '@tiptap/extension-link'
@@ -13,6 +14,7 @@ import Underline from '@tiptap/extension-underline'
 import { EditorContent, useEditor } from '@tiptap/react'
 import cn from 'classnames'
 import { useState } from 'react'
+import { Loader } from 'src/components/atoms/loader'
 import { ImageUploader } from './file-handler'
 import { EditorMenu } from './menu'
 import './styles.css'
@@ -24,6 +26,7 @@ export type EditorProps = {
   onChange?: (value: string) => void
   onBlur?: () => void
   className?: string
+  imagePrefix?: string
 }
 
 export function Editor({
@@ -31,34 +34,16 @@ export function Editor({
   value,
   onChange,
   onBlur,
-  className
+  className,
+  imagePrefix
 }: EditorProps) {
   const [wrapper, setWrapper] = useState<HTMLElement | null>(null)
   const [loading, setLoading] = useState(false)
   const editor = useEditor({
     immediatelyRender: false,
-    extensions: [
-      Bold,
-      Document,
-      History,
-      Italic,
-      Link.configure({
-        openOnClick: false,
-        HTMLAttributes: {
-          rel: 'noopener noreferrer nofollow',
-          target: '_blank'
-        }
-      }),
-      Paragraph,
-      Placeholder.configure({
-        placeholder
-      }),
-      Text,
-      Typography,
-      Underline,
-      ImageUploader(setLoading)
-    ],
+    extensions: extensions({ placeholder, setLoading, imagePrefix }),
     content: value,
+    editable: !loading,
     editorProps: {
       attributes: {
         class: cn(className, 'bg-white', htmlClasses)
@@ -76,9 +61,50 @@ export function Editor({
   })
 
   return (
-    <div ref={setWrapper} className={cn("relative transition-opacity", loading && 'opacity-50')}>
+    <div
+      ref={setWrapper}
+      className={cn('relative transition-opacity', loading && 'opacity-50')}
+    >
       <EditorMenu editor={editor} container={wrapper || undefined} />
       <EditorContent editor={editor} />
+      {loading && (
+        <Loader className="absolute inset-x-0 mx-auto top-1/2 -mt-3" />
+      )}
     </div>
   )
+}
+
+function extensions({
+  placeholder,
+  setLoading,
+  imagePrefix
+}: Pick<EditorProps, 'placeholder' | 'imagePrefix'> & {
+  setLoading: (loading: boolean) => void
+}) {
+  const arr = [
+    Bold,
+    Document,
+    Dropcursor,
+    History,
+    Italic,
+    Link.configure({
+      openOnClick: false,
+      HTMLAttributes: {
+        rel: 'noopener noreferrer nofollow',
+        target: '_blank'
+      }
+    }),
+    Paragraph,
+    Placeholder.configure({
+      placeholder
+    }),
+    Text,
+    Typography,
+    Underline
+  ]
+  if (imagePrefix) {
+    arr.push(ImageUploader(setLoading, imagePrefix))
+  }
+
+  return arr
 }
