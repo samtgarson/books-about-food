@@ -12,7 +12,7 @@ type BaseButtonProps = {
 }
 
 const variants = {
-  primary: 'bg-white border border-black',
+  primary: 'bg-white',
   secondary: 'bg-grey',
   tertiary: 'bg-khaki',
   dark: 'bg-black text-white',

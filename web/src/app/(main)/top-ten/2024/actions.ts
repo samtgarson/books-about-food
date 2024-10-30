@@ -17,11 +17,11 @@ export async function createVotes(bookIds: string[]) {
   })
 }
 
-export async function fetchVotesCount() {
+export async function fetchVotes() {
   const user = await getSessionUser()
   if (!user) throw new Error('User not found')
 
-  return prisma.bookVote.count({
+  return prisma.bookVote.findMany({
     where: { userId: user.id }
   })
 }

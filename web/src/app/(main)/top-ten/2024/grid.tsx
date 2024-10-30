@@ -1,38 +1,37 @@
 'use client'
 
 import { Book as Model } from '@books-about-food/core/models/book'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { GridContainer } from 'src/components/lists/grid-container'
 import { Search } from 'src/components/lists/search'
 import { usePromise } from 'src/hooks/use-promise'
 import { toggleItemAuto } from 'src/utils/array-helpers'
 import { useLocalStorage } from 'usehooks-ts'
-import { createVotes, fetchVotesCount } from './actions'
+import { createVotes, fetchVotes } from './actions'
 import { TopTenGridItem } from './item'
 import { TopTenSheet } from './sheet'
 
 export function TopTenGrid({ books }: { books: Model[] }) {
   const {
-    value: existingVoteCount,
+    value: existingVotes,
     loading: voteCountLoading,
     revalidate
-  } = usePromise(fetchVotesCount, 0)
+  } = usePromise(fetchVotes, [])
+  const existingVoteCount = existingVotes.length
   const [search, setSearch] = useState('')
   const [selected, setSelected, removeSelected] = useLocalStorage<Model[]>(
     'baf-top-ten-selection',
     [],
     {
       initializeWithValue: false,
-      serializer(books) {
-        return books.map((book) => book.id).join(',')
-      },
-      deserializer(ids) {
-        return ids
+      serializer: (books) => books.map((book) => book.id).join(','),
+      deserializer: (ids) =>
+        ids
           .split(',')
           .flatMap((id) => books.find((book) => book.id === id) ?? [])
-      }
     }
   )
+
   const filteredBooks = useMemo(
     function () {
       function filterBooks(book: Model) {
@@ -59,6 +58,14 @@ export function TopTenGrid({ books }: { books: Model[] }) {
     if (!canVote && !isSelected) return
     setSelected((a) => toggleItemAuto(a, book))
   }
+
+  useEffect(() => {
+    if (existingVotes.length <= 0) return
+    const votedBooks = existingVotes.flatMap(
+      (vote) => books.find((book) => book.id === vote.bookId) ?? []
+    )
+    setSelected(votedBooks)
+  }, [existingVotes])
 
   return (
     <>

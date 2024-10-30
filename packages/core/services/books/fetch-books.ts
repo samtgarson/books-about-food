@@ -14,7 +14,7 @@ import { bookJoin, bookSelect, queryBooks } from './sql-helpers'
 const { sql, join, empty, raw } = Prisma
 
 const validator = z.object({
-  sort: z.enum(['releaseDate', 'createdAt', 'color']).optional(),
+  sort: z.enum(['releaseDate', 'createdAt', 'title', 'color']).optional(),
   tags: array(z.string()).optional(),
   search: z.string().optional(),
   profile: z.string().optional(),
@@ -166,8 +166,9 @@ function specificColorJoin(color: number[]) {
 
 function namedColorJoin(color: NamedColor) {
   return sql`left outer join lateral (
-      select abs(${namedHueMap[color]
-    }::int - (c.color ->> 'h')::decimal) * -1 as color
+      select abs(${
+        namedHueMap[color]
+      }::int - (c.color ->> 'h')::decimal) * -1 as color
       from (
         select jsonb_array_elements(books.palette) color from books b
         where b.id = books.id
@@ -256,6 +257,8 @@ function sortQuery(sort?: BookSort) {
       return raw('books.created_at')
     case 'color':
       return raw('matched_palette.color')
+    case 'title':
+      return raw('books.title')
     default:
       return raw('books.release_date')
   }

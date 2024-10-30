@@ -47,7 +47,7 @@ export function EditableBookItem({
         </Footer>
       )}
       {editMode && (
-        <div className="absolute inset-0 flex items-center justify-center gap-2 z-20 sm:aspect-square pointer-events-auto">
+        <div className="ml-auto sm:ml-0 sm:absolute sm:inset-0 flex items-center justify-center gap-2 z-20 sm:aspect-square pointer-events-auto">
           <EditableBookAction
             title={hidden ? `Show ${book.title}` : `Hide ${book.title}`}
             onClick={async () => {
