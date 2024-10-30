@@ -14,7 +14,7 @@ import { TopTenSheet } from './sheet'
 export function TopTenGrid({ books }: { books: Model[] }) {
   const {
     value: existingVotes,
-    loading: voteCountLoading,
+    loading: existingVotesLoading,
     revalidate
   } = usePromise(fetchVotes, [])
   const existingVoteCount = existingVotes.length
@@ -78,7 +78,7 @@ export function TopTenGrid({ books }: { books: Model[] }) {
           removeSelected()
           revalidate()
         }}
-        loading={voteCountLoading}
+        loading={existingVotesLoading}
       />
       <Search
         value={search}
@@ -91,7 +91,11 @@ export function TopTenGrid({ books }: { books: Model[] }) {
           <TopTenGridItem
             key={book.id}
             book={book}
-            disabled={alreadyVoted || (!canVote && !isSelected(book))}
+            disabled={
+              alreadyVoted ||
+              existingVotesLoading ||
+              (!canVote && !isSelected(book))
+            }
             selected={isSelected(book)}
             onClick={() => toggle(book)}
           />

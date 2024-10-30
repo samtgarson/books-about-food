@@ -58,7 +58,11 @@ export function TopTenSheet({
           Go to Homepage
         </Button>
       ) : (
-        <AuthedButton source="top-ten-2024">
+        <AuthedButton
+          source="top-ten-2024"
+          title="Login or Create an Account to Vote"
+          description="All votes will be added up and the Top 10 books with the most votes will be announced mid-December 2024."
+        >
           <Button
             disabled={submitDisabled}
             variant={submitDisabled ? 'tertiary' : 'dark'}

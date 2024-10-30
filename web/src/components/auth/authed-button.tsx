@@ -4,20 +4,21 @@ import { usePathname } from 'next/navigation'
 import { cloneElement, FC, ReactElement } from 'react'
 import { useCurrentUser } from 'src/hooks/use-current-user'
 import { useSheet } from '../sheets/global-sheet'
+import { SignInSheetProps } from '../sheets/sign-in'
 import { useTracking } from '../tracking/context'
 
 export type AuthedButtonProps = {
   children: ReactElement
-  redirect?: string | null | false
   hidden?: 'authed' | 'unauthed'
   source: string
-}
+} & SignInSheetProps
 
 export const AuthedButton: FC<AuthedButtonProps> = ({
   redirect,
   hidden,
   children,
-  source
+  source,
+  ...props
 }) => {
   const currentUser = useCurrentUser()
   const { openSheet } = useSheet()
@@ -34,7 +35,7 @@ export const AuthedButton: FC<AuthedButtonProps> = ({
       e.preventDefault()
       e.stopPropagation()
       await track('Pressed a button', { Button: 'Sign In', Extra: { source } })
-      openSheet('signIn', { redirect })
+      openSheet('signIn', { redirect, ...props })
     },
     'aria-label': 'Sign In'
   })

@@ -47,7 +47,7 @@ export const SignInButtons: FC<SignInButtonsProps> = ({
           setGoogleLoading(true)
           googleSignIn(callbackUrl)
         }}
-        className="relative flex items-center justify-center gap-3"
+        className="relative flex items-center justify-center gap-3 border border-neutral-grey"
         type="button"
         loading={googleLoading}
       >

@@ -19,7 +19,7 @@ export async function createVotes(bookIds: string[]) {
 
 export async function fetchVotes() {
   const user = await getSessionUser()
-  if (!user) throw new Error('User not found')
+  if (!user) return []
 
   return prisma.bookVote.findMany({
     where: { userId: user.id }
