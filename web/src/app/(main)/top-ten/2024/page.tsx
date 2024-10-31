@@ -2,9 +2,7 @@ import { fetchBooks } from '@books-about-food/core/services/books/fetch-books'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
-import { Suspense } from 'react'
 import { AntiContainer, Container } from 'src/components/atoms/container'
-import { Loader } from 'src/components/atoms/loader'
 import { PageProps } from 'src/components/types'
 import { shuffle } from 'src/utils/array-helpers'
 import { call } from 'src/utils/service'
@@ -63,9 +61,7 @@ export default async function TopTen2024({ searchParams }: PageProps) {
           </p>
         </div>
       </AntiContainer>
-      <Suspense fallback={<Loader className="mx-auto" />}>
-        <Content autoSubmit={autoSubmit} />
-      </Suspense>
+      <Content autoSubmit={autoSubmit} />
     </Container>
   )
 }
