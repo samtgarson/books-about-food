@@ -1,25 +1,29 @@
 'use client'
 
 import { Book as Model } from '@books-about-food/core/models/book'
-import { useEffect, useMemo, useState } from 'react'
+import { BookVote } from '@books-about-food/database'
+import { useMemo, useState } from 'react'
 import { GridContainer } from 'src/components/lists/grid-container'
 import { Search } from 'src/components/lists/search'
-import { usePromise } from 'src/hooks/use-promise'
+import { useNav } from 'src/components/nav/context'
 import { toggleItemAuto } from 'src/utils/array-helpers'
 import { useLocalStorage } from 'usehooks-ts'
-import { createVotes, fetchVotes } from './actions'
+import { createVotes } from './actions'
 import { TopTenGridItem } from './item'
 import { TopTenSheet } from './sheet'
 
-export function TopTenGrid({ books }: { books: Model[] }) {
-  const {
-    value: existingVotes,
-    loading: existingVotesLoading,
-    revalidate
-  } = usePromise(fetchVotes, [])
+export function TopTenGrid({
+  books,
+  existingVotes
+}: {
+  books: Model[]
+  existingVotes: BookVote[]
+  autoSubmit?: boolean
+}) {
+  const { footerVisible } = useNav()
   const existingVoteCount = existingVotes.length
   const [search, setSearch] = useState('')
-  const [selected, setSelected, removeSelected] = useLocalStorage<Model[]>(
+  const [selected, setSelected] = useLocalStorage<Model[]>(
     'baf-top-ten-selection',
     [],
     {
@@ -58,14 +62,9 @@ export function TopTenGrid({ books }: { books: Model[] }) {
     if (!canVote && !isSelected) return
     setSelected((a) => toggleItemAuto(a, book))
   }
-
-  useEffect(() => {
-    if (existingVotes.length <= 0) return
-    const votedBooks = existingVotes.flatMap(
-      (vote) => books.find((book) => book.id === vote.bookId) ?? []
-    )
-    setSelected(votedBooks)
-  }, [existingVotes])
+  function submit() {
+    return createVotes(selected.map((book) => book.id))
+  }
 
   return (
     <>
@@ -74,11 +73,9 @@ export function TopTenGrid({ books }: { books: Model[] }) {
         unselectBook={toggle}
         alreadyVoted={alreadyVoted}
         onSubmit={async function () {
-          await createVotes(selected.map((book) => book.id))
-          removeSelected()
-          revalidate()
+          await submit()
         }}
-        loading={existingVotesLoading}
+        hidden={footerVisible || selected.length === 0}
       />
       <Search
         value={search}
@@ -91,16 +88,17 @@ export function TopTenGrid({ books }: { books: Model[] }) {
           <TopTenGridItem
             key={book.id}
             book={book}
-            disabled={
-              alreadyVoted ||
-              existingVotesLoading ||
-              (!canVote && !isSelected(book))
-            }
+            disabled={alreadyVoted || (!canVote && !isSelected(book))}
             selected={isSelected(book)}
             onClick={() => toggle(book)}
           />
         ))}
       </GridContainer>
+      {filteredBooks.length === 0 && (
+        <p className="text-center w-full py-40">
+          No books found. Try searching for something else.
+        </p>
+      )}
     </>
   )
 }

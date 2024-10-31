@@ -22,7 +22,7 @@ export type GlobalSheetContext = {
   openSheet: <T extends keyof SheetMap, P extends SheetMap[T]>(
     sheet: T,
     props: P
-  ) => void
+  ) => Promise<{ onClose: (handler: () => void) => void }>
   closeSheet: () => void
 }
 

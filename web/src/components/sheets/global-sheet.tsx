@@ -22,6 +22,7 @@ export const GlobalSheetProvider = ({ children }: { children: ReactNode }) => {
   const sheet = useRef<SheetControl>(null)
   const [state, setSheet] = useState<SheetState | null>(null)
   const { Component, props } = state || {}
+  const onCloseHandler = useRef<() => void>()
 
   const openSheet = useCallback<GlobalSheetContext['openSheet']>(
     async (...[key, props]) => {
@@ -29,6 +30,11 @@ export const GlobalSheetProvider = ({ children }: { children: ReactNode }) => {
       setSheet({ Component, props } as SheetState)
       sheet.current?.setOpen(true)
       track('Opened a modal', { Modal: key, Extra: props })
+      return {
+        onClose: (handler: () => void) => {
+          onCloseHandler.current = handler
+        }
+      }
     },
     []
   )
@@ -44,6 +50,8 @@ export const GlobalSheetProvider = ({ children }: { children: ReactNode }) => {
         ref={sheet}
         grey={Component?.grey}
         onClose={() => {
+          onCloseHandler.current?.()
+          onCloseHandler.current = undefined
           setSheet(null)
         }}
       >

@@ -1,6 +1,7 @@
 'use server'
 
 import prisma from '@books-about-food/database'
+import { revalidatePath } from 'next/cache'
 import { getSessionUser } from 'src/utils/user'
 
 export async function createVotes(bookIds: string[]) {
@@ -15,6 +16,8 @@ export async function createVotes(bookIds: string[]) {
   await prisma.bookVote.createMany({
     data: bookIds.map((bookId) => ({ bookId, userId: user.id }))
   })
+
+  revalidatePath('/top-ten/2024')
 }
 
 export async function fetchVotes() {

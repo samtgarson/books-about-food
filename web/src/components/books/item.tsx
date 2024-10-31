@@ -17,6 +17,11 @@ export interface CookbookItemProps {
   style?: CSSProperties
 }
 
+export function bookGridItemId(id?: string) {
+  if (!id) return
+  return `book-grid-${id}`
+}
+
 export const Container = forwardRef<
   HTMLLIElement,
   CookbookItemProps & {
@@ -42,7 +47,12 @@ export const Container = forwardRef<
   const { display } = useListDisplay()
   const WrapperEl = book?.href && link ? Link : onClick ? 'button' : 'div'
   return (
-    <li className={cn('group', className)} ref={ref} aria-label={book?.title}>
+    <li
+      className={cn('group', className)}
+      ref={ref}
+      aria-label={book?.title}
+      id={bookGridItemId(book?.id)}
+    >
       <WrapperEl
         href={book?.href || '#'}
         className={cn(
@@ -116,7 +126,7 @@ export const Cover = ({
       className={cn(
         className,
         colorful &&
-        (mobileGrid ? 'bg-[var(--book-bg)]' : 'sm:bg-[var(--book-bg)]'),
+          (mobileGrid ? 'bg-[var(--book-bg)]' : 'sm:bg-[var(--book-bg)]'),
         mobileColorful && [
           mobileGrid && 'mobile-only:bg-[var(--book-bg)]',
           'sm:transition sm:group-hover:bg-[var(--book-bg)]'

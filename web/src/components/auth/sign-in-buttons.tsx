@@ -27,10 +27,11 @@ export const SignInButtons: FC<SignInButtonsProps> = ({
   return (
     <Form
       action={emailSignIn}
-      schema={z.object({ email: z.string() })}
+      schema={z.object({ email: z.string(), redirect: z.string().optional() })}
       successMessage={successMessage}
       variant="bordered"
     >
+      <input type="hidden" name="redirect" value={callbackUrl} />
       <Input
         name="email"
         label="Email Address"

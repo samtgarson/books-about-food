@@ -19,7 +19,9 @@ export const ProfileOverflow = ({
     <Overflow.Root {...props}>
       {!editable && (
         <Overflow.Item
-          onClick={() => openSheet('suggestEdit', { resource: profile })}
+          onClick={() => {
+            openSheet('suggestEdit', { resource: profile })
+          }}
           icon={PencilMini}
         >
           Suggest an edit

@@ -15,6 +15,7 @@ type TopTenSheetProps = {
   alreadyVoted?: boolean
   onSubmit: () => Promise<void>
   loading?: boolean
+  hidden?: boolean
 }
 
 export function TopTenSheet({
@@ -22,7 +23,8 @@ export function TopTenSheet({
   unselectBook,
   alreadyVoted,
   onSubmit,
-  loading
+  loading,
+  hidden
 }: TopTenSheetProps) {
   const [submitting, setSubmitting] = useState(false)
   const submitDisabled = selected.length < 3
@@ -34,16 +36,19 @@ export function TopTenSheet({
         } remaining`
 
   return (
-    <div className="z-sheet rounded-t-[16px] sm:rounded-2xl backdrop-blur-3xl fixed bottom-0 sm:bottom-6 left-0 right-0 sm:w-min bg-white/80 mx-auto book-shadow p-6 sm:p-8 flex gap-8 flex-col sm:flex-row sm:items-center overflow-hidden sm:h-[164px]">
+    <div
+      className={cn(
+        'z-sheet rounded-t-[16px] sm:rounded-2xl backdrop-blur-3xl fixed bottom-0 sm:bottom-6 left-0 right-0 sm:w-min bg-white/80 mx-auto book-shadow p-6 sm:p-8 flex gap-6 sm:gap-8 flex-col sm:flex-row sm:items-center overflow-hidden sm:h-[164px] transition',
+        hidden && 'opacity-0 translate-y-8 pointer-events-none'
+      )}
+    >
       {alreadyVoted ? (
         <p className="text-center sm:text-left sm:w-72">
           <span className="font-medium block">Thank you for voting</span>
           The Top 10 with the most votes will be announced mid-December
         </p>
       ) : (
-        <ul
-          className={cn('sm:flex gap-3 relative h-[100px] flex justify-center')}
-        >
+        <ul className={cn('sm:flex gap-3 relative flex justify-center')}>
           {range(3).map((_, i) => (
             <TopTenSheetItem
               key={i}

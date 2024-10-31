@@ -2,8 +2,13 @@ import { fetchBooks } from '@books-about-food/core/services/books/fetch-books'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
+import { Suspense } from 'react'
 import { AntiContainer, Container } from 'src/components/atoms/container'
+import { Loader } from 'src/components/atoms/loader'
+import { PageProps } from 'src/components/types'
+import { shuffle } from 'src/utils/array-helpers'
 import { call } from 'src/utils/service'
+import { fetchVotes } from './actions'
 import { TopTenGrid } from './grid'
 import logo from './logo.svg'
 import desktop from './top-ten-desktop.svg'
@@ -22,21 +27,19 @@ export const metadata: Metadata = {
   }
 }
 
-export { dynamic, dynamicParams, revalidate } from 'app/default-static-config'
-
-export default async function TopTen2024() {
-  const { data } = await call(fetchBooks, { releaseYear: 2024, perPage: 'all' })
-  if (!data?.books?.length) return redirect('/')
+export default async function TopTen2024({ searchParams }: PageProps) {
+  const autoSubmit = searchParams.submit === 'true'
 
   return (
     <Container belowNav>
-      <AntiContainer className="relative pt-16 sm:pt-20 mb-10 sm:mb-20">
+      <AntiContainer className="relative pt-14 sm:pt-20 mb-10 sm:mb-20">
         <Image
           src={mobile}
           alt="Top Ten 2024"
           fill
           className="sm:hidden object-cover"
           aria-hidden
+          priority
         />
         <Image
           src={desktop}
@@ -44,6 +47,7 @@ export default async function TopTen2024() {
           fill
           className="hidden sm:block object-cover"
           aria-hidden
+          priority
         />
         <div className="flex flex-col gap-6 sm:gap-10 items-center justify-center px-6 relative">
           <Image
@@ -51,7 +55,7 @@ export default async function TopTen2024() {
             alt="BAF Top Ten 2024"
             width={282.4}
             height={224}
-            className="mobile-only:w-[180px]"
+            className="mobile-only:w-[160px]"
           />
           <p className="max-w-[420px] text-center">
             Support your favourite authors and vote for their books for this
@@ -59,7 +63,29 @@ export default async function TopTen2024() {
           </p>
         </div>
       </AntiContainer>
-      <TopTenGrid data-superjson books={data.books} />
+      <Suspense fallback={<Loader className="mx-auto" />}>
+        <Content autoSubmit={autoSubmit} />
+      </Suspense>
     </Container>
+  )
+}
+
+async function Content({ autoSubmit }: { autoSubmit?: boolean }) {
+  const [{ data }, votes] = await Promise.all([
+    call(fetchBooks, {
+      releaseYear: 2024,
+      perPage: 'all'
+    }),
+    fetchVotes()
+  ])
+  if (!data?.books.length) return redirect('/')
+
+  return (
+    <TopTenGrid
+      data-superjson
+      books={shuffle(data.books)}
+      existingVotes={votes}
+      autoSubmit={autoSubmit}
+    />
   )
 }

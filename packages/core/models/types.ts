@@ -6,7 +6,7 @@ import {
   publisherIncludes,
   teamIncludes
 } from '@books-about-food/core/services/utils'
-import type { Prisma } from '@books-about-food/database'
+import type { BookVote, Prisma } from '@books-about-food/database'
 
 type ProfileIncludes = typeof profileIncludes
 
@@ -40,3 +40,5 @@ export type BookResult = {
   authors: string[]
   image?: string
 }
+
+export type { BookVote }

@@ -1,8 +1,10 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import { cloneElement, FC, ReactElement } from 'react'
+import { cloneElement, FC, ReactElement, useState } from 'react'
 import { useCurrentUser } from 'src/hooks/use-current-user'
+import { useIsMounted } from 'usehooks-ts'
+import { Button } from '../atoms/button'
 import { useSheet } from '../sheets/global-sheet'
 import { SignInSheetProps } from '../sheets/sign-in'
 import { useTracking } from '../tracking/context'
@@ -20,6 +22,8 @@ export const AuthedButton: FC<AuthedButtonProps> = ({
   source,
   ...props
 }) => {
+  const mounted = useIsMounted()
+  const [clicked, setClicked] = useState(false)
   const currentUser = useCurrentUser()
   const { openSheet } = useSheet()
   const pathname = usePathname()
@@ -29,13 +33,18 @@ export const AuthedButton: FC<AuthedButtonProps> = ({
   if (!currentUser && hidden === 'unauthed') return null
   if (!redirect && redirect !== false) redirect = pathname
 
+  const isLoadable = children.type == Button
+
   const contents = cloneElement(children, {
     href: '#',
+    loading: isLoadable ? clicked : undefined,
     async onClick(e: MouseEvent) {
       e.preventDefault()
       e.stopPropagation()
+      setClicked(true)
       await track('Pressed a button', { Button: 'Sign In', Extra: { source } })
-      openSheet('signIn', { redirect, ...props })
+      const { onClose } = await openSheet('signIn', { redirect, ...props })
+      onClose(() => mounted() && setClicked(false))
     },
     'aria-label': 'Sign In'
   })

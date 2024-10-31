@@ -18,7 +18,9 @@ export const BookOverflow = ({
   return (
     <Overflow.Root {...props}>
       <Overflow.Item
-        onClick={() => openSheet('suggestEdit', { resource: book })}
+        onClick={() => {
+          openSheet('suggestEdit', { resource: book })
+        }}
         icon={PencilMini}
       >
         Suggest an edit
