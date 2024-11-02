@@ -1,6 +1,6 @@
 import { Service } from '@books-about-food/core/services/base'
 import prisma, { BookStatus, Prisma } from '@books-about-food/database'
-import { wrapArray } from '@books-about-food/shared/utils/array'
+import { shuffle, wrapArray } from '@books-about-food/shared/utils/array'
 import { z } from 'zod'
 import { array, arrayOrSingle, dbEnum, paginationInput } from '../utils/inputs'
 import { NamedColor, OddColors, namedHueMap } from './colors'
@@ -14,7 +14,9 @@ import { bookJoin, bookSelect, queryBooks } from './sql-helpers'
 const { sql, join, empty, raw } = Prisma
 
 const validator = z.object({
-  sort: z.enum(['releaseDate', 'createdAt', 'title', 'color']).optional(),
+  sort: z
+    .enum(['releaseDate', 'createdAt', 'title', 'color', 'random'])
+    .optional(),
   tags: array(z.string()).optional(),
   search: z.string().optional(),
   profile: z.string().optional(),
@@ -46,8 +48,9 @@ export const fetchBooks = new Service(
       prisma.book.count()
     ])
     const filteredTotal = Number(filteredCount[0].count)
+    const sortedBooks = input.sort === 'random' ? shuffle(books) : books
 
-    return { books, filteredTotal, total, perPage }
+    return { books: sortedBooks, filteredTotal, total, perPage }
   },
   { cache: 'fetch-books' }
 )

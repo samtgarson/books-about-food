@@ -4,7 +4,6 @@ import Image from 'next/image'
 import { redirect } from 'next/navigation'
 import { AntiContainer, Container } from 'src/components/atoms/container'
 import { PageProps } from 'src/components/types'
-import { shuffle } from 'src/utils/array-helpers'
 import { call } from 'src/utils/service'
 import { fetchVotes } from './actions'
 import { TopTenGrid } from './grid'
@@ -70,7 +69,8 @@ async function Content({ autoSubmit }: { autoSubmit?: boolean }) {
   const [{ data }, votes] = await Promise.all([
     call(fetchBooks, {
       releaseYear: 2024,
-      perPage: 'all'
+      perPage: 'all',
+      sort: 'random'
     }),
     fetchVotes()
   ])
@@ -79,7 +79,7 @@ async function Content({ autoSubmit }: { autoSubmit?: boolean }) {
   return (
     <TopTenGrid
       data-superjson
-      books={shuffle(data.books)}
+      books={data.books}
       existingVotes={votes}
       autoSubmit={autoSubmit}
     />
