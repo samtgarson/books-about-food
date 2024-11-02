@@ -1,6 +1,6 @@
 import prisma from '@books-about-food/database'
 import { getSessionUser } from 'src/utils/user'
-import { AccountNavItem } from './nav-item'
+import { SidebarItem } from '../nav/sidebar/item'
 
 export async function TeamsNav() {
   const user = await getSessionUser()
@@ -15,8 +15,8 @@ export async function TeamsNav() {
     <>
       <h3 className="px-4 py-2.5 font-medium mt-8">Teams</h3>
       {teams.map((team) => (
-        <AccountNavItem
-          href={`teams/${team.slug}`}
+        <SidebarItem
+          href={`/account/teams/${team.slug}`}
           key={team.id}
           label={team.name}
         />

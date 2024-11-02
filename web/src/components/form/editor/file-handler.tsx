@@ -5,10 +5,9 @@ import { Editor } from '@tiptap/react'
 import { upload } from '../image-upload/action'
 
 async function uploadImage(prefix: string, file: File) {
-  console.log('uploading image', file)
   const fd = new FormData()
   fd.append('image', file, file.name)
-  const { data: [result] = [] } = await upload(`editor/${prefix}`, fd)
+  const { data: [result] = [] } = await upload(prefix, fd)
 
   return imageUrl(result.path)
 }

@@ -6,7 +6,7 @@ import { AuthedService } from '../base'
 
 export const upsertPost = new AuthedService(
   z.object({
-    id: z.string().optional().default(crypto.randomUUID()),
+    id: z.string(),
     title: z.string().min(1),
     content: z.string(),
     publishAt: z.coerce.date().optional()

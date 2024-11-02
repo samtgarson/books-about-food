@@ -6,7 +6,7 @@ import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 import { FC, useState } from 'react'
-import { Menu, Plus, User, X } from 'src/components/atoms/icons'
+import { Menu, Plus, Settings, User, X } from 'src/components/atoms/icons'
 import { useCurrentUser } from 'src/hooks/use-current-user'
 import { useScrollLock } from 'src/hooks/use-scroll-lock'
 import { Container } from '../atoms/container'
@@ -141,13 +141,14 @@ const NavContent = () => {
 }
 
 export const TopNav: FC = () => {
+  const currentUser = useCurrentUser()
   const { theme, open, setOpen } = useNav()
 
   return (
     <nav className="absolute inset-x-0 top-0 z-nav">
       <Container
         className={cn(
-          'flex w-screen gap-4 items-stretch border-b border-black py-5 pr-4',
+          'flex w-screen gap-4 items-center border-b border-black py-5 pr-4',
           theme === 'dark' && 'text-white border-none'
         )}
       >
@@ -174,6 +175,11 @@ export const TopNav: FC = () => {
         >
           <Plus strokeWidth={1} />
         </NewBookButton>
+        {currentUser?.role === 'admin' && (
+          <Link href="/admin">
+            <Settings strokeWidth={1} size={22} />
+          </Link>
+        )}
         <QuickSearch />
         <AccountLink />
       </Container>

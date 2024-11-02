@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Detail } from 'src/components/atoms/detail'
 import { Edit2 } from 'src/components/atoms/icons'
 import { Editor } from 'src/components/form/editor'
-import { htmlClasses } from 'src/components/form/editor/util'
+import { EditorRenderer } from 'src/components/form/editor/renderer'
 import { useEditPublisher } from './context'
 
 export function ContactInfo() {
@@ -36,10 +36,7 @@ export function ContactInfo() {
   if (publisher.contactInfo) {
     return (
       <Detail maxWidth>
-        <div
-          className={htmlClasses}
-          dangerouslySetInnerHTML={{ __html: publisher.contactInfo }}
-        ></div>
+        <EditorRenderer content={publisher.contactInfo} />
       </Detail>
     )
   }

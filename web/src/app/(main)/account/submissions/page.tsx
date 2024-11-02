@@ -14,10 +14,11 @@ const Page = async ({ searchParams }: PageProps) => {
   return (
     <div className="flex flex-col gap-8">
       <Toaster action="deleted" message="Cookbook deleted" type="success" />
-      <AccountHeader title="Your Submissions">
+      <AccountHeader title="Your Submissions" />
+      <p>
         When submitting, please fill as much information as you can. We hope the
         wider community would then help complete any missing information.
-      </AccountHeader>
+      </p>
       <Suspense fallback={<Loader />}>
         <SubmissionsList page={Number(searchParams.page ?? 0)} />
       </Suspense>
