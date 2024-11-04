@@ -39,6 +39,6 @@ export async function action(
         suggestion
       }
     },
-    user: { email: 'aboutcookbooks@gmail.com' }
+    user: { email: 'jamin@booksabout.food' }
   })
 }

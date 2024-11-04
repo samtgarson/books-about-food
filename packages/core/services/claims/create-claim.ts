@@ -44,7 +44,7 @@ export const createClaim = new AuthedService(
           userEmail: user.email
         }
       },
-      user: { name: 'BAF Admins', email: 'aboutcookbooks@gmail.com' }
+      user: { name: 'BAF Admins', email: 'jamin@booksabout.food' }
     })
     return claim
   }
