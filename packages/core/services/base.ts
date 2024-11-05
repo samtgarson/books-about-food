@@ -9,6 +9,7 @@ import { z } from 'zod'
 
 export type RequestMeta = {
   cache?: string | { maxAge?: number; key: string }
+  admin?: boolean
 }
 
 export type ServiceError = {
@@ -137,6 +138,17 @@ export class AuthedService<
             type: 'Unauthorized',
             message: 'This action requires authentication',
             status: 401
+          }
+        ]
+      }
+    if (this.requestMeta.admin && user.role !== 'admin')
+      return {
+        success: false,
+        errors: [
+          {
+            type: 'Forbidden',
+            message: 'You don\t have permission to perform this action',
+            status: 403
           }
         ]
       }

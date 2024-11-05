@@ -34,6 +34,8 @@ export type PromoAttrs = Prisma.PromoGetPayload<{
   include: typeof promoIncludes
 }>
 
+export type PostAttrs = Prisma.PostGetPayload<null>
+
 export type BookResult = {
   id: string
   title: string
