@@ -1,15 +1,13 @@
 import prisma from '@books-about-food/database'
-import { Metadata } from 'next'
 import { Container } from 'src/components/atoms/container'
 import { PageTitle } from 'src/components/atoms/page-title'
 import { Faqs } from 'src/components/home/faqs'
+import { genMetadata } from 'src/utils/metadata'
 
-export const metadata: Metadata = {
+export const metadata = genMetadata('/frequently-asked-questions', null, {
   title: 'Frequently Asked Questions',
-  alternates: {
-    canonical: '/frequently-asked-questions'
-  }
-}
+  description: 'Answers to common questions about Books About Food.'
+})
 
 export {
   dynamic,

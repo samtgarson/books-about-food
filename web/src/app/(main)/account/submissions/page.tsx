@@ -1,14 +1,15 @@
-import { Metadata } from 'next'
 import { Suspense } from 'react'
 import { AccountHeader } from 'src/components/accounts/header'
 import { SubmissionsList } from 'src/components/accounts/submissions-list'
 import { Loader } from 'src/components/atoms/loader'
 import { PageProps } from 'src/components/types'
 import { Toaster } from 'src/components/utils/toaster'
+import { genMetadata } from 'src/utils/metadata'
 
-export const metadata: Metadata = {
-  title: 'Submissions'
-}
+export const metadata = genMetadata('/account/submissions', null, {
+  title: 'Your Submissions',
+  description: 'Submit a cookbook to the wider community'
+})
 
 const Page = async ({ searchParams }: PageProps) => {
   return (

@@ -5,7 +5,7 @@ import { Metadata, ResolvedMetadata } from 'next'
 
 const titleTemplate = (t: string) => `${t} on Books About Food`
 
-export const genMetadata = (
+export function genMetadata(
   path: string,
   parent: ResolvedMetadata | null,
   {
@@ -18,30 +18,36 @@ export const genMetadata = (
     description: string
     image?: string
   }
-): Metadata => ({
-  openGraph: {
-    ...parent?.openGraph,
+): Metadata {
+  const metadata: Metadata = {
+    openGraph: {
+      ...parent?.openGraph,
+      title: titleTemplate(title),
+      description: rest.description,
+      url: new URL(path, appUrl()).toString(),
+      ...openGraph
+    },
+    alternates: {
+      canonical: path
+    },
     title: titleTemplate(title),
-    description: rest.description,
-    url: new URL(path, appUrl()).toString(),
-    images: image
-      ? [
-          {
-            url: image,
-            width: 1200,
-            height: 630,
-            alt: titleTemplate(title)
-          }
-        ]
-      : undefined,
-    ...openGraph
-  },
-  alternates: {
-    canonical: path
-  },
-  title: titleTemplate(title),
-  ...rest
-})
+    ...rest
+  }
+
+  if (image)
+    metadata.openGraph = {
+      ...metadata.openGraph,
+      images: [
+        {
+          url: image,
+          width: 1200,
+          height: 630,
+          alt: titleTemplate(title)
+        }
+      ]
+    }
+  return metadata
+}
 
 export const bookTotal = prisma.book.count({ where: { status: 'published' } })
 export const profileTotal = prisma.profile.count({

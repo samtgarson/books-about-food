@@ -1,6 +1,5 @@
 import { fetchAccounts } from '@books-about-food/core/services/auth/get-accounts'
 import { fetchProfile } from '@books-about-food/core/services/profiles/fetch-profile'
-import { Metadata } from 'next'
 import { Suspense } from 'react'
 import { AccountForm } from 'src/components/accounts/account-form'
 import { AccountHeader } from 'src/components/accounts/header'
@@ -8,12 +7,14 @@ import { ContactLink } from 'src/components/atoms/contact-link'
 import { ArrowUpRight } from 'src/components/atoms/icons'
 import { ProfileItem } from 'src/components/profiles/item'
 import { InviteWidget } from 'src/components/teams/invite-widget'
+import { genMetadata } from 'src/utils/metadata'
 import { call } from 'src/utils/service'
 import { getUser } from 'src/utils/user'
 
-export const metadata: Metadata = {
-  title: 'Account'
-}
+export const metadata = genMetadata('/account', null, {
+  title: 'Account',
+  description: 'Manage your account settings and profile.'
+})
 
 const Page = async () => {
   const [user, { data: accounts = [] }] = await Promise.all([
