@@ -2,15 +2,19 @@
 
 import { Book as Model } from '@books-about-food/core/models/book'
 import { BookVote } from '@books-about-food/database'
+import Image from 'next/image'
 import { useMemo, useState } from 'react'
+import { AntiContainer } from 'src/components/atoms/container'
 import { GridContainer } from 'src/components/lists/grid-container'
 import { Search } from 'src/components/lists/search'
 import { useNav } from 'src/components/nav/context'
+import { TrackedLink } from 'src/components/tracking/context'
 import { toggleItemAuto } from 'src/utils/array-helpers'
 import { useLocalStorage } from 'usehooks-ts'
 import { createVotes } from './actions'
 import { TopTenGridItem } from './item'
 import { TopTenSheet } from './sheet'
+import sponsor from './sponsor.svg'
 
 export function TopTenGrid({
   books,
@@ -81,8 +85,24 @@ export function TopTenGrid({
         value={search}
         onChange={setSearch}
         debounceDelay={100}
-        className="mb-6 md:mb-10"
+        className="mb-6"
       />
+      <AntiContainer className="bg-white flex flex-col items-center justify-center pt-6 pb-8 gap-2 border-t border-black sm:mb-6 md:mb-10 sm:border-none">
+        <p className="all-caps opacity-40">Supported by</p>
+        <TrackedLink
+          href="https://themodestmerchant.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Visit The Modest Merchant"
+        >
+          <Image
+            src={sponsor}
+            height={30}
+            className="mobile-only:h-[18px]"
+            alt="The Modest Merchant"
+          />
+        </TrackedLink>
+      </AntiContainer>
       <GridContainer className={'sm:gap-y-16'}>
         {filteredBooks.map((book) => (
           <TopTenGridItem

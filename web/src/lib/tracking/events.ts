@@ -7,4 +7,5 @@ export type TrackableEvents = {
     Route: string
     Search?: Record<string, unknown>
   }
+  'Clicked a link': { URL: string; Label: string }
 }

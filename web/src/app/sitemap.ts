@@ -51,6 +51,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: 'daily'
     },
+    {
+      url: appUrl('/top-ten/2024'),
+      priority: 1,
+      lastModified: new Date(),
+      changeFrequency: 'daily'
+    },
     ...records.map(function (record): MetadataRoute.Sitemap[number] {
       const model = new SearchResult(record)
       return {

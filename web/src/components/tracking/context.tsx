@@ -1,7 +1,9 @@
 'use client'
 
+import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 import {
+  ComponentProps,
   ReactNode,
   Suspense,
   createContext,
@@ -70,4 +72,22 @@ export function TrackingProvider({ children }: { children: ReactNode }) {
 
 export function useTracking() {
   return useContext(TrackingContext)
+}
+
+export function TrackedLink(
+  props: ComponentProps<typeof Link> & { title: string }
+) {
+  const { track } = useTracking()
+
+  return (
+    <Link
+      {...props}
+      onClick={() => {
+        track('Clicked a link', {
+          URL: props.href.toString(),
+          Label: props.title
+        })
+      }}
+    />
+  )
 }
