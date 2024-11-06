@@ -1,5 +1,6 @@
 import cn from 'classnames'
 import Image from 'next/image'
+import logo from 'src/app/(main)/top-ten/2024/home-logo.svg'
 import bg from 'src/app/(main)/top-ten/2024/home.svg'
 import { Button } from '../atoms/button'
 import { mouseAttrs } from '../atoms/mouse'
@@ -43,22 +44,36 @@ export function Takeover({
       <>
         <div
           className={cn(
-            'flex flex-col justify-center items-start gap-8 z-10 transition-opacity',
+            'flex flex-col lg:flex-row lg:justify-between items-center z-10 transition-opacity mx-auto lg:mx-0 w-full gap-12',
             !current && 'opacity-0'
           )}
         >
-          <h2 className="text-48">
-            Voting for the 2024 Top 10
-            <br />
-            cookbooks is now open!
-          </h2>
-          <Button variant="tertiary">Vote Now</Button>
+          <div
+            className={cn(
+              'flex flex-col justify-center items-center lg:items-start gap-8'
+            )}
+          >
+            <h2 className="text-24 sm:text-40 lg:text-48 mobile-only:text-center">
+              Voting for the 2024 Top 10
+              <br />
+              cookbooks is now open!
+            </h2>
+            <Button variant="tertiary">Vote Now</Button>
+          </div>
+          <Image
+            src={logo}
+            aria-hidden
+            className={cn(
+              'lg:mr-[15vw] order-first lg:order-none mobile-only:w-44'
+            )}
+            alt="BAF Top 10"
+          />
         </div>
         <Image
           src={bg}
           aria-hidden
           className={cn(
-            'absolute inset-0 w-full h-[calc(100%-1px)] object-cover object-right z-0 transition-opacity ease-out',
+            'absolute -mx-4 md:-mx-16 inset-0 w-[calc(100%+8em)] h-[calc(100%-1px)] object-cover object-right z-0 transition-opacity ease-out',
             !current && 'opacity-0'
           )}
           alt="BAF Top 10"
