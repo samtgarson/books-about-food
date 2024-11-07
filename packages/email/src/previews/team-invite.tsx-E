@@ -1,6 +1,6 @@
 import { TeamInvite } from '../templates/team-invite'
 
-export function preview() {
+export function previw() {
   return (
     <TeamInvite
       teamName="Super Awesome Team"

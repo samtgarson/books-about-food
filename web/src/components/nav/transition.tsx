@@ -33,7 +33,7 @@ export type TransitionControl = {
 
 export const Transition = forwardRef<TransitionControl>(
   function Transition(_, ref) {
-    const [show, setShow] = useState(true)
+    const [show, setShow] = useState(false)
     const pathname = usePathname()
     const timer = useRef<NodeJS.Timeout | null>(null)
     const { closeSheet } = useSheet()

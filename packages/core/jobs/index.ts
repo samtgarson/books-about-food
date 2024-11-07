@@ -1,3 +1,4 @@
+import { BookVote } from '@books-about-food/database'
 import { EmailTemplate } from '@books-about-food/email'
 import { sentryMiddleware } from '@inngest/middleware-sentry'
 import { EventSchemas, Inngest } from 'inngest'
@@ -22,6 +23,8 @@ export const inngest = new Inngest({
     }>
     'jobs.email': JobData<EmailTemplate>
     'jobs.send-verification': JobData<{ email: string }>
+    'votes.created': JobData<Pick<BookVote, 'userId' | 'bookId'>>
+    'votes.submitted': JobData<{ userId: string; voteIds: string[] }>
   }>(),
   middleware
 })

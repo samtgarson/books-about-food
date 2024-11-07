@@ -9,6 +9,7 @@ import { SuggestEdit } from './templates/suggest-edit'
 import { TeamInvite } from './templates/team-invite'
 import { UserApproved } from './templates/user-approved'
 import { VerifyEmail } from './templates/verify-email'
+import { VoteReminder } from './templates/vote-reminder'
 
 export const sendMail = buildSendMail({
   transport: nodemailer.createTransport({
@@ -44,7 +45,8 @@ export const EmailTemplateMap = {
   suggestEdit: SuggestEdit,
   teamInvite: TeamInvite,
   userApproved: UserApproved,
-  verifyEmail: VerifyEmail
+  verifyEmail: VerifyEmail,
+  voteReminder: VoteReminder
 } as const
 
 type EmailTemplateMap = typeof EmailTemplateMap

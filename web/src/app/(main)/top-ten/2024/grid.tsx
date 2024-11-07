@@ -11,7 +11,7 @@ import { useNav } from 'src/components/nav/context'
 import { TrackedLink } from 'src/components/tracking/context'
 import { toggleItemAuto } from 'src/utils/array-helpers'
 import { useLocalStorage } from 'usehooks-ts'
-import { createVotes } from './actions'
+import { createVotes, onVote } from './actions'
 import { TopTenGridItem } from './item'
 import { TopTenSheet } from './sheet'
 import sponsor from './sponsor.svg'
@@ -61,10 +61,11 @@ export function TopTenGrid({
   function isSelected(book: Model) {
     return selected.includes(book)
   }
-  function toggle(book: Model) {
-    const isSelected = selected.includes(book)
-    if (!canVote && !isSelected) return
+  async function toggle(book: Model) {
+    const alreadySelected = selected.includes(book)
+    if (!canVote && !alreadySelected) return
     setSelected((a) => toggleItemAuto(a, book))
+    if (!alreadySelected) await onVote(book.id)
   }
   function submit() {
     return createVotes(selected.map((book) => book.id))

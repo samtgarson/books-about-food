@@ -1,5 +1,6 @@
 'use server'
 
+import { inngest } from '@books-about-food/core/jobs'
 import prisma from '@books-about-food/database'
 import { revalidatePath } from 'next/cache'
 import { getSessionUser } from 'src/utils/user'
@@ -26,5 +27,16 @@ export async function fetchVotes() {
 
   return prisma.bookVote.findMany({
     where: { userId: user.id }
+  })
+}
+
+export async function onVote(bookId: string) {
+  const user = await getSessionUser()
+  if (!user) return
+
+  await inngest.send({
+    name: 'votes.created',
+    user,
+    data: { bookId, userId: user.id }
   })
 }
