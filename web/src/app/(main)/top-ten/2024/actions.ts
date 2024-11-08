@@ -30,13 +30,13 @@ export async function fetchVotes() {
   })
 }
 
-export async function onVote(bookId: string) {
+export async function onVote(bookIds: string[]) {
   const user = await getSessionUser()
   if (!user) return
 
   await inngest.send({
     name: 'votes.created',
     user,
-    data: { bookId, userId: user.id }
+    data: { bookIds, userId: user.id }
   })
 }

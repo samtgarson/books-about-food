@@ -6,15 +6,17 @@ export const sendVoteReminder = inngest.createFunction(
   { id: 'send-vote-reminder', name: 'Send vote reminder email' },
   { event: 'votes.created' },
   async ({ step, event }) => {
+    if (!event.user) return { success: false, message: 'No user found' }
+
     const superceded = await step.waitForEvent('vote-superceded', {
       event: 'votes.created',
-      timeout: '1m',
-      match: 'data.userId'
+      timeout: '6h',
+      match: 'user.email'
     })
 
     if (superceded) return { success: true, message: 'Vote superceded' }
     const submittedVotes = await prisma.bookVote.count({
-      where: { userId: event.data.userId }
+      where: { userId: event.user.email }
     })
     if (submittedVotes >= 3)
       return { success: true, message: 'Votes submitted, skipping email' }

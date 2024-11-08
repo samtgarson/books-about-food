@@ -5,7 +5,7 @@ import Text from '../components/text'
 import { EmailTemplate } from '../utils/create-template'
 
 export class VoteReminder extends EmailTemplate {
-  subject = 'Don\t forget to submit your votes for the 2024 Top Ten'
+  subject = "Don't forget to submit your votes for the 2024 Top Ten"
   preview = 'Submit your votes to get entered into the prize draw.'
 
   content() {
