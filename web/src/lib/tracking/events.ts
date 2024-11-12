@@ -8,4 +8,5 @@ export type TrackableEvents = {
     Search?: Record<string, unknown>
   }
   'Clicked a link': { URL: string; Label: string }
+  'Performed an action': { Action: string; Extra?: Record<string, unknown> }
 }

@@ -3,6 +3,7 @@
 import { inngest } from '@books-about-food/core/jobs'
 import prisma from '@books-about-food/database'
 import { revalidatePath } from 'next/cache'
+import { track } from 'src/lib/tracking/track'
 import { getSessionUser } from 'src/utils/user'
 
 export async function createVotes(bookIds: string[]) {
@@ -18,6 +19,10 @@ export async function createVotes(bookIds: string[]) {
     data: bookIds.map((bookId) => ({ bookId, userId: user.id }))
   })
 
+  await track('Performed an action', {
+    Action: 'Voted on Top Ten 2024'
+  })
+
   revalidatePath('/top-ten/2024')
 }
 
@@ -31,6 +36,10 @@ export async function fetchVotes() {
 }
 
 export async function onVote(bookIds: string[]) {
+  await track('Performed an action', {
+    Action: 'Selected a book on Top Ten 2024',
+    Extra: { 'Number of Selected Books': bookIds.length }
+  })
   const user = await getSessionUser()
   if (!user) return
 

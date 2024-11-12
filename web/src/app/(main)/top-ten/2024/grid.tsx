@@ -64,8 +64,9 @@ export function TopTenGrid({
   async function toggle(book: Model) {
     const alreadySelected = selected.includes(book)
     if (!canVote && !alreadySelected) return
-    setSelected((a) => toggleItemAuto(a, book))
-    if (!alreadySelected) await onVote(book.id)
+    const updated = toggleItemAuto(selected, book)
+    setSelected(updated)
+    if (!alreadySelected) await onVote(updated.map((book) => book.id))
   }
   function submit() {
     return createVotes(selected.map((book) => book.id))

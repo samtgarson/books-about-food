@@ -86,7 +86,7 @@ function getCommonProperties(req?: NextRequest): SystemEventProperties {
 function generateAnonymousId(c: Pick<ResponseCookies, 'set'> = cookies()) {
   const anonId = crypto.randomUUID()
   c.set({
-    name: 'baf-session-id',
+    name: BAF_SESSION_ID,
     value: anonId,
     maxAge: 60 * 60 * 24 * 365,
     secure: true,
