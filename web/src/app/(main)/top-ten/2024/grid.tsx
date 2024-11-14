@@ -16,6 +16,10 @@ import { TopTenGridItem } from './item'
 import { TopTenSheet } from './sheet'
 import sponsor from './sponsor.svg'
 
+function findBooks(books: Model[], ids: string[]) {
+  return ids.flatMap((id) => books.find((book) => book.id === id) ?? [])
+}
+
 export function TopTenGrid({
   books,
   existingVotes
@@ -33,10 +37,7 @@ export function TopTenGrid({
     {
       initializeWithValue: false,
       serializer: (books) => books.map((book) => book.id).join(','),
-      deserializer: (ids) =>
-        ids
-          .split(',')
-          .flatMap((id) => books.find((book) => book.id === id) ?? [])
+      deserializer: (ids) => findBooks(books, ids.split(','))
     }
   )
 
@@ -58,8 +59,14 @@ export function TopTenGrid({
 
   const alreadyVoted = existingVoteCount >= 3
   const canVote = selected.length < 3
+  const selectedBooksToShow = alreadyVoted
+    ? findBooks(
+        books,
+        existingVotes.map((vote) => vote.bookId)
+      )
+    : selected
   function isSelected(book: Model) {
-    return selected.includes(book)
+    return selectedBooksToShow.includes(book)
   }
   async function toggle(book: Model) {
     const alreadySelected = selected.includes(book)
@@ -75,7 +82,7 @@ export function TopTenGrid({
   return (
     <>
       <TopTenSheet
-        selected={selected}
+        selected={selectedBooksToShow}
         unselectBook={toggle}
         alreadyVoted={alreadyVoted}
         onSubmit={async function () {
