@@ -16,7 +16,7 @@ export const sendVoteReminder = inngest.createFunction(
 
     if (superceded) return { success: true, message: 'Vote superceded' }
     const submittedVotes = await prisma.bookVote.count({
-      where: { userId: event.user.email }
+      where: { user: { email: event.user.email } }
     })
     if (submittedVotes >= 3)
       return { success: true, message: 'Votes submitted, skipping email' }
