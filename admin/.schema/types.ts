@@ -4784,10 +4784,12 @@ export type Schema = {
   'claims': {
     plain: {
       'approved_at': string;
+      'cancelled_at': string;
       'created_at': string;
       'id': string;
       'profile_id': string;
       'secret': string;
+      'State': 'Approved' | 'Cancelled' | 'Pending';
       'updated_at': string;
       'user_id': string;
     };

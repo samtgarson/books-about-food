@@ -14,7 +14,8 @@ export const fetchClaim = new AuthedService(
         userId_profileId: {
           userId,
           profileId
-        }
+        },
+        cancelledAt: null
       }
     })
   }

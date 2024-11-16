@@ -1,7 +1,6 @@
 import { AuthedService } from '@books-about-food/core/services/base'
 import prisma from '@books-about-food/database'
 import { z } from 'zod'
-import { AppError } from '../utils/errors'
 
 export const destroyClaim = new AuthedService(
   z.object({
@@ -13,11 +12,12 @@ export const destroyClaim = new AuthedService(
     const claim = await prisma.claim.findUnique({
       where: { id: claimId }
     })
-    if (!claim) return null
-    if (claim.userId !== user.id)
-      throw new AppError('NotFound', 'No claim could be found with that ID')
+    if (!claim || claim.userId !== user.id) return null
 
-    await prisma.claim.delete({ where: { id: claimId } })
+    await prisma.claim.update({
+      where: { id: claimId },
+      data: { cancelledAt: new Date() }
+    })
     return null
   }
 )

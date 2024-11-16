@@ -24,15 +24,15 @@ export function resourceAction<K extends TCollectionName<Schema>>({
       return result.success(`🎉 ${successMessage}`)
     } catch (e) {
       console.log(e)
-      return result.error(`Error with action ${name}: ${(e as Error).message}`)
+      return result.error((e as Error).message)
     }
   }
 
   collection.addAction(name, {
-    scope: 'Single',
-    execute: async (context, result) => {
-      const id = await context.getRecordId()
-      return execute([id], result)
+    scope: 'Bulk',
+    async execute(context, result) {
+      const ids = await context.getRecordIds()
+      return execute(ids, result)
     }
   })
 }

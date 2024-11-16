@@ -18,6 +18,8 @@ async function approveClaim(idVal: string | number) {
   })
   if (!claimResult?.user || !claimResult.profile)
     throw new Error('Claim not found')
+  if (claimResult.cancelledAt)
+    throw new Error('Claim has already been cancelled')
   const { profile, user } = claimResult
 
   await Promise.all([
@@ -55,6 +57,20 @@ export const customiseClaims = (
     name: '✅ Approve',
     successMessage: 'Approved! The user(s) has been notified 🚀',
     fn: approveClaim
+  })
+
+  collection.addField('State', {
+    dependencies: ['approved_at', 'cancelled_at'],
+    columnType: 'Enum',
+    enumValues: ['Pending', 'Approved', 'Cancelled'],
+    getValues(records) {
+      return records.map((record) => {
+        if (record.approved_at) return 'Approved'
+        if (record.cancelled_at) return 'Cancelled'
+        return 'Pending'
+      })
+    },
+    defaultValue: 'Pending'
   })
 
   collection.addHook('Before', 'Update', async (context) => {

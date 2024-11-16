@@ -323,13 +323,14 @@ model FeaturedProfile {
 }
 
 model Claim {
-  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt  DateTime  @default(now()) @map("created_at")
-  updatedAt  DateTime  @default(now()) @updatedAt @map("updated_at")
-  profileId  String    @map("profile_id") @db.Uuid
-  secret     String
-  userId     String    @map("user_id") @db.Uuid
-  approvedAt DateTime? @map("approved_at")
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at")
+  profileId   String    @map("profile_id") @db.Uuid
+  secret      String
+  userId      String    @map("user_id") @db.Uuid
+  approvedAt  DateTime? @map("approved_at")
+  cancelledAt DateTime? @map("cancelled_at")
 
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)

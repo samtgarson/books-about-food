@@ -622,7 +622,7 @@
         {
           "id": "books-1--publish",
           "name": "📤 Publish",
-          "type": "single",
+          "type": "bulk",
           "baseUrl": null,
           "endpoint": "/forest/_actions/books/1/-publish",
           "httpMethod": "POST",
@@ -1226,7 +1226,7 @@
         {
           "id": "claims-0--approve",
           "name": "✅ Approve",
-          "type": "single",
+          "type": "bulk",
           "baseUrl": null,
           "endpoint": "/forest/_actions/claims/0/-approve",
           "httpMethod": "POST",
@@ -1238,9 +1238,41 @@
       ],
       "fields": [
         {
+          "defaultValue": "Pending",
+          "enums": ["Approved", "Cancelled", "Pending"],
+          "field": "State",
+          "integration": null,
+          "inverseOf": null,
+          "isFilterable": false,
+          "isPrimaryKey": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "isSortable": false,
+          "isVirtual": false,
+          "reference": null,
+          "type": "Enum",
+          "validations": []
+        },
+        {
           "defaultValue": null,
           "enums": [],
           "field": "approved_at",
+          "integration": null,
+          "inverseOf": null,
+          "isFilterable": true,
+          "isPrimaryKey": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "isSortable": true,
+          "isVirtual": false,
+          "reference": null,
+          "type": "Date",
+          "validations": []
+        },
+        {
+          "defaultValue": null,
+          "enums": [],
+          "field": "cancelled_at",
           "integration": null,
           "inverseOf": null,
           "isFilterable": true,
@@ -2829,7 +2861,7 @@
         {
           "id": "profiles-1--feature-on-the-homepage",
           "name": "🌟 Feature on the homepage",
-          "type": "single",
+          "type": "bulk",
           "baseUrl": null,
           "endpoint": "/forest/_actions/profiles/1/-feature-on-the-homepage",
           "httpMethod": "POST",
@@ -4388,7 +4420,7 @@
         {
           "id": "users-0--approve-access",
           "name": "✅ Approve access",
-          "type": "single",
+          "type": "bulk",
           "baseUrl": null,
           "endpoint": "/forest/_actions/users/0/-approve-access",
           "httpMethod": "POST",
@@ -4730,7 +4762,7 @@
         {
           "id": "verification_tokens-0--resend-verification-email",
           "name": "🔑 Resend verification email",
-          "type": "single",
+          "type": "bulk",
           "baseUrl": null,
           "endpoint": "/forest/_actions/verification_tokens/0/-resend-verification-email",
           "httpMethod": "POST",
