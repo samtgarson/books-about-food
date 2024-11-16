@@ -1,6 +1,7 @@
 'use client'
 
 import { FC, useState } from 'react'
+import { useUserAgent } from 'src/hooks/use-user-agent'
 import z from 'zod'
 import { Button } from '../atoms/button'
 import { Form } from '../form'
@@ -23,6 +24,7 @@ export const SignInButtons: FC<SignInButtonsProps> = ({
   emailButtonLabel = 'Continue with Email',
   successMessage = 'We’ve just sent you a secure magic link to your inbox. When you click this link we’ll log you into your account automatically.'
 }) => {
+  const isInstagram = useUserAgent()?.includes('Instagram')
   const [googleLoading, setGoogleLoading] = useState(false)
   return (
     <Form
@@ -42,19 +44,23 @@ export const SignInButtons: FC<SignInButtonsProps> = ({
       <div className="flex gap-4">
         <Submit className="grow">{emailButtonLabel}</Submit>
       </div>
-      <p className="text-center">or</p>
-      <Button
-        onClick={() => {
-          setGoogleLoading(true)
-          googleSignIn(callbackUrl)
-        }}
-        className="relative flex items-center justify-center gap-3 border border-neutral-grey"
-        type="button"
-        loading={googleLoading}
-      >
-        <Google className="absolute left-4" size={20} />
-        Continue with Google
-      </Button>
+      {!isInstagram && (
+        <>
+          <p className="text-center">or</p>
+          <Button
+            onClick={() => {
+              setGoogleLoading(true)
+              googleSignIn(callbackUrl)
+            }}
+            className="relative flex items-center justify-center gap-3 border border-neutral-grey"
+            type="button"
+            loading={googleLoading}
+          >
+            <Google className="absolute left-4" size={20} />
+            Continue with Google
+          </Button>
+        </>
+      )}
     </Form>
   )
 }
