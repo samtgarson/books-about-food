@@ -65,9 +65,9 @@ export default async function TopTen2024({ searchParams }: PageProps) {
 async function Content({ autoSubmit }: { autoSubmit?: boolean }) {
   const [{ data }, votes] = await Promise.all([
     call(fetchBooks, {
-      releaseYear: 2024,
       perPage: 'all',
-      sort: 'random'
+      sort: 'random',
+      tags: 'top-ten-2024'
     }),
     fetchVotes()
   ])
