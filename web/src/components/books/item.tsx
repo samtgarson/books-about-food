@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { CSSProperties, ComponentProps, forwardRef } from 'react'
 import { useListDisplay } from '../lists/list-context'
+import { useNav } from '../nav/context'
 
 export interface CookbookItemProps {
   index?: number
@@ -69,7 +70,7 @@ export const Container = forwardRef<
         disabled={disabled}
       >
         {children}
-        {book?.publishedInFuture && !centered && (
+        {book?.publishedInFuture && !centered && !skeleton && (
           <span className="all-caps-sm absolute right-px top-px bg-white px-3 py-1.5">
             {book.shortReleaseDate}
           </span>
@@ -200,7 +201,9 @@ export const Item = forwardRef<
   }
 >(function Item({ skeleton, colorful, mobileColorful, ...props }, ref) {
   const { display } = useListDisplay()
-  if (skeleton) return <Skeleton {...props} ref={ref} />
+  const { internalLoading } = useNav()
+
+  if (skeleton || internalLoading) return <Skeleton {...props} ref={ref} />
   const { book, centered, ...rest } = props
   return (
     <Container book={book} centered={centered} {...rest} ref={ref}>

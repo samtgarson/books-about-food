@@ -31,8 +31,12 @@ export type TransitionControl = {
   show(): void
 }
 
-export const Transition = forwardRef<TransitionControl>(
-  function Transition(_, ref) {
+type TransitionProps = {
+  setInternalLoading: (loading: boolean) => void
+}
+
+export const Transition = forwardRef<TransitionControl, TransitionProps>(
+  function Transition({ setInternalLoading }, ref) {
     const [show, setShow] = useState(false)
     const pathname = usePathname()
     const timer = useRef<NodeJS.Timeout | null>(null)
@@ -49,7 +53,10 @@ export const Transition = forwardRef<TransitionControl>(
         if (!anchor || anchor.target === '_blank') return
         try {
           const targetHref = new URL(anchor.href).pathname
-          if (targetHref === window.location.pathname) return
+          if (targetHref === window.location.pathname) {
+            setInternalLoading(true)
+            return
+          }
 
           closeSheet()
           timer.current = setTimeout(() => {
@@ -68,6 +75,7 @@ export const Transition = forwardRef<TransitionControl>(
       }
 
       setShow(false)
+      setInternalLoading(false)
     }, [pathname])
 
     useEffect(() => {
