@@ -16,8 +16,10 @@ export const generateMetadata = indexPageMetadata({
 export const revalidate = 3600
 
 export default createIndexPage({
-  content: PeopleList,
-  schema: fetchProfiles.input,
-  loading: SkeletonPeopleGrid,
-  filters: PeopleFilters
+  components: {
+    content: PeopleList,
+    loading: SkeletonPeopleGrid,
+    filters: PeopleFilters
+  },
+  schema: fetchProfiles.input
 })

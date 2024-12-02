@@ -16,8 +16,10 @@ export const generateMetadata = indexPageMetadata({
 export const revalidate = 3600
 
 export default createIndexPage({
-  content: AuthorsList,
-  schema: fetchProfiles.input,
-  loading: SkeletonAuthorsGrid,
-  filters: AuthorFilters
+  components: {
+    content: AuthorsList,
+    loading: SkeletonAuthorsGrid,
+    filters: AuthorFilters
+  },
+  schema: fetchProfiles.input
 })

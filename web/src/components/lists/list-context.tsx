@@ -5,10 +5,15 @@ import { ReactNode, createContext, useContext, useState } from 'react'
 import { AntiContainer, Container } from '../atoms/container'
 import { DisplayToggle } from './display-toggle'
 
-type ListDisplay = 'list' | 'grid'
-type ListContext = { display: ListDisplay }
+export type ListDisplay = 'list' | 'grid'
+type ListContext = {
+  display: ListDisplay
+  setDisplay: (display: ListDisplay) => void
+}
 
-const ListContext = createContext<ListContext>({ display: 'list' })
+const ListContext = createContext<ListContext>({
+  display: 'list'
+} as ListContext)
 
 export type ListContainerProps = {
   children: ReactNode
@@ -26,23 +31,19 @@ export function ListContainer({
 
   if (!title)
     return (
-      <ListContext.Provider value={{ display }}>
+      <ListContext.Provider value={{ display, setDisplay }}>
         {children}
       </ListContext.Provider>
     )
 
   return (
-    <ListContext.Provider value={{ display }}>
+    <ListContext.Provider value={{ display, setDisplay }}>
       <AntiContainer desktop={false} className={cn(className)}>
         <Container desktop={false}>
           {title && (
             <h3 className="my-4 sm:mb-8 sm:mt-0 all-caps flex items-center justify-between">
               {title}
-              <DisplayToggle
-                className="sm:hidden"
-                display={display}
-                onChange={setDisplay}
-              />
+              <DisplayToggle className="sm:hidden" />
             </h3>
           )}
           {children}

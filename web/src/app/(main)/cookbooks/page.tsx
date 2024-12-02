@@ -14,8 +14,13 @@ export const generateMetadata = indexPageMetadata({
 })
 
 export default createIndexPage({
-  content: BookList,
+  components: {
+    content: BookList,
+    loading: SkeletonBookList,
+    filters: BookFilters
+  },
   schema: fetchBooks.input,
-  loading: SkeletonBookList,
-  filters: BookFilters
+  config: {
+    wrapInListContext: true
+  }
 })

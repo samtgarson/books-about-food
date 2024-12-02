@@ -1,6 +1,7 @@
 import { FetchBooksInput } from '@books-about-food/core/services/books/fetch-books'
 import { fetchTags } from '@books-about-food/core/services/tags/fetch'
 import Link from 'next/link'
+import { DisplayToggle } from 'src/components/lists/display-toggle'
 import { FilterBar } from 'src/components/lists/filter-bar'
 import { call } from 'src/utils/service'
 import stringify from 'stable-hash'
@@ -23,6 +24,7 @@ export function BookFilters({ filters = {} }: BookFiltersProps) {
         value: filters.search
       }}
     >
+      <DisplayToggle className="mr-auto sm:hidden" />
       {showReset && (
         <Link className="all-caps mr-2" href="/cookbooks">
           Reset

@@ -78,10 +78,10 @@ export const FilterBar: FC<FilterBarProps> = ({
             </Container>
           )}
           {children && (
-            <div className="ml-auto overflow-x-auto">
+            <div className="overflow-x-auto w-full">
               <Container
                 desktop={false}
-                className="flex w-max items-center gap-2"
+                className="flex justify-end items-center gap-2"
               >
                 {label && <p className="all-caps mr-2">{label}</p>}
                 {children}

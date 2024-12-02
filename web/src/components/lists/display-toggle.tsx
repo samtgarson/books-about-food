@@ -1,22 +1,19 @@
 'use client'
 import cn from 'classnames'
 import { Grid, List } from 'src/components/atoms/icons'
+import { useListDisplay } from './list-context'
 
 export type DisplayToggleProps = {
   className?: string
-  display?: 'grid' | 'list'
-  onChange?: (display: 'grid' | 'list') => void
 }
 
-export function DisplayToggle({
-  className,
-  display,
-  onChange
-}: DisplayToggleProps) {
+export function DisplayToggle({ className }: DisplayToggleProps) {
+  const { display, setDisplay } = useListDisplay()
+
   return (
     <button
       className={cn('flex gap-2 items-center', className)}
-      onClick={() => onChange?.(display === 'list' ? 'grid' : 'list')}
+      onClick={() => setDisplay(display === 'list' ? 'grid' : 'list')}
     >
       <span className={cn('p-1', display === 'grid' && 'bg-white')}>
         <Grid strokeWidth={1} />
