@@ -31,11 +31,11 @@ async function fillInTitleForm(page: Page) {
   const dialog = page.getByRole('dialog', { name: 'Submit a new cookbook' })
   await dialog
     .getByRole('combobox', { name: 'Title' })
-    .fill('a good day to bak', { timeout: 60 * 1000 })
+    .fill('a good day to bake', { timeout: 60 * 1000 })
 
   const option = page
     .getByRole('option')
-    .filter({ hasText: 'A Good Day to Bake' })
+    .filter({ hasText: /A Good Day to Bake/i })
   await expect(option).toHaveAttribute('aria-selected', 'true')
   await page.keyboard.press('Enter')
 
