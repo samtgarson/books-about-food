@@ -55,13 +55,17 @@ export default async ({ params: { slug } }: CookbooksPageProps) => {
           <div
             className={cn(
               'font-style-title flex items-center',
-              !book.subtitle && 'mb-4 sm:mb-8'
+              !book.subtitle && 'mb-4 sm:mb-0'
             )}
           >
             <h1>{book.title}</h1>
             <BookOverflow book={book} className="ml-auto" data-superjson />
           </div>
-          {book.subtitle && <Detail>{book.subtitle}</Detail>}
+          {book.subtitle ? (
+            <Detail>{book.subtitle}</Detail>
+          ) : (
+            <hr className="hidden sm:block" />
+          )}
         </div>
         <AntiContainer className="border-t border-black sm:border-t-0 md:-mt-8">
           <div className="flex flex-col lg:absolute lg:-bottom-20 lg:right-0 lg:top-0 lg:w-[50vw]">
