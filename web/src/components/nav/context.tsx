@@ -29,9 +29,7 @@ const NavContext = createContext({} as NavContext)
 export const NavProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const path = usePathname()
   const search = useSearchParams()
-  const [theme, setTheme] = useState<NavTheme>(
-    path === '/' && !process.env.SHOW_TAKEOVER ? 'dark' : 'light'
-  )
+  const [theme, setTheme] = useState<NavTheme>(path === '/' ? 'dark' : 'light')
   const [open, setOpen] = useState(false)
   const [internalLoading, setInternalLoading] = useState(false)
   const transition = useRef<TransitionControl>(null)
@@ -39,7 +37,7 @@ export const NavProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   useEffect(() => {
     setOpen(false)
-    setTheme(path === '/' && !process.env.SHOW_TAKEOVER ? 'dark' : 'light')
+    setTheme(path === '/' ? 'dark' : 'light')
   }, [path])
 
   useEffect(() => {

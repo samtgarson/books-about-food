@@ -15,8 +15,7 @@ const imagesConfig =
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    S3_DOMAIN: process.env.S3_DOMAIN,
-    SHOW_TAKEOVER: process.env.SHOW_TAKEOVER
+    S3_DOMAIN: process.env.S3_DOMAIN
   },
   experimental: {
     swcPlugins: [['next-superjson-plugin', {}]],
