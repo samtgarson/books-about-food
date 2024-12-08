@@ -12,7 +12,6 @@ import { USP } from 'src/components/home/usp'
 import { FeaturedJobsList } from 'src/components/jobs/featured-jobs-list'
 import { ProfileCarousel } from 'src/components/profiles/profile-carousel'
 import { call } from 'src/utils/service'
-import { PublisherGrid } from './publishers/grid'
 
 // const EditFeatureCarouselDialog = dynamic(
 //   async () =>
@@ -113,14 +112,6 @@ async function HomepageContent() {
           <Suspense fallback={null}>
             <FeaturedJobsList />
           </Suspense>
-        </div>
-        <div>
-          <h3 className="all-caps mb-6 md:mb-8">Top Publishers</h3>
-          <PublisherGrid
-            publishers={home.publishers}
-            square={false}
-            viewMoreLink={{ path: '/publishers', label: 'View All' }}
-          />
         </div>
       </Container>
     </>
