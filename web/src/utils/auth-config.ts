@@ -46,7 +46,7 @@ export const authConfig = {
           id: token.userId,
           role: token.role,
           image: token.picture || null,
-          teams: token.teams
+          publishers: token.publishers
         }
       }
 

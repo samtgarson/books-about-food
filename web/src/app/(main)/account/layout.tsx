@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import { TeamsNav } from 'src/components/accounts/teams-nav'
+import { PublishersNav } from 'src/components/accounts/publishers-nav'
 import { Container } from 'src/components/atoms/container'
 import { PageTitle } from 'src/components/atoms/page-title'
 import { SignOutButton } from 'src/components/auth/sign-out-button'
@@ -22,7 +22,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
           <SidebarItem label="Your Submissions" href="/account/submissions" />
           <SignOutButton />
           <Suspense>
-            <TeamsNav />
+            <PublishersNav />
           </Suspense>
         </div>
         <div className="min-w-[330px] flex-grow flex flex-col gap-16 max-w-4xl">

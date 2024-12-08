@@ -6,8 +6,8 @@ export class BookPolicy extends Policy<FullBook> {
     if (this.user.role === 'admin') return true
     if (this.isSubmitter && this.resource.status !== 'published') return true
     if (
-      this.resource.publisher?.teamId &&
-      this.user.teams.includes(this.resource.publisher.teamId)
+      this.resource.publisher &&
+      this.user.publishers.includes(this.resource.publisher.id)
     )
       return true
     return false

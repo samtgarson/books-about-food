@@ -1,12 +1,15 @@
-import { Team } from '@books-about-food/core/models/team'
+import { Invitation } from '@books-about-food/core/models/invitation'
+import { Membership } from '@books-about-food/core/models/membership'
+import { Publisher } from '@books-about-food/core/models/publisher'
 import { can } from '@books-about-food/core/policies'
-import { deleteInvite } from '@books-about-food/core/services/teams/delete-invite'
-import { destroyMembership } from '@books-about-food/core/services/teams/destroy-membership'
-import { fetchTeam } from '@books-about-food/core/services/teams/fetch-team'
-import { resendInvite } from '@books-about-food/core/services/teams/resend-invite'
-import { updateMembership } from '@books-about-food/core/services/teams/update-membership'
+import { deleteInvite } from '@books-about-food/core/services/memberships/delete-invite'
+import { destroyMembership } from '@books-about-food/core/services/memberships/destroy-membership'
+import { fetchInvitations } from '@books-about-food/core/services/memberships/fetch-invitations'
+import { fetchMemberships } from '@books-about-food/core/services/memberships/fetch-memberships'
+import { resendInvite } from '@books-about-food/core/services/memberships/resend-invite'
+import { updateMembership } from '@books-about-food/core/services/memberships/update-membership'
+import { fetchPublisher } from '@books-about-food/core/services/publishers/fetch-publisher'
 import { User } from '@books-about-food/core/types'
-import { PublisherGrid } from 'app/(main)/publishers/grid'
 import cn from 'classnames'
 import { formatRelative } from 'date-fns'
 import { capitalize } from 'inflection'
@@ -14,24 +17,35 @@ import { revalidatePath } from 'next/cache'
 import { notFound, redirect } from 'next/navigation'
 import { AccountHeader } from 'src/components/accounts/header'
 import { BaseAvatar } from 'src/components/atoms/avatar'
+import { Button } from 'src/components/atoms/button'
+import { ArrowUpRight } from 'src/components/atoms/icons'
 import { Tag } from 'src/components/atoms/tag'
-import { TeamInviteButton } from 'src/components/teams/invite-button'
+import { PublisherInviteButton } from 'src/components/memberships/invite-button'
 import {
   InvitesOverflow,
   MembershipsOverflow
-} from 'src/components/teams/overflows'
+} from 'src/components/memberships/overflows'
 import { PageProps } from 'src/components/types'
 import { Toaster } from 'src/components/utils/toaster'
 import { pick } from 'src/utils/object-helpers'
 import { call } from 'src/utils/service'
 import { getSessionUser } from 'src/utils/user'
 
-export default async function TeamPage({
+export default async function AccountPublisherPage({
   params: { slug }
 }: PageProps<{ slug: string }>) {
-  const { data: team } = await call(fetchTeam, { slug })
+  const [
+    { data: publisher },
+    { data: memberships = [] },
+    { data: invitations = [] }
+  ] = await Promise.all([
+    call(fetchPublisher, { slug }),
+    call(fetchMemberships, { slug }),
+    call(fetchInvitations, { slug })
+  ])
   const user = await getSessionUser()
-  if (!team || !user) notFound()
+  const currentUserMembership = memberships.find((m) => m.user.id === user?.id)
+  if (!publisher || !user || !currentUserMembership) notFound()
 
   return (
     <div className="flex flex-col gap-12 max-w-xl">
@@ -41,27 +55,52 @@ export default async function TeamPage({
         message="Invite accepted"
       />
       <Toaster action="invite-resent" type="success" message="Invite resent" />
-      <AccountHeader title={team.name} />
-      {team.publishers.length > 0 && (
-        <PublisherGrid publishers={team.publishers} square={false} />
+      <AccountHeader title={publisher.name}>
+        <Button
+          href={`/publishers/${publisher.slug}`}
+          size="small"
+          variant="tertiary"
+        >
+          View page <ArrowUpRight strokeWidth={1} />
+        </Button>
+      </AccountHeader>
+      <Memberships
+        publisher={publisher}
+        memberships={memberships}
+        currentUser={user}
+      />
+      {currentUserMembership?.role === 'admin' && (
+        <Invites
+          publisher={publisher}
+          invitations={invitations}
+          currentUser={user}
+        />
       )}
-      <Memberships team={team} currentUser={user} />
-      <Invites team={team} currentUser={user} />
     </div>
   )
 }
 
-function Memberships({ team, currentUser }: { team: Team; currentUser: User }) {
+function Memberships({
+  publisher,
+  memberships,
+  currentUser
+}: {
+  publisher: Publisher
+  memberships: Membership[]
+  currentUser: User
+}) {
   return (
     <div className="flex flex-col">
       <h3 className="font-medium">Members</h3>
       <ul>
-        {team.memberships.map(({ user, id, role }) => (
+        {memberships.map(({ user, id, role }) => (
           <li
             key={id}
             className={cn(
               'flex gap-4 py-4 items-center border-b border-neutral-grey',
-              user.is(currentUser) && can(currentUser, team).update && 'pr-10'
+              user.is(currentUser) &&
+                can(currentUser, publisher).update &&
+                'pr-10'
             )}
           >
             <BaseAvatar
@@ -81,7 +120,7 @@ function Memberships({ team, currentUser }: { team: Team; currentUser: User }) {
             >
               {role}
             </Tag>
-            {can(currentUser, team).update && !user.is(currentUser) && (
+            {can(currentUser, publisher).update && !user.is(currentUser) && (
               <MembershipsOverflow
                 id={id}
                 role={role}
@@ -91,14 +130,14 @@ function Memberships({ team, currentUser }: { team: Team; currentUser: User }) {
 
                   const newRole = role === 'admin' ? 'member' : 'admin'
                   await call(updateMembership, { membershipId, role: newRole })
-                  revalidatePath(`/account/teams/${team.slug}`)
+                  revalidatePath(`/account/publishers/${publisher.slug}`)
                 }}
                 onRemoveUser={async function (id) {
                   'use server'
                   if (!id) return
 
                   await call(destroyMembership, { id })
-                  revalidatePath(`/account/teams/${team.slug}`)
+                  revalidatePath(`/account/publishers/${publisher.slug}`)
                 }}
               />
             )}
@@ -109,20 +148,28 @@ function Memberships({ team, currentUser }: { team: Team; currentUser: User }) {
   )
 }
 
-function Invites({ team, currentUser }: { team: Team; currentUser: User }) {
-  if (team.userRole(currentUser.id) !== 'admin') return null
-
+function Invites({
+  publisher,
+  invitations,
+  currentUser
+}: {
+  publisher: Publisher
+  invitations: Invitation[]
+  currentUser: User
+}) {
   return (
     <div className="flex flex-col">
       <div className="flex justify-between">
         <h3 className="font-medium">Invites</h3>
-        <TeamInviteButton team={pick(team, ['id', 'slug', 'name'])} />
+        <PublisherInviteButton
+          publisher={pick(publisher, ['id', 'name', 'slug'])}
+        />
       </div>
-      {team.invitations.length === 0 && (
+      {invitations.length === 0 && (
         <p className="opacity-50 mt-2">No invites</p>
       )}
       <ul>
-        {team.invitations.map((invite) => (
+        {invitations.map((invite) => (
           <li
             key={invite.id}
             className="flex gap-4 py-4 items-center border-b border-neutral-grey"
@@ -131,7 +178,7 @@ function Invites({ team, currentUser }: { team: Team; currentUser: User }) {
             <p className="opacity-50">
               {capitalize(formatRelative(invite.createdAt, new Date()))}
             </p>
-            {can(currentUser, team).update && (
+            {can(currentUser, publisher).update && (
               <InvitesOverflow
                 id={invite.id}
                 onRevoke={async function (id) {
@@ -139,14 +186,16 @@ function Invites({ team, currentUser }: { team: Team; currentUser: User }) {
                   if (!id) return
 
                   await call(deleteInvite, { inviteId: id })
-                  revalidatePath(`/account/teams/${team.slug}`)
+                  revalidatePath(`/account/publishers/${publisher.slug}`)
                 }}
                 onResend={async function (id) {
                   'use server'
                   if (!id) return
 
                   await call(resendInvite, { id })
-                  redirect(`/account/teams/${team.slug}?action=invite-resent`)
+                  redirect(
+                    `/account/publishers/${publisher.slug}?action=invite-resent`
+                  )
                 }}
               />
             )}

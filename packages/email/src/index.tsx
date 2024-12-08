@@ -4,9 +4,9 @@ import nodemailer from 'nodemailer'
 import { resolve } from 'path'
 import { ClaimApproved } from './templates/claim-approved'
 import { NewClaim } from './templates/new-claim'
+import { PublisherInvite } from './templates/publisher-invite'
 import { SubmissionPublished } from './templates/submission-published'
 import { SuggestEdit } from './templates/suggest-edit'
-import { TeamInvite } from './templates/team-invite'
 import { UserApproved } from './templates/user-approved'
 import { VerifyEmail } from './templates/verify-email'
 import { VoteReminder } from './templates/vote-reminder'
@@ -43,7 +43,7 @@ export const EmailTemplateMap = {
   newClaim: NewClaim,
   submissionPublished: SubmissionPublished,
   suggestEdit: SuggestEdit,
-  teamInvite: TeamInvite,
+  publisherInvite: PublisherInvite,
   userApproved: UserApproved,
   verifyEmail: VerifyEmail,
   voteReminder: VoteReminder

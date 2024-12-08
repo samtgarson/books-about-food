@@ -5,7 +5,6 @@ import { Image } from '@books-about-food/core/models/image'
 import { Profile } from '@books-about-food/core/models/profile'
 import { Promo } from '@books-about-food/core/models/promo'
 import { Publisher } from '@books-about-food/core/models/publisher'
-import { Team } from '@books-about-food/core/models/team'
 import superjson from 'superjson'
 
 superjson.registerClass(Book, { identifier: 'Book' })
@@ -14,7 +13,6 @@ superjson.registerClass(Image, { identifier: 'Image' })
 superjson.registerClass(Profile, { identifier: 'Profile' })
 superjson.registerClass(Publisher, { identifier: 'Publisher' })
 superjson.registerClass(Contribution, { identifier: 'Contribution' })
-superjson.registerClass(Team, { identifier: 'Team' })
 superjson.registerClass(Promo, { identifier: 'Promo' })
 
 export const stringify = <T>(value: T): Stringified<T> => {

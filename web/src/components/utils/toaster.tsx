@@ -37,7 +37,6 @@ function ToasterContent({
       default:
         toast(message, data)
     }
-    router.replace(location.pathname, { scroll: false })
   }, [action, data, message, router, type, searchParams])
 
   useEffect(() => {

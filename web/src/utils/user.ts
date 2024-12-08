@@ -9,7 +9,7 @@ export const getSessionUser = cache(async () => {
   return {
     ...session.user,
     role: session.user.role || 'user',
-    teams: []
+    publishers: []
   } as User
 })
 
@@ -19,6 +19,6 @@ export const getUser = cache(async () => {
 
   return prisma.user.findUnique({
     where: { id: sessionUser.id },
-    include: { memberships: { select: { teamId: true } } }
+    include: { memberships: { select: { publisherId: true } } }
   })
 })

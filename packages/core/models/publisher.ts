@@ -14,9 +14,9 @@ export class Publisher extends BaseModel {
   logo?: Image
   imprints: PublisherRef[]
   house?: PublisherRef
-  teamId?: string
   hiddenBooks: string[] = []
   contactInfo?: string
+  claimed: boolean
 
   constructor(attrs: PublisherAttrs) {
     super()
@@ -30,9 +30,9 @@ export class Publisher extends BaseModel {
       : undefined
     this.imprints = attrs.imprints
     this.house = attrs.house ?? undefined
-    this.teamId = attrs.teamId ?? undefined
     this.hiddenBooks = attrs.hiddenBooks ?? []
     this.contactInfo = attrs.contactInfo ?? undefined
+    this.claimed = attrs._count.memberships > 0
   }
 
   get href() {

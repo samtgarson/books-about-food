@@ -4,5 +4,5 @@ export const adminUser = {
   image: null,
   role: 'admin' as const,
   email: 'admin user',
-  teams: []
+  publishers: []
 }

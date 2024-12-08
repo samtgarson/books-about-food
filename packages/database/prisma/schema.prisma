@@ -77,9 +77,9 @@ model User {
   submittedBooks Book[]      @relation("submitted_books")
 
   memberships     Membership[]
-  sentInvitations TeamInvitation[]
   bookVote        BookVote[]
   posts           Post[]
+  sentInvitations PublisherInvitation[]
 
   @@map("users")
 }
@@ -241,16 +241,16 @@ model Publisher {
   instagram      String?
   houseId        String?  @map("imprint_id") @db.Uuid
   slug           String   @unique
-  teamId         String?  @map("team_id") @db.Uuid
   hiddenBooks    String[] @default([]) @map("hidden_books")
   contactInfo    String?  @map("contact_info")
 
-  books    Book[]
-  logo     Image?      @relation("publisher_logo")
-  imprints Publisher[] @relation("imprint")
-  house    Publisher?  @relation("imprint", fields: [houseId], references: [id], onDelete: SetNull)
-  team     Team?       @relation(fields: [teamId], references: [id], onDelete: SetNull)
-  promos   Promo[]
+  books       Book[]
+  logo        Image?                @relation("publisher_logo")
+  imprints    Publisher[]           @relation("imprint")
+  house       Publisher?            @relation("imprint", fields: [houseId], references: [id], onDelete: SetNull)
+  promos      Promo[]
+  memberships Membership[]
+  invitations PublisherInvitation[]
 
   @@map("publishers")
 }
@@ -381,55 +381,41 @@ model FrequentlyAskedQuestion {
   @@map("frequently_asked_questions")
 }
 
-model Team {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
-  name      String
-  slug      String   @unique
-
-  memberships Membership[]
-  publishers  Publisher[]
-  invitations TeamInvitation[]
-
-  @@map("teams")
-}
-
 enum MembershipRole {
   admin
   member
 }
 
 model Membership {
-  id        String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt DateTime       @default(now()) @map("created_at")
-  updatedAt DateTime       @default(now()) @updatedAt @map("updated_at")
-  role      MembershipRole @default(member)
-  teamId    String         @map("team_id") @db.Uuid
-  userId    String         @map("user_id") @db.Uuid
+  id          String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @default(now()) @updatedAt @map("updated_at")
+  role        MembershipRole @default(member)
+  publisherId String         @map("publisher_id") @db.Uuid
+  userId      String         @map("user_id") @db.Uuid
 
-  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  publisher Publisher @relation(fields: [publisherId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([teamId, userId])
+  @@unique([publisherId, userId])
   @@map("memberships")
 }
 
-model TeamInvitation {
+model PublisherInvitation {
   id          String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt   DateTime       @default(now()) @map("created_at")
   updatedAt   DateTime       @default(now()) @updatedAt @map("updated_at")
   email       String
-  teamId      String         @map("team_id") @db.Uuid
+  publisherId String         @map("publisher_id") @db.Uuid
   acceptedAt  DateTime?      @map("accepted_at")
   invitedById String         @map("invited_by_id") @db.Uuid
   role        MembershipRole @default(member)
 
-  team      Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
-  invitedBy User @relation(fields: [invitedById], references: [id], onDelete: Cascade)
+  publisher Publisher @relation(fields: [publisherId], references: [id], onDelete: Cascade)
+  invitedBy User      @relation(fields: [invitedById], references: [id], onDelete: Cascade)
 
-  @@unique([teamId, email])
-  @@map("team_invitations")
+  @@unique([publisherId, email])
+  @@map("publisher_invitations")
 }
 
 model Promo {

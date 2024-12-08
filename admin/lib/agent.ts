@@ -17,7 +17,6 @@ import { customiseProfiles } from './collections/profiles'
 import { customisePublishers } from './collections/publishers'
 import { customiseTagGroups } from './collections/tag-groups'
 import { customiseTags } from './collections/tags'
-import { customiseTeams } from './collections/teams'
 import { customiseUsers } from './collections/users'
 import { customiseVerificationTokens } from './collections/verification-tokens'
 
@@ -53,7 +52,6 @@ agent
   .customizeCollection('users', customiseUsers)
   .customizeCollection('verification_tokens', customiseVerificationTokens)
   .customizeCollection('tags', customiseTags)
-  .customizeCollection('teams', customiseTeams)
   .customizeCollection('tag_groups', customiseTagGroups)
   .customizeCollection('features', customiseFeatures)
   .customizeCollection('frequently_asked_questions', customiseFAQs)

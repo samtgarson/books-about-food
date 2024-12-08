@@ -42,7 +42,7 @@ export const {
     async jwt({ token, user }) {
       const db = await prisma.user.findUnique({
         where: { id: user?.id || token.userId },
-        include: { memberships: { select: { teamId: true } } }
+        include: { memberships: { select: { publisherId: true } } }
       })
       if (!db) return token
 
@@ -51,7 +51,7 @@ export const {
       token.userId = db.id
       token.role = db.role
       token.image = db?.image || undefined
-      token.teams = db.memberships.map((m) => m.teamId)
+      token.publishers = db.memberships.map((m) => m.publisherId)
 
       return token
     }

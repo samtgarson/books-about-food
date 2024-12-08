@@ -33,7 +33,7 @@ const helpers = ({
         email,
         userId: user.id,
         role: 'user',
-        teams: []
+        publishers: []
       },
       salt: cookieName,
       secret: process.env.AUTH_SECRET as string

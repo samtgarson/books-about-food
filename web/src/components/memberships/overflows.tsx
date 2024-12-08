@@ -34,7 +34,7 @@ export function MembershipsOverflow({
         onClick={onRemoveUser}
         icon={Trash2}
       >
-        Remove from team
+        Remove from publisher
       </Overflow.Item>
     </Overflow.Root>
   )

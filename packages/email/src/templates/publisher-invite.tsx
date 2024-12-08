@@ -4,20 +4,20 @@ import { Section } from '../components/section'
 import Text from '../components/text'
 import { EmailTemplate } from '../utils/create-template'
 
-type TeamInviteProps = {
-  teamName: string
+type PublisherInviteProps = {
+  publisherName: string
   inviterName: string
 }
 
-export class TeamInvite extends EmailTemplate<TeamInviteProps> {
-  content({ teamName, inviterName }: TeamInviteProps) {
+export class PublisherInvite extends EmailTemplate<PublisherInviteProps> {
+  content({ publisherName, inviterName }: PublisherInviteProps) {
     return (
       <Section>
         <Text>
-          {inviterName} has invited you to join the team{' '}
-          <strong>{teamName}</strong> on Books About Food.
+          {inviterName} has invited you to edit the publisher{' '}
+          <strong>{publisherName}</strong> on Books About Food.
         </Text>
-        <Text>Click below to view your profile on the website.</Text>
+        <Text>Click below to view your invitation on the website.</Text>
         <Button href={appUrl('/account')}>View and accept invite</Button>
         <Text>
           We hope you&apos;ll find Books About Food to be a useful resource and
@@ -28,6 +28,6 @@ export class TeamInvite extends EmailTemplate<TeamInviteProps> {
   }
 
   subject = "You've got a new invite"
-  preview = ({ teamName }: Partial<TeamInviteProps>) =>
-    `You've been invited to join ${teamName} on Books About Food`
+  preview = ({ publisherName }: Partial<PublisherInviteProps>) =>
+    `You've been invited to edit ${publisherName} on Books About Food`
 }

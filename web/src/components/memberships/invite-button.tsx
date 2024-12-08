@@ -1,7 +1,7 @@
 'use client'
 
-import { Team } from '@books-about-food/core/models/team'
-import { createInviteSchema } from '@books-about-food/core/services/teams/schemas/create-invite'
+import { Publisher } from '@books-about-food/core/models/publisher'
+import { createInviteSchema } from '@books-about-food/core/services/memberships/schemas/create-invite'
 import { MembershipRole } from '@books-about-food/database/client'
 import { titleize } from 'inflection'
 import * as Sheet from 'src/components/atoms/sheet'
@@ -13,30 +13,32 @@ import { Select } from '../form/select'
 import { Submit } from '../form/submit'
 import { send } from './action'
 
-type TeamInviteButtonProps = {
-  team: Pick<Team, 'slug' | 'id' | 'name'>
+type PublisherInviteButtonProps = {
+  publisher: Pick<Publisher, 'id' | 'name' | 'slug'>
 }
 
 const roleOptions: { value: MembershipRole; label: string }[] = Object.values(
   MembershipRole
 ).map((role) => ({ value: role, label: titleize(role) }))
 
-export function TeamInviteButton({ team }: TeamInviteButtonProps) {
+export function PublisherInviteButton({
+  publisher
+}: PublisherInviteButtonProps) {
   return (
     <Sheet.Root>
       <Sheet.Trigger>
         <Plus strokeWidth={1} />
       </Sheet.Trigger>
       <Sheet.Content authenticated>
-        <Sheet.Body title={`Invite someone to ${team.name}`}>
+        <Sheet.Body title={`Invite someone to ${publisher.name}`}>
           <Form
             variant="bordered"
-            schema={createInviteSchema.extend({ teamSlug: z.string() })}
+            schema={createInviteSchema.extend({ publisherSlug: z.string() })}
             successMessage="Invite sent!"
             action={send}
           >
-            <input type="hidden" name="teamId" value={team.id} />
-            <input type="hidden" name="teamSlug" value={team.slug} />
+            <input type="hidden" name="publisherId" value={publisher.id} />
+            <input type="hidden" name="publisherSlug" value={publisher.slug} />
             <Input type="email" name="email" label="Email address" required />
             <Select
               options={roleOptions}

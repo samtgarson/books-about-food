@@ -2,7 +2,7 @@ import { MembershipRole } from '@books-about-food/database/client'
 import z from 'zod'
 
 export const createInviteSchema = z.object({
-  teamId: z.string(),
+  publisherId: z.string(),
   email: z.string().email(),
   role: z.nativeEnum(MembershipRole).default(MembershipRole.member)
 })

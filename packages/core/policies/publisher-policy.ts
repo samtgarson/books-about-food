@@ -5,7 +5,7 @@ export class PublisherPolicy extends Policy<Publisher> {
   get update() {
     return (
       this.user.role === 'admin' ||
-      (!!this.resource.teamId && this.user.teams.includes(this.resource.teamId))
+      this.user.publishers.includes(this.resource.id)
     )
   }
 }

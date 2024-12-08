@@ -2,12 +2,10 @@
 import { FullBook } from '@books-about-food/core/models/full-book'
 import { Profile } from '@books-about-food/core/models/profile'
 import { Publisher } from '@books-about-food/core/models/publisher'
-import { Team } from '@books-about-food/core/models/team'
 import { User } from '@books-about-food/core/types'
 import { BookPolicy } from './book-policy'
 import { ProfilePolicy } from './profile-policy'
 import { PublisherPolicy } from './publisher-policy'
-import { TeamPolicy } from './team-policy'
 
 export type PolicyFor<R> = R extends FullBook
   ? BookPolicy
@@ -15,8 +13,6 @@ export type PolicyFor<R> = R extends FullBook
   ? ProfilePolicy
   : R extends Publisher
   ? PublisherPolicy
-  : R extends Team
-  ? TeamPolicy
   : never
 
 export function can<R>(user: User, resource: R) {
@@ -26,8 +22,6 @@ export function can<R>(user: User, resource: R) {
     return new ProfilePolicy(user, resource) as PolicyFor<R>
   } else if (resource instanceof Publisher) {
     return new PublisherPolicy(user, resource) as PolicyFor<R>
-  } else if (resource instanceof Team) {
-    return new TeamPolicy(user, resource) as PolicyFor<R>
   }
 
   throw new Error(`Unknown resource type: ${resource}`)

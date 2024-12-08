@@ -20,7 +20,7 @@ export const ClaimPublisherButton: FC<ClaimPublisherButtonProps> = ({
   const { enabled, publisher } = useEditPublisher()
 
   if (enabled) return <EditPublisherButton className={className} />
-  if (publisher.teamId) return null
+  if (publisher.claimed) return null
   return (
     <Sheet.Root>
       <Sheet.Trigger asChild>

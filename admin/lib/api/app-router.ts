@@ -10,7 +10,7 @@ const authSchema = z.object({
   name: z.string().nullish().default(null),
   role: z.nativeEnum(UserRole).default('user'),
   image: z.string().nullish().default(null),
-  teams: z.array(z.string()).default([])
+  publishers: z.array(z.string()).default([])
 })
 export const appRouter = new Router<
   DefaultState,

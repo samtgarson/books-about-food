@@ -21,7 +21,7 @@ function dump () {
     -t accounts \
     -t users \
     -t claims \
-    -t teams \
+    -t publisher_invites \
     -t memberships \
     --data-only -Fc \
     $DATABASE_URL > $saved_content

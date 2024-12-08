@@ -8,8 +8,9 @@ export const profileIncludes = {
 export const publisherIncludes = {
   logo: true,
   imprints: { select: { name: true, slug: true } },
-  house: { select: { name: true, slug: true } }
-}
+  house: { select: { name: true, slug: true } },
+  _count: { select: { memberships: true } }
+} satisfies Prisma.PublisherDefaultArgs['include']
 
 export const bookIncludes = {
   coverImage: true,
@@ -34,11 +35,13 @@ export const fullBookIncludes = {
   links: { orderBy: { site: 'asc' } }
 } satisfies Prisma.BookDefaultArgs['include']
 
-export const teamIncludes = {
-  memberships: { include: { user: true } },
-  invitations: { where: { acceptedAt: null }, include: { invitedBy: true } },
-  publishers: { include: publisherIncludes }
-} satisfies Prisma.TeamDefaultArgs['include']
+export const membershipIncludes = {
+  user: true
+} satisfies Prisma.MembershipDefaultArgs['include']
+
+export const invitationIncludes = {
+  invitedBy: true
+} satisfies Prisma.PublisherInvitationDefaultArgs['include']
 
 export const promoIncludes = {
   promoItems: {

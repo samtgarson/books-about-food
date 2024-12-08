@@ -7,7 +7,7 @@ declare module '@auth/core/jwt' {
     userId: string
     role: UserRole
     email: string
-    teams: string[]
+    publishers: string[]
   }
 }
 

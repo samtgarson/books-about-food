@@ -24,6 +24,6 @@ export async function updateSession() {
 //     name: db.name,
 //     role: db.role,
 //     image: db.image,
-//     teams: db.memberships.map((m) => m.teamId)
+//     publishers: db.memberships.map((m) => m.publisherId)
 //   }
 // }

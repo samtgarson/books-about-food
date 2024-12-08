@@ -9,6 +9,7 @@ type BaseButtonProps = {
   variant?: ButtonVariant
   loading?: boolean
   disabled?: boolean
+  size?: 'small' | 'default'
 }
 
 const variants = {
@@ -37,16 +38,19 @@ export const Button = forwardRef(function Button(
     className,
     children,
     disabled,
+    size = 'default',
     ...props
   }: ButtonProps,
   ref
 ) {
   const classes = cn(
-    'text-16 relative block flex-shrink-0 whitespace-nowrap px-4 py-2.5 transition ease-out',
+    'relative block flex-shrink-0 whitespace-nowrap transition ease-out',
     variants[variant],
     className,
     loading && 'pointer-events-none',
-    disabled && 'opacity-50 pointer-events-none'
+    disabled && 'opacity-50 pointer-events-none',
+    size === 'default' && 'px-4 py-2.5 text-16',
+    size === 'small' && 'px-3 py-2 text-14'
   )
   if ('href' in props === false) {
     return (
