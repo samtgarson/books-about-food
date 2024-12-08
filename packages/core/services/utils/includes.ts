@@ -43,9 +43,8 @@ export const invitationIncludes = {
   invitedBy: true
 } satisfies Prisma.PublisherInvitationDefaultArgs['include']
 
-export const promoIncludes = {
-  promoItems: {
-    include: { book: { include: bookIncludes } },
-    orderBy: { order: 'asc' }
+export const collectionIncludes = {
+  collectionItems: {
+    include: { book: { include: bookIncludes } }
   }
-} satisfies Prisma.PromoDefaultArgs['include']
+} satisfies Prisma.CollectionDefaultArgs['include']

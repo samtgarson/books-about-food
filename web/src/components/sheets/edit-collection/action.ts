@@ -3,9 +3,9 @@
 import { BookResult } from '@books-about-food/core/models/types'
 import { fetchBooks } from '@books-about-food/core/services/books/fetch-books'
 import { bookToResult } from '@books-about-food/core/services/books/utils/to-result'
-import { clearPromo } from '@books-about-food/core/services/publishers/clear-promo'
-import { upsertPromoSchema } from '@books-about-food/core/services/publishers/schemas/upsert-promo'
-import { upsertPromo } from '@books-about-food/core/services/publishers/upsert-promo'
+import { archiveCollection } from '@books-about-food/core/services/collections/archive-collection'
+import { upsertCollectionSchema } from '@books-about-food/core/services/collections/schemas/upsert-collection'
+import { upsertCollection } from '@books-about-food/core/services/collections/upsert-collection'
 import { revalidatePath } from 'next/cache'
 import { parseAppError } from 'src/components/form/utils'
 import { call, parseAndCall } from 'src/utils/service'
@@ -26,17 +26,19 @@ export async function fetchOptions(
   return stringify(books.data.books.map(bookToResult))
 }
 
-export async function action(input: z.infer<typeof upsertPromoSchema>) {
-  const res = await call(upsertPromo, input)
+export async function action(input: z.infer<typeof upsertCollectionSchema>) {
+  const res = await call(upsertCollection, input)
   if (res.success) return revalidatePath(`/publishers/${input.publisherSlug}`)
 
   return parseAppError(res.errors)
 }
 
-export async function clear(data: FormData) {
-  const res = await parseAndCall(clearPromo, Object.fromEntries(data.entries()))
-  if (res.success)
-    return revalidatePath(`/publishers/${res.data.publisher.slug}`)
+export async function clear(data: FormData, publisherSlug: string) {
+  const res = await parseAndCall(
+    archiveCollection,
+    Object.fromEntries(data.entries())
+  )
+  if (res.success) return revalidatePath(`/publishers/${publisherSlug}`)
 
   return parseAppError(res.errors)
 }

@@ -1,7 +1,7 @@
 import z from 'zod'
 import { array } from '../../utils/inputs'
 
-export const upsertPromoSchema = z.object({
+export const upsertCollectionSchema = z.object({
   publisherSlug: z.string(),
   id: z.string().optional(),
   title: z.string(),

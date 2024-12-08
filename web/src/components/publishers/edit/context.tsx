@@ -1,6 +1,5 @@
 'use client'
 
-import { Promo } from '@books-about-food/core/models/promo'
 import { Publisher } from '@books-about-food/core/models/publisher'
 import { UpdatePublisherInput } from '@books-about-food/core/services/publishers/update-publisher'
 import { ReactNode, useCallback, useContext } from 'react'
@@ -14,8 +13,7 @@ import { action } from './action'
 
 const context = createInPlaceContext<
   Publisher,
-  Omit<UpdatePublisherInput, 'slug'>,
-  { promo?: Promo }
+  Omit<UpdatePublisherInput, 'slug'>
 >()
 
 export function useEditPublisher() {
@@ -25,12 +23,10 @@ export function useEditPublisher() {
 
 export const EditPublisherProvider = ({
   children,
-  publisher,
-  promo
+  publisher
 }: {
   children: ReactNode
   publisher: Publisher
-  promo?: Promo
 }) => {
   const policy = usePolicy(publisher)
 
@@ -56,7 +52,6 @@ export const EditPublisherProvider = ({
       resource={publisher}
       onSave={save}
       enabled={policy?.update}
-      extra={{ promo }}
     >
       {children}
     </EditInPlaceProvider>

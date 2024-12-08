@@ -1,10 +1,10 @@
 import {
   bookIncludes,
+  collectionIncludes,
   fullBookIncludes,
   invitationIncludes,
   membershipIncludes,
   profileIncludes,
-  promoIncludes,
   publisherIncludes
 } from '@books-about-food/core/services/utils'
 import type { BookVote, Prisma } from '@books-about-food/database'
@@ -35,8 +35,8 @@ export type InvitationAttrs = Prisma.PublisherInvitationGetPayload<{
   include: typeof invitationIncludes
 }>
 
-export type PromoAttrs = Prisma.PromoGetPayload<{
-  include: typeof promoIncludes
+export type CollectionAttrs = Prisma.CollectionGetPayload<{
+  include: typeof collectionIncludes
 }>
 
 export type PostAttrs = Prisma.PostGetPayload<null>

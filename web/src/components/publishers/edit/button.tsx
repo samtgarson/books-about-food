@@ -3,13 +3,13 @@ import { Check, Edit2 } from 'src/components/atoms/icons'
 import { useEditPublisher } from './context'
 
 export function EditPublisherButton({ className }: { className?: string }) {
-  const { editMode, setEditMode, promo } = useEditPublisher()
+  const { editMode, setEditMode } = useEditPublisher()
 
   return (
     <>
       <Button
         onClick={() => setEditMode(!editMode)}
-        variant={editMode || !promo ? 'primary' : 'secondary'}
+        variant={editMode ? 'primary' : 'secondary'}
         className={className}
       >
         {editMode ? <Check strokeWidth={1} /> : <Edit2 strokeWidth={1} />}

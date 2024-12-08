@@ -1,4 +1,3 @@
-import { fetchPromo } from '@books-about-food/core/services/publishers/fetch-promo'
 import { fetchPublisher } from '@books-about-food/core/services/publishers/fetch-publisher'
 import cn from 'classnames'
 import { Metadata, ResolvedMetadata } from 'next'
@@ -17,7 +16,6 @@ import { ContactInfo } from 'src/components/publishers/edit/contact-info'
 import { EditPublisherProvider } from 'src/components/publishers/edit/context'
 import { EditableLogo } from 'src/components/publishers/edit/editable-logo'
 import { LinkList } from 'src/components/publishers/edit/link-list'
-import { PromoCarousel } from 'src/components/publishers/edit/promo-carousel'
 import { PageProps } from 'src/components/types'
 import { genMetadata, publisherTotal } from 'src/utils/metadata'
 import { call } from 'src/utils/service'
@@ -55,18 +53,14 @@ export async function generateMetadata(
 export { dynamic, dynamicParams, revalidate } from 'app/default-static-config'
 
 export default async ({ params: { slug } }: PublisherPageProps) => {
-  const [{ data: publisher }, { data: promo }] = await Promise.all([
-    call(fetchPublisher, { slug }),
-    call(fetchPromo, { publisherSlug: slug })
+  const [{ data: publisher }] = await Promise.all([
+    call(fetchPublisher, { slug })
   ])
   if (!publisher) return notFound()
 
   return (
-    <EditPublisherProvider publisher={publisher} promo={promo} data-superjson>
-      <Container
-        belowNav
-        className={cn(promo && 'edit-bg bg-white pb-8 sm:pb-20')}
-      >
+    <EditPublisherProvider publisher={publisher} data-superjson>
+      <Container belowNav>
         <div className={cn('pt-8 md:pt-16 z-30 relative')}>
           <div className="font-style-title mb-6 flex items-center justify-between sm:mb-4">
             <h1 title={publisher.name}>
@@ -75,7 +69,6 @@ export default async ({ params: { slug } }: PublisherPageProps) => {
             <ClaimPublisherButton />
           </div>
         </div>
-        <PromoCarousel />
       </Container>
       <Container className="mt-8 sm:mt-20">
         <Suspense fallback={<SkeletonPublisherBookList />}>

@@ -107,7 +107,7 @@ model Image {
   previewFor Book?      @relation("preview_for", fields: [previewForId], references: [id], onDelete: SetNull)
   publisher  Publisher? @relation("publisher_logo", fields: [publisherId], references: [id], onDelete: SetNull)
   profile    Profile?   @relation("profile_for", fields: [profileId], references: [id], onDelete: SetNull)
-  post       Post?      @relation(fields: [postId], references: [id])
+  post       Post?      @relation(fields: [postId], references: [id], onDelete: SetNull)
 
   @@map("images")
 }
@@ -214,17 +214,17 @@ model Book {
   designCommentary String?    @map("design_commentary")
   blurb            String?
 
-  coverImage    Image?         @relation("cover_for")
-  previewImages Image[]        @relation("preview_for")
-  tags          Tag[]          @relation("books_tags")
-  contributions Contribution[]
-  links         Link[]
-  publisher     Publisher?     @relation(fields: [publisherId], references: [id], onDelete: Restrict)
-  features      Feature[]
-  submitter     User?          @relation("submitted_books", fields: [submitterId], references: [id], onDelete: SetNull)
-  authors       Profile[]      @relation("authored_books")
-  promoItems    PromoItem[]
-  bookVote      BookVote[]
+  coverImage      Image?           @relation("cover_for")
+  previewImages   Image[]          @relation("preview_for")
+  tags            Tag[]            @relation("books_tags")
+  contributions   Contribution[]
+  links           Link[]
+  publisher       Publisher?       @relation(fields: [publisherId], references: [id], onDelete: Restrict)
+  features        Feature[]
+  submitter       User?            @relation("submitted_books", fields: [submitterId], references: [id], onDelete: SetNull)
+  authors         Profile[]        @relation("authored_books")
+  collectionItems CollectionItem[]
+  bookVote        BookVote[]
 
   @@index([googleBooksId], name: "google_books_id")
   @@map("books")
@@ -248,7 +248,7 @@ model Publisher {
   logo        Image?                @relation("publisher_logo")
   imprints    Publisher[]           @relation("imprint")
   house       Publisher?            @relation("imprint", fields: [houseId], references: [id], onDelete: SetNull)
-  promos      Promo[]
+  collections Collection[]
   memberships Membership[]
   invitations PublisherInvitation[]
 
@@ -418,33 +418,33 @@ model PublisherInvitation {
   @@map("publisher_invitations")
 }
 
-model Promo {
+model Collection {
   id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   until       DateTime? @db.Date
-  publisherId String    @map("publisher_id") @db.Uuid
+  publisherId String?   @map("publisher_id") @db.Uuid
   title       String
+  description String?
   createdAt   DateTime  @default(now()) @map("created_at")
   updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at")
 
-  promoItems PromoItem[]
-  publisher  Publisher   @relation(fields: [publisherId], references: [id], onDelete: Cascade)
+  collectionItems CollectionItem[]
+  publisher       Publisher?       @relation(fields: [publisherId], references: [id], onDelete: Cascade)
 
-  @@map("promos")
+  @@map("collections")
 }
 
-model PromoItem {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  bookId    String   @map("book_id") @db.Uuid
-  promoId   String   @map("promo_id") @db.Uuid
-  order     Int
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+model CollectionItem {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  bookId       String   @map("book_id") @db.Uuid
+  collectionId String   @map("collection_id") @db.Uuid
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @default(now()) @updatedAt @map("updated_at")
 
-  promo Promo @relation(fields: [promoId], references: [id], onDelete: Cascade)
-  book  Book  @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  collection Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  book       Book       @relation(fields: [bookId], references: [id], onDelete: Cascade)
 
-  @@unique([promoId, bookId])
-  @@map("promo_items")
+  @@unique([collectionId, bookId])
+  @@map("collection_items")
 }
 
 model BookVote {

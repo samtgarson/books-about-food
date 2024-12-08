@@ -7,7 +7,7 @@ export const SheetMap = {
   claimProfile: async () => import('./claim-profile'),
   suggestEdit: async () => import('./suggest-edit'),
   submitted: async () => import('./cookbook-submitted'),
-  editPromo: async () => import('./edit-promo')
+  editCollection: async () => import('./edit-collection')
 } as const
 
 export type SheetMap = {

@@ -1,7 +1,7 @@
 'use client'
-import { Promo } from '@books-about-food/core/models/promo'
+import { Collection } from '@books-about-food/core/models/collection'
 import { bookToResult } from '@books-about-food/core/services/books/utils/to-result'
-import { upsertPromoSchema } from '@books-about-food/core/services/publishers/schemas/upsert-promo'
+import { upsertCollectionSchema } from '@books-about-food/core/services/collections/schemas/upsert-collection'
 import { Button } from 'src/components/atoms/button'
 import { Trash2 } from 'src/components/atoms/icons'
 import { Body, Content } from 'src/components/atoms/sheet'
@@ -13,43 +13,45 @@ import { SheetComponent } from 'src/components/sheets/types'
 import { useSheet } from '../global-sheet'
 import { action, clear, fetchOptions } from './action'
 
-export type EditPromoSheetProps = {
+export type EditCollectionSheetProps = {
   publisherSlug: string
-  promo?: Promo
+  collection: Collection
 }
 
-const EditPromoSheet: SheetComponent<EditPromoSheetProps> = ({
+const EditCollectionSheet: SheetComponent<EditCollectionSheetProps> = ({
   publisherSlug,
-  promo
+  collection
 }) => {
   const { closeSheet } = useSheet()
 
   return (
     <Content>
-      <Body title={promo ? 'Edit Promo' : 'Create Promo'}>
+      <Body title={collection ? 'Edit Collection' : 'Create Collection'}>
         <Form
           variant="bordered"
-          schema={upsertPromoSchema}
+          schema={upsertCollectionSchema}
           action={action}
-          successMessage="Promo saved!"
+          successMessage="Collection saved!"
         >
           <input type="hidden" name="publisherSlug" value={publisherSlug} />
-          {promo && <input type="hidden" name="id" value={promo.id} />}
-          <Input name="title" label="Title" defaultValue={promo?.title} />
+          {collection && (
+            <input type="hidden" name="id" value={collection.id} />
+          )}
+          <Input name="title" label="Title" defaultValue={collection?.title} />
           <BookMultiSelect
             name="bookIds"
             label="Books"
             loadOptions={(search) => fetchOptions(publisherSlug, search)}
-            value={promo?.books.map(bookToResult)}
+            value={collection?.books.map(bookToResult)}
           />
           <div className="flex gap-2">
             <Submit className="grow">Save</Submit>
-            {promo && (
+            {collection && (
               <Button
                 variant="danger"
-                title="Clear this promo"
+                title="Archive this collection"
                 formAction={async function (data) {
-                  await clear(data)
+                  await clear(data, publisherSlug)
                   closeSheet()
                 }}
               >
@@ -63,4 +65,4 @@ const EditPromoSheet: SheetComponent<EditPromoSheetProps> = ({
   )
 }
 
-export default EditPromoSheet
+export default EditCollectionSheet

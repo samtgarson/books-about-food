@@ -1,9 +1,9 @@
 import { Book } from '@books-about-food/core/models/book'
+import { Collection } from '@books-about-food/core/models/collection'
 import { Contribution } from '@books-about-food/core/models/contribution'
 import { FullBook } from '@books-about-food/core/models/full-book'
 import { Image } from '@books-about-food/core/models/image'
 import { Profile } from '@books-about-food/core/models/profile'
-import { Promo } from '@books-about-food/core/models/promo'
 import { Publisher } from '@books-about-food/core/models/publisher'
 import superjson from 'superjson'
 
@@ -13,7 +13,7 @@ superjson.registerClass(Image, { identifier: 'Image' })
 superjson.registerClass(Profile, { identifier: 'Profile' })
 superjson.registerClass(Publisher, { identifier: 'Publisher' })
 superjson.registerClass(Contribution, { identifier: 'Contribution' })
-superjson.registerClass(Promo, { identifier: 'Promo' })
+superjson.registerClass(Collection, { identifier: 'Collection' })
 
 export const stringify = <T>(value: T): Stringified<T> => {
   return superjson.stringify(value) as Stringified<T>
