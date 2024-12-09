@@ -5,18 +5,13 @@ import { Service } from '../base'
 import { collectionIncludes } from '../utils'
 
 export const fetchCollection = new Service(
-  z.object({ publisherSlug: z.string().optional() }),
-  async function ({ publisherSlug } = {}) {
-    const data = await prisma.collection.findMany({
-      where: {
-        publisher: { slug: publisherSlug },
-        OR: [{ until: { gt: new Date() } }, { until: { equals: null } }]
-      },
-      orderBy: { createdAt: 'desc' },
-      take: 1,
+  z.object({ slug: z.string().optional() }),
+  async function ({ slug } = {}) {
+    const data = await prisma.collection.findUniqueOrThrow({
+      where: { slug },
       include: collectionIncludes
     })
 
-    return data.map((collection) => new Collection(collection))[0]
+    return new Collection(data)
   }
 )

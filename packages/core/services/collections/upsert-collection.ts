@@ -1,4 +1,5 @@
 import prisma from '@books-about-food/database'
+import { slugify } from '@books-about-food/shared/utils/slugify'
 import z from 'zod'
 import { Collection } from '../../models/collection'
 import { can } from '../../policies'
@@ -35,7 +36,7 @@ async function upsert(
   const collectionItemData = bookIds.map((bookId, i) => ({ bookId, order: i }))
   if (id) {
     return await prisma.collection.update({
-      where: { id },
+      where: { id, publisherId },
       include: collectionIncludes,
       data: {
         title,
@@ -51,6 +52,7 @@ async function upsert(
     include: collectionIncludes,
     data: {
       title,
+      slug: slugify(title),
       publisherId: publisherId,
       collectionItems: { createMany: { data: collectionItemData } }
     }

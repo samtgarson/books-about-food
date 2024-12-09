@@ -6,6 +6,10 @@ const plugin = require('tailwindcss/plugin')
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}', './app/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    fontWeight: {
+      normal: 400,
+      medium: 500
+    },
     extend: {
       fontFamily: {
         sans: ['var(--font-graphik)', ...defaultTheme.fontFamily.sans]
@@ -46,7 +50,7 @@ module.exports = {
         'accordion-close': 'accordion-close 0.2s ease-out both'
       },
       screens: {
-        'mobile-only': { max: '700px' },
+        'mobile-only': { max: '640px' },
         short: { raw: '(max-height: 650px)' }
       },
       zIndex: {
@@ -82,10 +86,6 @@ module.exports = {
       tertiary: {
         blue: '#E0EAFF'
       }
-    },
-    fontWeight: {
-      normal: 400,
-      medium: 500
     },
     fontSize: {
       10: ['10px', '12px'],

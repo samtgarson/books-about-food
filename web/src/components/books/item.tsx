@@ -49,7 +49,7 @@ export const Container = forwardRef<
   const WrapperEl = book?.href && link ? Link : onClick ? 'button' : 'div'
   return (
     <li
-      className={cn('group', className)}
+      className={cn('group z-20', className)}
       ref={ref}
       aria-label={book?.title}
       id={bookGridItemId(book?.id)}

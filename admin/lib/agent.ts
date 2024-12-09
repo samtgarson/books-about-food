@@ -7,6 +7,7 @@ import { resolve } from 'path'
 import pkgDir from 'pkg-dir'
 import { customiseBooks } from './collections/books'
 import { customiseClaims } from './collections/claims'
+import { customiseCollections } from './collections/collections'
 import { customiseContributions } from './collections/contributions'
 import { customiseFAQs } from './collections/faqs'
 import { customiseFeatures } from './collections/features'
@@ -42,6 +43,7 @@ export const agent = createAgent<Schema>({
 agent
   .addDataSource(datasource)
   .customizeCollection('books', customiseBooks)
+  .customizeCollection('collections', customiseCollections)
   .customizeCollection('publishers', customisePublishers)
   .customizeCollection('contributions', customiseContributions)
   .customizeCollection('profiles', customiseProfiles)

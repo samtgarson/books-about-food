@@ -65,7 +65,7 @@ export const Transition = forwardRef<TransitionControl, TransitionProps>(
           // eslint-disable-next-line no-empty
         } catch (e) {}
       },
-      [closeSheet]
+      [closeSheet, setInternalLoading]
     )
 
     useEffect(() => {
@@ -76,7 +76,7 @@ export const Transition = forwardRef<TransitionControl, TransitionProps>(
 
       setShow(false)
       setInternalLoading(false)
-    }, [pathname])
+    }, [pathname, setInternalLoading])
 
     useEffect(() => {
       window.addEventListener('click', handleClick)

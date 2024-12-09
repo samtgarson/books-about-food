@@ -44,7 +44,9 @@ export async function generateStaticParams() {
   )
 }
 
-export default async ({ params: { slug } }: CookbooksPageProps) => {
+export default async function CookbookPage({
+  params: { slug }
+}: CookbooksPageProps) {
   const { data: book } = await call(fetchBook, { slug, onlyPublished: true })
   if (!book) notFound()
 

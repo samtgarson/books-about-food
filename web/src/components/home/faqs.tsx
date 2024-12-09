@@ -3,6 +3,7 @@
 import { FrequentlyAskedQuestion } from '@books-about-food/database'
 import { useState } from 'react'
 import * as Accordion from 'src/components/atoms/accordion'
+import { EditorRenderer } from '../form/editor/renderer'
 import { Search } from '../lists/search'
 
 export function Faqs({ questions }: { questions: FrequentlyAskedQuestion[] }) {
@@ -32,8 +33,8 @@ export function Faqs({ questions }: { questions: FrequentlyAskedQuestion[] }) {
           <div key={index} className="flex-[500px] flex flex-col gap-4">
             {questions.map(({ question, id, answer }) => (
               <Accordion.Item title={question} value={id} key={id}>
-                <div
-                  dangerouslySetInnerHTML={{ __html: answer }}
+                <EditorRenderer
+                  content={answer}
                   className="max-w-prose prose"
                 />
               </Accordion.Item>

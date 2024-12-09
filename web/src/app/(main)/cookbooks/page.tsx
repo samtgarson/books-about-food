@@ -1,4 +1,5 @@
 import { fetchBooks } from '@books-about-food/core/services/books/fetch-books'
+import { ComponentProps } from 'react'
 import { BookFilters } from 'src/components/books/filters'
 import { BookList, SkeletonBookList } from 'src/components/books/list'
 import { createIndexPage } from 'src/components/pages/index-page'
@@ -15,7 +16,9 @@ export const generateMetadata = indexPageMetadata({
 
 export default createIndexPage({
   components: {
-    content: BookList,
+    content: (props: ComponentProps<typeof BookList>) => (
+      <BookList {...props} showCollection />
+    ),
     loading: SkeletonBookList,
     filters: BookFilters
   },
