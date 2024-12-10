@@ -1,7 +1,7 @@
 'use client'
 
 import { FC } from 'react'
-import { getHostname } from 'src/utils/url-helpers'
+import { prettyWebsiteLabel } from 'src/utils/url-helpers'
 import { Detail } from '../../atoms/detail'
 import { useEditPublisher } from './context'
 import { Field } from './field'
@@ -23,7 +23,9 @@ export const LinkList: FC = () => {
     <Detail className="flex flex-wrap items-center gap-2" maxWidth>
       <Field
         attr="website"
-        render={(value) => <Anchor url={value}>{getHostname(value)}</Anchor>}
+        render={(value) => (
+          <Anchor url={value}>{prettyWebsiteLabel(value)}</Anchor>
+        )}
         placeholder="Add website"
       />
       {showDivider && <p aria-hidden>•</p>}

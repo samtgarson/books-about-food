@@ -29,9 +29,11 @@ export const mergeParams = (
   return [definedPath, definedParams.toString()].filter(Boolean).join('?')
 }
 
-export function getHostname(url: string) {
+export function prettyWebsiteLabel(url: string) {
   try {
-    return new URL(url).hostname
+    const hostname = new URL(url).hostname
+    if (hostname.endsWith('linkedin.com')) return 'LinkedIn'
+    return hostname
   } catch (e) {
     return ''
   }
