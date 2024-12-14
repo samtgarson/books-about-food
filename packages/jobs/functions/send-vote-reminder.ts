@@ -23,7 +23,7 @@ export const sendVoteReminder = inngest.createFunction(
 
     const result = await step.invoke('send-vote-reminder-email', {
       function: email,
-      data: { key: 'voteReminder', props: undefined },
+      data: { key: 'voteReminder', props: {} },
       user: event.user
     })
 

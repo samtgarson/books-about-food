@@ -26,7 +26,7 @@
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Prisma.io](https://prisma.io/)
 - [Inngest](https://inngest.com/)
-- [Mailing.run](https://www.mailing.run/)
+- [React Email](https://react.email/)
 
 ## Getting Started
 
@@ -55,14 +55,14 @@ To get a local copy up and running, please follow these simple steps.
 | **Core Services**    | [/packages/core](`packages/core`)         | A set of shared services, with consistent APIs, for performing business logic.       |
 | **Database**         | [/packages/database](`packages/database`) | Prisma schema and client instantiation                                               |
 | **End to End tests** | [/packages/e2e](`packages/e2e`)           |  a set of black-box e2e specs for testing critical flows                             |
-| **Email**            | [/packages/email](`packages/email`)       | Email templates using MJML and Mailing, including a development preview server       |
+| **Email**            | [/packages/email](`packages/email`)       | Email templates using react.email, including a development preview server            |
 | **Jobs**             | [/packages/jobs](`packages/jobs`)         | A set of asynchronous background jobs, run as functions using Inngest                |
 
 ### Development Apps
 
 1. **Frontend → [`http://localhost:5000`](http://localhost:5000)**
 2. **Admin Backend\* → [`http://localhost:5001`](http://localhost:5001)**
-3. **Email preview → [`http://localhost:3883`](http://localhost:3883)**
+3. **Email preview → [`http://localhost:3883`](http://localhost:3002)**
 4. **Inngest dev server → [`http://localhost:8288`](http://localhost:8288)**
 
 <sub><em>\*(N.B. this is not designed to be accessed in the browser, only via Forest, Inngest or API call)</em></sub>

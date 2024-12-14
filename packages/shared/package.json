@@ -5,6 +5,8 @@
   "types": "index.ts",
   "scripts": {},
   "dependencies": {
-    "slugify": "^1.6.5"
+    "@tailwindcss/typography": "^0.5.10",
+    "slugify": "^1.6.5",
+    "tailwindcss": "^3.4.0"
   }
 }
