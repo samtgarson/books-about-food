@@ -28,13 +28,16 @@ export default emailTemplate({
         ) : (
           <Text>Click the button below to sign in.</Text>
         )}
-        <Button href={url}>{newUser ? 'Verify Email' : 'Sign In'}</Button>
+        <Button data-pm-no-track href={url}>
+          {newUser ? 'Verify Email' : 'Sign In'}
+        </Button>
         <Text>Or, copy and paste this URL into your browser:</Text>
         <Text>
           <a
             className="font-mono"
             href={url}
             style={{ overflowWrap: 'anywhere' }}
+            data-pm-no-track
           >
             {url}
           </a>
