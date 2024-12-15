@@ -242,7 +242,7 @@ model Publisher {
   houseId        String?  @map("imprint_id") @db.Uuid
   slug           String   @unique
   hiddenBooks    String[] @default([]) @map("hidden_books")
-  contactInfo    String?  @map("contact_info")
+  description    String?  @map("description")
 
   books       Book[]
   logo        Image?                @relation("publisher_logo")

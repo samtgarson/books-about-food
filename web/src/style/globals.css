@@ -108,4 +108,8 @@
   .float-menu {
     @apply rounded-md bg-white p-1 shadow-md;
   }
+
+  .break-anywhere {
+    overflow-wrap: anywhere;
+  }
 }

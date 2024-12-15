@@ -269,8 +269,8 @@ export type Schema = {
       'book:image:Source': string;
       'book:image:updated_at': string;
       'book:image:width': number;
-      'book:publisher:contact_info': string;
       'book:publisher:created_at': string;
+      'book:publisher:description': string;
       'book:publisher:direct_contact': string;
       'book:publisher:generic_contact': string;
       'book:publisher:hidden_books': Array<string>;
@@ -364,8 +364,8 @@ export type Schema = {
       'book:image:profile:updated_at': string;
       'book:image:profile:user_id': string;
       'book:image:profile:website': string;
-      'book:image:publisher:contact_info': string;
       'book:image:publisher:created_at': string;
+      'book:image:publisher:description': string;
       'book:image:publisher:direct_contact': string;
       'book:image:publisher:generic_contact': string;
       'book:image:publisher:hidden_books': Array<string>;
@@ -392,8 +392,8 @@ export type Schema = {
       'book:publisher:image:Source': string;
       'book:publisher:image:updated_at': string;
       'book:publisher:image:width': number;
-      'book:publisher:imprint:contact_info': string;
       'book:publisher:imprint:created_at': string;
+      'book:publisher:imprint:description': string;
       'book:publisher:imprint:direct_contact': string;
       'book:publisher:imprint:generic_contact': string;
       'book:publisher:imprint:hidden_books': Array<string>;
@@ -475,8 +475,8 @@ export type Schema = {
       'profile:image:preview_for:Tags': Array<string>;
       'profile:image:preview_for:title': string;
       'profile:image:preview_for:updated_at': string;
-      'profile:image:publisher:contact_info': string;
       'profile:image:publisher:created_at': string;
+      'profile:image:publisher:description': string;
       'profile:image:publisher:direct_contact': string;
       'profile:image:publisher:generic_contact': string;
       'profile:image:publisher:hidden_books': Array<string>;
@@ -511,8 +511,8 @@ export type Schema = {
       'book:image:preview_for:image:Source': string;
       'book:image:preview_for:image:updated_at': string;
       'book:image:preview_for:image:width': number;
-      'book:image:preview_for:publisher:contact_info': string;
       'book:image:preview_for:publisher:created_at': string;
+      'book:image:preview_for:publisher:description': string;
       'book:image:preview_for:publisher:direct_contact': string;
       'book:image:preview_for:publisher:generic_contact': string;
       'book:image:preview_for:publisher:hidden_books': Array<string>;
@@ -545,8 +545,8 @@ export type Schema = {
       'book:image:profile:user:name': string;
       'book:image:profile:user:role': 'admin' | 'user' | 'waitlist';
       'book:image:profile:user:updated_at': string;
-      'book:image:publisher:imprint:contact_info': string;
       'book:image:publisher:imprint:created_at': string;
+      'book:image:publisher:imprint:description': string;
       'book:image:publisher:imprint:direct_contact': string;
       'book:image:publisher:imprint:generic_contact': string;
       'book:image:publisher:imprint:hidden_books': Array<string>;
@@ -643,8 +643,8 @@ export type Schema = {
       'book:publisher:imprint:image:Source': string;
       'book:publisher:imprint:image:updated_at': string;
       'book:publisher:imprint:image:width': number;
-      'book:publisher:imprint:imprint:contact_info': string;
       'book:publisher:imprint:imprint:created_at': string;
+      'book:publisher:imprint:imprint:description': string;
       'book:publisher:imprint:imprint:direct_contact': string;
       'book:publisher:imprint:imprint:generic_contact': string;
       'book:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -676,8 +676,8 @@ export type Schema = {
       'book:submitter:profile:image:Source': string;
       'book:submitter:profile:image:updated_at': string;
       'book:submitter:profile:image:width': number;
-      'profile:image:cover_for:publisher:contact_info': string;
       'profile:image:cover_for:publisher:created_at': string;
+      'profile:image:cover_for:publisher:description': string;
       'profile:image:cover_for:publisher:direct_contact': string;
       'profile:image:cover_for:publisher:generic_contact': string;
       'profile:image:cover_for:publisher:hidden_books': Array<string>;
@@ -720,8 +720,8 @@ export type Schema = {
       'profile:image:preview_for:image:Source': string;
       'profile:image:preview_for:image:updated_at': string;
       'profile:image:preview_for:image:width': number;
-      'profile:image:preview_for:publisher:contact_info': string;
       'profile:image:preview_for:publisher:created_at': string;
+      'profile:image:preview_for:publisher:description': string;
       'profile:image:preview_for:publisher:direct_contact': string;
       'profile:image:preview_for:publisher:generic_contact': string;
       'profile:image:preview_for:publisher:hidden_books': Array<string>;
@@ -741,8 +741,8 @@ export type Schema = {
       'profile:image:preview_for:submitter:name': string;
       'profile:image:preview_for:submitter:role': 'admin' | 'user' | 'waitlist';
       'profile:image:preview_for:submitter:updated_at': string;
-      'profile:image:publisher:imprint:contact_info': string;
       'profile:image:publisher:imprint:created_at': string;
+      'profile:image:publisher:imprint:description': string;
       'profile:image:publisher:imprint:direct_contact': string;
       'profile:image:publisher:imprint:generic_contact': string;
       'profile:image:publisher:imprint:hidden_books': Array<string>;
@@ -814,8 +814,8 @@ export type Schema = {
       'book:image:preview_for:image:profile:updated_at': string;
       'book:image:preview_for:image:profile:user_id': string;
       'book:image:preview_for:image:profile:website': string;
-      'book:image:preview_for:image:publisher:contact_info': string;
       'book:image:preview_for:image:publisher:created_at': string;
+      'book:image:preview_for:image:publisher:description': string;
       'book:image:preview_for:image:publisher:direct_contact': string;
       'book:image:preview_for:image:publisher:generic_contact': string;
       'book:image:preview_for:image:publisher:hidden_books': Array<string>;
@@ -842,8 +842,8 @@ export type Schema = {
       'book:image:preview_for:publisher:image:Source': string;
       'book:image:preview_for:publisher:image:updated_at': string;
       'book:image:preview_for:publisher:image:width': number;
-      'book:image:preview_for:publisher:imprint:contact_info': string;
       'book:image:preview_for:publisher:imprint:created_at': string;
+      'book:image:preview_for:publisher:imprint:description': string;
       'book:image:preview_for:publisher:imprint:direct_contact': string;
       'book:image:preview_for:publisher:imprint:generic_contact': string;
       'book:image:preview_for:publisher:imprint:hidden_books': Array<string>;
@@ -869,8 +869,8 @@ export type Schema = {
       'book:image:preview_for:submitter:profile:updated_at': string;
       'book:image:preview_for:submitter:profile:user_id': string;
       'book:image:preview_for:submitter:profile:website': string;
-      'book:image:publisher:imprint:imprint:contact_info': string;
       'book:image:publisher:imprint:imprint:created_at': string;
+      'book:image:publisher:imprint:imprint:description': string;
       'book:image:publisher:imprint:imprint:direct_contact': string;
       'book:image:publisher:imprint:imprint:generic_contact': string;
       'book:image:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -882,8 +882,8 @@ export type Schema = {
       'book:image:publisher:imprint:imprint:slug': string;
       'book:image:publisher:imprint:imprint:updated_at': string;
       'book:image:publisher:imprint:imprint:website': string;
-      'book:publisher:image:cover_for:publisher:contact_info': string;
       'book:publisher:image:cover_for:publisher:created_at': string;
+      'book:publisher:image:cover_for:publisher:description': string;
       'book:publisher:image:cover_for:publisher:direct_contact': string;
       'book:publisher:image:cover_for:publisher:generic_contact': string;
       'book:publisher:image:cover_for:publisher:hidden_books': Array<string>;
@@ -926,8 +926,8 @@ export type Schema = {
       'book:publisher:image:preview_for:image:Source': string;
       'book:publisher:image:preview_for:image:updated_at': string;
       'book:publisher:image:preview_for:image:width': number;
-      'book:publisher:image:preview_for:publisher:contact_info': string;
       'book:publisher:image:preview_for:publisher:created_at': string;
+      'book:publisher:image:preview_for:publisher:description': string;
       'book:publisher:image:preview_for:publisher:direct_contact': string;
       'book:publisher:image:preview_for:publisher:generic_contact': string;
       'book:publisher:image:preview_for:publisher:hidden_books': Array<string>;
@@ -1045,8 +1045,8 @@ export type Schema = {
       'book:publisher:imprint:imprint:image:Source': string;
       'book:publisher:imprint:imprint:image:updated_at': string;
       'book:publisher:imprint:imprint:image:width': number;
-      'book:publisher:imprint:imprint:imprint:contact_info': string;
       'book:publisher:imprint:imprint:imprint:created_at': string;
+      'book:publisher:imprint:imprint:imprint:description': string;
       'book:publisher:imprint:imprint:imprint:direct_contact': string;
       'book:publisher:imprint:imprint:imprint:generic_contact': string;
       'book:publisher:imprint:imprint:imprint:hidden_books': Array<string>;
@@ -1114,8 +1114,8 @@ export type Schema = {
       'book:submitter:profile:image:preview_for:Tags': Array<string>;
       'book:submitter:profile:image:preview_for:title': string;
       'book:submitter:profile:image:preview_for:updated_at': string;
-      'book:submitter:profile:image:publisher:contact_info': string;
       'book:submitter:profile:image:publisher:created_at': string;
+      'book:submitter:profile:image:publisher:description': string;
       'book:submitter:profile:image:publisher:direct_contact': string;
       'book:submitter:profile:image:publisher:generic_contact': string;
       'book:submitter:profile:image:publisher:hidden_books': Array<string>;
@@ -1142,8 +1142,8 @@ export type Schema = {
       'profile:image:cover_for:publisher:image:Source': string;
       'profile:image:cover_for:publisher:image:updated_at': string;
       'profile:image:cover_for:publisher:image:width': number;
-      'profile:image:cover_for:publisher:imprint:contact_info': string;
       'profile:image:cover_for:publisher:imprint:created_at': string;
+      'profile:image:cover_for:publisher:imprint:description': string;
       'profile:image:cover_for:publisher:imprint:direct_contact': string;
       'profile:image:cover_for:publisher:imprint:generic_contact': string;
       'profile:image:cover_for:publisher:imprint:hidden_books': Array<string>;
@@ -1215,8 +1215,8 @@ export type Schema = {
       'profile:image:preview_for:image:preview_for:Tags': Array<string>;
       'profile:image:preview_for:image:preview_for:title': string;
       'profile:image:preview_for:image:preview_for:updated_at': string;
-      'profile:image:preview_for:image:publisher:contact_info': string;
       'profile:image:preview_for:image:publisher:created_at': string;
+      'profile:image:preview_for:image:publisher:description': string;
       'profile:image:preview_for:image:publisher:direct_contact': string;
       'profile:image:preview_for:image:publisher:generic_contact': string;
       'profile:image:preview_for:image:publisher:hidden_books': Array<string>;
@@ -1243,8 +1243,8 @@ export type Schema = {
       'profile:image:preview_for:publisher:image:Source': string;
       'profile:image:preview_for:publisher:image:updated_at': string;
       'profile:image:preview_for:publisher:image:width': number;
-      'profile:image:preview_for:publisher:imprint:contact_info': string;
       'profile:image:preview_for:publisher:imprint:created_at': string;
+      'profile:image:preview_for:publisher:imprint:description': string;
       'profile:image:preview_for:publisher:imprint:direct_contact': string;
       'profile:image:preview_for:publisher:imprint:generic_contact': string;
       'profile:image:preview_for:publisher:imprint:hidden_books': Array<string>;
@@ -1270,8 +1270,8 @@ export type Schema = {
       'profile:image:preview_for:submitter:profile:updated_at': string;
       'profile:image:preview_for:submitter:profile:user_id': string;
       'profile:image:preview_for:submitter:profile:website': string;
-      'profile:image:publisher:imprint:imprint:contact_info': string;
       'profile:image:publisher:imprint:imprint:created_at': string;
+      'profile:image:publisher:imprint:imprint:description': string;
       'profile:image:publisher:imprint:imprint:direct_contact': string;
       'profile:image:publisher:imprint:imprint:generic_contact': string;
       'profile:image:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -1340,8 +1340,8 @@ export type Schema = {
       'book:image:Source': string;
       'book:image:updated_at': string;
       'book:image:width': number;
-      'book:publisher:contact_info': string;
       'book:publisher:created_at': string;
+      'book:publisher:description': string;
       'book:publisher:direct_contact': string;
       'book:publisher:generic_contact': string;
       'book:publisher:hidden_books': Array<string>;
@@ -1413,8 +1413,8 @@ export type Schema = {
       'book:image:profile:updated_at': string;
       'book:image:profile:user_id': string;
       'book:image:profile:website': string;
-      'book:image:publisher:contact_info': string;
       'book:image:publisher:created_at': string;
+      'book:image:publisher:description': string;
       'book:image:publisher:direct_contact': string;
       'book:image:publisher:generic_contact': string;
       'book:image:publisher:hidden_books': Array<string>;
@@ -1441,8 +1441,8 @@ export type Schema = {
       'book:publisher:image:Source': string;
       'book:publisher:image:updated_at': string;
       'book:publisher:image:width': number;
-      'book:publisher:imprint:contact_info': string;
       'book:publisher:imprint:created_at': string;
+      'book:publisher:imprint:description': string;
       'book:publisher:imprint:direct_contact': string;
       'book:publisher:imprint:generic_contact': string;
       'book:publisher:imprint:hidden_books': Array<string>;
@@ -1491,8 +1491,8 @@ export type Schema = {
       'book:image:preview_for:image:Source': string;
       'book:image:preview_for:image:updated_at': string;
       'book:image:preview_for:image:width': number;
-      'book:image:preview_for:publisher:contact_info': string;
       'book:image:preview_for:publisher:created_at': string;
+      'book:image:preview_for:publisher:description': string;
       'book:image:preview_for:publisher:direct_contact': string;
       'book:image:preview_for:publisher:generic_contact': string;
       'book:image:preview_for:publisher:hidden_books': Array<string>;
@@ -1525,8 +1525,8 @@ export type Schema = {
       'book:image:profile:user:name': string;
       'book:image:profile:user:role': 'admin' | 'user' | 'waitlist';
       'book:image:profile:user:updated_at': string;
-      'book:image:publisher:imprint:contact_info': string;
       'book:image:publisher:imprint:created_at': string;
+      'book:image:publisher:imprint:description': string;
       'book:image:publisher:imprint:direct_contact': string;
       'book:image:publisher:imprint:generic_contact': string;
       'book:image:publisher:imprint:hidden_books': Array<string>;
@@ -1623,8 +1623,8 @@ export type Schema = {
       'book:publisher:imprint:image:Source': string;
       'book:publisher:imprint:image:updated_at': string;
       'book:publisher:imprint:image:width': number;
-      'book:publisher:imprint:imprint:contact_info': string;
       'book:publisher:imprint:imprint:created_at': string;
+      'book:publisher:imprint:imprint:description': string;
       'book:publisher:imprint:imprint:direct_contact': string;
       'book:publisher:imprint:imprint:generic_contact': string;
       'book:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -1716,8 +1716,8 @@ export type Schema = {
       'book:image:preview_for:image:profile:updated_at': string;
       'book:image:preview_for:image:profile:user_id': string;
       'book:image:preview_for:image:profile:website': string;
-      'book:image:preview_for:image:publisher:contact_info': string;
       'book:image:preview_for:image:publisher:created_at': string;
+      'book:image:preview_for:image:publisher:description': string;
       'book:image:preview_for:image:publisher:direct_contact': string;
       'book:image:preview_for:image:publisher:generic_contact': string;
       'book:image:preview_for:image:publisher:hidden_books': Array<string>;
@@ -1744,8 +1744,8 @@ export type Schema = {
       'book:image:preview_for:publisher:image:Source': string;
       'book:image:preview_for:publisher:image:updated_at': string;
       'book:image:preview_for:publisher:image:width': number;
-      'book:image:preview_for:publisher:imprint:contact_info': string;
       'book:image:preview_for:publisher:imprint:created_at': string;
+      'book:image:preview_for:publisher:imprint:description': string;
       'book:image:preview_for:publisher:imprint:direct_contact': string;
       'book:image:preview_for:publisher:imprint:generic_contact': string;
       'book:image:preview_for:publisher:imprint:hidden_books': Array<string>;
@@ -1771,8 +1771,8 @@ export type Schema = {
       'book:image:preview_for:submitter:profile:updated_at': string;
       'book:image:preview_for:submitter:profile:user_id': string;
       'book:image:preview_for:submitter:profile:website': string;
-      'book:image:publisher:imprint:imprint:contact_info': string;
       'book:image:publisher:imprint:imprint:created_at': string;
+      'book:image:publisher:imprint:imprint:description': string;
       'book:image:publisher:imprint:imprint:direct_contact': string;
       'book:image:publisher:imprint:imprint:generic_contact': string;
       'book:image:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -1784,8 +1784,8 @@ export type Schema = {
       'book:image:publisher:imprint:imprint:slug': string;
       'book:image:publisher:imprint:imprint:updated_at': string;
       'book:image:publisher:imprint:imprint:website': string;
-      'book:publisher:image:cover_for:publisher:contact_info': string;
       'book:publisher:image:cover_for:publisher:created_at': string;
+      'book:publisher:image:cover_for:publisher:description': string;
       'book:publisher:image:cover_for:publisher:direct_contact': string;
       'book:publisher:image:cover_for:publisher:generic_contact': string;
       'book:publisher:image:cover_for:publisher:hidden_books': Array<string>;
@@ -1828,8 +1828,8 @@ export type Schema = {
       'book:publisher:image:preview_for:image:Source': string;
       'book:publisher:image:preview_for:image:updated_at': string;
       'book:publisher:image:preview_for:image:width': number;
-      'book:publisher:image:preview_for:publisher:contact_info': string;
       'book:publisher:image:preview_for:publisher:created_at': string;
+      'book:publisher:image:preview_for:publisher:description': string;
       'book:publisher:image:preview_for:publisher:direct_contact': string;
       'book:publisher:image:preview_for:publisher:generic_contact': string;
       'book:publisher:image:preview_for:publisher:hidden_books': Array<string>;
@@ -1947,8 +1947,8 @@ export type Schema = {
       'book:publisher:imprint:imprint:image:Source': string;
       'book:publisher:imprint:imprint:image:updated_at': string;
       'book:publisher:imprint:imprint:image:width': number;
-      'book:publisher:imprint:imprint:imprint:contact_info': string;
       'book:publisher:imprint:imprint:imprint:created_at': string;
+      'book:publisher:imprint:imprint:imprint:description': string;
       'book:publisher:imprint:imprint:imprint:direct_contact': string;
       'book:publisher:imprint:imprint:imprint:generic_contact': string;
       'book:publisher:imprint:imprint:imprint:hidden_books': Array<string>;
@@ -2016,8 +2016,8 @@ export type Schema = {
       'book:submitter:profile:image:preview_for:Tags': Array<string>;
       'book:submitter:profile:image:preview_for:title': string;
       'book:submitter:profile:image:preview_for:updated_at': string;
-      'book:submitter:profile:image:publisher:contact_info': string;
       'book:submitter:profile:image:publisher:created_at': string;
+      'book:submitter:profile:image:publisher:description': string;
       'book:submitter:profile:image:publisher:direct_contact': string;
       'book:submitter:profile:image:publisher:generic_contact': string;
       'book:submitter:profile:image:publisher:hidden_books': Array<string>;
@@ -2163,8 +2163,8 @@ export type Schema = {
       'user:profile:image:preview_for:Tags': Array<string>;
       'user:profile:image:preview_for:title': string;
       'user:profile:image:preview_for:updated_at': string;
-      'user:profile:image:publisher:contact_info': string;
       'user:profile:image:publisher:created_at': string;
+      'user:profile:image:publisher:description': string;
       'user:profile:image:publisher:direct_contact': string;
       'user:profile:image:publisher:generic_contact': string;
       'user:profile:image:publisher:hidden_books': Array<string>;
@@ -2176,8 +2176,8 @@ export type Schema = {
       'user:profile:image:publisher:slug': string;
       'user:profile:image:publisher:updated_at': string;
       'user:profile:image:publisher:website': string;
-      'user:profile:image:cover_for:publisher:contact_info': string;
       'user:profile:image:cover_for:publisher:created_at': string;
+      'user:profile:image:cover_for:publisher:description': string;
       'user:profile:image:cover_for:publisher:direct_contact': string;
       'user:profile:image:cover_for:publisher:generic_contact': string;
       'user:profile:image:cover_for:publisher:hidden_books': Array<string>;
@@ -2220,8 +2220,8 @@ export type Schema = {
       'user:profile:image:preview_for:image:Source': string;
       'user:profile:image:preview_for:image:updated_at': string;
       'user:profile:image:preview_for:image:width': number;
-      'user:profile:image:preview_for:publisher:contact_info': string;
       'user:profile:image:preview_for:publisher:created_at': string;
+      'user:profile:image:preview_for:publisher:description': string;
       'user:profile:image:preview_for:publisher:direct_contact': string;
       'user:profile:image:preview_for:publisher:generic_contact': string;
       'user:profile:image:preview_for:publisher:hidden_books': Array<string>;
@@ -2241,8 +2241,8 @@ export type Schema = {
       'user:profile:image:preview_for:submitter:name': string;
       'user:profile:image:preview_for:submitter:role': 'admin' | 'user' | 'waitlist';
       'user:profile:image:preview_for:submitter:updated_at': string;
-      'user:profile:image:publisher:imprint:contact_info': string;
       'user:profile:image:publisher:imprint:created_at': string;
+      'user:profile:image:publisher:imprint:description': string;
       'user:profile:image:publisher:imprint:direct_contact': string;
       'user:profile:image:publisher:imprint:generic_contact': string;
       'user:profile:image:publisher:imprint:hidden_books': Array<string>;
@@ -2315,8 +2315,8 @@ export type Schema = {
       'book:image:Source': string;
       'book:image:updated_at': string;
       'book:image:width': number;
-      'book:publisher:contact_info': string;
       'book:publisher:created_at': string;
+      'book:publisher:description': string;
       'book:publisher:direct_contact': string;
       'book:publisher:generic_contact': string;
       'book:publisher:hidden_books': Array<string>;
@@ -2396,8 +2396,8 @@ export type Schema = {
       'book:image:profile:updated_at': string;
       'book:image:profile:user_id': string;
       'book:image:profile:website': string;
-      'book:image:publisher:contact_info': string;
       'book:image:publisher:created_at': string;
+      'book:image:publisher:description': string;
       'book:image:publisher:direct_contact': string;
       'book:image:publisher:generic_contact': string;
       'book:image:publisher:hidden_books': Array<string>;
@@ -2424,8 +2424,8 @@ export type Schema = {
       'book:publisher:image:Source': string;
       'book:publisher:image:updated_at': string;
       'book:publisher:image:width': number;
-      'book:publisher:imprint:contact_info': string;
       'book:publisher:imprint:created_at': string;
+      'book:publisher:imprint:description': string;
       'book:publisher:imprint:direct_contact': string;
       'book:publisher:imprint:generic_contact': string;
       'book:publisher:imprint:hidden_books': Array<string>;
@@ -2494,8 +2494,8 @@ export type Schema = {
       'book:image:preview_for:image:Source': string;
       'book:image:preview_for:image:updated_at': string;
       'book:image:preview_for:image:width': number;
-      'book:image:preview_for:publisher:contact_info': string;
       'book:image:preview_for:publisher:created_at': string;
+      'book:image:preview_for:publisher:description': string;
       'book:image:preview_for:publisher:direct_contact': string;
       'book:image:preview_for:publisher:generic_contact': string;
       'book:image:preview_for:publisher:hidden_books': Array<string>;
@@ -2528,8 +2528,8 @@ export type Schema = {
       'book:image:profile:user:name': string;
       'book:image:profile:user:role': 'admin' | 'user' | 'waitlist';
       'book:image:profile:user:updated_at': string;
-      'book:image:publisher:imprint:contact_info': string;
       'book:image:publisher:imprint:created_at': string;
+      'book:image:publisher:imprint:description': string;
       'book:image:publisher:imprint:direct_contact': string;
       'book:image:publisher:imprint:generic_contact': string;
       'book:image:publisher:imprint:hidden_books': Array<string>;
@@ -2626,8 +2626,8 @@ export type Schema = {
       'book:publisher:imprint:image:Source': string;
       'book:publisher:imprint:image:updated_at': string;
       'book:publisher:imprint:image:width': number;
-      'book:publisher:imprint:imprint:contact_info': string;
       'book:publisher:imprint:imprint:created_at': string;
+      'book:publisher:imprint:imprint:description': string;
       'book:publisher:imprint:imprint:direct_contact': string;
       'book:publisher:imprint:imprint:generic_contact': string;
       'book:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -2715,8 +2715,8 @@ export type Schema = {
       'user:profile:image:preview_for:Tags': Array<string>;
       'user:profile:image:preview_for:title': string;
       'user:profile:image:preview_for:updated_at': string;
-      'user:profile:image:publisher:contact_info': string;
       'user:profile:image:publisher:created_at': string;
+      'user:profile:image:publisher:description': string;
       'user:profile:image:publisher:direct_contact': string;
       'user:profile:image:publisher:generic_contact': string;
       'user:profile:image:publisher:hidden_books': Array<string>;
@@ -2788,8 +2788,8 @@ export type Schema = {
       'book:image:preview_for:image:profile:updated_at': string;
       'book:image:preview_for:image:profile:user_id': string;
       'book:image:preview_for:image:profile:website': string;
-      'book:image:preview_for:image:publisher:contact_info': string;
       'book:image:preview_for:image:publisher:created_at': string;
+      'book:image:preview_for:image:publisher:description': string;
       'book:image:preview_for:image:publisher:direct_contact': string;
       'book:image:preview_for:image:publisher:generic_contact': string;
       'book:image:preview_for:image:publisher:hidden_books': Array<string>;
@@ -2816,8 +2816,8 @@ export type Schema = {
       'book:image:preview_for:publisher:image:Source': string;
       'book:image:preview_for:publisher:image:updated_at': string;
       'book:image:preview_for:publisher:image:width': number;
-      'book:image:preview_for:publisher:imprint:contact_info': string;
       'book:image:preview_for:publisher:imprint:created_at': string;
+      'book:image:preview_for:publisher:imprint:description': string;
       'book:image:preview_for:publisher:imprint:direct_contact': string;
       'book:image:preview_for:publisher:imprint:generic_contact': string;
       'book:image:preview_for:publisher:imprint:hidden_books': Array<string>;
@@ -2843,8 +2843,8 @@ export type Schema = {
       'book:image:preview_for:submitter:profile:updated_at': string;
       'book:image:preview_for:submitter:profile:user_id': string;
       'book:image:preview_for:submitter:profile:website': string;
-      'book:image:publisher:imprint:imprint:contact_info': string;
       'book:image:publisher:imprint:imprint:created_at': string;
+      'book:image:publisher:imprint:imprint:description': string;
       'book:image:publisher:imprint:imprint:direct_contact': string;
       'book:image:publisher:imprint:imprint:generic_contact': string;
       'book:image:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -2856,8 +2856,8 @@ export type Schema = {
       'book:image:publisher:imprint:imprint:slug': string;
       'book:image:publisher:imprint:imprint:updated_at': string;
       'book:image:publisher:imprint:imprint:website': string;
-      'book:publisher:image:cover_for:publisher:contact_info': string;
       'book:publisher:image:cover_for:publisher:created_at': string;
+      'book:publisher:image:cover_for:publisher:description': string;
       'book:publisher:image:cover_for:publisher:direct_contact': string;
       'book:publisher:image:cover_for:publisher:generic_contact': string;
       'book:publisher:image:cover_for:publisher:hidden_books': Array<string>;
@@ -2900,8 +2900,8 @@ export type Schema = {
       'book:publisher:image:preview_for:image:Source': string;
       'book:publisher:image:preview_for:image:updated_at': string;
       'book:publisher:image:preview_for:image:width': number;
-      'book:publisher:image:preview_for:publisher:contact_info': string;
       'book:publisher:image:preview_for:publisher:created_at': string;
+      'book:publisher:image:preview_for:publisher:description': string;
       'book:publisher:image:preview_for:publisher:direct_contact': string;
       'book:publisher:image:preview_for:publisher:generic_contact': string;
       'book:publisher:image:preview_for:publisher:hidden_books': Array<string>;
@@ -3019,8 +3019,8 @@ export type Schema = {
       'book:publisher:imprint:imprint:image:Source': string;
       'book:publisher:imprint:imprint:image:updated_at': string;
       'book:publisher:imprint:imprint:image:width': number;
-      'book:publisher:imprint:imprint:imprint:contact_info': string;
       'book:publisher:imprint:imprint:imprint:created_at': string;
+      'book:publisher:imprint:imprint:imprint:description': string;
       'book:publisher:imprint:imprint:imprint:direct_contact': string;
       'book:publisher:imprint:imprint:imprint:generic_contact': string;
       'book:publisher:imprint:imprint:imprint:hidden_books': Array<string>;
@@ -3088,8 +3088,8 @@ export type Schema = {
       'book:submitter:profile:image:preview_for:Tags': Array<string>;
       'book:submitter:profile:image:preview_for:title': string;
       'book:submitter:profile:image:preview_for:updated_at': string;
-      'book:submitter:profile:image:publisher:contact_info': string;
       'book:submitter:profile:image:publisher:created_at': string;
+      'book:submitter:profile:image:publisher:description': string;
       'book:submitter:profile:image:publisher:direct_contact': string;
       'book:submitter:profile:image:publisher:generic_contact': string;
       'book:submitter:profile:image:publisher:hidden_books': Array<string>;
@@ -3101,8 +3101,8 @@ export type Schema = {
       'book:submitter:profile:image:publisher:slug': string;
       'book:submitter:profile:image:publisher:updated_at': string;
       'book:submitter:profile:image:publisher:website': string;
-      'user:profile:image:cover_for:publisher:contact_info': string;
       'user:profile:image:cover_for:publisher:created_at': string;
+      'user:profile:image:cover_for:publisher:description': string;
       'user:profile:image:cover_for:publisher:direct_contact': string;
       'user:profile:image:cover_for:publisher:generic_contact': string;
       'user:profile:image:cover_for:publisher:hidden_books': Array<string>;
@@ -3145,8 +3145,8 @@ export type Schema = {
       'user:profile:image:preview_for:image:Source': string;
       'user:profile:image:preview_for:image:updated_at': string;
       'user:profile:image:preview_for:image:width': number;
-      'user:profile:image:preview_for:publisher:contact_info': string;
       'user:profile:image:preview_for:publisher:created_at': string;
+      'user:profile:image:preview_for:publisher:description': string;
       'user:profile:image:preview_for:publisher:direct_contact': string;
       'user:profile:image:preview_for:publisher:generic_contact': string;
       'user:profile:image:preview_for:publisher:hidden_books': Array<string>;
@@ -3166,8 +3166,8 @@ export type Schema = {
       'user:profile:image:preview_for:submitter:name': string;
       'user:profile:image:preview_for:submitter:role': 'admin' | 'user' | 'waitlist';
       'user:profile:image:preview_for:submitter:updated_at': string;
-      'user:profile:image:publisher:imprint:contact_info': string;
       'user:profile:image:publisher:imprint:created_at': string;
+      'user:profile:image:publisher:imprint:description': string;
       'user:profile:image:publisher:imprint:direct_contact': string;
       'user:profile:image:publisher:imprint:generic_contact': string;
       'user:profile:image:publisher:imprint:hidden_books': Array<string>;
@@ -3229,8 +3229,8 @@ export type Schema = {
       'image:Source': string;
       'image:updated_at': string;
       'image:width': number;
-      'publisher:contact_info': string;
       'publisher:created_at': string;
+      'publisher:description': string;
       'publisher:direct_contact': string;
       'publisher:generic_contact': string;
       'publisher:hidden_books': Array<string>;
@@ -3296,8 +3296,8 @@ export type Schema = {
       'image:profile:updated_at': string;
       'image:profile:user_id': string;
       'image:profile:website': string;
-      'image:publisher:contact_info': string;
       'image:publisher:created_at': string;
+      'image:publisher:description': string;
       'image:publisher:direct_contact': string;
       'image:publisher:generic_contact': string;
       'image:publisher:hidden_books': Array<string>;
@@ -3324,8 +3324,8 @@ export type Schema = {
       'publisher:image:Source': string;
       'publisher:image:updated_at': string;
       'publisher:image:width': number;
-      'publisher:imprint:contact_info': string;
       'publisher:imprint:created_at': string;
+      'publisher:imprint:description': string;
       'publisher:imprint:direct_contact': string;
       'publisher:imprint:generic_contact': string;
       'publisher:imprint:hidden_books': Array<string>;
@@ -3374,8 +3374,8 @@ export type Schema = {
       'image:preview_for:image:Source': string;
       'image:preview_for:image:updated_at': string;
       'image:preview_for:image:width': number;
-      'image:preview_for:publisher:contact_info': string;
       'image:preview_for:publisher:created_at': string;
+      'image:preview_for:publisher:description': string;
       'image:preview_for:publisher:direct_contact': string;
       'image:preview_for:publisher:generic_contact': string;
       'image:preview_for:publisher:hidden_books': Array<string>;
@@ -3408,8 +3408,8 @@ export type Schema = {
       'image:profile:user:name': string;
       'image:profile:user:role': 'admin' | 'user' | 'waitlist';
       'image:profile:user:updated_at': string;
-      'image:publisher:imprint:contact_info': string;
       'image:publisher:imprint:created_at': string;
+      'image:publisher:imprint:description': string;
       'image:publisher:imprint:direct_contact': string;
       'image:publisher:imprint:generic_contact': string;
       'image:publisher:imprint:hidden_books': Array<string>;
@@ -3506,8 +3506,8 @@ export type Schema = {
       'publisher:imprint:image:Source': string;
       'publisher:imprint:image:updated_at': string;
       'publisher:imprint:image:width': number;
-      'publisher:imprint:imprint:contact_info': string;
       'publisher:imprint:imprint:created_at': string;
+      'publisher:imprint:imprint:description': string;
       'publisher:imprint:imprint:direct_contact': string;
       'publisher:imprint:imprint:generic_contact': string;
       'publisher:imprint:imprint:hidden_books': Array<string>;
@@ -3599,8 +3599,8 @@ export type Schema = {
       'image:preview_for:image:profile:updated_at': string;
       'image:preview_for:image:profile:user_id': string;
       'image:preview_for:image:profile:website': string;
-      'image:preview_for:image:publisher:contact_info': string;
       'image:preview_for:image:publisher:created_at': string;
+      'image:preview_for:image:publisher:description': string;
       'image:preview_for:image:publisher:direct_contact': string;
       'image:preview_for:image:publisher:generic_contact': string;
       'image:preview_for:image:publisher:hidden_books': Array<string>;
@@ -3627,8 +3627,8 @@ export type Schema = {
       'image:preview_for:publisher:image:Source': string;
       'image:preview_for:publisher:image:updated_at': string;
       'image:preview_for:publisher:image:width': number;
-      'image:preview_for:publisher:imprint:contact_info': string;
       'image:preview_for:publisher:imprint:created_at': string;
+      'image:preview_for:publisher:imprint:description': string;
       'image:preview_for:publisher:imprint:direct_contact': string;
       'image:preview_for:publisher:imprint:generic_contact': string;
       'image:preview_for:publisher:imprint:hidden_books': Array<string>;
@@ -3654,8 +3654,8 @@ export type Schema = {
       'image:preview_for:submitter:profile:updated_at': string;
       'image:preview_for:submitter:profile:user_id': string;
       'image:preview_for:submitter:profile:website': string;
-      'image:publisher:imprint:imprint:contact_info': string;
       'image:publisher:imprint:imprint:created_at': string;
+      'image:publisher:imprint:imprint:description': string;
       'image:publisher:imprint:imprint:direct_contact': string;
       'image:publisher:imprint:imprint:generic_contact': string;
       'image:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -3667,8 +3667,8 @@ export type Schema = {
       'image:publisher:imprint:imprint:slug': string;
       'image:publisher:imprint:imprint:updated_at': string;
       'image:publisher:imprint:imprint:website': string;
-      'publisher:image:cover_for:publisher:contact_info': string;
       'publisher:image:cover_for:publisher:created_at': string;
+      'publisher:image:cover_for:publisher:description': string;
       'publisher:image:cover_for:publisher:direct_contact': string;
       'publisher:image:cover_for:publisher:generic_contact': string;
       'publisher:image:cover_for:publisher:hidden_books': Array<string>;
@@ -3711,8 +3711,8 @@ export type Schema = {
       'publisher:image:preview_for:image:Source': string;
       'publisher:image:preview_for:image:updated_at': string;
       'publisher:image:preview_for:image:width': number;
-      'publisher:image:preview_for:publisher:contact_info': string;
       'publisher:image:preview_for:publisher:created_at': string;
+      'publisher:image:preview_for:publisher:description': string;
       'publisher:image:preview_for:publisher:direct_contact': string;
       'publisher:image:preview_for:publisher:generic_contact': string;
       'publisher:image:preview_for:publisher:hidden_books': Array<string>;
@@ -3830,8 +3830,8 @@ export type Schema = {
       'publisher:imprint:imprint:image:Source': string;
       'publisher:imprint:imprint:image:updated_at': string;
       'publisher:imprint:imprint:image:width': number;
-      'publisher:imprint:imprint:imprint:contact_info': string;
       'publisher:imprint:imprint:imprint:created_at': string;
+      'publisher:imprint:imprint:imprint:description': string;
       'publisher:imprint:imprint:imprint:direct_contact': string;
       'publisher:imprint:imprint:imprint:generic_contact': string;
       'publisher:imprint:imprint:imprint:hidden_books': Array<string>;
@@ -3899,8 +3899,8 @@ export type Schema = {
       'submitter:profile:image:preview_for:Tags': Array<string>;
       'submitter:profile:image:preview_for:title': string;
       'submitter:profile:image:preview_for:updated_at': string;
-      'submitter:profile:image:publisher:contact_info': string;
       'submitter:profile:image:publisher:created_at': string;
+      'submitter:profile:image:publisher:description': string;
       'submitter:profile:image:publisher:direct_contact': string;
       'submitter:profile:image:publisher:generic_contact': string;
       'submitter:profile:image:publisher:hidden_books': Array<string>;
@@ -3955,8 +3955,8 @@ export type Schema = {
       'image:preview_for:image:preview_for:image:Source': string;
       'image:preview_for:image:preview_for:image:updated_at': string;
       'image:preview_for:image:preview_for:image:width': number;
-      'image:preview_for:image:preview_for:publisher:contact_info': string;
       'image:preview_for:image:preview_for:publisher:created_at': string;
+      'image:preview_for:image:preview_for:publisher:description': string;
       'image:preview_for:image:preview_for:publisher:direct_contact': string;
       'image:preview_for:image:preview_for:publisher:generic_contact': string;
       'image:preview_for:image:preview_for:publisher:hidden_books': Array<string>;
@@ -3989,8 +3989,8 @@ export type Schema = {
       'image:preview_for:image:profile:user:name': string;
       'image:preview_for:image:profile:user:role': 'admin' | 'user' | 'waitlist';
       'image:preview_for:image:profile:user:updated_at': string;
-      'image:preview_for:image:publisher:imprint:contact_info': string;
       'image:preview_for:image:publisher:imprint:created_at': string;
+      'image:preview_for:image:publisher:imprint:description': string;
       'image:preview_for:image:publisher:imprint:direct_contact': string;
       'image:preview_for:image:publisher:imprint:generic_contact': string;
       'image:preview_for:image:publisher:imprint:hidden_books': Array<string>;
@@ -4063,8 +4063,8 @@ export type Schema = {
       'image:preview_for:publisher:imprint:image:Source': string;
       'image:preview_for:publisher:imprint:image:updated_at': string;
       'image:preview_for:publisher:imprint:image:width': number;
-      'image:preview_for:publisher:imprint:imprint:contact_info': string;
       'image:preview_for:publisher:imprint:imprint:created_at': string;
+      'image:preview_for:publisher:imprint:imprint:description': string;
       'image:preview_for:publisher:imprint:imprint:direct_contact': string;
       'image:preview_for:publisher:imprint:imprint:generic_contact': string;
       'image:preview_for:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -4096,8 +4096,8 @@ export type Schema = {
       'image:preview_for:submitter:profile:image:Source': string;
       'image:preview_for:submitter:profile:image:updated_at': string;
       'image:preview_for:submitter:profile:image:width': number;
-      'image:publisher:imprint:imprint:imprint:contact_info': string;
       'image:publisher:imprint:imprint:imprint:created_at': string;
+      'image:publisher:imprint:imprint:imprint:description': string;
       'image:publisher:imprint:imprint:imprint:direct_contact': string;
       'image:publisher:imprint:imprint:imprint:generic_contact': string;
       'image:publisher:imprint:imprint:imprint:hidden_books': Array<string>;
@@ -4124,8 +4124,8 @@ export type Schema = {
       'publisher:image:cover_for:publisher:image:Source': string;
       'publisher:image:cover_for:publisher:image:updated_at': string;
       'publisher:image:cover_for:publisher:image:width': number;
-      'publisher:image:cover_for:publisher:imprint:contact_info': string;
       'publisher:image:cover_for:publisher:imprint:created_at': string;
+      'publisher:image:cover_for:publisher:imprint:description': string;
       'publisher:image:cover_for:publisher:imprint:direct_contact': string;
       'publisher:image:cover_for:publisher:imprint:generic_contact': string;
       'publisher:image:cover_for:publisher:imprint:hidden_books': Array<string>;
@@ -4226,8 +4226,8 @@ export type Schema = {
       'publisher:image:preview_for:publisher:image:Source': string;
       'publisher:image:preview_for:publisher:image:updated_at': string;
       'publisher:image:preview_for:publisher:image:width': number;
-      'publisher:image:preview_for:publisher:imprint:contact_info': string;
       'publisher:image:preview_for:publisher:imprint:created_at': string;
+      'publisher:image:preview_for:publisher:imprint:description': string;
       'publisher:image:preview_for:publisher:imprint:direct_contact': string;
       'publisher:image:preview_for:publisher:imprint:generic_contact': string;
       'publisher:image:preview_for:publisher:imprint:hidden_books': Array<string>;
@@ -4253,8 +4253,8 @@ export type Schema = {
       'publisher:image:preview_for:submitter:profile:updated_at': string;
       'publisher:image:preview_for:submitter:profile:user_id': string;
       'publisher:image:preview_for:submitter:profile:website': string;
-      'publisher:imprint:image:cover_for:publisher:contact_info': string;
       'publisher:imprint:image:cover_for:publisher:created_at': string;
+      'publisher:imprint:image:cover_for:publisher:description': string;
       'publisher:imprint:image:cover_for:publisher:direct_contact': string;
       'publisher:imprint:image:cover_for:publisher:generic_contact': string;
       'publisher:imprint:image:cover_for:publisher:hidden_books': Array<string>;
@@ -4297,8 +4297,8 @@ export type Schema = {
       'publisher:imprint:image:preview_for:image:Source': string;
       'publisher:imprint:image:preview_for:image:updated_at': string;
       'publisher:imprint:image:preview_for:image:width': number;
-      'publisher:imprint:image:preview_for:publisher:contact_info': string;
       'publisher:imprint:image:preview_for:publisher:created_at': string;
+      'publisher:imprint:image:preview_for:publisher:description': string;
       'publisher:imprint:image:preview_for:publisher:direct_contact': string;
       'publisher:imprint:image:preview_for:publisher:generic_contact': string;
       'publisher:imprint:image:preview_for:publisher:hidden_books': Array<string>;
@@ -4416,8 +4416,8 @@ export type Schema = {
       'publisher:imprint:imprint:imprint:image:Source': string;
       'publisher:imprint:imprint:imprint:image:updated_at': string;
       'publisher:imprint:imprint:imprint:image:width': number;
-      'publisher:imprint:imprint:imprint:imprint:contact_info': string;
       'publisher:imprint:imprint:imprint:imprint:created_at': string;
+      'publisher:imprint:imprint:imprint:imprint:description': string;
       'publisher:imprint:imprint:imprint:imprint:direct_contact': string;
       'publisher:imprint:imprint:imprint:imprint:generic_contact': string;
       'publisher:imprint:imprint:imprint:imprint:hidden_books': Array<string>;
@@ -4429,8 +4429,8 @@ export type Schema = {
       'publisher:imprint:imprint:imprint:imprint:slug': string;
       'publisher:imprint:imprint:imprint:imprint:updated_at': string;
       'publisher:imprint:imprint:imprint:imprint:website': string;
-      'submitter:profile:image:cover_for:publisher:contact_info': string;
       'submitter:profile:image:cover_for:publisher:created_at': string;
+      'submitter:profile:image:cover_for:publisher:description': string;
       'submitter:profile:image:cover_for:publisher:direct_contact': string;
       'submitter:profile:image:cover_for:publisher:generic_contact': string;
       'submitter:profile:image:cover_for:publisher:hidden_books': Array<string>;
@@ -4473,8 +4473,8 @@ export type Schema = {
       'submitter:profile:image:preview_for:image:Source': string;
       'submitter:profile:image:preview_for:image:updated_at': string;
       'submitter:profile:image:preview_for:image:width': number;
-      'submitter:profile:image:preview_for:publisher:contact_info': string;
       'submitter:profile:image:preview_for:publisher:created_at': string;
+      'submitter:profile:image:preview_for:publisher:description': string;
       'submitter:profile:image:preview_for:publisher:direct_contact': string;
       'submitter:profile:image:preview_for:publisher:generic_contact': string;
       'submitter:profile:image:preview_for:publisher:hidden_books': Array<string>;
@@ -4494,8 +4494,8 @@ export type Schema = {
       'submitter:profile:image:preview_for:submitter:name': string;
       'submitter:profile:image:preview_for:submitter:role': 'admin' | 'user' | 'waitlist';
       'submitter:profile:image:preview_for:submitter:updated_at': string;
-      'submitter:profile:image:publisher:imprint:contact_info': string;
       'submitter:profile:image:publisher:imprint:created_at': string;
+      'submitter:profile:image:publisher:imprint:description': string;
       'submitter:profile:image:publisher:imprint:direct_contact': string;
       'submitter:profile:image:publisher:imprint:generic_contact': string;
       'submitter:profile:image:publisher:imprint:hidden_books': Array<string>;
@@ -4646,8 +4646,8 @@ export type Schema = {
       'profile:image:preview_for:Tags': Array<string>;
       'profile:image:preview_for:title': string;
       'profile:image:preview_for:updated_at': string;
-      'profile:image:publisher:contact_info': string;
       'profile:image:publisher:created_at': string;
+      'profile:image:publisher:description': string;
       'profile:image:publisher:direct_contact': string;
       'profile:image:publisher:generic_contact': string;
       'profile:image:publisher:hidden_books': Array<string>;
@@ -4679,8 +4679,8 @@ export type Schema = {
       'user:profile:image:Source': string;
       'user:profile:image:updated_at': string;
       'user:profile:image:width': number;
-      'profile:image:cover_for:publisher:contact_info': string;
       'profile:image:cover_for:publisher:created_at': string;
+      'profile:image:cover_for:publisher:description': string;
       'profile:image:cover_for:publisher:direct_contact': string;
       'profile:image:cover_for:publisher:generic_contact': string;
       'profile:image:cover_for:publisher:hidden_books': Array<string>;
@@ -4723,8 +4723,8 @@ export type Schema = {
       'profile:image:preview_for:image:Source': string;
       'profile:image:preview_for:image:updated_at': string;
       'profile:image:preview_for:image:width': number;
-      'profile:image:preview_for:publisher:contact_info': string;
       'profile:image:preview_for:publisher:created_at': string;
+      'profile:image:preview_for:publisher:description': string;
       'profile:image:preview_for:publisher:direct_contact': string;
       'profile:image:preview_for:publisher:generic_contact': string;
       'profile:image:preview_for:publisher:hidden_books': Array<string>;
@@ -4744,8 +4744,8 @@ export type Schema = {
       'profile:image:preview_for:submitter:name': string;
       'profile:image:preview_for:submitter:role': 'admin' | 'user' | 'waitlist';
       'profile:image:preview_for:submitter:updated_at': string;
-      'profile:image:publisher:imprint:contact_info': string;
       'profile:image:publisher:imprint:created_at': string;
+      'profile:image:publisher:imprint:description': string;
       'profile:image:publisher:imprint:direct_contact': string;
       'profile:image:publisher:imprint:generic_contact': string;
       'profile:image:publisher:imprint:hidden_books': Array<string>;
@@ -4813,8 +4813,8 @@ export type Schema = {
       'user:profile:image:preview_for:Tags': Array<string>;
       'user:profile:image:preview_for:title': string;
       'user:profile:image:preview_for:updated_at': string;
-      'user:profile:image:publisher:contact_info': string;
       'user:profile:image:publisher:created_at': string;
+      'user:profile:image:publisher:description': string;
       'user:profile:image:publisher:direct_contact': string;
       'user:profile:image:publisher:generic_contact': string;
       'user:profile:image:publisher:hidden_books': Array<string>;
@@ -4841,8 +4841,8 @@ export type Schema = {
       'profile:image:cover_for:publisher:image:Source': string;
       'profile:image:cover_for:publisher:image:updated_at': string;
       'profile:image:cover_for:publisher:image:width': number;
-      'profile:image:cover_for:publisher:imprint:contact_info': string;
       'profile:image:cover_for:publisher:imprint:created_at': string;
+      'profile:image:cover_for:publisher:imprint:description': string;
       'profile:image:cover_for:publisher:imprint:direct_contact': string;
       'profile:image:cover_for:publisher:imprint:generic_contact': string;
       'profile:image:cover_for:publisher:imprint:hidden_books': Array<string>;
@@ -4914,8 +4914,8 @@ export type Schema = {
       'profile:image:preview_for:image:preview_for:Tags': Array<string>;
       'profile:image:preview_for:image:preview_for:title': string;
       'profile:image:preview_for:image:preview_for:updated_at': string;
-      'profile:image:preview_for:image:publisher:contact_info': string;
       'profile:image:preview_for:image:publisher:created_at': string;
+      'profile:image:preview_for:image:publisher:description': string;
       'profile:image:preview_for:image:publisher:direct_contact': string;
       'profile:image:preview_for:image:publisher:generic_contact': string;
       'profile:image:preview_for:image:publisher:hidden_books': Array<string>;
@@ -4942,8 +4942,8 @@ export type Schema = {
       'profile:image:preview_for:publisher:image:Source': string;
       'profile:image:preview_for:publisher:image:updated_at': string;
       'profile:image:preview_for:publisher:image:width': number;
-      'profile:image:preview_for:publisher:imprint:contact_info': string;
       'profile:image:preview_for:publisher:imprint:created_at': string;
+      'profile:image:preview_for:publisher:imprint:description': string;
       'profile:image:preview_for:publisher:imprint:direct_contact': string;
       'profile:image:preview_for:publisher:imprint:generic_contact': string;
       'profile:image:preview_for:publisher:imprint:hidden_books': Array<string>;
@@ -4969,8 +4969,8 @@ export type Schema = {
       'profile:image:preview_for:submitter:profile:updated_at': string;
       'profile:image:preview_for:submitter:profile:user_id': string;
       'profile:image:preview_for:submitter:profile:website': string;
-      'profile:image:publisher:imprint:imprint:contact_info': string;
       'profile:image:publisher:imprint:imprint:created_at': string;
+      'profile:image:publisher:imprint:imprint:description': string;
       'profile:image:publisher:imprint:imprint:direct_contact': string;
       'profile:image:publisher:imprint:imprint:generic_contact': string;
       'profile:image:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -4982,8 +4982,8 @@ export type Schema = {
       'profile:image:publisher:imprint:imprint:slug': string;
       'profile:image:publisher:imprint:imprint:updated_at': string;
       'profile:image:publisher:imprint:imprint:website': string;
-      'user:profile:image:cover_for:publisher:contact_info': string;
       'user:profile:image:cover_for:publisher:created_at': string;
+      'user:profile:image:cover_for:publisher:description': string;
       'user:profile:image:cover_for:publisher:direct_contact': string;
       'user:profile:image:cover_for:publisher:generic_contact': string;
       'user:profile:image:cover_for:publisher:hidden_books': Array<string>;
@@ -5026,8 +5026,8 @@ export type Schema = {
       'user:profile:image:preview_for:image:Source': string;
       'user:profile:image:preview_for:image:updated_at': string;
       'user:profile:image:preview_for:image:width': number;
-      'user:profile:image:preview_for:publisher:contact_info': string;
       'user:profile:image:preview_for:publisher:created_at': string;
+      'user:profile:image:preview_for:publisher:description': string;
       'user:profile:image:preview_for:publisher:direct_contact': string;
       'user:profile:image:preview_for:publisher:generic_contact': string;
       'user:profile:image:preview_for:publisher:hidden_books': Array<string>;
@@ -5047,8 +5047,8 @@ export type Schema = {
       'user:profile:image:preview_for:submitter:name': string;
       'user:profile:image:preview_for:submitter:role': 'admin' | 'user' | 'waitlist';
       'user:profile:image:preview_for:submitter:updated_at': string;
-      'user:profile:image:publisher:imprint:contact_info': string;
       'user:profile:image:publisher:imprint:created_at': string;
+      'user:profile:image:publisher:imprint:description': string;
       'user:profile:image:publisher:imprint:direct_contact': string;
       'user:profile:image:publisher:imprint:generic_contact': string;
       'user:profile:image:publisher:imprint:hidden_books': Array<string>;
@@ -5124,8 +5124,8 @@ export type Schema = {
       'book:image:Source': string;
       'book:image:updated_at': string;
       'book:image:width': number;
-      'book:publisher:contact_info': string;
       'book:publisher:created_at': string;
+      'book:publisher:description': string;
       'book:publisher:direct_contact': string;
       'book:publisher:generic_contact': string;
       'book:publisher:hidden_books': Array<string>;
@@ -5145,8 +5145,8 @@ export type Schema = {
       'book:submitter:name': string;
       'book:submitter:role': 'admin' | 'user' | 'waitlist';
       'book:submitter:updated_at': string;
-      'collection:publisher:contact_info': string;
       'collection:publisher:created_at': string;
+      'collection:publisher:description': string;
       'collection:publisher:direct_contact': string;
       'collection:publisher:generic_contact': string;
       'collection:publisher:hidden_books': Array<string>;
@@ -5204,8 +5204,8 @@ export type Schema = {
       'book:image:profile:updated_at': string;
       'book:image:profile:user_id': string;
       'book:image:profile:website': string;
-      'book:image:publisher:contact_info': string;
       'book:image:publisher:created_at': string;
+      'book:image:publisher:description': string;
       'book:image:publisher:direct_contact': string;
       'book:image:publisher:generic_contact': string;
       'book:image:publisher:hidden_books': Array<string>;
@@ -5232,8 +5232,8 @@ export type Schema = {
       'book:publisher:image:Source': string;
       'book:publisher:image:updated_at': string;
       'book:publisher:image:width': number;
-      'book:publisher:imprint:contact_info': string;
       'book:publisher:imprint:created_at': string;
+      'book:publisher:imprint:description': string;
       'book:publisher:imprint:direct_contact': string;
       'book:publisher:imprint:generic_contact': string;
       'book:publisher:imprint:hidden_books': Array<string>;
@@ -5274,8 +5274,8 @@ export type Schema = {
       'collection:publisher:image:Source': string;
       'collection:publisher:image:updated_at': string;
       'collection:publisher:image:width': number;
-      'collection:publisher:imprint:contact_info': string;
       'collection:publisher:imprint:created_at': string;
+      'collection:publisher:imprint:description': string;
       'collection:publisher:imprint:direct_contact': string;
       'collection:publisher:imprint:generic_contact': string;
       'collection:publisher:imprint:hidden_books': Array<string>;
@@ -5310,8 +5310,8 @@ export type Schema = {
       'book:image:preview_for:image:Source': string;
       'book:image:preview_for:image:updated_at': string;
       'book:image:preview_for:image:width': number;
-      'book:image:preview_for:publisher:contact_info': string;
       'book:image:preview_for:publisher:created_at': string;
+      'book:image:preview_for:publisher:description': string;
       'book:image:preview_for:publisher:direct_contact': string;
       'book:image:preview_for:publisher:generic_contact': string;
       'book:image:preview_for:publisher:hidden_books': Array<string>;
@@ -5344,8 +5344,8 @@ export type Schema = {
       'book:image:profile:user:name': string;
       'book:image:profile:user:role': 'admin' | 'user' | 'waitlist';
       'book:image:profile:user:updated_at': string;
-      'book:image:publisher:imprint:contact_info': string;
       'book:image:publisher:imprint:created_at': string;
+      'book:image:publisher:imprint:description': string;
       'book:image:publisher:imprint:direct_contact': string;
       'book:image:publisher:imprint:generic_contact': string;
       'book:image:publisher:imprint:hidden_books': Array<string>;
@@ -5442,8 +5442,8 @@ export type Schema = {
       'book:publisher:imprint:image:Source': string;
       'book:publisher:imprint:image:updated_at': string;
       'book:publisher:imprint:image:width': number;
-      'book:publisher:imprint:imprint:contact_info': string;
       'book:publisher:imprint:imprint:created_at': string;
+      'book:publisher:imprint:imprint:description': string;
       'book:publisher:imprint:imprint:direct_contact': string;
       'book:publisher:imprint:imprint:generic_contact': string;
       'book:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -5560,8 +5560,8 @@ export type Schema = {
       'collection:publisher:imprint:image:Source': string;
       'collection:publisher:imprint:image:updated_at': string;
       'collection:publisher:imprint:image:width': number;
-      'collection:publisher:imprint:imprint:contact_info': string;
       'collection:publisher:imprint:imprint:created_at': string;
+      'collection:publisher:imprint:imprint:description': string;
       'collection:publisher:imprint:imprint:direct_contact': string;
       'collection:publisher:imprint:imprint:generic_contact': string;
       'collection:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -5633,8 +5633,8 @@ export type Schema = {
       'book:image:preview_for:image:profile:updated_at': string;
       'book:image:preview_for:image:profile:user_id': string;
       'book:image:preview_for:image:profile:website': string;
-      'book:image:preview_for:image:publisher:contact_info': string;
       'book:image:preview_for:image:publisher:created_at': string;
+      'book:image:preview_for:image:publisher:description': string;
       'book:image:preview_for:image:publisher:direct_contact': string;
       'book:image:preview_for:image:publisher:generic_contact': string;
       'book:image:preview_for:image:publisher:hidden_books': Array<string>;
@@ -5661,8 +5661,8 @@ export type Schema = {
       'book:image:preview_for:publisher:image:Source': string;
       'book:image:preview_for:publisher:image:updated_at': string;
       'book:image:preview_for:publisher:image:width': number;
-      'book:image:preview_for:publisher:imprint:contact_info': string;
       'book:image:preview_for:publisher:imprint:created_at': string;
+      'book:image:preview_for:publisher:imprint:description': string;
       'book:image:preview_for:publisher:imprint:direct_contact': string;
       'book:image:preview_for:publisher:imprint:generic_contact': string;
       'book:image:preview_for:publisher:imprint:hidden_books': Array<string>;
@@ -5688,8 +5688,8 @@ export type Schema = {
       'book:image:preview_for:submitter:profile:updated_at': string;
       'book:image:preview_for:submitter:profile:user_id': string;
       'book:image:preview_for:submitter:profile:website': string;
-      'book:image:publisher:imprint:imprint:contact_info': string;
       'book:image:publisher:imprint:imprint:created_at': string;
+      'book:image:publisher:imprint:imprint:description': string;
       'book:image:publisher:imprint:imprint:direct_contact': string;
       'book:image:publisher:imprint:imprint:generic_contact': string;
       'book:image:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -5701,8 +5701,8 @@ export type Schema = {
       'book:image:publisher:imprint:imprint:slug': string;
       'book:image:publisher:imprint:imprint:updated_at': string;
       'book:image:publisher:imprint:imprint:website': string;
-      'book:publisher:image:cover_for:publisher:contact_info': string;
       'book:publisher:image:cover_for:publisher:created_at': string;
+      'book:publisher:image:cover_for:publisher:description': string;
       'book:publisher:image:cover_for:publisher:direct_contact': string;
       'book:publisher:image:cover_for:publisher:generic_contact': string;
       'book:publisher:image:cover_for:publisher:hidden_books': Array<string>;
@@ -5745,8 +5745,8 @@ export type Schema = {
       'book:publisher:image:preview_for:image:Source': string;
       'book:publisher:image:preview_for:image:updated_at': string;
       'book:publisher:image:preview_for:image:width': number;
-      'book:publisher:image:preview_for:publisher:contact_info': string;
       'book:publisher:image:preview_for:publisher:created_at': string;
+      'book:publisher:image:preview_for:publisher:description': string;
       'book:publisher:image:preview_for:publisher:direct_contact': string;
       'book:publisher:image:preview_for:publisher:generic_contact': string;
       'book:publisher:image:preview_for:publisher:hidden_books': Array<string>;
@@ -5864,8 +5864,8 @@ export type Schema = {
       'book:publisher:imprint:imprint:image:Source': string;
       'book:publisher:imprint:imprint:image:updated_at': string;
       'book:publisher:imprint:imprint:image:width': number;
-      'book:publisher:imprint:imprint:imprint:contact_info': string;
       'book:publisher:imprint:imprint:imprint:created_at': string;
+      'book:publisher:imprint:imprint:imprint:description': string;
       'book:publisher:imprint:imprint:imprint:direct_contact': string;
       'book:publisher:imprint:imprint:imprint:generic_contact': string;
       'book:publisher:imprint:imprint:imprint:hidden_books': Array<string>;
@@ -5933,8 +5933,8 @@ export type Schema = {
       'book:submitter:profile:image:preview_for:Tags': Array<string>;
       'book:submitter:profile:image:preview_for:title': string;
       'book:submitter:profile:image:preview_for:updated_at': string;
-      'book:submitter:profile:image:publisher:contact_info': string;
       'book:submitter:profile:image:publisher:created_at': string;
+      'book:submitter:profile:image:publisher:description': string;
       'book:submitter:profile:image:publisher:direct_contact': string;
       'book:submitter:profile:image:publisher:generic_contact': string;
       'book:submitter:profile:image:publisher:hidden_books': Array<string>;
@@ -5946,8 +5946,8 @@ export type Schema = {
       'book:submitter:profile:image:publisher:slug': string;
       'book:submitter:profile:image:publisher:updated_at': string;
       'book:submitter:profile:image:publisher:website': string;
-      'collection:publisher:image:cover_for:publisher:contact_info': string;
       'collection:publisher:image:cover_for:publisher:created_at': string;
+      'collection:publisher:image:cover_for:publisher:description': string;
       'collection:publisher:image:cover_for:publisher:direct_contact': string;
       'collection:publisher:image:cover_for:publisher:generic_contact': string;
       'collection:publisher:image:cover_for:publisher:hidden_books': Array<string>;
@@ -5990,8 +5990,8 @@ export type Schema = {
       'collection:publisher:image:preview_for:image:Source': string;
       'collection:publisher:image:preview_for:image:updated_at': string;
       'collection:publisher:image:preview_for:image:width': number;
-      'collection:publisher:image:preview_for:publisher:contact_info': string;
       'collection:publisher:image:preview_for:publisher:created_at': string;
+      'collection:publisher:image:preview_for:publisher:description': string;
       'collection:publisher:image:preview_for:publisher:direct_contact': string;
       'collection:publisher:image:preview_for:publisher:generic_contact': string;
       'collection:publisher:image:preview_for:publisher:hidden_books': Array<string>;
@@ -6109,8 +6109,8 @@ export type Schema = {
       'collection:publisher:imprint:imprint:image:Source': string;
       'collection:publisher:imprint:imprint:image:updated_at': string;
       'collection:publisher:imprint:imprint:image:width': number;
-      'collection:publisher:imprint:imprint:imprint:contact_info': string;
       'collection:publisher:imprint:imprint:imprint:created_at': string;
+      'collection:publisher:imprint:imprint:imprint:description': string;
       'collection:publisher:imprint:imprint:imprint:direct_contact': string;
       'collection:publisher:imprint:imprint:imprint:generic_contact': string;
       'collection:publisher:imprint:imprint:imprint:hidden_books': Array<string>;
@@ -6141,8 +6141,8 @@ export type Schema = {
       'publisher': Schema['publishers']['plain'] & Schema['publishers']['nested'];
     };
     flat: {
-      'publisher:contact_info': string;
       'publisher:created_at': string;
+      'publisher:description': string;
       'publisher:direct_contact': string;
       'publisher:generic_contact': string;
       'publisher:hidden_books': Array<string>;
@@ -6169,8 +6169,8 @@ export type Schema = {
       'publisher:image:Source': string;
       'publisher:image:updated_at': string;
       'publisher:image:width': number;
-      'publisher:imprint:contact_info': string;
       'publisher:imprint:created_at': string;
+      'publisher:imprint:description': string;
       'publisher:imprint:direct_contact': string;
       'publisher:imprint:generic_contact': string;
       'publisher:imprint:hidden_books': Array<string>;
@@ -6267,8 +6267,8 @@ export type Schema = {
       'publisher:imprint:image:Source': string;
       'publisher:imprint:image:updated_at': string;
       'publisher:imprint:image:width': number;
-      'publisher:imprint:imprint:contact_info': string;
       'publisher:imprint:imprint:created_at': string;
+      'publisher:imprint:imprint:description': string;
       'publisher:imprint:imprint:direct_contact': string;
       'publisher:imprint:imprint:generic_contact': string;
       'publisher:imprint:imprint:hidden_books': Array<string>;
@@ -6280,8 +6280,8 @@ export type Schema = {
       'publisher:imprint:imprint:slug': string;
       'publisher:imprint:imprint:updated_at': string;
       'publisher:imprint:imprint:website': string;
-      'publisher:image:cover_for:publisher:contact_info': string;
       'publisher:image:cover_for:publisher:created_at': string;
+      'publisher:image:cover_for:publisher:description': string;
       'publisher:image:cover_for:publisher:direct_contact': string;
       'publisher:image:cover_for:publisher:generic_contact': string;
       'publisher:image:cover_for:publisher:hidden_books': Array<string>;
@@ -6324,8 +6324,8 @@ export type Schema = {
       'publisher:image:preview_for:image:Source': string;
       'publisher:image:preview_for:image:updated_at': string;
       'publisher:image:preview_for:image:width': number;
-      'publisher:image:preview_for:publisher:contact_info': string;
       'publisher:image:preview_for:publisher:created_at': string;
+      'publisher:image:preview_for:publisher:description': string;
       'publisher:image:preview_for:publisher:direct_contact': string;
       'publisher:image:preview_for:publisher:generic_contact': string;
       'publisher:image:preview_for:publisher:hidden_books': Array<string>;
@@ -6443,8 +6443,8 @@ export type Schema = {
       'publisher:imprint:imprint:image:Source': string;
       'publisher:imprint:imprint:image:updated_at': string;
       'publisher:imprint:imprint:image:width': number;
-      'publisher:imprint:imprint:imprint:contact_info': string;
       'publisher:imprint:imprint:imprint:created_at': string;
+      'publisher:imprint:imprint:imprint:description': string;
       'publisher:imprint:imprint:imprint:direct_contact': string;
       'publisher:imprint:imprint:imprint:generic_contact': string;
       'publisher:imprint:imprint:imprint:hidden_books': Array<string>;
@@ -6471,8 +6471,8 @@ export type Schema = {
       'publisher:image:cover_for:publisher:image:Source': string;
       'publisher:image:cover_for:publisher:image:updated_at': string;
       'publisher:image:cover_for:publisher:image:width': number;
-      'publisher:image:cover_for:publisher:imprint:contact_info': string;
       'publisher:image:cover_for:publisher:imprint:created_at': string;
+      'publisher:image:cover_for:publisher:imprint:description': string;
       'publisher:image:cover_for:publisher:imprint:direct_contact': string;
       'publisher:image:cover_for:publisher:imprint:generic_contact': string;
       'publisher:image:cover_for:publisher:imprint:hidden_books': Array<string>;
@@ -6573,8 +6573,8 @@ export type Schema = {
       'publisher:image:preview_for:publisher:image:Source': string;
       'publisher:image:preview_for:publisher:image:updated_at': string;
       'publisher:image:preview_for:publisher:image:width': number;
-      'publisher:image:preview_for:publisher:imprint:contact_info': string;
       'publisher:image:preview_for:publisher:imprint:created_at': string;
+      'publisher:image:preview_for:publisher:imprint:description': string;
       'publisher:image:preview_for:publisher:imprint:direct_contact': string;
       'publisher:image:preview_for:publisher:imprint:generic_contact': string;
       'publisher:image:preview_for:publisher:imprint:hidden_books': Array<string>;
@@ -6600,8 +6600,8 @@ export type Schema = {
       'publisher:image:preview_for:submitter:profile:updated_at': string;
       'publisher:image:preview_for:submitter:profile:user_id': string;
       'publisher:image:preview_for:submitter:profile:website': string;
-      'publisher:imprint:image:cover_for:publisher:contact_info': string;
       'publisher:imprint:image:cover_for:publisher:created_at': string;
+      'publisher:imprint:image:cover_for:publisher:description': string;
       'publisher:imprint:image:cover_for:publisher:direct_contact': string;
       'publisher:imprint:image:cover_for:publisher:generic_contact': string;
       'publisher:imprint:image:cover_for:publisher:hidden_books': Array<string>;
@@ -6644,8 +6644,8 @@ export type Schema = {
       'publisher:imprint:image:preview_for:image:Source': string;
       'publisher:imprint:image:preview_for:image:updated_at': string;
       'publisher:imprint:image:preview_for:image:width': number;
-      'publisher:imprint:image:preview_for:publisher:contact_info': string;
       'publisher:imprint:image:preview_for:publisher:created_at': string;
+      'publisher:imprint:image:preview_for:publisher:description': string;
       'publisher:imprint:image:preview_for:publisher:direct_contact': string;
       'publisher:imprint:image:preview_for:publisher:generic_contact': string;
       'publisher:imprint:image:preview_for:publisher:hidden_books': Array<string>;
@@ -6763,8 +6763,8 @@ export type Schema = {
       'publisher:imprint:imprint:imprint:image:Source': string;
       'publisher:imprint:imprint:imprint:image:updated_at': string;
       'publisher:imprint:imprint:imprint:image:width': number;
-      'publisher:imprint:imprint:imprint:imprint:contact_info': string;
       'publisher:imprint:imprint:imprint:imprint:created_at': string;
+      'publisher:imprint:imprint:imprint:imprint:description': string;
       'publisher:imprint:imprint:imprint:imprint:direct_contact': string;
       'publisher:imprint:imprint:imprint:imprint:generic_contact': string;
       'publisher:imprint:imprint:imprint:imprint:hidden_books': Array<string>;
@@ -6855,8 +6855,8 @@ export type Schema = {
       'book:image:Source': string;
       'book:image:updated_at': string;
       'book:image:width': number;
-      'book:publisher:contact_info': string;
       'book:publisher:created_at': string;
+      'book:publisher:description': string;
       'book:publisher:direct_contact': string;
       'book:publisher:generic_contact': string;
       'book:publisher:hidden_books': Array<string>;
@@ -6950,8 +6950,8 @@ export type Schema = {
       'book:image:profile:updated_at': string;
       'book:image:profile:user_id': string;
       'book:image:profile:website': string;
-      'book:image:publisher:contact_info': string;
       'book:image:publisher:created_at': string;
+      'book:image:publisher:description': string;
       'book:image:publisher:direct_contact': string;
       'book:image:publisher:generic_contact': string;
       'book:image:publisher:hidden_books': Array<string>;
@@ -6978,8 +6978,8 @@ export type Schema = {
       'book:publisher:image:Source': string;
       'book:publisher:image:updated_at': string;
       'book:publisher:image:width': number;
-      'book:publisher:imprint:contact_info': string;
       'book:publisher:imprint:created_at': string;
+      'book:publisher:imprint:description': string;
       'book:publisher:imprint:direct_contact': string;
       'book:publisher:imprint:generic_contact': string;
       'book:publisher:imprint:hidden_books': Array<string>;
@@ -7061,8 +7061,8 @@ export type Schema = {
       'profile:image:preview_for:Tags': Array<string>;
       'profile:image:preview_for:title': string;
       'profile:image:preview_for:updated_at': string;
-      'profile:image:publisher:contact_info': string;
       'profile:image:publisher:created_at': string;
+      'profile:image:publisher:description': string;
       'profile:image:publisher:direct_contact': string;
       'profile:image:publisher:generic_contact': string;
       'profile:image:publisher:hidden_books': Array<string>;
@@ -7097,8 +7097,8 @@ export type Schema = {
       'book:image:preview_for:image:Source': string;
       'book:image:preview_for:image:updated_at': string;
       'book:image:preview_for:image:width': number;
-      'book:image:preview_for:publisher:contact_info': string;
       'book:image:preview_for:publisher:created_at': string;
+      'book:image:preview_for:publisher:description': string;
       'book:image:preview_for:publisher:direct_contact': string;
       'book:image:preview_for:publisher:generic_contact': string;
       'book:image:preview_for:publisher:hidden_books': Array<string>;
@@ -7131,8 +7131,8 @@ export type Schema = {
       'book:image:profile:user:name': string;
       'book:image:profile:user:role': 'admin' | 'user' | 'waitlist';
       'book:image:profile:user:updated_at': string;
-      'book:image:publisher:imprint:contact_info': string;
       'book:image:publisher:imprint:created_at': string;
+      'book:image:publisher:imprint:description': string;
       'book:image:publisher:imprint:direct_contact': string;
       'book:image:publisher:imprint:generic_contact': string;
       'book:image:publisher:imprint:hidden_books': Array<string>;
@@ -7229,8 +7229,8 @@ export type Schema = {
       'book:publisher:imprint:image:Source': string;
       'book:publisher:imprint:image:updated_at': string;
       'book:publisher:imprint:image:width': number;
-      'book:publisher:imprint:imprint:contact_info': string;
       'book:publisher:imprint:imprint:created_at': string;
+      'book:publisher:imprint:imprint:description': string;
       'book:publisher:imprint:imprint:direct_contact': string;
       'book:publisher:imprint:imprint:generic_contact': string;
       'book:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -7262,8 +7262,8 @@ export type Schema = {
       'book:submitter:profile:image:Source': string;
       'book:submitter:profile:image:updated_at': string;
       'book:submitter:profile:image:width': number;
-      'profile:image:cover_for:publisher:contact_info': string;
       'profile:image:cover_for:publisher:created_at': string;
+      'profile:image:cover_for:publisher:description': string;
       'profile:image:cover_for:publisher:direct_contact': string;
       'profile:image:cover_for:publisher:generic_contact': string;
       'profile:image:cover_for:publisher:hidden_books': Array<string>;
@@ -7306,8 +7306,8 @@ export type Schema = {
       'profile:image:preview_for:image:Source': string;
       'profile:image:preview_for:image:updated_at': string;
       'profile:image:preview_for:image:width': number;
-      'profile:image:preview_for:publisher:contact_info': string;
       'profile:image:preview_for:publisher:created_at': string;
+      'profile:image:preview_for:publisher:description': string;
       'profile:image:preview_for:publisher:direct_contact': string;
       'profile:image:preview_for:publisher:generic_contact': string;
       'profile:image:preview_for:publisher:hidden_books': Array<string>;
@@ -7327,8 +7327,8 @@ export type Schema = {
       'profile:image:preview_for:submitter:name': string;
       'profile:image:preview_for:submitter:role': 'admin' | 'user' | 'waitlist';
       'profile:image:preview_for:submitter:updated_at': string;
-      'profile:image:publisher:imprint:contact_info': string;
       'profile:image:publisher:imprint:created_at': string;
+      'profile:image:publisher:imprint:description': string;
       'profile:image:publisher:imprint:direct_contact': string;
       'profile:image:publisher:imprint:generic_contact': string;
       'profile:image:publisher:imprint:hidden_books': Array<string>;
@@ -7400,8 +7400,8 @@ export type Schema = {
       'book:image:preview_for:image:profile:updated_at': string;
       'book:image:preview_for:image:profile:user_id': string;
       'book:image:preview_for:image:profile:website': string;
-      'book:image:preview_for:image:publisher:contact_info': string;
       'book:image:preview_for:image:publisher:created_at': string;
+      'book:image:preview_for:image:publisher:description': string;
       'book:image:preview_for:image:publisher:direct_contact': string;
       'book:image:preview_for:image:publisher:generic_contact': string;
       'book:image:preview_for:image:publisher:hidden_books': Array<string>;
@@ -7428,8 +7428,8 @@ export type Schema = {
       'book:image:preview_for:publisher:image:Source': string;
       'book:image:preview_for:publisher:image:updated_at': string;
       'book:image:preview_for:publisher:image:width': number;
-      'book:image:preview_for:publisher:imprint:contact_info': string;
       'book:image:preview_for:publisher:imprint:created_at': string;
+      'book:image:preview_for:publisher:imprint:description': string;
       'book:image:preview_for:publisher:imprint:direct_contact': string;
       'book:image:preview_for:publisher:imprint:generic_contact': string;
       'book:image:preview_for:publisher:imprint:hidden_books': Array<string>;
@@ -7455,8 +7455,8 @@ export type Schema = {
       'book:image:preview_for:submitter:profile:updated_at': string;
       'book:image:preview_for:submitter:profile:user_id': string;
       'book:image:preview_for:submitter:profile:website': string;
-      'book:image:publisher:imprint:imprint:contact_info': string;
       'book:image:publisher:imprint:imprint:created_at': string;
+      'book:image:publisher:imprint:imprint:description': string;
       'book:image:publisher:imprint:imprint:direct_contact': string;
       'book:image:publisher:imprint:imprint:generic_contact': string;
       'book:image:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -7468,8 +7468,8 @@ export type Schema = {
       'book:image:publisher:imprint:imprint:slug': string;
       'book:image:publisher:imprint:imprint:updated_at': string;
       'book:image:publisher:imprint:imprint:website': string;
-      'book:publisher:image:cover_for:publisher:contact_info': string;
       'book:publisher:image:cover_for:publisher:created_at': string;
+      'book:publisher:image:cover_for:publisher:description': string;
       'book:publisher:image:cover_for:publisher:direct_contact': string;
       'book:publisher:image:cover_for:publisher:generic_contact': string;
       'book:publisher:image:cover_for:publisher:hidden_books': Array<string>;
@@ -7512,8 +7512,8 @@ export type Schema = {
       'book:publisher:image:preview_for:image:Source': string;
       'book:publisher:image:preview_for:image:updated_at': string;
       'book:publisher:image:preview_for:image:width': number;
-      'book:publisher:image:preview_for:publisher:contact_info': string;
       'book:publisher:image:preview_for:publisher:created_at': string;
+      'book:publisher:image:preview_for:publisher:description': string;
       'book:publisher:image:preview_for:publisher:direct_contact': string;
       'book:publisher:image:preview_for:publisher:generic_contact': string;
       'book:publisher:image:preview_for:publisher:hidden_books': Array<string>;
@@ -7631,8 +7631,8 @@ export type Schema = {
       'book:publisher:imprint:imprint:image:Source': string;
       'book:publisher:imprint:imprint:image:updated_at': string;
       'book:publisher:imprint:imprint:image:width': number;
-      'book:publisher:imprint:imprint:imprint:contact_info': string;
       'book:publisher:imprint:imprint:imprint:created_at': string;
+      'book:publisher:imprint:imprint:imprint:description': string;
       'book:publisher:imprint:imprint:imprint:direct_contact': string;
       'book:publisher:imprint:imprint:imprint:generic_contact': string;
       'book:publisher:imprint:imprint:imprint:hidden_books': Array<string>;
@@ -7700,8 +7700,8 @@ export type Schema = {
       'book:submitter:profile:image:preview_for:Tags': Array<string>;
       'book:submitter:profile:image:preview_for:title': string;
       'book:submitter:profile:image:preview_for:updated_at': string;
-      'book:submitter:profile:image:publisher:contact_info': string;
       'book:submitter:profile:image:publisher:created_at': string;
+      'book:submitter:profile:image:publisher:description': string;
       'book:submitter:profile:image:publisher:direct_contact': string;
       'book:submitter:profile:image:publisher:generic_contact': string;
       'book:submitter:profile:image:publisher:hidden_books': Array<string>;
@@ -7728,8 +7728,8 @@ export type Schema = {
       'profile:image:cover_for:publisher:image:Source': string;
       'profile:image:cover_for:publisher:image:updated_at': string;
       'profile:image:cover_for:publisher:image:width': number;
-      'profile:image:cover_for:publisher:imprint:contact_info': string;
       'profile:image:cover_for:publisher:imprint:created_at': string;
+      'profile:image:cover_for:publisher:imprint:description': string;
       'profile:image:cover_for:publisher:imprint:direct_contact': string;
       'profile:image:cover_for:publisher:imprint:generic_contact': string;
       'profile:image:cover_for:publisher:imprint:hidden_books': Array<string>;
@@ -7801,8 +7801,8 @@ export type Schema = {
       'profile:image:preview_for:image:preview_for:Tags': Array<string>;
       'profile:image:preview_for:image:preview_for:title': string;
       'profile:image:preview_for:image:preview_for:updated_at': string;
-      'profile:image:preview_for:image:publisher:contact_info': string;
       'profile:image:preview_for:image:publisher:created_at': string;
+      'profile:image:preview_for:image:publisher:description': string;
       'profile:image:preview_for:image:publisher:direct_contact': string;
       'profile:image:preview_for:image:publisher:generic_contact': string;
       'profile:image:preview_for:image:publisher:hidden_books': Array<string>;
@@ -7829,8 +7829,8 @@ export type Schema = {
       'profile:image:preview_for:publisher:image:Source': string;
       'profile:image:preview_for:publisher:image:updated_at': string;
       'profile:image:preview_for:publisher:image:width': number;
-      'profile:image:preview_for:publisher:imprint:contact_info': string;
       'profile:image:preview_for:publisher:imprint:created_at': string;
+      'profile:image:preview_for:publisher:imprint:description': string;
       'profile:image:preview_for:publisher:imprint:direct_contact': string;
       'profile:image:preview_for:publisher:imprint:generic_contact': string;
       'profile:image:preview_for:publisher:imprint:hidden_books': Array<string>;
@@ -7856,8 +7856,8 @@ export type Schema = {
       'profile:image:preview_for:submitter:profile:updated_at': string;
       'profile:image:preview_for:submitter:profile:user_id': string;
       'profile:image:preview_for:submitter:profile:website': string;
-      'profile:image:publisher:imprint:imprint:contact_info': string;
       'profile:image:publisher:imprint:imprint:created_at': string;
+      'profile:image:publisher:imprint:imprint:description': string;
       'profile:image:publisher:imprint:imprint:direct_contact': string;
       'profile:image:publisher:imprint:imprint:generic_contact': string;
       'profile:image:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -8004,8 +8004,8 @@ export type Schema = {
       'profile:image:preview_for:Tags': Array<string>;
       'profile:image:preview_for:title': string;
       'profile:image:preview_for:updated_at': string;
-      'profile:image:publisher:contact_info': string;
       'profile:image:publisher:created_at': string;
+      'profile:image:publisher:description': string;
       'profile:image:publisher:direct_contact': string;
       'profile:image:publisher:generic_contact': string;
       'profile:image:publisher:hidden_books': Array<string>;
@@ -8037,8 +8037,8 @@ export type Schema = {
       'user:profile:image:Source': string;
       'user:profile:image:updated_at': string;
       'user:profile:image:width': number;
-      'profile:image:cover_for:publisher:contact_info': string;
       'profile:image:cover_for:publisher:created_at': string;
+      'profile:image:cover_for:publisher:description': string;
       'profile:image:cover_for:publisher:direct_contact': string;
       'profile:image:cover_for:publisher:generic_contact': string;
       'profile:image:cover_for:publisher:hidden_books': Array<string>;
@@ -8081,8 +8081,8 @@ export type Schema = {
       'profile:image:preview_for:image:Source': string;
       'profile:image:preview_for:image:updated_at': string;
       'profile:image:preview_for:image:width': number;
-      'profile:image:preview_for:publisher:contact_info': string;
       'profile:image:preview_for:publisher:created_at': string;
+      'profile:image:preview_for:publisher:description': string;
       'profile:image:preview_for:publisher:direct_contact': string;
       'profile:image:preview_for:publisher:generic_contact': string;
       'profile:image:preview_for:publisher:hidden_books': Array<string>;
@@ -8102,8 +8102,8 @@ export type Schema = {
       'profile:image:preview_for:submitter:name': string;
       'profile:image:preview_for:submitter:role': 'admin' | 'user' | 'waitlist';
       'profile:image:preview_for:submitter:updated_at': string;
-      'profile:image:publisher:imprint:contact_info': string;
       'profile:image:publisher:imprint:created_at': string;
+      'profile:image:publisher:imprint:description': string;
       'profile:image:publisher:imprint:direct_contact': string;
       'profile:image:publisher:imprint:generic_contact': string;
       'profile:image:publisher:imprint:hidden_books': Array<string>;
@@ -8171,8 +8171,8 @@ export type Schema = {
       'user:profile:image:preview_for:Tags': Array<string>;
       'user:profile:image:preview_for:title': string;
       'user:profile:image:preview_for:updated_at': string;
-      'user:profile:image:publisher:contact_info': string;
       'user:profile:image:publisher:created_at': string;
+      'user:profile:image:publisher:description': string;
       'user:profile:image:publisher:direct_contact': string;
       'user:profile:image:publisher:generic_contact': string;
       'user:profile:image:publisher:hidden_books': Array<string>;
@@ -8199,8 +8199,8 @@ export type Schema = {
       'profile:image:cover_for:publisher:image:Source': string;
       'profile:image:cover_for:publisher:image:updated_at': string;
       'profile:image:cover_for:publisher:image:width': number;
-      'profile:image:cover_for:publisher:imprint:contact_info': string;
       'profile:image:cover_for:publisher:imprint:created_at': string;
+      'profile:image:cover_for:publisher:imprint:description': string;
       'profile:image:cover_for:publisher:imprint:direct_contact': string;
       'profile:image:cover_for:publisher:imprint:generic_contact': string;
       'profile:image:cover_for:publisher:imprint:hidden_books': Array<string>;
@@ -8272,8 +8272,8 @@ export type Schema = {
       'profile:image:preview_for:image:preview_for:Tags': Array<string>;
       'profile:image:preview_for:image:preview_for:title': string;
       'profile:image:preview_for:image:preview_for:updated_at': string;
-      'profile:image:preview_for:image:publisher:contact_info': string;
       'profile:image:preview_for:image:publisher:created_at': string;
+      'profile:image:preview_for:image:publisher:description': string;
       'profile:image:preview_for:image:publisher:direct_contact': string;
       'profile:image:preview_for:image:publisher:generic_contact': string;
       'profile:image:preview_for:image:publisher:hidden_books': Array<string>;
@@ -8300,8 +8300,8 @@ export type Schema = {
       'profile:image:preview_for:publisher:image:Source': string;
       'profile:image:preview_for:publisher:image:updated_at': string;
       'profile:image:preview_for:publisher:image:width': number;
-      'profile:image:preview_for:publisher:imprint:contact_info': string;
       'profile:image:preview_for:publisher:imprint:created_at': string;
+      'profile:image:preview_for:publisher:imprint:description': string;
       'profile:image:preview_for:publisher:imprint:direct_contact': string;
       'profile:image:preview_for:publisher:imprint:generic_contact': string;
       'profile:image:preview_for:publisher:imprint:hidden_books': Array<string>;
@@ -8327,8 +8327,8 @@ export type Schema = {
       'profile:image:preview_for:submitter:profile:updated_at': string;
       'profile:image:preview_for:submitter:profile:user_id': string;
       'profile:image:preview_for:submitter:profile:website': string;
-      'profile:image:publisher:imprint:imprint:contact_info': string;
       'profile:image:publisher:imprint:imprint:created_at': string;
+      'profile:image:publisher:imprint:imprint:description': string;
       'profile:image:publisher:imprint:imprint:direct_contact': string;
       'profile:image:publisher:imprint:imprint:generic_contact': string;
       'profile:image:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -8340,8 +8340,8 @@ export type Schema = {
       'profile:image:publisher:imprint:imprint:slug': string;
       'profile:image:publisher:imprint:imprint:updated_at': string;
       'profile:image:publisher:imprint:imprint:website': string;
-      'user:profile:image:cover_for:publisher:contact_info': string;
       'user:profile:image:cover_for:publisher:created_at': string;
+      'user:profile:image:cover_for:publisher:description': string;
       'user:profile:image:cover_for:publisher:direct_contact': string;
       'user:profile:image:cover_for:publisher:generic_contact': string;
       'user:profile:image:cover_for:publisher:hidden_books': Array<string>;
@@ -8384,8 +8384,8 @@ export type Schema = {
       'user:profile:image:preview_for:image:Source': string;
       'user:profile:image:preview_for:image:updated_at': string;
       'user:profile:image:preview_for:image:width': number;
-      'user:profile:image:preview_for:publisher:contact_info': string;
       'user:profile:image:preview_for:publisher:created_at': string;
+      'user:profile:image:preview_for:publisher:description': string;
       'user:profile:image:preview_for:publisher:direct_contact': string;
       'user:profile:image:preview_for:publisher:generic_contact': string;
       'user:profile:image:preview_for:publisher:hidden_books': Array<string>;
@@ -8405,8 +8405,8 @@ export type Schema = {
       'user:profile:image:preview_for:submitter:name': string;
       'user:profile:image:preview_for:submitter:role': 'admin' | 'user' | 'waitlist';
       'user:profile:image:preview_for:submitter:updated_at': string;
-      'user:profile:image:publisher:imprint:contact_info': string;
       'user:profile:image:publisher:imprint:created_at': string;
+      'user:profile:image:publisher:imprint:description': string;
       'user:profile:image:publisher:imprint:direct_contact': string;
       'user:profile:image:publisher:imprint:generic_contact': string;
       'user:profile:image:publisher:imprint:hidden_books': Array<string>;
@@ -8525,8 +8525,8 @@ export type Schema = {
       'profile:image:preview_for:Tags': Array<string>;
       'profile:image:preview_for:title': string;
       'profile:image:preview_for:updated_at': string;
-      'profile:image:publisher:contact_info': string;
       'profile:image:publisher:created_at': string;
+      'profile:image:publisher:description': string;
       'profile:image:publisher:direct_contact': string;
       'profile:image:publisher:generic_contact': string;
       'profile:image:publisher:hidden_books': Array<string>;
@@ -8538,8 +8538,8 @@ export type Schema = {
       'profile:image:publisher:slug': string;
       'profile:image:publisher:updated_at': string;
       'profile:image:publisher:website': string;
-      'profile:image:cover_for:publisher:contact_info': string;
       'profile:image:cover_for:publisher:created_at': string;
+      'profile:image:cover_for:publisher:description': string;
       'profile:image:cover_for:publisher:direct_contact': string;
       'profile:image:cover_for:publisher:generic_contact': string;
       'profile:image:cover_for:publisher:hidden_books': Array<string>;
@@ -8582,8 +8582,8 @@ export type Schema = {
       'profile:image:preview_for:image:Source': string;
       'profile:image:preview_for:image:updated_at': string;
       'profile:image:preview_for:image:width': number;
-      'profile:image:preview_for:publisher:contact_info': string;
       'profile:image:preview_for:publisher:created_at': string;
+      'profile:image:preview_for:publisher:description': string;
       'profile:image:preview_for:publisher:direct_contact': string;
       'profile:image:preview_for:publisher:generic_contact': string;
       'profile:image:preview_for:publisher:hidden_books': Array<string>;
@@ -8603,8 +8603,8 @@ export type Schema = {
       'profile:image:preview_for:submitter:name': string;
       'profile:image:preview_for:submitter:role': 'admin' | 'user' | 'waitlist';
       'profile:image:preview_for:submitter:updated_at': string;
-      'profile:image:publisher:imprint:contact_info': string;
       'profile:image:publisher:imprint:created_at': string;
+      'profile:image:publisher:imprint:description': string;
       'profile:image:publisher:imprint:direct_contact': string;
       'profile:image:publisher:imprint:generic_contact': string;
       'profile:image:publisher:imprint:hidden_books': Array<string>;
@@ -8631,8 +8631,8 @@ export type Schema = {
       'profile:image:cover_for:publisher:image:Source': string;
       'profile:image:cover_for:publisher:image:updated_at': string;
       'profile:image:cover_for:publisher:image:width': number;
-      'profile:image:cover_for:publisher:imprint:contact_info': string;
       'profile:image:cover_for:publisher:imprint:created_at': string;
+      'profile:image:cover_for:publisher:imprint:description': string;
       'profile:image:cover_for:publisher:imprint:direct_contact': string;
       'profile:image:cover_for:publisher:imprint:generic_contact': string;
       'profile:image:cover_for:publisher:imprint:hidden_books': Array<string>;
@@ -8704,8 +8704,8 @@ export type Schema = {
       'profile:image:preview_for:image:preview_for:Tags': Array<string>;
       'profile:image:preview_for:image:preview_for:title': string;
       'profile:image:preview_for:image:preview_for:updated_at': string;
-      'profile:image:preview_for:image:publisher:contact_info': string;
       'profile:image:preview_for:image:publisher:created_at': string;
+      'profile:image:preview_for:image:publisher:description': string;
       'profile:image:preview_for:image:publisher:direct_contact': string;
       'profile:image:preview_for:image:publisher:generic_contact': string;
       'profile:image:preview_for:image:publisher:hidden_books': Array<string>;
@@ -8732,8 +8732,8 @@ export type Schema = {
       'profile:image:preview_for:publisher:image:Source': string;
       'profile:image:preview_for:publisher:image:updated_at': string;
       'profile:image:preview_for:publisher:image:width': number;
-      'profile:image:preview_for:publisher:imprint:contact_info': string;
       'profile:image:preview_for:publisher:imprint:created_at': string;
+      'profile:image:preview_for:publisher:imprint:description': string;
       'profile:image:preview_for:publisher:imprint:direct_contact': string;
       'profile:image:preview_for:publisher:imprint:generic_contact': string;
       'profile:image:preview_for:publisher:imprint:hidden_books': Array<string>;
@@ -8759,8 +8759,8 @@ export type Schema = {
       'profile:image:preview_for:submitter:profile:updated_at': string;
       'profile:image:preview_for:submitter:profile:user_id': string;
       'profile:image:preview_for:submitter:profile:website': string;
-      'profile:image:publisher:imprint:imprint:contact_info': string;
       'profile:image:publisher:imprint:imprint:created_at': string;
+      'profile:image:publisher:imprint:imprint:description': string;
       'profile:image:publisher:imprint:imprint:direct_contact': string;
       'profile:image:publisher:imprint:imprint:generic_contact': string;
       'profile:image:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -8827,8 +8827,8 @@ export type Schema = {
       'book:image:Source': string;
       'book:image:updated_at': string;
       'book:image:width': number;
-      'book:publisher:contact_info': string;
       'book:publisher:created_at': string;
+      'book:publisher:description': string;
       'book:publisher:direct_contact': string;
       'book:publisher:generic_contact': string;
       'book:publisher:hidden_books': Array<string>;
@@ -8894,8 +8894,8 @@ export type Schema = {
       'book:image:profile:updated_at': string;
       'book:image:profile:user_id': string;
       'book:image:profile:website': string;
-      'book:image:publisher:contact_info': string;
       'book:image:publisher:created_at': string;
+      'book:image:publisher:description': string;
       'book:image:publisher:direct_contact': string;
       'book:image:publisher:generic_contact': string;
       'book:image:publisher:hidden_books': Array<string>;
@@ -8922,8 +8922,8 @@ export type Schema = {
       'book:publisher:image:Source': string;
       'book:publisher:image:updated_at': string;
       'book:publisher:image:width': number;
-      'book:publisher:imprint:contact_info': string;
       'book:publisher:imprint:created_at': string;
+      'book:publisher:imprint:description': string;
       'book:publisher:imprint:direct_contact': string;
       'book:publisher:imprint:generic_contact': string;
       'book:publisher:imprint:hidden_books': Array<string>;
@@ -8972,8 +8972,8 @@ export type Schema = {
       'book:image:preview_for:image:Source': string;
       'book:image:preview_for:image:updated_at': string;
       'book:image:preview_for:image:width': number;
-      'book:image:preview_for:publisher:contact_info': string;
       'book:image:preview_for:publisher:created_at': string;
+      'book:image:preview_for:publisher:description': string;
       'book:image:preview_for:publisher:direct_contact': string;
       'book:image:preview_for:publisher:generic_contact': string;
       'book:image:preview_for:publisher:hidden_books': Array<string>;
@@ -9006,8 +9006,8 @@ export type Schema = {
       'book:image:profile:user:name': string;
       'book:image:profile:user:role': 'admin' | 'user' | 'waitlist';
       'book:image:profile:user:updated_at': string;
-      'book:image:publisher:imprint:contact_info': string;
       'book:image:publisher:imprint:created_at': string;
+      'book:image:publisher:imprint:description': string;
       'book:image:publisher:imprint:direct_contact': string;
       'book:image:publisher:imprint:generic_contact': string;
       'book:image:publisher:imprint:hidden_books': Array<string>;
@@ -9104,8 +9104,8 @@ export type Schema = {
       'book:publisher:imprint:image:Source': string;
       'book:publisher:imprint:image:updated_at': string;
       'book:publisher:imprint:image:width': number;
-      'book:publisher:imprint:imprint:contact_info': string;
       'book:publisher:imprint:imprint:created_at': string;
+      'book:publisher:imprint:imprint:description': string;
       'book:publisher:imprint:imprint:direct_contact': string;
       'book:publisher:imprint:imprint:generic_contact': string;
       'book:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -9197,8 +9197,8 @@ export type Schema = {
       'book:image:preview_for:image:profile:updated_at': string;
       'book:image:preview_for:image:profile:user_id': string;
       'book:image:preview_for:image:profile:website': string;
-      'book:image:preview_for:image:publisher:contact_info': string;
       'book:image:preview_for:image:publisher:created_at': string;
+      'book:image:preview_for:image:publisher:description': string;
       'book:image:preview_for:image:publisher:direct_contact': string;
       'book:image:preview_for:image:publisher:generic_contact': string;
       'book:image:preview_for:image:publisher:hidden_books': Array<string>;
@@ -9225,8 +9225,8 @@ export type Schema = {
       'book:image:preview_for:publisher:image:Source': string;
       'book:image:preview_for:publisher:image:updated_at': string;
       'book:image:preview_for:publisher:image:width': number;
-      'book:image:preview_for:publisher:imprint:contact_info': string;
       'book:image:preview_for:publisher:imprint:created_at': string;
+      'book:image:preview_for:publisher:imprint:description': string;
       'book:image:preview_for:publisher:imprint:direct_contact': string;
       'book:image:preview_for:publisher:imprint:generic_contact': string;
       'book:image:preview_for:publisher:imprint:hidden_books': Array<string>;
@@ -9252,8 +9252,8 @@ export type Schema = {
       'book:image:preview_for:submitter:profile:updated_at': string;
       'book:image:preview_for:submitter:profile:user_id': string;
       'book:image:preview_for:submitter:profile:website': string;
-      'book:image:publisher:imprint:imprint:contact_info': string;
       'book:image:publisher:imprint:imprint:created_at': string;
+      'book:image:publisher:imprint:imprint:description': string;
       'book:image:publisher:imprint:imprint:direct_contact': string;
       'book:image:publisher:imprint:imprint:generic_contact': string;
       'book:image:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -9265,8 +9265,8 @@ export type Schema = {
       'book:image:publisher:imprint:imprint:slug': string;
       'book:image:publisher:imprint:imprint:updated_at': string;
       'book:image:publisher:imprint:imprint:website': string;
-      'book:publisher:image:cover_for:publisher:contact_info': string;
       'book:publisher:image:cover_for:publisher:created_at': string;
+      'book:publisher:image:cover_for:publisher:description': string;
       'book:publisher:image:cover_for:publisher:direct_contact': string;
       'book:publisher:image:cover_for:publisher:generic_contact': string;
       'book:publisher:image:cover_for:publisher:hidden_books': Array<string>;
@@ -9309,8 +9309,8 @@ export type Schema = {
       'book:publisher:image:preview_for:image:Source': string;
       'book:publisher:image:preview_for:image:updated_at': string;
       'book:publisher:image:preview_for:image:width': number;
-      'book:publisher:image:preview_for:publisher:contact_info': string;
       'book:publisher:image:preview_for:publisher:created_at': string;
+      'book:publisher:image:preview_for:publisher:description': string;
       'book:publisher:image:preview_for:publisher:direct_contact': string;
       'book:publisher:image:preview_for:publisher:generic_contact': string;
       'book:publisher:image:preview_for:publisher:hidden_books': Array<string>;
@@ -9428,8 +9428,8 @@ export type Schema = {
       'book:publisher:imprint:imprint:image:Source': string;
       'book:publisher:imprint:imprint:image:updated_at': string;
       'book:publisher:imprint:imprint:image:width': number;
-      'book:publisher:imprint:imprint:imprint:contact_info': string;
       'book:publisher:imprint:imprint:imprint:created_at': string;
+      'book:publisher:imprint:imprint:imprint:description': string;
       'book:publisher:imprint:imprint:imprint:direct_contact': string;
       'book:publisher:imprint:imprint:imprint:generic_contact': string;
       'book:publisher:imprint:imprint:imprint:hidden_books': Array<string>;
@@ -9497,8 +9497,8 @@ export type Schema = {
       'book:submitter:profile:image:preview_for:Tags': Array<string>;
       'book:submitter:profile:image:preview_for:title': string;
       'book:submitter:profile:image:preview_for:updated_at': string;
-      'book:submitter:profile:image:publisher:contact_info': string;
       'book:submitter:profile:image:publisher:created_at': string;
+      'book:submitter:profile:image:publisher:description': string;
       'book:submitter:profile:image:publisher:direct_contact': string;
       'book:submitter:profile:image:publisher:generic_contact': string;
       'book:submitter:profile:image:publisher:hidden_books': Array<string>;
@@ -9619,8 +9619,8 @@ export type Schema = {
       'profile:updated_at': string;
       'profile:user_id': string;
       'profile:website': string;
-      'publisher:contact_info': string;
       'publisher:created_at': string;
+      'publisher:description': string;
       'publisher:direct_contact': string;
       'publisher:generic_contact': string;
       'publisher:hidden_books': Array<string>;
@@ -9632,8 +9632,8 @@ export type Schema = {
       'publisher:slug': string;
       'publisher:updated_at': string;
       'publisher:website': string;
-      'cover_for:publisher:contact_info': string;
       'cover_for:publisher:created_at': string;
+      'cover_for:publisher:description': string;
       'cover_for:publisher:direct_contact': string;
       'cover_for:publisher:generic_contact': string;
       'cover_for:publisher:hidden_books': Array<string>;
@@ -9676,8 +9676,8 @@ export type Schema = {
       'preview_for:image:Source': string;
       'preview_for:image:updated_at': string;
       'preview_for:image:width': number;
-      'preview_for:publisher:contact_info': string;
       'preview_for:publisher:created_at': string;
+      'preview_for:publisher:description': string;
       'preview_for:publisher:direct_contact': string;
       'preview_for:publisher:generic_contact': string;
       'preview_for:publisher:hidden_books': Array<string>;
@@ -9710,8 +9710,8 @@ export type Schema = {
       'profile:user:name': string;
       'profile:user:role': 'admin' | 'user' | 'waitlist';
       'profile:user:updated_at': string;
-      'publisher:imprint:contact_info': string;
       'publisher:imprint:created_at': string;
+      'publisher:imprint:description': string;
       'publisher:imprint:direct_contact': string;
       'publisher:imprint:generic_contact': string;
       'publisher:imprint:hidden_books': Array<string>;
@@ -9738,8 +9738,8 @@ export type Schema = {
       'cover_for:publisher:image:Source': string;
       'cover_for:publisher:image:updated_at': string;
       'cover_for:publisher:image:width': number;
-      'cover_for:publisher:imprint:contact_info': string;
       'cover_for:publisher:imprint:created_at': string;
+      'cover_for:publisher:imprint:description': string;
       'cover_for:publisher:imprint:direct_contact': string;
       'cover_for:publisher:imprint:generic_contact': string;
       'cover_for:publisher:imprint:hidden_books': Array<string>;
@@ -9825,8 +9825,8 @@ export type Schema = {
       'preview_for:image:profile:updated_at': string;
       'preview_for:image:profile:user_id': string;
       'preview_for:image:profile:website': string;
-      'preview_for:image:publisher:contact_info': string;
       'preview_for:image:publisher:created_at': string;
+      'preview_for:image:publisher:description': string;
       'preview_for:image:publisher:direct_contact': string;
       'preview_for:image:publisher:generic_contact': string;
       'preview_for:image:publisher:hidden_books': Array<string>;
@@ -9853,8 +9853,8 @@ export type Schema = {
       'preview_for:publisher:image:Source': string;
       'preview_for:publisher:image:updated_at': string;
       'preview_for:publisher:image:width': number;
-      'preview_for:publisher:imprint:contact_info': string;
       'preview_for:publisher:imprint:created_at': string;
+      'preview_for:publisher:imprint:description': string;
       'preview_for:publisher:imprint:direct_contact': string;
       'preview_for:publisher:imprint:generic_contact': string;
       'preview_for:publisher:imprint:hidden_books': Array<string>;
@@ -9880,8 +9880,8 @@ export type Schema = {
       'preview_for:submitter:profile:updated_at': string;
       'preview_for:submitter:profile:user_id': string;
       'preview_for:submitter:profile:website': string;
-      'publisher:imprint:imprint:contact_info': string;
       'publisher:imprint:imprint:created_at': string;
+      'publisher:imprint:imprint:description': string;
       'publisher:imprint:imprint:direct_contact': string;
       'publisher:imprint:imprint:generic_contact': string;
       'publisher:imprint:imprint:hidden_books': Array<string>;
@@ -9978,8 +9978,8 @@ export type Schema = {
       'cover_for:publisher:imprint:image:Source': string;
       'cover_for:publisher:imprint:image:updated_at': string;
       'cover_for:publisher:imprint:image:width': number;
-      'cover_for:publisher:imprint:imprint:contact_info': string;
       'cover_for:publisher:imprint:imprint:created_at': string;
+      'cover_for:publisher:imprint:imprint:description': string;
       'cover_for:publisher:imprint:imprint:direct_contact': string;
       'cover_for:publisher:imprint:imprint:generic_contact': string;
       'cover_for:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -10054,8 +10054,8 @@ export type Schema = {
       'preview_for:image:preview_for:image:Source': string;
       'preview_for:image:preview_for:image:updated_at': string;
       'preview_for:image:preview_for:image:width': number;
-      'preview_for:image:preview_for:publisher:contact_info': string;
       'preview_for:image:preview_for:publisher:created_at': string;
+      'preview_for:image:preview_for:publisher:description': string;
       'preview_for:image:preview_for:publisher:direct_contact': string;
       'preview_for:image:preview_for:publisher:generic_contact': string;
       'preview_for:image:preview_for:publisher:hidden_books': Array<string>;
@@ -10088,8 +10088,8 @@ export type Schema = {
       'preview_for:image:profile:user:name': string;
       'preview_for:image:profile:user:role': 'admin' | 'user' | 'waitlist';
       'preview_for:image:profile:user:updated_at': string;
-      'preview_for:image:publisher:imprint:contact_info': string;
       'preview_for:image:publisher:imprint:created_at': string;
+      'preview_for:image:publisher:imprint:description': string;
       'preview_for:image:publisher:imprint:direct_contact': string;
       'preview_for:image:publisher:imprint:generic_contact': string;
       'preview_for:image:publisher:imprint:hidden_books': Array<string>;
@@ -10186,8 +10186,8 @@ export type Schema = {
       'preview_for:publisher:imprint:image:Source': string;
       'preview_for:publisher:imprint:image:updated_at': string;
       'preview_for:publisher:imprint:image:width': number;
-      'preview_for:publisher:imprint:imprint:contact_info': string;
       'preview_for:publisher:imprint:imprint:created_at': string;
+      'preview_for:publisher:imprint:imprint:description': string;
       'preview_for:publisher:imprint:imprint:direct_contact': string;
       'preview_for:publisher:imprint:imprint:generic_contact': string;
       'preview_for:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -10219,8 +10219,8 @@ export type Schema = {
       'preview_for:submitter:profile:image:Source': string;
       'preview_for:submitter:profile:image:updated_at': string;
       'preview_for:submitter:profile:image:width': number;
-      'publisher:imprint:imprint:imprint:contact_info': string;
       'publisher:imprint:imprint:imprint:created_at': string;
+      'publisher:imprint:imprint:imprint:description': string;
       'publisher:imprint:imprint:imprint:direct_contact': string;
       'publisher:imprint:imprint:imprint:generic_contact': string;
       'publisher:imprint:imprint:imprint:hidden_books': Array<string>;
@@ -10232,8 +10232,8 @@ export type Schema = {
       'publisher:imprint:imprint:imprint:slug': string;
       'publisher:imprint:imprint:imprint:updated_at': string;
       'publisher:imprint:imprint:imprint:website': string;
-      'cover_for:publisher:image:cover_for:publisher:contact_info': string;
       'cover_for:publisher:image:cover_for:publisher:created_at': string;
+      'cover_for:publisher:image:cover_for:publisher:description': string;
       'cover_for:publisher:image:cover_for:publisher:direct_contact': string;
       'cover_for:publisher:image:cover_for:publisher:generic_contact': string;
       'cover_for:publisher:image:cover_for:publisher:hidden_books': Array<string>;
@@ -10261,8 +10261,8 @@ export type Schema = {
       'cover_for:publisher:image:post:author:name': string;
       'cover_for:publisher:image:post:author:role': 'admin' | 'user' | 'waitlist';
       'cover_for:publisher:image:post:author:updated_at': string;
-      'cover_for:publisher:image:preview_for:publisher:contact_info': string;
       'cover_for:publisher:image:preview_for:publisher:created_at': string;
+      'cover_for:publisher:image:preview_for:publisher:description': string;
       'cover_for:publisher:image:preview_for:publisher:direct_contact': string;
       'cover_for:publisher:image:preview_for:publisher:generic_contact': string;
       'cover_for:publisher:image:preview_for:publisher:hidden_books': Array<string>;
@@ -10380,8 +10380,8 @@ export type Schema = {
       'cover_for:publisher:imprint:imprint:image:Source': string;
       'cover_for:publisher:imprint:imprint:image:updated_at': string;
       'cover_for:publisher:imprint:imprint:image:width': number;
-      'cover_for:publisher:imprint:imprint:imprint:contact_info': string;
       'cover_for:publisher:imprint:imprint:imprint:created_at': string;
+      'cover_for:publisher:imprint:imprint:imprint:description': string;
       'cover_for:publisher:imprint:imprint:imprint:direct_contact': string;
       'cover_for:publisher:imprint:imprint:imprint:generic_contact': string;
       'cover_for:publisher:imprint:imprint:imprint:hidden_books': Array<string>;
@@ -10449,8 +10449,8 @@ export type Schema = {
       'cover_for:submitter:profile:image:preview_for:Tags': Array<string>;
       'cover_for:submitter:profile:image:preview_for:title': string;
       'cover_for:submitter:profile:image:preview_for:updated_at': string;
-      'cover_for:submitter:profile:image:publisher:contact_info': string;
       'cover_for:submitter:profile:image:publisher:created_at': string;
+      'cover_for:submitter:profile:image:publisher:description': string;
       'cover_for:submitter:profile:image:publisher:direct_contact': string;
       'cover_for:submitter:profile:image:publisher:generic_contact': string;
       'cover_for:submitter:profile:image:publisher:hidden_books': Array<string>;
@@ -10518,8 +10518,8 @@ export type Schema = {
       'post:author:profile:image:preview_for:Tags': Array<string>;
       'post:author:profile:image:preview_for:title': string;
       'post:author:profile:image:preview_for:updated_at': string;
-      'post:author:profile:image:publisher:contact_info': string;
       'post:author:profile:image:publisher:created_at': string;
+      'post:author:profile:image:publisher:description': string;
       'post:author:profile:image:publisher:direct_contact': string;
       'post:author:profile:image:publisher:generic_contact': string;
       'post:author:profile:image:publisher:hidden_books': Array<string>;
@@ -10591,8 +10591,8 @@ export type Schema = {
       'preview_for:image:preview_for:image:profile:updated_at': string;
       'preview_for:image:preview_for:image:profile:user_id': string;
       'preview_for:image:preview_for:image:profile:website': string;
-      'preview_for:image:preview_for:image:publisher:contact_info': string;
       'preview_for:image:preview_for:image:publisher:created_at': string;
+      'preview_for:image:preview_for:image:publisher:description': string;
       'preview_for:image:preview_for:image:publisher:direct_contact': string;
       'preview_for:image:preview_for:image:publisher:generic_contact': string;
       'preview_for:image:preview_for:image:publisher:hidden_books': Array<string>;
@@ -10619,8 +10619,8 @@ export type Schema = {
       'preview_for:image:preview_for:publisher:image:Source': string;
       'preview_for:image:preview_for:publisher:image:updated_at': string;
       'preview_for:image:preview_for:publisher:image:width': number;
-      'preview_for:image:preview_for:publisher:imprint:contact_info': string;
       'preview_for:image:preview_for:publisher:imprint:created_at': string;
+      'preview_for:image:preview_for:publisher:imprint:description': string;
       'preview_for:image:preview_for:publisher:imprint:direct_contact': string;
       'preview_for:image:preview_for:publisher:imprint:generic_contact': string;
       'preview_for:image:preview_for:publisher:imprint:hidden_books': Array<string>;
@@ -10646,8 +10646,8 @@ export type Schema = {
       'preview_for:image:preview_for:submitter:profile:updated_at': string;
       'preview_for:image:preview_for:submitter:profile:user_id': string;
       'preview_for:image:preview_for:submitter:profile:website': string;
-      'preview_for:image:publisher:imprint:imprint:contact_info': string;
       'preview_for:image:publisher:imprint:imprint:created_at': string;
+      'preview_for:image:publisher:imprint:imprint:description': string;
       'preview_for:image:publisher:imprint:imprint:direct_contact': string;
       'preview_for:image:publisher:imprint:imprint:generic_contact': string;
       'preview_for:image:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -10659,8 +10659,8 @@ export type Schema = {
       'preview_for:image:publisher:imprint:imprint:slug': string;
       'preview_for:image:publisher:imprint:imprint:updated_at': string;
       'preview_for:image:publisher:imprint:imprint:website': string;
-      'preview_for:publisher:image:cover_for:publisher:contact_info': string;
       'preview_for:publisher:image:cover_for:publisher:created_at': string;
+      'preview_for:publisher:image:cover_for:publisher:description': string;
       'preview_for:publisher:image:cover_for:publisher:direct_contact': string;
       'preview_for:publisher:image:cover_for:publisher:generic_contact': string;
       'preview_for:publisher:image:cover_for:publisher:hidden_books': Array<string>;
@@ -10703,8 +10703,8 @@ export type Schema = {
       'preview_for:publisher:image:preview_for:image:Source': string;
       'preview_for:publisher:image:preview_for:image:updated_at': string;
       'preview_for:publisher:image:preview_for:image:width': number;
-      'preview_for:publisher:image:preview_for:publisher:contact_info': string;
       'preview_for:publisher:image:preview_for:publisher:created_at': string;
+      'preview_for:publisher:image:preview_for:publisher:description': string;
       'preview_for:publisher:image:preview_for:publisher:direct_contact': string;
       'preview_for:publisher:image:preview_for:publisher:generic_contact': string;
       'preview_for:publisher:image:preview_for:publisher:hidden_books': Array<string>;
@@ -10822,8 +10822,8 @@ export type Schema = {
       'preview_for:publisher:imprint:imprint:image:Source': string;
       'preview_for:publisher:imprint:imprint:image:updated_at': string;
       'preview_for:publisher:imprint:imprint:image:width': number;
-      'preview_for:publisher:imprint:imprint:imprint:contact_info': string;
       'preview_for:publisher:imprint:imprint:imprint:created_at': string;
+      'preview_for:publisher:imprint:imprint:imprint:description': string;
       'preview_for:publisher:imprint:imprint:imprint:direct_contact': string;
       'preview_for:publisher:imprint:imprint:imprint:generic_contact': string;
       'preview_for:publisher:imprint:imprint:imprint:hidden_books': Array<string>;
@@ -10891,8 +10891,8 @@ export type Schema = {
       'preview_for:submitter:profile:image:preview_for:Tags': Array<string>;
       'preview_for:submitter:profile:image:preview_for:title': string;
       'preview_for:submitter:profile:image:preview_for:updated_at': string;
-      'preview_for:submitter:profile:image:publisher:contact_info': string;
       'preview_for:submitter:profile:image:publisher:created_at': string;
+      'preview_for:submitter:profile:image:publisher:description': string;
       'preview_for:submitter:profile:image:publisher:direct_contact': string;
       'preview_for:submitter:profile:image:publisher:generic_contact': string;
       'preview_for:submitter:profile:image:publisher:hidden_books': Array<string>;
@@ -10904,8 +10904,8 @@ export type Schema = {
       'preview_for:submitter:profile:image:publisher:slug': string;
       'preview_for:submitter:profile:image:publisher:updated_at': string;
       'preview_for:submitter:profile:image:publisher:website': string;
-      'publisher:imprint:imprint:imprint:imprint:contact_info': string;
       'publisher:imprint:imprint:imprint:imprint:created_at': string;
+      'publisher:imprint:imprint:imprint:imprint:description': string;
       'publisher:imprint:imprint:imprint:imprint:direct_contact': string;
       'publisher:imprint:imprint:imprint:imprint:generic_contact': string;
       'publisher:imprint:imprint:imprint:imprint:hidden_books': Array<string>;
@@ -10984,8 +10984,8 @@ export type Schema = {
       'book:image:Source': string;
       'book:image:updated_at': string;
       'book:image:width': number;
-      'book:publisher:contact_info': string;
       'book:publisher:created_at': string;
+      'book:publisher:description': string;
       'book:publisher:direct_contact': string;
       'book:publisher:generic_contact': string;
       'book:publisher:hidden_books': Array<string>;
@@ -11051,8 +11051,8 @@ export type Schema = {
       'book:image:profile:updated_at': string;
       'book:image:profile:user_id': string;
       'book:image:profile:website': string;
-      'book:image:publisher:contact_info': string;
       'book:image:publisher:created_at': string;
+      'book:image:publisher:description': string;
       'book:image:publisher:direct_contact': string;
       'book:image:publisher:generic_contact': string;
       'book:image:publisher:hidden_books': Array<string>;
@@ -11079,8 +11079,8 @@ export type Schema = {
       'book:publisher:image:Source': string;
       'book:publisher:image:updated_at': string;
       'book:publisher:image:width': number;
-      'book:publisher:imprint:contact_info': string;
       'book:publisher:imprint:created_at': string;
+      'book:publisher:imprint:description': string;
       'book:publisher:imprint:direct_contact': string;
       'book:publisher:imprint:generic_contact': string;
       'book:publisher:imprint:hidden_books': Array<string>;
@@ -11129,8 +11129,8 @@ export type Schema = {
       'book:image:preview_for:image:Source': string;
       'book:image:preview_for:image:updated_at': string;
       'book:image:preview_for:image:width': number;
-      'book:image:preview_for:publisher:contact_info': string;
       'book:image:preview_for:publisher:created_at': string;
+      'book:image:preview_for:publisher:description': string;
       'book:image:preview_for:publisher:direct_contact': string;
       'book:image:preview_for:publisher:generic_contact': string;
       'book:image:preview_for:publisher:hidden_books': Array<string>;
@@ -11163,8 +11163,8 @@ export type Schema = {
       'book:image:profile:user:name': string;
       'book:image:profile:user:role': 'admin' | 'user' | 'waitlist';
       'book:image:profile:user:updated_at': string;
-      'book:image:publisher:imprint:contact_info': string;
       'book:image:publisher:imprint:created_at': string;
+      'book:image:publisher:imprint:description': string;
       'book:image:publisher:imprint:direct_contact': string;
       'book:image:publisher:imprint:generic_contact': string;
       'book:image:publisher:imprint:hidden_books': Array<string>;
@@ -11261,8 +11261,8 @@ export type Schema = {
       'book:publisher:imprint:image:Source': string;
       'book:publisher:imprint:image:updated_at': string;
       'book:publisher:imprint:image:width': number;
-      'book:publisher:imprint:imprint:contact_info': string;
       'book:publisher:imprint:imprint:created_at': string;
+      'book:publisher:imprint:imprint:description': string;
       'book:publisher:imprint:imprint:direct_contact': string;
       'book:publisher:imprint:imprint:generic_contact': string;
       'book:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -11354,8 +11354,8 @@ export type Schema = {
       'book:image:preview_for:image:profile:updated_at': string;
       'book:image:preview_for:image:profile:user_id': string;
       'book:image:preview_for:image:profile:website': string;
-      'book:image:preview_for:image:publisher:contact_info': string;
       'book:image:preview_for:image:publisher:created_at': string;
+      'book:image:preview_for:image:publisher:description': string;
       'book:image:preview_for:image:publisher:direct_contact': string;
       'book:image:preview_for:image:publisher:generic_contact': string;
       'book:image:preview_for:image:publisher:hidden_books': Array<string>;
@@ -11382,8 +11382,8 @@ export type Schema = {
       'book:image:preview_for:publisher:image:Source': string;
       'book:image:preview_for:publisher:image:updated_at': string;
       'book:image:preview_for:publisher:image:width': number;
-      'book:image:preview_for:publisher:imprint:contact_info': string;
       'book:image:preview_for:publisher:imprint:created_at': string;
+      'book:image:preview_for:publisher:imprint:description': string;
       'book:image:preview_for:publisher:imprint:direct_contact': string;
       'book:image:preview_for:publisher:imprint:generic_contact': string;
       'book:image:preview_for:publisher:imprint:hidden_books': Array<string>;
@@ -11409,8 +11409,8 @@ export type Schema = {
       'book:image:preview_for:submitter:profile:updated_at': string;
       'book:image:preview_for:submitter:profile:user_id': string;
       'book:image:preview_for:submitter:profile:website': string;
-      'book:image:publisher:imprint:imprint:contact_info': string;
       'book:image:publisher:imprint:imprint:created_at': string;
+      'book:image:publisher:imprint:imprint:description': string;
       'book:image:publisher:imprint:imprint:direct_contact': string;
       'book:image:publisher:imprint:imprint:generic_contact': string;
       'book:image:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -11422,8 +11422,8 @@ export type Schema = {
       'book:image:publisher:imprint:imprint:slug': string;
       'book:image:publisher:imprint:imprint:updated_at': string;
       'book:image:publisher:imprint:imprint:website': string;
-      'book:publisher:image:cover_for:publisher:contact_info': string;
       'book:publisher:image:cover_for:publisher:created_at': string;
+      'book:publisher:image:cover_for:publisher:description': string;
       'book:publisher:image:cover_for:publisher:direct_contact': string;
       'book:publisher:image:cover_for:publisher:generic_contact': string;
       'book:publisher:image:cover_for:publisher:hidden_books': Array<string>;
@@ -11466,8 +11466,8 @@ export type Schema = {
       'book:publisher:image:preview_for:image:Source': string;
       'book:publisher:image:preview_for:image:updated_at': string;
       'book:publisher:image:preview_for:image:width': number;
-      'book:publisher:image:preview_for:publisher:contact_info': string;
       'book:publisher:image:preview_for:publisher:created_at': string;
+      'book:publisher:image:preview_for:publisher:description': string;
       'book:publisher:image:preview_for:publisher:direct_contact': string;
       'book:publisher:image:preview_for:publisher:generic_contact': string;
       'book:publisher:image:preview_for:publisher:hidden_books': Array<string>;
@@ -11585,8 +11585,8 @@ export type Schema = {
       'book:publisher:imprint:imprint:image:Source': string;
       'book:publisher:imprint:imprint:image:updated_at': string;
       'book:publisher:imprint:imprint:image:width': number;
-      'book:publisher:imprint:imprint:imprint:contact_info': string;
       'book:publisher:imprint:imprint:imprint:created_at': string;
+      'book:publisher:imprint:imprint:imprint:description': string;
       'book:publisher:imprint:imprint:imprint:direct_contact': string;
       'book:publisher:imprint:imprint:imprint:generic_contact': string;
       'book:publisher:imprint:imprint:imprint:hidden_books': Array<string>;
@@ -11654,8 +11654,8 @@ export type Schema = {
       'book:submitter:profile:image:preview_for:Tags': Array<string>;
       'book:submitter:profile:image:preview_for:title': string;
       'book:submitter:profile:image:preview_for:updated_at': string;
-      'book:submitter:profile:image:publisher:contact_info': string;
       'book:submitter:profile:image:publisher:created_at': string;
+      'book:submitter:profile:image:publisher:description': string;
       'book:submitter:profile:image:publisher:direct_contact': string;
       'book:submitter:profile:image:publisher:generic_contact': string;
       'book:submitter:profile:image:publisher:hidden_books': Array<string>;
@@ -11683,8 +11683,8 @@ export type Schema = {
       'user': Schema['users']['plain'] & Schema['users']['nested'];
     };
     flat: {
-      'publisher:contact_info': string;
       'publisher:created_at': string;
+      'publisher:description': string;
       'publisher:direct_contact': string;
       'publisher:generic_contact': string;
       'publisher:hidden_books': Array<string>;
@@ -11719,8 +11719,8 @@ export type Schema = {
       'publisher:image:Source': string;
       'publisher:image:updated_at': string;
       'publisher:image:width': number;
-      'publisher:imprint:contact_info': string;
       'publisher:imprint:created_at': string;
+      'publisher:imprint:description': string;
       'publisher:imprint:direct_contact': string;
       'publisher:imprint:generic_contact': string;
       'publisher:imprint:hidden_books': Array<string>;
@@ -11831,8 +11831,8 @@ export type Schema = {
       'publisher:imprint:image:Source': string;
       'publisher:imprint:image:updated_at': string;
       'publisher:imprint:image:width': number;
-      'publisher:imprint:imprint:contact_info': string;
       'publisher:imprint:imprint:created_at': string;
+      'publisher:imprint:imprint:description': string;
       'publisher:imprint:imprint:direct_contact': string;
       'publisher:imprint:imprint:generic_contact': string;
       'publisher:imprint:imprint:hidden_books': Array<string>;
@@ -11864,8 +11864,8 @@ export type Schema = {
       'user:profile:image:Source': string;
       'user:profile:image:updated_at': string;
       'user:profile:image:width': number;
-      'publisher:image:cover_for:publisher:contact_info': string;
       'publisher:image:cover_for:publisher:created_at': string;
+      'publisher:image:cover_for:publisher:description': string;
       'publisher:image:cover_for:publisher:direct_contact': string;
       'publisher:image:cover_for:publisher:generic_contact': string;
       'publisher:image:cover_for:publisher:hidden_books': Array<string>;
@@ -11908,8 +11908,8 @@ export type Schema = {
       'publisher:image:preview_for:image:Source': string;
       'publisher:image:preview_for:image:updated_at': string;
       'publisher:image:preview_for:image:width': number;
-      'publisher:image:preview_for:publisher:contact_info': string;
       'publisher:image:preview_for:publisher:created_at': string;
+      'publisher:image:preview_for:publisher:description': string;
       'publisher:image:preview_for:publisher:direct_contact': string;
       'publisher:image:preview_for:publisher:generic_contact': string;
       'publisher:image:preview_for:publisher:hidden_books': Array<string>;
@@ -12027,8 +12027,8 @@ export type Schema = {
       'publisher:imprint:imprint:image:Source': string;
       'publisher:imprint:imprint:image:updated_at': string;
       'publisher:imprint:imprint:image:width': number;
-      'publisher:imprint:imprint:imprint:contact_info': string;
       'publisher:imprint:imprint:imprint:created_at': string;
+      'publisher:imprint:imprint:imprint:description': string;
       'publisher:imprint:imprint:imprint:direct_contact': string;
       'publisher:imprint:imprint:imprint:generic_contact': string;
       'publisher:imprint:imprint:imprint:hidden_books': Array<string>;
@@ -12096,8 +12096,8 @@ export type Schema = {
       'user:profile:image:preview_for:Tags': Array<string>;
       'user:profile:image:preview_for:title': string;
       'user:profile:image:preview_for:updated_at': string;
-      'user:profile:image:publisher:contact_info': string;
       'user:profile:image:publisher:created_at': string;
+      'user:profile:image:publisher:description': string;
       'user:profile:image:publisher:direct_contact': string;
       'user:profile:image:publisher:generic_contact': string;
       'user:profile:image:publisher:hidden_books': Array<string>;
@@ -12124,8 +12124,8 @@ export type Schema = {
       'publisher:image:cover_for:publisher:image:Source': string;
       'publisher:image:cover_for:publisher:image:updated_at': string;
       'publisher:image:cover_for:publisher:image:width': number;
-      'publisher:image:cover_for:publisher:imprint:contact_info': string;
       'publisher:image:cover_for:publisher:imprint:created_at': string;
+      'publisher:image:cover_for:publisher:imprint:description': string;
       'publisher:image:cover_for:publisher:imprint:direct_contact': string;
       'publisher:image:cover_for:publisher:imprint:generic_contact': string;
       'publisher:image:cover_for:publisher:imprint:hidden_books': Array<string>;
@@ -12226,8 +12226,8 @@ export type Schema = {
       'publisher:image:preview_for:publisher:image:Source': string;
       'publisher:image:preview_for:publisher:image:updated_at': string;
       'publisher:image:preview_for:publisher:image:width': number;
-      'publisher:image:preview_for:publisher:imprint:contact_info': string;
       'publisher:image:preview_for:publisher:imprint:created_at': string;
+      'publisher:image:preview_for:publisher:imprint:description': string;
       'publisher:image:preview_for:publisher:imprint:direct_contact': string;
       'publisher:image:preview_for:publisher:imprint:generic_contact': string;
       'publisher:image:preview_for:publisher:imprint:hidden_books': Array<string>;
@@ -12253,8 +12253,8 @@ export type Schema = {
       'publisher:image:preview_for:submitter:profile:updated_at': string;
       'publisher:image:preview_for:submitter:profile:user_id': string;
       'publisher:image:preview_for:submitter:profile:website': string;
-      'publisher:imprint:image:cover_for:publisher:contact_info': string;
       'publisher:imprint:image:cover_for:publisher:created_at': string;
+      'publisher:imprint:image:cover_for:publisher:description': string;
       'publisher:imprint:image:cover_for:publisher:direct_contact': string;
       'publisher:imprint:image:cover_for:publisher:generic_contact': string;
       'publisher:imprint:image:cover_for:publisher:hidden_books': Array<string>;
@@ -12297,8 +12297,8 @@ export type Schema = {
       'publisher:imprint:image:preview_for:image:Source': string;
       'publisher:imprint:image:preview_for:image:updated_at': string;
       'publisher:imprint:image:preview_for:image:width': number;
-      'publisher:imprint:image:preview_for:publisher:contact_info': string;
       'publisher:imprint:image:preview_for:publisher:created_at': string;
+      'publisher:imprint:image:preview_for:publisher:description': string;
       'publisher:imprint:image:preview_for:publisher:direct_contact': string;
       'publisher:imprint:image:preview_for:publisher:generic_contact': string;
       'publisher:imprint:image:preview_for:publisher:hidden_books': Array<string>;
@@ -12416,8 +12416,8 @@ export type Schema = {
       'publisher:imprint:imprint:imprint:image:Source': string;
       'publisher:imprint:imprint:imprint:image:updated_at': string;
       'publisher:imprint:imprint:imprint:image:width': number;
-      'publisher:imprint:imprint:imprint:imprint:contact_info': string;
       'publisher:imprint:imprint:imprint:imprint:created_at': string;
+      'publisher:imprint:imprint:imprint:imprint:description': string;
       'publisher:imprint:imprint:imprint:imprint:direct_contact': string;
       'publisher:imprint:imprint:imprint:imprint:generic_contact': string;
       'publisher:imprint:imprint:imprint:imprint:hidden_books': Array<string>;
@@ -12429,8 +12429,8 @@ export type Schema = {
       'publisher:imprint:imprint:imprint:imprint:slug': string;
       'publisher:imprint:imprint:imprint:imprint:updated_at': string;
       'publisher:imprint:imprint:imprint:imprint:website': string;
-      'user:profile:image:cover_for:publisher:contact_info': string;
       'user:profile:image:cover_for:publisher:created_at': string;
+      'user:profile:image:cover_for:publisher:description': string;
       'user:profile:image:cover_for:publisher:direct_contact': string;
       'user:profile:image:cover_for:publisher:generic_contact': string;
       'user:profile:image:cover_for:publisher:hidden_books': Array<string>;
@@ -12473,8 +12473,8 @@ export type Schema = {
       'user:profile:image:preview_for:image:Source': string;
       'user:profile:image:preview_for:image:updated_at': string;
       'user:profile:image:preview_for:image:width': number;
-      'user:profile:image:preview_for:publisher:contact_info': string;
       'user:profile:image:preview_for:publisher:created_at': string;
+      'user:profile:image:preview_for:publisher:description': string;
       'user:profile:image:preview_for:publisher:direct_contact': string;
       'user:profile:image:preview_for:publisher:generic_contact': string;
       'user:profile:image:preview_for:publisher:hidden_books': Array<string>;
@@ -12494,8 +12494,8 @@ export type Schema = {
       'user:profile:image:preview_for:submitter:name': string;
       'user:profile:image:preview_for:submitter:role': 'admin' | 'user' | 'waitlist';
       'user:profile:image:preview_for:submitter:updated_at': string;
-      'user:profile:image:publisher:imprint:contact_info': string;
       'user:profile:image:publisher:imprint:created_at': string;
+      'user:profile:image:publisher:imprint:description': string;
       'user:profile:image:publisher:imprint:direct_contact': string;
       'user:profile:image:publisher:imprint:generic_contact': string;
       'user:profile:image:publisher:imprint:hidden_books': Array<string>;
@@ -12619,8 +12619,8 @@ export type Schema = {
       'author:profile:image:preview_for:Tags': Array<string>;
       'author:profile:image:preview_for:title': string;
       'author:profile:image:preview_for:updated_at': string;
-      'author:profile:image:publisher:contact_info': string;
       'author:profile:image:publisher:created_at': string;
+      'author:profile:image:publisher:description': string;
       'author:profile:image:publisher:direct_contact': string;
       'author:profile:image:publisher:generic_contact': string;
       'author:profile:image:publisher:hidden_books': Array<string>;
@@ -12632,8 +12632,8 @@ export type Schema = {
       'author:profile:image:publisher:slug': string;
       'author:profile:image:publisher:updated_at': string;
       'author:profile:image:publisher:website': string;
-      'author:profile:image:cover_for:publisher:contact_info': string;
       'author:profile:image:cover_for:publisher:created_at': string;
+      'author:profile:image:cover_for:publisher:description': string;
       'author:profile:image:cover_for:publisher:direct_contact': string;
       'author:profile:image:cover_for:publisher:generic_contact': string;
       'author:profile:image:cover_for:publisher:hidden_books': Array<string>;
@@ -12676,8 +12676,8 @@ export type Schema = {
       'author:profile:image:preview_for:image:Source': string;
       'author:profile:image:preview_for:image:updated_at': string;
       'author:profile:image:preview_for:image:width': number;
-      'author:profile:image:preview_for:publisher:contact_info': string;
       'author:profile:image:preview_for:publisher:created_at': string;
+      'author:profile:image:preview_for:publisher:description': string;
       'author:profile:image:preview_for:publisher:direct_contact': string;
       'author:profile:image:preview_for:publisher:generic_contact': string;
       'author:profile:image:preview_for:publisher:hidden_books': Array<string>;
@@ -12697,8 +12697,8 @@ export type Schema = {
       'author:profile:image:preview_for:submitter:name': string;
       'author:profile:image:preview_for:submitter:role': 'admin' | 'user' | 'waitlist';
       'author:profile:image:preview_for:submitter:updated_at': string;
-      'author:profile:image:publisher:imprint:contact_info': string;
       'author:profile:image:publisher:imprint:created_at': string;
+      'author:profile:image:publisher:imprint:description': string;
       'author:profile:image:publisher:imprint:direct_contact': string;
       'author:profile:image:publisher:imprint:generic_contact': string;
       'author:profile:image:publisher:imprint:hidden_books': Array<string>;
@@ -12825,8 +12825,8 @@ export type Schema = {
       'author:profile:image:preview_for:Tags': Array<string>;
       'author:profile:image:preview_for:title': string;
       'author:profile:image:preview_for:updated_at': string;
-      'author:profile:image:publisher:contact_info': string;
       'author:profile:image:publisher:created_at': string;
+      'author:profile:image:publisher:description': string;
       'author:profile:image:publisher:direct_contact': string;
       'author:profile:image:publisher:generic_contact': string;
       'author:profile:image:publisher:hidden_books': Array<string>;
@@ -12838,8 +12838,8 @@ export type Schema = {
       'author:profile:image:publisher:slug': string;
       'author:profile:image:publisher:updated_at': string;
       'author:profile:image:publisher:website': string;
-      'author:profile:image:cover_for:publisher:contact_info': string;
       'author:profile:image:cover_for:publisher:created_at': string;
+      'author:profile:image:cover_for:publisher:description': string;
       'author:profile:image:cover_for:publisher:direct_contact': string;
       'author:profile:image:cover_for:publisher:generic_contact': string;
       'author:profile:image:cover_for:publisher:hidden_books': Array<string>;
@@ -12882,8 +12882,8 @@ export type Schema = {
       'author:profile:image:preview_for:image:Source': string;
       'author:profile:image:preview_for:image:updated_at': string;
       'author:profile:image:preview_for:image:width': number;
-      'author:profile:image:preview_for:publisher:contact_info': string;
       'author:profile:image:preview_for:publisher:created_at': string;
+      'author:profile:image:preview_for:publisher:description': string;
       'author:profile:image:preview_for:publisher:direct_contact': string;
       'author:profile:image:preview_for:publisher:generic_contact': string;
       'author:profile:image:preview_for:publisher:hidden_books': Array<string>;
@@ -12903,8 +12903,8 @@ export type Schema = {
       'author:profile:image:preview_for:submitter:name': string;
       'author:profile:image:preview_for:submitter:role': 'admin' | 'user' | 'waitlist';
       'author:profile:image:preview_for:submitter:updated_at': string;
-      'author:profile:image:publisher:imprint:contact_info': string;
       'author:profile:image:publisher:imprint:created_at': string;
+      'author:profile:image:publisher:imprint:description': string;
       'author:profile:image:publisher:imprint:direct_contact': string;
       'author:profile:image:publisher:imprint:generic_contact': string;
       'author:profile:image:publisher:imprint:hidden_books': Array<string>;
@@ -13025,8 +13025,8 @@ export type Schema = {
       'image:preview_for:Tags': Array<string>;
       'image:preview_for:title': string;
       'image:preview_for:updated_at': string;
-      'image:publisher:contact_info': string;
       'image:publisher:created_at': string;
+      'image:publisher:description': string;
       'image:publisher:direct_contact': string;
       'image:publisher:generic_contact': string;
       'image:publisher:hidden_books': Array<string>;
@@ -13038,8 +13038,8 @@ export type Schema = {
       'image:publisher:slug': string;
       'image:publisher:updated_at': string;
       'image:publisher:website': string;
-      'image:cover_for:publisher:contact_info': string;
       'image:cover_for:publisher:created_at': string;
+      'image:cover_for:publisher:description': string;
       'image:cover_for:publisher:direct_contact': string;
       'image:cover_for:publisher:generic_contact': string;
       'image:cover_for:publisher:hidden_books': Array<string>;
@@ -13082,8 +13082,8 @@ export type Schema = {
       'image:preview_for:image:Source': string;
       'image:preview_for:image:updated_at': string;
       'image:preview_for:image:width': number;
-      'image:preview_for:publisher:contact_info': string;
       'image:preview_for:publisher:created_at': string;
+      'image:preview_for:publisher:description': string;
       'image:preview_for:publisher:direct_contact': string;
       'image:preview_for:publisher:generic_contact': string;
       'image:preview_for:publisher:hidden_books': Array<string>;
@@ -13103,8 +13103,8 @@ export type Schema = {
       'image:preview_for:submitter:name': string;
       'image:preview_for:submitter:role': 'admin' | 'user' | 'waitlist';
       'image:preview_for:submitter:updated_at': string;
-      'image:publisher:imprint:contact_info': string;
       'image:publisher:imprint:created_at': string;
+      'image:publisher:imprint:description': string;
       'image:publisher:imprint:direct_contact': string;
       'image:publisher:imprint:generic_contact': string;
       'image:publisher:imprint:hidden_books': Array<string>;
@@ -13131,8 +13131,8 @@ export type Schema = {
       'image:cover_for:publisher:image:Source': string;
       'image:cover_for:publisher:image:updated_at': string;
       'image:cover_for:publisher:image:width': number;
-      'image:cover_for:publisher:imprint:contact_info': string;
       'image:cover_for:publisher:imprint:created_at': string;
+      'image:cover_for:publisher:imprint:description': string;
       'image:cover_for:publisher:imprint:direct_contact': string;
       'image:cover_for:publisher:imprint:generic_contact': string;
       'image:cover_for:publisher:imprint:hidden_books': Array<string>;
@@ -13204,8 +13204,8 @@ export type Schema = {
       'image:preview_for:image:preview_for:Tags': Array<string>;
       'image:preview_for:image:preview_for:title': string;
       'image:preview_for:image:preview_for:updated_at': string;
-      'image:preview_for:image:publisher:contact_info': string;
       'image:preview_for:image:publisher:created_at': string;
+      'image:preview_for:image:publisher:description': string;
       'image:preview_for:image:publisher:direct_contact': string;
       'image:preview_for:image:publisher:generic_contact': string;
       'image:preview_for:image:publisher:hidden_books': Array<string>;
@@ -13232,8 +13232,8 @@ export type Schema = {
       'image:preview_for:publisher:image:Source': string;
       'image:preview_for:publisher:image:updated_at': string;
       'image:preview_for:publisher:image:width': number;
-      'image:preview_for:publisher:imprint:contact_info': string;
       'image:preview_for:publisher:imprint:created_at': string;
+      'image:preview_for:publisher:imprint:description': string;
       'image:preview_for:publisher:imprint:direct_contact': string;
       'image:preview_for:publisher:imprint:generic_contact': string;
       'image:preview_for:publisher:imprint:hidden_books': Array<string>;
@@ -13259,8 +13259,8 @@ export type Schema = {
       'image:preview_for:submitter:profile:updated_at': string;
       'image:preview_for:submitter:profile:user_id': string;
       'image:preview_for:submitter:profile:website': string;
-      'image:publisher:imprint:imprint:contact_info': string;
       'image:publisher:imprint:imprint:created_at': string;
+      'image:publisher:imprint:imprint:description': string;
       'image:publisher:imprint:imprint:direct_contact': string;
       'image:publisher:imprint:imprint:generic_contact': string;
       'image:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -13343,8 +13343,8 @@ export type Schema = {
       'image:cover_for:publisher:imprint:image:Source': string;
       'image:cover_for:publisher:imprint:image:updated_at': string;
       'image:cover_for:publisher:imprint:image:width': number;
-      'image:cover_for:publisher:imprint:imprint:contact_info': string;
       'image:cover_for:publisher:imprint:imprint:created_at': string;
+      'image:cover_for:publisher:imprint:imprint:description': string;
       'image:cover_for:publisher:imprint:imprint:direct_contact': string;
       'image:cover_for:publisher:imprint:imprint:generic_contact': string;
       'image:cover_for:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -13419,8 +13419,8 @@ export type Schema = {
       'image:preview_for:image:preview_for:image:Source': string;
       'image:preview_for:image:preview_for:image:updated_at': string;
       'image:preview_for:image:preview_for:image:width': number;
-      'image:preview_for:image:preview_for:publisher:contact_info': string;
       'image:preview_for:image:preview_for:publisher:created_at': string;
+      'image:preview_for:image:preview_for:publisher:description': string;
       'image:preview_for:image:preview_for:publisher:direct_contact': string;
       'image:preview_for:image:preview_for:publisher:generic_contact': string;
       'image:preview_for:image:preview_for:publisher:hidden_books': Array<string>;
@@ -13440,8 +13440,8 @@ export type Schema = {
       'image:preview_for:image:preview_for:submitter:name': string;
       'image:preview_for:image:preview_for:submitter:role': 'admin' | 'user' | 'waitlist';
       'image:preview_for:image:preview_for:submitter:updated_at': string;
-      'image:preview_for:image:publisher:imprint:contact_info': string;
       'image:preview_for:image:publisher:imprint:created_at': string;
+      'image:preview_for:image:publisher:imprint:description': string;
       'image:preview_for:image:publisher:imprint:direct_contact': string;
       'image:preview_for:image:publisher:imprint:generic_contact': string;
       'image:preview_for:image:publisher:imprint:hidden_books': Array<string>;
@@ -13524,8 +13524,8 @@ export type Schema = {
       'image:preview_for:publisher:imprint:image:Source': string;
       'image:preview_for:publisher:imprint:image:updated_at': string;
       'image:preview_for:publisher:imprint:image:width': number;
-      'image:preview_for:publisher:imprint:imprint:contact_info': string;
       'image:preview_for:publisher:imprint:imprint:created_at': string;
+      'image:preview_for:publisher:imprint:imprint:description': string;
       'image:preview_for:publisher:imprint:imprint:direct_contact': string;
       'image:preview_for:publisher:imprint:imprint:generic_contact': string;
       'image:preview_for:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -13557,8 +13557,8 @@ export type Schema = {
       'image:preview_for:submitter:profile:image:Source': string;
       'image:preview_for:submitter:profile:image:updated_at': string;
       'image:preview_for:submitter:profile:image:width': number;
-      'image:publisher:imprint:imprint:imprint:contact_info': string;
       'image:publisher:imprint:imprint:imprint:created_at': string;
+      'image:publisher:imprint:imprint:imprint:description': string;
       'image:publisher:imprint:imprint:imprint:direct_contact': string;
       'image:publisher:imprint:imprint:imprint:generic_contact': string;
       'image:publisher:imprint:imprint:imprint:hidden_books': Array<string>;
@@ -13596,8 +13596,8 @@ export type Schema = {
       'invited_by:name': string;
       'invited_by:role': 'admin' | 'user' | 'waitlist';
       'invited_by:updated_at': string;
-      'publisher:contact_info': string;
       'publisher:created_at': string;
+      'publisher:description': string;
       'publisher:direct_contact': string;
       'publisher:generic_contact': string;
       'publisher:hidden_books': Array<string>;
@@ -13638,8 +13638,8 @@ export type Schema = {
       'publisher:image:Source': string;
       'publisher:image:updated_at': string;
       'publisher:image:width': number;
-      'publisher:imprint:contact_info': string;
       'publisher:imprint:created_at': string;
+      'publisher:imprint:description': string;
       'publisher:imprint:direct_contact': string;
       'publisher:imprint:generic_contact': string;
       'publisher:imprint:hidden_books': Array<string>;
@@ -13756,8 +13756,8 @@ export type Schema = {
       'publisher:imprint:image:Source': string;
       'publisher:imprint:image:updated_at': string;
       'publisher:imprint:image:width': number;
-      'publisher:imprint:imprint:contact_info': string;
       'publisher:imprint:imprint:created_at': string;
+      'publisher:imprint:imprint:description': string;
       'publisher:imprint:imprint:direct_contact': string;
       'publisher:imprint:imprint:generic_contact': string;
       'publisher:imprint:imprint:hidden_books': Array<string>;
@@ -13825,8 +13825,8 @@ export type Schema = {
       'invited_by:profile:image:preview_for:Tags': Array<string>;
       'invited_by:profile:image:preview_for:title': string;
       'invited_by:profile:image:preview_for:updated_at': string;
-      'invited_by:profile:image:publisher:contact_info': string;
       'invited_by:profile:image:publisher:created_at': string;
+      'invited_by:profile:image:publisher:description': string;
       'invited_by:profile:image:publisher:direct_contact': string;
       'invited_by:profile:image:publisher:generic_contact': string;
       'invited_by:profile:image:publisher:hidden_books': Array<string>;
@@ -13838,8 +13838,8 @@ export type Schema = {
       'invited_by:profile:image:publisher:slug': string;
       'invited_by:profile:image:publisher:updated_at': string;
       'invited_by:profile:image:publisher:website': string;
-      'publisher:image:cover_for:publisher:contact_info': string;
       'publisher:image:cover_for:publisher:created_at': string;
+      'publisher:image:cover_for:publisher:description': string;
       'publisher:image:cover_for:publisher:direct_contact': string;
       'publisher:image:cover_for:publisher:generic_contact': string;
       'publisher:image:cover_for:publisher:hidden_books': Array<string>;
@@ -13882,8 +13882,8 @@ export type Schema = {
       'publisher:image:preview_for:image:Source': string;
       'publisher:image:preview_for:image:updated_at': string;
       'publisher:image:preview_for:image:width': number;
-      'publisher:image:preview_for:publisher:contact_info': string;
       'publisher:image:preview_for:publisher:created_at': string;
+      'publisher:image:preview_for:publisher:description': string;
       'publisher:image:preview_for:publisher:direct_contact': string;
       'publisher:image:preview_for:publisher:generic_contact': string;
       'publisher:image:preview_for:publisher:hidden_books': Array<string>;
@@ -14001,8 +14001,8 @@ export type Schema = {
       'publisher:imprint:imprint:image:Source': string;
       'publisher:imprint:imprint:image:updated_at': string;
       'publisher:imprint:imprint:image:width': number;
-      'publisher:imprint:imprint:imprint:contact_info': string;
       'publisher:imprint:imprint:imprint:created_at': string;
+      'publisher:imprint:imprint:imprint:description': string;
       'publisher:imprint:imprint:imprint:direct_contact': string;
       'publisher:imprint:imprint:imprint:generic_contact': string;
       'publisher:imprint:imprint:imprint:hidden_books': Array<string>;
@@ -14014,8 +14014,8 @@ export type Schema = {
       'publisher:imprint:imprint:imprint:slug': string;
       'publisher:imprint:imprint:imprint:updated_at': string;
       'publisher:imprint:imprint:imprint:website': string;
-      'invited_by:profile:image:cover_for:publisher:contact_info': string;
       'invited_by:profile:image:cover_for:publisher:created_at': string;
+      'invited_by:profile:image:cover_for:publisher:description': string;
       'invited_by:profile:image:cover_for:publisher:direct_contact': string;
       'invited_by:profile:image:cover_for:publisher:generic_contact': string;
       'invited_by:profile:image:cover_for:publisher:hidden_books': Array<string>;
@@ -14058,8 +14058,8 @@ export type Schema = {
       'invited_by:profile:image:preview_for:image:Source': string;
       'invited_by:profile:image:preview_for:image:updated_at': string;
       'invited_by:profile:image:preview_for:image:width': number;
-      'invited_by:profile:image:preview_for:publisher:contact_info': string;
       'invited_by:profile:image:preview_for:publisher:created_at': string;
+      'invited_by:profile:image:preview_for:publisher:description': string;
       'invited_by:profile:image:preview_for:publisher:direct_contact': string;
       'invited_by:profile:image:preview_for:publisher:generic_contact': string;
       'invited_by:profile:image:preview_for:publisher:hidden_books': Array<string>;
@@ -14079,8 +14079,8 @@ export type Schema = {
       'invited_by:profile:image:preview_for:submitter:name': string;
       'invited_by:profile:image:preview_for:submitter:role': 'admin' | 'user' | 'waitlist';
       'invited_by:profile:image:preview_for:submitter:updated_at': string;
-      'invited_by:profile:image:publisher:imprint:contact_info': string;
       'invited_by:profile:image:publisher:imprint:created_at': string;
+      'invited_by:profile:image:publisher:imprint:description': string;
       'invited_by:profile:image:publisher:imprint:direct_contact': string;
       'invited_by:profile:image:publisher:imprint:generic_contact': string;
       'invited_by:profile:image:publisher:imprint:hidden_books': Array<string>;
@@ -14107,8 +14107,8 @@ export type Schema = {
       'publisher:image:cover_for:publisher:image:Source': string;
       'publisher:image:cover_for:publisher:image:updated_at': string;
       'publisher:image:cover_for:publisher:image:width': number;
-      'publisher:image:cover_for:publisher:imprint:contact_info': string;
       'publisher:image:cover_for:publisher:imprint:created_at': string;
+      'publisher:image:cover_for:publisher:imprint:description': string;
       'publisher:image:cover_for:publisher:imprint:direct_contact': string;
       'publisher:image:cover_for:publisher:imprint:generic_contact': string;
       'publisher:image:cover_for:publisher:imprint:hidden_books': Array<string>;
@@ -14209,8 +14209,8 @@ export type Schema = {
       'publisher:image:preview_for:publisher:image:Source': string;
       'publisher:image:preview_for:publisher:image:updated_at': string;
       'publisher:image:preview_for:publisher:image:width': number;
-      'publisher:image:preview_for:publisher:imprint:contact_info': string;
       'publisher:image:preview_for:publisher:imprint:created_at': string;
+      'publisher:image:preview_for:publisher:imprint:description': string;
       'publisher:image:preview_for:publisher:imprint:direct_contact': string;
       'publisher:image:preview_for:publisher:imprint:generic_contact': string;
       'publisher:image:preview_for:publisher:imprint:hidden_books': Array<string>;
@@ -14236,8 +14236,8 @@ export type Schema = {
       'publisher:image:preview_for:submitter:profile:updated_at': string;
       'publisher:image:preview_for:submitter:profile:user_id': string;
       'publisher:image:preview_for:submitter:profile:website': string;
-      'publisher:imprint:image:cover_for:publisher:contact_info': string;
       'publisher:imprint:image:cover_for:publisher:created_at': string;
+      'publisher:imprint:image:cover_for:publisher:description': string;
       'publisher:imprint:image:cover_for:publisher:direct_contact': string;
       'publisher:imprint:image:cover_for:publisher:generic_contact': string;
       'publisher:imprint:image:cover_for:publisher:hidden_books': Array<string>;
@@ -14280,8 +14280,8 @@ export type Schema = {
       'publisher:imprint:image:preview_for:image:Source': string;
       'publisher:imprint:image:preview_for:image:updated_at': string;
       'publisher:imprint:image:preview_for:image:width': number;
-      'publisher:imprint:image:preview_for:publisher:contact_info': string;
       'publisher:imprint:image:preview_for:publisher:created_at': string;
+      'publisher:imprint:image:preview_for:publisher:description': string;
       'publisher:imprint:image:preview_for:publisher:direct_contact': string;
       'publisher:imprint:image:preview_for:publisher:generic_contact': string;
       'publisher:imprint:image:preview_for:publisher:hidden_books': Array<string>;
@@ -14399,8 +14399,8 @@ export type Schema = {
       'publisher:imprint:imprint:imprint:image:Source': string;
       'publisher:imprint:imprint:imprint:image:updated_at': string;
       'publisher:imprint:imprint:imprint:image:width': number;
-      'publisher:imprint:imprint:imprint:imprint:contact_info': string;
       'publisher:imprint:imprint:imprint:imprint:created_at': string;
+      'publisher:imprint:imprint:imprint:imprint:description': string;
       'publisher:imprint:imprint:imprint:imprint:direct_contact': string;
       'publisher:imprint:imprint:imprint:imprint:generic_contact': string;
       'publisher:imprint:imprint:imprint:imprint:hidden_books': Array<string>;
@@ -14416,8 +14416,8 @@ export type Schema = {
   };
   'publishers': {
     plain: {
-      'contact_info': string;
       'created_at': string;
+      'description': string;
       'direct_contact': string;
       'generic_contact': string;
       'hidden_books': Array<string>;
@@ -14450,8 +14450,8 @@ export type Schema = {
       'image:Source': string;
       'image:updated_at': string;
       'image:width': number;
-      'imprint:contact_info': string;
       'imprint:created_at': string;
+      'imprint:description': string;
       'imprint:direct_contact': string;
       'imprint:generic_contact': string;
       'imprint:hidden_books': Array<string>;
@@ -14548,8 +14548,8 @@ export type Schema = {
       'imprint:image:Source': string;
       'imprint:image:updated_at': string;
       'imprint:image:width': number;
-      'imprint:imprint:contact_info': string;
       'imprint:imprint:created_at': string;
+      'imprint:imprint:description': string;
       'imprint:imprint:direct_contact': string;
       'imprint:imprint:generic_contact': string;
       'imprint:imprint:hidden_books': Array<string>;
@@ -14561,8 +14561,8 @@ export type Schema = {
       'imprint:imprint:slug': string;
       'imprint:imprint:updated_at': string;
       'imprint:imprint:website': string;
-      'image:cover_for:publisher:contact_info': string;
       'image:cover_for:publisher:created_at': string;
+      'image:cover_for:publisher:description': string;
       'image:cover_for:publisher:direct_contact': string;
       'image:cover_for:publisher:generic_contact': string;
       'image:cover_for:publisher:hidden_books': Array<string>;
@@ -14605,8 +14605,8 @@ export type Schema = {
       'image:preview_for:image:Source': string;
       'image:preview_for:image:updated_at': string;
       'image:preview_for:image:width': number;
-      'image:preview_for:publisher:contact_info': string;
       'image:preview_for:publisher:created_at': string;
+      'image:preview_for:publisher:description': string;
       'image:preview_for:publisher:direct_contact': string;
       'image:preview_for:publisher:generic_contact': string;
       'image:preview_for:publisher:hidden_books': Array<string>;
@@ -14724,8 +14724,8 @@ export type Schema = {
       'imprint:imprint:image:Source': string;
       'imprint:imprint:image:updated_at': string;
       'imprint:imprint:image:width': number;
-      'imprint:imprint:imprint:contact_info': string;
       'imprint:imprint:imprint:created_at': string;
+      'imprint:imprint:imprint:description': string;
       'imprint:imprint:imprint:direct_contact': string;
       'imprint:imprint:imprint:generic_contact': string;
       'imprint:imprint:imprint:hidden_books': Array<string>;
@@ -14752,8 +14752,8 @@ export type Schema = {
       'image:cover_for:publisher:image:Source': string;
       'image:cover_for:publisher:image:updated_at': string;
       'image:cover_for:publisher:image:width': number;
-      'image:cover_for:publisher:imprint:contact_info': string;
       'image:cover_for:publisher:imprint:created_at': string;
+      'image:cover_for:publisher:imprint:description': string;
       'image:cover_for:publisher:imprint:direct_contact': string;
       'image:cover_for:publisher:imprint:generic_contact': string;
       'image:cover_for:publisher:imprint:hidden_books': Array<string>;
@@ -14854,8 +14854,8 @@ export type Schema = {
       'image:preview_for:publisher:image:Source': string;
       'image:preview_for:publisher:image:updated_at': string;
       'image:preview_for:publisher:image:width': number;
-      'image:preview_for:publisher:imprint:contact_info': string;
       'image:preview_for:publisher:imprint:created_at': string;
+      'image:preview_for:publisher:imprint:description': string;
       'image:preview_for:publisher:imprint:direct_contact': string;
       'image:preview_for:publisher:imprint:generic_contact': string;
       'image:preview_for:publisher:imprint:hidden_books': Array<string>;
@@ -14881,8 +14881,8 @@ export type Schema = {
       'image:preview_for:submitter:profile:updated_at': string;
       'image:preview_for:submitter:profile:user_id': string;
       'image:preview_for:submitter:profile:website': string;
-      'imprint:image:cover_for:publisher:contact_info': string;
       'imprint:image:cover_for:publisher:created_at': string;
+      'imprint:image:cover_for:publisher:description': string;
       'imprint:image:cover_for:publisher:direct_contact': string;
       'imprint:image:cover_for:publisher:generic_contact': string;
       'imprint:image:cover_for:publisher:hidden_books': Array<string>;
@@ -14925,8 +14925,8 @@ export type Schema = {
       'imprint:image:preview_for:image:Source': string;
       'imprint:image:preview_for:image:updated_at': string;
       'imprint:image:preview_for:image:width': number;
-      'imprint:image:preview_for:publisher:contact_info': string;
       'imprint:image:preview_for:publisher:created_at': string;
+      'imprint:image:preview_for:publisher:description': string;
       'imprint:image:preview_for:publisher:direct_contact': string;
       'imprint:image:preview_for:publisher:generic_contact': string;
       'imprint:image:preview_for:publisher:hidden_books': Array<string>;
@@ -15044,8 +15044,8 @@ export type Schema = {
       'imprint:imprint:imprint:image:Source': string;
       'imprint:imprint:imprint:image:updated_at': string;
       'imprint:imprint:imprint:image:width': number;
-      'imprint:imprint:imprint:imprint:contact_info': string;
       'imprint:imprint:imprint:imprint:created_at': string;
+      'imprint:imprint:imprint:imprint:description': string;
       'imprint:imprint:imprint:imprint:direct_contact': string;
       'imprint:imprint:imprint:imprint:generic_contact': string;
       'imprint:imprint:imprint:imprint:hidden_books': Array<string>;
@@ -15142,8 +15142,8 @@ export type Schema = {
       'image:cover_for:publisher:imprint:image:Source': string;
       'image:cover_for:publisher:imprint:image:updated_at': string;
       'image:cover_for:publisher:imprint:image:width': number;
-      'image:cover_for:publisher:imprint:imprint:contact_info': string;
       'image:cover_for:publisher:imprint:imprint:created_at': string;
+      'image:cover_for:publisher:imprint:imprint:description': string;
       'image:cover_for:publisher:imprint:imprint:direct_contact': string;
       'image:cover_for:publisher:imprint:imprint:generic_contact': string;
       'image:cover_for:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -15218,8 +15218,8 @@ export type Schema = {
       'image:preview_for:image:preview_for:image:Source': string;
       'image:preview_for:image:preview_for:image:updated_at': string;
       'image:preview_for:image:preview_for:image:width': number;
-      'image:preview_for:image:preview_for:publisher:contact_info': string;
       'image:preview_for:image:preview_for:publisher:created_at': string;
+      'image:preview_for:image:preview_for:publisher:description': string;
       'image:preview_for:image:preview_for:publisher:direct_contact': string;
       'image:preview_for:image:preview_for:publisher:generic_contact': string;
       'image:preview_for:image:preview_for:publisher:hidden_books': Array<string>;
@@ -15337,8 +15337,8 @@ export type Schema = {
       'image:preview_for:publisher:imprint:image:Source': string;
       'image:preview_for:publisher:imprint:image:updated_at': string;
       'image:preview_for:publisher:imprint:image:width': number;
-      'image:preview_for:publisher:imprint:imprint:contact_info': string;
       'image:preview_for:publisher:imprint:imprint:created_at': string;
+      'image:preview_for:publisher:imprint:imprint:description': string;
       'image:preview_for:publisher:imprint:imprint:direct_contact': string;
       'image:preview_for:publisher:imprint:imprint:generic_contact': string;
       'image:preview_for:publisher:imprint:imprint:hidden_books': Array<string>;
@@ -15385,8 +15385,8 @@ export type Schema = {
       'imprint:image:cover_for:publisher:image:Source': string;
       'imprint:image:cover_for:publisher:image:updated_at': string;
       'imprint:image:cover_for:publisher:image:width': number;
-      'imprint:image:cover_for:publisher:imprint:contact_info': string;
       'imprint:image:cover_for:publisher:imprint:created_at': string;
+      'imprint:image:cover_for:publisher:imprint:description': string;
       'imprint:image:cover_for:publisher:imprint:direct_contact': string;
       'imprint:image:cover_for:publisher:imprint:generic_contact': string;
       'imprint:image:cover_for:publisher:imprint:hidden_books': Array<string>;
@@ -15487,8 +15487,8 @@ export type Schema = {
       'imprint:image:preview_for:publisher:image:Source': string;
       'imprint:image:preview_for:publisher:image:updated_at': string;
       'imprint:image:preview_for:publisher:image:width': number;
-      'imprint:image:preview_for:publisher:imprint:contact_info': string;
       'imprint:image:preview_for:publisher:imprint:created_at': string;
+      'imprint:image:preview_for:publisher:imprint:description': string;
       'imprint:image:preview_for:publisher:imprint:direct_contact': string;
       'imprint:image:preview_for:publisher:imprint:generic_contact': string;
       'imprint:image:preview_for:publisher:imprint:hidden_books': Array<string>;
@@ -15514,8 +15514,8 @@ export type Schema = {
       'imprint:image:preview_for:submitter:profile:updated_at': string;
       'imprint:image:preview_for:submitter:profile:user_id': string;
       'imprint:image:preview_for:submitter:profile:website': string;
-      'imprint:imprint:image:cover_for:publisher:contact_info': string;
       'imprint:imprint:image:cover_for:publisher:created_at': string;
+      'imprint:imprint:image:cover_for:publisher:description': string;
       'imprint:imprint:image:cover_for:publisher:direct_contact': string;
       'imprint:imprint:image:cover_for:publisher:generic_contact': string;
       'imprint:imprint:image:cover_for:publisher:hidden_books': Array<string>;
@@ -15558,8 +15558,8 @@ export type Schema = {
       'imprint:imprint:image:preview_for:image:Source': string;
       'imprint:imprint:image:preview_for:image:updated_at': string;
       'imprint:imprint:image:preview_for:image:width': number;
-      'imprint:imprint:image:preview_for:publisher:contact_info': string;
       'imprint:imprint:image:preview_for:publisher:created_at': string;
+      'imprint:imprint:image:preview_for:publisher:description': string;
       'imprint:imprint:image:preview_for:publisher:direct_contact': string;
       'imprint:imprint:image:preview_for:publisher:generic_contact': string;
       'imprint:imprint:image:preview_for:publisher:hidden_books': Array<string>;
@@ -15677,8 +15677,8 @@ export type Schema = {
       'imprint:imprint:imprint:imprint:image:Source': string;
       'imprint:imprint:imprint:imprint:image:updated_at': string;
       'imprint:imprint:imprint:imprint:image:width': number;
-      'imprint:imprint:imprint:imprint:imprint:contact_info': string;
       'imprint:imprint:imprint:imprint:imprint:created_at': string;
+      'imprint:imprint:imprint:imprint:imprint:description': string;
       'imprint:imprint:imprint:imprint:imprint:direct_contact': string;
       'imprint:imprint:imprint:imprint:imprint:generic_contact': string;
       'imprint:imprint:imprint:imprint:imprint:hidden_books': Array<string>;
@@ -15801,8 +15801,8 @@ export type Schema = {
       'user:profile:image:preview_for:Tags': Array<string>;
       'user:profile:image:preview_for:title': string;
       'user:profile:image:preview_for:updated_at': string;
-      'user:profile:image:publisher:contact_info': string;
       'user:profile:image:publisher:created_at': string;
+      'user:profile:image:publisher:description': string;
       'user:profile:image:publisher:direct_contact': string;
       'user:profile:image:publisher:generic_contact': string;
       'user:profile:image:publisher:hidden_books': Array<string>;
@@ -15814,8 +15814,8 @@ export type Schema = {
       'user:profile:image:publisher:slug': string;
       'user:profile:image:publisher:updated_at': string;
       'user:profile:image:publisher:website': string;
-      'user:profile:image:cover_for:publisher:contact_info': string;
       'user:profile:image:cover_for:publisher:created_at': string;
+      'user:profile:image:cover_for:publisher:description': string;
       'user:profile:image:cover_for:publisher:direct_contact': string;
       'user:profile:image:cover_for:publisher:generic_contact': string;
       'user:profile:image:cover_for:publisher:hidden_books': Array<string>;
@@ -15858,8 +15858,8 @@ export type Schema = {
       'user:profile:image:preview_for:image:Source': string;
       'user:profile:image:preview_for:image:updated_at': string;
       'user:profile:image:preview_for:image:width': number;
-      'user:profile:image:preview_for:publisher:contact_info': string;
       'user:profile:image:preview_for:publisher:created_at': string;
+      'user:profile:image:preview_for:publisher:description': string;
       'user:profile:image:preview_for:publisher:direct_contact': string;
       'user:profile:image:preview_for:publisher:generic_contact': string;
       'user:profile:image:preview_for:publisher:hidden_books': Array<string>;
@@ -15879,8 +15879,8 @@ export type Schema = {
       'user:profile:image:preview_for:submitter:name': string;
       'user:profile:image:preview_for:submitter:role': 'admin' | 'user' | 'waitlist';
       'user:profile:image:preview_for:submitter:updated_at': string;
-      'user:profile:image:publisher:imprint:contact_info': string;
       'user:profile:image:publisher:imprint:created_at': string;
+      'user:profile:image:publisher:imprint:description': string;
       'user:profile:image:publisher:imprint:direct_contact': string;
       'user:profile:image:publisher:imprint:generic_contact': string;
       'user:profile:image:publisher:imprint:hidden_books': Array<string>;
@@ -16032,8 +16032,8 @@ export type Schema = {
       'profile:image:preview_for:Tags': Array<string>;
       'profile:image:preview_for:title': string;
       'profile:image:preview_for:updated_at': string;
-      'profile:image:publisher:contact_info': string;
       'profile:image:publisher:created_at': string;
+      'profile:image:publisher:description': string;
       'profile:image:publisher:direct_contact': string;
       'profile:image:publisher:generic_contact': string;
       'profile:image:publisher:hidden_books': Array<string>;
@@ -16045,8 +16045,8 @@ export type Schema = {
       'profile:image:publisher:slug': string;
       'profile:image:publisher:updated_at': string;
       'profile:image:publisher:website': string;
-      'profile:image:cover_for:publisher:contact_info': string;
       'profile:image:cover_for:publisher:created_at': string;
+      'profile:image:cover_for:publisher:description': string;
       'profile:image:cover_for:publisher:direct_contact': string;
       'profile:image:cover_for:publisher:generic_contact': string;
       'profile:image:cover_for:publisher:hidden_books': Array<string>;
@@ -16089,8 +16089,8 @@ export type Schema = {
       'profile:image:preview_for:image:Source': string;
       'profile:image:preview_for:image:updated_at': string;
       'profile:image:preview_for:image:width': number;
-      'profile:image:preview_for:publisher:contact_info': string;
       'profile:image:preview_for:publisher:created_at': string;
+      'profile:image:preview_for:publisher:description': string;
       'profile:image:preview_for:publisher:direct_contact': string;
       'profile:image:preview_for:publisher:generic_contact': string;
       'profile:image:preview_for:publisher:hidden_books': Array<string>;
@@ -16110,8 +16110,8 @@ export type Schema = {
       'profile:image:preview_for:submitter:name': string;
       'profile:image:preview_for:submitter:role': 'admin' | 'user' | 'waitlist';
       'profile:image:preview_for:submitter:updated_at': string;
-      'profile:image:publisher:imprint:contact_info': string;
       'profile:image:publisher:imprint:created_at': string;
+      'profile:image:publisher:imprint:description': string;
       'profile:image:publisher:imprint:direct_contact': string;
       'profile:image:publisher:imprint:generic_contact': string;
       'profile:image:publisher:imprint:hidden_books': Array<string>;
@@ -16138,8 +16138,8 @@ export type Schema = {
       'profile:image:cover_for:publisher:image:Source': string;
       'profile:image:cover_for:publisher:image:updated_at': string;
       'profile:image:cover_for:publisher:image:width': number;
-      'profile:image:cover_for:publisher:imprint:contact_info': string;
       'profile:image:cover_for:publisher:imprint:created_at': string;
+      'profile:image:cover_for:publisher:imprint:description': string;
       'profile:image:cover_for:publisher:imprint:direct_contact': string;
       'profile:image:cover_for:publisher:imprint:generic_contact': string;
       'profile:image:cover_for:publisher:imprint:hidden_books': Array<string>;
@@ -16211,8 +16211,8 @@ export type Schema = {
       'profile:image:preview_for:image:preview_for:Tags': Array<string>;
       'profile:image:preview_for:image:preview_for:title': string;
       'profile:image:preview_for:image:preview_for:updated_at': string;
-      'profile:image:preview_for:image:publisher:contact_info': string;
       'profile:image:preview_for:image:publisher:created_at': string;
+      'profile:image:preview_for:image:publisher:description': string;
       'profile:image:preview_for:image:publisher:direct_contact': string;
       'profile:image:preview_for:image:publisher:generic_contact': string;
       'profile:image:preview_for:image:publisher:hidden_books': Array<string>;
@@ -16239,8 +16239,8 @@ export type Schema = {
       'profile:image:preview_for:publisher:image:Source': string;
       'profile:image:preview_for:publisher:image:updated_at': string;
       'profile:image:preview_for:publisher:image:width': number;
-      'profile:image:preview_for:publisher:imprint:contact_info': string;
       'profile:image:preview_for:publisher:imprint:created_at': string;
+      'profile:image:preview_for:publisher:imprint:description': string;
       'profile:image:preview_for:publisher:imprint:direct_contact': string;
       'profile:image:preview_for:publisher:imprint:generic_contact': string;
       'profile:image:preview_for:publisher:imprint:hidden_books': Array<string>;
@@ -16266,8 +16266,8 @@ export type Schema = {
       'profile:image:preview_for:submitter:profile:updated_at': string;
       'profile:image:preview_for:submitter:profile:user_id': string;
       'profile:image:preview_for:submitter:profile:website': string;
-      'profile:image:publisher:imprint:imprint:contact_info': string;
       'profile:image:publisher:imprint:imprint:created_at': string;
+      'profile:image:publisher:imprint:imprint:description': string;
       'profile:image:publisher:imprint:imprint:direct_contact': string;
       'profile:image:publisher:imprint:imprint:generic_contact': string;
       'profile:image:publisher:imprint:imprint:hidden_books': Array<string>;

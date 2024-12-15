@@ -1,26 +1,28 @@
 'use client'
 
+import cn from 'classnames'
 import { useState } from 'react'
-import { Detail } from 'src/components/atoms/detail'
 import { Edit2 } from 'src/components/atoms/icons'
 import { Editor } from 'src/components/form/editor'
 import { EditorRenderer } from 'src/components/form/editor/renderer'
 import { useEditPublisher } from './context'
 
-export function ContactInfo() {
+const classes = 'text-20 sm:text-32'
+
+export function Description({ className }: { className?: string }) {
   const { publisher, editMode, onSave } = useEditPublisher()
-  const [value, setValue] = useState(publisher.contactInfo)
+  const [value, setValue] = useState(publisher.description)
 
   if (editMode) {
     return (
-      <Detail maxWidth className="relative">
+      <div className={cn('relative', className)}>
         <Editor
-          className="pr-5 min-h-14"
-          value={publisher.contactInfo}
+          className={cn('pr-5 min-h-14', classes)}
+          value={publisher.description}
           onChange={setValue}
           onBlur={() => {
-            if (value === publisher.contactInfo) return
-            onSave({ contactInfo: value })
+            if (value === publisher.description) return
+            onSave({ description: value })
           }}
           placeholder="Add further information (e.g. a short description or contact info)"
         />
@@ -29,15 +31,16 @@ export function ContactInfo() {
           size={24}
           className="absolute pointer-events-none top-4 right-0"
         />
-      </Detail>
+      </div>
     )
   }
 
-  if (publisher.contactInfo) {
+  if (publisher.description) {
     return (
-      <Detail maxWidth>
-        <EditorRenderer content={publisher.contactInfo} />
-      </Detail>
+      <EditorRenderer
+        className={cn(classes, className)}
+        content={publisher.description}
+      />
     )
   }
 

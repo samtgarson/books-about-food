@@ -15,11 +15,11 @@ export const updatePublisher = new AuthedService(
     slug: z.string(),
     logo: z.string().nullish(),
     hiddenBooks: z.array(z.string()).optional(),
-    contactInfo: z.string().nullish(),
+    description: z.string().nullish(),
     website: z.string().nullish(),
     instagram: z.string().nullish()
   }),
-  async function ({ slug, logo, contactInfo, ...data } = {}, user) {
+  async function ({ slug, logo, description, ...data } = {}, user) {
     const { data: publisher } = await fetchPublisher.call({ slug })
 
     if (!publisher) throw new AppError('NotFound', 'Publisher not found')
@@ -33,7 +33,7 @@ export const updatePublisher = new AuthedService(
     const updated = await prisma.publisher.update({
       data: {
         logo: logoProps(logo),
-        contactInfo: sanitizeHtml(contactInfo),
+        description: sanitizeHtml(description),
         ...data
       },
       where: { slug },

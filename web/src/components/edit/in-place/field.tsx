@@ -93,7 +93,7 @@ export function InPlaceField({
                 onFocus={() => onFocus()}
                 aria-label={placeholder}
                 className={cn(
-                  'select-text',
+                  'select-text break-anywhere',
                   showPlaceholder && 'absolute inset-0'
                 )}
               />

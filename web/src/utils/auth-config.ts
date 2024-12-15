@@ -33,6 +33,7 @@ export const authConfig = {
         token.userId = user.id as string
         token.role = user.role
         token.image = user.image || undefined
+        token.publishers = user.publishers
       }
 
       return token

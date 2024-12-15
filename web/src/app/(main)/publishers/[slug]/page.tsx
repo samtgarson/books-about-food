@@ -1,5 +1,4 @@
 import { fetchPublisher } from '@books-about-food/core/services/publishers/fetch-publisher'
-import cn from 'classnames'
 import { Metadata, ResolvedMetadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -12,8 +11,8 @@ import {
   SkeletonPublisherBookList
 } from 'src/components/publishers/book-list'
 import { ClaimPublisherButton } from 'src/components/publishers/claim-button'
-import { ContactInfo } from 'src/components/publishers/edit/contact-info'
 import { EditPublisherProvider } from 'src/components/publishers/edit/context'
+import { Description } from 'src/components/publishers/edit/description'
 import { EditableLogo } from 'src/components/publishers/edit/editable-logo'
 import { LinkList } from 'src/components/publishers/edit/link-list'
 import { PageProps } from 'src/components/types'
@@ -61,20 +60,16 @@ export default async ({ params: { slug } }: PublisherPageProps) => {
   return (
     <EditPublisherProvider publisher={publisher} data-superjson>
       <Container belowNav>
-        <div className={cn('pt-8 md:pt-16 z-30 relative')}>
-          <div className="font-style-title mb-6 flex items-center justify-between sm:mb-4">
-            <h1 title={publisher.name}>
-              <EditableLogo />
-            </h1>
-            <ClaimPublisherButton />
-          </div>
+        <div className="font-style-title flex items-center justify-between py-14">
+          <h1 title={publisher.name}>
+            <EditableLogo />
+          </h1>
+          <ClaimPublisherButton />
         </div>
       </Container>
-      <Container className="mt-8 sm:mt-20">
-        <Suspense fallback={<SkeletonPublisherBookList />}>
-          <PublisherBookList publisher={publisher} />
-        </Suspense>
-        <div className="py-8 md:py-20">
+      <Container className="flex flex-row flex-wrap justify-between gap-12">
+        <Description className="max-w-4xl sm:min-w-[650px] w-min flex-shrink flex-grow" />
+        <div className="w-96">
           {publisher.house && (
             <Detail maxWidth className="flex flex-col gap-2 items-start">
               <p className="all-caps">An imprint of</p>
@@ -100,8 +95,12 @@ export default async ({ params: { slug } }: PublisherPageProps) => {
             </Detail>
           )}
           <LinkList />
-          <ContactInfo />
         </div>
+      </Container>
+      <Container className="mt-8 sm:mt-20">
+        <Suspense fallback={<SkeletonPublisherBookList />}>
+          <PublisherBookList publisher={publisher} />
+        </Suspense>
       </Container>
     </EditPublisherProvider>
   )

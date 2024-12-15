@@ -3,15 +3,14 @@ import prisma from '@books-about-food/database'
 import { cache } from 'react'
 import { auth } from 'src/auth'
 
-export const getSessionUser = cache(async () => {
+export const getSessionUser = async () => {
   const session = await auth()
   if (!session?.user) return null
   return {
     ...session.user,
-    role: session.user.role || 'user',
-    publishers: []
+    role: session.user.role || 'user'
   } as User
-})
+}
 
 export const getUser = cache(async () => {
   const sessionUser = await getSessionUser()

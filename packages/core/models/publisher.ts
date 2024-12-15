@@ -15,7 +15,7 @@ export class Publisher extends BaseModel {
   imprints: PublisherRef[]
   house?: PublisherRef
   hiddenBooks: string[] = []
-  contactInfo?: string
+  description?: string
   claimed: boolean
 
   constructor(attrs: PublisherAttrs) {
@@ -31,7 +31,7 @@ export class Publisher extends BaseModel {
     this.imprints = attrs.imprints
     this.house = attrs.house ?? undefined
     this.hiddenBooks = attrs.hiddenBooks ?? []
-    this.contactInfo = attrs.contactInfo ?? undefined
+    this.description = attrs.description ?? undefined
     this.claimed = attrs._count.memberships > 0
   }
 
