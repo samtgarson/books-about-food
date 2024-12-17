@@ -17,6 +17,7 @@ import { Pill } from 'src/components/atoms/pill'
 import { BookOverflow } from 'src/components/books/book-overflow'
 import { CorrectionButton } from 'src/components/books/correction-button'
 import { CoverCarousel } from 'src/components/books/cover-carousel'
+import { DesignCommentary } from 'src/components/books/design-commentary'
 import { BookLinks } from 'src/components/books/links'
 import { SimilarBooks } from 'src/components/books/similar-books'
 import { TagList } from 'src/components/books/tag-list'
@@ -169,6 +170,12 @@ export default async function CookbookPage({
           <SimilarBooks slug={book.slug} />
         </Suspense>
       </Container>
+      {book.designCommentary && (
+        <DesignCommentary
+          title="Why we like this cover"
+          content={book.designCommentary}
+        />
+      )}
     </div>
   )
 }
