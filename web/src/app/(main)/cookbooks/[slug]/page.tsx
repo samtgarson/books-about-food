@@ -13,6 +13,7 @@ import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { AntiContainer, Container } from 'src/components/atoms/container'
 import { Detail } from 'src/components/atoms/detail'
+import { MaxHeight } from 'src/components/atoms/max-height'
 import { Pill } from 'src/components/atoms/pill'
 import { BookOverflow } from 'src/components/books/book-overflow'
 import { CorrectionButton } from 'src/components/books/correction-button'
@@ -52,9 +53,9 @@ export default async function CookbookPage({
   if (!book) notFound()
 
   return (
-    <div className="relative flex-grow lg:pr-[50vw] flex flex-col sm:gap-y-16">
-      <Container className="flex flex-col md:gap-8" key="header" belowNav>
-        <div className="pt-6 sm:pt-20 flex flex-col gap-4">
+    <div className="relative flex-grow lg:pr-[50vw] flex flex-col sm:gap-y-20">
+      <Container className="flex flex-col sm:gap-8" key="header" belowNav>
+        <div className="pt-6 flex flex-col gap-4 md:pt-20">
           <div
             className={cn(
               'font-style-title flex items-center',
@@ -79,11 +80,11 @@ export default async function CookbookPage({
             />
           </div>
         </AntiContainer>
-        <AntiContainer desktop={false} className="flex flex-col md:gap-8">
-          {book.authors.length > 0 && (
+        {book.authors.length > 0 && (
+          <AntiContainer desktop={false}>
             <Container
               desktop={false}
-              className="border-t border-black py-4 sm:border-t-0 md:py-0"
+              className="border-t border-black sm:border-t-0 mobile-only:py-4"
             >
               <ProfileListSection
                 profiles={book.authors}
@@ -91,10 +92,12 @@ export default async function CookbookPage({
                 hideMeta
               />
             </Container>
-          )}
+          </AntiContainer>
+        )}
+        <AntiContainer desktop={false}>
           <Container
             desktop={false}
-            className="border-y border-black py-4 sm:border-y-0 md:py-0"
+            className="border-t border-black sm:border-y-0 mobile-only:py-4"
           >
             {book.team.length > 0 && (
               <TeamList contributions={book.contributions} className="mb-8" />
@@ -102,12 +105,14 @@ export default async function CookbookPage({
             <CorrectionButton book={book} data-superjson />
           </Container>
         </AntiContainer>
-      </Container>
-      <Container className="mobile-only:my-8">
-        <BookLinks
-          links={book.links}
-          className="order-last w-full sm:order-first"
-        />
+        {book.blurb && (
+          <Detail spacier>
+            <MaxHeight>
+              <p>{book.blurb}</p>
+            </MaxHeight>
+          </Detail>
+        )}
+        <BookLinks links={book.links} className="w-full mobile-only:py-4" />
       </Container>
       <Container
         className={cn(
