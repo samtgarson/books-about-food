@@ -97,10 +97,10 @@ export default async function CookbookPage({
         <AntiContainer desktop={false}>
           <Container
             desktop={false}
-            className="border-t border-black sm:border-y-0 mobile-only:py-4"
+            className="border-t border-black sm:border-y-0 mobile-only:py-4 flex flex-col gap-4"
           >
             {book.team.length > 0 && (
-              <TeamList contributions={book.contributions} className="mb-8" />
+              <TeamList contributions={book.contributions} />
             )}
             <CorrectionButton book={book} data-superjson />
           </Container>
