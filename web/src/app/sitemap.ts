@@ -5,7 +5,9 @@ import { MetadataRoute } from 'next'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const records = await prisma.searchResult.findMany({
-    where: { type: { in: ['book', 'author', 'contributor', 'publisher'] } }
+    where: {
+      type: { in: ['book', 'author', 'contributor', 'publisher', 'collection'] }
+    }
   })
 
   return [

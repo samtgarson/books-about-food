@@ -2,7 +2,7 @@
 
 import cn from 'classnames'
 import { useState } from 'react'
-import { X } from 'react-feather'
+import { X } from 'src/components/atoms/icons'
 import { useNav } from '../nav/context'
 
 export function DesignCommentary({

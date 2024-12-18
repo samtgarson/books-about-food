@@ -2,7 +2,7 @@ import { Book as Model } from '@books-about-food/core/models/book'
 import cn from 'classnames'
 import Image from 'next/image'
 import { CSSProperties } from 'react'
-import { Star, X } from 'react-feather'
+import { Star, X } from 'src/components/atoms/icons'
 import { bookGridItemId } from 'src/components/books/item'
 
 export function TopTenSheetItem({

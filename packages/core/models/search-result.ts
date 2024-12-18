@@ -33,7 +33,7 @@ export class SearchResult extends Colourful(
       this.id = attrs.id
       this.name = attrs.name
       this.type = attrs.type
-      this.description = attrs.description ?? undefined
+      this.description = attrs.description?.replace(/<[^>]+>/g, '') ?? undefined
       this.slug = attrs.slug
       this.updatedAt = attrs.updatedAt
 
@@ -68,6 +68,8 @@ export class SearchResult extends Colourful(
           return `/publishers/${this.slug}`
         case 'bookTag':
           return `/cookbooks?tags=${this.slug}`
+        case 'collection':
+          return `/collections/${this.slug}`
       }
     }
   }

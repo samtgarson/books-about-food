@@ -357,6 +357,7 @@ enum SearchResultType {
   contributor
   publisher
   bookTag
+  collection
 }
 
 view SearchResult {
