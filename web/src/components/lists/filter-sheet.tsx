@@ -56,7 +56,7 @@ function FilterSheetContent({
           )}
         </Pill>
       </Sheet.Trigger>
-      <Sheet.Content>
+      <Sheet.Content type="drawer">
         <Sheet.Header title={labelText}>
           <ParamLink {...defaultParams}>
             <Link
@@ -69,7 +69,9 @@ function FilterSheetContent({
             </Link>
           </ParamLink>
         </Sheet.Header>
-        <Sheet.Body className={className}>{children}</Sheet.Body>
+        <Sheet.Body className={className} containerClassName="flex-1">
+          {children}
+        </Sheet.Body>
         <Sheet.Footer>
           <ParamLink {...params}>
             <Button
