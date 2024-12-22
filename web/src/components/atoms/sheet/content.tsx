@@ -80,7 +80,7 @@ export const Content = ({
               <X strokeWidth={1} size={24} className="stroke-white" />
             </Dialog.Close>
           )}
-          <AuthedContent type={type} {...props} />
+          <AuthedContent overlay={overlay} {...props} />
         </Dialog.Content>
       </div>
     </Dialog.Portal>
@@ -90,8 +90,12 @@ export const Content = ({
 function AuthedContent({
   loading,
   children,
-  authenticated
-}: Pick<SheetContentProps, 'loading' | 'children' | 'authenticated' | 'type'>) {
+  authenticated,
+  overlay
+}: Pick<
+  SheetContentProps,
+  'loading' | 'children' | 'authenticated' | 'overlay'
+>) {
   const { status } = useSession()
   const { close } = useSheetContext()
   const { openSheet } = useSheet()
@@ -112,10 +116,10 @@ function AuthedContent({
   }, [authenticated, openSheet, status, close])
 
   if ((!loading && !authenticated) || status === 'authenticated')
-    return <Box>{nodes}</Box>
+    return <Box overlay={overlay}>{nodes}</Box>
   if (status === 'loading' || loading)
     return (
-      <Box>
+      <Box overlay={overlay}>
         <Body>
           <Loader />
         </Body>

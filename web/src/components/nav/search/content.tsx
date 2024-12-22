@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react'
 import { BaseAvatar } from 'src/components/atoms/avatar'
-import { Library, Tag } from 'src/components/atoms/icons'
+import { LibraryBig, Tag } from 'src/components/atoms/icons'
 import { Loader } from 'src/components/atoms/loader'
 import * as Sheet from 'src/components/atoms/sheet'
 import { usePromise } from 'src/hooks/use-promise'
@@ -184,7 +184,7 @@ function QuickSearchImage({ item }: { item: SearchResult }) {
     case 'bookTag':
       return <Tag strokeWidth={1} />
     case 'collection':
-      return <Library strokeWidth={1} />
+      return <LibraryBig strokeWidth={1} />
     default:
       return null
   }
