@@ -28,7 +28,8 @@ export function EditFeatureCarouselDialog({
             await updateFeatureCarousel(features.map((f) => f.id))
           }}
         >
-          <Sheet.Body title="Edit Feauture Carousel">
+          <Sheet.Header title="Edit Feauture Carousel" />
+          <Sheet.Body>
             <Reorder.Group axis="y" values={features} onReorder={setFeatures}>
               {features.map((feature) => (
                 <Reorder.Item

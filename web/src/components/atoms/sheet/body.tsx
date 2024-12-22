@@ -9,16 +9,14 @@ import {
   useMemo,
   useRef
 } from 'react'
-import { Loader } from 'src/components/atoms/icons'
 import { useSheetContext } from './context'
 
+export type SheetType = 'dialog' | 'drawer'
 type SheetBodyProps = {
   className?: string
-  loading?: boolean
   children?: ReactNode
-  title?: string
-  controls?: ReactNode
   containerClassName?: string
+  type?: SheetType
 }
 
 export type SheetBodyControl = {
@@ -26,10 +24,10 @@ export type SheetBodyControl = {
 }
 
 export const Body = forwardRef<SheetBodyControl, SheetBodyProps>(function Body(
-  { className, loading, children = null, title, controls, containerClassName },
+  { className, children = null, containerClassName },
   ref
 ) {
-  const { grey, setScrollState } = useSheetContext()
+  const { setScrollState } = useSheetContext()
   const id = useId()
   const scrollRoot = useRef<HTMLDivElement>(null)
   const topDetector = useRef<HTMLDivElement>(null)
@@ -66,24 +64,22 @@ export const Body = forwardRef<SheetBodyControl, SheetBodyProps>(function Body(
 
   return (
     <>
-      {title && <Header title={title}>{controls}</Header>}
       <div
         ref={scrollRoot}
         className={cn(
-          'pointer-events-auto overflow-auto p-5 sm:p-8 isolate',
-          grey ? 'bg-grey' : 'bg-white',
+          'pointer-events-auto overflow-auto isolate',
           containerClassName
         )}
       >
         <div ref={topDetector} id={topId} className="h-0.5" />
-        {loading ? <Loader /> : <div className={className}>{children}</div>}
+        <div className={className}>{children}</div>
         <div ref={bottomDetector} id={bottomId} className="h-0.5" />
       </div>
     </>
   )
 })
 
-const Header = ({
+export const Header = ({
   children,
   title
 }: {
@@ -91,12 +87,11 @@ const Header = ({
   children?: ReactNode
   title: string
 }) => {
-  const { grey, scrollState } = useSheetContext()
+  const { scrollState } = useSheetContext()
   return (
     <div
       className={cn(
-        'flex justify-between px-5 pt-5 pb-3 sm:px-8 sm:pt-8 sm:pb-4 z-30 -mb-5 sm:-mb-8 border-b transition-colors',
-        grey ? 'bg-grey' : 'bg-white',
+        'flex justify-between z-30 border-b transition-colors pb-3 sm:pb-4 -mb-3 sm:-mb-4',
         !scrollState.top ? 'border-neutral-grey' : 'border-transparent'
       )}
     >
@@ -115,13 +110,12 @@ export const Footer = ({
   children: ReactNode
   className?: string
 }) => {
-  const { grey, scrollState } = useSheetContext()
+  const { scrollState } = useSheetContext()
   return (
     <div
       className={cn(
         className,
-        'bg-white p-5 sm:p-8 -mt-5 sm:-mt-8 z-30 border-t transition-colors',
-        grey ? 'bg-grey' : 'bg-white',
+        'bg-white z-30 border-t transition-colors pt-3 sm:pt-4 -mt-3 sm:-mt-4',
         !scrollState.bottom ? 'border-neutral-grey' : 'border-transparent'
       )}
     >

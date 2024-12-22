@@ -14,7 +14,6 @@ import { SheetContext, SheetScrollState } from './context'
 export type SheetProps = {
   children: ReactNode
   mobileOnly?: boolean
-  grey?: boolean
   onClose?: () => void
   defaultOpen?: boolean
 }
@@ -24,7 +23,7 @@ export type SheetControl = {
 }
 
 export const Root = forwardRef<SheetControl, SheetProps>(function Root(
-  { children, mobileOnly, grey, onClose, defaultOpen = false },
+  { children, mobileOnly, onClose, defaultOpen = false },
   ref
 ) {
   const pathname = usePathname()
@@ -61,7 +60,6 @@ export const Root = forwardRef<SheetControl, SheetProps>(function Root(
           setOpen(false)
         },
         open: () => setOpen(true),
-        grey,
         scrollState,
         setScrollState
       }}

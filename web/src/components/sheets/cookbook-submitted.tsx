@@ -1,6 +1,6 @@
 'use client'
 import { Button } from '../atoms/button'
-import { Body, Content } from '../atoms/sheet'
+import { Body, Content, Header } from '../atoms/sheet'
 import { SheetComponent } from './types'
 
 export type CookbookSubmittedSheetProps = {
@@ -12,7 +12,8 @@ const CookbookSubmittedSheet: SheetComponent<CookbookSubmittedSheetProps> = ({
 }) => {
   return (
     <Content>
-      <Body title={`${title}`}>
+      <Header title={`${title}`} />
+      <Body>
         <p className="mb-8">
           Thanks for your submission and contribution to the cookbook community
           on BAF. We manually review every submission before publishing it. We

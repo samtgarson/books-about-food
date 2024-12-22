@@ -57,24 +57,19 @@ function FilterSheetContent({
         </Pill>
       </Sheet.Trigger>
       <Sheet.Content>
-        <Sheet.Body
-          title={labelText}
-          className={className}
-          controls={
-            <ParamLink {...defaultParams}>
-              <Link
-                scroll={false}
-                href=""
-                className="text-14 bg-transparent"
-                onClick={close}
-              >
-                Reset
-              </Link>
-            </ParamLink>
-          }
-        >
-          {children}
-        </Sheet.Body>
+        <Sheet.Header title={labelText}>
+          <ParamLink {...defaultParams}>
+            <Link
+              scroll={false}
+              href=""
+              className="text-14 bg-transparent"
+              onClick={close}
+            >
+              Reset
+            </Link>
+          </ParamLink>
+        </Sheet.Header>
+        <Sheet.Body className={className}>{children}</Sheet.Body>
         <Sheet.Footer>
           <ParamLink {...params}>
             <Button

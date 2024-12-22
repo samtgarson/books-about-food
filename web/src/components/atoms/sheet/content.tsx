@@ -2,10 +2,12 @@ import * as Dialog from '@radix-ui/react-dialog'
 import cn from 'classnames'
 import { useSession } from 'next-auth/react'
 import { ReactNode, useEffect, useMemo } from 'react'
-import { Loader, X } from 'src/components/atoms/icons'
+import { X } from 'src/components/atoms/icons'
 import { useSheet } from 'src/components/sheets/global-sheet'
 import type { SheetMap } from 'src/components/sheets/types'
-import { Body } from './body'
+import { Loader } from '../loader'
+import { Body, SheetType } from './body'
+import { Box } from './box'
 import { useSheetContext } from './context'
 
 type SheetContentProps = {
@@ -18,6 +20,7 @@ type SheetContentProps = {
   showCloseButton?: boolean
   className?: string
   container?: HTMLElement
+  type?: SheetType
 }
 
 export const Content = ({
@@ -27,6 +30,7 @@ export const Content = ({
   className,
   showCloseButton = true,
   container,
+  type = 'dialog',
   ...props
 }: SheetContentProps) => {
   const { close } = useSheetContext()
@@ -39,7 +43,16 @@ export const Content = ({
           overlay && 'bg-black bg-opacity-80'
         )}
       />
-      <div className="pointer-events-none fixed inset-0 z-sheet flex items-end justify-center sm:items-start sm:pt-[15dvh] sm:short:pt-[5dvh] backdrop-filter">
+      <div
+        className={cn(
+          'pointer-events-none fixed inset-0 z-sheet flex backdrop-filter',
+          {
+            'sm:pt-[15dvh] sm:short:pt-[5dvh] justify-center items-end sm:items-start':
+              type === 'dialog',
+            'justify-end items-stretch': type === 'drawer'
+          }
+        )}
+      >
         <Dialog.Content
           onEscapeKeyDown={close}
           onPointerDownOutside={close}
@@ -48,11 +61,14 @@ export const Content = ({
             if (!focusTriggerOnClose) e.preventDefault()
           }}
           className={cn(
-            'animate-fade-in pointer-events-none flex w-full flex-shrink-0 flex-col relative book-shadow max-h-[calc(100dvh)] sm:max-h-[75dvh] sm:short:max-h-[80dvh] focus:outline-none',
+            'pointer-events-none flex w-full flex-shrink-0 flex-col relative focus:outline-none group',
             {
               'sm:max-w-lg': size === 'md',
               'sm:max-w-xl': size === 'lg',
-              'sm:max-w-[90vw]': size === 'xl'
+              'sm:max-w-[90vw]': size === 'xl',
+              'max-h-[calc(100dvh)] sm:max-h-[75dvh] sm:short:max-h-[80dvh] animate-fade-slide-in sheet-dialog':
+                type === 'dialog',
+              'sheet-drawer px-3 pb-3 animate-drawer-enter': type === 'drawer'
             },
             className
           )}
@@ -64,7 +80,7 @@ export const Content = ({
               <X strokeWidth={1} size={24} className="stroke-white" />
             </Dialog.Close>
           )}
-          <AuthedContent {...props} />
+          <AuthedContent type={type} {...props} />
         </Dialog.Content>
       </div>
     </Dialog.Portal>
@@ -75,7 +91,7 @@ function AuthedContent({
   loading,
   children,
   authenticated
-}: Pick<SheetContentProps, 'loading' | 'children' | 'authenticated'>) {
+}: Pick<SheetContentProps, 'loading' | 'children' | 'authenticated' | 'type'>) {
   const { status } = useSession()
   const { close } = useSheetContext()
   const { openSheet } = useSheet()
@@ -95,12 +111,15 @@ function AuthedContent({
     openSheet('signIn', { redirect })
   }, [authenticated, openSheet, status, close])
 
-  if ((!loading && !authenticated) || status === 'authenticated') return nodes
+  if ((!loading && !authenticated) || status === 'authenticated')
+    return <Box>{nodes}</Box>
   if (status === 'loading' || loading)
     return (
-      <Body>
-        <Loader />
-      </Body>
+      <Box>
+        <Body>
+          <Loader />
+        </Body>
+      </Box>
     )
   return null
 }

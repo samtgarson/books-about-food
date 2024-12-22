@@ -3,7 +3,7 @@ import { Profile } from '@books-about-food/core/models/profile'
 import Image from 'next/image'
 import { useState } from 'react'
 import { Avatar } from 'src/components/atoms/avatar'
-import { Body, Content } from 'src/components/atoms/sheet'
+import { Body, Content, Header } from 'src/components/atoms/sheet'
 import { Form } from 'src/components/form'
 import { Submit } from 'src/components/form/submit'
 import { TextArea } from 'src/components/form/textarea'
@@ -25,7 +25,8 @@ const SuggestEditSheet: SheetComponent<SuggestEditSheetProps> = ({
   const [success, setSuccess] = useState(false)
   return (
     <Content authenticated={{ action: 'claimProfile' }}>
-      <Body className="flex flex-col gap-8" title="Suggest an edit">
+      <Header title="Suggest an edit" />
+      <Body className="flex flex-col gap-8">
         <div>
           <p>Let us know below what should be changed.</p>
         </div>

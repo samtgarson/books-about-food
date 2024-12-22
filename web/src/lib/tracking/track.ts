@@ -6,6 +6,7 @@ import { NextRequest, NextResponse, userAgent } from 'next/server'
 import { ResponseCookies } from 'next/dist/compiled/@edge-runtime/cookies'
 import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies'
 import { auth } from 'src/auth'
+import { Stringified, parse } from 'src/utils/superjson'
 import { TrackableEvents } from './events'
 import { ip, token, trackingEnabled } from './utils'
 
@@ -30,21 +31,34 @@ const BAF_SESSION_ID = 'baf-session-id'
 
 export async function track<T extends keyof TrackableEvents>(
   event: T,
-  { userId, ...properties }: TrackableEvents[T] & CommonEventProperties,
+  stringifedProperties:
+    | (TrackableEvents[T] & CommonEventProperties)
+    | Stringified<TrackableEvents[T] & CommonEventProperties>,
   req?: NextRequest,
   res?: NextResponse
 ) {
+  const { userId: clientUserId, ...properties } =
+    typeof stringifedProperties === 'string'
+      ? parse(stringifedProperties)
+      : stringifedProperties
+
   if (!trackingEnabled) {
     console.debug(`Tracking Event: ${event}`, properties)
     return
   }
   if (!token) return
 
-  userId ||= (await auth())?.user?.id
+  const userId = clientUserId || (await auth())?.user?.id
+
+  // If a user is anonymous, we generate a session ID and track it as the device ID.
+  // If a user is logged in, we do not send a device ID and instead send a user ID.
+  // If a user is anonymous and then logs in, we send both to link the anonymous session
+  // to the user.
 
   const sessionId =
     getSessionId(req?.cookies) ||
     (userId ? undefined : generateAnonymousId(res?.cookies))
+
   const body = {
     event,
     properties: {
@@ -61,6 +75,9 @@ export async function track<T extends keyof TrackableEvents>(
     body: JSON.stringify([body]),
     headers: { 'content-type': 'application/json', accept: 'text/plain' }
   })
+
+  // If we have both a session ID and a user ID, it means we've just linked an anonymous
+  // session to a user. We should clear the session ID cookie.
 
   if (userId && sessionId && sessionId !== userId) clearSessionId(req?.cookies)
 }

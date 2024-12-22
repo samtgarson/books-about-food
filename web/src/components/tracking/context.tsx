@@ -12,10 +12,15 @@ import {
   useEffect
 } from 'react'
 import { useRoute } from 'src/hooks/use-route'
+import { TrackableEvents } from 'src/lib/tracking/events'
 import { track as action } from 'src/lib/tracking/track'
+import { stringify } from 'src/utils/superjson'
 
 type TrackingContext = {
-  track: typeof action
+  track: <T extends keyof TrackableEvents>(
+    name: T,
+    properties: TrackableEvents[T]
+  ) => Promise<void>
   currentPath: string
   currentRoute: string
 }
@@ -37,18 +42,24 @@ function TrackingProviderContent({ children }: { children: ReactNode }) {
     })
   }, [pathname, searchParams, route])
 
-  const track = useCallback<typeof action>(
-    async function (name, properties) {
+  const track = useCallback(
+    async function <T extends keyof TrackableEvents>(
+      name: T,
+      properties: TrackableEvents[T]
+    ) {
       const path = searchParams.toString().length
         ? `${pathname}?${searchParams}`
         : pathname
 
-      await action(name, {
-        ...properties,
-        'Tracked from (path)': path,
-        'Tracked from (route)': route,
-        $referrer: document.referrer
-      })
+      await action(
+        name,
+        stringify({
+          ...properties,
+          'Tracked from (path)': path,
+          'Tracked from (route)': route,
+          $referrer: document.referrer
+        })
+      )
     },
     [pathname, searchParams, route]
   )

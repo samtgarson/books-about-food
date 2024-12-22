@@ -5,7 +5,6 @@ type SheetContext = {
   mobileOnly?: boolean
   close: () => void
   open: () => void
-  grey?: boolean
   scrollState: SheetScrollState
   setScrollState: (state: SheetScrollState) => void
 }

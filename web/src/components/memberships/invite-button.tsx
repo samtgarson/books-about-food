@@ -30,7 +30,8 @@ export function PublisherInviteButton({
         <Plus strokeWidth={1} />
       </Sheet.Trigger>
       <Sheet.Content authenticated>
-        <Sheet.Body title={`Invite someone to ${publisher.name}`}>
+        <Sheet.Header title={`Invite someone to ${publisher.name}`} />
+        <Sheet.Body>
           <Form
             variant="bordered"
             schema={createInviteSchema.extend({ publisherSlug: z.string() })}

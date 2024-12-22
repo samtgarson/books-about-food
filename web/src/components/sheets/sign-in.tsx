@@ -1,6 +1,7 @@
 import { usePathname } from 'next/navigation'
 import * as Sheet from 'src/components/atoms/sheet'
 import { SignInButtons } from '../auth/sign-in-buttons'
+import { LogoShape } from '../icons/logo-shape'
 import { SheetComponent } from './types'
 
 export type SignInSheetProps =
@@ -20,15 +21,15 @@ const SignInSheet: SheetComponent<SignInSheetProps> = ({
   const callbackUrl = redirect || currentPath || undefined
 
   return (
-    <Sheet.Content>
-      <Sheet.Body title={title}>
+    <Sheet.Content type="drawer">
+      <LogoShape text className="w-16 h-auto" />
+      <Sheet.Header title={title} />
+      <Sheet.Body className="justify-center">
         {description && <p className="mb-8">{description}</p>}
         <SignInButtons callbackUrl={callbackUrl} />
       </Sheet.Body>
     </Sheet.Content>
   )
 }
-
-//SignInSheet.grey = true
 
 export default SignInSheet

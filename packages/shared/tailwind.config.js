@@ -31,6 +31,10 @@ module.exports = {
           from: { opacity: 0, transform: 'translateY(10px)' },
           to: { opacity: 1, transform: 'translateY(0)' }
         },
+        'fade-slide-in-right': {
+          from: { opacity: 0, transform: 'translateX(20px)' },
+          to: { opacity: 1, transform: 'translateX(0)' }
+        },
         'scale-in': {
           from: { transform: 'scale(0.9)', opacity: 0 },
           to: { transform: 'scale(1)', opacity: 1 }
@@ -48,6 +52,7 @@ module.exports = {
         'fade-in': 'fade-in 0.2s ease-out both',
         'fade-out': 'fade-out 0.2s ease-out both',
         'fade-slide-in': 'fade-slide-in 0.4s ease-out both',
+        'drawer-enter': 'fade-slide-in-right 0.25s ease-out both',
         'slow-spin': 'spin 60s linear infinite',
         'scale-in': 'scale-in 0.2s ease-out both',
         'accordion-open': 'accordion-open 0.2s ease-out both',

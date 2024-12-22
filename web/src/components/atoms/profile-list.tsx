@@ -40,9 +40,8 @@ export const ProfileList: FC<ProfileListProps> = ({
           </Eye>
         </Sheet.Trigger>
         <Sheet.Content>
-          <Sheet.Body className="pb-8" title={title}>
-            {children}
-          </Sheet.Body>
+          <Sheet.Header title={title} />
+          <Sheet.Body className="pb-8">{children}</Sheet.Body>
         </Sheet.Content>
       </Sheet.Root>
       <div className="hidden sm:block">{children}</div>

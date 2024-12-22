@@ -55,7 +55,8 @@ export const LocationField = () => {
               }}
               variant="bordered"
             >
-              <Sheet.Body title="Choose a location">
+              <Sheet.Header title="Choose a location" />
+              <Sheet.Body>
                 <Select
                   name="location"
                   loadOptions={(query) => loadOptions(query, token.current)}

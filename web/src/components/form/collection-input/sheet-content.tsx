@@ -25,7 +25,8 @@ export function SheetContent<Value extends { id: string }>({
 
   return (
     <Sheet.Content>
-      <Sheet.Body title={title}>
+      {title && <Sheet.Header title={title} />}
+      <Sheet.Body>
         <FormComponent onSubmit={onSubmit} value={value} />
       </Sheet.Body>
     </Sheet.Content>
