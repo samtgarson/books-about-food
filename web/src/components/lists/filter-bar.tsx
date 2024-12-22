@@ -70,15 +70,12 @@ export const FilterBar: FC<FilterBarProps> = ({
       <AntiContainer desktop={false}>
         <div className="mb-6 flex w-full flex-wrap items-center gap-4 md:mb-10 md:gap-6">
           {search && (
-            <Container
-              desktop={false}
-              className="hidden w-full flex-grow sm:flex md:w-72"
-            >
+            <Container desktop={false} className="hidden flex-grow sm:flex">
               <Search {...searchProps} onChange={onSearchChange} />
             </Container>
           )}
           {children && (
-            <div className="overflow-x-auto w-full">
+            <div className="overflow-x-auto sm:ml-auto mobile-only:w-full">
               <Container
                 desktop={false}
                 className="flex justify-end items-center gap-2"
