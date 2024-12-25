@@ -6,8 +6,7 @@ import { X } from 'src/components/atoms/icons'
 import { useSheet } from 'src/components/sheets/global-sheet'
 import type { SheetMap } from 'src/components/sheets/types'
 import { Loader } from '../loader'
-import { Body, SheetType } from './body'
-import { Box } from './box'
+import { Body, SheetType, Title } from './body'
 import { useSheetContext } from './context'
 
 type SheetContentProps = {
@@ -21,9 +20,9 @@ type SheetContentProps = {
   className?: string
   container?: HTMLElement
   type?: SheetType
-}
+} & ControlsBarProps
 
-export const Content = ({
+export function Content({
   size = 'lg',
   overlay = true,
   focusTriggerOnClose = true,
@@ -32,7 +31,7 @@ export const Content = ({
   container,
   type = 'dialog',
   ...props
-}: SheetContentProps) => {
+}: SheetContentProps) {
   const { close } = useSheetContext()
 
   return (
@@ -61,26 +60,26 @@ export const Content = ({
             if (!focusTriggerOnClose) e.preventDefault()
           }}
           className={cn(
-            'pointer-events-none flex w-full flex-shrink-0 flex-col relative focus:outline-none group',
+            'pointer-events-none flex w-full flex-shrink-0 flex-col relative focus:outline-none group overflow-y-auto',
             {
               'sm:max-w-lg': size === 'md',
               'sm:max-w-xl': size === 'lg',
               'sm:max-w-[90vw]': size === 'xl',
               'max-h-[calc(100dvh)] sm:max-h-[75dvh] sm:short:max-h-[80dvh] animate-fade-slide-in sheet-dialog':
                 type === 'dialog',
-              'sheet-drawer px-3 pb-3 animate-drawer-enter': type === 'drawer'
+              'sheet-drawer p-3 animate-drawer-enter rounded-lg m-3':
+                type === 'drawer'
             },
+            overlay && 'bg-white p-5 sm:p-8',
             className
           )}
           aria-describedby={undefined}
           data-sheet-portal
         >
-          {showCloseButton && (
-            <Dialog.Close className="pointer-events-auto p-4 self-end">
-              <X strokeWidth={1} size={24} className="stroke-white" />
-            </Dialog.Close>
-          )}
-          <AuthedContent overlay={overlay} {...props} />
+          {showCloseButton && <ControlsBar {...props} />}
+          <div className="flex flex-col justify-center gap-3 sm:gap-4 flex-1">
+            <AuthedContent {...props} />
+          </div>
         </Dialog.Content>
       </div>
     </Dialog.Portal>
@@ -90,12 +89,8 @@ export const Content = ({
 function AuthedContent({
   loading,
   children,
-  authenticated,
-  overlay
-}: Pick<
-  SheetContentProps,
-  'loading' | 'children' | 'authenticated' | 'overlay'
->) {
+  authenticated
+}: Pick<SheetContentProps, 'loading' | 'children' | 'authenticated'>) {
   const { status } = useSession()
   const { close } = useSheetContext()
   const { openSheet } = useSheet()
@@ -115,15 +110,37 @@ function AuthedContent({
     openSheet('signIn', { redirect })
   }, [authenticated, openSheet, status, close])
 
-  if ((!loading && !authenticated) || status === 'authenticated')
-    return <Box overlay={overlay}>{nodes}</Box>
+  if ((!loading && !authenticated) || status === 'authenticated') return nodes
+
   if (status === 'loading' || loading)
     return (
-      <Box overlay={overlay}>
-        <Body>
-          <Loader />
-        </Body>
-      </Box>
+      <Body>
+        <Loader />
+      </Body>
     )
+
   return null
+}
+
+type ControlsBarProps =
+  | { hideTitle?: never; title: string; controls?: ReactNode }
+  | { hideTitle: true; title?: never; controls?: never }
+
+function ControlsBar({ title, controls }: ControlsBarProps) {
+  const { scrollState } = useSheetContext()
+
+  return (
+    <div
+      className={cn(
+        'flex gap-4 justify-end z-30 border-b transition-colors pb-3 sm:pb-4 items-center',
+        !scrollState.top ? 'border-neutral-grey' : 'border-transparent'
+      )}
+    >
+      {title && <Title className="flex-grow mr-auto">{title}</Title>}
+      {controls}
+      <Dialog.Close className="pointer-events-auto">
+        <X strokeWidth={1} size={24} />
+      </Dialog.Close>
+    </div>
+  )
 }

@@ -1,7 +1,6 @@
 import { Contribution } from '@books-about-food/core/models/contribution'
 import { Profile } from '@books-about-food/core/models/profile'
 import { ProfileList } from '../atoms/profile-list'
-import { GridContainer } from '../lists/grid-container'
 import { ProfileItem } from '../profiles/item'
 
 export type TeamListProps = {
@@ -31,16 +30,14 @@ export function TeamList({ contributions, className }: TeamListProps) {
       className={className}
       data-superjson
     >
-      <GridContainer>
-        {profiles.map((profile) => (
-          <ProfileItem
-            key={profile.id}
-            profile={profile}
-            display="list"
-            meta={profileMap.get(profile.id)?.join(' • ')}
-          />
-        ))}
-      </GridContainer>
+      {profiles.map((profile) => (
+        <ProfileItem
+          key={profile.id}
+          profile={profile}
+          display="list"
+          meta={profileMap.get(profile.id)?.join(' • ')}
+        />
+      ))}
     </ProfileList>
   )
 }

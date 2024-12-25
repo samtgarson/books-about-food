@@ -39,8 +39,7 @@ export function ImportForm() {
       <Submit>Preview</Submit>
       {(preview || errors) && (
         <Sheet.Root defaultOpen onClose={() => setPreview(undefined)}>
-          <Sheet.Content size="xl">
-            <Sheet.Header title="Import Preview" />
+          <Sheet.Content size="xl" title="Import Preview">
             <Sheet.Body className="flex flex-col overflow-y-auto">
               {preview && <ImportList rows={preview} onSuccess={onSuccess} />}
               {errors && (

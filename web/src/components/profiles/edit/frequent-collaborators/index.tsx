@@ -6,7 +6,6 @@ import { useCallback, useMemo, useState } from 'react'
 import { Eye, EyeOff } from 'src/components/atoms/icons'
 import { Loader } from 'src/components/atoms/loader'
 import { ProfileList } from 'src/components/atoms/profile-list'
-import { GridContainer } from 'src/components/lists/grid-container'
 import { Content, Wrapper } from 'src/components/profiles/item'
 import { useCurrentUser } from 'src/hooks/use-current-user'
 import { useServer } from 'src/hooks/use-server'
@@ -47,41 +46,35 @@ export function FrequentCollaborators({
       title="Frequent Collaborators"
       className={className}
     >
-      <GridContainer>
-        {profiles.map((profile) => {
-          const hidden = ids.includes(profile.id)
+      {profiles.map((profile) => {
+        const hidden = ids.includes(profile.id)
 
-          if (!editMode && hidden) return null
-          return (
-            <Wrapper
-              key={profile.id}
+        if (!editMode && hidden) return null
+        return (
+          <Wrapper
+            key={profile.id}
+            profile={profile}
+            className={cn(hidden && 'border-opacity-30')}
+          >
+            <Content
               profile={profile}
-              className={cn(hidden && 'border-opacity-30')}
-            >
-              <Content
-                profile={profile}
-                display="list"
-                disabled={editMode}
-                className={cn(
-                  'transition',
-                  editMode
-                    ? hidden
-                      ? 'opacity-30 saturate-0'
-                      : 'opacity-80'
-                    : ''
-                )}
-              />
-              {editMode && (
-                <EditContent
-                  profile={profile}
-                  toggle={toggle}
-                  hidden={hidden}
-                />
+              display="list"
+              disabled={editMode}
+              className={cn(
+                'transition',
+                editMode
+                  ? hidden
+                    ? 'opacity-30 saturate-0'
+                    : 'opacity-80'
+                  : ''
               )}
-            </Wrapper>
-          )
-        })}
-      </GridContainer>
+            />
+            {editMode && (
+              <EditContent profile={profile} toggle={toggle} hidden={hidden} />
+            )}
+          </Wrapper>
+        )
+      })}
     </ProfileList>
   )
 }

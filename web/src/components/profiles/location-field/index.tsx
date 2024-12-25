@@ -44,7 +44,7 @@ export const LocationField = () => {
             className="text-left"
           />
         </Sheet.Trigger>
-        <Sheet.Content>
+        <Sheet.Content title="Choose a location">
           {({ close }) => (
             <Form
               action={async (data) => {
@@ -55,7 +55,6 @@ export const LocationField = () => {
               }}
               variant="bordered"
             >
-              <Sheet.Header title="Choose a location" />
               <Sheet.Body>
                 <Select
                   name="location"

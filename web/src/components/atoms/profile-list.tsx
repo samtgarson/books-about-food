@@ -2,10 +2,11 @@
 
 import { Profile } from '@books-about-food/core/models/profile'
 import cn from 'classnames'
-import { FC, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { Eye } from 'src/components/atoms/icons'
 import { Avatar } from '../atoms/avatar'
 import * as Sheet from '../atoms/sheet'
+import { GridContainer } from '../lists/grid-container'
 
 export type ProfileListProps = {
   profiles: Profile[]
@@ -14,12 +15,12 @@ export type ProfileListProps = {
   children: ReactNode
 }
 
-export const ProfileList: FC<ProfileListProps> = ({
+export function ProfileList({
   profiles,
   title,
   className,
   children
-}) => {
+}: ProfileListProps) {
   return (
     <div className={className}>
       <Sheet.Root mobileOnly>
@@ -39,12 +40,13 @@ export const ProfileList: FC<ProfileListProps> = ({
             Open
           </Eye>
         </Sheet.Trigger>
-        <Sheet.Content>
-          <Sheet.Header title={title} />
-          <Sheet.Body className="pb-8">{children}</Sheet.Body>
+        <Sheet.Content title={title}>
+          <Sheet.Body className="pb-8">
+            <GridContainer>{children}</GridContainer>
+          </Sheet.Body>
         </Sheet.Content>
       </Sheet.Root>
-      <div className="hidden sm:block">{children}</div>
+      <GridContainer className="hidden sm:block">{children}</GridContainer>
     </div>
   )
 }

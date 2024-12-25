@@ -4,7 +4,7 @@ import { bookToResult } from '@books-about-food/core/services/books/utils/to-res
 import { upsertCollectionSchema } from '@books-about-food/core/services/collections/schemas/upsert-collection'
 import { Button } from 'src/components/atoms/button'
 import { Trash2 } from 'src/components/atoms/icons'
-import { Body, Content, Header } from 'src/components/atoms/sheet'
+import { Body, Content } from 'src/components/atoms/sheet'
 import { Form } from 'src/components/form'
 import { BookMultiSelect } from 'src/components/form/book-multi-select'
 import { Input } from 'src/components/form/input'
@@ -25,8 +25,7 @@ const EditCollectionSheet: SheetComponent<EditCollectionSheetProps> = ({
   const { closeSheet } = useSheet()
 
   return (
-    <Content>
-      <Header title={collection ? 'Edit Collection' : 'Create Collection'} />
+    <Content title={collection ? 'Edit Collection' : 'Create Collection'}>
       <Body>
         <Form
           variant="bordered"

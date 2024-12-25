@@ -35,8 +35,7 @@ export const ClaimPublisherButton: FC<ClaimPublisherButtonProps> = ({
           Claim Profile
         </Button>
       </Sheet.Trigger>
-      <Sheet.Content>
-        <Sheet.Header title="Claim this publisher profile" />
+      <Sheet.Content title="Claim this publisher profile">
         <Sheet.Body className="flex flex-col gap-8">
           <p>
             Please register your interest below and we will be in touch to help

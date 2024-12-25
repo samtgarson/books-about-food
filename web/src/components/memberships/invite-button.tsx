@@ -29,8 +29,10 @@ export function PublisherInviteButton({
       <Sheet.Trigger>
         <Plus strokeWidth={1} />
       </Sheet.Trigger>
-      <Sheet.Content authenticated>
-        <Sheet.Header title={`Invite someone to ${publisher.name}`} />
+      <Sheet.Content
+        authenticated
+        title={`Invite someone to ${publisher.name}`}
+      >
         <Sheet.Body>
           <Form
             variant="bordered"

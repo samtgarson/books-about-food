@@ -8,7 +8,7 @@ import { usePromise } from 'src/hooks/use-promise'
 import { Button } from '../atoms/button'
 import { ContactLink } from '../atoms/contact-link'
 import { Loader } from '../atoms/loader'
-import { Body, Content, Header } from '../atoms/sheet'
+import { Body, Content } from '../atoms/sheet'
 import { create, destroy, fetch } from '../profiles/claim-button/action'
 import { ProfileItem } from '../profiles/item'
 import { successToast } from '../utils/toaster'
@@ -54,8 +54,11 @@ const ClaimProfileSheet: SheetComponent<ClaimProfileSheetProps> = ({
   }, [])
 
   return (
-    <Content authenticated={{ action: 'claimProfile' }} loading={loading}>
-      <Header title="Claim your profile" />
+    <Content
+      authenticated={{ action: 'claimProfile' }}
+      loading={loading}
+      title="Claim your profile"
+    >
       <Body>
         <div className="flex flex-col items-start gap-8">
           {!claim ? (

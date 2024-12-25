@@ -22,13 +22,12 @@ export function EditFeatureCarouselDialog({
       <Sheet.Trigger className="absolute left-4 bottom-4 bg-white px-4 py-3">
         Edit Carousel
       </Sheet.Trigger>
-      <Sheet.Content>
+      <Sheet.Content title="Edit Feauture Carousel">
         <Form
           action={async function () {
             await updateFeatureCarousel(features.map((f) => f.id))
           }}
         >
-          <Sheet.Header title="Edit Feauture Carousel" />
           <Sheet.Body>
             <Reorder.Group axis="y" values={features} onReorder={setFeatures}>
               {features.map((feature) => (

@@ -32,7 +32,7 @@ export function CropperSheet({ src, onSave }: CropperSheetProps) {
 
   return (
     <Sheet.Root ref={sheet}>
-      <Sheet.Content>
+      <Sheet.Content hideTitle>
         <Sheet.Body containerClassName="!max-h-none h-fit">
           <CropperSheetContent url={url} onSave={onSave} />
         </Sheet.Body>

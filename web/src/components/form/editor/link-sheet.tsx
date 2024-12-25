@@ -32,7 +32,11 @@ function EditorLinkSheet({
   return (
     <Sheet.Root ref={sheet} onClose={() => editor.commands.focus()}>
       <Sheet.Trigger asChild>{children}</Sheet.Trigger>
-      <Sheet.Content focusTriggerOnClose={false} container={container}>
+      <Sheet.Content
+        focusTriggerOnClose={false}
+        container={container}
+        hideTitle
+      >
         <Sheet.Body>
           <Form
             variant="bordered"

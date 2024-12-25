@@ -4,7 +4,7 @@ import { createCollectionInputContext } from './context'
 
 type SheetContentProps<Value extends { id: string }> = {
   value?: Value
-  title?: string
+  title: string
 }
 
 export function SheetContent<Value extends { id: string }>({
@@ -24,8 +24,7 @@ export function SheetContent<Value extends { id: string }>({
   }
 
   return (
-    <Sheet.Content>
-      {title && <Sheet.Header title={title} />}
+    <Sheet.Content title={title}>
       <Sheet.Body>
         <FormComponent onSubmit={onSubmit} value={value} />
       </Sheet.Body>

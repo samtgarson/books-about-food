@@ -30,8 +30,9 @@ export function ColorFilter({ value }: { value?: number[] | NamedColor }) {
           Colours
         </Pill>
       </Sheet.Trigger>
-      <Sheet.Content>
-        <Sheet.Header title="Colors">
+      <Sheet.Content
+        title="Colors"
+        controls={
           <ParamLink color={null} sort={null}>
             <Link
               scroll={false}
@@ -42,7 +43,8 @@ export function ColorFilter({ value }: { value?: number[] | NamedColor }) {
               Reset
             </Link>
           </ParamLink>
-        </Sheet.Header>
+        }
+      >
         <Sheet.Body className="grid grid-cols-[repeat(7,_48px)] gap-4 justify-center">
           {Object.keys(colorMap).map((key) => (
             <ParamLink key={key} color={key}>

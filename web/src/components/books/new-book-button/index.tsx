@@ -33,8 +33,7 @@ export const NewBookButton = ({
       >
         {triggerContent}
       </Sheet.Trigger>
-      <Sheet.Content authenticated>
-        <Sheet.Header title="Submit a new cookbook" />
+      <Sheet.Content authenticated title="Submit a new cookbook">
         <Sheet.Body>
           <Form />
         </Sheet.Body>

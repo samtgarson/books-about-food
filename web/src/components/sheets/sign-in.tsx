@@ -21,9 +21,9 @@ const SignInSheet: SheetComponent<SignInSheetProps> = ({
   const callbackUrl = redirect || currentPath || undefined
 
   return (
-    <Sheet.Content type="drawer">
+    <Sheet.Content type="drawer" hideTitle>
       <LogoShape text className="w-16 h-auto" />
-      <Sheet.Header title={title} />
+      <Sheet.Title>{title}</Sheet.Title>
       <Sheet.Body className="justify-center">
         {description && <p className="mb-8">{description}</p>}
         <SignInButtons callbackUrl={callbackUrl} />

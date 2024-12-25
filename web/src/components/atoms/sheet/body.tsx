@@ -79,27 +79,17 @@ export const Body = forwardRef<SheetBodyControl, SheetBodyProps>(function Body(
   )
 })
 
-export const Header = ({
+export const Title = ({
   children,
-  title
+  className
 }: {
+  children: string
   className?: string
-  children?: ReactNode
-  title: string
 }) => {
-  const { scrollState } = useSheetContext()
   return (
-    <div
-      className={cn(
-        'flex justify-between z-30 border-b transition-colors pb-3 sm:pb-4 -mb-3 sm:-mb-4',
-        !scrollState.top ? 'border-neutral-grey' : 'border-transparent'
-      )}
-    >
-      <Dialog.Title className="text-18 sm:text-24 font-medium">
-        {title}
-      </Dialog.Title>
+    <Dialog.Title className={cn('text-18 sm:text-24 font-medium', className)}>
       {children}
-    </div>
+    </Dialog.Title>
   )
 }
 

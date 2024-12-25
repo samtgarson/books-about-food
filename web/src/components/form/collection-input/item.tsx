@@ -24,7 +24,7 @@ export function CollectionInputItem<Value extends { id: string }>({
         <Sheet.Trigger className="text-14 ml-auto underline">
           Edit
         </Sheet.Trigger>
-        <SheetContent<Value> value={value} />
+        <SheetContent<Value> title="Edit Team Member" value={value} />
       </Sheet.Root>
       <button onClick={() => removeValue(value.id)} type="button">
         <X strokeWidth={1} />

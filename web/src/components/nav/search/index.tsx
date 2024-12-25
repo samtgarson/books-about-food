@@ -38,6 +38,7 @@ export function QuickSearch({ className }: { className?: string }) {
         overlay={false}
         focusTriggerOnClose={false}
         className="self-start mt-[20vh] bg-white/70 backdrop-blur-md !max-h-[50vh] max-w-[90vw] rounded-lg !pb-0"
+        hideTitle
       >
         <QuickSearchContent onSelect={() => sheet.current?.setOpen(false)} />
       </Sheet.Content>

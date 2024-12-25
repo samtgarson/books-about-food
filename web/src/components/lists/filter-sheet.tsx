@@ -56,19 +56,22 @@ function FilterSheetContent({
           )}
         </Pill>
       </Sheet.Trigger>
-      <Sheet.Content type="drawer">
-        <Sheet.Header title={labelText}>
+      <Sheet.Content
+        type="drawer"
+        title={labelText}
+        controls={
           <ParamLink {...defaultParams}>
             <Link
               scroll={false}
               href=""
-              className="text-14 bg-transparent"
+              className="all-caps bg-transparent"
               onClick={close}
             >
               Reset
             </Link>
           </ParamLink>
-        </Sheet.Header>
+        }
+      >
         <Sheet.Body className={className} containerClassName="flex-1">
           {children}
         </Sheet.Body>
