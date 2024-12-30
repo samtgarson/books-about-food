@@ -78,7 +78,7 @@ export function QuickSearchContent({ onSelect }: { onSelect?: () => void }) {
 
   return (
     <Sheet.Body
-      containerClassName="!p-2 sm:!p-4 bg-opacity-0"
+      containerClassName=""
       className="flex flex-col gap-2 sm:gap-4"
       ref={sheetBody}
     >

@@ -67,12 +67,12 @@ export const Body = forwardRef<SheetBodyControl, SheetBodyProps>(function Body(
       <div
         ref={scrollRoot}
         className={cn(
-          'pointer-events-auto overflow-auto isolate',
+          'pointer-events-auto overflow-auto isolate flex-1 flex flex-col',
           containerClassName
         )}
       >
         <div ref={topDetector} id={topId} className="h-0.5" />
-        <div className={className}>{children}</div>
+        <div className={cn('flex-1 flex flex-col', className)}>{children}</div>
         <div ref={bottomDetector} id={bottomId} className="h-0.5" />
       </div>
     </>

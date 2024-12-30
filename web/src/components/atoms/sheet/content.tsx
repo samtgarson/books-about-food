@@ -20,6 +20,7 @@ type SheetContentProps = {
   className?: string
   container?: HTMLElement
   type?: SheetType
+  wide?: boolean
 } & ControlsBarProps
 
 export function Content({
@@ -30,6 +31,7 @@ export function Content({
   showCloseButton = true,
   container,
   type = 'dialog',
+  wide = false,
   ...props
 }: SheetContentProps) {
   const { close } = useSheetContext()
@@ -60,7 +62,7 @@ export function Content({
             if (!focusTriggerOnClose) e.preventDefault()
           }}
           className={cn(
-            'pointer-events-none flex w-full flex-shrink-0 flex-col relative focus:outline-none group overflow-y-auto',
+            'pointer-events-none flex w-full flex-shrink-0 flex-col relative focus:outline-none group justify-center gap-3 sm:gap-4 flex-1',
             {
               'sm:max-w-lg': size === 'md',
               'sm:max-w-xl': size === 'lg',
@@ -70,16 +72,17 @@ export function Content({
               'sheet-drawer p-3 animate-drawer-enter rounded-lg m-3':
                 type === 'drawer'
             },
-            overlay && 'bg-white p-5 sm:p-8',
+            overlay && 'bg-white sm:p-8',
+            wide ? 'py-5' : 'p-5',
             className
           )}
           aria-describedby={undefined}
           data-sheet-portal
         >
-          {showCloseButton && <ControlsBar {...props} />}
-          <div className="flex flex-col justify-center gap-3 sm:gap-4 flex-1">
-            <AuthedContent {...props} />
-          </div>
+          {showCloseButton && (
+            <ControlsBar {...props} className={cn(wide && 'px-5')} />
+          )}
+          <AuthedContent {...props} />
         </Dialog.Content>
       </div>
     </Dialog.Portal>
@@ -126,14 +129,19 @@ type ControlsBarProps =
   | { hideTitle?: never; title: string; controls?: ReactNode }
   | { hideTitle: true; title?: never; controls?: never }
 
-function ControlsBar({ title, controls }: ControlsBarProps) {
+function ControlsBar({
+  title,
+  controls,
+  className
+}: ControlsBarProps & { className?: string }) {
   const { scrollState } = useSheetContext()
 
   return (
     <div
       className={cn(
-        'flex gap-4 justify-end z-30 border-b transition-colors pb-3 sm:pb-4 items-center',
-        !scrollState.top ? 'border-neutral-grey' : 'border-transparent'
+        'flex gap-4 justify-end z-30 border-b transition-colors pb-3 sm:pb-4 -mb-3 sm:-mb-4 items-center',
+        !scrollState.top ? 'border-neutral-grey' : 'border-transparent',
+        className
       )}
     >
       {title && <Title className="flex-grow mr-auto">{title}</Title>}

@@ -22,9 +22,9 @@ const SignInSheet: SheetComponent<SignInSheetProps> = ({
 
   return (
     <Sheet.Content type="drawer" hideTitle>
-      <LogoShape text className="w-16 h-auto" />
-      <Sheet.Title>{title}</Sheet.Title>
-      <Sheet.Body className="justify-center">
+      <Sheet.Body className="justify-center gap-3 sm:gap-4">
+        <LogoShape text className="w-16 h-auto" />
+        <Sheet.Title>{title}</Sheet.Title>
         {description && <p className="mb-8">{description}</p>}
         <SignInButtons callbackUrl={callbackUrl} />
       </Sheet.Body>

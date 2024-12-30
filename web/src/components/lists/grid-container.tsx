@@ -1,11 +1,11 @@
 'use client'
 
 import cn from 'classnames'
-import { ComponentPropsWithoutRef, forwardRef } from 'react'
-import { AntiContainer } from '../atoms/container'
+import { forwardRef } from 'react'
+import { AntiContainer, ContainerProps } from '../atoms/container'
 import { useListDisplay } from './list-context'
 
-export type GridContainerProps = ComponentPropsWithoutRef<'ul'> & {
+export type GridContainerProps = ContainerProps & {
   size?: 'default' | 'large'
 }
 
@@ -19,6 +19,7 @@ export const GridContainer = forwardRef<HTMLDivElement, GridContainerProps>(
       <AntiContainer
         desktop={false}
         className="overflow-hidden sm:overflow-visible"
+        {...props}
         ref={ref}
       >
         <ul
@@ -30,7 +31,6 @@ export const GridContainer = forwardRef<HTMLDivElement, GridContainerProps>(
               : 'auto-grid-lg md:auto-grid-xl',
             className
           )}
-          {...props}
         >
           {children}
         </ul>

@@ -40,9 +40,9 @@ export function ProfileList({
             Open
           </Eye>
         </Sheet.Trigger>
-        <Sheet.Content title={title}>
-          <Sheet.Body className="pb-8">
-            <GridContainer>{children}</GridContainer>
+        <Sheet.Content title={title} wide>
+          <Sheet.Body className="pb-8 group profile-list">
+            <GridContainer mobile={false}>{children}</GridContainer>
           </Sheet.Body>
         </Sheet.Content>
       </Sheet.Root>
