@@ -10,7 +10,8 @@ export const generateMetadata = indexPageMetadata({
   service: fetchProfiles,
   collection: "people who've worked on cookbooks",
   path: '/people',
-  image: true
+  image: true,
+  extraParams: { onlyAuthors: false }
 })
 
 export const revalidate = 3600

@@ -5,6 +5,7 @@ import { Metadata, ResolvedMetadata } from 'next'
 import { PageProps } from 'src/components/types'
 import { genMetadata } from 'src/utils/metadata'
 import { call } from 'src/utils/service'
+import { z } from 'zod'
 
 type Result = { total: number; filteredTotal: number; perPage: number | 'all' }
 export function indexPageMetadata<Svc extends Service<any, Result>>({
@@ -12,19 +13,21 @@ export function indexPageMetadata<Svc extends Service<any, Result>>({
   collection,
   path,
   service,
-  image = false
+  image = false,
+  extraParams
 }: {
   title: string
   collection: string
   path: string
   service: Svc
   image?: boolean
+  extraParams?: z.infer<Svc['input']>
 }) {
   return async function generateMetadata(
     { searchParams }: PageProps,
     parent: Promise<ResolvedMetadata>
   ): Promise<Metadata> {
-    const parsed = service.input.parse(searchParams)
+    const parsed = { ...extraParams, ...service.input.parse(searchParams) }
     const { page } = parsed
     const canonical = page ? `${path}?page=${page}` : path
     const title = page ? `${pageTitle} (Page ${page + 1})` : pageTitle
