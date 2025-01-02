@@ -1,8 +1,7 @@
 //
 
+import { imageUrl } from '@books-about-food/shared/utils/image-url'
 import { ImageLoaderProps } from 'next/image'
-
-const s3Host = process.env.S3_DOMAIN as string
 
 // Docs: https://developers.cloudflare.com/images/url-format
 export default function cloudflareLoader({
@@ -19,7 +18,7 @@ export default function cloudflareLoader({
   if (quality) params += `,q=${quality}`
   if (format) params += `,f=${format}`
 
-  return new URL(`/cdn-cgi/image/${params}${src}`, s3Host).toString()
+  return imageUrl(`/cdn-cgi/image/${params}${src}`)
 }
 
 const widths = [50, 200, 500, 800, 1200]

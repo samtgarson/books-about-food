@@ -5,10 +5,10 @@
   pointer-events: none;
 }
 
-img {
+.tiptap img {
   @apply border border-transparent max-w-full;
 }
 
-img.ProseMirror-selectednode {
+.tiptap img.ProseMirror-selectednode {
   @apply border border-black;
 }
