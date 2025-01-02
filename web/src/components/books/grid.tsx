@@ -1,6 +1,7 @@
 import { Book } from '@books-about-food/core/models/book'
 import cn from 'classnames'
 import { ComponentPropsWithoutRef, ReactNode } from 'react'
+import { randomBelow } from 'src/utils/array-helpers'
 import { GridContainer, GridContainerProps } from '../lists/grid-container'
 import { Wrap } from '../utils/wrap'
 import { Item } from './item'
@@ -10,7 +11,7 @@ export type BookGridProps = {
   showEmpty?: boolean
   itemProps?: Partial<ComponentPropsWithoutRef<typeof Item>>
   randomInsert?: ReactNode
-} & GridContainerProps
+} & Omit<GridContainerProps, 'ref'>
 
 export function BookGrid({
   books,
@@ -21,8 +22,7 @@ export function BookGrid({
   ...gridProps
 }: BookGridProps) {
   const randomInsertIndex = randomInsert
-    ? //? Math.floor(randomBelow(books.length / 2) + books.length / 4)
-      9
+    ? Math.floor(randomBelow(books.length / 2) + books.length / 4)
     : null
 
   return (

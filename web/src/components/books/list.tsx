@@ -41,7 +41,8 @@ export const BookList = async ({
         books={books}
         showEmpty={showEmpty}
         randomInsert={
-          showCollection && <CollectionGridTile index={filters.page ?? 0} />
+          showCollection &&
+          !filters.search && <CollectionGridTile index={filters.page ?? 0} />
         }
       />
     </Pagination>
