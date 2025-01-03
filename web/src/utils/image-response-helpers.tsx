@@ -57,7 +57,7 @@ async function response(content: JSX.Element) {
 }
 
 function Root({
-  backgroundColor = '#F0EEEB',
+  backgroundColor = '#fff',
   children
 }: {
   backgroundColor?: string
@@ -137,7 +137,13 @@ function Half({
   )
 }
 
-function Title({ children }: { children: ReactNode }) {
+function Title({
+  children,
+  style
+}: {
+  children: ReactNode
+  style?: CSSProperties
+}) {
   return (
     <p
       style={{
@@ -145,7 +151,8 @@ function Title({ children }: { children: ReactNode }) {
         lineHeight: 1.4,
         marginBottom: 0,
         flexDirection: 'column',
-        gap: 6
+        gap: 6,
+        ...style
       }}
     >
       {children}

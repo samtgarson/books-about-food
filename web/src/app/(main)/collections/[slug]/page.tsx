@@ -81,6 +81,16 @@ export async function generateMetadata(
 
   return genMetadata(`/collections/${collection.slug}`, await parent, {
     title: collection.title,
-    description: `View the ${collection.title} collection other curated cookbook collections on Books About Food — the cookbook industry’s new digital home.`
+    description: `View the ${collection.title} collection other curated cookbook collections on Books About Food — the cookbook industry’s new digital home.`,
+    openGraph: {
+      images: [
+        {
+          url: `/collections/${collection.slug}/og-image.png`,
+          width: 1200,
+          height: 630,
+          alt: `${collection.title} collection on Books About Food`
+        }
+      ]
+    }
   })
 }

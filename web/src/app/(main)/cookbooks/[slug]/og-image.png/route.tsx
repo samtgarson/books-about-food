@@ -16,6 +16,12 @@ const bookShadow = `
       0px 37.6px 29.2px rgba(0, 0, 0, 0.05),
       0px 90px 70px rgba(0, 0, 0, 0.07)`
 
+/*
+ * We have to manually create the opengraph route because
+ * the root level image overwrites the file convention
+ * Could be a Next.js bug?
+ */
+
 export async function GET(
   _request: NextRequest,
   {
