@@ -78,7 +78,7 @@ export const FilterBar: FC<FilterBarProps> = ({
             <div className="overflow-x-auto sm:ml-auto mobile-only:w-full">
               <Container
                 desktop={false}
-                className="flex justify-end items-center gap-2 overflow-auto mobile-only:w-max"
+                className="flex justify-end items-center gap-2 overflow-auto mobile-only:min-w-max"
               >
                 {label && <p className="all-caps mr-2 flex-grow">{label}</p>}
                 {children}
