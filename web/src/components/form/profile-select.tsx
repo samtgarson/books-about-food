@@ -47,7 +47,6 @@ export function ProfileSelect<Multi extends boolean>({
       required
       multi={multi}
       allowCreate
-      hideDropdownWhenEmpty
       onChange={onChange}
       onCreate={async (name) => {
         const newVal = new Profile(await createProfile(name))

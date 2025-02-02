@@ -55,7 +55,7 @@ export const SelectClient = function Select<
   separator = ',',
   placeholder,
   fref: ref,
-  hideDropdownWhenEmpty = false,
+  hideDropdownWhenEmpty = true,
   ...props
 }: SelectProps<Value, Multi, ValueKey> & {
   fref?: ForwardedRef<SelectControl>
@@ -177,7 +177,7 @@ export const SelectClient = function Select<
         case useCombobox.stateChangeTypes.FunctionSelectItem:
           return {
             ...changes,
-            isOpen: multi,
+            isOpen: multi && !hideDropdownWhenEmpty,
             highlightedIndex: state.highlightedIndex,
             inputValue: ''
           }
@@ -240,7 +240,13 @@ export const SelectClient = function Select<
     }
   })
 
-  const { isOpen, getMenuProps, getLabelProps, selectItem } = comboBox
+  const {
+    isOpen: stateIsOpen,
+    getMenuProps,
+    getLabelProps,
+    selectItem
+  } = comboBox
+  const isOpen = stateIsOpen && (!loading || items.length > 0 || allowCreate)
 
   async function createOption(val: string) {
     const newValue = onCreate
@@ -296,9 +302,7 @@ export const SelectClient = function Select<
           className="h-0 absolute"
         />
       </Form.Control>
-      <Popover.Root
-        open={isOpen && (!loading || items.length > 0 || allowCreate)}
-      >
+      <Popover.Root open={isOpen}>
         <Popover.Anchor
           className={cn(
             inputClasses(variant, props),
@@ -316,7 +320,7 @@ export const SelectClient = function Select<
           </div>
           <Indicators {...context} />
         </Popover.Anchor>
-        <Popover.Portal container={container} forceMount>
+        <Popover.Portal container={container}>
           <Popover.Content
             className={cn(
               'z-interactive-ui w-[var(--radix-popover-trigger-width)] bg-white book-shadow flex flex-col',
