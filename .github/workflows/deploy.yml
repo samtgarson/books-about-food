@@ -152,6 +152,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      # This should be unneeded eventually
+      # https://github.com/BetaHuhn/deploy-to-vercel-action/issues/393
+      - name: Install CLI deps
+        run: npm install --global vercel@latest
       - name: Deploy production to Vercel
         id: vercel-deploy
         if: always()
