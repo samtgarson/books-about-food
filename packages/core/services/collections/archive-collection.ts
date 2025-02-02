@@ -23,11 +23,15 @@ export const archiveCollection = new AuthedService(
       )
     }
 
-    await prisma.collection.update({
-      where: { id },
-      data: { until: new Date() }
-    })
+    throw new AppError(
+      'ServerError',
+      'Archiving collections is not yet implemented'
+    )
+    // await prisma.collection.update({
+    //   where: { id },
+    //   data: { until: new Date() }
+    // })
 
-    return existing
+    // return existing
   }
 )

@@ -8,13 +8,14 @@ export const fetchCollections = new Service(
   z.object({
     publisherSlug: z.string().nullish().default(null),
     page: z.number().default(0),
-    perPage: z.number().default(12)
+    perPage: z.number().default(12),
+    publisherFeatured: z.boolean().default(false)
   }),
-  async function ({ publisherSlug, page, perPage } = {}) {
+  async function ({ publisherSlug, page, perPage, publisherFeatured } = {}) {
     const data = await prisma.collection.findMany({
       where: {
         publisher: publisherSlug ? { slug: publisherSlug } : null,
-        OR: [{ until: { gt: new Date() } }, { until: { equals: null } }]
+        publisherFeatured
       },
       orderBy: { createdAt: 'desc' },
       take: perPage === 0 ? undefined : perPage,

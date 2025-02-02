@@ -1,3 +1,4 @@
+import { fetchCollections } from '@books-about-food/core/services/collections/fetch-collections'
 import { fetchPublisher } from '@books-about-food/core/services/publishers/fetch-publisher'
 import { Metadata, ResolvedMetadata } from 'next'
 import Link from 'next/link'
@@ -15,6 +16,7 @@ import { EditPublisherProvider } from 'src/components/publishers/edit/context'
 import { Description } from 'src/components/publishers/edit/description'
 import { EditableLogo } from 'src/components/publishers/edit/editable-logo'
 import { LinkList } from 'src/components/publishers/edit/link-list'
+import { FeaturedCollection } from 'src/components/publishers/featured-collection'
 import { PageProps } from 'src/components/types'
 import { genMetadata, publisherTotal } from 'src/utils/metadata'
 import { call } from 'src/utils/service'
@@ -33,9 +35,8 @@ export async function generateMetadata(
 
   return genMetadata(`/publishers/${slug}`, await parent, {
     title: publisher.name,
-    description: `View cookbooks published by ${publisher.name} and ${
-      total - 1
-    } other publishers on Books About Food — the cookbook industry's new digital home.`,
+    description: `View cookbooks published by ${publisher.name} and ${total - 1
+      } other publishers on Books About Food — the cookbook industry's new digital home.`,
     openGraph: {
       images: [
         {
@@ -52,8 +53,13 @@ export async function generateMetadata(
 export { dynamic, dynamicParams, revalidate } from 'app/default-static-config'
 
 export default async ({ params: { slug } }: PublisherPageProps) => {
-  const [{ data: publisher }] = await Promise.all([
-    call(fetchPublisher, { slug })
+  const [{ data: publisher }, { data: [collection] = [] }] = await Promise.all([
+    call(fetchPublisher, { slug }),
+    call(fetchCollections, {
+      publisherSlug: slug,
+      perPage: 1,
+      publisherFeatured: true
+    })
   ])
   if (!publisher) return notFound()
 
@@ -66,6 +72,7 @@ export default async ({ params: { slug } }: PublisherPageProps) => {
           </h1>
           <ClaimPublisherButton />
         </div>
+        {collection && <FeaturedCollection collection={collection} />}
       </Container>
       <Container className="flex flex-row flex-wrap justify-between gap-12">
         <Description className="max-w-4xl sm:min-w-[650px] w-min flex-shrink flex-grow" />

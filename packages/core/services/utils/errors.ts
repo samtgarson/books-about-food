@@ -29,6 +29,8 @@ export class AppError extends Error {
 
     if (isPrismaError(e)) {
       switch (e.code) {
+        case 'P2025':
+          return new AppError('NotFound', e.message, e.meta?.target as string)
         case 'P2002':
           return new AppError(
             'UniqueConstraintViolation',
