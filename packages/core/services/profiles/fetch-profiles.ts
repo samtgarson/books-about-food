@@ -77,7 +77,7 @@ export const fetchProfiles = new Service(
       ]
     }
 
-    const orderBy: Prisma.ProfileOrderByWithRelationAndSearchRelevanceInput =
+    const orderBy: Prisma.ProfileOrderByWithRelationInput =
       sort === 'name'
         ? { name: 'asc' }
         : { mostRecentlyPublishedOn: { sort: 'desc', nulls: 'last' } }

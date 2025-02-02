@@ -37,7 +37,7 @@ export const GlobalSheetProvider = ({ children }: { children: ReactNode }) => {
         }
       }
     },
-    []
+    [track]
   )
 
   const closeSheet = useCallback(() => {

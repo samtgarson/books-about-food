@@ -1,9 +1,5 @@
 import { Collection } from '@books-about-food/core/models/collection'
 
-export async function FeaturedCollection({
-  collection
-}: {
-  collection: Collection
-}) {
+export async function FeaturedCollection(_: { collection: Collection }) {
   return null
 }
