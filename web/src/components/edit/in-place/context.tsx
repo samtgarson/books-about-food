@@ -9,6 +9,8 @@ import {
   useState
 } from 'react'
 import { errorToast, successToast } from 'src/components/utils/toaster'
+import { usePrevious } from 'src/hooks/use-previous'
+import { revalidate } from './action'
 
 export type EditInPlaceContext<
   Resource extends BaseModel,
@@ -54,6 +56,8 @@ export function EditInPlaceProvider<
 }) {
   const [resource, setResource] = useState(initialResource)
   const [editMode, setEditMode] = useState(false)
+  const [changed, setChanged] = useState(false)
+  const previousEditMode = usePrevious(editMode)
 
   useEffect(() => {
     if (!editMode) {
@@ -67,11 +71,19 @@ export function EditInPlaceProvider<
     }
   }, [editMode])
 
+  useEffect(() => {
+    if (!editMode && previousEditMode && changed) {
+      revalidate(resource.href)
+      setChanged(false)
+    }
+  }, [editMode, changed, resource.href, previousEditMode])
+
   const onSave = useCallback(
     async function (data: UpdateAttrs) {
       const result = await save(data)
 
       if (BaseModel.isModel(result)) {
+        setChanged(true)
         setResource(result)
         successToast('Updated successfully')
         return true
