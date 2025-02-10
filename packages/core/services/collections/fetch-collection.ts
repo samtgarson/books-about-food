@@ -8,7 +8,7 @@ export const fetchCollection = new Service(
   z.object({ slug: z.string().optional() }),
   async function ({ slug } = {}) {
     const data = await prisma.collection.findUniqueOrThrow({
-      where: { slug },
+      where: { slug, status: 'published' },
       include: collectionIncludes
     })
 

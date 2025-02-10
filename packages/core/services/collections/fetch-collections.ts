@@ -15,7 +15,8 @@ export const fetchCollections = new Service(
     const data = await prisma.collection.findMany({
       where: {
         publisher: publisherSlug ? { slug: publisherSlug } : null,
-        publisherFeatured
+        publisherFeatured,
+        status: 'published'
       },
       orderBy: { createdAt: 'desc' },
       take: perPage === 0 ? undefined : perPage,

@@ -5103,11 +5103,12 @@ export type Schema = {
       'collection:created_at': string;
       'collection:description': string;
       'collection:id': string;
+      'collection:publisher_featured': boolean;
       'collection:publisher_id': string;
       'collection:slug': string;
       'collection:Slug': string;
+      'collection:status': 'draft' | 'inReview' | 'published';
       'collection:title': string;
-      'collection:until': string;
       'collection:updated_at': string;
       'book:image:caption': string;
       'book:image:cover_for_id': string;
@@ -6130,11 +6131,12 @@ export type Schema = {
       'created_at': string;
       'description': string;
       'id': string;
+      'publisher_featured': boolean;
       'publisher_id': string;
       'slug': string;
       'Slug': string;
+      'status': 'draft' | 'inReview' | 'published';
       'title': string;
-      'until': string;
       'updated_at': string;
     };
     nested: {
