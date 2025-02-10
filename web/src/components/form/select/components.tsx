@@ -80,7 +80,7 @@ export function SelectedItems<
                 selectItem(value)
                 e.stopPropagation()
               }}
-              className="-mr-1"
+              className="p-2.5 -my-2 -mr-4 -ml-3 hover:bg-khaki rounded-full transition-colors"
               type="button"
             >
               <X strokeWidth={1} size={16} />
