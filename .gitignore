@@ -17,3 +17,6 @@ next-env.d.ts
 
 gmail-credentials.json
 gmail-token.json
+
+.open-next
+.dev.vars
