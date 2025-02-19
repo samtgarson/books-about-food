@@ -70,7 +70,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
-  profile        Profile?
+  profiles       Profile[]
   favourite      Favourite[]
   claims         Claim[]
   pitches        Pitch[]
@@ -116,7 +116,7 @@ model Profile {
   id                      String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt               DateTime  @default(now()) @map("created_at")
   updatedAt               DateTime  @default(now()) @updatedAt @map("updated_at")
-  userId                  String?   @unique @map("user_id") @db.Uuid
+  userId                  String?   @map("user_id") @db.Uuid
   name                    String
   location                String?
   website                 String?
