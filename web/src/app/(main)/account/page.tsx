@@ -1,5 +1,5 @@
 import { fetchAccounts } from '@books-about-food/core/services/auth/get-accounts'
-import { fetchProfile } from '@books-about-food/core/services/profiles/fetch-profile'
+import { fetchProfiles } from '@books-about-food/core/services/profiles/fetch-profiles'
 import { Suspense } from 'react'
 import { AccountForm } from 'src/components/accounts/account-form'
 import { AccountHeader } from 'src/components/accounts/header'
@@ -48,14 +48,17 @@ const Page = async () => {
 }
 
 async function ProfileSection({ userId }: { userId: string }) {
-  const { data: profile } = await call(fetchProfile, { userId })
-  if (!profile) return null
+  const { data } = await call(fetchProfiles, { userId })
+  const { profiles } = data ?? {}
+  if (!profiles?.length) return null
 
   return (
     <div className="flex flex-col gap-8">
-      <AccountHeader title="Your Claimed Profile" />
+      <AccountHeader title="Your Claimed Profiles" />
       <div className="relative max-w-xl">
-        <ProfileItem profile={profile} display="list" />
+        {profiles.map((profile) => (
+          <ProfileItem key={profile.id} profile={profile} display="list" />
+        ))}
         <ArrowUpRight
           strokeWidth={1}
           size={24}

@@ -33,6 +33,7 @@ export type FetchProfilesOutput = Awaited<
 export const fetchProfiles = new Service(
   z
     .object({
+      userId: z.string().optional(),
       sort: z.enum(['name', 'trending']).optional(),
       onlyAuthors: z.boolean().optional(),
       search: z.string().optional(),
@@ -44,6 +45,7 @@ export const fetchProfiles = new Service(
   async ({
     page = 0,
     perPage = 21,
+    userId,
     jobs,
     onlyAuthors,
     sort = 'name',
@@ -55,10 +57,12 @@ export const fetchProfiles = new Service(
     const hasSearch = (contains && contains.length > 0) || undefined
     const baseWhere = authorFilter(onlyAuthors)
     const hasJob = (jobs && jobs.length > 0) || undefined
+    const userIdFilter = userId ? { userId: userId } : {}
     const where: Prisma.ProfileWhereInput = {
       AND: [
         baseWhere,
         { name: { not: '' } },
+        userIdFilter,
         hasSearch
           ? {
               OR: [
