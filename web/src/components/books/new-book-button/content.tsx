@@ -20,8 +20,8 @@ export function NewBookForm() {
     <Form action={action} variant="bordered">
       <TitleSelect onChange={setValues} />
       {values?.title && <TitleFormContent book={book} />}
-      <input type="hidden" name="title" value={book.title} />
-      <input type="hidden" name="googleBooksId" value={googleBooksId} />
+      <input type="hidden" name="title" value={book.title ?? ''} />
+      <input type="hidden" name="googleBooksId" value={googleBooksId ?? ''} />
       <input type="hidden" name="cover" value={cover} />
       <Submit className="w-full">Save & continue</Submit>
     </Form>

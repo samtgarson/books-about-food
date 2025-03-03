@@ -105,7 +105,7 @@ export const Footer = ({
     <div
       className={cn(
         className,
-        'z-30 border-t transition-colors pt-3 sm:pt-4 -mt-3 sm:-mt-4',
+        'z-30 border-t transition-colors pt-3 sm:pt-4 -mt-3 sm:-mt-4 -mx-5 sm:-mx-8 px-5 sm:px-8',
         !scrollState.bottom ? 'border-neutral-grey' : 'border-transparent'
       )}
     >

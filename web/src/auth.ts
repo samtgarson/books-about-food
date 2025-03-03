@@ -25,6 +25,9 @@ export const {
       options: {},
       async sendVerificationRequest({ url, identifier: email }) {
         try {
+          if (process.env.NODE_ENV === 'development') {
+            console.log(`Sending verification email to ${email} at ${url}`)
+          }
           await inngest.send({
             name: 'jobs.email',
             data: { key: 'verifyEmail', props: { url, email } },

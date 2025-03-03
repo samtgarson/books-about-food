@@ -140,6 +140,7 @@ function ControlsBar({
     <div
       className={cn(
         'flex gap-4 justify-end z-30 border-b transition-colors pb-3 sm:pb-4 -mb-3 sm:-mb-4 items-center',
+        '-mx-5 sm:-mx-8 px-5 sm:px-8',
         !scrollState.top ? 'border-neutral-grey' : 'border-transparent',
         className
       )}
