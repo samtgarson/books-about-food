@@ -183,6 +183,7 @@ export function CreateButton<
   if (!showCreateButton(inputValue)) return null
   return (
     <button
+      type="button"
       className="px-5 py-4 text-left"
       onClick={async () => {
         await createOption(inputValue)

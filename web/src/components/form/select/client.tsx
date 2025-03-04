@@ -13,6 +13,7 @@ import {
   useRef,
   useState
 } from 'react'
+import { useVisualBoundary } from 'src/components/utils/visual-boundary'
 import { parse } from 'src/utils/superjson'
 import { useForm } from '../context'
 import { inputClasses } from '../input'
@@ -60,6 +61,7 @@ export const SelectClient = function Select<
 }: SelectProps<Value, Multi, ValueKey> & {
   fref?: ForwardedRef<SelectControl>
 }) {
+  const { ref: boundaryRef } = useVisualBoundary()
   const input = useRef<HTMLInputElement>(null)
   const searchInputRef = useRef<HTMLInputElement>(null)
   const { variant } = useForm()
@@ -74,10 +76,7 @@ export const SelectClient = function Select<
     typeof render === 'function' ? render : (value: Value) => value[render]
 
   const container =
-    typeof document !== 'undefined'
-      ? (document.querySelector('[data-sheet-portal]') as HTMLElement | null) ||
-        document.body
-      : undefined
+    document.querySelector('[data-sheet-anchor]') || document.body
   const showCreateButton = (val: string) => !!allowCreate && val.length > 0
 
   useImperativeHandle(ref, () => ({
@@ -277,15 +276,7 @@ export const SelectClient = function Select<
   }
 
   return (
-    <Form.Field
-      name={name}
-      className="flex flex-col gap-2"
-      onFocus={(e) => {
-        if (e.target === searchInputRef.current) return
-        if (e.target.tagName === 'BUTTON') return
-        searchInputRef.current?.click()
-      }}
-    >
+    <Form.Field name={name} className="flex flex-col gap-2">
       {label && (
         <Label required={props.required} {...getLabelProps()}>
           {label}
@@ -309,10 +300,6 @@ export const SelectClient = function Select<
             'flex min-h-14 overflow-hidden',
             multi && 'py-3 px-3'
           )}
-          onClick={() => {
-            if (document.activeElement === searchInputRef.current) return
-            searchInputRef.current?.click()
-          }}
         >
           <div className="flex flex-wrap gap-2 flex-1 relative min-h-6 overflow-hidden">
             <SelectedItems {...context} />
@@ -320,12 +307,13 @@ export const SelectClient = function Select<
           </div>
           <Indicators {...context} />
         </Popover.Anchor>
-        <Popover.Portal container={container} forceMount>
+        <Popover.Portal forceMount container={container as HTMLElement | null}>
           <Popover.Content
             forceMount
+            collisionBoundary={boundaryRef}
             className={cn(
               'z-interactive-ui w-[var(--radix-popover-trigger-width)] bg-white book-shadow flex flex-col',
-              'h-0 opacity-0 data-[state=open]:transition-all duration-100 pointer-events-none data-[state=open]:pointer-events-auto data-[state=open]:h-fit data-[state=open]:opacity-100'
+              'h-0 opacity-0 data-[state=open]:transition-all duration-100 data-[state=closed]:!pointer-events-none data-[state=open]:h-fit data-[state=open]:opacity-100'
             )}
             {...getMenuProps({
               onOpenAutoFocus: (e) => e.preventDefault(),
@@ -334,7 +322,7 @@ export const SelectClient = function Select<
                 maxHeight:
                   itemHeight &&
                   `min(300px, max(${
-                    Math.min(2, items.length) * itemHeight
+                    Math.min(2.5, items.length) * itemHeight
                   }px, calc(var(--radix-popover-content-available-height)) - 8px))`
               }
             })}

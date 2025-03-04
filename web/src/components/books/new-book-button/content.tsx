@@ -3,7 +3,6 @@ import { TitleSelectChangeAttrs } from 'src/components/edit/books/forms/title/ac
 import { TitleFormContent } from 'src/components/edit/books/forms/title/form-content'
 import { TitleSelect } from 'src/components/edit/books/forms/title/title-select'
 import { Form } from 'src/components/form'
-import { Submit } from 'src/components/form/submit'
 import { action } from './action'
 
 export function NewBookForm() {
@@ -19,11 +18,10 @@ export function NewBookForm() {
   return (
     <Form action={action} variant="bordered">
       <TitleSelect onChange={setValues} />
-      {values?.title && <TitleFormContent book={book} />}
       <input type="hidden" name="title" value={book.title ?? ''} />
       <input type="hidden" name="googleBooksId" value={googleBooksId ?? ''} />
       <input type="hidden" name="cover" value={cover} />
-      <Submit className="w-full">Save & continue</Submit>
+      {values?.title && <TitleFormContent book={book} />}
     </Form>
   )
 }

@@ -80,6 +80,7 @@ export function Content({
           )}
           aria-describedby={undefined}
           style={{ '--max-height': `${viewport.height}px` } as CSSProperties}
+          data-sheet-anchor
         >
           {showCloseButton && (
             <ControlsBar {...props} className={cn(wide && 'px-5')} />

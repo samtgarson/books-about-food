@@ -2,6 +2,7 @@ import { FullBook } from '@books-about-food/core/models/full-book'
 import { ContactLink } from 'src/components/atoms/contact-link'
 import { Input } from 'src/components/form/input'
 import { ProfileSelect } from 'src/components/form/profile-select'
+import { Submit } from 'src/components/form/submit'
 import { TagSelect } from './tag-select'
 
 export type TitleFormContentProps = Partial<
@@ -23,6 +24,7 @@ export function TitleFormContent({ book }: { book?: TitleFormContentProps }) {
         Note: If the tag you would like to add isn’t listed, please{' '}
         <ContactLink subject="I need a new tag">get in touch</ContactLink>.
       </p>
+      <Submit className="w-full">Save & continue</Submit>
     </>
   )
 }
