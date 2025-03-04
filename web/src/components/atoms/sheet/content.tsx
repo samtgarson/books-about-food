@@ -1,10 +1,11 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import cn from 'classnames'
 import { useSession } from 'next-auth/react'
-import { ReactNode, useEffect, useMemo } from 'react'
+import { CSSProperties, ReactNode, useEffect, useMemo } from 'react'
 import { X } from 'src/components/atoms/icons'
 import { useSheet } from 'src/components/sheets/global-sheet'
 import type { SheetMap } from 'src/components/sheets/types'
+import { useVisualViewport } from 'src/hooks/use-visual-viewport'
 import { Loader } from '../loader'
 import { Body, SheetType, Title } from './body'
 import { useSheetContext } from './context'
@@ -35,6 +36,7 @@ export function Content({
   ...props
 }: SheetContentProps) {
   const { close } = useSheetContext()
+  const viewport = useVisualViewport()
 
   return (
     <Dialog.Portal container={container}>
@@ -67,7 +69,7 @@ export function Content({
               'sm:max-w-lg': size === 'md',
               'sm:max-w-xl': size === 'lg',
               'sm:max-w-[90vw]': size === 'xl',
-              'max-h-[calc(100dvh)] sm:max-h-[75dvh] sm:short:max-h-[80dvh] animate-fade-slide-in sheet-dialog':
+              'max-h-[min(var(--max-height),100dvh)] sm:max-h-[min(var(--max-height),75dvh)] sm:short:max-h-[min(var(--max-height),80dvh)] animate-fade-slide-in sheet-dialog':
                 type === 'dialog',
               'sheet-drawer p-3 animate-drawer-enter rounded-lg m-3':
                 type === 'drawer'
@@ -77,7 +79,7 @@ export function Content({
             className
           )}
           aria-describedby={undefined}
-          data-sheet-portal
+          style={{ '--max-height': `${viewport.height}px` } as CSSProperties}
         >
           {showCloseButton && (
             <ControlsBar {...props} className={cn(wide && 'px-5')} />
