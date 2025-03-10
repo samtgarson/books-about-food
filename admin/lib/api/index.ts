@@ -13,12 +13,16 @@ const secret = process.env.FOREST_AUTH_SECRET
 if (!secret) throw new Error('Missing FOREST_AUTH_SECRET')
 const serveHost =
   process.env.NODE_ENV === 'production'
-    ? 'https://admin.booksaboutfood.info'
+    ? 'https://admin.booksabout.food'
     : 'http://localhost:5001'
 
 export const apiRouter = new Router({ prefix: '/api' })
 apiRouter.use(logger)
 apiRouter.use(bodyParser())
+
+apiRouter.get('/ping', (ctx) => {
+  ctx.body = 'pong'
+})
 
 apiRouter.all('/inngest', serve({ client: inngest, functions, serveHost }))
 
