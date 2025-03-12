@@ -1,4 +1,5 @@
 import prisma from '@books-about-food/database'
+import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { imageUrl } from '@books-about-food/shared/utils/image-url'
 import { slugify } from '@books-about-food/shared/utils/slugify'
 import { CollectionCustomizer } from '@forestadmin/agent'
@@ -108,9 +109,7 @@ export const customiseProfiles = (
     scope: 'Single',
     execute: async (context, result) => {
       const { slug } = await context.getRecord(['slug'])
-      return result.redirectTo(
-        `https://books-about-food-web.vercel.app/people/${slug}`
-      )
+      return result.redirectTo(appUrl(`/people/${slug}`))
     }
   })
 
