@@ -3,6 +3,7 @@ import { ContactLink } from 'src/components/atoms/contact-link'
 import { Input } from 'src/components/form/input'
 import { ProfileSelect } from 'src/components/form/profile-select'
 import { TagSelect } from './tag-select'
+import { Wrap } from 'src/components/utils/wrap'
 
 export type TitleFormContentProps = Partial<
   Pick<FullBook, 'title' | 'subtitle' | 'authors' | 'tags'>
@@ -11,10 +12,9 @@ export function TitleFormContent({ book }: { book?: TitleFormContentProps }) {
   return (
     <>
       <Input label="Subtitle" defaultValue={book?.subtitle} name="subtitle" />
-      <ProfileSelect
+      <Wrap c={ProfileSelect}
         multi={true}
         value={book?.authors ?? []}
-        data-superjson
         label="Author(s)"
         name="authorIds"
       />

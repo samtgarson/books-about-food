@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { ReactNode, RefObject, createContext, useContext, useRef } from 'react'
 import { ParamLink } from 'src/components/atoms/param-link'
 
-type PaginationContext = { ref: RefObject<HTMLDivElement> }
+type PaginationContext = { ref: RefObject<HTMLDivElement | null> }
 const PaginationContext = createContext({} as PaginationContext)
 
 export const Wrapper = ({ children }: { children: ReactNode }) => {

@@ -11,6 +11,7 @@ import { HomepageModule } from 'src/components/home/module'
 import { USP } from 'src/components/home/usp'
 import { FeaturedJobsList } from 'src/components/jobs/featured-jobs-list'
 import { ProfileCarousel } from 'src/components/profiles/profile-carousel'
+import { Wrap } from 'src/components/utils/wrap'
 import { call } from 'src/utils/service'
 
 // const EditFeatureCarouselDialog = dynamic(
@@ -36,11 +37,11 @@ async function Page() {
     <>
       {features && (
         <div className="bg-white relative">
-          <FeatureCarousel
+          <Wrap
+            c={FeatureCarousel}
             features={features}
             title
             faces
-            data-superjson
             className="h-[90vh] max-h-[800px] overflow-y-hidden"
           />
         </div>
@@ -74,13 +75,12 @@ async function HomepageContent() {
             title="Coming Soon"
             action={{ href: '/cookbooks', label: 'View More' }}
           >
-            <ItemCarousel
+            <Wrap c={ItemCarousel}
               items={home.comingSoon}
               size="xl"
               className="-mx-8 lg:-mx-12 lg:pt-10 lg:pb-6 xl:-mx-16"
               centered
               startOn={1}
-              data-superjson
             />
           </HomepageModule>
           <HomepageModule
@@ -88,22 +88,20 @@ async function HomepageContent() {
             action={{ href: '/authors', label: 'View More' }}
             className="bg-khaki"
           >
-            <ProfileCarousel
+            <Wrap c={ProfileCarousel}
               items={home.authors}
-              data-superjson
               className="-mx-8 py-12 lg:-mx-12 lg:pb-16 lg:pt-[93px] xl:-mx-16"
             />
           </HomepageModule>
         </div>
         <USP />
-        <ItemCarousel
+        <Wrap c={ItemCarousel}
           items={home.newlyAdded}
           title="On The Pass"
           size="lg"
           readMoreLink="/cookbooks"
           className="pt-12 md:pt-20"
           colorful
-          data-superjson
         />
       </Container>
       <Container className="flex flex-col gap-24 py-12 md:gap-40 md:py-20">

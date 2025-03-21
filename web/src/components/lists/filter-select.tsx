@@ -1,8 +1,8 @@
 'use client'
 
-import * as Checkbox from '@radix-ui/react-checkbox'
 import cn from 'classnames'
 import { motion } from 'framer-motion'
+import { Checkbox } from 'radix-ui'
 import { useCallback, useMemo, useState } from 'react'
 import { Check } from 'src/components/atoms/icons'
 import { usePromise } from 'src/hooks/use-promise'
@@ -11,8 +11,8 @@ import { Search } from './search'
 
 type BaseFilterSelectProps<Value> = {
   options:
-    | { label: string; value: Value }[]
-    | (() => Promise<{ label: string; value: Value }[]>)
+  | { label: string; value: Value }[]
+  | (() => Promise<{ label: string; value: Value }[]>)
   placeholder: string
   search?: boolean
   param: string

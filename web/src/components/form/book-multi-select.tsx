@@ -1,8 +1,8 @@
 'use client'
 
 import { BookResult } from '@books-about-food/core/models/types'
-import * as Form from '@radix-ui/react-form'
 import { AnimatePresence, Reorder } from 'framer-motion'
+import { Form } from 'radix-ui'
 import { useRef, useState } from 'react'
 import { Menu, X } from 'src/components/atoms/icons'
 import { Stringified } from 'src/utils/superjson'

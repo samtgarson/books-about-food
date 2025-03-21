@@ -11,7 +11,8 @@ import { PageProps } from 'src/components/types'
 
 type Hsl = { h: number; s: number; l: number; label?: string }
 
-export default async function ColorTest({ searchParams }: PageProps) {
+export default async function ColorTest(props: PageProps) {
+  const searchParams = await props.searchParams
   const page = Number(searchParams.page ?? 0)
   const books = await prisma.book.findMany({
     skip: page * 15,

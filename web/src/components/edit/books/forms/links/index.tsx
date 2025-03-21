@@ -8,6 +8,7 @@ import SuperJSON from 'superjson'
 import { z } from 'zod'
 import { EditForm } from '../form'
 import { LinksSelect } from './links-select'
+import { Wrap } from 'src/components/utils/wrap'
 
 const schema = z.object({
   links: z
@@ -39,7 +40,7 @@ export const EditLinksForm = async ({ book }: { book: FullBook }) => {
       }}
     >
       <PageSubtitle>Links</PageSubtitle>
-      <LinksSelect book={book} data-superjson />
+      <Wrap c={LinksSelect} book={book} />
       <Submit>Save and Continue</Submit>
     </EditForm>
   )

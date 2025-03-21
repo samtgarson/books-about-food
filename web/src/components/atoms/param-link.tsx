@@ -1,7 +1,7 @@
 'use client'
 
 import { usePathname, useSearchParams } from 'next/navigation'
-import { Children, Suspense, cloneElement } from 'react'
+import { Children, Suspense, cloneElement, type JSX } from 'react'
 import { mergeParams } from 'src/utils/url-helpers'
 
 export type ParamLinkParams = Record<string, unknown | undefined | null> & {

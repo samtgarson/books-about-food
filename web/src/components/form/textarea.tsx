@@ -1,7 +1,7 @@
 'use client'
 
-import * as Form from '@radix-ui/react-form'
 import cn from 'classnames'
+import { Form } from 'radix-ui'
 import { useForm } from './context'
 import { InputProps, useRequired } from './input-props'
 import { Label } from './label'

@@ -9,10 +9,10 @@ export function transformKeys<T extends Record<string, unknown>>(
       Array.isArray(value)
         ? value.map((v) => transformKeys(v, fn))
         : typeof value === 'object' &&
-          value !== null &&
-          !(value instanceof Date)
-        ? transformKeys(value as Record<string, unknown>, fn)
-        : value
+            value !== null &&
+            !(value instanceof Date)
+          ? transformKeys(value as Record<string, unknown>, fn)
+          : value
     ])
   ) as T
 }

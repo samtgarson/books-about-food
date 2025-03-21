@@ -25,9 +25,8 @@ const errors: Record<SignInErrorTypes, string> = {
   default: 'Unable to sign in.'
 }
 
-export default async function SignInPage({
-  searchParams
-}: PageProps<{ slug: string }>) {
+export default async function SignInPage(props: PageProps) {
+  const searchParams = await props.searchParams
   const { callbackUrl = '/', error } = searchParams ?? {}
 
   return (

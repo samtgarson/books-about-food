@@ -23,7 +23,7 @@ export const GlobalSheetProvider = ({ children }: { children: ReactNode }) => {
   const { track } = useTracking()
   const [state, setSheet] = useState<SheetState | null>(null)
   const { Component, props } = state || {}
-  const onCloseHandler = useRef<() => void>()
+  const onCloseHandler = useRef<() => void>(undefined)
 
   const openSheet = useCallback<GlobalSheetContext['openSheet']>(
     async (...[key, props]) => {

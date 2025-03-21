@@ -1,7 +1,7 @@
 'use client'
 
-import * as Form from '@radix-ui/react-form'
 import cn from 'classnames'
+import { Form } from 'radix-ui'
 import { ComponentPropsWithoutRef, ReactNode } from 'react'
 
 export function Label({

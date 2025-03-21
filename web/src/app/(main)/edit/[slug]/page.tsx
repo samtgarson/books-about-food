@@ -10,15 +10,13 @@ import { StatusTag } from 'src/components/books/status-tag'
 import { EditNotes } from 'src/components/edit/books/notes'
 import { Steps } from 'src/components/edit/books/steps'
 import { ParamSheet } from 'src/components/sheets/use-param-sheet'
+import { slugPage } from 'src/components/types'
 import { Toaster } from 'src/components/utils/toaster'
+import { Wrap } from 'src/components/utils/wrap'
 import { call } from 'src/utils/service'
 import { getSessionUser } from 'src/utils/user'
 
-type EditPageProps = {
-  params: { slug: string }
-}
-
-export default async function Page({ params: { slug } }: EditPageProps) {
+export default slugPage(async function EditBook(slug) {
   const { data: book } = await call(fetchBook, { slug })
   const currentUser = await getSessionUser()
 
@@ -62,15 +60,14 @@ export default async function Page({ params: { slug } }: EditPageProps) {
         <EditNotes status={book.status} />
         {book.status === 'published' && (
           <div className="flex flex-wrap gap-2">
-            <SheetButton
+            <Wrap c={SheetButton}
               className="grow"
               sheet="suggestEdit"
               props={{ resource: book }}
-              data-superjson
             >
               <Edit2 strokeWidth={1} />
               Suggest an Edit
-            </SheetButton>
+            </Wrap>
             <Button className="grow" href={book.href}>
               <Eye strokeWidth={1} /> View Your Cookbook
             </Button>
@@ -92,4 +89,4 @@ export default async function Page({ params: { slug } }: EditPageProps) {
       </div>
     </>
   )
-}
+})

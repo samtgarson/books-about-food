@@ -10,6 +10,7 @@ import { TopTenGrid } from './grid'
 import logo from './logo.svg'
 import desktop from './top-ten-desktop.svg'
 import mobile from './top-ten-mobile.svg'
+import { Wrap } from 'src/components/utils/wrap'
 
 export const metadata = genMetadata('/top-ten/2024', null, {
   title: "2024's Top Ten",
@@ -21,7 +22,8 @@ export const metadata = genMetadata('/top-ten/2024', null, {
   }
 })
 
-export default async function TopTen2024({ searchParams }: PageProps) {
+export default async function TopTen2024(props: PageProps) {
+  const searchParams = await props.searchParams
   const autoSubmit = searchParams.submit === 'true'
 
   return (
@@ -74,8 +76,7 @@ async function Content({ autoSubmit }: { autoSubmit?: boolean }) {
   if (!data?.books.length) return redirect('/')
 
   return (
-    <TopTenGrid
-      data-superjson
+    <Wrap c={TopTenGrid}
       books={data.books}
       existingVotes={votes}
       autoSubmit={autoSubmit}

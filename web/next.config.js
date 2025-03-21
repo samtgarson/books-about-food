@@ -3,12 +3,13 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true'
 })
 
+
 const imagesConfig =
   process.env.NODE_ENV === 'production'
     ? {
-        loader: 'custom',
-        loaderFile: './src/lib/cloudflare/image-loader.ts'
-      }
+      loader: 'custom',
+      loaderFile: './src/lib/cloudflare/image-loader.ts'
+    }
     : { unoptimized: true }
 
 /** @type {import('next').NextConfig} */
@@ -17,13 +18,12 @@ const nextConfig = {
   env: {
     S3_DOMAIN: process.env.S3_DOMAIN
   },
+  serverExternalPackages: ['mjml', 'sharp', '@sparticuz/chromium'],
   experimental: {
-    swcPlugins: [['next-superjson-plugin', {}]],
+    // swcPlugins: [['next-superjson-plugin', {}]],
     serverActions: {
       bodySizeLimit: '4mb'
-    },
-    serverComponentsExternalPackages: ['mjml', 'sharp', '@sparticuz/chromium'],
-    instrumentationHook: true
+    }
   },
   transpilePackages: ['shared', 'database', 'email', 'core'],
   images: Object.assign(imagesConfig, {

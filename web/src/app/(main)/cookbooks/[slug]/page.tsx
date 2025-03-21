@@ -24,11 +24,10 @@ import { SimilarBooks } from 'src/components/books/similar-books'
 import { TagList } from 'src/components/books/tag-list'
 import { TeamList } from 'src/components/books/team-list'
 import { ProfileListSection } from 'src/components/profiles/list-section'
-import { PageProps } from 'src/components/types'
+import { slugPage, SlugProps } from 'src/components/types'
+import { Wrap } from 'src/components/utils/wrap'
 import { bookTotal, genMetadata } from 'src/utils/metadata'
 import { call } from 'src/utils/service'
-
-export type CookbooksPageProps = PageProps<{ slug: string }>
 
 export { dynamic, dynamicParams, revalidate } from 'app/default-static-config'
 
@@ -46,9 +45,7 @@ export async function generateStaticParams() {
   )
 }
 
-export default async function CookbookPage({
-  params: { slug }
-}: CookbooksPageProps) {
+export default slugPage(async function CookbookPage(slug) {
   const { data: book } = await call(fetchBook, { slug, onlyPublished: true })
   if (!book) notFound()
 
@@ -63,7 +60,7 @@ export default async function CookbookPage({
             )}
           >
             <h1>{book.title}</h1>
-            <BookOverflow book={book} className="ml-auto" data-superjson />
+            <Wrap c={BookOverflow} book={book} className="ml-auto" />
           </div>
           {book.subtitle ? (
             <Detail>{book.subtitle}</Detail>
@@ -73,8 +70,7 @@ export default async function CookbookPage({
         </div>
         <AntiContainer className="border-t border-black sm:border-t-0 md:-mt-8">
           <div className="flex flex-col lg:absolute lg:-bottom-20 lg:right-0 lg:top-0 lg:w-[50vw]">
-            <CoverCarousel
-              data-superjson
+            <Wrap c={CoverCarousel}
               book={book}
               className="lg:sticky lg:top-0 lg:-mt-16 lg:flex lg:h-full lg:max-h-screen lg:items-stretch lg:pt-16"
             />
@@ -102,7 +98,7 @@ export default async function CookbookPage({
             {book.team.length > 0 && (
               <TeamList contributions={book.contributions} />
             )}
-            <CorrectionButton book={book} data-superjson />
+            <Wrap c={CorrectionButton} book={book} />
           </Container>
         </AntiContainer>
         {book.blurb && (
@@ -183,12 +179,13 @@ export default async function CookbookPage({
       )}
     </div>
   )
-}
+})
 
 export async function generateMetadata(
-  { params: { slug } }: CookbooksPageProps,
+  props: SlugProps,
   parent: Promise<ResolvedMetadata>
 ): Promise<Metadata> {
+  const { slug } = await props.params
   const [{ data: book }, count] = await Promise.all([
     call(fetchBook, { slug, onlyPublished: true }),
     bookTotal
@@ -197,9 +194,8 @@ export async function generateMetadata(
 
   return genMetadata(`/cookbooks/${book.slug}`, await parent, {
     title: book.title,
-    description: `View the ${book.title} cookbook and ${
-      count - 1
-    } other curated cookbooks on Books About Food — the cookbook industry’s new digital home.`,
+    description: `View the ${book.title} cookbook and ${count - 1
+      } other curated cookbooks on Books About Food — the cookbook industry’s new digital home.`,
     openGraph: {
       type: 'book',
       releaseDate: book.isoReleaseDate,

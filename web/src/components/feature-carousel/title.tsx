@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import format from 'date-fns/format'
+import { format } from 'date-fns'
 import { useEffect } from 'react'
 import { mouseAttrs } from '../atoms/mouse'
 import { useNav } from '../nav/context'

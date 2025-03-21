@@ -8,10 +8,9 @@ import { call } from 'src/utils/service'
 
 type CollectionPageProps = PageProps<{ slug: string }>
 
-export async function GET(
-  _request: NextRequest,
-  { params: { slug } }: CollectionPageProps
-) {
+export async function GET(_request: NextRequest, props: CollectionPageProps) {
+  const { slug } = await props.params
+
   const { data: collection } = await call(fetchCollection, { slug })
   if (!collection) notFound()
 

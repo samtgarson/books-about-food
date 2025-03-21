@@ -17,16 +17,17 @@ import { Description } from 'src/components/publishers/edit/description'
 import { EditableLogo } from 'src/components/publishers/edit/editable-logo'
 import { LinkList } from 'src/components/publishers/edit/link-list'
 import { FeaturedCollection } from 'src/components/publishers/featured-collection'
-import { PageProps } from 'src/components/types'
+import { slugPage, SlugProps } from 'src/components/types'
+import { Wrap } from 'src/components/utils/wrap'
 import { genMetadata, publisherTotal } from 'src/utils/metadata'
 import { call } from 'src/utils/service'
 
-type PublisherPageProps = PageProps<{ slug: string }>
-
 export async function generateMetadata(
-  { params: { slug } }: PublisherPageProps,
+  props: SlugProps,
   parent: Promise<ResolvedMetadata>
 ): Promise<Metadata> {
+  const { slug } = await props.params
+
   const [{ data: publisher }, total] = await Promise.all([
     call(fetchPublisher, { slug }),
     publisherTotal
@@ -52,7 +53,7 @@ export async function generateMetadata(
 
 export { dynamic, dynamicParams, revalidate } from 'app/default-static-config'
 
-export default async ({ params: { slug } }: PublisherPageProps) => {
+export default slugPage(async function PublisherPage(slug) {
   const [{ data: publisher }, { data: [collection] = [] }] = await Promise.all([
     call(fetchPublisher, { slug }),
     call(fetchCollections, {
@@ -64,7 +65,7 @@ export default async ({ params: { slug } }: PublisherPageProps) => {
   if (!publisher) return notFound()
 
   return (
-    <EditPublisherProvider publisher={publisher} data-superjson>
+    <Wrap c={EditPublisherProvider} publisher={publisher}>
       <Container belowNav>
         <div className="font-style-title flex items-center justify-between py-14">
           <h1 title={publisher.name}>
@@ -109,6 +110,6 @@ export default async ({ params: { slug } }: PublisherPageProps) => {
           <PublisherBookList publisher={publisher} />
         </Suspense>
       </Container>
-    </EditPublisherProvider>
+    </Wrap>
   )
-}
+})

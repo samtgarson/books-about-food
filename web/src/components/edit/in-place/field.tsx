@@ -1,7 +1,16 @@
 'use client'
 
 import cn from 'classnames'
-import { JSX, MouseEvent, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  JSX,
+  KeyboardEvent,
+  MouseEvent,
+  RefObject,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from 'react'
 import ContentEditable from 'react-contenteditable'
 import { Detail } from 'src/components/atoms/detail'
 import { Edit2 } from 'src/components/atoms/icons'
@@ -30,7 +39,7 @@ export function InPlaceField({
   disabled
 }: InPlaceFieldProps) {
   const value = useRef(extValue ?? '')
-  const ref = useRef<HTMLElement>(null)
+  const ref = useRef<HTMLElement>(undefined)
   const [showPlaceholder, setShowPlaceholder] = useState(!extValue?.length)
   const originalValue = useMemo(() => extValue || '', [extValue])
 
@@ -71,14 +80,14 @@ export function InPlaceField({
           <div className="relative">
             {(editMode || !render) && (
               <ContentEditable
-                innerRef={ref}
+                innerRef={ref as RefObject<HTMLDivElement>}
                 html={value.current}
                 tagName={as}
                 disabled={!editMode || disabled}
-                onKeyDown={(e) => {
+                onKeyDown={(e: KeyboardEvent) => {
                   if (e.key === 'Enter') {
                     e.preventDefault()
-                    e.currentTarget.blur()
+                      ; (e.currentTarget as HTMLElement).blur()
                   }
                 }}
                 onChange={(e) => {

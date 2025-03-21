@@ -1,4 +1,1 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
 COMMIT_FILE="$1" npx ts-node ./bin/commit-prefix.js

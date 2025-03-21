@@ -25,15 +25,13 @@ import {
   InvitesOverflow,
   MembershipsOverflow
 } from 'src/components/memberships/overflows'
-import { PageProps } from 'src/components/types'
+import { slugPage } from 'src/components/types'
 import { Toaster } from 'src/components/utils/toaster'
 import { pick } from 'src/utils/object-helpers'
 import { call } from 'src/utils/service'
 import { getSessionUser } from 'src/utils/user'
 
-export default async function AccountPublisherPage({
-  params: { slug }
-}: PageProps<{ slug: string }>) {
+export default slugPage(async function AccountPublisherPage(slug) {
   const [
     { data: publisher },
     { data: memberships = [] },
@@ -78,7 +76,7 @@ export default async function AccountPublisherPage({
       )}
     </div>
   )
-}
+})
 
 function Memberships({
   publisher,
@@ -99,8 +97,8 @@ function Memberships({
             className={cn(
               'flex gap-4 py-4 items-center border-b border-neutral-grey',
               user.is(currentUser) &&
-                can(currentUser, publisher).update &&
-                'pr-10'
+              can(currentUser, publisher).update &&
+              'pr-10'
             )}
           >
             <BaseAvatar

@@ -1,10 +1,10 @@
 'use client'
 
-import * as Dialog from '@radix-ui/react-dialog'
 import cn from 'classnames'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
+import { Dialog } from 'radix-ui'
 import { FC, useState } from 'react'
 import { Menu, Plus, Settings, User, X } from 'src/components/atoms/icons'
 import { useCurrentUser } from 'src/hooks/use-current-user'

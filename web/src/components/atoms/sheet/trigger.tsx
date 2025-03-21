@@ -1,5 +1,5 @@
-import * as Dialog from '@radix-ui/react-dialog'
 import cn from 'classnames'
+import { Dialog } from 'radix-ui'
 import { FC, ReactNode } from 'react'
 import { useSheetContext } from './context'
 

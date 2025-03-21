@@ -1,7 +1,7 @@
 'use client'
 
-import { Root } from '@radix-ui/react-form'
 import cn from 'classnames'
+import { Form as RForm } from 'radix-ui'
 import {
   ComponentProps,
   ReactNode,
@@ -18,7 +18,7 @@ export type FormAction<S = Record<string, unknown>> = (
 ) => Promise<FormErrors | void>
 
 export interface FormProps<T extends z.ZodTypeAny | undefined = undefined>
-  extends Omit<ComponentProps<typeof Root>, 'action'> {
+  extends Omit<ComponentProps<typeof RForm.Root>, 'action'> {
   action?: T extends z.ZodTypeAny ? FormAction<z.infer<T>> : FormAction
   naked?: boolean
   successMessage?: ReactNode
@@ -60,8 +60,6 @@ export function Form<T extends z.ZodTypeAny | undefined = undefined>({
         formRef.current?.reset()
         if (!autoSubmit) setSuccess(true)
       }
-
-      return !errors
     },
     [action, schema, autoSubmit]
   )
@@ -97,7 +95,7 @@ export function Form<T extends z.ZodTypeAny | undefined = undefined>({
 
   return (
     <FormContext.Provider value={{ state, errors, variant, setErrors }}>
-      <Root
+      <RForm.Root
         {...props}
         ref={formRef}
         action={typeof action === 'string' ? action : wrappedAction}
@@ -109,7 +107,7 @@ export function Form<T extends z.ZodTypeAny | undefined = undefined>({
       >
         {errors?.BASE && <p>{errors.BASE.message}</p>}
         {success && successMessage ? successMessage : children}
-      </Root>
+      </RForm.Root>
     </FormContext.Provider>
   )
 }

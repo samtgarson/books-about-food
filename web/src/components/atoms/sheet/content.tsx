@@ -1,6 +1,6 @@
-import * as Dialog from '@radix-ui/react-dialog'
 import cn from 'classnames'
 import { useSession } from 'next-auth/react'
+import { Dialog } from 'radix-ui'
 import { CSSProperties, ReactNode, useEffect, useMemo } from 'react'
 import { X } from 'src/components/atoms/icons'
 import { useSheet } from 'src/components/sheets/global-sheet'

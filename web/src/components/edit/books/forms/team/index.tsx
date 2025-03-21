@@ -8,6 +8,7 @@ import SuperJSON from 'superjson'
 import { z } from 'zod'
 import { EditForm } from '../form'
 import { TeamSelect } from './team-select'
+import { Wrap } from 'src/components/utils/wrap'
 
 const schema = z.object({
   contributors: z
@@ -34,7 +35,7 @@ export const EditTeamForm = async ({ book }: { book: FullBook }) => {
     >
       <PageSubtitle>Team</PageSubtitle>
       <p>Please add at least one person who worked on this project.</p>
-      <TeamSelect book={book} data-superjson />
+      <Wrap c={TeamSelect} book={book} />
       <Submit>Save and Continue</Submit>
     </EditForm>
   )

@@ -1,7 +1,7 @@
 'use client'
 
-import * as Accordion from '@radix-ui/react-accordion'
 import cn from 'classnames'
+import { Accordion } from 'radix-ui'
 import { ReactNode } from 'react'
 import { ChevronDown } from 'src/components/atoms/icons'
 

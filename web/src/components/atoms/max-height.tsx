@@ -5,9 +5,11 @@ import {
   Children,
   cloneElement,
   ComponentProps,
+  RefObject,
   useCallback,
   useRef,
-  useState
+  useState,
+  type JSX
 } from 'react'
 import { Minus, Plus } from 'src/components/atoms/icons'
 import { useResizeObserver } from 'usehooks-ts'
@@ -19,12 +21,12 @@ export function MaxHeight({
   className,
   ...props
 }: Omit<ComponentProps<'div'>, 'children'> & { children: JSX.Element }) {
-  const innerRef = useRef<HTMLDivElement>(null)
+  const innerRef = useRef<HTMLElement>(undefined)
   const [innerHeight, setInnerHeight] = useState<number | null>(null)
   const [maxHeight, setMaxHeight] = useState<number | 'none'>(CLOSED_HEIGHT)
 
   useResizeObserver({
-    ref: innerRef,
+    ref: innerRef as RefObject<HTMLDivElement>,
     onResize: ({ height }) => {
       setInnerHeight(height || null)
       maxHeight !== CLOSED_HEIGHT && setMaxHeight(height || 'none')
@@ -51,8 +53,8 @@ export function MaxHeight({
       className={cn(
         'overflow-y-hidden transition-all duration-150 will-change-contents sm:!max-h-none flex gap-4 items-start',
         !open &&
-          !disabled &&
-          'mobile-only:[mask-image:linear-gradient(to_top,transparent,white)]',
+        !disabled &&
+        'mobile-only:[mask-image:linear-gradient(to_top,transparent,white)]',
         className
       )}
       {...props}

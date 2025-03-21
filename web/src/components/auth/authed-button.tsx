@@ -10,7 +10,7 @@ import { SignInSheetProps } from '../sheets/sign-in'
 import { useTracking } from '../tracking/context'
 
 export type AuthedButtonProps = {
-  children: ReactElement
+  children: ReactElement<any> // eslint-disable-line @typescript-eslint/no-explicit-any
   hidden?: 'authed' | 'unauthed'
   source: string
 } & SignInSheetProps

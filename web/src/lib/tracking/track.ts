@@ -1,7 +1,8 @@
 'use server'
-
 import { cookies, headers } from 'next/headers'
 import { NextRequest, NextResponse, userAgent } from 'next/server'
+
+import { ipAddress } from '@vercel/functions'
 
 import { ResponseCookies } from 'next/dist/compiled/@edge-runtime/cookies'
 import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies'
@@ -56,13 +57,13 @@ export async function track<T extends keyof TrackableEvents>(
   // to the user.
 
   const sessionId =
-    getSessionId(req?.cookies) ||
-    (userId ? undefined : generateAnonymousId(res?.cookies))
+    (await getSessionId(req?.cookies)) ||
+    (userId ? undefined : await generateAnonymousId(res?.cookies))
 
   const body = {
     event,
     properties: {
-      ...getCommonProperties(req),
+      ...(await getCommonProperties(req)),
       ...properties,
       $device_id: sessionId,
       $user_id: userId,
@@ -79,12 +80,15 @@ export async function track<T extends keyof TrackableEvents>(
   // If we have both a session ID and a user ID, it means we've just linked an anonymous
   // session to a user. We should clear the session ID cookie.
 
-  if (userId && sessionId && sessionId !== userId) clearSessionId(req?.cookies)
+  if (userId && sessionId && sessionId !== userId)
+    await clearSessionId(req?.cookies)
 }
 
-function getCommonProperties(req?: NextRequest): SystemEventProperties {
+async function getCommonProperties(
+  req?: NextRequest
+): Promise<SystemEventProperties> {
   try {
-    const h = req?.headers || headers()
+    const h = req?.headers || (await headers())
     const ua = userAgent({ headers: h })
 
     return {
@@ -92,7 +96,7 @@ function getCommonProperties(req?: NextRequest): SystemEventProperties {
       $device: ua.device.type,
       $os: ua.os.name,
       $referrer: h.get('referer'),
-      ip: ip(req?.ip, h),
+      ip: ip(h, ipAddress(req as Request)),
       time: Date.now()
     }
   } catch (e) {
@@ -100,9 +104,10 @@ function getCommonProperties(req?: NextRequest): SystemEventProperties {
   }
 }
 
-function generateAnonymousId(c: Pick<ResponseCookies, 'set'> = cookies()) {
+async function generateAnonymousId(c?: Pick<ResponseCookies, 'set'>) {
   const anonId = crypto.randomUUID()
-  c.set({
+  const cookieStore = c || (await cookies())
+  cookieStore.set({
     name: BAF_SESSION_ID,
     value: anonId,
     maxAge: 60 * 60 * 24 * 365,
@@ -113,11 +118,13 @@ function generateAnonymousId(c: Pick<ResponseCookies, 'set'> = cookies()) {
   return anonId
 }
 
-function getSessionId(c: Pick<ReadonlyRequestCookies, 'get'> = cookies()) {
-  return c.get(BAF_SESSION_ID)?.value
+async function getSessionId(c?: Pick<ReadonlyRequestCookies, 'get'>) {
+  const cookieStore = c || (await cookies())
+  return cookieStore.get(BAF_SESSION_ID)?.value
 }
 
-function clearSessionId(c: { delete(name: string): void } = cookies()) {
+async function clearSessionId(c?: { delete(name: string): void }) {
   console.log('== clearing session')
-  return c.delete(BAF_SESSION_ID)
+  const cookieStore = c || (await cookies())
+  return cookieStore.delete(BAF_SESSION_ID)
 }

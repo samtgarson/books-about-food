@@ -24,12 +24,12 @@ const bookShadow = `
 
 export async function GET(
   _request: NextRequest,
-  {
-    params: { slug }
-  }: {
-    params: { slug: string }
+  props: {
+    params: Promise<{ slug: string }>
   }
 ) {
+  const { slug } = await props.params
+
   const { data: book } = await call(fetchBook, {
     slug,
     onlyPublished: true

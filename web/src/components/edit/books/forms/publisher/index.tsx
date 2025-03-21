@@ -9,6 +9,7 @@ import { call } from 'src/utils/service'
 import { stringify } from 'src/utils/superjson'
 import { createAction } from '../action'
 import { EditForm } from '../form'
+import { Wrap } from 'src/components/utils/wrap'
 
 export const EditPublisherForm = async ({ book }: { book: FullBook }) => {
   const options = async (search: string) => {
@@ -23,7 +24,7 @@ export const EditPublisherForm = async ({ book }: { book: FullBook }) => {
   return (
     <EditForm action={createAction(book.slug)}>
       <PageSubtitle>Publishing Information</PageSubtitle>
-      <Select
+      <Wrap c={Select}
         multi={false}
         loadOptions={options}
         label="Publisher"
@@ -33,7 +34,6 @@ export const EditPublisherForm = async ({ book }: { book: FullBook }) => {
         render="name"
         defaultValue={book.publisher}
         required
-        data-superjson
       />
       <Input
         label="Release Date"

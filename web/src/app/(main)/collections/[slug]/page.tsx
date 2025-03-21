@@ -9,11 +9,9 @@ import { PageTitle } from 'src/components/atoms/page-title'
 import { BookGrid } from 'src/components/books/grid'
 import { EditorRenderer } from 'src/components/form/editor/renderer'
 import { ListContainer } from 'src/components/lists/list-context'
-import { PageProps } from 'src/components/types'
+import { slugPage, SlugProps } from 'src/components/types'
 import { genMetadata } from 'src/utils/metadata'
 import { call } from 'src/utils/service'
-
-type CollectionPageProps = PageProps<{ slug: string }>
 
 export { dynamic, dynamicParams, revalidate } from 'app/default-static-config'
 
@@ -25,9 +23,7 @@ export async function generateStaticParams() {
   return slugs
 }
 
-export default async function CollectionPage({
-  params: { slug }
-}: CollectionPageProps) {
+export default slugPage(async function CollectionPage(slug) {
   const { data: collection } = await call(fetchCollection, { slug })
   if (!collection) notFound()
 
@@ -70,12 +66,14 @@ export default async function CollectionPage({
       </ListContainer>
     </Container>
   )
-}
+})
 
 export async function generateMetadata(
-  { params: { slug } }: CollectionPageProps,
+  props: SlugProps,
   parent: Promise<ResolvedMetadata>
 ): Promise<Metadata> {
+  const { slug } = await props.params
+
   const { data: collection } = await call(fetchCollection, { slug })
   if (!collection) notFound()
 

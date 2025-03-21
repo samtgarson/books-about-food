@@ -1,7 +1,7 @@
 'use client'
 
-import * as Dialog from '@radix-ui/react-dialog'
 import { useRouter } from 'next/navigation'
+import { Dialog } from 'radix-ui'
 import { FC, ReactNode } from 'react'
 import { Container } from './container'
 

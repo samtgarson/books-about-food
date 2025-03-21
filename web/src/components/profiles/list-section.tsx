@@ -2,6 +2,7 @@ import { Profile } from '@books-about-food/core/models/profile'
 import { FC } from 'react'
 import { ProfileList } from '../atoms/profile-list'
 import { ProfileItem } from './item'
+import { Wrap } from '../utils/wrap'
 
 export type ProfileListSectionProps = {
   profiles: Profile[]
@@ -17,11 +18,10 @@ export const ProfileListSection: FC<ProfileListSectionProps> = ({
   hideMeta = false
 }) => {
   return (
-    <ProfileList
+    <Wrap c={ProfileList}
       profiles={profiles}
       title={title}
       className={className}
-      data-superjson
     >
       {profiles.map((profile) => (
         <ProfileItem
@@ -31,6 +31,6 @@ export const ProfileListSection: FC<ProfileListSectionProps> = ({
           meta={hideMeta ? false : undefined}
         />
       ))}
-    </ProfileList>
+    </Wrap>
   )
 }

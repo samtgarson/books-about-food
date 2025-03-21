@@ -1,8 +1,7 @@
 import { BookStatus } from '@books-about-food/database'
 import { Hsl, isHsl, toColorString } from '@books-about-food/shared/utils/types'
 import Color from 'color'
-import format from 'date-fns/format'
-import isFuture from 'date-fns/isFuture'
+import { format, isFuture } from 'date-fns'
 import { BaseModel } from '.'
 import { Contribution } from './contribution'
 import { Image } from './image'
@@ -59,9 +58,8 @@ export class Book extends BaseModel {
   }
 
   get ariaLabel() {
-    return `${this.title} by ${this.authorNames} ${
-      this.releaseDate ? `(${this.formattedReleaseDate})` : ''
-    }`
+    return `${this.title} by ${this.authorNames} ${this.releaseDate ? `(${this.formattedReleaseDate})` : ''
+      }`
   }
 
   get href() {

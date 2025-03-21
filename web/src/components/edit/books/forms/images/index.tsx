@@ -5,6 +5,7 @@ import { ImageUpload } from 'src/components/form/image-upload'
 import { Submit } from 'src/components/form/submit'
 import { createAction } from '../action'
 import { EditForm } from '../form'
+import { Wrap } from 'src/components/utils/wrap'
 
 export const UploadForm = async ({ book }: { book: FullBook }) => {
   return (
@@ -14,12 +15,11 @@ export const UploadForm = async ({ book }: { book: FullBook }) => {
         Only upload good quality flat images of the cover and spreads—not
         photographs of them.
       </p>
-      <ImageUpload
+      <Wrap c={ImageUpload}
         label="Cover"
         name="coverImageId"
         required={{ ifNot: 'noCover' }}
         defaultValue={book.cover}
-        data-superjson
         prefix={`books/${book.id}/cover`}
       />
       <div className="flex flex-col gap-2">
@@ -28,13 +28,12 @@ export const UploadForm = async ({ book }: { book: FullBook }) => {
           label="This book doesn't have a cover design yet"
         />
       </div>
-      <ImageUpload
+      <Wrap c={ImageUpload}
         label="Spreads"
         name="previewImageIds"
         multi
         defaultValue={book.previewImages}
         prefix={`books/${book.id}/previews`}
-        data-superjson
         className="mb-4"
       />
       <Submit>Save and Continue</Submit>

@@ -1,10 +1,10 @@
 'use client'
 
 import { Image } from '@books-about-food/core/models/image'
-import * as Form from '@radix-ui/react-form'
 import cn from 'classnames'
 import { Reorder } from 'framer-motion'
 import Img from 'next/image'
+import { Form } from 'radix-ui'
 import { useRef, useState } from 'react'
 import { containerClasses } from 'src/components/atoms/container'
 import { Plus, X } from 'src/components/atoms/icons'
@@ -36,8 +36,8 @@ export function ImageUpload<Multi extends boolean = false>({
     Array.isArray(defaultValue)
       ? defaultValue
       : !defaultValue
-      ? []
-      : [defaultValue]
+        ? []
+        : [defaultValue]
   )
   const required = useRequired(props.required)
 

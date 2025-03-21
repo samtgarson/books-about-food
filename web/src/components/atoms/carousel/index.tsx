@@ -9,7 +9,8 @@ import {
   useEffect,
   useId,
   useRef,
-  useState
+  useState,
+  type JSX
 } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { containerClasses, ContainerProps } from '../container'

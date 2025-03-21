@@ -1,10 +1,9 @@
 'use client'
 
 import { wrapArray } from '@books-about-food/shared/utils/array'
-import * as Form from '@radix-ui/react-form'
-import * as Popover from '@radix-ui/react-popover'
 import cn from 'classnames'
 import { useCombobox } from 'downshift'
+import { Form, Popover } from 'radix-ui'
 import {
   ForwardedRef,
   useCallback,
@@ -321,8 +320,7 @@ export const SelectClient = function Select<
               style: {
                 maxHeight:
                   itemHeight &&
-                  `min(300px, max(${
-                    Math.min(2.5, items.length) * itemHeight
+                  `min(300px, max(${Math.min(2.5, items.length) * itemHeight
                   }px, calc(var(--radix-popover-content-available-height)) - 8px))`
               }
             })}

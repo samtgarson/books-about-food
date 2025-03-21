@@ -6,7 +6,7 @@ export const trackingEnabled =
 
 export const token = process.env.MIXPANEL_TOKEN
 
-export function ip(ip?: string, h = headers()) {
+export function ip(h: Awaited<ReturnType<typeof headers>>, ip?: string) {
   if (ip) return ip
   const cf = h.get('cf-connecting-ip')
   if (cf) return cf

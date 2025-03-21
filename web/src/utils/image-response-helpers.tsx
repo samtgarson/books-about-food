@@ -2,7 +2,7 @@ import Color from 'color'
 import { readFile } from 'fs/promises'
 import { ImageResponse } from 'next/og'
 import { join } from 'node:path'
-import { CSSProperties, ReactNode } from 'react'
+import { CSSProperties, ReactNode, type JSX } from 'react'
 import { LogoShape } from 'src/components/icons/logo-shape'
 
 type FontOptions = Exclude<
