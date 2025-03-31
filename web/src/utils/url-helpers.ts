@@ -21,8 +21,8 @@ export const mergeParams = (
     } else {
       if (Array.isArray(value)) {
         definedParams.delete(key)
-        value.forEach((v) => definedParams.append(key, v))
-      } else definedParams.set(key, `${value}`)
+        value.forEach((v) => definedParams.append(key, `${v}`))
+      } else definedParams.set(key, JSON.stringify(value))
     }
   })
 
@@ -34,7 +34,7 @@ export function prettyWebsiteLabel(url: string) {
     const hostname = new URL(url).hostname
     if (hostname.endsWith('linkedin.com')) return 'LinkedIn'
     return hostname
-  } catch (e) {
+  } catch {
     return ''
   }
 }

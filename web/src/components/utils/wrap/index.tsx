@@ -10,8 +10,9 @@ export function Wrap<P extends object>({
   c: ComponentType<P>
   children?: ReactNode
 } & P) {
-  return <WrapClient
-    props={serialize(props as P)}
-    component={c}
-  >{children}</WrapClient>
+  return (
+    <WrapClient props={serialize(props as P)} component={c}>
+      {children}
+    </WrapClient>
+  )
 }

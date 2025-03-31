@@ -47,7 +47,7 @@ export function SearchInput<
         }
       })}
       className={cn(
-        'bg-transparent flex-grow focus:outline-none',
+        'flex-grow bg-transparent focus:outline-none',
         multi ? '-my-3 py-3' : 'absolute -inset-4 right-0 p-4'
       )}
     />
@@ -80,7 +80,7 @@ export function SelectedItems<
                 selectItem(value)
                 e.stopPropagation()
               }}
-              className="p-2.5 -my-2 -mr-4 -ml-3 hover:bg-khaki rounded-full transition-colors"
+              className="-my-2 -ml-3 -mr-4 rounded-full p-2.5 transition-colors hover:bg-khaki"
               type="button"
             >
               <X strokeWidth={1} size={16} />
@@ -103,7 +103,7 @@ export function Indicators<
   searchInputRef
 }: SelectContext<Value, ValueKey>) {
   return (
-    <div className="flex justify-end gap-1 items-center pl-2">
+    <div className="flex items-center justify-end gap-1 pl-2">
       {loading && <Loader size={22} />}
       {!loading && showChevron && <ChevronDown size={22} strokeWidth={1} />}
       {!loading && selection.length > 0 && (
@@ -163,7 +163,7 @@ export function Option<
       })}
       key={item[valueKey]}
       className={cn(
-        'px-5 py-2.5 transition-colors flex justify-start aria-selected:bg-grey/50 overflow-hidden'
+        'flex justify-start overflow-hidden px-5 py-2.5 transition-colors aria-selected:bg-grey/50'
       )}
     >
       {renderOption(item, { selected: false })}

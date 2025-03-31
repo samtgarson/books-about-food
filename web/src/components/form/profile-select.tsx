@@ -29,15 +29,15 @@ export function ProfileSelect<Multi extends boolean>({
       name={name}
       valueKey="id"
       render={(profile, { selected }) => (
-        <div className="flex gap-2 items-center w-full group mr-2">
+        <div className="group mr-2 flex w-full items-center gap-2">
           <Avatar
-            className={cn(multi ? (selected ? '-ml-2 -my-px' : '-ml-1') : '')}
+            className={cn(multi ? (selected ? '-my-px -ml-2' : '-ml-1') : '')}
             profile={profile}
             size="3xs"
           />
           <span className="shrink-0 whitespace-nowrap">{profile.name}</span>
           {!selected && (
-            <span className="opacity-40 whitespace-nowrap text-ellipsis overflow-hidden">
+            <span className="overflow-hidden text-ellipsis whitespace-nowrap opacity-40">
               {profile.jobTitle}
             </span>
           )}

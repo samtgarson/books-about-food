@@ -7,8 +7,8 @@ export const paginationInput = z.object({
   perPage: numeric.or(z.literal('all')).optional()
 })
 
-const preprocessArray = (val: unknown) => {
-  const arr = Array.isArray(val) ? val : `${val}`.split(',')
+function preprocessArray(val: unknown) {
+  const arr: unknown[] = Array.isArray(val) ? val : `${val}`.split(',')
   return arr.filter((v) => typeof v !== 'string' || !!v?.length)
 }
 

@@ -27,10 +27,10 @@ export function ImportList({
     return !search.length
       ? rows
       : rows?.filter((result) => {
-        return result.bookAttrs.title
-          .toLowerCase()
-          .includes(search.toLowerCase())
-      })
+          return result.bookAttrs.title
+            .toLowerCase()
+            .includes(search.toLowerCase())
+        })
   }, [rows, search])
 
   async function importBooks() {
@@ -85,11 +85,13 @@ export function ImportList({
   }
 
   function toggleRow(id: string, selected: boolean) {
-    selected
-      ? setSelected((selected) => new Set(selected).add(id))
-      : setSelected(
+    if (selected) {
+      setSelected((selected) => new Set(selected).add(id))
+    } else {
+      setSelected(
         (selected) => new Set(Array.from(selected).filter((s) => s !== id))
       )
+    }
   }
   return (
     <>
@@ -99,7 +101,7 @@ export function ImportList({
         onPageClick={setPage}
         perPage={perPage}
       >
-        <div className="flex gap-4 items-center mb-4 w-full">
+        <div className="mb-4 flex w-full items-center gap-4">
           <input
             type="checkbox"
             checked={selected.size === filtered?.length}

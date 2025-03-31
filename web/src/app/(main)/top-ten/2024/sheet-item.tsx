@@ -14,7 +14,7 @@ export function TopTenSheetItem({
 }) {
   if (!book) {
     return (
-      <li className="h-[100px] w-[75px] rounded bg-sand flex items-center justify-center scale-90 sm:scale-100">
+      <li className="flex h-[100px] w-[75px] scale-90 items-center justify-center rounded bg-sand sm:scale-100">
         <Star strokeWidth={1} className="opacity-20" />
       </li>
     )
@@ -38,7 +38,7 @@ export function TopTenSheetItem({
         {book.cover && (
           <Image
             {...book.cover.imageAttrs(100)}
-            className="rounded animate-scale-in h-[100px]"
+            className="h-[100px] animate-scale-in rounded"
           />
         )}
       </button>
@@ -46,7 +46,7 @@ export function TopTenSheetItem({
         onClick={onDeselect}
         title="Remove"
         className={cn(
-          'absolute top-0 right-0 size-6 bg-black text-white rounded-full flex items-center justify-center -mr-3 -mt-3'
+          'absolute right-0 top-0 -mr-3 -mt-3 flex size-6 items-center justify-center rounded-full bg-black text-white'
         )}
       >
         <X size={14} />

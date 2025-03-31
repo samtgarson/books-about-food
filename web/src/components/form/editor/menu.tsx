@@ -53,7 +53,7 @@ export function EditorMenu({
       editor={editor}
       tippyOptions={{ animation: 'fade', interactive: true, zIndex: 60 }}
     >
-      <div className={cn('float-menu flex justify-between relative')}>
+      <div className={cn('float-menu relative flex justify-between')}>
         {isImage ? (
           <Item
             onClick={() => editor.chain().deleteSelection().run()}

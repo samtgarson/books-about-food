@@ -5,7 +5,7 @@ import { LogoShape } from 'src/components/icons/logo-shape'
 export default function NotFound() {
   return (
     <Container belowNav>
-      <LogoShape text className="w-16 h-auto" />
+      <LogoShape text className="h-auto w-16" />
 
       <PageTitle className="!pb-8">That page can&apos;t be found</PageTitle>
       <p>

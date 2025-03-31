@@ -64,7 +64,7 @@ export function ImageUpload<Multi extends boolean = false>({
         }}
         layoutScroll
         className={cn(
-          'bg-sand w-full gap-6 py-12 flex overflow-auto',
+          'flex w-full gap-6 overflow-auto bg-sand py-12',
           !images.length && 'cursor-pointer',
           containerClasses(),
           containerClasses({ scroll: true })
@@ -82,7 +82,7 @@ export function ImageUpload<Multi extends boolean = false>({
             {...mouseAttrs({ mode: 'clickable' })}
           >
             <Img
-              className="h-52 pointer-events-none"
+              className="pointer-events-none h-52"
               {...image.imageAttrs(208)}
             />
             <button

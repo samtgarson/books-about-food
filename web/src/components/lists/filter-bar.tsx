@@ -42,7 +42,7 @@ export const FilterBar: FC<FilterBarProps> = ({
         search &&
         (showSearch ? (
           <div
-            className="animate-fade-in relative flex flex-col justify-center py-8"
+            className="relative flex animate-fade-in flex-col justify-center py-8"
             ref={searchWrapper}
           >
             <Search
@@ -50,13 +50,13 @@ export const FilterBar: FC<FilterBarProps> = ({
               autoFocus
               onReset={() => setShowSearch(false)}
               onBlur={() => {
-                !searchProps.value?.length && setShowSearch(false)
+                if (!searchProps.value?.length) setShowSearch(false)
               }}
               onChange={onSearchChange}
             />
           </div>
         ) : (
-          <div className="animate-fade-in flex items-center">
+          <div className="flex animate-fade-in items-center">
             <PageTitle className="flex-grow">{title}</PageTitle>
             <button
               onClick={() => showSearchAndFocus()}
@@ -78,7 +78,7 @@ export const FilterBar: FC<FilterBarProps> = ({
             <div className="overflow-x-auto sm:ml-auto mobile-only:w-full">
               <Container
                 desktop={false}
-                className="flex justify-end items-center gap-2 overflow-auto mobile-only:min-w-max"
+                className="flex items-center justify-end gap-2 overflow-auto mobile-only:min-w-max"
               >
                 {label && <p className="all-caps mr-2 flex-grow">{label}</p>}
                 {children}

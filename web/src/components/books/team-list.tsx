@@ -25,7 +25,8 @@ export function TeamList({ contributions, className }: TeamListProps) {
   )
 
   return (
-    <Wrap c={ProfileList}
+    <Wrap
+      c={ProfileList}
       profiles={profiles}
       title="Team"
       className={className}

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FullBook } from '@books-about-food/core/models/full-book'
 import { Profile } from '@books-about-food/core/models/profile'
 import { Publisher } from '@books-about-food/core/models/publisher'
@@ -12,12 +11,12 @@ import { PublisherPolicy } from './publisher-policy'
 export type PolicyFor<R> = R extends FullBook
   ? BookPolicy
   : R extends Profile
-  ? ProfilePolicy
-  : R extends Publisher
-  ? PublisherPolicy
-  : R extends Collection
-  ? CollectionPolicy
-  : never
+    ? ProfilePolicy
+    : R extends Publisher
+      ? PublisherPolicy
+      : R extends Collection
+        ? CollectionPolicy
+        : never
 
 export function can<R>(user: User, resource: R) {
   if (resource instanceof FullBook) {

@@ -16,21 +16,27 @@ class DeserializationError extends Error {}
 
 type CallOptions = { bypassCache?: boolean; maxAgeOverride?: number }
 
-export async function call<S extends ServiceClass<any, any>>(
+export async function call<
+  S extends ServiceClass<any, any>,
+  I extends z.ZodType<ServiceInput<S>>
+>(
   service: S,
   args?: ServiceInput<S>,
   options: CallOptions = {}
-) {
+): Promise<ServiceReturn<S>> {
   const stringArgs = stringify(args)
   try {
-    return await cachedCall(service, stringArgs, options)
+    return await cachedCall<I, S>(service, stringArgs, options)
   } catch (e) {
-    if (e instanceof DeserializationError) return rawCall(service, args)
+    if (e instanceof DeserializationError) return rawCall<I, S>(service, args)
     throw e
   }
 }
 
-async function _cachedCall<S extends ServiceClass<any, any>>(
+async function _cachedCall<
+  I extends z.ZodType<ServiceInput<S>>,
+  S extends ServiceClass<I, any>
+>(
   service: S,
   stringArgs?: string,
   { bypassCache = false, maxAgeOverride }: CallOptions = {}
@@ -38,15 +44,15 @@ async function _cachedCall<S extends ServiceClass<any, any>>(
   let args: ServiceInput<S> | undefined
   try {
     args = stringArgs ? parse(stringArgs) : undefined
-  } catch (e) {
+  } catch {
     throw new DeserializationError()
   }
   const enabled = !service.authed && !!service.cacheKey && !bypassCache
-  if (!enabled) return rawCall(service, args)
+  if (!enabled) return rawCall<I, S>(service, args)
 
   return getOrPopulateKv(
     ['svc', service.cacheKey, btoa(stringArgs ?? '')],
-    () => rawCall(service, args),
+    () => rawCall<I, S>(service, args),
     {
       expiry: maxAgeOverride || service.defaultCacheMaxAge,
       skipResult: (data) => !data.success
@@ -55,10 +61,10 @@ async function _cachedCall<S extends ServiceClass<any, any>>(
 }
 const cachedCall = cache(_cachedCall)
 
-async function rawCall<S extends ServiceClass<any, any>>(
-  service: S,
-  args?: ServiceInput<S>
-) {
+async function rawCall<
+  I extends z.ZodType<ServiceInput<S>>,
+  S extends ServiceClass<I, any>
+>(service: S, args?: ServiceInput<S>) {
   if (service.authed) {
     const user = await getSessionUser()
     if (!user)
@@ -77,13 +83,13 @@ async function rawCall<S extends ServiceClass<any, any>>(
   return service.call(args) as Promise<ServiceReturn<S>>
 }
 
-export const parseAndCall = async function <S extends ServiceClass<any, any>>(
-  service: S,
-  args?: unknown
-) {
+export async function parseAndCall<
+  S extends ServiceClass<any, any>,
+  I extends z.ZodType<ServiceInput<S>>
+>(service: S, args?: unknown): Promise<ServiceReturn<S>> {
   try {
-    const input = service.input.parse(args)
-    return call(service, input) as Promise<ServiceReturn<S>>
+    const input = (service.input as I).parse(args)
+    return call<S, I>(service, input)
   } catch (e) {
     if (!(e instanceof z.ZodError)) {
       Sentry.captureException(e)

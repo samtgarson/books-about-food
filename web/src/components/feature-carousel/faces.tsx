@@ -19,7 +19,7 @@ export const Faces: FC<FacesProps> = ({ books }) => {
   if (!display) return null
   return (
     <motion.div
-      className="absolute top-0 bottom-8 sm:bottom-0 -left-1/4 right-8 z-30 flex items-center justify-center sm:left-[42vw] sm:right-[15vw] pointer-events-none"
+      className="pointer-events-none absolute -left-1/4 bottom-8 right-8 top-0 z-30 flex items-center justify-center sm:bottom-0 sm:left-[42vw] sm:right-[15vw]"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, transition: { delay: 0.3 } }}
       exit={{ opacity: 0, transition: { duration: 0.2 } }}
@@ -38,7 +38,7 @@ const FloatingFace: FC<{ face: Face; i: number }> = ({
 }) => (
   <motion.div
     key={profile.id}
-    className="absolute z-10 hover:z-40 pointer-events-none md:pointer-events-auto"
+    className="pointer-events-none absolute z-10 hover:z-40 md:pointer-events-auto"
     style={{ left: `${point.x + 10}%`, top: `${point.y + 10}%` }}
     initial={{ y: 0 }}
     animate={{ y: -10 }}
@@ -57,7 +57,7 @@ const FloatingFace: FC<{ face: Face; i: number }> = ({
     />
     <motion.p
       style={face.nameStyle}
-      className="text-32 absolute hidden px-4 py-2 sm:inline-block"
+      className="absolute hidden px-4 py-2 text-32 sm:inline-block"
       initial={{ y: 0 }}
       animate={{ y: 5 }}
       transition={{

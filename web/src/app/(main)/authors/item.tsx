@@ -28,7 +28,7 @@ export const AuthorItem = ({
       {profile ? (
         <p className="mt-auto font-medium">{profile.name}</p>
       ) : (
-        <p className="bg-khaki w-30 h-4" />
+        <p className="w-30 h-4 bg-khaki" />
       )}
     </Link>
   </li>

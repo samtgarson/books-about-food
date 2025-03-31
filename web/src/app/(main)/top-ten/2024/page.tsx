@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { redirect } from 'next/navigation'
 import { AntiContainer, Container } from 'src/components/atoms/container'
 import { PageProps } from 'src/components/types'
+import { Wrap } from 'src/components/utils/wrap'
 import { genMetadata } from 'src/utils/metadata'
 import { call } from 'src/utils/service'
 import { fetchVotes } from './actions'
@@ -10,7 +11,6 @@ import { TopTenGrid } from './grid'
 import logo from './logo.svg'
 import desktop from './top-ten-desktop.svg'
 import mobile from './top-ten-mobile.svg'
-import { Wrap } from 'src/components/utils/wrap'
 
 export const metadata = genMetadata('/top-ten/2024', null, {
   title: "2024's Top Ten",
@@ -28,12 +28,12 @@ export default async function TopTen2024(props: PageProps) {
 
   return (
     <Container belowNav>
-      <AntiContainer className="relative pt-14 sm:pt-20 mb-10 sm:mb-20">
+      <AntiContainer className="relative mb-10 pt-14 sm:mb-20 sm:pt-20">
         <Image
           src={mobile}
           alt="Top Ten 2024"
           fill
-          className="sm:hidden object-cover"
+          className="object-cover sm:hidden"
           aria-hidden
           priority
         />
@@ -41,11 +41,11 @@ export default async function TopTen2024(props: PageProps) {
           src={desktop}
           alt="Top Ten 2024"
           fill
-          className="hidden sm:block object-cover"
+          className="hidden object-cover sm:block"
           aria-hidden
           priority
         />
-        <div className="flex flex-col gap-6 sm:gap-10 items-center justify-center px-6 relative">
+        <div className="relative flex flex-col items-center justify-center gap-6 px-6 sm:gap-10">
           <Image
             src={logo}
             alt="BAF Top Ten 2024"
@@ -76,7 +76,8 @@ async function Content({ autoSubmit }: { autoSubmit?: boolean }) {
   if (!data?.books.length) return redirect('/')
 
   return (
-    <Wrap c={TopTenGrid}
+    <Wrap
+      c={TopTenGrid}
       books={data.books}
       existingVotes={votes}
       autoSubmit={autoSubmit}

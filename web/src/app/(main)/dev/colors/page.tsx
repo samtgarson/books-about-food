@@ -70,7 +70,7 @@ export default async function ColorTest(props: PageProps) {
 
 function Palette({ palette }: { palette: Hsl[] }) {
   return (
-    <div className="flex gap-2 p-2 rounded-full bg-white">
+    <div className="flex gap-2 rounded-full bg-white p-2">
       {palette.map((color, i) => (
         <div
           title={color.label}

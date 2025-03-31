@@ -17,7 +17,7 @@ export function ProfilePreview({
       className="no-underline"
     >
       <Row className="bg-white">
-        <Column className="w-[40px] p-4 pr-0 border border-y-black border-r-transparent border-solid">
+        <Column className="w-[40px] border border-solid border-y-black border-r-transparent p-4 pr-0">
           {resourceAvatar ? (
             <img
               src={resourceAvatar}
@@ -27,10 +27,10 @@ export function ProfilePreview({
               className="rounded-full object-cover align-middle"
             />
           ) : (
-            <div className="inline-block w-[30px] h-[30px] rounded-[30px] bg-sand mr-4 ml-[-4px] align-middle" />
+            <div className="bg-sand ml-[-4px] mr-4 inline-block h-[30px] w-[30px] rounded-[30px] align-middle" />
           )}
         </Column>
-        <Column className="p-4 whitespace-nowrap border border-l-transparent border-y-black border-solid">
+        <Column className="whitespace-nowrap border border-solid border-y-black border-l-transparent p-4">
           {resourceName}
         </Column>
         <Column className="w-0 md:w-full" />

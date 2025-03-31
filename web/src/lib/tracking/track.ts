@@ -99,7 +99,7 @@ async function getCommonProperties(
       ip: ip(h, ipAddress(req as Request)),
       time: Date.now()
     }
-  } catch (e) {
+  } catch {
     return {}
   }
 }

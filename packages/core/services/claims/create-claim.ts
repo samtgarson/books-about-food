@@ -39,7 +39,7 @@ export const createClaim = new AuthedService(
         key: 'newClaim',
         props: {
           claimId: claim.id,
-          resourceName: resourceName as string,
+          resourceName: resourceName,
           resourceAvatar: null,
           userEmail: user.email
         }

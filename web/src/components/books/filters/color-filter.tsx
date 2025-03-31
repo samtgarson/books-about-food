@@ -24,7 +24,7 @@ export function ColorFilter({ value }: { value?: number[] | NamedColor }) {
                     ? colorMap[value]
                     : `hsl(${value[0]},${value[1]}%,${value[2]}%)`
               }}
-              className="size-6 -my-2 -ml-2 rounded-full"
+              className="-my-2 -ml-2 size-6 rounded-full"
             ></span>
           )}
           Colours
@@ -37,7 +37,7 @@ export function ColorFilter({ value }: { value?: number[] | NamedColor }) {
             <Link
               scroll={false}
               href=""
-              className="text-14 bg-transparent"
+              className="bg-transparent text-14"
               onClick={() => sheet.current?.setOpen(false)}
             >
               Reset
@@ -45,7 +45,7 @@ export function ColorFilter({ value }: { value?: number[] | NamedColor }) {
           </ParamLink>
         }
       >
-        <Sheet.Body className="grid grid-cols-[repeat(7,_48px)] gap-4 justify-center">
+        <Sheet.Body className="grid grid-cols-[repeat(7,_48px)] justify-center gap-4">
           {Object.keys(colorMap).map((key) => (
             <ParamLink key={key} color={key}>
               <Link href="" onClick={() => sheet.current?.setOpen(false)}>
@@ -60,7 +60,7 @@ export function ColorFilter({ value }: { value?: number[] | NamedColor }) {
               style={{
                 background: rainbowGradient
               }}
-              className={cn('rounded-full size-12')}
+              className={cn('size-12 rounded-full')}
             />
           </ParamLink>
         </Sheet.Body>

@@ -50,7 +50,7 @@ export function customRandom(alphabet: string, defaultSize: number) {
 
   return (size = defaultSize): string => {
     let id = ''
-    // eslint-disable-next-line no-constant-condition
+
     while (true) {
       const bytes = getRandom(step)
       // A compact alternative for `for (let i = 0; i < step; i++)`.

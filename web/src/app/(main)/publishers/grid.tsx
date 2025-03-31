@@ -36,7 +36,7 @@ export const PublisherGrid: FC<PublisherListProps> = ({
       <li>
         <Link
           className={cn(
-            'text-16 sm:text-24 -mr-px flex items-center justify-center border border-b border-black bg-white p-6 text-center sm:-mb-px',
+            '-mr-px flex items-center justify-center border border-b border-black bg-white p-6 text-center text-16 sm:-mb-px sm:text-24',
             square ? 'sm:aspect-square' : 'h-20'
           )}
           href={viewMoreLink.path}

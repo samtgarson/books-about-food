@@ -17,7 +17,7 @@ export const inngest = new Inngest({
   id: 'books-about-food',
   schemas: new EventSchemas().fromRecord<{
     'book.updated': JobData<{
-      id: string | string[] | 'all'
+      id: string | string[]
       coverImageChanged?: boolean
     }>
     'jobs.email': JobData<EmailTemplate>

@@ -35,7 +35,7 @@ export const BookList = async ({
       page={filters.page ?? 0}
       filteredTotal={filteredTotal}
     >
-      {title && <h3 className="all-caps my-4 sm:mb-8 sm:mt-0 ">{title}</h3>}
+      {title && <h3 className="all-caps my-4 sm:mb-8 sm:mt-0">{title}</h3>}
       <BookGrid
         {...gridProps}
         books={books}
@@ -51,7 +51,7 @@ export const BookList = async ({
 
 export const SkeletonBookList = () => (
   <Pagination total={100} perPage={18} filteredTotal={100}>
-    <GridContainer className={'sm:gap-y-16'}>
+    <GridContainer className="sm:gap-y-16">
       {Array.from({ length: 18 }, (_, i) => (
         <Skeleton key={i} index={i} />
       ))}

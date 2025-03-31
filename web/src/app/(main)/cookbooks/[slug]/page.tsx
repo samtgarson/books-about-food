@@ -50,9 +50,9 @@ export default slugPage(async function CookbookPage(slug) {
   if (!book) notFound()
 
   return (
-    <div className="relative flex-grow lg:pr-[50vw] flex flex-col sm:gap-y-20">
+    <div className="relative flex flex-grow flex-col sm:gap-y-20 lg:pr-[50vw]">
       <Container className="flex flex-col sm:gap-8" key="header" belowNav>
-        <div className="pt-6 flex flex-col gap-4 md:pt-20">
+        <div className="flex flex-col gap-4 pt-6 md:pt-20">
           <div
             className={cn(
               'font-style-title flex items-center',
@@ -70,7 +70,8 @@ export default slugPage(async function CookbookPage(slug) {
         </div>
         <AntiContainer className="border-t border-black sm:border-t-0 md:-mt-8">
           <div className="flex flex-col lg:absolute lg:-bottom-20 lg:right-0 lg:top-0 lg:w-[50vw]">
-            <Wrap c={CoverCarousel}
+            <Wrap
+              c={CoverCarousel}
               book={book}
               className="lg:sticky lg:top-0 lg:-mt-16 lg:flex lg:h-full lg:max-h-screen lg:items-stretch lg:pt-16"
             />
@@ -93,7 +94,7 @@ export default slugPage(async function CookbookPage(slug) {
         <AntiContainer desktop={false}>
           <Container
             desktop={false}
-            className="border-t border-black sm:border-y-0 mobile-only:py-4 flex flex-col gap-4"
+            className="flex flex-col gap-4 border-t border-black sm:border-y-0 mobile-only:py-4"
           >
             {book.team.length > 0 && (
               <TeamList contributions={book.contributions} />
@@ -117,7 +118,7 @@ export default slugPage(async function CookbookPage(slug) {
         )}
       >
         {book.publisher && (
-          <Detail className="flex flex-col gap-2 items-start" column>
+          <Detail className="flex flex-col items-start gap-2" column>
             <p className="all-caps">Publisher</p>
             <Link href={`/publishers/${book.publisher.slug}`}>
               <Pill variant="filled" small>
@@ -194,8 +195,9 @@ export async function generateMetadata(
 
   return genMetadata(`/cookbooks/${book.slug}`, await parent, {
     title: book.title,
-    description: `View the ${book.title} cookbook and ${count - 1
-      } other curated cookbooks on Books About Food — the cookbook industry’s new digital home.`,
+    description: `View the ${book.title} cookbook and ${
+      count - 1
+    } other curated cookbooks on Books About Food — the cookbook industry’s new digital home.`,
     openGraph: {
       type: 'book',
       releaseDate: book.isoReleaseDate,

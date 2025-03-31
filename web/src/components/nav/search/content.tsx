@@ -82,11 +82,11 @@ export function QuickSearchContent({ onSelect }: { onSelect?: () => void }) {
       className="flex flex-col gap-2 sm:gap-4"
       ref={sheetBody}
     >
-      <div className={cn('flex gap-4 items-center px-3 py-2 sm:px-4 sm:py-3')}>
+      <div className={cn('flex items-center gap-4 px-3 py-2 sm:px-4 sm:py-3')}>
         <input
           autoFocus
           type="text"
-          className="text-24 sm:text-32 focus:outline-none flex-1 bg-transparent flex-grow placeholder-black/30"
+          className="flex-1 flex-grow bg-transparent text-24 placeholder-black/30 focus:outline-none sm:text-32"
           value={rawQuery}
           onChange={(e) => {
             setQuery(e.target.value)
@@ -102,7 +102,7 @@ export function QuickSearchContent({ onSelect }: { onSelect?: () => void }) {
         />
       </div>
       <div
-        className="overflow-y-auto flex flex-col gap-1 empty:hidden group"
+        className="group flex flex-col gap-1 overflow-y-auto empty:hidden"
         onClick={onSelect}
       >
         {!loading && !results.length && (
@@ -149,8 +149,8 @@ function QuickSearchResult({ item, focused, onHover }: QuickSearchResultProps) {
         <QuickSearchImage item={item} />
       </QuickSearchItem.Image>
       <div className="flex flex-col overflow-hidden">
-        <p className="text-14 sm:text-16 font-medium">{item.name}</p>
-        <p className="text-12 sm:text-14 whitespace-nowrap overflow-ellipsis overflow-hidden">
+        <p className="text-14 font-medium sm:text-16">{item.name}</p>
+        <p className="overflow-hidden overflow-ellipsis whitespace-nowrap text-12 sm:text-14">
           {item.description}
         </p>
       </div>
@@ -163,7 +163,7 @@ function QuickSearchImage({ item }: { item: SearchResult }) {
     return (
       <BaseAvatar
         size="xs"
-        className="!w-5 !h-5 sm:!w-8 sm:!h-8"
+        className="!h-5 !w-5 sm:!h-8 sm:!w-8"
         backup={item.initials}
         foregroundColour={item.foregroundColour}
         backgroundColour={item.backgroundColour}
@@ -178,7 +178,7 @@ function QuickSearchImage({ item }: { item: SearchResult }) {
 
   switch (item.type) {
     case 'publisher':
-      return <div className="h-5 w-5 sm:h-8 sm:w-8 bg-grey" />
+      return <div className="h-5 w-5 bg-grey sm:h-8 sm:w-8" />
     case 'book':
       return <div className="h-[50px] w-[38px] bg-grey" />
     case 'bookTag':

@@ -42,12 +42,12 @@ export function EditableBookItem({
             editMode ? (hidden ? 'opacity-30' : 'opacity-80') : ''
           )}
         >
-          <p className="text-16 mb-1 font-medium">{book.title}</p>
+          <p className="mb-1 text-16 font-medium">{book.title}</p>
           <p className="text-14">{book.authorNames}</p>
         </Footer>
       )}
       {editMode && (
-        <div className="ml-auto sm:ml-0 sm:absolute sm:inset-0 flex items-center justify-center gap-2 z-20 sm:aspect-square pointer-events-auto">
+        <div className="pointer-events-auto z-20 ml-auto flex items-center justify-center gap-2 sm:absolute sm:inset-0 sm:ml-0 sm:aspect-square">
           <EditableBookAction
             title={hidden ? `Show ${book.title}` : `Hide ${book.title}`}
             onClick={async () => {
@@ -77,7 +77,7 @@ export function EditableBookAction({
   const [loading, setLoading] = useState(false)
   return (
     <button
-      className="flex items-center justify-center h-10 w-10 bg-white"
+      className="flex h-10 w-10 items-center justify-center bg-white"
       title={title}
       onClick={async function () {
         setLoading(true)

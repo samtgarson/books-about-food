@@ -13,7 +13,7 @@ export async function PublishersNav() {
   if (!publishers.length) return null
   return (
     <>
-      <h3 className="px-4 py-2.5 font-medium mt-8">Publishers</h3>
+      <h3 className="mt-8 px-4 py-2.5 font-medium">Publishers</h3>
       {publishers.map((publisher) => (
         <SidebarItem
           href={`/account/publishers/${publisher.slug}`}

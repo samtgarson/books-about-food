@@ -87,11 +87,12 @@ export function InPlaceField({
                 onKeyDown={(e: KeyboardEvent) => {
                   if (e.key === 'Enter') {
                     e.preventDefault()
-                      ; (e.currentTarget as HTMLElement).blur()
+                    ;(e.currentTarget as HTMLElement).blur()
                   }
                 }}
                 onChange={(e) => {
-                  value.current = e.currentTarget.textContent || ''
+                  value.current =
+                    (e.currentTarget as HTMLElement).textContent || ''
                   setShowPlaceholder(!value.current.length)
                 }}
                 onBlur={async () => {
@@ -102,7 +103,7 @@ export function InPlaceField({
                 onFocus={() => onFocus()}
                 aria-label={placeholder}
                 className={cn(
-                  'select-text break-anywhere',
+                  'break-anywhere select-text',
                   showPlaceholder && 'absolute inset-0'
                 )}
               />

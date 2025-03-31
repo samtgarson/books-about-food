@@ -1,8 +1,8 @@
-"use client"
+'use client'
 
-import { JSX } from "react"
-import { SuperJSONProps, withSuperJSONPage } from "./utils"
-import * as React from "react"
+import * as React from 'react'
+import { JSX } from 'react'
+import { SuperJSONProps, withSuperJSONPage } from './utils'
 
 export default function WrapClient<P extends JSX.IntrinsicAttributes>({
   component,
@@ -16,4 +16,3 @@ export default function WrapClient<P extends JSX.IntrinsicAttributes>({
   const WithSuperJSON = withSuperJSONPage(component)
   return <WithSuperJSON {...props}>{children}</WithSuperJSON>
 }
-

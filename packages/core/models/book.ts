@@ -58,8 +58,9 @@ export class Book extends BaseModel {
   }
 
   get ariaLabel() {
-    return `${this.title} by ${this.authorNames} ${this.releaseDate ? `(${this.formattedReleaseDate})` : ''
-      }`
+    return `${this.title} by ${this.authorNames} ${
+      this.releaseDate ? `(${this.formattedReleaseDate})` : ''
+    }`
   }
 
   get href() {

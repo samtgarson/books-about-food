@@ -27,14 +27,18 @@ const volumeSchema = z.object({
 export class GoogleBooksGateway extends BaseGoogleGateway {
   path = '/books/v1/volumes'
 
-  async search(query: string) {
+  async search(query: string): Promise<z.infer<typeof volumeSchema>[]> {
     const response = await this.request('', {
       q: `intitle:"${query}" subject:Cooking`
     })
     if (!response.ok) return []
     const result = await response.json()
 
-    return z.array(volumeSchema).parse(result.items ?? [])
+    const parsed = z
+      .object({ items: z.array(volumeSchema).default([]) })
+      .safeParse(result)
+    if (!parsed.success) return []
+    return parsed.data.items
   }
 
   async fetch(id: string) {

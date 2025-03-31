@@ -29,7 +29,7 @@ export function MaxHeight({
     ref: innerRef as RefObject<HTMLDivElement>,
     onResize: ({ height }) => {
       setInnerHeight(height || null)
-      maxHeight !== CLOSED_HEIGHT && setMaxHeight(height || 'none')
+      if (maxHeight !== CLOSED_HEIGHT) setMaxHeight(height || 'none')
     }
   })
 
@@ -51,10 +51,10 @@ export function MaxHeight({
   return (
     <div
       className={cn(
-        'overflow-y-hidden transition-all duration-150 will-change-contents sm:!max-h-none flex gap-4 items-start',
+        'flex items-start gap-4 overflow-y-hidden transition-all duration-150 will-change-contents sm:!max-h-none',
         !open &&
-        !disabled &&
-        'mobile-only:[mask-image:linear-gradient(to_top,transparent,white)]',
+          !disabled &&
+          'mobile-only:[mask-image:linear-gradient(to_top,transparent,white)]',
         className
       )}
       {...props}

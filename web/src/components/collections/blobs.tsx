@@ -12,14 +12,14 @@ export function CollectionBlobs({ colors }: { colors: Collection['colors'] }) {
     <div
       className={cn(
         'grid sm:grid-cols-4 mobile-only:order-last mobile-only:mt-3',
-        display === 'grid' ? 'grid-cols-4 !mt-auto' : 'grid-cols-6'
+        display === 'grid' ? '!mt-auto grid-cols-4' : 'grid-cols-6'
       )}
     >
       {range(12).map((i) => (
         <div
           key={i}
           className={cn(
-            'sm:size-10 rounded-full bg-grey',
+            'rounded-full bg-grey sm:size-10',
             i > 7 && display === 'grid' && 'hidden sm:block',
             display === 'grid' ? 'size-7' : 'size-8'
           )}

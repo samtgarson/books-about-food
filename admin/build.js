@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 /** @type {import('@sentry/esbuild-plugin')} */
 const { sentryEsbuildPlugin } = require('@sentry/esbuild-plugin')
 /** @type {import('esbuild')} */

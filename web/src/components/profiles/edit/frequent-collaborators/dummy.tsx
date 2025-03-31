@@ -17,7 +17,7 @@ export function FrequentCollaboratorsDummy({
       <div className="relative">
         <GridContainer
           className={cn(
-            '-mt-px sm:mt-0 relative mobile-only:hidden blur-md opacity-30'
+            'relative -mt-px opacity-30 blur-md sm:mt-0 mobile-only:hidden'
           )}
         >
           {dummyProfiles.map((profile) => (
@@ -26,13 +26,13 @@ export function FrequentCollaboratorsDummy({
             </div>
           ))}
         </GridContainer>
-        <div className="sm:hidden flex gap-4 blur-md opacity-30">
+        <div className="flex gap-4 opacity-30 blur-md sm:hidden">
           {dummyProfiles.map((profile) => (
             <Avatar profile={profile} key={profile.id} size="xs" />
           ))}
         </div>
-        <div className="absolute inset-0 flex gap-4 items-center justify-center">
-          <p className="sm:text-center text-14">
+        <div className="absolute inset-0 flex items-center justify-center gap-4">
+          <p className="text-14 sm:text-center">
             Please{' '}
             <AuthedButton source="Frequent collaborators">
               <a className="underline">login</a>
@@ -43,7 +43,7 @@ export function FrequentCollaboratorsDummy({
             </AuthedButton>{' '}
             to view collaborators
           </p>
-          <Lock strokeWidth={1} className="sm:order-first shrink-0" />
+          <Lock strokeWidth={1} className="shrink-0 sm:order-first" />
         </div>
       </div>
     </div>

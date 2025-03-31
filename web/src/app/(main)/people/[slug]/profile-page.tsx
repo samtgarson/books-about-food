@@ -46,7 +46,7 @@ export async function ProfilePage({ segment, slug }: ProfilePageProps) {
               <ClaimProfileButton className="mb-10 mt-6 w-full sm:hidden" />
               <Field
                 attr="description"
-                className="text-16 mt-4 max-w-prose"
+                className="mt-4 max-w-prose text-16"
                 placeholder="Add a description"
               />
               <div className="mt-8">
@@ -64,13 +64,14 @@ export async function ProfilePage({ segment, slug }: ProfilePageProps) {
               </div>
             </div>
           </div>
-          <Wrap c={FrequentCollaborators}
+          <Wrap
+            c={FrequentCollaborators}
             profiles={collaborators}
             className="my-4 sm:mb-0 sm:mt-20"
           />
         </div>
       </Container>
-      <Container className="empty:hidden mobile-only:border-t border-black">
+      <Container className="border-black empty:hidden mobile-only:border-t">
         <Suspense fallback={null}>
           <ContributionList profile={profile} className="sm:mt-20" />
         </Suspense>

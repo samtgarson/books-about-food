@@ -1,10 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { JSX } from "react"
-import SuperJSON from "superjson"
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return */
 import hoistNonReactStatics from 'hoist-non-react-statics'
+import { JSX } from 'react'
+import SuperJSON from 'superjson'
 
 export type SuperJSONProps<P> = P & {
-  _superjson?: ReturnType<typeof SuperJSON.serialize>["meta"]
+  _superjson?: ReturnType<typeof SuperJSON.serialize>['meta']
 }
 
 export function serialize<P>(props: P): SuperJSONProps<P> {
@@ -32,4 +32,3 @@ export function withSuperJSONPage<P extends JSX.IntrinsicAttributes>(
 
   return WithSuperJSON
 }
-

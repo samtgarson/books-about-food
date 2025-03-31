@@ -6,7 +6,7 @@ export type CarouselContext = {
   currentIndex: number
   totalItems: number
   setCurrentIndex: (index: number) => void
-  scrollTo(index: number): void
+  scrollTo: (index: number) => void
   scrollerRef: RefObject<HTMLUListElement | null>
   alignment: CarouselAlginment
   canGoLeft: boolean

@@ -5,11 +5,11 @@ import { PageSubtitle } from 'src/components/atoms/page-title'
 import { Input } from 'src/components/form/input'
 import { Select } from 'src/components/form/select'
 import { Submit } from 'src/components/form/submit'
+import { Wrap } from 'src/components/utils/wrap'
 import { call } from 'src/utils/service'
 import { stringify } from 'src/utils/superjson'
 import { createAction } from '../action'
 import { EditForm } from '../form'
-import { Wrap } from 'src/components/utils/wrap'
 
 export const EditPublisherForm = async ({ book }: { book: FullBook }) => {
   const options = async (search: string) => {
@@ -24,7 +24,8 @@ export const EditPublisherForm = async ({ book }: { book: FullBook }) => {
   return (
     <EditForm action={createAction(book.slug)}>
       <PageSubtitle>Publishing Information</PageSubtitle>
-      <Wrap c={Select}
+      <Wrap
+        c={Select}
         multi={false}
         loadOptions={options}
         label="Publisher"
@@ -49,7 +50,7 @@ export const EditPublisherForm = async ({ book }: { book: FullBook }) => {
         min={0}
       />
       <Submit>Save and Continue</Submit>
-      <p className="text-14 mt-8">
+      <p className="mt-8 text-14">
         Note: If the publisher you would like to add isn’t listed, please{' '}
         <ContactLink subject="I need a new publisher">get in touch</ContactLink>
         .

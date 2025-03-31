@@ -17,7 +17,7 @@ export function Description({ className }: { className?: string }) {
     return (
       <div className={cn('relative', className)}>
         <Editor
-          className={cn('pr-5 min-h-14', classes)}
+          className={cn('min-h-14 pr-5', classes)}
           value={publisher.description}
           onChange={setValue}
           onBlur={() => {
@@ -29,7 +29,7 @@ export function Description({ className }: { className?: string }) {
         <Edit2
           strokeWidth={1}
           size={24}
-          className="absolute pointer-events-none top-4 right-0"
+          className="pointer-events-none absolute right-0 top-4"
         />
       </div>
     )

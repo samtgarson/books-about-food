@@ -25,8 +25,8 @@ export const Pill = forwardRef<HTMLSpanElement, PillProps>(function Pill(
       ref={ref}
       {...props}
       className={cn(
-        'text-14 flex flex-shrink-0 items-center justify-center rounded-full leading-none whitespace-nowrap',
-        small ? 'px-3 py-1 leading-6 text-16' : 'px-4 py-3',
+        'flex flex-shrink-0 items-center justify-center whitespace-nowrap rounded-full text-14 leading-none',
+        small ? 'px-3 py-1 text-16 leading-6' : 'px-4 py-3',
         selected ? 'bg-black text-white' : 'text-black',
         disabled && 'pointer-events-none',
         variant === 'bordered' && 'border border-black',
@@ -47,7 +47,7 @@ export function PillList({
   className?: string
 }) {
   return (
-    <p className={cn(className, 'flex justify-start gap-2 flex-wrap')}>
+    <p className={cn(className, 'flex flex-wrap justify-start gap-2')}>
       {children}
     </p>
   )

@@ -15,7 +15,7 @@ export function FeatureCarouselSlide({
   ...attrs
 }: {
   position: CarouselPosition
-  onClick(): void
+  onClick: () => void
   href?: string
 } & Omit<ComponentProps<typeof MotionLink>, 'onClick' | 'href'>) {
   return (
@@ -36,8 +36,8 @@ export function FeatureCarouselSlide({
         position === 'next'
           ? 'Next'
           : position === 'prev'
-          ? 'Previous'
-          : undefined
+            ? 'Previous'
+            : undefined
       }
     >
       {children}

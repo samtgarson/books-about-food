@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export abstract class BaseModel {
   abstract _type: Model
   abstract href: string

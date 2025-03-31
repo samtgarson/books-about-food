@@ -10,6 +10,7 @@ import Color from 'color'
 import { revalidatePath } from 'lib/services/revalidate-path'
 import { resourceAction } from 'lib/utils/actions'
 import { deleteImage, uploadImage } from 'lib/utils/image-utils'
+import { z } from 'zod'
 import { Schema } from '../../.schema/types'
 
 const uploadCover = async (dataUri: string | null, bookId: string) => {
@@ -178,9 +179,11 @@ export const customiseBooks = (
     .removeField('background_color')
     .addField('BackgroundColor', {
       async getValues(records) {
-        return records.map(
-          (record) =>
-            record.background_color && Color.hsl(record.background_color).hex()
+        return records.map((record) =>
+          record.background_color
+            ? // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+              Color.hsl(record.background_color).hex()
+            : null
         )
       },
       columnType: 'String',
@@ -197,8 +200,9 @@ export const customiseBooks = (
     .forEach((_, i) => {
       collection.addField(`Color${i + 1}`, {
         async getValues(records) {
-          return records.map(
-            (record) => record.palette?.[i] && Color(record.palette[i]).hex()
+          return records.map((record) =>
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            record.palette?.[i] ? Color(record.palette[i]).hex() : null
           )
         },
         columnType: 'String',
@@ -294,13 +298,20 @@ export const customiseBooks = (
     ],
     execute: async (context, result) => {
       const bookId = `${await context.getRecordId()}`
-      const jobId = context.formValues.Job[0]
+      const formValues = z
+        .object({
+          Job: z.string().array().nullish(),
+          Assistant: z.boolean().nullish(),
+          Name: z.string().nullish()
+        })
+        .safeParse(context.formValues).data
+      const jobId = formValues?.Job?.[0]
 
       if (!jobId) return result.error('Job is required')
 
       const job = await prisma.job.findUnique({ where: { id: jobId } })
-      const tag = context.formValues.Assistant ? 'Assistant' : undefined
-      const profileIdOrName = context.formValues.Name
+      const tag = formValues.Assistant ? 'Assistant' : undefined
+      const profileIdOrName = formValues.Name
 
       if (!profileIdOrName) return result.error('Name is required')
 

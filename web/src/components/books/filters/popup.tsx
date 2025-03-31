@@ -28,7 +28,7 @@ export function BookFilterPopup({
       params={filters}
       defaultParams={{ _reset: true }}
       loading={loading}
-      className="pb-4 flex flex-col gap-8"
+      className="flex flex-col gap-8 pb-4"
       onClose={() => setFilters(initialFilters)}
     >
       <FilterItem title="Sort by">
@@ -56,7 +56,7 @@ export function BookFilterPopup({
         />
       </FilterItem>
       <FilterItem title="Colour" count={filters.color ? 1 : 0}>
-        <div className="flex gap-3 flex-wrap">
+        <div className="flex flex-wrap gap-3">
           {(Object.keys(colorMap) as NamedColor[]).map((color) => (
             <ColorCircle
               color={color}

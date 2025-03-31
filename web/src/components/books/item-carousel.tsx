@@ -88,7 +88,7 @@ export const ItemCarousel: FC<ItemCarouselProps> = ({
                   className="mr-px max-w-[90vw] self-start"
                 >
                   <Link
-                    className="text-24 flex aspect-square flex-col items-center justify-center border border-black bg-white"
+                    className="flex aspect-square flex-col items-center justify-center border border-black bg-white text-24"
                     href={readMoreLink}
                   >
                     View More

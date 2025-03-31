@@ -16,7 +16,7 @@ export const PublishersItem = ({
     <Link
       href={`/publishers/${publisher.slug}`}
       className={cn(
-        'text-18 sm:text-24 flex w-full items-center justify-center border border-black p-6 text-center',
+        'flex w-full items-center justify-center border border-black p-6 text-center text-18 sm:text-24',
         square ? 'h-full sm:aspect-square' : 'h-20'
       )}
     >

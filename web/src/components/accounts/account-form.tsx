@@ -83,7 +83,7 @@ export function AccountForm({
           name="email"
           defaultValue={user.email ?? ''}
         />
-        <div className="text-14 flex items-center gap-4">
+        <div className="flex items-center gap-4 text-14">
           {googleAccount ? (
             <>
               <Google size={18} /> Signed in with Google

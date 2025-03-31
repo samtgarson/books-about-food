@@ -12,7 +12,7 @@ export function DisplayToggle({ className }: DisplayToggleProps) {
 
   return (
     <button
-      className={cn('flex gap-2 items-center', className)}
+      className={cn('flex items-center gap-2', className)}
       onClick={() => setDisplay(display === 'list' ? 'grid' : 'list')}
     >
       <span className={cn('p-1', display === 'grid' && 'bg-white')}>

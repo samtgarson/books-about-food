@@ -44,13 +44,13 @@ export function Takeover({
       <>
         <div
           className={cn(
-            'flex flex-col lg:flex-row lg:justify-between items-center z-10 transition-opacity mx-auto lg:mx-0 w-full gap-12',
+            'z-10 mx-auto flex w-full flex-col items-center gap-12 transition-opacity lg:mx-0 lg:flex-row lg:justify-between',
             !current && 'opacity-0'
           )}
         >
           <div
             className={cn(
-              'flex flex-col justify-center items-center lg:items-start gap-8'
+              'flex flex-col items-center justify-center gap-8 lg:items-start'
             )}
           >
             <h2 className="text-24 sm:text-40 lg:text-48 mobile-only:text-center">
@@ -64,7 +64,7 @@ export function Takeover({
             src={logo}
             aria-hidden
             className={cn(
-              'lg:mr-[15vw] order-first lg:order-none mobile-only:w-44'
+              'order-first lg:order-none lg:mr-[15vw] mobile-only:w-44'
             )}
             alt="BAF Top 10"
           />
@@ -73,7 +73,7 @@ export function Takeover({
           src={bg}
           aria-hidden
           className={cn(
-            'absolute -mx-4 md:-mx-16 inset-0 w-[calc(100%+8em)] h-[calc(100%-1px)] object-cover object-right z-0 transition-opacity ease-out',
+            'absolute inset-0 z-0 -mx-4 h-[calc(100%-1px)] w-[calc(100%+8em)] object-cover object-right transition-opacity ease-out md:-mx-16',
             !current && 'opacity-0'
           )}
           alt="BAF Top 10"

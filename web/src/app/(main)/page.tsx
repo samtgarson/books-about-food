@@ -36,7 +36,7 @@ async function Page() {
   return (
     <>
       {features && (
-        <div className="bg-white relative">
+        <div className="relative bg-white">
           <Wrap
             c={FeatureCarousel}
             features={features}
@@ -46,7 +46,7 @@ async function Page() {
           />
         </div>
       )}
-      <Marquee className="fixed bottom-0 left-0 -right-[25%] z-40 -rotate-[15deg]">
+      <Marquee className="fixed -right-[25%] bottom-0 left-0 z-40 -rotate-[15deg]">
         <a
           href="https://www.instagram.com/booksabout.food"
           target="_blank"
@@ -75,10 +75,11 @@ async function HomepageContent() {
             title="Coming Soon"
             action={{ href: '/cookbooks', label: 'View More' }}
           >
-            <Wrap c={ItemCarousel}
+            <Wrap
+              c={ItemCarousel}
               items={home.comingSoon}
               size="xl"
-              className="-mx-8 lg:-mx-12 lg:pt-10 lg:pb-6 xl:-mx-16"
+              className="-mx-8 lg:-mx-12 lg:pb-6 lg:pt-10 xl:-mx-16"
               centered
               startOn={1}
             />
@@ -88,14 +89,16 @@ async function HomepageContent() {
             action={{ href: '/authors', label: 'View More' }}
             className="bg-khaki"
           >
-            <Wrap c={ProfileCarousel}
+            <Wrap
+              c={ProfileCarousel}
               items={home.authors}
               className="-mx-8 py-12 lg:-mx-12 lg:pb-16 lg:pt-[93px] xl:-mx-16"
             />
           </HomepageModule>
         </div>
         <USP />
-        <Wrap c={ItemCarousel}
+        <Wrap
+          c={ItemCarousel}
           items={home.newlyAdded}
           title="On The Pass"
           size="lg"

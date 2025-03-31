@@ -49,7 +49,7 @@ export function BookMultiSelect({
               animate={{ opacity: 1, height: 64 }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2 }}
-              className="flex py-2 pr-2 items-center gap-2 overflow-hidden"
+              className="flex items-center gap-2 overflow-hidden py-2 pr-2"
             >
               <Menu strokeWidth={1} size={15} />
               <BookResultRow {...value} />

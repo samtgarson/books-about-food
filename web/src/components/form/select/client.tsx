@@ -29,7 +29,7 @@ import {
 import { SelectContext, SelectControl, SelectProps, SelectValue } from './types'
 
 declare module 'react' {
-  // eslint-disable-next-line @typescript-eslint/ban-types
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   function forwardRef<T, P = {}>(
     render: (props: P, ref: React.Ref<T>) => React.ReactNode | null
   ): (props: P & React.RefAttributes<T>) => React.ReactNode | null
@@ -289,7 +289,7 @@ export const SelectClient = function Select<
           ref={input}
           value={selection.map((v) => v[valueKey]).join(separator)}
           name={name}
-          className="h-0 absolute"
+          className="absolute h-0"
         />
       </Form.Control>
       <Popover.Root open={isOpen}>
@@ -297,10 +297,10 @@ export const SelectClient = function Select<
           className={cn(
             inputClasses(variant, props),
             'flex min-h-14 overflow-hidden',
-            multi && 'py-3 px-3'
+            multi && 'px-3 py-3'
           )}
         >
-          <div className="flex flex-wrap gap-2 flex-1 relative min-h-6 overflow-hidden">
+          <div className="relative flex min-h-6 flex-1 flex-wrap gap-2 overflow-hidden">
             <SelectedItems {...context} />
             <SearchInput {...context} />
           </div>
@@ -311,8 +311,8 @@ export const SelectClient = function Select<
             forceMount
             collisionBoundary={boundaryRef}
             className={cn(
-              'z-interactive-ui w-[var(--radix-popover-trigger-width)] bg-white book-shadow flex flex-col',
-              'h-0 opacity-0 data-[state=open]:transition-all duration-100 data-[state=closed]:!pointer-events-none data-[state=open]:h-fit data-[state=open]:opacity-100'
+              'book-shadow z-interactive-ui flex w-[var(--radix-popover-trigger-width)] flex-col bg-white',
+              'h-0 opacity-0 duration-100 data-[state=closed]:!pointer-events-none data-[state=open]:h-fit data-[state=open]:opacity-100 data-[state=open]:transition-all'
             )}
             {...getMenuProps({
               onOpenAutoFocus: (e) => e.preventDefault(),
@@ -320,7 +320,8 @@ export const SelectClient = function Select<
               style: {
                 maxHeight:
                   itemHeight &&
-                  `min(300px, max(${Math.min(2.5, items.length) * itemHeight
+                  `min(300px, max(${
+                    Math.min(2.5, items.length) * itemHeight
                   }px, calc(var(--radix-popover-content-available-height)) - 8px))`
               }
             })}
@@ -328,7 +329,7 @@ export const SelectClient = function Select<
             <ul
               className={cn(
                 'overflow-y-auto',
-                loading && 'opacity-50 pointer-events-none'
+                loading && 'pointer-events-none opacity-50'
               )}
             >
               {items.map((item, index) => (

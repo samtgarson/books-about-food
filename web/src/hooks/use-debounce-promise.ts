@@ -16,7 +16,7 @@ export const useDebouncedPromise = <A extends Array<unknown>, R>(
           const result = await fn(...args)
           resolve(result)
         } catch (error) {
-          reject(error)
+          reject(error as Error)
         }
       }, delay)
     })

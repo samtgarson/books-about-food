@@ -59,7 +59,7 @@ export function FeatureCarouselItem({
         />
       )}
       <div
-        className={cn('transition-opacity lg:flex-grow max-w-[80vw]', {
+        className={cn('max-w-[80vw] transition-opacity lg:flex-grow', {
           'opacity-0 duration-300': !current,
           'duration-700': current,
           'pt-10': !feature.tagLine
@@ -71,10 +71,10 @@ export function FeatureCarouselItem({
           </p>
         )}
         {feature.title && (
-          <p className="text-24 lg:text-40 mb-2 max-w-xl">{feature.title}</p>
+          <p className="mb-2 max-w-xl text-24 lg:text-40">{feature.title}</p>
         )}
         {feature.book.designCommentary && (
-          <p className="text-14 lg:text-18 mb-4 max-w-xl lg:mb-8 line-clamp-3">
+          <p className="mb-4 line-clamp-3 max-w-xl text-14 lg:mb-8 lg:text-18">
             {feature.book.designCommentary}
           </p>
         )}

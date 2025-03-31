@@ -42,7 +42,7 @@ export const Step: FC<StepProps> = ({
           />
         )}
         {(complete?.text || overflow) && (
-          <p className="text-12 min-w-6 h-6 leading-[1.2rem] rounded-full bg-white px-2 py-1 text-center z-10">
+          <p className="z-10 h-6 min-w-6 rounded-full bg-white px-2 py-1 text-center text-12 leading-[1.2rem]">
             {complete?.text || overflow}
           </p>
         )}

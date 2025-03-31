@@ -1,15 +1,15 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
+/* eslint-disable @typescript-eslint/no-require-imports, import-x/no-extraneous-dependencies */
+
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true'
 })
 
-
 const imagesConfig =
   process.env.NODE_ENV === 'production'
     ? {
-      loader: 'custom',
-      loaderFile: './src/lib/cloudflare/image-loader.ts'
-    }
+        loader: 'custom',
+        loaderFile: './src/lib/cloudflare/image-loader.ts'
+      }
     : { unoptimized: true }
 
 /** @type {import('next').NextConfig} */

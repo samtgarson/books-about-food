@@ -24,12 +24,12 @@ export function Item({
     typeof title === 'string' ? <p className="font-medium">{title}</p> : title
   return (
     <Accordion.Item value={value}>
-      <Accordion.Header className="flex gap-4 items-center w-full">
+      <Accordion.Header className="flex w-full items-center gap-4">
         {preChildren}
-        <Accordion.Trigger className="grow flex gap-2 group items-center py-2 text-left">
+        <Accordion.Trigger className="group flex grow items-center gap-2 py-2 text-left">
           {triggerContent}
           <ChevronDown
-            className="group-data-[state=open]:rotate-180 transition-transform shrink-0 ml-auto"
+            className="ml-auto shrink-0 transition-transform group-data-[state=open]:rotate-180"
             strokeWidth={1}
           />
         </Accordion.Trigger>
@@ -37,7 +37,7 @@ export function Item({
       <Accordion.Content
         className={cn(
           className,
-          'py-4 overflow-hidden data-[state=open]:animate-accordion-open data-[state=closed]:animate-accordion-close'
+          'overflow-hidden py-4 data-[state=closed]:animate-accordion-close data-[state=open]:animate-accordion-open'
         )}
       >
         {children}

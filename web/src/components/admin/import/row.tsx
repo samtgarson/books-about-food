@@ -40,7 +40,7 @@ export function ImportFormRow({
                 return (
                   <Tag
                     key={index}
-                    color={'red'}
+                    color="red"
                     title="A book with this title already exists in the production database"
                   >
                     {error}
@@ -50,7 +50,7 @@ export function ImportFormRow({
                 return (
                   <Tag
                     key={index}
-                    color={'purple'}
+                    color="purple"
                     title="A book with this title is already included in the import"
                   >
                     {error}
@@ -83,10 +83,10 @@ export function ImportFormRow({
             if (!val || (Array.isArray(val) && !val.length)) return null
             return (
               <tr key={key}>
-                <td className="font-medium pr-4 py-1">{titleize(key)}</td>
-                <td className="py-1">{`${
-                  result.bookAttrs[key as keyof typeof result.bookAttrs]
-                }`}</td>
+                <td className="py-1 pr-4 font-medium">{titleize(key)}</td>
+                <td className="py-1">
+                  {`${result.bookAttrs[key as keyof typeof result.bookAttrs]}`}
+                </td>
               </tr>
             )
           })}
@@ -95,12 +95,12 @@ export function ImportFormRow({
               {i === 0 && (
                 <td
                   rowSpan={result.authors.length}
-                  className="font-medium pr-4 align-top py-1"
+                  className="py-1 pr-4 align-top font-medium"
                 >
                   {result.authors.length > 1 ? 'Authors' : 'Author'}
                 </td>
               )}
-              <td className="py-1 flex gap-2">
+              <td className="flex gap-2 py-1">
                 {author.name}
                 {!author.id && <Tag color="lime">New</Tag>}
                 {author.error === 'MultipleMatches' && (
@@ -115,14 +115,14 @@ export function ImportFormRow({
                 {i === 0 && (
                   <td
                     rowSpan={contributors.length}
-                    className="font-medium pr-4 align-top py-1"
+                    className="py-1 pr-4 align-top font-medium"
                   >
                     {contributors.length > 1
                       ? pluralize(titleize(job))
                       : titleize(job)}
                   </td>
                 )}
-                <td className="py-1 flex gap-2">
+                <td className="flex gap-2 py-1">
                   {relation.name}
                   {!relation.id && <Tag color="lime">New</Tag>}
                   {relation.error === 'MultipleMatches' && (

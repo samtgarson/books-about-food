@@ -62,7 +62,7 @@ export function ContributionForm({
         onChange={(e) => setIsAssistant(e.target.checked)}
       />
       <Submit>Save</Submit>
-      <p className="text-14 mt-4">
+      <p className="mt-4 text-14">
         Note: If the role you would like to assign to this team member isn’t
         listed please choose the most similar then{' '}
         <ContactLink subject="I need a new job role">get in touch</ContactLink>{' '}

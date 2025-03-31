@@ -42,7 +42,7 @@ export function Content({
     <Dialog.Portal container={container}>
       <Dialog.Overlay
         className={cn(
-          'animate-fade-in fixed inset-0 z-sheet',
+          'fixed inset-0 z-sheet animate-fade-in',
           overlay && 'bg-black bg-opacity-80'
         )}
       />
@@ -50,9 +50,9 @@ export function Content({
         className={cn(
           'pointer-events-none fixed inset-0 z-sheet flex backdrop-filter',
           {
-            'sm:pt-[15dvh] sm:short:pt-[5dvh] justify-center items-end sm:items-start':
+            'items-end justify-center sm:items-start sm:pt-[15dvh] sm:short:pt-[5dvh]':
               type === 'dialog',
-            'justify-end items-stretch': type === 'drawer'
+            'items-stretch justify-end': type === 'drawer'
           }
         )}
       >
@@ -64,14 +64,14 @@ export function Content({
             if (!focusTriggerOnClose) e.preventDefault()
           }}
           className={cn(
-            'pointer-events-none flex w-full flex-shrink-0 flex-col relative focus:outline-none group justify-center gap-3 sm:gap-4 flex-1',
+            'group pointer-events-none relative flex w-full flex-1 flex-shrink-0 flex-col justify-center gap-3 focus:outline-none sm:gap-4',
             {
               'sm:max-w-lg': size === 'md',
               'sm:max-w-xl': size === 'lg',
               'sm:max-w-[90vw]': size === 'xl',
-              'max-h-[min(var(--max-height),100dvh)] sm:max-h-[min(var(--max-height),75dvh)] sm:short:max-h-[min(var(--max-height),80dvh)] animate-fade-slide-in sheet-dialog':
+              'sheet-dialog max-h-[min(var(--max-height),100dvh)] animate-fade-slide-in sm:max-h-[min(var(--max-height),75dvh)] sm:short:max-h-[min(var(--max-height),80dvh)]':
                 type === 'dialog',
-              'sheet-drawer p-3 animate-drawer-enter rounded-lg m-3':
+              'sheet-drawer m-3 animate-drawer-enter rounded-lg p-3':
                 type === 'drawer'
             },
             overlay && 'bg-white sm:p-8',
@@ -142,13 +142,13 @@ function ControlsBar({
   return (
     <div
       className={cn(
-        'flex gap-4 justify-end z-30 border-b transition-colors pb-3 sm:pb-4 -mb-3 sm:-mb-4 items-center',
-        '-mx-5 sm:-mx-8 px-5 sm:px-8',
+        'z-30 -mb-3 flex items-center justify-end gap-4 border-b pb-3 transition-colors sm:-mb-4 sm:pb-4',
+        '-mx-5 px-5 sm:-mx-8 sm:px-8',
         !scrollState.top ? 'border-neutral-grey' : 'border-transparent',
         className
       )}
     >
-      {title && <Title className="flex-grow mr-auto">{title}</Title>}
+      {title && <Title className="mr-auto flex-grow">{title}</Title>}
       {controls}
       <Dialog.Close className="pointer-events-auto">
         <X strokeWidth={1} size={24} />

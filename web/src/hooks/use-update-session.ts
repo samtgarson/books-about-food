@@ -15,7 +15,6 @@ export function useUpdateSession() {
     if (!ready) return
     const updated = await updateSession()
     return updated?.user
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready])
 
   return useMemo(() => ({ update, ready }), [update, ready])

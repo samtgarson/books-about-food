@@ -20,22 +20,22 @@ export function Faqs({ questions }: { questions: FrequentlyAskedQuestion[] }) {
     <>
       <Search
         placeholder="Search..."
-        className="w-full mb-4"
+        className="mb-4 w-full"
         onChange={setSearch}
         value={search}
         onReset={() => setSearch('')}
       />
       <Accordion.Root
         type="multiple"
-        className="flex gap-x-8 gap-y-4 flex-wrap"
+        className="flex flex-wrap gap-x-8 gap-y-4"
       >
         {[left, right].map((questions, index) => (
-          <div key={index} className="flex-[500px] flex flex-col gap-4">
+          <div key={index} className="flex flex-[500px] flex-col gap-4">
             {questions.map(({ question, id, answer }) => (
               <Accordion.Item title={question} value={id} key={id}>
                 <EditorRenderer
                   content={answer}
-                  className="max-w-prose prose"
+                  className="prose max-w-prose"
                 />
               </Accordion.Item>
             ))}

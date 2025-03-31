@@ -18,7 +18,7 @@ export function Label({
     typeof children === 'string' ? <span>{children}</span> : children
   return (
     <Form.Label
-      className={cn('text-14 flex items-center justify-start gap-2', className)}
+      className={cn('flex items-center justify-start gap-2 text-14', className)}
       {...props}
     >
       {content}

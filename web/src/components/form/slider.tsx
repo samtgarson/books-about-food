@@ -7,12 +7,12 @@ export const Slider = forwardRef<HTMLSpanElement, RSlider.SliderProps>(
       <RSlider.Root
         {...props}
         ref={ref}
-        className="relative flex items-center select-none touch-none w-full"
+        className="relative flex w-full touch-none select-none items-center"
       >
-        <RSlider.Track className="flex-grow bg-khaki h-0.5 relative">
-          <RSlider.Range className="absolute bg-black/80 h-full" />
+        <RSlider.Track className="relative h-0.5 flex-grow bg-khaki">
+          <RSlider.Range className="absolute h-full bg-black/80" />
         </RSlider.Track>
-        <RSlider.Thumb className="block size-5 bg-black shadow rounded-full" />
+        <RSlider.Thumb className="block size-5 rounded-full bg-black shadow" />
       </RSlider.Root>
     )
   }

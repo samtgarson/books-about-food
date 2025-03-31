@@ -11,7 +11,7 @@ export async function FeaturedJobsList() {
       {jobs.map((job) => (
         <li key={job.id}>
           <Link
-            className="border-khaki text-20 md:text-32 flex gap-2 rounded-full border px-4 py-2 transition-colors hover:border-white hover:bg-white md:px-6 md:py-3"
+            className="flex gap-2 rounded-full border border-khaki px-4 py-2 text-20 transition-colors hover:border-white hover:bg-white md:px-6 md:py-3 md:text-32"
             href={`/people?jobs=${job.id}`}
           >
             <p className="opacity-50">{job.count}</p>
@@ -21,8 +21,8 @@ export async function FeaturedJobsList() {
       ))}
       <li key="all">
         <Link
-          className="text-20 md:text-32 flex gap-2 rounded-full border border-black bg-black px-4 py-2 text-white transition-colors md:px-6 md:py-3"
-          href={`/people`}
+          className="flex gap-2 rounded-full border border-black bg-black px-4 py-2 text-20 text-white transition-colors md:px-6 md:py-3 md:text-32"
+          href="/people"
         >
           <p>View All</p>
         </Link>

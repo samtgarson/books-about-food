@@ -36,8 +36,9 @@ export async function generateMetadata(
 
   return genMetadata(`/publishers/${slug}`, await parent, {
     title: publisher.name,
-    description: `View cookbooks published by ${publisher.name} and ${total - 1
-      } other publishers on Books About Food — the cookbook industry's new digital home.`,
+    description: `View cookbooks published by ${publisher.name} and ${
+      total - 1
+    } other publishers on Books About Food — the cookbook industry's new digital home.`,
     openGraph: {
       images: [
         {
@@ -76,10 +77,10 @@ export default slugPage(async function PublisherPage(slug) {
         {collection && <FeaturedCollection collection={collection} />}
       </Container>
       <Container className="flex flex-row flex-wrap justify-between gap-12">
-        <Description className="max-w-4xl sm:min-w-[650px] w-min flex-shrink flex-grow" />
+        <Description className="w-min max-w-4xl flex-shrink flex-grow sm:min-w-[650px]" />
         <div className="w-96">
           {publisher.house && (
-            <Detail maxWidth className="flex flex-col gap-2 items-start">
+            <Detail maxWidth className="flex flex-col items-start gap-2">
               <p className="all-caps">An imprint of</p>
               <Link href={`/publishers/${publisher.house.slug}`}>
                 <Pill variant="filled" small>
@@ -89,7 +90,7 @@ export default slugPage(async function PublisherPage(slug) {
             </Detail>
           )}
           {publisher.imprints.length > 0 && (
-            <Detail maxWidth className="flex flex-col gap-2 items-start">
+            <Detail maxWidth className="flex flex-col items-start gap-2">
               <p className="all-caps">Imprints</p>
               <PillList>
                 {publisher.imprints.map((imprint) => (

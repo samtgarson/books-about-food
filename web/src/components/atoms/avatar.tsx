@@ -72,25 +72,27 @@ export function BaseAvatar({
             {...imgProps}
             placeholder={sizeVal >= 40 ? imgProps.placeholder : undefined}
             className={cn(
-              'inset-0 object-cover aspect-square',
-              fill && 'w-full h-full'
+              'inset-0 aspect-square object-cover',
+              fill && 'h-full w-full'
             )}
           />
         ) : (
-          <span className="leading-none mt-px">
+          <span className="mt-px leading-none">
             {backup.split(' ').map((word) => word[0]?.toUpperCase())}
           </span>
         )}
       </div>
       {mobileSize !== size && (
-        <style>{`
+        <style>
+          {`
         @media (max-width: 640px) {
           #${id.replace(/:/g, '\\:')} {
             width: ${avatarSize[mobileSize]}px !important;
             height: ${avatarSize[mobileSize]}px !important;
           }
         }
-      `}</style>
+      `}
+        </style>
       )}
     </>
   )

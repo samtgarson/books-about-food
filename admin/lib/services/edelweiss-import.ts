@@ -34,7 +34,7 @@ export const edelweissImport = new AuthedService(
 
     try {
       await page.waitForSelector('.pve_title', { state: 'visible' })
-    } catch (e) {
+    } catch {
       throw new AppError('ServerError', 'Could not load Edelweiss+ page')
     }
 
@@ -49,7 +49,7 @@ export const edelweissImport = new AuthedService(
     }
 
     const res = await updateBook.call(attrs, user)
-    if (!res.success) throw res
+    if (!res.success) throw new Error('Failed to update book', { cause: res })
 
     const book = res.data
     await updateLinks.call(

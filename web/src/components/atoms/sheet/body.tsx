@@ -67,12 +67,12 @@ export const Body = forwardRef<SheetBodyControl, SheetBodyProps>(function Body(
       <div
         ref={scrollRoot}
         className={cn(
-          'pointer-events-auto overflow-auto isolate flex-1 flex flex-col',
+          'pointer-events-auto isolate flex flex-1 flex-col overflow-auto',
           containerClassName
         )}
       >
         <div ref={topDetector} id={topId} className="h-0.5" />
-        <div className={cn('flex-1 flex flex-col', className)}>{children}</div>
+        <div className={cn('flex flex-1 flex-col', className)}>{children}</div>
         <div ref={bottomDetector} id={bottomId} className="h-0.5" />
       </div>
     </>
@@ -87,7 +87,7 @@ export const Title = ({
   className?: string
 }) => {
   return (
-    <Dialog.Title className={cn('text-18 sm:text-24 font-medium', className)}>
+    <Dialog.Title className={cn('text-18 font-medium sm:text-24', className)}>
       {children}
     </Dialog.Title>
   )
@@ -105,7 +105,7 @@ export const Footer = ({
     <div
       className={cn(
         className,
-        'z-30 border-t transition-colors pt-3 sm:pt-4 -mt-3 sm:-mt-4 -mx-5 sm:-mx-8 px-5 sm:px-8',
+        'z-30 -mx-5 -mt-3 border-t px-5 pt-3 transition-colors sm:-mx-8 sm:-mt-4 sm:px-8 sm:pt-4',
         !scrollState.bottom ? 'border-neutral-grey' : 'border-transparent'
       )}
     >

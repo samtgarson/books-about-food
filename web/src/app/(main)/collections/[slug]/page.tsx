@@ -31,26 +31,26 @@ export default slugPage(async function CollectionPage(slug) {
     <Container belowNav>
       <PageTitle>
         <span>
-          <span className="opacity-40 block">Cookbook Collection</span>
+          <span className="block opacity-40">Cookbook Collection</span>
           {collection.title}
         </span>
       </PageTitle>
-      <div className="flex flex-col lg:flex-row items-stretch lg:items-end justify-end gap-8 pb-10 md:pb-20">
+      <div className="flex flex-col items-stretch justify-end gap-8 pb-10 md:pb-20 lg:flex-row lg:items-end">
         {collection.description && (
           <EditorRenderer
             content={collection.description}
-            className="max-w-prose mr-auto"
+            className="mr-auto max-w-prose"
           />
         )}
         {collection.bookshopDotOrgUrl && (
           <a
             href={collection.bookshopDotOrgUrl}
-            className="bg-white flex flex-col gap-4 p-8 max-w-[400px]"
+            className="flex max-w-[400px] flex-col gap-4 bg-white p-8"
             target="_blank"
             rel="noopener noreferrer"
           >
             <Image src={logo} width={150} height={20} alt="Bookshop.org logo" />
-            <p className="text-[#573BA3] font-medium">
+            <p className="font-medium text-[#573BA3]">
               Support BAF and indie bookshops. View this collection on{' '}
               <span className="underline">Bookshop.org</span>
             </p>

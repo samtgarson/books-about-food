@@ -25,7 +25,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
             <PublishersNav />
           </Suspense>
         </div>
-        <div className="min-w-[330px] flex-grow flex flex-col gap-16 max-w-4xl">
+        <div className="flex min-w-[330px] max-w-4xl flex-grow flex-col gap-16">
           {children}
         </div>
       </div>

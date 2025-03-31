@@ -13,7 +13,7 @@ export const Wrapper = ({ children }: { children: ReactNode }) => {
     <PaginationContext.Provider value={{ ref }}>
       <div
         ref={ref}
-        className="-mt-60 pt-60 relative pointer-events-none *:pointer-events-auto"
+        className="pointer-events-none relative -mt-60 pt-60 *:pointer-events-auto"
       >
         {children}
       </div>

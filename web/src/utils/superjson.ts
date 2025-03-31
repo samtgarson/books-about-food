@@ -5,22 +5,26 @@ import { FullBook } from '@books-about-food/core/models/full-book'
 import { Image } from '@books-about-food/core/models/image'
 import { Profile } from '@books-about-food/core/models/profile'
 import { Publisher } from '@books-about-food/core/models/publisher'
-import superjson from 'superjson'
+import {
+  registerClass,
+  parse as sjParse,
+  stringify as sjStringify
+} from 'superjson'
 
-superjson.registerClass(Book, { identifier: 'Book' })
-superjson.registerClass(FullBook, { identifier: 'FullBook' })
-superjson.registerClass(Image, { identifier: 'Image' })
-superjson.registerClass(Profile, { identifier: 'Profile' })
-superjson.registerClass(Publisher, { identifier: 'Publisher' })
-superjson.registerClass(Contribution, { identifier: 'Contribution' })
-superjson.registerClass(Collection, { identifier: 'Collection' })
+registerClass(Book, { identifier: 'Book' })
+registerClass(FullBook, { identifier: 'FullBook' })
+registerClass(Image, { identifier: 'Image' })
+registerClass(Profile, { identifier: 'Profile' })
+registerClass(Publisher, { identifier: 'Publisher' })
+registerClass(Contribution, { identifier: 'Contribution' })
+registerClass(Collection, { identifier: 'Collection' })
 
 export const stringify = <T>(value: T): Stringified<T> => {
-  return superjson.stringify(value) as Stringified<T>
+  return sjStringify(value) as Stringified<T>
 }
 
 export const parse = <T>(value: Stringified<T>): T => {
-  return superjson.parse(value)
+  return sjParse(value)
 }
 
 export type Stringified<T> = string & { __type: T }

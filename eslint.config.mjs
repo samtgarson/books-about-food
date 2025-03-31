@@ -1,72 +1,77 @@
-import { defineConfig, globalIgnores } from "eslint/config"
-import path from "node:path"
-import { fileURLToPath } from "node:url"
-import js from "@eslint/js"
-import { FlatCompat } from "@eslint/eslintrc"
+import { includeIgnoreFile } from '@eslint/compat'
 import baseConfig from '@samtgarson/eslint-config'
-import tsConfig from '@samtgarson/eslint-config/typescript.mjs'
 import reactConfig from '@samtgarson/eslint-config/react.mjs'
-import { includeIgnoreFile } from "@eslint/compat"
+import tsConfig from '@samtgarson/eslint-config/typescript.mjs'
+import eslintConfigPrettier from 'eslint-config-prettier/flat'
+import { defineConfig, globalIgnores } from 'eslint/config'
 import globals from 'globals'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all
-})
-const gitignorePath = path.resolve(__dirname, ".gitignore")
+const gitignorePath = path.resolve(__dirname, '.gitignore')
 
 export default defineConfig([
-  { files: ["**/*.js", "**/*.mjs", "**/*.ts", "**/*.tsx"] },
+  { files: ['**/*.js', '**/*.mjs', '**/*.ts', '**/*.tsx'] },
   includeIgnoreFile(gitignorePath),
-  globalIgnores(["packages/e2e/bin/generate-google-token.js", "**/.vercel"]),
+  globalIgnores([
+    'packages/e2e/bin/generate-google-token.js',
+    '**/.vercel',
+    'packages/prettier-config/index.js'
+  ]),
   {
-    extends: baseConfig,
+    extends: [baseConfig, tsConfig, eslintConfigPrettier],
 
     languageOptions: {
       globals: {
         ...globals.browser,
-        ...globals.node,
+        ...globals.node
       },
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname
+      }
     },
 
     settings: {
-      "import-x/parsers": {
-        "@typescript-eslint/parser": [".ts", ".tsx"],
+      'import-x/parsers': {
+        '@typescript-eslint/parser': ['.ts', '.tsx']
       },
 
-      "import-x/resolver": {
+      'import-x/resolver': {
         typescript: {
-          project: ["web/tsconfig.json", "admin/tsconfig.json", "packages/*/tsconfig.json"],
+          project: [
+            'web/tsconfig.json',
+            'admin/tsconfig.json',
+            'packages/*/tsconfig.json'
+          ]
         },
 
-        node: {},
-      },
+        node: {}
+      }
     },
 
     rules: {
-      "import-x/extensions": ["error", {
-        "nextauth]": "always",
-        svg: "always",
-      }],
-    },
-  },
-  {
-    files: ["**/*.ts", "**/*.tsx"],
-    extends: tsConfig,
-    rules: {
-      "@typescript-eslint/no-unused-vars": ["error", {
-        destructuredArrayIgnorePattern: "^_",
-        argsIgnorePattern: "^_",
-      }],
+      'import-x/extensions': [
+        'error',
+        {
+          'nextauth]': 'always',
+          svg: 'always'
+        }
+      ],
+      'import-x/no-named-as-default': 0,
+      'import-x/no-named-as-default-member': 0,
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          destructuredArrayIgnorePattern: '^_',
+          argsIgnorePattern: '^_'
+        }
+      ],
+      '@typescript-eslint/no-unsafe-assignment': 0
     }
   },
-  // {
-  //   files: ["**/*.tsx"],
-  //   extends: reactConfig
-  // },
   // TODO: Fix this
   // {
   //   files: ["web/**/*.ts", "web/**/*.ts"],
@@ -76,15 +81,19 @@ export default defineConfig([
   //   }
   // },
   {
+    files: ['web/**/*.ts', 'web/**/*.tsx'],
+    extends: reactConfig
+  },
+  {
     files: [
-      "packages/core/**/*.ts",
-      "packages/core/**/*.tsx",
-      "packages/e2e/**/*.ts",
-      "admin/build.js",
+      'packages/core/**/*.ts',
+      'packages/core/**/*.tsx',
+      'packages/e2e/**/*.ts',
+      'admin/build.js'
     ],
 
     rules: {
-      "import-x/no-extraneous-dependencies": 0,
-    },
-  },
+      'import-x/no-extraneous-dependencies': 0
+    }
+  }
 ])

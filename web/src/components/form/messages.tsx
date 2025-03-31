@@ -25,13 +25,16 @@ export function Messages({ label, name, ...props }: MessagesProps) {
     <>
       <FormMessage match="valueMissing">{label} is required</FormMessage>
       <FormMessage match="tooShort">
-        {label} must be at least {props.minLength} characters
+        {label} must be at least
+        {props.minLength} characters
       </FormMessage>
       <FormMessage match="tooLong">
-        {label} must be at most {props.maxLength} characters
+        {label} must be at most
+        {props.maxLength} characters
       </FormMessage>
       <FormMessage match="typeMismatch">
-        {label} must be a valid {props.type}
+        {label} must be a valid
+        {props.type}
       </FormMessage>
       {error && <FormMessage>{error.message}</FormMessage>}
     </>

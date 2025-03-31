@@ -20,7 +20,7 @@ export default function AboutPage() {
         <PageTitle>About</PageTitle>
         <div className="relative">
           <div className="max-w-[60ch]">
-            <p className="text-18 md:text-24 mb-8">
+            <p className="mb-8 text-18 md:text-24">
               Books About Food is a unique, design-forward space created to
               showcase books about food and the people involved in making them.
             </p>
@@ -54,10 +54,10 @@ export default function AboutPage() {
               “the big niche”.
             </P>
             <h3 className="mb-6 font-medium">Who’s behind this project?</h3>
-            <div className="w-full xl:w-[450px] 2xl:w-[550px] mb-6 flex min-h-96 aspect-auto xl:aspect-[1.1] bg-sand items-center justify-center gap-2 relative xl:absolute xl:right-0 xl:top-0 pb-14">
+            <div className="relative mb-6 flex aspect-auto min-h-96 w-full items-center justify-center gap-2 bg-sand pb-14 xl:absolute xl:right-0 xl:top-0 xl:aspect-[1.1] xl:w-[450px] 2xl:w-[550px]">
               <Image src={jamin} alt="Jamin Galea" height={200} />
               <Image src={sam} alt="Sam Garson" height={195} className="pt-8" />
-              <p className="mt-auto absolute inset-x-0 bottom-0 p-5 md:p-8">
+              <p className="absolute inset-x-0 bottom-0 mt-auto p-5 md:p-8">
                 Jam (left), Sam (right)
               </p>
             </div>
@@ -77,9 +77,9 @@ export default function AboutPage() {
           </div>
         </div>
       </Container>
-      <Container className="bg-sand py-8 md:py-16 -mb-20">
+      <Container className="-mb-20 bg-sand py-8 md:py-16">
         <div className="max-w-[60ch]">
-          <h2 className="text-24 md:text-48 mb-8">Get in touch</h2>
+          <h2 className="mb-8 text-24 md:text-48">Get in touch</h2>
           <P>
             If you have any questions, suggestions or just want to say hi please{' '}
             <ContactLink>get in touch</ContactLink>, we’d love to hear from you.
