@@ -9,11 +9,9 @@ export const metadata = genMetadata('/frequently-asked-questions', null, {
   description: 'Answers to common questions about Books About Food.'
 })
 
-export {
-  dynamic,
-  dynamicParams,
-  revalidate
-} from 'src/app/default-static-config'
+export const dynamic = 'error'
+export const revalidate = 3600
+export const dynamicParams = true
 
 export default async function FrequentlyAskedQuestions() {
   const questions = await prisma.frequentlyAskedQuestion.findMany({

@@ -4,7 +4,9 @@ import { call } from 'src/utils/service'
 import { metadata } from './metadata'
 import { ProfilePage } from './profile-page'
 
-export { dynamic, dynamicParams, revalidate } from 'app/default-static-config'
+export const dynamic = 'error'
+export const revalidate = 3600
+export const dynamicParams = true
 
 export const generateMetadata = metadata('people')
 

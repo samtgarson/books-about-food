@@ -6,7 +6,7 @@ import comingSoon from 'src/assets/images/cover-coming-soon.png'
 import { OGTemplate } from 'src/utils/image-response-helpers'
 import { call } from 'src/utils/service'
 
-export const revalidate = 60 * 60 // 1 hour
+export const revalidate = 3600
 
 const bookShadow = `
       0px 2.5px 1.9px rgba(0, 0, 0, 0.02),

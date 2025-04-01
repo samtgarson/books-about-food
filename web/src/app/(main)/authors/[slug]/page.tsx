@@ -5,7 +5,9 @@ import { ProfilePage } from 'app/(main)/people/[slug]/profile-page'
 import { slugPage } from 'src/components/types'
 import { call } from 'src/utils/service'
 
-export { dynamic, dynamicParams, revalidate } from 'app/default-static-config'
+export const dynamic = 'error'
+export const revalidate = 3600
+export const dynamicParams = true
 
 export const generateMetadata = metadata('people')
 export default slugPage(async function AuthorsPage(slug) {

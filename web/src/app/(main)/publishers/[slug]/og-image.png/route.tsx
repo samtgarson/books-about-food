@@ -23,7 +23,7 @@ const coverRows: CSSProperties[] = [
   }
 ]
 
-export const revalidate = 60 * 60 // 1 hour
+export const revalidate = 3600
 
 export async function GET(
   _request: NextRequest,

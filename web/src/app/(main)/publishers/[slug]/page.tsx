@@ -52,7 +52,9 @@ export async function generateMetadata(
   })
 }
 
-export { dynamic, dynamicParams, revalidate } from 'app/default-static-config'
+export const dynamic = 'error'
+export const revalidate = 3600
+export const dynamicParams = true
 
 export default slugPage(async function PublisherPage(slug) {
   const [{ data: publisher }, { data: [collection] = [] }] = await Promise.all([

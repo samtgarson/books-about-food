@@ -1,4 +1,5 @@
 import { FullBook } from '@books-about-food/core/models/full-book'
+import { Publisher } from '@books-about-food/core/models/publisher'
 import { fetchPublishers } from '@books-about-food/core/services/publishers/fetch-publishers'
 import { ContactLink } from 'src/components/atoms/contact-link'
 import { PageSubtitle } from 'src/components/atoms/page-title'
@@ -10,6 +11,8 @@ import { call } from 'src/utils/service'
 import { stringify } from 'src/utils/superjson'
 import { createAction } from '../action'
 import { EditForm } from '../form'
+
+const PublisherSelect = Select<Publisher, false, 'id'>
 
 export const EditPublisherForm = async ({ book }: { book: FullBook }) => {
   const options = async (search: string) => {
@@ -25,7 +28,7 @@ export const EditPublisherForm = async ({ book }: { book: FullBook }) => {
     <EditForm action={createAction(book.slug)}>
       <PageSubtitle>Publishing Information</PageSubtitle>
       <Wrap
-        c={Select}
+        c={PublisherSelect}
         multi={false}
         loadOptions={options}
         label="Publisher"

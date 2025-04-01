@@ -1,4 +1,7 @@
-import { Service } from '@books-about-food/core/services/base'
+import {
+  ServiceClass,
+  ServiceInput
+} from '@books-about-food/core/services/base'
 import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { Metadata, ResolvedMetadata } from 'next'
 import { PageProps } from 'src/components/types'
@@ -7,8 +10,10 @@ import { call } from 'src/utils/service'
 import { z } from 'zod'
 
 type Result = { total: number; filteredTotal: number; perPage: number | 'all' }
+
 export function indexPageMetadata<
-  Svc extends Service<z.ZodType<never>, Result>
+  Svc extends ServiceClass<any, any>, // eslint-disable-line @typescript-eslint/no-explicit-any
+  I extends z.ZodType<ServiceInput<Svc>>
 >({
   title: pageTitle,
   collection,
@@ -22,25 +27,21 @@ export function indexPageMetadata<
   path: string
   service: Svc
   image?: boolean
-  extraParams?: z.infer<Svc['input']>
+  extraParams?: z.infer<I>
 }) {
   return async function generateMetadata(
     { searchParams }: PageProps,
     parent: Promise<ResolvedMetadata>
   ): Promise<Metadata> {
-    const parsed = Object.assign(
-      {},
-      extraParams,
-      service.input.parse(searchParams)
-    ) as z.infer<Svc['input']>
-    const { page } = parsed
+    const parsed = {
+      ...extraParams,
+      ...(service.input as I).parse(searchParams)
+    } as z.infer<Svc['input']>
+    const { page } = parsed as { page?: number }
     const canonical = page ? `${path}?page=${page}` : path
-    const pageAsNumber = parseInt(page, 10)
-    const title = pageAsNumber
-      ? `${pageTitle} (Page ${pageAsNumber + 1})`
-      : pageTitle
-    const { data } = await call(service, parsed)
-    const links = getLinks(page, data)
+    const title = page ? `${pageTitle} (Page ${page + 1})` : pageTitle
+    const { data } = (await call(service, parsed)) as { data: Result }
+    const links = getLinks(page ?? 0, data)
     const count = data
       ? Math.floor(data.total / 100) * 100
       : 'our collection of'
