@@ -22,7 +22,11 @@ export const mergeParams = (
       if (Array.isArray(value)) {
         definedParams.delete(key)
         value.forEach((v) => definedParams.append(key, `${v}`))
-      } else definedParams.set(key, JSON.stringify(value))
+      } else
+        definedParams.set(
+          key,
+          typeof value === 'string' ? value : JSON.stringify(value)
+        )
     }
   })
 
