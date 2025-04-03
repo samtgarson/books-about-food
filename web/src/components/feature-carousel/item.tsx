@@ -47,7 +47,7 @@ export function FeatureCarouselItem({
       position={position}
       {...attrs}
       id={id}
-      href={feature.book.href}
+      href={current ? feature.book.href : '#'}
       className={className}
       onClick={onClick}
       {...mouseAttrs(mouseProps)}

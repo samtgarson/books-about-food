@@ -51,6 +51,7 @@ export const Transition = forwardRef<TransitionControl, TransitionProps>(
         if (e.metaKey || e.ctrlKey || e.shiftKey) return
         const anchor = findClosestAnchor(e.target)
         if (!anchor || anchor.target === '_blank') return
+        if (anchor.href === window.location.href + '#') return
         try {
           const targetHref = new URL(anchor.href).pathname
           if (targetHref === window.location.pathname) {
