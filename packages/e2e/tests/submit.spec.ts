@@ -16,6 +16,10 @@ test.describe('Submit', function () {
       .click()
 
     await fillInTitleForm(page)
+    await expect(
+      page.getByRole('heading', { name: 'A Good Day to Bake', level: 1 })
+    ).toBeVisible()
+
     await expect(page.getByRole('status').first()).toContainText(
       'Cookbook created'
     )
