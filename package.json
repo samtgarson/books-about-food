@@ -36,7 +36,7 @@
     "heroku-postbuild": "turbo run build --filter admin",
     "postinstall": "patch-package",
     "type-check": "npx -ws tsc --noEmit",
-    "prepare": "husky"
+    "prepare": "node .husky/install.mjs"
   },
   "devDependencies": {
     "@books-about-food/prettier-config": "*",
