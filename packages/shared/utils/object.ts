@@ -13,8 +13,8 @@ export function transformKeys<T = unknown>(
     return obj as T
   }
 
-  // Handle primitive types (not objects)
-  if (typeof obj !== 'object') {
+  // Handle primitive types and dates (not objects)
+  if (typeof obj !== 'object' || obj instanceof Date) {
     return obj as T
   }
 

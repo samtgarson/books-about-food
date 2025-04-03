@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { ComponentProps } from 'react'
 import { CarouselPosition } from './use-feature-carousel-item'
 
-const MotionLink = motion(Link)
+const MotionLink = motion.create(Link)
 
 export function FeatureCarouselSlide({
   id,
