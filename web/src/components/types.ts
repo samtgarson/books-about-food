@@ -7,11 +7,14 @@ export interface PageProps<
   Params extends Record<string, string | string[]> = never
 > {
   params: Promise<Params>
-  searchParams: SearchParams
+  searchParams: Promise<SearchParams>
 }
 
 export function slugPage(
-  pageFn: (slug: string, searchParams?: SearchParams) => Promise<JSX.Element>
+  pageFn: (
+    slug: string,
+    searchParams?: Promise<SearchParams>
+  ) => Promise<JSX.Element>
 ) {
   return async function (props: SlugProps) {
     const { slug } = await props.params

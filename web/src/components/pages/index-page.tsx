@@ -22,8 +22,8 @@ export const createIndexPage = <Input extends z.ZodTypeAny>({
   schema,
   config: { wrapInListContext } = { wrapInListContext: false }
 }: IndexPageProps<Input>) => {
-  const IndexPage = ({ searchParams }: PageProps) => {
-    const filters = schema.parse(searchParams)
+  const IndexPage = async ({ searchParams }: PageProps) => {
+    const filters = schema.parse(await searchParams)
     const ListContext = wrapInListContext ? ListContainer : Fragment
 
     return (

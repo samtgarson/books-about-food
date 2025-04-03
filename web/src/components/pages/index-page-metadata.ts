@@ -35,7 +35,7 @@ export function indexPageMetadata<
   ): Promise<Metadata> {
     const parsed = {
       ...extraParams,
-      ...(service.input as I).parse(searchParams)
+      ...(service.input as I).parse(await searchParams)
     } as z.infer<Svc['input']>
     const { page } = parsed as { page?: number }
     const canonical = page ? `${path}?page=${page}` : path
