@@ -24,7 +24,7 @@ export default function Error({
       <LogoShape text className="h-auto w-16" />
       <PageTitle className="!pb-8">Something went wrong</PageTitle>
       <p className="mb-4">
-        Apologies for any inconvenience, our team is has already been notified.
+        Apologies for any inconvenience, our team has already been notified.
       </p>
       <div className="flex gap-4">
         {reset && <Button onClick={() => reset()}>Try again</Button>}

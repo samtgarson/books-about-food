@@ -24,7 +24,7 @@ export default function Error({
     <Container belowNav>
       <PageTitle className="!pb-8">Something went wrong</PageTitle>
       <p className="mb-4">
-        Apologies for any inconvenience, our team is has already been notified.
+        Apologies for any inconvenience, our team has already been notified.
       </p>
       <div className="flex gap-4">
         <Button onClick={() => reset()}>Try again</Button>
