@@ -284,12 +284,12 @@
           "isFilterable": true,
           "isPrimaryKey": false,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Date",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         }
       ],
       "icon": null,
@@ -330,12 +330,12 @@
           "isFilterable": true,
           "isPrimaryKey": false,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Date",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -554,12 +554,12 @@
           "isFilterable": true,
           "isPrimaryKey": false,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Date",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -570,12 +570,12 @@
           "isFilterable": true,
           "isPrimaryKey": true,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Uuid",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -655,6 +655,7 @@
           "fields": [
             {
               "field": "Loading...",
+              "label": "Loading...",
               "type": "String",
               "isReadOnly": true,
               "defaultValue": "Form is loading",
@@ -940,12 +941,12 @@
           "isFilterable": true,
           "isPrimaryKey": true,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Uuid",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -1020,7 +1021,7 @@
           "field": "palette",
           "integration": null,
           "inverseOf": null,
-          "isFilterable": false,
+          "isFilterable": true,
           "isPrimaryKey": false,
           "isReadOnly": false,
           "isRequired": false,
@@ -1105,12 +1106,12 @@
           "isFilterable": true,
           "isPrimaryKey": false,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Enum",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": "draft",
@@ -1121,12 +1122,12 @@
           "isFilterable": true,
           "isPrimaryKey": false,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Enum",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -1310,12 +1311,12 @@
           "isFilterable": true,
           "isPrimaryKey": true,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Uuid",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -1456,12 +1457,12 @@
           "isFilterable": true,
           "isPrimaryKey": true,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Uuid",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -1583,12 +1584,12 @@
           "isFilterable": true,
           "isPrimaryKey": true,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Uuid",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -1632,12 +1633,12 @@
           "isFilterable": true,
           "isPrimaryKey": false,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Enum",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -1775,12 +1776,12 @@
           "isFilterable": true,
           "isPrimaryKey": true,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Uuid",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -1871,12 +1872,12 @@
           "isFilterable": true,
           "isPrimaryKey": true,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Uuid",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -1967,12 +1968,12 @@
           "isFilterable": true,
           "isPrimaryKey": true,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Uuid",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -2079,12 +2080,12 @@
           "isFilterable": true,
           "isPrimaryKey": true,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Uuid",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": 0,
@@ -2205,12 +2206,12 @@
           "isFilterable": true,
           "isPrimaryKey": true,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Uuid",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -2361,12 +2362,12 @@
           "isFilterable": true,
           "isPrimaryKey": true,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Uuid",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": 0,
@@ -2572,12 +2573,12 @@
           "isFilterable": true,
           "isPrimaryKey": false,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Boolean",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -2588,12 +2589,12 @@
           "isFilterable": true,
           "isPrimaryKey": true,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Uuid",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -2715,12 +2716,12 @@
           "isFilterable": true,
           "isPrimaryKey": true,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Uuid",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -2793,12 +2794,12 @@
           "isFilterable": true,
           "isPrimaryKey": true,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Uuid",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -2826,12 +2827,12 @@
           "isFilterable": true,
           "isPrimaryKey": false,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Enum",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -2906,12 +2907,12 @@
           "isFilterable": true,
           "isPrimaryKey": false,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Date",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -2938,12 +2939,12 @@
           "isFilterable": true,
           "isPrimaryKey": true,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Uuid",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": 0,
@@ -3033,12 +3034,12 @@
           "isFilterable": true,
           "isPrimaryKey": true,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Uuid",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -3335,12 +3336,12 @@
           "isFilterable": true,
           "isPrimaryKey": true,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Uuid",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -3575,12 +3576,12 @@
           "isFilterable": true,
           "isPrimaryKey": true,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Uuid",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -3625,12 +3626,12 @@
           "isFilterable": true,
           "isPrimaryKey": false,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Enum",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -3801,12 +3802,12 @@
           "isFilterable": true,
           "isPrimaryKey": true,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Uuid",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -3990,6 +3991,132 @@
         {
           "defaultValue": null,
           "enums": [],
+          "field": "description",
+          "integration": null,
+          "inverseOf": null,
+          "isFilterable": true,
+          "isPrimaryKey": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "isSortable": true,
+          "isVirtual": false,
+          "reference": null,
+          "type": "String",
+          "validations": []
+        },
+        {
+          "defaultValue": null,
+          "enums": [],
+          "field": "id",
+          "integration": null,
+          "inverseOf": null,
+          "isFilterable": true,
+          "isPrimaryKey": true,
+          "isReadOnly": true,
+          "isRequired": false,
+          "isSortable": true,
+          "isVirtual": false,
+          "reference": null,
+          "type": "Uuid",
+          "validations": []
+        },
+        {
+          "defaultValue": null,
+          "enums": [],
+          "field": "image",
+          "integration": null,
+          "inverseOf": null,
+          "isFilterable": true,
+          "isPrimaryKey": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "isSortable": true,
+          "isVirtual": false,
+          "reference": null,
+          "type": "Json",
+          "validations": []
+        },
+        {
+          "defaultValue": null,
+          "enums": [],
+          "field": "name",
+          "integration": null,
+          "inverseOf": null,
+          "isFilterable": true,
+          "isPrimaryKey": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "isSortable": true,
+          "isVirtual": false,
+          "reference": null,
+          "type": "String",
+          "validations": []
+        },
+        {
+          "defaultValue": null,
+          "enums": [],
+          "field": "slug",
+          "integration": null,
+          "inverseOf": null,
+          "isFilterable": true,
+          "isPrimaryKey": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "isSortable": true,
+          "isVirtual": false,
+          "reference": null,
+          "type": "String",
+          "validations": []
+        },
+        {
+          "defaultValue": null,
+          "enums": ["author", "book", "bookTag", "collection", "contributor", "publisher"],
+          "field": "type",
+          "integration": null,
+          "inverseOf": null,
+          "isFilterable": true,
+          "isPrimaryKey": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "isSortable": true,
+          "isVirtual": false,
+          "reference": null,
+          "type": "Enum",
+          "validations": []
+        },
+        {
+          "defaultValue": null,
+          "enums": [],
+          "field": "updated_at",
+          "integration": null,
+          "inverseOf": null,
+          "isFilterable": true,
+          "isPrimaryKey": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "isSortable": true,
+          "isVirtual": false,
+          "reference": null,
+          "type": "Date",
+          "validations": []
+        }
+      ],
+      "icon": null,
+      "integration": null,
+      "isReadOnly": true,
+      "isSearchable": true,
+      "isVirtual": false,
+      "name": "search_results",
+      "onlyForRelationships": false,
+      "paginationType": "page",
+      "segments": []
+    },
+    {
+      "actions": [],
+      "fields": [
+        {
+          "defaultValue": null,
+          "enums": [],
           "field": "expires",
           "integration": null,
           "inverseOf": null,
@@ -4107,12 +4234,12 @@
           "isFilterable": true,
           "isPrimaryKey": true,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Uuid",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -4252,12 +4379,12 @@
           "isFilterable": true,
           "isPrimaryKey": true,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Uuid",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -4476,12 +4603,12 @@
           "isFilterable": true,
           "isPrimaryKey": true,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Uuid",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -4609,12 +4736,12 @@
           "isFilterable": true,
           "isPrimaryKey": false,
           "isReadOnly": false,
-          "isRequired": false,
+          "isRequired": true,
           "isSortable": true,
           "isVirtual": false,
           "reference": null,
           "type": "Enum",
-          "validations": []
+          "validations": [{"type": "is present", "message": "Field is required"}]
         },
         {
           "defaultValue": null,
@@ -4738,8 +4865,8 @@
   ],
   "meta": {
     "liana": "forest-nodejs-agent",
-    "liana_version": "1.36.12",
+    "liana_version": "1.60.1",
     "liana_features": null,
-    "stack": {"engine": "nodejs", "engine_version": "20.11.1"}
+    "stack": {"engine": "nodejs", "engine_version": "22.14.0"}
   }
 }
