@@ -20,14 +20,10 @@ test.describe('Submit', function () {
       page.getByRole('heading', { name: 'A Good Day to Bake', level: 1 })
     ).toBeVisible()
 
-    await expect(page.getByRole('status').first()).toContainText(
-      'Cookbook created'
-    )
+    await expect(toastContainer(page)).toContainText('Cookbook created')
 
     await page.getByRole('button', { name: 'Delete Cookbook' }).click()
-    await expect(page.getByRole('status').first()).toContainText(
-      'Cookbook deleted'
-    )
+    await expect(toastContainer(page)).toContainText('Cookbook deleted')
   })
 })
 
@@ -51,4 +47,8 @@ async function fillInTitleForm(page: Page) {
   await dialog.getByRole('combobox', { name: 'Author(s)' }).fill('Abby')
   await page.getByRole('option', { name: 'Abby Camilleri' }).click()
   await dialog.getByRole('button', { name: 'Save & continue' }).click()
+}
+
+function toastContainer(page: Page) {
+  return page.getByLabel(/^Notifications.+$/)
 }
