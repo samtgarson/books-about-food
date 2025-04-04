@@ -33,19 +33,21 @@ export type ServiceResult<T> =
 
 export type ServiceReturn<
   S extends BaseService<any, any, any> | ServiceClass<any, any>
-> = S extends BaseService<any, any, infer R>
-  ? ServiceResult<R>
-  : S extends ServiceClass<any, infer R>
-  ? ServiceResult<R>
-  : never
+> =
+  S extends BaseService<any, any, infer R>
+    ? ServiceResult<R>
+    : S extends ServiceClass<any, infer R>
+      ? ServiceResult<R>
+      : never
 
 export type ServiceInput<
   S extends BaseService<any, any, any> | ServiceClass<any, any>
-> = S extends BaseService<any, infer I, any>
-  ? z.input<I>
-  : S extends ServiceClass<infer I, any>
-  ? z.input<I>
-  : never
+> =
+  S extends BaseService<any, infer I, any>
+    ? z.input<I>
+    : S extends ServiceClass<infer I, any>
+      ? z.input<I>
+      : never
 
 abstract class BaseService<
   Authed extends boolean,

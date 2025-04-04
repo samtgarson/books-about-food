@@ -16,7 +16,7 @@ declare module 'next-auth' {
     user: CoreUser
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   interface User extends CoreUser {}
 }
 

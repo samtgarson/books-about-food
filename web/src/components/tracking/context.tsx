@@ -95,7 +95,7 @@ export function TrackedLink(
       {...props}
       onClick={() => {
         track('Clicked a link', {
-          URL: props.href.toString(),
+          URL: JSON.stringify(props.href),
           Label: props.title
         })
       }}

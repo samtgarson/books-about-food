@@ -24,7 +24,7 @@ appRouter.use(async function (ctx, next) {
   }
 
   ctx.user = parsed.data
-  return next()
+  next()
 })
 
 appRouter.post('/edelweiss-import', async (ctx) => {

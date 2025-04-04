@@ -1,6 +1,6 @@
 'use client'
 
-import { FC, useState } from 'react'
+import { FC, useState, type JSX } from 'react'
 import { useUserAgent } from 'src/hooks/use-user-agent'
 import z from 'zod'
 import { Button } from '../atoms/button'

@@ -25,15 +25,13 @@ import {
   InvitesOverflow,
   MembershipsOverflow
 } from 'src/components/memberships/overflows'
-import { PageProps } from 'src/components/types'
+import { slugPage } from 'src/components/types'
 import { Toaster } from 'src/components/utils/toaster'
 import { pick } from 'src/utils/object-helpers'
 import { call } from 'src/utils/service'
 import { getSessionUser } from 'src/utils/user'
 
-export default async function AccountPublisherPage({
-  params: { slug }
-}: PageProps<{ slug: string }>) {
+export default slugPage(async function AccountPublisherPage(slug) {
   const [
     { data: publisher },
     { data: memberships = [] },
@@ -48,7 +46,7 @@ export default async function AccountPublisherPage({
   if (!publisher || !user || !currentUserMembership) notFound()
 
   return (
-    <div className="flex flex-col gap-12 max-w-xl">
+    <div className="flex max-w-xl flex-col gap-12">
       <Toaster
         action="invite-accepted"
         type="success"
@@ -78,7 +76,7 @@ export default async function AccountPublisherPage({
       )}
     </div>
   )
-}
+})
 
 function Memberships({
   publisher,
@@ -97,7 +95,7 @@ function Memberships({
           <li
             key={id}
             className={cn(
-              'flex gap-4 py-4 items-center border-b border-neutral-grey',
+              'flex items-center gap-4 border-b border-neutral-grey py-4',
               user.is(currentUser) &&
                 can(currentUser, publisher).update &&
                 'pr-10'
@@ -111,7 +109,7 @@ function Memberships({
             <div className="flex flex-col gap-x-4 sm:flex-row">
               <p>{user.is(currentUser) ? 'You' : user.displayName}</p>
               {user.name && (
-                <p className="opacity-50 shrink truncate">{user.email}</p>
+                <p className="shrink truncate opacity-50">{user.email}</p>
               )}
             </div>
             <Tag
@@ -166,13 +164,13 @@ function Invites({
         />
       </div>
       {invitations.length === 0 && (
-        <p className="opacity-50 mt-2">No invites</p>
+        <p className="mt-2 opacity-50">No invites</p>
       )}
       <ul>
         {invitations.map((invite) => (
           <li
             key={invite.id}
-            className="flex gap-4 py-4 items-center border-b border-neutral-grey"
+            className="flex items-center gap-4 border-b border-neutral-grey py-4"
           >
             <p className="mr-auto">{invite.email}</p>
             <p className="opacity-50">

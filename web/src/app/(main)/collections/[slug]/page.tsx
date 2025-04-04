@@ -9,13 +9,13 @@ import { PageTitle } from 'src/components/atoms/page-title'
 import { BookGrid } from 'src/components/books/grid'
 import { EditorRenderer } from 'src/components/form/editor/renderer'
 import { ListContainer } from 'src/components/lists/list-context'
-import { PageProps } from 'src/components/types'
+import { slugPage, SlugProps } from 'src/components/types'
 import { genMetadata } from 'src/utils/metadata'
 import { call } from 'src/utils/service'
 
-type CollectionPageProps = PageProps<{ slug: string }>
-
-export { dynamic, dynamicParams, revalidate } from 'app/default-static-config'
+export const dynamic = 'error'
+export const revalidate = 3600
+export const dynamicParams = true
 
 export async function generateStaticParams() {
   const { data } = await call(fetchCollections, { publisherSlug: undefined })
@@ -25,9 +25,7 @@ export async function generateStaticParams() {
   return slugs
 }
 
-export default async function CollectionPage({
-  params: { slug }
-}: CollectionPageProps) {
+export default slugPage(async function CollectionPage(slug) {
   const { data: collection } = await call(fetchCollection, { slug })
   if (!collection) notFound()
 
@@ -35,26 +33,26 @@ export default async function CollectionPage({
     <Container belowNav>
       <PageTitle>
         <span>
-          <span className="opacity-40 block">Cookbook Collection</span>
+          <span className="block opacity-40">Cookbook Collection</span>
           {collection.title}
         </span>
       </PageTitle>
-      <div className="flex flex-col lg:flex-row items-stretch lg:items-end justify-end gap-8 pb-10 md:pb-20">
+      <div className="flex flex-col items-stretch justify-end gap-8 pb-10 md:pb-20 lg:flex-row lg:items-end">
         {collection.description && (
           <EditorRenderer
             content={collection.description}
-            className="max-w-prose mr-auto"
+            className="mr-auto max-w-prose"
           />
         )}
         {collection.bookshopDotOrgUrl && (
           <a
             href={collection.bookshopDotOrgUrl}
-            className="bg-white flex flex-col gap-4 p-8 max-w-[400px]"
+            className="flex max-w-[400px] flex-col gap-4 bg-white p-8"
             target="_blank"
             rel="noopener noreferrer"
           >
             <Image src={logo} width={150} height={20} alt="Bookshop.org logo" />
-            <p className="text-[#573BA3] font-medium">
+            <p className="font-medium text-[#573BA3]">
               Support BAF and indie bookshops. View this collection on{' '}
               <span className="underline">Bookshop.org</span>
             </p>
@@ -70,12 +68,14 @@ export default async function CollectionPage({
       </ListContainer>
     </Container>
   )
-}
+})
 
 export async function generateMetadata(
-  { params: { slug } }: CollectionPageProps,
+  props: SlugProps,
   parent: Promise<ResolvedMetadata>
 ): Promise<Metadata> {
+  const { slug } = await props.params
+
   const { data: collection } = await call(fetchCollection, { slug })
   if (!collection) notFound()
 

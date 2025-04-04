@@ -8,7 +8,7 @@ const sharedConfig = {
   debug: false
 }
 
-export function register() {
+export async function register() {
   if (process.env.NEXT_RUNTIME === 'nodejs') {
     // this is your Sentry.init call from `sentry.server.config.js|ts`
     Sentry.init({
@@ -24,3 +24,5 @@ export function register() {
     })
   }
 }
+
+export const onRequestError = Sentry.captureRequestError

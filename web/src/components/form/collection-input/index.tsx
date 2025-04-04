@@ -1,6 +1,6 @@
 'use client'
 
-import * as Form from '@radix-ui/react-form'
+import { Form } from 'radix-ui'
 import { useState } from 'react'
 import { Plus } from 'src/components/atoms/icons'
 import * as Sheet from 'src/components/atoms/sheet'

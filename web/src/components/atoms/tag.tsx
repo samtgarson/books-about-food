@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import { ReactNode } from 'react'
+import { ReactNode, type JSX } from 'react'
 
 const colors = {
   white: 'bg-white',
@@ -24,7 +24,7 @@ export function Tag({
   return (
     <div
       className={cn(
-        'all-caps-sm sm:all-caps px-3 py-1.5 whitespace-nowrap',
+        'all-caps-sm sm:all-caps whitespace-nowrap px-3 py-1.5',
         className,
         colors[color]
       )}

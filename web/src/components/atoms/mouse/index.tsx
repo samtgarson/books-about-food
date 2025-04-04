@@ -14,8 +14,8 @@ import {
 
 export type { MouseMode }
 
-const MotionChevronLeft = motion(ChevronLeft)
-const MotionChevronRight = motion(ChevronRight)
+const MotionChevronLeft = motion.create(ChevronLeft)
+const MotionChevronRight = motion.create(ChevronRight)
 
 export const Mouse = () => {
   const ref = useRef<HTMLDivElement>(null)

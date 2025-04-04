@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import format from 'date-fns/format'
+import { format } from 'date-fns'
 import { useEffect } from 'react'
 import { mouseAttrs } from '../atoms/mouse'
 import { useNav } from '../nav/context'
@@ -51,7 +51,7 @@ export function Title({
     >
       <div
         className={cn(
-          'pointer-events-none flex flex-col gap-4 transition pr-36',
+          'pointer-events-none flex flex-col gap-4 pr-36 transition',
           current ? 'text-white' : 'opacity-10'
         )}
       >

@@ -17,16 +17,17 @@ import { Description } from 'src/components/publishers/edit/description'
 import { EditableLogo } from 'src/components/publishers/edit/editable-logo'
 import { LinkList } from 'src/components/publishers/edit/link-list'
 import { FeaturedCollection } from 'src/components/publishers/featured-collection'
-import { PageProps } from 'src/components/types'
+import { slugPage, SlugProps } from 'src/components/types'
+import { Wrap } from 'src/components/utils/wrap'
 import { genMetadata, publisherTotal } from 'src/utils/metadata'
 import { call } from 'src/utils/service'
 
-type PublisherPageProps = PageProps<{ slug: string }>
-
 export async function generateMetadata(
-  { params: { slug } }: PublisherPageProps,
+  props: SlugProps,
   parent: Promise<ResolvedMetadata>
 ): Promise<Metadata> {
+  const { slug } = await props.params
+
   const [{ data: publisher }, total] = await Promise.all([
     call(fetchPublisher, { slug }),
     publisherTotal
@@ -35,8 +36,9 @@ export async function generateMetadata(
 
   return genMetadata(`/publishers/${slug}`, await parent, {
     title: publisher.name,
-    description: `View cookbooks published by ${publisher.name} and ${total - 1
-      } other publishers on Books About Food — the cookbook industry's new digital home.`,
+    description: `View cookbooks published by ${publisher.name} and ${
+      total - 1
+    } other publishers on Books About Food — the cookbook industry's new digital home.`,
     openGraph: {
       images: [
         {
@@ -50,9 +52,11 @@ export async function generateMetadata(
   })
 }
 
-export { dynamic, dynamicParams, revalidate } from 'app/default-static-config'
+export const dynamic = 'error'
+export const revalidate = 3600
+export const dynamicParams = true
 
-export default async ({ params: { slug } }: PublisherPageProps) => {
+export default slugPage(async function PublisherPage(slug) {
   const [{ data: publisher }, { data: [collection] = [] }] = await Promise.all([
     call(fetchPublisher, { slug }),
     call(fetchCollections, {
@@ -64,7 +68,7 @@ export default async ({ params: { slug } }: PublisherPageProps) => {
   if (!publisher) return notFound()
 
   return (
-    <EditPublisherProvider publisher={publisher} data-superjson>
+    <Wrap c={EditPublisherProvider} publisher={publisher}>
       <Container belowNav>
         <div className="font-style-title flex items-center justify-between py-14">
           <h1 title={publisher.name}>
@@ -75,10 +79,10 @@ export default async ({ params: { slug } }: PublisherPageProps) => {
         {collection && <FeaturedCollection collection={collection} />}
       </Container>
       <Container className="flex flex-row flex-wrap justify-between gap-12">
-        <Description className="max-w-4xl sm:min-w-[650px] w-min flex-shrink flex-grow" />
+        <Description className="w-min max-w-4xl flex-shrink flex-grow sm:min-w-[650px]" />
         <div className="w-96">
           {publisher.house && (
-            <Detail maxWidth className="flex flex-col gap-2 items-start">
+            <Detail maxWidth className="flex flex-col items-start gap-2">
               <p className="all-caps">An imprint of</p>
               <Link href={`/publishers/${publisher.house.slug}`}>
                 <Pill variant="filled" small>
@@ -88,7 +92,7 @@ export default async ({ params: { slug } }: PublisherPageProps) => {
             </Detail>
           )}
           {publisher.imprints.length > 0 && (
-            <Detail maxWidth className="flex flex-col gap-2 items-start">
+            <Detail maxWidth className="flex flex-col items-start gap-2">
               <p className="all-caps">Imprints</p>
               <PillList>
                 {publisher.imprints.map((imprint) => (
@@ -109,6 +113,6 @@ export default async ({ params: { slug } }: PublisherPageProps) => {
           <PublisherBookList publisher={publisher} />
         </Suspense>
       </Container>
-    </EditPublisherProvider>
+    </Wrap>
   )
-}
+})

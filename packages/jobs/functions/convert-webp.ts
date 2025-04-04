@@ -82,7 +82,7 @@ async function convertCover(id: string): Promise<JobResult> {
     return {
       id,
       status: 'failed',
-      message: `Failed to create cover: ${createRes.errors}`
+      message: `Failed to create cover: ${JSON.stringify(createRes.errors, null, 2)}`
     }
 
   const {

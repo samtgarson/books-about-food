@@ -36,12 +36,12 @@ export function ProfileList({
               />
             ))}
           </div>
-          <Eye className="sm:hidden shrink-0 ml-4" size={22} strokeWidth={1}>
+          <Eye className="ml-4 shrink-0 sm:hidden" size={22} strokeWidth={1}>
             Open
           </Eye>
         </Sheet.Trigger>
         <Sheet.Content title={title} wide>
-          <Sheet.Body className="pb-8 group profile-list">
+          <Sheet.Body className="profile-list group pb-8">
             <GridContainer mobile={false}>{children}</GridContainer>
           </Sheet.Body>
         </Sheet.Content>

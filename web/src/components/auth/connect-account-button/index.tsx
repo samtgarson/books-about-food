@@ -22,7 +22,8 @@ export function ConnectAccountButton({
         await connectAccount(provider)
       }}
     >
-      <Icon size={18} /> Connect {label}
+      <Icon size={18} /> Connect
+      {label}
     </button>
   )
 }

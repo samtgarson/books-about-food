@@ -36,11 +36,11 @@ export function Bookshelf({
 
   return (
     <div
-      className={cn(className, 'flex h-full relative items-end')}
+      className={cn(className, 'relative flex h-full items-end')}
       style={{ width: books.length * 70 }}
     >
       {items.map((item) => (
-        <div {...item} key={item.id} className="py-8 flex items-center text-20">
+        <div {...item} key={item.id} className="flex items-center py-8 text-20">
           {item.title}
         </div>
       ))}

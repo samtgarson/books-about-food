@@ -1,7 +1,7 @@
 'use client'
 
-import * as Form from '@radix-ui/react-form'
 import cn from 'classnames'
+import { Form } from 'radix-ui'
 import { ComponentPropsWithoutRef, ReactNode } from 'react'
 
 export function Label({
@@ -18,7 +18,7 @@ export function Label({
     typeof children === 'string' ? <span>{children}</span> : children
   return (
     <Form.Label
-      className={cn('text-14 flex items-center justify-start gap-2', className)}
+      className={cn('flex items-center justify-start gap-2 text-14', className)}
       {...props}
     >
       {content}

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { ComponentProps } from 'react'
 import { CarouselPosition } from './use-feature-carousel-item'
 
-const MotionLink = motion(Link)
+const MotionLink = motion.create(Link)
 
 export function FeatureCarouselSlide({
   id,
@@ -15,7 +15,7 @@ export function FeatureCarouselSlide({
   ...attrs
 }: {
   position: CarouselPosition
-  onClick(): void
+  onClick: () => void
   href?: string
 } & Omit<ComponentProps<typeof MotionLink>, 'onClick' | 'href'>) {
   return (
@@ -36,8 +36,8 @@ export function FeatureCarouselSlide({
         position === 'next'
           ? 'Next'
           : position === 'prev'
-          ? 'Previous'
-          : undefined
+            ? 'Previous'
+            : undefined
       }
     >
       {children}

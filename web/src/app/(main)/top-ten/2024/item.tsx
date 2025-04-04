@@ -24,7 +24,7 @@ export function TopTenGridItem({
     >
       <div
         className={cn(
-          'absolute inset-0 sm:inset-[-18px] bg-black z-[-1] transition  ease-out',
+          'absolute inset-0 z-[-1] bg-black transition ease-out sm:inset-[-18px]',
           selected || 'opacity-0 sm:scale-[0.97]'
         )}
       />
@@ -32,7 +32,7 @@ export function TopTenGridItem({
       <Book.Footer
         book={book}
         className={cn(
-          'sm:text-center transition-colors ease-out !sm:px-6',
+          '!sm:px-6 transition-colors ease-out sm:text-center',
           selected && 'text-white'
         )}
       />

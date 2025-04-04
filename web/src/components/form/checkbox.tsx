@@ -1,6 +1,6 @@
 'use client'
 
-import * as Form from '@radix-ui/react-form'
+import { Form } from 'radix-ui'
 import { Check } from 'src/components/atoms/icons'
 import { Label } from './label'
 import { Messages } from './messages'
@@ -14,7 +14,7 @@ export function Checkbox({ label, name, ...props }: CheckboxProps) {
   return (
     <Form.Field name={name} className="flex flex-col gap-2">
       <Label required={props.required} className="!text-12">
-        <div className="flex h-6 w-6 items-center justify-center rounded-sm border border-gray-300 p-0.5">
+        <div className="border-gray-300 flex h-6 w-6 items-center justify-center rounded-sm border p-0.5">
           <Form.Control asChild>
             <input
               name={name}
@@ -26,7 +26,7 @@ export function Checkbox({ label, name, ...props }: CheckboxProps) {
           <Check
             strokeWidth={1}
             size={24}
-            className="animate-fade-in hidden peer-checked:block"
+            className="hidden animate-fade-in peer-checked:block"
           />
         </div>
         {label}

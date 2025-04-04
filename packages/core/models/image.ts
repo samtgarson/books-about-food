@@ -43,7 +43,10 @@ export class Image {
   }
 
   imageAttrs(height?: number): ImageProps {
-    const attrs: Omit<ImageProps, 'width' | 'height'> & {
+    const attrs: Pick<
+      ImageProps,
+      'src' | 'alt' | 'unoptimized' | 'placeholder' | 'blurDataURL'
+    > & {
       width?: number
       height?: number
     } = {

@@ -29,11 +29,11 @@ export function BookPreview({
               className="object-cover align-middle"
             />
           ) : (
-            <div className="inline-block w-[47px] h-[62px] rounded-[30px] bg-sand mr-4 ml-[-4px] align-middle" />
+            <div className="bg-sand ml-[-4px] mr-4 inline-block h-[62px] w-[47px] rounded-[30px] align-middle" />
           )}
         </Column>
-        <Column className="bg-white p-4 mr-auto">
-          <div className="block mb-2">
+        <Column className="mr-auto bg-white p-4">
+          <div className="mb-2 block">
             <strong>{title}</strong>
           </div>
           <div>{author}</div>

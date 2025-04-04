@@ -1,8 +1,8 @@
 'use client'
 
-import * as Checkbox from '@radix-ui/react-checkbox'
 import cn from 'classnames'
 import { motion } from 'framer-motion'
+import { Checkbox } from 'radix-ui'
 import { useCallback, useMemo, useState } from 'react'
 import { Check } from 'src/components/atoms/icons'
 import { usePromise } from 'src/hooks/use-promise'
@@ -107,7 +107,7 @@ export function FilterSelect<Value extends string | number = string>({
           <Search
             value={searchValue}
             onChange={setSearchValue}
-            className="!text-18 sm:!text-24 mb-4 sm:mb-6"
+            className="mb-4 !text-18 sm:mb-6 sm:!text-24"
           />
         )}
         <ul className="flex flex-col gap-2 sm:gap-3">
@@ -115,7 +115,7 @@ export function FilterSelect<Value extends string | number = string>({
             <motion.li
               key={option.value}
               className={cn(
-                'sm:text-18 flex items-center justify-between overflow-hidden',
+                'flex items-center justify-between overflow-hidden sm:text-18',
                 matches[option.value] || 'pointer-events-none'
               )}
               animate={{ opacity: matches[option.value] ? 1 : 0.1 }}

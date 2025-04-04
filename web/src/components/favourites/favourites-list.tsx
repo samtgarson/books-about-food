@@ -50,15 +50,15 @@ export const FavouritesList = async () => {
           <form action={unfavourite} className="relative flex items-center">
             <Link
               href={profile.href}
-              className="px-5 py-4 border border-black flex gap-4 -mb-px sm:-mr-px items-center flex-grow"
+              className="-mb-px flex flex-grow items-center gap-4 border border-black px-5 py-4 sm:-mr-px"
             >
               <Avatar profile={profile} />
               <div className="flex flex-col overflow-hidden">
-                <p className="font-medium whitespace-nowrap text-ellipsis overflow-hidden">
+                <p className="overflow-hidden text-ellipsis whitespace-nowrap font-medium">
                   {profile.name}
                 </p>
                 {!!profile.jobTitle && (
-                  <p className="text-12 whitespace-nowrap text-ellipsis overflow-hidden">
+                  <p className="overflow-hidden text-ellipsis whitespace-nowrap text-12">
                     {profile.jobTitle}
                   </p>
                 )}

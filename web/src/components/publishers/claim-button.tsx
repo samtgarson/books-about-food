@@ -42,7 +42,7 @@ export const ClaimPublisherButton: FC<ClaimPublisherButtonProps> = ({
             you get set up.
           </p>
           <div>
-            <h3 className="bg-secondary-blue p-3 font-medium flex justify-between">
+            <h3 className="flex justify-between bg-secondary-blue p-3 font-medium">
               <span>Benefits for Publishers</span>
               <Tag color="white">Coming Soon</Tag>
             </h3>

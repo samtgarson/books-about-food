@@ -4,9 +4,8 @@ import cn from 'classnames'
 import { useState } from 'react'
 import { Field } from '../field'
 import { inputClasses } from '../input'
-import { EditorProps } from './client'
+import { Editor, EditorProps } from './client'
 
-import { Editor } from './client'
 export { Editor }
 
 export function FormEditor(

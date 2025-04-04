@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable @typescript-eslint/no-require-imports */
 const defaultTheme = require('tailwindcss/defaultTheme')
 const plugin = require('tailwindcss/plugin')
 
@@ -118,6 +118,7 @@ module.exports = {
   },
   plugins: [
     require('@tailwindcss/typography'),
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     plugin(function ({ matchUtilities, theme }) {
       matchUtilities(
         {

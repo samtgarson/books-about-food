@@ -17,7 +17,7 @@ export const AvatarList: FC<{ profiles: Profile[] } & AvatarProps> = ({
           profile={profile}
           {...props}
           size={size}
-          className={'-mr-1 last:mr-0'}
+          className="-mr-1 last:mr-0"
         />
       ))}
     </div>

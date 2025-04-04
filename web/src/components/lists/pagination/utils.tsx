@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { ReactNode, RefObject, createContext, useContext, useRef } from 'react'
 import { ParamLink } from 'src/components/atoms/param-link'
 
-type PaginationContext = { ref: RefObject<HTMLDivElement> }
+type PaginationContext = { ref: RefObject<HTMLDivElement | null> }
 const PaginationContext = createContext({} as PaginationContext)
 
 export const Wrapper = ({ children }: { children: ReactNode }) => {
@@ -13,7 +13,7 @@ export const Wrapper = ({ children }: { children: ReactNode }) => {
     <PaginationContext.Provider value={{ ref }}>
       <div
         ref={ref}
-        className="-mt-60 pt-60 relative pointer-events-none *:pointer-events-auto"
+        className="pointer-events-none relative -mt-60 pt-60 *:pointer-events-auto"
       >
         {children}
       </div>

@@ -55,10 +55,10 @@ export const ImageUploadButton = forwardRef<
       <input
         type="file"
         accept="image/*"
-        className="opacity-0 absolute inset-0 w-0 h-0"
+        className="absolute inset-0 h-0 w-0 opacity-0"
         multiple={multi}
         ref={ref}
-        form={''}
+        form=""
         onChangeCapture={async (e) => {
           const files = Array.from(e.currentTarget.files ?? [])
           if (!files?.length) return

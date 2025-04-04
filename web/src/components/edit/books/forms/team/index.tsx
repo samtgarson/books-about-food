@@ -3,6 +3,7 @@ import { updateContributors } from '@books-about-food/core/services/books/update
 import { revalidatePath } from 'next/cache'
 import { PageSubtitle } from 'src/components/atoms/page-title'
 import { Submit } from 'src/components/form/submit'
+import { Wrap } from 'src/components/utils/wrap'
 import { call } from 'src/utils/service'
 import SuperJSON from 'superjson'
 import { z } from 'zod'
@@ -34,7 +35,7 @@ export const EditTeamForm = async ({ book }: { book: FullBook }) => {
     >
       <PageSubtitle>Team</PageSubtitle>
       <p>Please add at least one person who worked on this project.</p>
-      <TeamSelect book={book} data-superjson />
+      <Wrap c={TeamSelect} book={book} />
       <Submit>Save and Continue</Submit>
     </EditForm>
   )

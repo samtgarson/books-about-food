@@ -55,11 +55,11 @@ export function PillList({
         <Search
           value={searchValue}
           onChange={setSearchValue}
-          className="!text-18 w-full -mt-1"
+          className="-mt-1 w-full !text-18"
           debounceDelay={250}
         />
       )}
-      <motion.ul className="flex gap-3 flex-wrap" layout layoutScroll>
+      <motion.ul className="flex flex-wrap gap-3" layout layoutScroll>
         <AnimatePresence mode="popLayout">
           {visibleTags.map((tag) => (
             <motion.li

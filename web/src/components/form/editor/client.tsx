@@ -1,16 +1,16 @@
 'use client'
 
-import Bold from '@tiptap/extension-bold'
-import Document from '@tiptap/extension-document'
-import Dropcursor from '@tiptap/extension-dropcursor'
-import History from '@tiptap/extension-history'
-import Italic from '@tiptap/extension-italic'
-import Link from '@tiptap/extension-link'
-import Paragraph from '@tiptap/extension-paragraph'
-import Placeholder from '@tiptap/extension-placeholder'
-import Text from '@tiptap/extension-text'
-import Typography from '@tiptap/extension-typography'
-import Underline from '@tiptap/extension-underline'
+import { Bold } from '@tiptap/extension-bold'
+import { Document } from '@tiptap/extension-document'
+import { Dropcursor } from '@tiptap/extension-dropcursor'
+import { History } from '@tiptap/extension-history'
+import { Italic } from '@tiptap/extension-italic'
+import { Link } from '@tiptap/extension-link'
+import { Paragraph } from '@tiptap/extension-paragraph'
+import { Placeholder } from '@tiptap/extension-placeholder'
+import { Text } from '@tiptap/extension-text'
+import { Typography } from '@tiptap/extension-typography'
+import { Underline } from '@tiptap/extension-underline'
 import { EditorContent, useEditor } from '@tiptap/react'
 import cn from 'classnames'
 import { useState } from 'react'
@@ -68,7 +68,7 @@ export function Editor({
       <EditorMenu editor={editor} container={wrapper || undefined} />
       <EditorContent editor={editor} />
       {loading && (
-        <Loader className="absolute inset-x-0 mx-auto top-1/2 -mt-3" />
+        <Loader className="absolute inset-x-0 top-1/2 mx-auto -mt-3" />
       )}
     </div>
   )

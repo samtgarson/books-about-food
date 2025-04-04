@@ -15,15 +15,15 @@ export const Marquee: FC<{ children: ReactNode; className?: string }> = ({
   return (
     <div
       className={cn(
-        'bg-black text-white overflow-x-hidden py-4 transition-opacity duration-300',
+        'overflow-x-hidden bg-black py-4 text-white transition-opacity duration-300',
         className,
-        footerVisible ? 'opacity-0 pointer-events-none' : 'opacity-100'
+        footerVisible ? 'pointer-events-none opacity-0' : 'opacity-100'
       )}
     >
       <motion.div
         animate={{ x: ['0%', `-${100 / 5}%`] }}
         transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
-        className="text-20 flex w-max whitespace-nowrap"
+        className="flex w-max whitespace-nowrap text-20"
       >
         <span className={childClass}>{children}</span>
         <span aria-hidden className={childClass}>

@@ -28,9 +28,7 @@ export const sendVerification = inngest.createFunction(
 
     if (!res.ok) {
       throw new Error(
-        `Failed to send verification email: [${
-          res.statusText
-        }] ${await res.text()}`
+        `Failed to send verification email: [${res.statusText}] ${await res.text()}`
       )
     }
 
@@ -40,7 +38,7 @@ export const sendVerification = inngest.createFunction(
 
 async function getCsrfToken() {
   const response = await fetch(`${url}/api/auth/csrf`)
-  const { csrfToken } = await response.json()
+  const { csrfToken } = (await response.json()) as { csrfToken: string }
 
   // CSRF token header includes the token from the body
   const cookies = response.headers

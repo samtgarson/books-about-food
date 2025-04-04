@@ -1,7 +1,7 @@
 'use client'
 
-import * as Form from '@radix-ui/react-form'
 import cn from 'classnames'
+import { Form } from 'radix-ui'
 import { useForm } from './context'
 import { InputProps, useRequired } from './input-props'
 import { Label } from './label'
@@ -21,7 +21,7 @@ export function TextArea({ label, name, ...props }: InputProps<'textarea'>) {
           required={required}
           className={cn(
             'bg-white bg-opacity-60 p-4 transition-colors placeholder:text-black/20 focus:bg-opacity-100 focus:outline-none',
-            variant === 'bordered' && 'border-neutral-grey border'
+            variant === 'bordered' && 'border border-neutral-grey'
           )}
         />
       </Form.Control>

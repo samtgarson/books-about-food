@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 
-export const usePromise = <
-  T extends Record<string, unknown> | unknown[] | unknown
->(
+export const usePromise = <T>(
   input: () => Promise<T>,
   defaultValue: T,
   deps: unknown[] = [input]

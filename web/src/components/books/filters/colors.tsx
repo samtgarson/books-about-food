@@ -25,7 +25,7 @@ export function ColorCircle({
   selected,
   onClick
 }: {
-  color: 'rainbow' | NamedColor | string
+  color: string
   className?: string
   selected?: boolean
   onClick?: () => void
@@ -39,12 +39,12 @@ export function ColorCircle({
         background: color === 'rainbow' ? rainbowGradient : hex
       }}
       className={cn(
-        'rounded-full size-12 transition-colors border',
+        'size-12 rounded-full border transition-colors',
         selected
           ? 'border-black'
           : hex === '#ffffff'
-          ? 'border-neutral-grey'
-          : 'border-transparent',
+            ? 'border-neutral-grey'
+            : 'border-transparent',
         className
       )}
       onClick={onClick}

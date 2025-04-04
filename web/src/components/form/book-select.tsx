@@ -41,13 +41,13 @@ export function BookResultRow(result: BookResult) {
         {result.image ? (
           <img src={result.image} alt={result.title} className="h-12" />
         ) : (
-          <div className="bg-sand h-12 w-10" />
+          <div className="h-12 w-10 bg-sand" />
         )}
       </div>
       <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
         <p
           className={cn(
-            'font-bold overflow-ellipsis overflow-hidden',
+            'font-bold overflow-hidden overflow-ellipsis',
             authors.length ? 'whitespace-nowrap' : 'max-h-12'
           )}
         >

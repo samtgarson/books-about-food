@@ -2,6 +2,7 @@ import { Contribution } from '@books-about-food/core/models/contribution'
 import { Profile } from '@books-about-food/core/models/profile'
 import { ProfileList } from '../atoms/profile-list'
 import { ProfileItem } from '../profiles/item'
+import { Wrap } from '../utils/wrap'
 
 export type TeamListProps = {
   contributions: Contribution[]
@@ -24,11 +25,11 @@ export function TeamList({ contributions, className }: TeamListProps) {
   )
 
   return (
-    <ProfileList
+    <Wrap
+      c={ProfileList}
       profiles={profiles}
       title="Team"
       className={className}
-      data-superjson
     >
       {profiles.map((profile) => (
         <ProfileItem
@@ -38,6 +39,6 @@ export function TeamList({ contributions, className }: TeamListProps) {
           meta={profileMap.get(profile.id)?.join(' • ')}
         />
       ))}
-    </ProfileList>
+    </Wrap>
   )
 }

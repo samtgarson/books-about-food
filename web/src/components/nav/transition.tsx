@@ -51,6 +51,7 @@ export const Transition = forwardRef<TransitionControl, TransitionProps>(
         if (e.metaKey || e.ctrlKey || e.shiftKey) return
         const anchor = findClosestAnchor(e.target)
         if (!anchor || anchor.target === '_blank') return
+        if (anchor.href === window.location.href + '#') return
         try {
           const targetHref = new URL(anchor.href).pathname
           if (targetHref === window.location.pathname) {
@@ -63,7 +64,7 @@ export const Transition = forwardRef<TransitionControl, TransitionProps>(
             setShow(true)
           }, 100)
           // eslint-disable-next-line no-empty
-        } catch (e) {}
+        } catch {}
       },
       [closeSheet, setInternalLoading]
     )
@@ -91,9 +92,9 @@ export const Transition = forwardRef<TransitionControl, TransitionProps>(
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { delay: 0.1 } }}
-            className="bg-grey fixed inset-0 z-page-transition flex flex-col items-center justify-center"
+            className="fixed inset-0 z-page-transition flex flex-col items-center justify-center bg-grey"
           >
-            <div className="scale-75 sm:scale-100 flex flex-col items-center justify-center gap-8">
+            <div className="flex scale-75 flex-col items-center justify-center gap-8 sm:scale-100">
               <div className="relative">
                 <motion.div
                   initial={{ scale: 0.5 }}

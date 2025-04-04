@@ -19,7 +19,7 @@ export function EditFeatureCarouselDialog({
 
   return (
     <Sheet.Root>
-      <Sheet.Trigger className="absolute left-4 bottom-4 bg-white px-4 py-3">
+      <Sheet.Trigger className="absolute bottom-4 left-4 bg-white px-4 py-3">
         Edit Carousel
       </Sheet.Trigger>
       <Sheet.Content title="Edit Feauture Carousel">
@@ -34,12 +34,12 @@ export function EditFeatureCarouselDialog({
                 <Reorder.Item
                   key={feature.id}
                   value={feature}
-                  className="flex gap-2 items-center cursor-grab active:cursor-grabbing bg-white"
+                  className="flex cursor-grab items-center gap-2 bg-white active:cursor-grabbing"
                 >
                   <Menu strokeWidth={1} size={15} />
                   <MiniItem
                     book={feature.book}
-                    className="grow pointer-events-none"
+                    className="pointer-events-none grow"
                   >
                     <p />
                   </MiniItem>

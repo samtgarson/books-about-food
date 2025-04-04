@@ -11,7 +11,8 @@ export const metadata = genMetadata('/account/submissions', null, {
   description: 'Submit a cookbook to the wider community'
 })
 
-const Page = async ({ searchParams }: PageProps) => {
+export default async function Page(props: PageProps) {
+  const searchParams = await props.searchParams
   return (
     <div className="flex flex-col gap-8">
       <Toaster action="deleted" message="Cookbook deleted" type="success" />
@@ -26,5 +27,3 @@ const Page = async ({ searchParams }: PageProps) => {
     </div>
   )
 }
-
-export default Page

@@ -1,15 +1,17 @@
 import { User } from 'next-auth'
 
+import { headers } from 'next/headers'
 import { ip, token, trackingEnabled } from './utils'
 
 export const identify = async ({ id, name, email, image }: User) => {
   if (!trackingEnabled) return
   if (!token) return
 
+  const h = await headers()
   const body = {
     $token: token,
     $distinct_id: id,
-    $ip: ip(),
+    $ip: ip(h),
     $set: {
       $name: name,
       $email: email,

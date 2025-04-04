@@ -19,7 +19,7 @@ export const CorrectionButton: FC<CorrectionButtonProps> = ({
 
   return (
     <button
-      className={cn('text-14 flex items-center gap-4', className)}
+      className={cn('flex items-center gap-4 text-14', className)}
       onClick={() => {
         openSheet('suggestEdit', { resource: book })
       }}

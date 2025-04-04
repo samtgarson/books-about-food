@@ -1,6 +1,6 @@
 'use client'
 
-import * as Form from '@radix-ui/react-form'
+import { Form } from 'radix-ui'
 import { Label } from './label'
 import { Messages } from './messages'
 

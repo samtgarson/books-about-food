@@ -1,7 +1,7 @@
 'use client'
 
-import * as Dialog from '@radix-ui/react-dialog'
 import { useRouter } from 'next/navigation'
+import { Dialog } from 'radix-ui'
 import { FC, ReactNode } from 'react'
 import { Container } from './container'
 
@@ -20,7 +20,7 @@ export const Drawer: FC<{
       <Dialog.Overlay className="fixed inset-0 z-40 bg-white opacity-50" />
       <Dialog.Portal>
         <Dialog.Content asChild>
-          <Container className="bg-grey fixed inset-y-0 right-0 z-50 w-screen max-w-2xl">
+          <Container className="fixed inset-y-0 right-0 z-50 w-screen max-w-2xl bg-grey">
             {children}
           </Container>
         </Dialog.Content>

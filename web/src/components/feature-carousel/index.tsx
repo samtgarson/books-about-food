@@ -69,8 +69,8 @@ export function FeatureCarousel({
       virtualIndex < rangeStart
         ? offset - 1
         : virtualIndex > rangeEnd
-        ? offset + 1
-        : offset
+          ? offset + 1
+          : offset
 
     setState([virtualIndex, newOffset])
     console.log('virtualIndex', virtualIndex)
@@ -112,7 +112,7 @@ export function FeatureCarousel({
         mouseRef.current = null
       }}
       className={cn(
-        'relative overflow-x-clip transition-colors w-full',
+        'relative w-full overflow-x-clip transition-colors',
         className,
         theme === 'dark' ? 'bg-black' : 'bg-transparent'
       )}
@@ -122,7 +122,7 @@ export function FeatureCarousel({
           <Faces books={features.map((f) => f.book)} />
         )}
       </AnimatePresence>
-      <div className={cn('absolute inset-x-0 bottom-16 sm:bottom-0 top-16')}>
+      <div className={cn('absolute inset-x-0 bottom-16 top-16 sm:bottom-0')}>
         {loop.map(({ isTitle, feature, isTakeover }, index) => {
           const virtualIndex = offset * totalSlides + index
           const batch = Math.floor(index / totalSlides) + offset
@@ -165,7 +165,7 @@ export function FeatureCarousel({
       </div>
       <div
         className={cn(
-          'absolute bottom-5 inset-x-5 flex items-center gap-3 sm:hidden z-20'
+          'absolute inset-x-5 bottom-5 z-20 flex items-center gap-3 sm:hidden'
         )}
       >
         {Array.from({ length: totalSlides }).map((_, index) => {

@@ -1,7 +1,7 @@
 'use client'
-import { DialogTriggerProps } from '@radix-ui/react-dialog'
 import cn from 'classnames'
 import dynamic from 'next/dynamic'
+import { Dialog } from 'radix-ui'
 import { ReactNode } from 'react'
 import { Plus } from 'src/components/atoms/icons'
 import * as Sheet from 'src/components/atoms/sheet'
@@ -15,7 +15,7 @@ export const NewBookButton = ({
 }: {
   children?: ReactNode
   className?: string
-} & DialogTriggerProps) => {
+} & Dialog.DialogTriggerProps) => {
   const triggerContent = children ?? (
     <>
       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white">

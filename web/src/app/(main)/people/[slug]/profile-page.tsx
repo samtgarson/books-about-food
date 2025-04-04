@@ -14,6 +14,7 @@ import { FrequentCollaborators } from 'src/components/profiles/edit/frequent-col
 import { LinkList } from 'src/components/profiles/link-list'
 import { LocationField } from 'src/components/profiles/location-field'
 import { ProfileOverflow } from 'src/components/profiles/profile-overflow'
+import { Wrap } from 'src/components/utils/wrap'
 import { call } from 'src/utils/service'
 
 export type ProfilePageProps = {
@@ -28,7 +29,7 @@ export async function ProfilePage({ segment, slug }: ProfilePageProps) {
   if (!profile) return notFound()
 
   return (
-    <EditProfileProvider profile={profile} segment={segment} data-superjson>
+    <Wrap c={EditProfileProvider} profile={profile} segment={segment}>
       <Container
         belowNav
         id="container"
@@ -45,7 +46,7 @@ export async function ProfilePage({ segment, slug }: ProfilePageProps) {
               <ClaimProfileButton className="mb-10 mt-6 w-full sm:hidden" />
               <Field
                 attr="description"
-                className="text-16 mt-4 max-w-prose"
+                className="mt-4 max-w-prose text-16"
                 placeholder="Add a description"
               />
               <div className="mt-8">
@@ -59,22 +60,22 @@ export async function ProfilePage({ segment, slug }: ProfilePageProps) {
               <div className="flex items-center gap-2">
                 <FavouriteButton profileId={profile.id} />
                 <ClaimProfileButton className="hidden sm:flex" />
-                <ProfileOverflow profile={profile} data-superjson />
+                <Wrap c={ProfileOverflow} profile={profile} />
               </div>
             </div>
           </div>
-          <FrequentCollaborators
+          <Wrap
+            c={FrequentCollaborators}
             profiles={collaborators}
             className="my-4 sm:mb-0 sm:mt-20"
-            data-superjson
           />
         </div>
       </Container>
-      <Container className="empty:hidden mobile-only:border-t border-black">
+      <Container className="border-black empty:hidden mobile-only:border-t">
         <Suspense fallback={null}>
           <ContributionList profile={profile} className="sm:mt-20" />
         </Suspense>
       </Container>
-    </EditProfileProvider>
+    </Wrap>
   )
 }

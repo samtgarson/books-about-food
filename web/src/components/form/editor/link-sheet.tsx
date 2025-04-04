@@ -13,6 +13,10 @@ export type EditorLinkSheetProps = {
   children?: ReactNode
 }
 
+interface EditorFormElement extends HTMLFormElement {
+  link: HTMLInputElement
+}
+
 function EditorLinkSheet({
   editor,
   children,
@@ -42,7 +46,7 @@ function EditorLinkSheet({
             variant="bordered"
             onSubmit={(e) => {
               e.preventDefault()
-              handleLink(e.currentTarget.link.value)
+              handleLink((e.currentTarget as EditorFormElement).link.value)
             }}
           >
             <Input

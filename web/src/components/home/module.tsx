@@ -19,12 +19,12 @@ export function HomepageModule({
   return (
     <section
       className={cn(
-        'peer w-full border-black p-8 peer-[&]:border-y lg:w-1/2 lg:border-y lg:p-12 peer-[&]:lg:border-l xl:p-16 lg:!pb-0',
+        'peer w-full border-black p-8 peer-[&]:border-y lg:w-1/2 lg:border-y lg:p-12 lg:!pb-0 peer-[&]:lg:border-l xl:p-16',
         className
       )}
       aria-label={title}
     >
-      <h2 className="text-24 lg:text-32 xl:text-48 flex items-center justify-between pb-8 sm:pb-0">
+      <h2 className="flex items-center justify-between pb-8 text-24 sm:pb-0 lg:text-32 xl:text-48">
         <span>{title}</span>
         <Link href={action.href} className="hidden lg:block">
           <Button variant="primary">{action.label}</Button>

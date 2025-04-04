@@ -1,8 +1,8 @@
 'use client'
 
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import cn from 'classnames'
 import Link from 'next/link'
+import { DropdownMenu } from 'radix-ui'
 import { ComponentProps, FC, ReactNode } from 'react'
 import { ArrowUpRight, Icon, MoreHorizontal } from 'src/components/atoms/icons'
 import { useCurrentUser } from 'src/hooks/use-current-user'

@@ -25,14 +25,14 @@ export async function getOrPopulateKv<R>(
     enabled?: boolean
     skipResult?: (data: R) => boolean
   } = {}
-) {
+): Promise<R> {
   if (!enabled || ROOT_SKIP) return exec()
 
   const key = ['baf', CACHE_VERSION, ...keys].join(':')
   try {
     const cached = await redis.get<SuperJSONResult>(key)
     if (cached) {
-      return deserialize(cached) as R
+      return deserialize(cached)
     }
   } catch (e) {
     console.error('Failed to get cache:', e)

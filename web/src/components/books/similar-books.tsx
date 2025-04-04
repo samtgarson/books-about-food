@@ -21,18 +21,18 @@ export const SimilarBooks = async ({ slug, className }: SimilarBooksProps) => {
     <>
       <AntiContainer
         className={cn(
-          'border-t border-black sm:border-t-0 hidden sm:block',
+          'hidden border-t border-black sm:block sm:border-t-0',
           className
         )}
       >
-        <ItemCarousel
+        <Wrap
+          c={ItemCarousel}
           title="Similar Cookbooks"
           items={books}
           size="lg"
           carouselClassName="pr-px"
           mobileColorful
           key="similar-books"
-          data-superjson
           rightPadding
         />
       </AntiContainer>

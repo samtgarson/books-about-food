@@ -75,7 +75,7 @@ const ClaimProfileSheet: SheetComponent<ClaimProfileSheetProps> = ({
               <ProfileItem
                 profile={profile}
                 display="list"
-                className="w-full bg-grey border-grey"
+                className="w-full border-grey bg-grey"
               />
               <Button
                 variant="dark"
@@ -109,7 +109,7 @@ const ClaimProfileSheet: SheetComponent<ClaimProfileSheetProps> = ({
                 with the three randomly generated words you see below:
               </p>
               <button
-                className="text-20 bg-grey font-mono justify-center flex relative items-center px-4 py-5 uppercase w-full"
+                className="relative flex w-full items-center justify-center bg-grey px-4 py-5 font-mono text-20 uppercase"
                 title="Copy the passphrase to your clipboard"
                 onClick={() => copySecret(claim)}
               >
@@ -128,7 +128,7 @@ const ClaimProfileSheet: SheetComponent<ClaimProfileSheetProps> = ({
                 with the randomly generated words and we&apos;ll sort it out
                 that way.
               </p>
-              <div className="flex flex-col gap-2 w-full">
+              <div className="flex w-full flex-col gap-2">
                 <Button className="w-full" onClick={closeSheet} variant="dark">
                   Close
                 </Button>

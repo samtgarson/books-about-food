@@ -22,9 +22,9 @@ export const Wrapper = ({
 }) => (
   <li
     className={cn(
-      'relative -mb-px list-none border border-black group-[.profile-list]:border-neutral-grey group-[.profile-list]:first:border-t-transparent sm:border-black last:mb-0 sm:-mr-px sm:last:-mb-px',
+      'relative -mb-px list-none border border-black last:mb-0 group-[.profile-list]:border-neutral-grey group-[.profile-list]:first:border-t-transparent sm:-mr-px sm:border-black sm:last:-mb-px',
       className,
-      !profile && 'border-khaki animate-pulse'
+      !profile && 'animate-pulse border-khaki'
     )}
     style={{ animationDelay: `${index * 150}ms` }}
   >
@@ -65,8 +65,8 @@ export const Content = ({
         </>
       ) : (
         <>
-          <p className="bg-khaki mb-1 h-4 w-40 leading-none"></p>
-          <p className="w-30 bg-khaki h-3.5 leading-none"></p>
+          <p className="mb-1 h-4 w-40 bg-khaki leading-none"></p>
+          <p className="w-30 h-3.5 bg-khaki leading-none"></p>
         </>
       )}
     </div>

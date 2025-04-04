@@ -59,8 +59,8 @@ export const Container = forwardRef<
         className={cn(
           'relative -mb-px flex h-full items-center gap-6 border border-black group-last:mb-0 sm:-mr-px sm:mb-0 sm:w-[calc(100%+1px)] sm:flex-col sm:items-start sm:gap-0 sm:border-none sm:p-0',
           display === 'grid'
-            ? '-mr-px sm:mb-0 w-[calc(100%+1px) flex-col items-start gap-0 border-none p-0'
-            : 'p-4 w-full',
+            ? 'w-[calc(100%+1px) -mr-px flex-col items-start gap-0 border-none p-0 sm:mb-0'
+            : 'w-full p-4',
           skeleton && `animate-pulse`
         )}
         style={{ ...style, animationDelay: `${index * 150}ms` }}
@@ -147,7 +147,7 @@ export const Cover = ({
         <div
           aria-hidden
           className={cn(
-            'bg-khaki h-24 w-16 bg-opacity-50 sm:absolute sm:inset-x-0 sm:!top-[15%] sm:mx-auto sm:!h-[70%] sm:w-[60%]',
+            'h-24 w-16 bg-khaki bg-opacity-50 sm:absolute sm:inset-x-0 sm:!top-[15%] sm:mx-auto sm:!h-[70%] sm:w-[60%]',
             mobileGrid && 'absolute inset-x-0 top-[15%] mx-auto h-[70%] w-[60%]'
           )}
         />
@@ -169,10 +169,10 @@ export const Footer = ({
     (book && (
       <>
         {' '}
-        <p className="text-16 mb-1 overflow-hidden overflow-ellipsis whitespace-nowrap font-medium">
+        <p className="mb-1 overflow-hidden overflow-ellipsis whitespace-nowrap text-16 font-medium">
           {book.title}
         </p>
-        <p className="text-14 overflow-hidden overflow-ellipsis whitespace-nowrap">
+        <p className="overflow-hidden overflow-ellipsis whitespace-nowrap text-14">
           {book.authorNames}
         </p>
       </>
@@ -184,7 +184,7 @@ export const Footer = ({
         className,
         'min-w-0 sm:w-full',
         mobileGrid && !centered && 'pr-4',
-        centered ? '-mt-[50px] text-center px-14' : 'sm:pr-4 text-left'
+        centered ? '-mt-[50px] px-14 text-center' : 'text-left sm:pr-4'
       )}
     >
       {content}
@@ -241,14 +241,14 @@ export const Skeleton = forwardRef<
         <div
           aria-hidden
           className={cn(
-            'bg-khaki h-24 w-16 bg-opacity-50 sm:absolute sm:inset-x-0 sm:!top-[15%] sm:mx-auto sm:!h-[70%] sm:w-[60%]',
+            'h-24 w-16 bg-khaki bg-opacity-50 sm:absolute sm:inset-x-0 sm:!top-[15%] sm:mx-auto sm:!h-[70%] sm:w-[60%]',
             mobileGrid && 'absolute inset-x-0 top-[15%] mx-auto h-[70%] w-[60%]'
           )}
         />
       </Box>
       <div className={cn('w-full opacity-50 sm:pr-4', mobileGrid && 'pr-4')}>
-        <p className="bg-khaki mb-1 h-4 w-40"></p>
-        <p className="w-30 bg-khaki h-3.5"></p>
+        <p className="mb-1 h-4 w-40 bg-khaki"></p>
+        <p className="w-30 h-3.5 bg-khaki"></p>
       </div>
     </Container>
   )

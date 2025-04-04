@@ -1,4 +1,4 @@
-import cn from 'classnames'
+import cn, { Argument } from 'classnames'
 import {
   cloneElement,
   ComponentProps,
@@ -9,7 +9,8 @@ import {
   useEffect,
   useId,
   useRef,
-  useState
+  useState,
+  type JSX
 } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { containerClasses, ContainerProps } from '../container'
@@ -161,7 +162,7 @@ export const Item: FC<CarouselItemProps> = ({
   return cloneElement(children, {
     className: cn(
       'flex-none w-max',
-      children.props.className,
+      (children.props as Record<string, Argument>).className,
       alignment === 'center' && 'snap-center',
       alignment === 'left' && 'snap-start',
       className

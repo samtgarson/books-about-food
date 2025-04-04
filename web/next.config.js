@@ -1,4 +1,5 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
+/* eslint-disable @typescript-eslint/no-require-imports, import-x/no-extraneous-dependencies */
+
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true'
 })
@@ -17,13 +18,12 @@ const nextConfig = {
   env: {
     S3_DOMAIN: process.env.S3_DOMAIN
   },
+  serverExternalPackages: ['mjml', 'sharp', '@sparticuz/chromium'],
   experimental: {
-    swcPlugins: [['next-superjson-plugin', {}]],
+    // swcPlugins: [['next-superjson-plugin', {}]],
     serverActions: {
       bodySizeLimit: '4mb'
-    },
-    serverComponentsExternalPackages: ['mjml', 'sharp', '@sparticuz/chromium'],
-    instrumentationHook: true
+    }
   },
   transpilePackages: ['shared', 'database', 'email', 'core'],
   images: Object.assign(imagesConfig, {

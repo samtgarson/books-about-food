@@ -14,9 +14,7 @@ export const customiseCollections = (
         return records.map((record) => record.slug)
       }
     })
-    .replaceFieldWriting('slug', async (slug) => {
-      return { slug }
-    })
+    .replaceFieldWriting('slug', (slug) => ({ slug }))
 
   collection.addHook('Before', 'Create', async (context) => {
     context.data.forEach((collection) => {

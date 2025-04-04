@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { render } from '@react-email/components'
 import open, { apps } from 'open'
 import { ServerClient } from 'postmark'
@@ -43,7 +42,6 @@ export async function sendEmail<K extends keyof EmailTemplateMap>(
   })
 
   if (process.env.NODE_ENV !== 'production') {
-    // eslint-disable-next-line import/no-extraneous-dependencies
     await open(
       `https://account.postmarkapp.com/servers/14846385/streams/outbound/messages/${res.MessageID}`,
       { app: { name: apps.chrome } }

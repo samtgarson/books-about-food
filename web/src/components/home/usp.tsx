@@ -12,11 +12,11 @@ import { Tag } from '../atoms/tag'
 
 export function USP() {
   return (
-    <Container className="mt-24 mb-12 md:mt-40 md:mb-20">
-      <p className="text-24 md:text-48 mb-8 md:mb-16 max-w-4xl">
+    <Container className="mb-12 mt-24 md:mb-20 md:mt-40">
+      <p className="mb-8 max-w-4xl text-24 md:mb-16 md:text-48">
         Welcome to the cookbook industry’s new digital home
       </p>
-      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <ul className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
         {sellingPoints.map((sellingPoint) => (
           <SellingPoint key={sellingPoint.title} {...sellingPoint} />
         ))}
@@ -80,8 +80,8 @@ function SellingPoint({
 }: SellingPointProps) {
   return (
     <li className="flex flex-col items-start gap-2">
-      <div className="flex gap-4 items-center mb-6">
-        <div className="bg-white p-2 border border-black">
+      <div className="mb-6 flex items-center gap-4">
+        <div className="border border-black bg-white p-2">
           <Icon size={42} strokeWidth={1} />
         </div>
         {comingSoon && <Tag color="grey">Coming soon</Tag>}

@@ -12,8 +12,7 @@ const { raw } = Prisma
 
 export async function queryBooks(
   template: TemplateStringsArray,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ...params: any
+  ...params: unknown[]
 ) {
   const raw = await prisma.$queryRaw<BookRow[]>(template, ...params)
   return raw.map((book) => new Book(rowToBookAttrs(book)))

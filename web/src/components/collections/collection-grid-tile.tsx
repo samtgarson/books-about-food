@@ -10,14 +10,14 @@ export async function CollectionGridTile({ index }: CollectionGridTileProps) {
 
   if (!collection) return null
   return (
-    <li className="w-full h-full relative mobile-only:bg-white">
+    <li className="relative h-full w-full mobile-only:bg-white">
       <Link
-        className="bg-white sm:absolute h-full sm:rotate-1 p-6 sm:p-9 flex flex-col gap-1 sm:gap-6 sm:items-center items-start sm:justify-center sm:-inset-3 hover:z-30 transition hover:-rotate-1"
+        className="flex h-full flex-col items-start gap-1 bg-white p-6 transition hover:z-30 hover:-rotate-1 sm:absolute sm:-inset-3 sm:rotate-1 sm:items-center sm:justify-center sm:gap-6 sm:p-9"
         href={collection.href}
       >
         <p className="all-caps opacity-40">Collection</p>
         <CollectionBlobs colors={collection.colors} />
-        <p className="font-medium text-18 sm:text-center">{collection.title}</p>
+        <p className="text-18 font-medium sm:text-center">{collection.title}</p>
       </Link>
     </li>
   )

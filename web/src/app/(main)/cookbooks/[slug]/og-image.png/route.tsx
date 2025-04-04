@@ -6,7 +6,7 @@ import comingSoon from 'src/assets/images/cover-coming-soon.png'
 import { OGTemplate } from 'src/utils/image-response-helpers'
 import { call } from 'src/utils/service'
 
-export const revalidate = 60 * 60 // 1 hour
+export const revalidate = 3600
 
 const bookShadow = `
       0px 2.5px 1.9px rgba(0, 0, 0, 0.02),
@@ -24,12 +24,12 @@ const bookShadow = `
 
 export async function GET(
   _request: NextRequest,
-  {
-    params: { slug }
-  }: {
-    params: { slug: string }
+  props: {
+    params: Promise<{ slug: string }>
   }
 ) {
+  const { slug } = await props.params
+
   const { data: book } = await call(fetchBook, {
     slug,
     onlyPublished: true

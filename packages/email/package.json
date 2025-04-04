@@ -18,6 +18,6 @@
     "postmark": "^4.0.5"
   },
   "peerDependencies": {
-    "react": "*"
+    "react": "^19.0"
   }
 }

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ImageBase, ImageSource } from '@vibrant/image'
 import sharp from 'sharp'
 
@@ -37,23 +36,29 @@ export class SharpImage extends ImageBase {
       )
     }
   }
+
   clear(): void {}
   update(): void {}
   getWidth(): number {
     return this._image!.width
   }
+
   getHeight(): number {
     return this._image!.height
   }
+
   resize(_targetWidth: number, _targetHeight: number, _ratio: number): void {
     // done in the load step, ignoring any maxDimension or quality options
   }
+
   getPixelCount(): number {
     const { width, height } = this._image!
     return width * height
   }
+
   getImageData(): ImageData {
     return this._image!
   }
+
   remove(): void {}
 }

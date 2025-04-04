@@ -1,5 +1,6 @@
-import * as Form from '@radix-ui/react-form'
 import cn from 'classnames'
+import { Form } from 'radix-ui'
+import type { JSX } from 'react'
 import { useFormField } from './context'
 import { InputProps, useRequired } from './input-props'
 import { Label } from './label'

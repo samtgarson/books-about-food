@@ -1,10 +1,10 @@
 'use client'
 
-import * as Dialog from '@radix-ui/react-dialog'
 import cn from 'classnames'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
+import { Dialog } from 'radix-ui'
 import { FC, useState } from 'react'
 import { Menu, Plus, Settings, User, X } from 'src/components/atoms/icons'
 import { useCurrentUser } from 'src/hooks/use-current-user'
@@ -68,7 +68,8 @@ const TopNavItem: FC<{
       style={{ animationDelay: `${index * 50}ms` }}
       onClick={(e) => {
         if (e.metaKey || e.ctrlKey) return
-        active ? setOpen(false) : setLoading(true)
+        if (active) setOpen(false)
+        else setLoading(true)
       }}
     >
       {children}
@@ -97,7 +98,7 @@ const NavContent = () => {
   const user = useCurrentUser()
 
   return (
-    <div className="animate-fade-in fixed inset-0 z-[60] flex max-h-screen flex-col items-center justify-center gap-3 overflow-auto bg-white pt-20">
+    <div className="fixed inset-0 z-[60] flex max-h-screen animate-fade-in flex-col items-center justify-center gap-3 overflow-auto bg-white pt-20">
       <Container className="absolute inset-x-0 top-0 border-b border-black py-5">
         <Dialog.Close className="all-caps flex items-center gap-8">
           <X strokeWidth={1} />
@@ -148,8 +149,8 @@ export const TopNav: FC = () => {
     <nav className="absolute inset-x-0 top-0 z-nav">
       <Container
         className={cn(
-          'flex w-screen gap-4 items-center border-b border-black py-5 pr-4',
-          theme === 'dark' && 'text-white border-none'
+          'flex w-screen items-center gap-4 border-b border-black py-5 pr-4',
+          theme === 'dark' && 'border-none text-white'
         )}
       >
         <Dialog.Root modal open={open} onOpenChange={setOpen}>

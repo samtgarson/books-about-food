@@ -1,6 +1,6 @@
 'use client'
 
-import * as Form from '@radix-ui/react-form'
+import { Form } from 'radix-ui'
 import { useFormStatus } from 'react-dom'
 import { Button, ButtonProps } from '../atoms/button'
 import { useForm } from './context'

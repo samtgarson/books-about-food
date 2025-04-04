@@ -17,11 +17,11 @@ export function CollectionInputItem<Value extends { id: string }>({
     <div className="-mb-px flex items-center gap-4 border-t border-neutral-grey py-4">
       {avatar}
       <div className="flex flex-col overflow-hidden">
-        <p className="truncate font-bold">{title}</p>
+        <p className="font-bold truncate">{title}</p>
         {subtitle && <p className="truncate opacity-50">{subtitle}</p>}
       </div>
       <Sheet.Root>
-        <Sheet.Trigger className="text-14 ml-auto underline">
+        <Sheet.Trigger className="ml-auto text-14 underline">
           Edit
         </Sheet.Trigger>
         <SheetContent<Value> title="Edit Team Member" value={value} />

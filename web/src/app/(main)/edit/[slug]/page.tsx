@@ -10,15 +10,13 @@ import { StatusTag } from 'src/components/books/status-tag'
 import { EditNotes } from 'src/components/edit/books/notes'
 import { Steps } from 'src/components/edit/books/steps'
 import { ParamSheet } from 'src/components/sheets/use-param-sheet'
+import { slugPage } from 'src/components/types'
 import { Toaster } from 'src/components/utils/toaster'
+import { Wrap } from 'src/components/utils/wrap'
 import { call } from 'src/utils/service'
 import { getSessionUser } from 'src/utils/user'
 
-type EditPageProps = {
-  params: { slug: string }
-}
-
-export default async function Page({ params: { slug } }: EditPageProps) {
+export default slugPage(async function EditBook(slug) {
   const { data: book } = await call(fetchBook, { slug })
   const currentUser = await getSessionUser()
 
@@ -34,25 +32,25 @@ export default async function Page({ params: { slug } }: EditPageProps) {
         sheet="submitted"
         props={{ title: `${book.title} Submitted!` }}
       />
-      <PageBackLink href={`/account/submissions`} back>
+      <PageBackLink href="/account/submissions" back>
         Back to Submissions
       </PageBackLink>
-      <div className="w-full max-w-xl flex flex-col items-stretch gap-6">
-        <div className="flex flex-nowrap items-center gap-4 sm:gap-6 mb-4">
+      <div className="flex w-full max-w-xl flex-col items-stretch gap-6">
+        <div className="mb-4 flex flex-nowrap items-center gap-4 sm:gap-6">
           {book.cover ? (
             <Image {...book.cover?.imageAttrs(80)} />
           ) : (
-            <div className="bg-khaki w-14 h-20 shrink-0" />
+            <div className="h-20 w-14 shrink-0 bg-khaki" />
           )}
-          <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 items-start sm:items-center overflow-hidden grow">
-            <div className="flex flex-col sm:gap-2 grow overflow-hidden w-full">
+          <div className="flex grow flex-col items-start gap-2 overflow-hidden sm:flex-row sm:items-center sm:gap-6">
+            <div className="flex w-full grow flex-col overflow-hidden sm:gap-2">
               <h1
-                className="text-20 sm:text-32 whitespace-nowrap text-ellipsis overflow-hidden"
+                className="overflow-hidden text-ellipsis whitespace-nowrap text-20 sm:text-32"
                 title={book.title}
               >
                 {book.title}
               </h1>
-              <p className="text-14 sm:text-16 empty:hidden">
+              <p className="text-14 empty:hidden sm:text-16">
                 {book.authorNames}
               </p>
             </div>
@@ -62,15 +60,15 @@ export default async function Page({ params: { slug } }: EditPageProps) {
         <EditNotes status={book.status} />
         {book.status === 'published' && (
           <div className="flex flex-wrap gap-2">
-            <SheetButton
+            <Wrap
+              c={SheetButton}
               className="grow"
               sheet="suggestEdit"
               props={{ resource: book }}
-              data-superjson
             >
               <Edit2 strokeWidth={1} />
               Suggest an Edit
-            </SheetButton>
+            </Wrap>
             <Button className="grow" href={book.href}>
               <Eye strokeWidth={1} /> View Your Cookbook
             </Button>
@@ -92,4 +90,4 @@ export default async function Page({ params: { slug } }: EditPageProps) {
       </div>
     </>
   )
-}
+})

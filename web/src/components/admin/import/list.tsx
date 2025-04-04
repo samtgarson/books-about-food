@@ -1,6 +1,6 @@
 import { ResultRow } from '@books-about-food/core/services/import/import-books/types'
-import { Root } from '@radix-ui/react-accordion'
 import * as Sentry from '@sentry/nextjs'
+import { Accordion } from 'radix-ui'
 import { ChangeEvent, useMemo, useState } from 'react'
 import { Button } from 'src/components/atoms/button'
 import { Pagination } from 'src/components/lists/pagination'
@@ -85,11 +85,13 @@ export function ImportList({
   }
 
   function toggleRow(id: string, selected: boolean) {
-    selected
-      ? setSelected((selected) => new Set(selected).add(id))
-      : setSelected(
-          (selected) => new Set(Array.from(selected).filter((s) => s !== id))
-        )
+    if (selected) {
+      setSelected((selected) => new Set(selected).add(id))
+    } else {
+      setSelected(
+        (selected) => new Set(Array.from(selected).filter((s) => s !== id))
+      )
+    }
   }
   return (
     <>
@@ -99,7 +101,7 @@ export function ImportList({
         onPageClick={setPage}
         perPage={perPage}
       >
-        <div className="flex gap-4 items-center mb-4 w-full">
+        <div className="mb-4 flex w-full items-center gap-4">
           <input
             type="checkbox"
             checked={selected.size === filtered?.length}
@@ -117,7 +119,7 @@ export function ImportList({
             value={search}
           />
         </div>
-        <Root type="single" collapsible>
+        <Accordion.Root type="single" collapsible>
           {filtered
             .slice(page * perPage, page * perPage + perPage)
             .map((result) => (
@@ -128,7 +130,7 @@ export function ImportList({
                 setSelected={(selected) => toggleRow(result.id, selected)}
               />
             ))}
-        </Root>
+        </Accordion.Root>
       </Pagination>
       <Button
         className="mt-8"

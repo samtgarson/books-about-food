@@ -39,7 +39,8 @@ async function cropImage(file: Buffer, cropArea: Area) {
     .toFormat('png')
     .toBuffer()
 
-  return output
+  // TODO: Upgrade Typscript to remove this cast
+  return output as Buffer<ArrayBuffer>
 }
 
 export async function reorderImages(ids: string[]) {

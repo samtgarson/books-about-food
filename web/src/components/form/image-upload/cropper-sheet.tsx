@@ -11,7 +11,7 @@ const CropperSheetContent = dynamic(
 
 type CropperSheetProps = {
   src?: File
-  onSave(result: Area | null): Promise<void>
+  onSave: (result: Area | null) => Promise<void>
 }
 export function CropperSheet({ src, onSave }: CropperSheetProps) {
   const [url, setUrl] = useState<string | undefined>()

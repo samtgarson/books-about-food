@@ -18,21 +18,21 @@ export function MiniItem({
     <Link
       href={`/edit/${book.slug}`}
       className={cn(
-        'h-[85px] px-5 py-4 border border-black flex gap-4 -mb-px sm:-mr-px items-center',
+        '-mb-px flex h-[85px] items-center gap-4 border border-black px-5 py-4 sm:-mr-px',
         className
       )}
     >
       {book.cover ? (
         <Image {...book.cover.imageAttrs(50)} />
       ) : (
-        <div className="w-9 h-[50px] bg-khaki shrink-0"></div>
+        <div className="h-[50px] w-9 shrink-0 bg-khaki"></div>
       )}
       <div className="flex flex-col overflow-hidden">
-        <p className="font-medium whitespace-nowrap text-ellipsis overflow-hidden">
+        <p className="overflow-hidden text-ellipsis whitespace-nowrap font-medium">
           {book.title}
         </p>
         {!!book.authors.length && (
-          <p className="text-12 whitespace-nowrap text-ellipsis overflow-hidden">
+          <p className="overflow-hidden text-ellipsis whitespace-nowrap text-12">
             {book.authorNames}
           </p>
         )}

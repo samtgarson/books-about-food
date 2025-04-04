@@ -22,7 +22,7 @@ export async function PublisherBookList({ publisher }: PublisherBookListProps) {
   const { books } = data
   return (
     <ListContainer title="All Releases">
-      <GridContainer className={'sm:gap-y-16'}>
+      <GridContainer className="sm:gap-y-16">
         {books.map((book) => {
           return (
             <Wrap

@@ -6,7 +6,7 @@
 }
 
 .tiptap img {
-  @apply border border-transparent max-w-full;
+  @apply max-w-full border border-transparent;
 }
 
 .tiptap img.ProseMirror-selectednode {

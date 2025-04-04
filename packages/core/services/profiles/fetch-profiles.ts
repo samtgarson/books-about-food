@@ -31,17 +31,16 @@ export type FetchProfilesOutput = Awaited<
 >
 
 export const fetchProfiles = new Service(
-  z
-    .object({
-      userId: z.string().optional(),
-      sort: z.enum(['name', 'trending']).optional(),
-      onlyAuthors: z.boolean().optional(),
-      search: z.string().optional(),
-      jobs: array(z.string()).optional(),
-      onlyPublished: z.boolean().optional(),
-      withAvatar: z.boolean().optional()
-    })
-    .merge(paginationInput),
+  z.object({
+    userId: z.string().optional(),
+    sort: z.enum(['name', 'trending']).optional(),
+    onlyAuthors: z.boolean().optional(),
+    search: z.string().optional(),
+    jobs: array(z.string()).optional(),
+    onlyPublished: z.boolean().optional(),
+    withAvatar: z.boolean().optional(),
+    ...paginationInput.shape
+  }),
   async ({
     page = 0,
     perPage = 21,

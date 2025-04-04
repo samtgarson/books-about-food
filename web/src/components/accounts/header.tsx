@@ -8,7 +8,7 @@ export function AccountHeader({
   children?: ReactNode
 }) {
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex items-center justify-between">
       <h2 className="text-20 font-medium">{title}</h2>
       {children}
     </div>

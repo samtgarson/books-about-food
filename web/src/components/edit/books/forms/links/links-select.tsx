@@ -85,7 +85,7 @@ function LinksForm({
         onChange={(e) => setUrl(e.target.value)}
       />
       <Submit className="mt-4">Save</Submit>
-      <p className="text-14 mt-4">
+      <p className="mt-4 text-14">
         Note: If the website you would like to add isn’t listed please enter the
         name in the Website field and click Create (eg: “Portfolio”, “New York
         Times”, “The Grocer” etc).
@@ -96,7 +96,7 @@ function LinksForm({
 
 const linkLogo = (site: string) =>
   isWebsite(site) ? (
-    <div className="h-10 w-10 shrink-0 rounded-full bg-white flex justify-center items-center overflow-hidden">
+    <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white">
       <Image src={linkLogos[site]} alt="" width={24} height={24} />
     </div>
   ) : (

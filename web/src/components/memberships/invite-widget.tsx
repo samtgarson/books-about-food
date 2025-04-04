@@ -20,10 +20,10 @@ export async function InviteWidget() {
   if (!invites.length) return null
 
   return (
-    <div className="flex flex-col gap-4 max-w-xl">
+    <div className="flex max-w-xl flex-col gap-4">
       {invites.map((invite) => (
         <form
-          className="flex gap-4 bg-white p-4 items-center"
+          className="flex items-center gap-4 bg-white p-4"
           key={invite.id}
           action={async function () {
             'use server'

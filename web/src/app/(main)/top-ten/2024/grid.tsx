@@ -96,7 +96,7 @@ export function TopTenGrid({
         debounceDelay={100}
         className="mb-6"
       />
-      <AntiContainer className="bg-white flex flex-col items-center justify-center pt-6 pb-8 gap-2 border-t border-black sm:mb-6 md:mb-10 sm:border-none">
+      <AntiContainer className="flex flex-col items-center justify-center gap-2 border-t border-black bg-white pb-8 pt-6 sm:mb-6 sm:border-none md:mb-10">
         <p className="all-caps opacity-40">Supported by</p>
         <TrackedLink
           href="https://themodestmerchant.com/"
@@ -112,7 +112,7 @@ export function TopTenGrid({
           />
         </TrackedLink>
       </AntiContainer>
-      <GridContainer className={'sm:gap-y-16'}>
+      <GridContainer className="sm:gap-y-16">
         {filteredBooks.map((book) => (
           <TopTenGridItem
             key={book.id}
@@ -124,7 +124,7 @@ export function TopTenGrid({
         ))}
       </GridContainer>
       {filteredBooks.length === 0 && (
-        <p className="text-center w-full py-40">
+        <p className="w-full py-40 text-center">
           No books found. Try searching for something else.
         </p>
       )}

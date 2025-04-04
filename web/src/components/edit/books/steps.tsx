@@ -9,7 +9,7 @@ export const Steps: FC<{ book: FullBook; user: User }> = ({ book, user }) => {
   const state = new BookEditState(book, user)
 
   return (
-    <div className="flex flex-col gap-2 w-full max-w-xl">
+    <div className="flex w-full max-w-xl flex-col gap-2">
       <Step
         disabled={state.disabled}
         title="1. General Information"

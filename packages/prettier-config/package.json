@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "main": "index.js",
   "devDependencies": {
-    "@samtgarson/eslint-config": "^2.10.1",
-    "prettier": "^3.0.3",
-    "prettier-plugin-organize-imports": "^3.2.3",
+    "@samtgarson/eslint-config": "^3.2.12",
+    "prettier": "^3.5.3",
+    "prettier-plugin-organize-imports": "^4.1.0",
     "prettier-plugin-prisma": "^5.0.0",
     "prettier-plugin-tailwindcss": "^0.5.4"
   }

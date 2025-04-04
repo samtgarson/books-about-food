@@ -24,13 +24,14 @@ import { SimilarBooks } from 'src/components/books/similar-books'
 import { TagList } from 'src/components/books/tag-list'
 import { TeamList } from 'src/components/books/team-list'
 import { ProfileListSection } from 'src/components/profiles/list-section'
-import { PageProps } from 'src/components/types'
+import { slugPage, SlugProps } from 'src/components/types'
+import { Wrap } from 'src/components/utils/wrap'
 import { bookTotal, genMetadata } from 'src/utils/metadata'
 import { call } from 'src/utils/service'
 
-export type CookbooksPageProps = PageProps<{ slug: string }>
-
-export { dynamic, dynamicParams, revalidate } from 'app/default-static-config'
+export const dynamic = 'error'
+export const revalidate = 3600
+export const dynamicParams = true
 
 export async function generateStaticParams() {
   const [{ data }, newlyAdded, comingSoon] = await Promise.all([
@@ -46,16 +47,14 @@ export async function generateStaticParams() {
   )
 }
 
-export default async function CookbookPage({
-  params: { slug }
-}: CookbooksPageProps) {
+export default slugPage(async function CookbookPage(slug) {
   const { data: book } = await call(fetchBook, { slug, onlyPublished: true })
   if (!book) notFound()
 
   return (
-    <div className="relative flex-grow lg:pr-[50vw] flex flex-col sm:gap-y-20">
+    <div className="relative flex flex-grow flex-col sm:gap-y-20 lg:pr-[50vw]">
       <Container className="flex flex-col sm:gap-8" key="header" belowNav>
-        <div className="pt-6 flex flex-col gap-4 md:pt-20">
+        <div className="flex flex-col gap-4 pt-6 md:pt-20">
           <div
             className={cn(
               'font-style-title flex items-center',
@@ -63,7 +62,7 @@ export default async function CookbookPage({
             )}
           >
             <h1>{book.title}</h1>
-            <BookOverflow book={book} className="ml-auto" data-superjson />
+            <Wrap c={BookOverflow} book={book} className="ml-auto" />
           </div>
           {book.subtitle ? (
             <Detail>{book.subtitle}</Detail>
@@ -73,8 +72,8 @@ export default async function CookbookPage({
         </div>
         <AntiContainer className="border-t border-black sm:border-t-0 md:-mt-8">
           <div className="flex flex-col lg:absolute lg:-bottom-20 lg:right-0 lg:top-0 lg:w-[50vw]">
-            <CoverCarousel
-              data-superjson
+            <Wrap
+              c={CoverCarousel}
               book={book}
               className="lg:sticky lg:top-0 lg:-mt-16 lg:flex lg:h-full lg:max-h-screen lg:items-stretch lg:pt-16"
             />
@@ -97,12 +96,12 @@ export default async function CookbookPage({
         <AntiContainer desktop={false}>
           <Container
             desktop={false}
-            className="border-t border-black sm:border-y-0 mobile-only:py-4 flex flex-col gap-4"
+            className="flex flex-col gap-4 border-t border-black sm:border-y-0 mobile-only:py-4"
           >
             {book.team.length > 0 && (
               <TeamList contributions={book.contributions} />
             )}
-            <CorrectionButton book={book} data-superjson />
+            <Wrap c={CorrectionButton} book={book} />
           </Container>
         </AntiContainer>
         {book.blurb && (
@@ -121,7 +120,7 @@ export default async function CookbookPage({
         )}
       >
         {book.publisher && (
-          <Detail className="flex flex-col gap-2 items-start" column>
+          <Detail className="flex flex-col items-start gap-2" column>
             <p className="all-caps">Publisher</p>
             <Link href={`/publishers/${book.publisher.slug}`}>
               <Pill variant="filled" small>
@@ -183,12 +182,13 @@ export default async function CookbookPage({
       )}
     </div>
   )
-}
+})
 
 export async function generateMetadata(
-  { params: { slug } }: CookbooksPageProps,
+  props: SlugProps,
   parent: Promise<ResolvedMetadata>
 ): Promise<Metadata> {
+  const { slug } = await props.params
   const [{ data: book }, count] = await Promise.all([
     call(fetchBook, { slug, onlyPublished: true }),
     bookTotal

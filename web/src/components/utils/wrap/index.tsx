@@ -1,10 +1,18 @@
-import { ComponentType } from 'react'
+import { ComponentType, ReactNode } from 'react'
+import WrapClient from './client'
+import { serialize } from './utils'
 
-export function Wrap<P>({
-  c: Component,
+export function Wrap<P extends object>({
+  c,
+  children,
   ...props
 }: {
   c: ComponentType<P>
+  children?: ReactNode
 } & P) {
-  return <Component {...(props as P)} data-superjson />
+  return (
+    <WrapClient props={serialize(props as P)} component={c}>
+      {children}
+    </WrapClient>
+  )
 }

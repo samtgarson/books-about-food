@@ -8,16 +8,16 @@ const dims = {
   avatar: 360
 }
 
-export const revalidate = 60 * 60 // 1 hour
+export const revalidate = 3600
 
 export async function GET(
   _request: NextRequest,
-  {
-    params: { slug }
-  }: {
-    params: { slug: string }
+  props: {
+    params: Promise<{ slug: string }>
   }
 ) {
+  const { slug } = await props.params
+
   const { data: profile } = await call(fetchProfile, {
     slug,
     onlyPublished: true

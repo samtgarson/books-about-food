@@ -21,7 +21,7 @@ export default function Error({
 
   return (
     <Container belowNav>
-      <LogoShape text className="w-16 h-auto" />
+      <LogoShape text className="h-auto w-16" />
       <PageTitle className="!pb-8">Something went wrong</PageTitle>
       <p className="mb-4">
         Apologies for any inconvenience, our team is has already been notified.

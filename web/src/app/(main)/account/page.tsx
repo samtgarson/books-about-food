@@ -62,7 +62,7 @@ async function ProfileSection({ userId }: { userId: string }) {
         <ArrowUpRight
           strokeWidth={1}
           size={24}
-          className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none"
+          className="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2"
         />
       </div>
     </div>

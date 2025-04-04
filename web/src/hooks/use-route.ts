@@ -9,7 +9,13 @@ export const useRoute = (): string => {
 
   const finalParams = {
     ...Object.fromEntries(searchParams.entries()),
-    ...(params || {})
+    ...Object.keys(params || {}).reduce(
+      (acc, key) => ({
+        ...acc,
+        [key]: params[key]?.toString()
+      }),
+      {}
+    )
   }
 
   return params ? computeRoute(path, finalParams) || path : path

@@ -3,6 +3,7 @@ import { updateLinks } from '@books-about-food/core/services/books/update-links'
 import { revalidatePath } from 'next/cache'
 import { PageSubtitle } from 'src/components/atoms/page-title'
 import { Submit } from 'src/components/form/submit'
+import { Wrap } from 'src/components/utils/wrap'
 import { call } from 'src/utils/service'
 import SuperJSON from 'superjson'
 import { z } from 'zod'
@@ -39,7 +40,7 @@ export const EditLinksForm = async ({ book }: { book: FullBook }) => {
       }}
     >
       <PageSubtitle>Links</PageSubtitle>
-      <LinksSelect book={book} data-superjson />
+      <Wrap c={LinksSelect} book={book} />
       <Submit>Save and Continue</Submit>
     </EditForm>
   )

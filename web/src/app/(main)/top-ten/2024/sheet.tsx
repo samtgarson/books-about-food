@@ -38,17 +38,17 @@ export function TopTenSheet({
   return (
     <div
       className={cn(
-        'z-sheet rounded-t-[16px] sm:rounded-2xl backdrop-blur-3xl fixed bottom-0 sm:bottom-6 left-0 right-0 sm:w-min bg-white/80 mx-auto book-shadow p-6 sm:p-8 flex gap-6 sm:gap-8 flex-col sm:flex-row sm:items-center overflow-hidden sm:h-[164px] transition',
-        hidden && 'opacity-0 translate-y-8 pointer-events-none'
+        'book-shadow fixed bottom-0 left-0 right-0 z-sheet mx-auto flex flex-col gap-6 overflow-hidden rounded-t-[16px] bg-white/80 p-6 backdrop-blur-3xl transition sm:bottom-6 sm:h-[164px] sm:w-min sm:flex-row sm:items-center sm:gap-8 sm:rounded-2xl sm:p-8',
+        hidden && 'pointer-events-none translate-y-8 opacity-0'
       )}
     >
       {alreadyVoted ? (
-        <p className="text-center sm:text-left sm:w-72">
-          <span className="font-medium block">Thank you for voting</span>
+        <p className="text-center sm:w-72 sm:text-left">
+          <span className="block font-medium">Thank you for voting</span>
           The Top 10 with the most votes will be announced mid-December
         </p>
       ) : (
-        <ul className={cn('sm:flex gap-3 relative flex justify-center')}>
+        <ul className={cn('relative flex justify-center gap-3 sm:flex')}>
           {range(3).map((_, i) => (
             <TopTenSheetItem
               key={i}
@@ -83,7 +83,7 @@ export function TopTenSheet({
         </AuthedButton>
       )}
       {loading && (
-        <div className="absolute inset-0 bg-white/30 backdrop-blur-3xl flex items-center justify-center">
+        <div className="absolute inset-0 flex items-center justify-center bg-white/30 backdrop-blur-3xl">
           <Loader />
         </div>
       )}

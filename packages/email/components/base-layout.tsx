@@ -32,7 +32,8 @@ export default function BaseLayout({
     <Html>
       <Tailwind config={tailwindConfig}>
         <Head>
-          <style>{`
+          <style>
+            {`
           body {
             -webkit-font-smoothing: antialiased;
             min-width: 320px;
@@ -45,7 +46,8 @@ export default function BaseLayout({
             white-space: nowrap;
           }
           ${style}
-      `}</style>
+      `}
+          </style>
           <Font
             fontFamily="Graphik"
             webFont={{
@@ -70,12 +72,15 @@ export default function BaseLayout({
 
         <Preview>{preview}</Preview>
         <Body className="bg-grey">
-          <Container className="px-5 bg-grey">
+          <Container className="bg-grey px-5">
             <Section>
               <Header />
               <Hr className="border-khaki border-b pb-2" />
               {recipientName ? (
-                <Text>Dear {recipientName},</Text>
+                <Text>
+                  Dear
+                  {recipientName},
+                </Text>
               ) : (
                 <Text>Hi there,</Text>
               )}

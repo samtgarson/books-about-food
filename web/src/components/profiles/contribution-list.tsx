@@ -25,7 +25,7 @@ export const ContributionList = async ({
   if (filteredTotal === 0) return null
   return (
     <ListContainer title="Cookbook Portfolio" className={className}>
-      <GridContainer className={'sm:gap-y-16'}>
+      <GridContainer className="sm:gap-y-16">
         {books.map((book) => {
           const found = book.contributions.find(
             (c) => c.profile.id === profile.id

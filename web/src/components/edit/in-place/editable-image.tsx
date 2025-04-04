@@ -34,7 +34,7 @@ export function EditableImage({
             croppable={croppeable}
             name="avatar"
             prefix="profile-avatars"
-            className="flex text-16 h-10 min-w-10 px-2 items-center justify-center bg-white gap-2"
+            className="flex h-10 min-w-10 items-center justify-center gap-2 bg-white px-2 text-16"
             onSuccess={([{ id }]) => onSave(id)}
           >
             <Edit2 strokeWidth={1} size={24} />

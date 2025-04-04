@@ -1,8 +1,8 @@
 'use client'
 
 import { BookResult } from '@books-about-food/core/models/types'
-import * as Form from '@radix-ui/react-form'
 import { AnimatePresence, Reorder } from 'framer-motion'
+import { Form } from 'radix-ui'
 import { useRef, useState } from 'react'
 import { Menu, X } from 'src/components/atoms/icons'
 import { Stringified } from 'src/utils/superjson'
@@ -49,7 +49,7 @@ export function BookMultiSelect({
               animate={{ opacity: 1, height: 64 }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2 }}
-              className="flex py-2 pr-2 items-center gap-2 overflow-hidden"
+              className="flex items-center gap-2 overflow-hidden py-2 pr-2"
             >
               <Menu strokeWidth={1} size={15} />
               <BookResultRow {...value} />
