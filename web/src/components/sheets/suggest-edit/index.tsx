@@ -44,7 +44,7 @@ const SuggestEditSheet: SheetComponent<SuggestEditSheetProps> = ({
             <TextArea
               label="Describe your suggestion"
               name="suggestion"
-              placeholder="The title is spelled wrong..."
+              placeholder="eg: The title is wrong, or the photographer was…"
               required
             />
             <Submit>Submit</Submit>
