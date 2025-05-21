@@ -64,7 +64,7 @@ export function Content({
             if (!focusTriggerOnClose) e.preventDefault()
           }}
           className={cn(
-            'group pointer-events-none relative flex w-full flex-1 flex-shrink-0 flex-col justify-center gap-3 focus:outline-none sm:gap-4',
+            'group pointer-events-none relative flex w-full flex-1 flex-shrink-0 flex-col justify-center gap-3 p-5 focus:outline-none sm:gap-4',
             {
               'sm:max-w-lg': size === 'md',
               'sm:max-w-xl': size === 'lg',
@@ -75,7 +75,6 @@ export function Content({
                 type === 'drawer'
             },
             overlay && 'bg-white sm:p-8',
-            wide ? 'py-5' : 'p-5',
             className
           )}
           aria-describedby={undefined}

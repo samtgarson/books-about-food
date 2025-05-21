@@ -40,7 +40,7 @@ export function ProfileList({
             Open
           </Eye>
         </Sheet.Trigger>
-        <Sheet.Content title={title} wide>
+        <Sheet.Content title={title}>
           <Sheet.Body className="profile-list group pb-8">
             <GridContainer mobile={false}>{children}</GridContainer>
           </Sheet.Body>
