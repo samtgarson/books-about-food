@@ -28,59 +28,61 @@ export function BookFilterPopup({
       params={filters}
       defaultParams={{ _reset: true }}
       loading={loading}
-      className="flex flex-col gap-8 pb-4"
+      className="pb-4"
       onClose={() => setFilters(initialFilters)}
     >
-      <FilterItem title="Sort by">
-        <Sort<NonNullable<Filters['sort']>>
-          sorts={{
-            releaseDate: 'Release Date',
-            createdAt: 'Recently Added'
-          }}
-          defaultValue="releaseDate"
-          value={filters.sort ?? 'releaseDate'}
-          onClick={(sort) => setFilters({ ...filters, sort })}
-        />
-      </FilterItem>
-      <FilterItem title="Tags" count={filters.tags?.length}>
-        <PillList
-          selected={filters.tags ?? []}
-          tags={tags}
-          initialSelected={initialFilters.tags}
-          onClick={(value) => {
-            setFilters({
-              ...filters,
-              tags: toggleItemAuto(filters.tags ?? [], value)
-            })
-          }}
-        />
-      </FilterItem>
-      <FilterItem title="Colour" count={filters.color ? 1 : 0}>
-        <div className="flex flex-wrap gap-3">
-          {(Object.keys(colorMap) as NamedColor[]).map((color) => (
-            <ColorCircle
-              color={color}
-              key={color}
-              selected={filters.color === color}
-              onClick={() => {
-                setFilters({
-                  ...filters,
-                  color,
-                  sort: filters.sort === 'color' ? undefined : filters.sort
-                })
-              }}
-            />
-          ))}
-          <ColorCircle
-            color="rainbow"
-            key="all"
-            selected={filters.sort === 'color'}
-            onClick={() => {
-              setFilters({ ...filters, color: undefined, sort: 'color' })
+      <div className="flex flex-col gap-8 overflow-x-hidden">
+        <FilterItem title="Sort by">
+          <Sort<NonNullable<Filters['sort']>>
+            sorts={{
+              releaseDate: 'Release Date',
+              createdAt: 'Recently Added'
+            }}
+            defaultValue="releaseDate"
+            value={filters.sort ?? 'releaseDate'}
+            onClick={(sort) => setFilters({ ...filters, sort })}
+          />
+        </FilterItem>
+        <FilterItem title="Tags" count={filters.tags?.length}>
+          <PillList
+            selected={filters.tags ?? []}
+            tags={tags}
+            initialSelected={initialFilters.tags}
+            onClick={(value) => {
+              setFilters({
+                ...filters,
+                tags: toggleItemAuto(filters.tags ?? [], value)
+              })
             }}
           />
-        </div>
-      </FilterItem>
+        </FilterItem>
+        <FilterItem title="Colour" count={filters.color ? 1 : 0}>
+          <div className="flex flex-wrap gap-3">
+            {(Object.keys(colorMap) as NamedColor[]).map((color) => (
+              <ColorCircle
+                color={color}
+                key={color}
+                selected={filters.color === color}
+                onClick={() => {
+                  setFilters({
+                    ...filters,
+                    color,
+                    sort: filters.sort === 'color' ? undefined : filters.sort
+                  })
+                }}
+              />
+            ))}
+            <ColorCircle
+              color="rainbow"
+              key="all"
+              selected={filters.sort === 'color'}
+              onClick={() => {
+                setFilters({ ...filters, color: undefined, sort: 'color' })
+              }}
+            />
+          </div>
+        </FilterItem>
+      </div>
     </FilterSheet>
   )
 }
