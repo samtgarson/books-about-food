@@ -82,9 +82,7 @@ export function Content({
           style={{ '--max-height': `${viewport.height}px` } as CSSProperties}
           data-sheet-anchor
         >
-          {showCloseButton && (
-            <ControlsBar {...props} className={cn(wide && 'px-5')} />
-          )}
+          {showCloseButton && <ControlsBar {...props} wide={wide} />}
           <AuthedContent {...props} />
         </Dialog.Content>
       </div>
@@ -135,16 +133,18 @@ type ControlsBarProps =
 function ControlsBar({
   title,
   controls,
+  wide,
   className
-}: ControlsBarProps & { className?: string }) {
+}: ControlsBarProps & { wide?: boolean; className?: string }) {
   const { scrollState } = useSheetContext()
 
   return (
     <div
       className={cn(
         'z-30 -mb-3 flex items-center justify-end gap-4 border-b pb-3 transition-colors sm:-mb-4 sm:pb-4',
-        '-mx-5 px-5 sm:-mx-8 sm:px-8',
+        '-mx-5 sm:-mx-8 sm:px-8',
         !scrollState.top ? 'border-neutral-grey' : 'border-transparent',
+        wide ? 'px-10' : 'px-5',
         className
       )}
     >
