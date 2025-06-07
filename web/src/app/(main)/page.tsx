@@ -104,10 +104,11 @@ async function HomepageContent() {
           size="lg"
           readMoreLink="/cookbooks"
           className="pt-12 md:pt-20"
+          scrollerClassName="pb-36"
           colorful
         />
       </Container>
-      <Container className="flex flex-col gap-24 py-12 md:gap-40 md:py-20">
+      <Container className="-mt-20 flex flex-col gap-24 py-12 md:gap-40 md:py-20">
         <div>
           <h3 className="all-caps mb-6 md:mb-8">People Directory</h3>
           <Suspense fallback={null}>

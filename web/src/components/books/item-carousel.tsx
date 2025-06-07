@@ -17,6 +17,7 @@ export type ItemCarouselProps = {
   className?: string
   centered?: boolean
   carouselClassName?: string
+  scrollerClassName?: string
   colorful?: boolean
   mobileColorful?: boolean
   rightPadding?: boolean
@@ -38,6 +39,7 @@ export const ItemCarousel: FC<ItemCarouselProps> = ({
   className,
   centered,
   carouselClassName,
+  scrollerClassName,
   colorful,
   mobileColorful,
   rightPadding = false,
@@ -62,7 +64,7 @@ export const ItemCarousel: FC<ItemCarouselProps> = ({
         <Carousel.Scroller
           padded
           containerProps={{ right: rightPadding }}
-          className="-mr-px"
+          className={cn('-mr-px', scrollerClassName)}
         >
           <ListContainer display="grid">
             {items.map((item, index) => (
