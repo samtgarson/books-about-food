@@ -10,7 +10,7 @@ export async function CollectionGridTile({ index }: CollectionGridTileProps) {
 
   if (!collection) return null
   return (
-    <li className="relative h-full w-full mobile-only:bg-white">
+    <li className="relative aspect-square h-full w-full mobile-only:bg-white">
       <Link
         className="flex h-full flex-col items-start gap-1 bg-white p-6 transition hover:z-30 hover:-rotate-1 sm:absolute sm:-inset-3 sm:rotate-1 sm:items-center sm:justify-center sm:gap-6 sm:p-9"
         href={collection.href}
