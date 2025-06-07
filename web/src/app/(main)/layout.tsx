@@ -7,7 +7,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <NavProvider>
       <TopNav />
-      <main className="flex flex-grow flex-col justify-start">{children}</main>
+      <main className="flex grow flex-col justify-start">{children}</main>
       <Footer />
     </NavProvider>
   )

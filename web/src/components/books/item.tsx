@@ -126,11 +126,10 @@ export const Cover = ({
       book={book}
       className={cn(
         className,
-        colorful &&
-          (mobileGrid ? 'bg-[var(--book-bg)]' : 'sm:bg-[var(--book-bg)]'),
+        colorful && (mobileGrid ? 'bg-(--book-bg)' : 'sm:bg-(--book-bg)'),
         mobileColorful && [
-          mobileGrid && 'mobile-only:bg-[var(--book-bg)]',
-          'sm:transition sm:group-hover:bg-[var(--book-bg)]'
+          mobileGrid && 'mobile-only:bg-(--book-bg)',
+          'sm:group-hover:bg-(--book-bg) sm:transition'
         ]
       )}
       {...props}
@@ -139,7 +138,7 @@ export const Cover = ({
         <Image
           {...book.cover.imageAttrs(200)}
           className={cn(
-            'book-shadow h-24 !w-auto sm:absolute sm:inset-x-0 sm:top-[15%] sm:mx-auto sm:h-[70%]',
+            'book-shadow w-auto! h-24 sm:absolute sm:inset-x-0 sm:top-[15%] sm:mx-auto sm:h-[70%]',
             mobileGrid && 'absolute inset-x-0 top-[15%] mx-auto h-[70%]'
           )}
         />
@@ -147,7 +146,7 @@ export const Cover = ({
         <div
           aria-hidden
           className={cn(
-            'h-24 w-16 bg-khaki bg-opacity-50 sm:absolute sm:inset-x-0 sm:!top-[15%] sm:mx-auto sm:!h-[70%] sm:w-[60%]',
+            'sm:top-[15%]! sm:h-[70%]! h-24 w-16 bg-khaki bg-opacity-50 sm:absolute sm:inset-x-0 sm:mx-auto sm:w-[60%]',
             mobileGrid && 'absolute inset-x-0 top-[15%] mx-auto h-[70%] w-[60%]'
           )}
         />
@@ -169,10 +168,10 @@ export const Footer = ({
     (book && (
       <>
         {' '}
-        <p className="mb-1 overflow-hidden overflow-ellipsis whitespace-nowrap text-16 font-medium">
+        <p className="mb-1 overflow-hidden text-ellipsis whitespace-nowrap text-16 font-medium">
           {book.title}
         </p>
-        <p className="overflow-hidden overflow-ellipsis whitespace-nowrap text-14">
+        <p className="overflow-hidden text-ellipsis whitespace-nowrap text-14">
           {book.authorNames}
         </p>
       </>
@@ -241,7 +240,7 @@ export const Skeleton = forwardRef<
         <div
           aria-hidden
           className={cn(
-            'h-24 w-16 bg-khaki bg-opacity-50 sm:absolute sm:inset-x-0 sm:!top-[15%] sm:mx-auto sm:!h-[70%] sm:w-[60%]',
+            'sm:top-[15%]! sm:h-[70%]! h-24 w-16 bg-khaki bg-opacity-50 sm:absolute sm:inset-x-0 sm:mx-auto sm:w-[60%]',
             mobileGrid && 'absolute inset-x-0 top-[15%] mx-auto h-[70%] w-[60%]'
           )}
         />

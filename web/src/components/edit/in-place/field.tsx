@@ -113,9 +113,7 @@ export function InPlaceField({
             )}
           </div>
         )}
-        {editMode && (
-          <Edit2 strokeWidth={1} size={24} className="flex-shrink-0" />
-        )}
+        {editMode && <Edit2 strokeWidth={1} size={24} className="shrink-0" />}
       </div>
     </div>
   )

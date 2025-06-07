@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
     <>
-      <main className="flex-grow py-20">
+      <main className="grow py-20">
         <Container>{children}</Container>
       </main>
     </>

@@ -1,6 +1,85 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@config '../../tailwind.config.js';
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility editing {
+  &body {
+    @apply bg-blue-grey;
+  }
+
+  &body .edit-bg {
+    @apply bg-blue-grey;
+  }
+}
+
+@utility edit-bg {
+  @apply transition duration-700;
+
+  body.editing & {
+    @apply bg-blue-grey;
+  }
+}
+
+@utility all-caps {
+  @apply text-10 font-medium uppercase tracking-[0.12em] sm:text-12;
+}
+
+@utility all-caps-sm {
+  @apply text-10 font-medium uppercase tracking-[0.12em];
+}
+
+@utility book-shadow {
+  box-shadow:
+    0px 2.5px 1.9px rgba(0, 0, 0, 0.02),
+    0px 6px 4.7px rgba(0, 0, 0, 0.028),
+    0px 11.3px 8.8px rgba(0, 0, 0, 0.035),
+    0px 20.1px 15.6px rgba(0, 0, 0, 0.042),
+    0px 37.6px 29.2px rgba(0, 0, 0, 0.05),
+    0px 90px 70px rgba(0, 0, 0, 0.07);
+}
+
+@utility scrollbar-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility collapsible-fade {
+  @apply transition-opacity in-data-[state="closed"]:opacity-0 in-data-[state="open"]:opacity-100;
+}
+
+@utility font-style-title {
+  @apply text-24 sm:text-32;
+}
+
+@utility float-menu {
+  @apply rounded-md bg-white p-1 shadow-md;
+}
+
+@utility break-anywhere {
+  overflow-wrap: anywhere;
+}
 
 @layer base {
   html {
@@ -47,69 +126,13 @@
   }
 }
 
-@layer components {
-  body.editing {
-    @apply bg-blue-grey;
-  }
-
-  .edit-bg {
-    @apply transition duration-700;
-  }
-
-  body.editing .edit-bg {
-    @apply bg-blue-grey;
-  }
-}
-
 @layer utilities {
-  .all-caps {
-    @apply text-10 font-medium uppercase tracking-[0.12em] sm:text-12;
-  }
-
-  .all-caps-sm {
-    @apply text-10 font-medium uppercase tracking-[0.12em];
-  }
-
-  .book-shadow {
-    box-shadow:
-      0px 2.5px 1.9px rgba(0, 0, 0, 0.02),
-      0px 6px 4.7px rgba(0, 0, 0, 0.028),
-      0px 11.3px 8.8px rgba(0, 0, 0, 0.035),
-      0px 20.1px 15.6px rgba(0, 0, 0, 0.042),
-      0px 37.6px 29.2px rgba(0, 0, 0, 0.05),
-      0px 90px 70px rgba(0, 0, 0, 0.07);
-  }
-
-  .scrollbar-hidden {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  .scrollbar-hidden::-webkit-scrollbar {
-    display: none;
-  }
 
   [hidden] {
     display: none !important;
   }
 
-  .collapsible-fade {
-    @apply transition-opacity [[data-state="closed"]_&]:opacity-0 [[data-state="open"]_&]:opacity-100;
-  }
-
-  .font-style-title {
-    @apply text-24 sm:text-32;
-  }
-
   [class*='auto-grid'] > * {
     max-width: calc(100% + 1px);
-  }
-
-  .float-menu {
-    @apply rounded-md bg-white p-1 shadow-md;
-  }
-
-  .break-anywhere {
-    overflow-wrap: anywhere;
   }
 }

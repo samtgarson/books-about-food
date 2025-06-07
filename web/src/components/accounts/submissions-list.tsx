@@ -21,7 +21,7 @@ export async function SubmissionsList({ page }: { page: number }) {
 
   return (
     <>
-      <GridContainer className="sm:!auto-grid-xl">
+      <GridContainer className="sm:auto-grid-xl!">
         {books.map((book) => (
           <li key={book.id}>
             <MiniItem book={book} />

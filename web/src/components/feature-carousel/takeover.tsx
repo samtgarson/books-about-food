@@ -64,7 +64,7 @@ export function Takeover({
             src={logo}
             aria-hidden
             className={cn(
-              'order-first lg:order-none lg:mr-[15vw] mobile-only:w-44'
+              'lg:order-0 order-first lg:mr-[15vw] mobile-only:w-44'
             )}
             alt="BAF Top 10"
           />

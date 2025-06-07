@@ -38,7 +38,7 @@ export const BookLinks: FC<BookLinksProps> = ({ links, className }) =>
         {links.map((link) => (
           <li
             key={link.id}
-            className="min-w-[250px] flex-grow basis-[calc(50%-8px)]"
+            className="min-w-[250px] grow basis-[calc(50%-8px)]"
           >
             <a
               href={link.url}

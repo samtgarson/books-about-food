@@ -79,7 +79,7 @@ export default slugPage(async function PublisherPage(slug) {
         {collection && <FeaturedCollection collection={collection} />}
       </Container>
       <Container className="flex flex-row flex-wrap justify-between gap-12">
-        <Description className="w-min max-w-4xl flex-shrink flex-grow sm:min-w-[650px]" />
+        <Description className="w-min max-w-4xl shrink grow sm:min-w-[650px]" />
         <div className="w-96">
           {publisher.house && (
             <Detail maxWidth className="flex flex-col items-start gap-2">

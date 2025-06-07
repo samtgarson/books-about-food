@@ -46,7 +46,7 @@ async function Page() {
           />
         </div>
       )}
-      <Marquee className="fixed -right-[25%] bottom-0 left-0 z-40 -rotate-[15deg]">
+      <Marquee className="-rotate-15 fixed -right-[25%] bottom-0 left-0 z-40">
         <a
           href="https://www.instagram.com/booksabout.food"
           target="_blank"

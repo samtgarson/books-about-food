@@ -64,7 +64,7 @@ const TopNavItem: FC<{
     <Link
       aria-current={active ? 'page' : undefined}
       href={href}
-      {...navItemAttrs(index, cn(className, loading && '!opacity-50'))}
+      {...navItemAttrs(index, cn(className, loading && 'opacity-50!'))}
       style={{ animationDelay: `${index * 50}ms` }}
       onClick={(e) => {
         if (e.metaKey || e.ctrlKey) return
@@ -98,7 +98,7 @@ const NavContent = () => {
   const user = useCurrentUser()
 
   return (
-    <div className="fixed inset-0 z-[60] flex max-h-screen animate-fade-in flex-col items-center justify-center gap-3 overflow-auto bg-white pt-20">
+    <div className="z-60 fixed inset-0 flex max-h-screen animate-fade-in flex-col items-center justify-center gap-3 overflow-auto bg-white pt-20">
       <Container className="absolute inset-x-0 top-0 border-b border-black py-5">
         <Dialog.Close className="all-caps flex items-center gap-8">
           <X strokeWidth={1} />

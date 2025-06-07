@@ -47,7 +47,7 @@ export function SearchInput<
         }
       })}
       className={cn(
-        'flex-grow bg-transparent focus:outline-none',
+        'focus:outline-hidden grow bg-transparent',
         multi ? '-my-3 py-3' : 'absolute -inset-4 right-0 p-4'
       )}
     />
@@ -193,7 +193,7 @@ export function CreateButton<
       <span
         className={cn(
           pillClasses,
-          '!inline-block cursor-pointer self-start transition-colors',
+          'inline-block! cursor-pointer self-start transition-colors',
           createButtonSelected ? 'bg-sand' : 'bg-neutral-light-grey'
         )}
       >

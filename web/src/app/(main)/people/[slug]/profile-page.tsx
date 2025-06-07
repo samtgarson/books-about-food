@@ -37,7 +37,7 @@ export async function ProfilePage({ segment, slug }: ProfilePageProps) {
       >
         <div className="pt-8 md:pt-20">
           <div className="relative flex flex-col items-stretch gap-6 lg:flex-row lg:items-start">
-            <div className="w-full flex-grow">
+            <div className="w-full grow">
               <Field
                 as="h1"
                 attr="name"
@@ -55,7 +55,7 @@ export async function ProfilePage({ segment, slug }: ProfilePageProps) {
                 <LinkList />
               </div>
             </div>
-            <div className="order-first flex flex-shrink-0 items-start justify-between gap-5 lg:order-last lg:flex-col lg:items-end">
+            <div className="order-first flex shrink-0 items-start justify-between gap-5 lg:order-last lg:flex-col lg:items-end">
               <EditableAvatar />
               <div className="flex items-center gap-2">
                 <FavouriteButton profileId={profile.id} />

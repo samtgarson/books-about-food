@@ -52,7 +52,7 @@ export default slugPage(async function CookbookPage(slug) {
   if (!book) notFound()
 
   return (
-    <div className="relative flex flex-grow flex-col sm:gap-y-20 lg:pr-[50vw]">
+    <div className="relative flex grow flex-col sm:gap-y-20 lg:pr-[50vw]">
       <Container className="flex flex-col sm:gap-8" key="header" belowNav>
         <div className="flex flex-col gap-4 pt-6 md:pt-20">
           <div

@@ -57,7 +57,7 @@ export const FilterBar: FC<FilterBarProps> = ({
           </div>
         ) : (
           <div className="flex animate-fade-in items-center">
-            <PageTitle className="flex-grow">{title}</PageTitle>
+            <PageTitle className="grow">{title}</PageTitle>
             <button
               onClick={() => showSearchAndFocus()}
               className="ml-auto sm:hidden"
@@ -70,7 +70,7 @@ export const FilterBar: FC<FilterBarProps> = ({
       <AntiContainer desktop={false}>
         <div className="mb-6 flex w-full flex-wrap items-center gap-4 md:mb-10 md:gap-6">
           {search && (
-            <Container desktop={false} className="hidden flex-grow sm:flex">
+            <Container desktop={false} className="hidden grow sm:flex">
               <Search {...searchProps} onChange={onSearchChange} />
             </Container>
           )}
@@ -80,7 +80,7 @@ export const FilterBar: FC<FilterBarProps> = ({
                 desktop={false}
                 className="flex items-center justify-end gap-2 overflow-auto mobile-only:min-w-max"
               >
-                {label && <p className="all-caps mr-2 flex-grow">{label}</p>}
+                {label && <p className="all-caps mr-2 grow">{label}</p>}
                 {children}
               </Container>
             </div>

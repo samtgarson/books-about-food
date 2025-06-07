@@ -64,7 +64,7 @@ export function Content({
             if (!focusTriggerOnClose) e.preventDefault()
           }}
           className={cn(
-            'group pointer-events-none relative flex w-full flex-1 flex-shrink-0 flex-col justify-center gap-3 focus:outline-none sm:gap-4',
+            'focus:outline-hidden group pointer-events-none relative flex w-full flex-1 shrink-0 flex-col justify-center gap-3 sm:gap-4',
             {
               'sm:max-w-lg': size === 'md',
               'sm:max-w-xl': size === 'lg',
@@ -148,7 +148,7 @@ function ControlsBar({
         className
       )}
     >
-      {title && <Title className="mr-auto flex-grow">{title}</Title>}
+      {title && <Title className="mr-auto grow">{title}</Title>}
       {controls}
       <Dialog.Close className="pointer-events-auto">
         <X strokeWidth={1} size={24} />

@@ -12,7 +12,7 @@ export function CollectionBlobs({ colors }: { colors: Collection['colors'] }) {
     <div
       className={cn(
         'grid sm:grid-cols-4 mobile-only:order-last mobile-only:mt-3',
-        display === 'grid' ? '!mt-auto grid-cols-4' : 'grid-cols-6'
+        display === 'grid' ? 'mt-auto! grid-cols-4' : 'grid-cols-6'
       )}
     >
       {range(12).map((i) => (

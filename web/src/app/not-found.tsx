@@ -7,7 +7,7 @@ export default function NotFound() {
     <Container belowNav>
       <LogoShape text className="h-auto w-16" />
 
-      <PageTitle className="!pb-8">That page can&apos;t be found</PageTitle>
+      <PageTitle className="pb-8!">That page can&apos;t be found</PageTitle>
       <p>
         Apologies for any inconvenience, please check the link you clicked and
         try again.

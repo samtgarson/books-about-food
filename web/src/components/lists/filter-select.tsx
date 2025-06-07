@@ -107,7 +107,7 @@ export function FilterSelect<Value extends string | number = string>({
           <Search
             value={searchValue}
             onChange={setSearchValue}
-            className="mb-4 !text-18 sm:mb-6 sm:!text-24"
+            className="text-18! sm:text-24! mb-4 sm:mb-6"
           />
         )}
         <ul className="flex flex-col gap-2 sm:gap-3">
@@ -121,7 +121,7 @@ export function FilterSelect<Value extends string | number = string>({
               animate={{ opacity: matches[option.value] ? 1 : 0.1 }}
               layout
             >
-              <label htmlFor={`filter-${option.value}`} className="flex-grow">
+              <label htmlFor={`filter-${option.value}`} className="grow">
                 {option.label}
               </label>
               <Checkbox.Root
@@ -136,7 +136,7 @@ export function FilterSelect<Value extends string | number = string>({
                 }
                 id={`filter-${option.value}`}
                 name={`${option.value}`}
-                className="flex h-6 w-6 items-center justify-center rounded-sm border border-black text-white transition-all ease-out data-[state=checked]:bg-black"
+                className="rounded-xs flex h-6 w-6 items-center justify-center border border-black text-white transition-all ease-out data-[state=checked]:bg-black"
               >
                 <Checkbox.Indicator asChild>
                   <Check size={16} strokeWidth={1.5} />

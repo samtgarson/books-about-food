@@ -63,7 +63,7 @@ export function BaseAvatar({
         id={id}
         className={cn(
           className,
-          'relative flex aspect-square flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-white bg-opacity-50'
+          'relative flex aspect-square shrink-0 items-center justify-center overflow-hidden rounded-full bg-white bg-opacity-50'
         )}
         style={style}
       >

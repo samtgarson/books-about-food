@@ -26,11 +26,11 @@ export const Root = ({ children, ...props }: RootProps) => (
 )
 
 const containerClasses =
-  'float-menu flex flex-col animate-scale-in origin-[var(--radix-dropdown-menu-content-transform-origin)]'
+  'float-menu flex flex-col animate-scale-in origin-(--radix-dropdown-menu-content-transform-origin)'
 
 const itemClasses = (variant: ItemVariant) =>
   cn(
-    'py-2.5 pl-3 pr-2 flex items-center justify-between gap-4 outline-none transition-colors cursor-pointer data-[highlighted]:bg-grey rounded',
+    'py-2.5 pl-3 pr-2 flex items-center justify-between gap-4 outline-hidden transition-colors cursor-pointer data-highlighted:bg-grey rounded-sm',
     {
       'text-primary-red': variant === 'danger'
     }

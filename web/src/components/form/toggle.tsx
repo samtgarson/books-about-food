@@ -12,7 +12,7 @@ export type ToggleProps = {
 export function Toggle({ label, name, ...props }: ToggleProps) {
   return (
     <Form.Field name={name} className="flex flex-col gap-2">
-      <Label required={props.required} className="!text-12">
+      <Label required={props.required} className="text-12!">
         <div className="flex h-5 w-8 items-center justify-start rounded-full border border-black p-1">
           <Form.Control asChild>
             <input

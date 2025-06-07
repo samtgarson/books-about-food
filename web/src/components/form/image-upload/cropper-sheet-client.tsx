@@ -19,7 +19,7 @@ export function CropperSheetContent({
     <>
       <div
         className={cn(
-          'relative mb-4 aspect-[4/3] h-full w-full',
+          'aspect-4/3 relative mb-4 h-full w-full',
           loading && 'pointer-events-none'
         )}
       >
@@ -41,7 +41,7 @@ export function CropperSheetContent({
           step={0.01}
           value={[zoom]}
           onValueChange={([zoom]) => setZoom(zoom)}
-          className="h-full w-full flex-grow"
+          className="h-full w-full grow"
         />
         <Button
           variant="dark"

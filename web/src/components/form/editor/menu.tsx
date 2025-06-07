@@ -13,7 +13,7 @@ import EditorLinkSheet from './link-sheet'
 
 const iconAttrs = { size: 18, strokeWidth: 1 }
 const buttonClasses = cn(
-  'opacity-60 hover:opacity-100 p-1.5 data-[active]:opacity-100 data-[active]:bg-grey rounded transition'
+  'opacity-60 hover:opacity-100 p-1.5 data-active:opacity-100 data-active:bg-grey rounded-sm transition'
 )
 
 const Item = forwardRef<

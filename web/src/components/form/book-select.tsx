@@ -37,7 +37,7 @@ export function BookResultRow(result: BookResult) {
 
   return (
     <div className="flex items-center gap-3 overflow-hidden">
-      <div className="flex w-14 flex-shrink-0 flex-grow-0 justify-center">
+      <div className="flex w-14 shrink-0 grow-0 justify-center">
         {result.image ? (
           <img src={result.image} alt={result.title} className="h-12" />
         ) : (
@@ -47,14 +47,14 @@ export function BookResultRow(result: BookResult) {
       <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
         <p
           className={cn(
-            'font-bold overflow-hidden overflow-ellipsis',
+            'font-bold overflow-hidden text-ellipsis',
             authors.length ? 'whitespace-nowrap' : 'max-h-12'
           )}
         >
           {title}
         </p>
         {authors.length > 0 && (
-          <p className="max-w-full overflow-hidden overflow-ellipsis whitespace-nowrap opacity-50">
+          <p className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap opacity-50">
             {authors.join(', ')}
           </p>
         )}

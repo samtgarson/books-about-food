@@ -45,7 +45,7 @@ export function ColorFilter({ value }: { value?: number[] | NamedColor }) {
           </ParamLink>
         }
       >
-        <Sheet.Body className="grid grid-cols-[repeat(7,_48px)] justify-center gap-4">
+        <Sheet.Body className="grid grid-cols-[repeat(7,48px)] justify-center gap-4">
           {Object.keys(colorMap).map((key) => (
             <ParamLink key={key} color={key}>
               <Link href="" onClick={() => sheet.current?.setOpen(false)}>

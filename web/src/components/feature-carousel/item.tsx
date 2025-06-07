@@ -59,7 +59,7 @@ export function FeatureCarouselItem({
         />
       )}
       <div
-        className={cn('max-w-[80vw] transition-opacity lg:flex-grow', {
+        className={cn('max-w-[80vw] transition-opacity lg:grow', {
           'opacity-0 duration-300': !current,
           'duration-700': current,
           'pt-10': !feature.tagLine

@@ -43,14 +43,14 @@ export const FavouritesList = async () => {
   }
 
   return (
-    <GridContainer className="sm:!auto-grid-xl">
+    <GridContainer className="sm:auto-grid-xl!">
       {toaster}
       {favourites.map((profile) => (
         <li key={profile.id}>
           <form action={unfavourite} className="relative flex items-center">
             <Link
               href={profile.href}
-              className="-mb-px flex flex-grow items-center gap-4 border border-black px-5 py-4 sm:-mr-px"
+              className="-mb-px flex grow items-center gap-4 border border-black px-5 py-4 sm:-mr-px"
             >
               <Avatar profile={profile} />
               <div className="flex flex-col overflow-hidden">

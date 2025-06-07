@@ -22,7 +22,7 @@ export const PublisherGrid: FC<PublisherListProps> = ({
     className={cn(
       'transition-opacity',
       className,
-      !square && 'flex-wrap sm:!flex sm:flex-row'
+      !square && 'sm:flex! flex-wrap sm:flex-row'
     )}
   >
     {publishers.map((publisher) => (

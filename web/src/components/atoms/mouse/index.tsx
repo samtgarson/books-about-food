@@ -64,7 +64,7 @@ export const Mouse = () => {
           {
             'transition-200 scale-x-0 opacity-0': mode === 'typeable',
             'scale-[5]': mode === 'next' || mode === 'prev',
-            'scale-150 !bg-transparent !duration-200': mode === 'clickable',
+            'bg-transparent! duration-200! scale-150': mode === 'clickable',
             'border-white bg-white text-black':
               theme === 'dark' || differenceMode,
             'border-black bg-black text-white':

@@ -38,7 +38,7 @@ export function MiniItem({
         )}
       </div>
       {children ?? (
-        <StatusTag className="ml-auto !text-10" status={book.status} />
+        <StatusTag className="text-10! ml-auto" status={book.status} />
       )}
     </Link>
   )

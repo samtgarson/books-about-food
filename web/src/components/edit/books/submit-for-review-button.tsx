@@ -18,7 +18,7 @@ export const SubmitForReviewButton: FC<{
       <input type="hidden" name="slug" value={book.slug} />
       <Submit
         className={cn(
-          'w-full !p-5',
+          'p-5! w-full',
           disabled && 'cursor-not-allowed opacity-50'
         )}
         variant={disabled ? 'primary' : 'dark'}

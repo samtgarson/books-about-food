@@ -55,7 +55,7 @@ export function PillList({
         <Search
           value={searchValue}
           onChange={setSearchValue}
-          className="-mt-1 w-full !text-18"
+          className="text-18! -mt-1 w-full"
           debounceDelay={250}
         />
       )}

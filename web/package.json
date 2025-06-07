@@ -22,6 +22,8 @@
     "@books-about-food/shared": "*",
     "@prisma/client": "^6.5.0",
     "@sentry/nextjs": "^9.5.0",
+    "@tailwindcss/postcss": "^4.1.8",
+    "@tailwindcss/typography": "^0.5.10",
     "@tiptap/extension-bold": "^2.11.5",
     "@tiptap/extension-bubble-menu": "^2.11.5",
     "@tiptap/extension-document": "^2.11.5",
@@ -63,6 +65,7 @@
     "sonner": "^2.0.1",
     "stable-hash": "^0.0.4",
     "superjson": "^2.2.2",
+    "tailwindcss": "^3.4.17",
     "use-debounce": "^10.0.4",
     "usehooks-ts": "^3.1.1",
     "xss": "^1.0.15",
@@ -78,7 +81,6 @@
     "@types/randomcolor": "^0.5.8",
     "@types/react": "19.0.10",
     "@types/react-dom": "19.0.4",
-    "autoprefixer": "^10.4.21",
     "postcss": "^8.5.3"
   },
   "knip": {

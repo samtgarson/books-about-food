@@ -22,7 +22,7 @@ export default function Error({
 
   return (
     <Container belowNav>
-      <PageTitle className="!pb-8">Something went wrong</PageTitle>
+      <PageTitle className="pb-8!">Something went wrong</PageTitle>
       <p className="mb-4">
         Apologies for any inconvenience, our team has already been notified.
       </p>

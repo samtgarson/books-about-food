@@ -86,7 +86,7 @@ export function QuickSearchContent({ onSelect }: { onSelect?: () => void }) {
         <input
           autoFocus
           type="text"
-          className="flex-1 flex-grow bg-transparent text-24 placeholder-black/30 focus:outline-none sm:text-32"
+          className="focus:outline-hidden flex-1 grow bg-transparent text-24 placeholder-black/30 sm:text-32"
           value={rawQuery}
           onChange={(e) => {
             setQuery(e.target.value)
@@ -150,7 +150,7 @@ function QuickSearchResult({ item, focused, onHover }: QuickSearchResultProps) {
       </QuickSearchItem.Image>
       <div className="flex flex-col overflow-hidden">
         <p className="text-14 font-medium sm:text-16">{item.name}</p>
-        <p className="overflow-hidden overflow-ellipsis whitespace-nowrap text-12 sm:text-14">
+        <p className="overflow-hidden text-ellipsis whitespace-nowrap text-12 sm:text-14">
           {item.description}
         </p>
       </div>
@@ -163,7 +163,7 @@ function QuickSearchImage({ item }: { item: SearchResult }) {
     return (
       <BaseAvatar
         size="xs"
-        className="!h-5 !w-5 sm:!h-8 sm:!w-8"
+        className="h-5! w-5! sm:h-8! sm:w-8!"
         backup={item.initials}
         foregroundColour={item.foregroundColour}
         backgroundColour={item.backgroundColour}

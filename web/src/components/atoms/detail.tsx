@@ -22,7 +22,7 @@ export const Detail: FC<DetailProps> = ({
         '-mx-5 -mb-px border-y border-y-black px-5 py-4 sm:mx-0 sm:px-0',
         {
           'sm:max-w-md': maxWidth,
-          'min-w-[250px] flex-grow basis-full sm:basis-[calc(50%-8px)]': column,
+          'min-w-[250px] grow basis-full sm:basis-[calc(50%-8px)]': column,
           'sm:py-8': spacier
         },
         className
