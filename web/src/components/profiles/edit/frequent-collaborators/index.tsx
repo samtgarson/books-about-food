@@ -54,21 +54,12 @@ export function FrequentCollaborators({
           <Wrapper
             key={profile.id}
             profile={profile}
-            className={cn(hidden && 'border-opacity-30')}
+            className={cn(
+              'transition',
+              editMode ? (hidden ? 'opacity-30 saturate-0' : 'opacity-80') : ''
+            )}
           >
-            <Content
-              profile={profile}
-              display="list"
-              disabled={editMode}
-              className={cn(
-                'transition',
-                editMode
-                  ? hidden
-                    ? 'opacity-30 saturate-0'
-                    : 'opacity-80'
-                  : ''
-              )}
-            />
+            <Content profile={profile} display="list" disabled={editMode} />
             {editMode && (
               <EditContent profile={profile} toggle={toggle} hidden={hidden} />
             )}

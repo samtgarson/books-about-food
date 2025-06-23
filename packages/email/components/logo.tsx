@@ -7,7 +7,7 @@ export const Logo = ({ className }: { className?: string }) => (
     viewBox="0 0 264 8"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className={cn('flex-shrink-0', className)}
+    className={cn('shrink-0', className)}
   >
     <g clipPath="url(#clip0_1347_1481)">
       <path

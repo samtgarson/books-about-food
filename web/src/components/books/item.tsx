@@ -146,7 +146,7 @@ export const Cover = ({
         <div
           aria-hidden
           className={cn(
-            'sm:top-[15%]! sm:h-[70%]! h-24 w-16 bg-khaki bg-opacity-50 sm:absolute sm:inset-x-0 sm:mx-auto sm:w-[60%]',
+            'sm:top-[15%]! sm:h-[70%]! bg-khaki/50 h-24 w-16 sm:absolute sm:inset-x-0 sm:mx-auto sm:w-[60%]',
             mobileGrid && 'absolute inset-x-0 top-[15%] mx-auto h-[70%] w-[60%]'
           )}
         />
@@ -168,10 +168,10 @@ export const Footer = ({
     (book && (
       <>
         {' '}
-        <p className="mb-1 overflow-hidden text-ellipsis whitespace-nowrap text-16 font-medium">
+        <p className="text-16 mb-1 overflow-hidden text-ellipsis whitespace-nowrap font-medium">
           {book.title}
         </p>
-        <p className="overflow-hidden text-ellipsis whitespace-nowrap text-14">
+        <p className="text-14 overflow-hidden text-ellipsis whitespace-nowrap">
           {book.authorNames}
         </p>
       </>
@@ -240,14 +240,14 @@ export const Skeleton = forwardRef<
         <div
           aria-hidden
           className={cn(
-            'sm:top-[15%]! sm:h-[70%]! h-24 w-16 bg-khaki bg-opacity-50 sm:absolute sm:inset-x-0 sm:mx-auto sm:w-[60%]',
+            'sm:top-[15%]! sm:h-[70%]! bg-khaki/50 h-24 w-16 sm:absolute sm:inset-x-0 sm:mx-auto sm:w-[60%]',
             mobileGrid && 'absolute inset-x-0 top-[15%] mx-auto h-[70%] w-[60%]'
           )}
         />
       </Box>
       <div className={cn('w-full opacity-50 sm:pr-4', mobileGrid && 'pr-4')}>
-        <p className="mb-1 h-4 w-40 bg-khaki"></p>
-        <p className="w-30 h-3.5 bg-khaki"></p>
+        <p className="bg-khaki mb-1 h-4 w-40"></p>
+        <p className="w-30 bg-khaki h-3.5"></p>
       </div>
     </Container>
   )

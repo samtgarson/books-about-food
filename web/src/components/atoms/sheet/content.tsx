@@ -42,13 +42,13 @@ export function Content({
     <Dialog.Portal container={container}>
       <Dialog.Overlay
         className={cn(
-          'fixed inset-0 z-sheet animate-fade-in',
-          overlay && 'bg-black bg-opacity-80'
+          'z-sheet animate-fade-in fixed inset-0',
+          overlay && 'bg-black/80'
         )}
       />
       <div
         className={cn(
-          'pointer-events-none fixed inset-0 z-sheet flex backdrop-filter',
+          'z-sheet pointer-events-none fixed inset-0 flex backdrop-filter',
           {
             'items-end justify-center sm:items-start sm:pt-[15dvh] sm:short:pt-[5dvh]':
               type === 'dialog',
@@ -69,9 +69,9 @@ export function Content({
               'sm:max-w-lg': size === 'md',
               'sm:max-w-xl': size === 'lg',
               'sm:max-w-[90vw]': size === 'xl',
-              'sheet-dialog max-h-[min(var(--max-height),100dvh)] animate-fade-slide-in sm:max-h-[min(var(--max-height),75dvh)] sm:short:max-h-[min(var(--max-height),80dvh)]':
+              'sheet-dialog animate-fade-slide-in max-h-[min(var(--max-height),100dvh)] sm:max-h-[min(var(--max-height),75dvh)] sm:short:max-h-[min(var(--max-height),80dvh)]':
                 type === 'dialog',
-              'sheet-drawer m-3 animate-drawer-enter rounded-lg p-3':
+              'sheet-drawer animate-drawer-enter m-3 rounded-lg p-3':
                 type === 'drawer'
             },
             overlay && 'bg-white sm:p-8',

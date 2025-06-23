@@ -39,7 +39,7 @@ export const Search: FC<SearchProps> = ({
   return (
     <div
       className={cn(
-        'group relative flex items-center text-24 sm:text-32',
+        'text-24 sm:text-32 group relative flex items-center',
         className
       )}
     >
@@ -57,7 +57,7 @@ export const Search: FC<SearchProps> = ({
         }}
         placeholder={placeholder}
         className={cn(
-          '-mx-2 w-full shrink-0 grow bg-transparent p-2 placeholder-black placeholder-opacity-40 transition-colors focus:outline-0 focus-visible:bg-black focus-visible:bg-opacity-5'
+          '-mx-2 w-full shrink-0 grow bg-transparent p-2 placeholder-black/40 transition-colors focus:outline-0 focus-visible:bg-black/5'
         )}
       />
       {debouncedOnChange.isPending() || loading ? (

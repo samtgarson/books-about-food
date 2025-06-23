@@ -2,6 +2,106 @@
 
 @config '../../tailwind.config.js';
 
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-sans: 'Graphik', 'var(--font-graphik)', 'sans-serif';
+
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-black: #1D1D1B;
+  --color-white: #fff;
+  --color-grey: #F0EEEB;
+  --color-sand: #E7E5E2;
+  --color-khaki: #DDD8D1;
+  --color-neutral-grey: #BDBFC2;
+  --color-neutral-light-grey: #F7F7F7;
+  --color-blue-grey: #EEF1F4;
+  --color-primary-blue: #839DFF;
+  --color-primary-lime: #C7E171;
+  --color-primary-purple: #C67CFF;
+  --color-primary-red: #ED7656;
+  --color-primary-yellow: #EACA36;
+  --color-secondary-blue: #C3D6FF;
+  --color-secondary-yellow: #FAE068;
+  --color-tertiary-blue: #E0EAFF;
+
+  --animate-fade-in: fade-in 0.2s ease-out both;
+  --animate-fade-out: fade-out 0.2s ease-out both;
+  --animate-fade-slide-in: fade-slide-in 0.4s ease-out both;
+  --animate-drawer-enter: fade-slide-in-right 0.25s ease-out both;
+  --animate-slow-spin: spin 60s linear infinite;
+  --animate-scale-in: scale-in 0.2s ease-out both;
+  --animate-accordion-open: accordion-open 0.2s ease-out both;
+  --animate-accordion-close: accordion-close 0.2s ease-out both;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+
+  --z-index-nav: 60;
+  --z-index-sheet: 70;
+  --z-index-interactive-ui: 80;
+  --z-index-page-transition: 1000;
+  --z-index-mouse-pointer: 1001;
+
+  --text-10: 10px;
+  --text-10--line-height: 12px;
+  --text-12: 12px;
+  --text-12--line-height: 18px;
+  --text-14: 14px;
+  --text-14--line-height: 22px;
+  --text-16: 16px;
+  --text-16--line-height: 24px;
+  --text-18: 18px;
+  --text-18--line-height: 26px;
+  --text-20: 20px;
+  --text-20--line-height: 28px;
+  --text-24: 24px;
+  --text-24--line-height: 32px;
+  --text-32: 32px;
+  --text-32--line-height: 42px;
+  --text-40: 40px;
+  --text-40--line-height: 48px;
+  --text-48: 48px;
+  --text-48--line-height: 58px;
+  --text-64: 64px;
+  --text-64--line-height: 77px;
+
+  --auto-grid-md: 150px;
+  --auto-grid-lg: 250px;
+  --auto-grid-xl: 350px;
+  --auto-grid-2xl: 450px;
+
+  @keyframes fade-in {
+    from: { opacity: 0; }
+    to: { opacity: 1; }
+  }
+  @keyframes fade-out {
+    from: { opacity: 1; }
+    to: { opacity: 0; }
+  }
+  @keyframes fade-slide-in {
+    from: { opacity: 0; transform: 'translateY(10px)'; }
+    to: { opacity: 1; transform: 'translateY(0)'; }
+  }
+  @keyframes fade-slide-in-right {
+    from: { opacity: 0; transform: 'translateX(20px)'; }
+    to: { opacity: 1; transform: 'translateX(0)'; }
+  }
+  @keyframes scale-in {
+    from: { transform: 'scale(0.9)'; opacity: 0; }
+    to: { transform: 'scale(1)'; opacity: 1; }
+  }
+  @keyframes accordion-open {
+    from: { height: '0px'; opacity: 0; }
+    to: { height: 'var(--radix-accordion-content-height)'; opacity: 1; }
+  }
+  @keyframes accordion-close {
+    from: { height: 'var(--radix-accordion-content-height)'; opacity: 1; }
+    to: { height: '0px'; opacity: 0; }
+  }
+}
+
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,
   so we've added these compatibility styles to make sure everything still
@@ -81,6 +181,10 @@
   overflow-wrap: anywhere;
 }
 
+@utility auto-grid-* {
+  grid-template-columns: repeat(auto-fill, minmax(min(--value(--auto-grid-*), 100%), 1fr))
+}
+
 @layer base {
   html {
     @apply overflow-x-hidden bg-grey;
@@ -127,7 +231,6 @@
 }
 
 @layer utilities {
-
   [hidden] {
     display: none !important;
   }

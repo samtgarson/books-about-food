@@ -35,7 +35,7 @@ export const ClaimProfileButton: FC<ClaimProfileButtonProps> = ({
       className={cn(
         'flex items-center gap-2 transition-opacity',
         className,
-        loading && 'text-opacity-50'
+        loading && 'text-base/50'
       )}
       onClick={() => openSheet('claimProfile', modalProps)}
       title={claim ? 'View instructions' : 'Claim this profile'}
