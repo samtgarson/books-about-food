@@ -30,6 +30,7 @@ export default function BaseLayout({
 }: BaseLayoutProps) {
   return (
     <Html>
+      {/* @ts-expect-error mismatched tailwind versions */}
       <Tailwind config={tailwindConfig}>
         <Head>
           <style>
