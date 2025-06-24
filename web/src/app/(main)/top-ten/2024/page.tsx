@@ -51,7 +51,7 @@ export default async function TopTen2024(props: PageProps) {
             alt="BAF Top Ten 2024"
             width={282.4}
             height={224}
-            className="mobile-only:w-[160px]"
+            className="max-sm:w-[160px]"
           />
           <p className="max-w-[420px] text-center">
             Support your favourite authors and vote for their books for this

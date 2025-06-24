@@ -17,7 +17,7 @@ export function FrequentCollaboratorsDummy({
       <div className="relative">
         <GridContainer
           className={cn(
-            'relative -mt-px opacity-30 blur-md sm:mt-0 mobile-only:hidden'
+            'max-sm:hidden relative -mt-px opacity-30 blur-md sm:mt-0'
           )}
         >
           {dummyProfiles.map((profile) => (

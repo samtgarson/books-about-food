@@ -83,7 +83,7 @@ export default slugPage(async function CookbookPage(slug) {
           <AntiContainer desktop={false}>
             <Container
               desktop={false}
-              className="border-t border-black sm:border-t-0 mobile-only:py-4"
+              className="max-sm:py-4 border-t border-black sm:border-t-0"
             >
               <ProfileListSection
                 profiles={book.authors}
@@ -96,7 +96,7 @@ export default slugPage(async function CookbookPage(slug) {
         <AntiContainer desktop={false}>
           <Container
             desktop={false}
-            className="flex flex-col gap-4 border-t border-black sm:border-y-0 mobile-only:py-4"
+            className="max-sm:py-4 flex flex-col gap-4 border-t border-black sm:border-y-0"
           >
             {book.team.length > 0 && (
               <TeamList contributions={book.contributions} />
@@ -111,12 +111,12 @@ export default slugPage(async function CookbookPage(slug) {
             </MaxHeight>
           </Detail>
         )}
-        <BookLinks links={book.links} className="w-full mobile-only:py-4" />
+        <BookLinks links={book.links} className="max-sm:py-4 w-full" />
       </Container>
       <Container
         className={cn(
           'flex flex-wrap gap-x-4',
-          !book.links.length && 'mobile-only:-mt-px'
+          !book.links.length && 'max-sm:-mt-px'
         )}
       >
         {book.publisher && (
@@ -169,7 +169,7 @@ export default slugPage(async function CookbookPage(slug) {
           </Detail>
         )}
       </Container>
-      <Container className="mobile-only:mt-8">
+      <Container className="max-sm:mt-8">
         <Suspense>
           <SimilarBooks slug={book.slug} />
         </Suspense>

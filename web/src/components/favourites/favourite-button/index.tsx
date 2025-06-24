@@ -43,7 +43,7 @@ export const FavouriteButton: FC<FavouriteButtonProps> = ({
         variant={profile.userId ? 'primary' : 'secondary'}
         onClick={() => setFavourite(!value)}
         className={cn(
-          'flex items-center gap-2 transition-opacity mobile-only:bg-transparent',
+          'max-sm:bg-transparent flex items-center gap-2 transition-opacity',
           className,
           updating && 'opacity-50'
         )}

@@ -54,7 +54,7 @@ export function MaxHeight({
         'sm:max-h-none! flex items-start gap-4 overflow-y-hidden transition-all duration-150 will-change-contents',
         !open &&
           !disabled &&
-          'mobile-only:mask-[linear-gradient(to_top,transparent,white)]',
+          'max-sm:mask-[linear-gradient(to_top,transparent,white)]',
         className
       )}
       {...props}

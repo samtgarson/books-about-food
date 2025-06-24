@@ -26,6 +26,10 @@
   --color-secondary-yellow: #FAE068;
   --color-tertiary-blue: #E0EAFF;
 
+  --container-4xs: 14rem;
+  --container-5xs: 12rem;
+  --container-6xs: 10rem;
+
   --animate-fade-in: fade-in 0.2s ease-out both;
   --animate-fade-out: fade-out 0.2s ease-out both;
   --animate-fade-slide-in: fade-slide-in 0.4s ease-out both;

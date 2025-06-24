@@ -107,7 +107,7 @@ export function TopTenGrid({
           <Image
             src={sponsor}
             height={30}
-            className="mobile-only:h-[18px]"
+            className="max-sm:h-[18px]"
             alt="The Modest Merchant"
           />
         </TrackedLink>

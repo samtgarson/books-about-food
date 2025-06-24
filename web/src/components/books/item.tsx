@@ -128,7 +128,7 @@ export const Cover = ({
         className,
         colorful && (mobileGrid ? 'bg-(--book-bg)' : 'sm:bg-(--book-bg)'),
         mobileColorful && [
-          mobileGrid && 'mobile-only:bg-(--book-bg)',
+          mobileGrid && 'max-sm:bg-(--book-bg)',
           'sm:group-hover:bg-(--book-bg) sm:transition'
         ]
       )}

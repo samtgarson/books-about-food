@@ -24,7 +24,7 @@ export const GridContainer = forwardRef<HTMLDivElement, GridContainerProps>(
       >
         <ul
           className={cn(
-            '-mx-px flex-col items-stretch transition-opacity sm:mx-0',
+            'group/grid-container -mx-px flex-col items-stretch transition-opacity sm:mx-0',
             display === 'grid' ? 'grid' : 'flex sm:grid',
             size === 'default'
               ? 'auto-grid-md sm:auto-grid-lg'
