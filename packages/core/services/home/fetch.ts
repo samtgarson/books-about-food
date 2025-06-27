@@ -54,12 +54,12 @@ export async function fetchPublishers() {
 }
 
 export const fetchHome = new Service(z.object({}), async () => {
-  const [comingSoon, newlyAdded, authors, publishers] = await Promise.all([
+  const [comingSoon, newlyAdded, people, publishers] = await Promise.all([
     fetchComingSoon(),
     fetchNewlyAdded(),
     fetchFeaturedProfiles(),
     fetchPublishers()
   ])
 
-  return { comingSoon, newlyAdded, publishers, authors }
+  return { comingSoon, newlyAdded, publishers, people }
 })

@@ -146,7 +146,7 @@ export const Cover = ({
         <div
           aria-hidden
           className={cn(
-            'sm:top-[15%]! sm:h-[70%]! bg-khaki/50 h-24 w-16 sm:absolute sm:inset-x-0 sm:mx-auto sm:w-[60%]',
+            'sm:top-[15%]! sm:h-[70%]! h-24 w-16 bg-khaki/50 sm:absolute sm:inset-x-0 sm:mx-auto sm:w-[60%]',
             mobileGrid && 'absolute inset-x-0 top-[15%] mx-auto h-[70%] w-[60%]'
           )}
         />
@@ -168,10 +168,10 @@ export const Footer = ({
     (book && (
       <>
         {' '}
-        <p className="text-16 mb-1 overflow-hidden text-ellipsis whitespace-nowrap font-medium">
+        <p className="mb-1 overflow-hidden text-ellipsis whitespace-nowrap text-16 font-medium">
           {book.title}
         </p>
-        <p className="text-14 overflow-hidden text-ellipsis whitespace-nowrap">
+        <p className="overflow-hidden text-ellipsis whitespace-nowrap text-14">
           {book.authorNames}
         </p>
       </>
@@ -181,7 +181,7 @@ export const Footer = ({
     <div
       className={cn(
         className,
-        'min-w-0 sm:w-full',
+        'w-full min-w-0',
         mobileGrid && !centered && 'pr-4',
         centered ? '-mt-[50px] px-14 text-center' : 'text-left sm:pr-4'
       )}
@@ -199,7 +199,6 @@ export const Item = forwardRef<
     mobileColorful?: boolean
   }
 >(function Item({ skeleton, colorful, mobileColorful, ...props }, ref) {
-  const { display } = useListDisplay()
   const { internalLoading } = useNav()
 
   if (skeleton || internalLoading) return <Skeleton {...props} ref={ref} />
@@ -215,7 +214,7 @@ export const Item = forwardRef<
       <Footer
         centered={centered}
         book={book}
-        className={cn(display === 'grid' && 'hidden sm:block')}
+        className={cn('grid-container:hidden grid-container:sm:block')}
       />
     </Container>
   )
@@ -240,14 +239,14 @@ export const Skeleton = forwardRef<
         <div
           aria-hidden
           className={cn(
-            'sm:top-[15%]! sm:h-[70%]! bg-khaki/50 h-24 w-16 sm:absolute sm:inset-x-0 sm:mx-auto sm:w-[60%]',
+            'sm:top-[15%]! sm:h-[70%]! h-24 w-16 bg-khaki/50 sm:absolute sm:inset-x-0 sm:mx-auto sm:w-[60%]',
             mobileGrid && 'absolute inset-x-0 top-[15%] mx-auto h-[70%] w-[60%]'
           )}
         />
       </Box>
       <div className={cn('w-full opacity-50 sm:pr-4', mobileGrid && 'pr-4')}>
-        <p className="bg-khaki mb-1 h-4 w-40"></p>
-        <p className="w-30 bg-khaki h-3.5"></p>
+        <p className="mb-1 h-4 w-40 bg-khaki"></p>
+        <p className="w-30 h-3.5 bg-khaki"></p>
       </div>
     </Container>
   )

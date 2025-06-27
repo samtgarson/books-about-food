@@ -85,13 +85,13 @@ async function HomepageContent() {
             />
           </HomepageModule>
           <HomepageModule
-            title="Author Spotlight"
+            title="People Spotlight"
             action={{ href: '/authors', label: 'View More' }}
             className="bg-khaki"
           >
             <Wrap
               c={ProfileCarousel}
-              items={home.authors}
+              items={home.people}
               className="-mx-8 py-12 lg:-mx-12 lg:pb-16 lg:pt-[93px] xl:-mx-16"
             />
           </HomepageModule>

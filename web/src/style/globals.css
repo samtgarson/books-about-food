@@ -7,6 +7,7 @@
 @theme {
   --font-sans: 'Graphik', 'var(--font-graphik)', 'sans-serif';
 
+  --color-*: initial;
   --color-transparent: transparent;
   --color-current: currentColor;
   --color-black: #1D1D1B;
@@ -39,6 +40,7 @@
   --animate-accordion-open: accordion-open 0.2s ease-out both;
   --animate-accordion-close: accordion-close 0.2s ease-out both;
 
+  --font-weight-*: initial;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
 
@@ -188,6 +190,11 @@
 @utility auto-grid-* {
   grid-template-columns: repeat(auto-fill, minmax(min(--value(--auto-grid-*), 100%), 1fr))
 }
+
+@custom-variant grid-container (&:where(.grid-container.grid *));
+@custom-variant list-container (&:where(.grid-container.flex *));
+
+@custom-variant short (@media (max-height: 650px));
 
 @layer base {
   html {
