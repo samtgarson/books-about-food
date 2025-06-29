@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { FC, ReactNode, useRef, useState } from 'react'
 import { Search as SearchIcon } from 'src/components/atoms/icons'
-import { mergeParams } from 'src/utils/url-helpers'
+import { useMergeParams } from 'src/utils/url-helpers'
 import { AntiContainer, Container } from '../atoms/container'
 import { PageTitle } from '../atoms/page-title'
 import { Search, SearchProps } from './search'
@@ -25,6 +25,7 @@ export const FilterBar: FC<FilterBarProps> = ({
   const searchWrapper = useRef<HTMLDivElement>(null)
   const searchProps = { ...search, className: 'w-full' }
   const router = useRouter()
+  const mergeParams = useMergeParams()
 
   const showSearchAndFocus = () => {
     setShowSearch(true)
@@ -75,10 +76,10 @@ export const FilterBar: FC<FilterBarProps> = ({
             </Container>
           )}
           {children && (
-            <div className="max-sm:w-full overflow-x-auto sm:ml-auto">
+            <div className="overflow-x-auto max-sm:w-full sm:ml-auto">
               <Container
                 desktop={false}
-                className="max-sm:min-w-max flex items-center justify-end gap-2 overflow-auto"
+                className="flex items-center justify-end gap-2 overflow-auto max-sm:min-w-max"
               >
                 {label && <p className="all-caps mr-2 grow">{label}</p>}
                 {children}

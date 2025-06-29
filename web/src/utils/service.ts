@@ -39,7 +39,10 @@ async function _cachedCall<
 >(
   service: S,
   stringArgs?: string,
-  { bypassCache = false, maxAgeOverride }: CallOptions = {}
+  {
+    bypassCache = !!process.env.SKIP_REDIS_CACHE,
+    maxAgeOverride
+  }: CallOptions = {}
 ) {
   let args: ServiceInput<S> | undefined
   try {

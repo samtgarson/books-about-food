@@ -1,36 +1,46 @@
-export const mergeParams = (
-  newParams: Record<string, unknown>,
-  path?: string,
-  params?: URLSearchParams
-) => {
-  let definedPath: string
-  let definedParams: URLSearchParams
-  if (typeof window !== 'undefined') {
-    definedPath = path || window.location.pathname
-    definedParams = params || new URLSearchParams(window.location.search)
-  } else {
-    definedPath = path || '/'
-    definedParams = params || new URLSearchParams()
-  }
+import { usePathname, useSearchParams } from 'next/navigation'
+import { useCallback } from 'react'
 
-  definedParams.delete('page')
+export function useMergeParams(reset?: boolean) {
+  const search = useSearchParams()
+  const pathName = usePathname() || ''
 
-  Object.entries(newParams).forEach(([key, value]) => {
-    if (value === null || typeof value === 'undefined') {
-      definedParams.delete(key)
-    } else {
-      if (Array.isArray(value)) {
-        definedParams.delete(key)
-        value.forEach((v) => definedParams.append(key, `${v}`))
-      } else
-        definedParams.set(
-          key,
-          typeof value === 'string' ? value : JSON.stringify(value)
-        )
-    }
-  })
+  const fn = useCallback(
+    function (toMerge: { [key: string]: unknown }) {
+      const params = reset
+        ? new URLSearchParams()
+        : new URLSearchParams(Array.from(search.entries()))
+      params.delete('page')
 
-  return [definedPath, definedParams.toString()].filter(Boolean).join('?')
+      // do not mix old and new params
+      for (const key of Object.keys(toMerge)) {
+        params.delete(key)
+      }
+
+      for (const [key, value] of Object.entries(toMerge)) {
+        if (value === undefined || value === null) continue
+
+        if (Array.isArray(value)) {
+          // Handle array values - append each item
+          for (const item of value) {
+            params.append(key, stringify(item))
+          }
+        } else {
+          // Handle single values
+          params.append(key, stringify(value))
+        }
+      }
+
+      return [pathName, params.toString()].filter(Boolean).join('?')
+    },
+    [reset, search, pathName]
+  )
+
+  return fn
+}
+
+function stringify(value: unknown): string {
+  return typeof value === 'string' ? value : JSON.stringify(value)
 }
 
 export function prettyWebsiteLabel(url: string) {

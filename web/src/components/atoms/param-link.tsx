@@ -1,8 +1,7 @@
 'use client'
 
-import { usePathname, useSearchParams } from 'next/navigation'
 import { Children, Suspense, cloneElement, type JSX } from 'react'
-import { mergeParams } from 'src/utils/url-helpers'
+import { useMergeParams } from 'src/utils/url-helpers'
 
 export type ParamLinkParams = Record<string, unknown> & {
   children: JSX.Element
@@ -14,16 +13,10 @@ function ParamLinkContent({
   _reset: reset,
   ...props
 }: ParamLinkParams) {
-  const currentParams = useSearchParams()
-  const searchParams = reset
-    ? new URLSearchParams()
-    : currentParams || new URLSearchParams()
-  const pathName = usePathname() || ''
-  const params = new URLSearchParams(Object.fromEntries(searchParams.entries()))
-
+  const mergeParams = useMergeParams(reset)
   const child = Children.only(children)
   return cloneElement(child, {
-    href: mergeParams(props, pathName, params)
+    href: mergeParams(props)
   })
 }
 
