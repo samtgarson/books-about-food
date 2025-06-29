@@ -42,7 +42,7 @@ export const customiseLinks = (
           context.throwValidationError('Please provide a site name')
         }
 
-        link.site = link.Website || link['WebsiteOther']
+        link.site = link.Website || link['WebsiteOther'] || ''
       })
     })
     .addHook('Before', 'Update', async (context) => {
@@ -54,7 +54,7 @@ export const customiseLinks = (
       }
 
       context.patch.site =
-        context.patch.Website || context.patch['WebsiteOther']
+        context.patch.Website || context.patch['WebsiteOther'] || ''
     })
 
   collection.addHook('Before', 'Update', async (context) => {

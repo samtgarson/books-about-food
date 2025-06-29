@@ -137,7 +137,7 @@ export const customiseBooks = (
       columnType: ['String']
     })
     .replaceFieldWriting('PreviewImages', async (dataUris, context) => {
-      if (!context.filter) return
+      if (!context.filter || !dataUris?.length) return
       const records = await context.collection.list(context.filter, ['id'])
       await Promise.all(
         records.map((record) => uploadPreviews(dataUris, record.id))
@@ -162,7 +162,7 @@ export const customiseBooks = (
       columnType: ['String']
     })
     .replaceFieldWriting('Tags', async (tags, context) => {
-      if (!context.filter) return
+      if (!context.filter || !tags?.length) return
       const records = await context.collection.list(context.filter, ['id'])
       await Promise.all(records.map((record) => updateTags(record.id, tags)))
 
@@ -385,6 +385,7 @@ export const customiseBooks = (
 
   collection.addHook('Before', 'Create', async (context) => {
     context.data.forEach((book) => {
+      book.title = book.title.trim()
       book.slug ||= slugify(book.title)
       book.status = 'published'
       book.source = 'admin'
@@ -402,9 +403,9 @@ export const customiseBooks = (
         const data = context.data[i]
 
         await Promise.all([
-          updateTags(record.id, data.Tags),
+          updateTags(record.id, data.Tags ?? []),
           uploadCover(data.Cover, record.id),
-          uploadPreviews(data['PreviewImages'], record.id),
+          uploadPreviews(data['PreviewImages'] ?? undefined, record.id),
           updateProfiles(record.id),
           inngest.send({
             name: 'book.updated',

@@ -13,7 +13,7 @@ export type CreateBookInput = z.infer<typeof createBook.input>
 
 export const createBook = new AuthedService(
   z.object({
-    title: z.string(),
+    title: z.string().trim(),
     googleBooksId: z.string().optional(),
     subtitle: z.string().optional(),
     authorIds: z.array(z.string()).optional(),

@@ -36,22 +36,24 @@ export const customisePublishers = (
       columnType: 'String'
     })
     .replaceFieldWriting('Logo', async (dataUri, context) => {
-      if (!context.filter) return
+      if (!context.filter || !dataUri) return
       const records = await context.collection.list(context.filter, ['id'])
       await Promise.all(records.map((record) => uploadLogo(dataUri, record.id)))
     })
 
   collection.addHook('Before', 'Create', async (context) => {
     context.data.forEach((publisher) => {
+      publisher.name = publisher.name.trim()
       publisher.slug ||= slugify(publisher.name)
     })
   })
 
   collection.addHook('After', 'Create', async (context) => {
     await Promise.all(
-      context.records.map((publisher, i) =>
-        uploadLogo(context.data[i].Logo, publisher.id)
-      )
+      context.records.map(async (publisher, i) => {
+        const logo = context.data[i].Logo
+        if (logo) await uploadLogo(logo, publisher.id)
+      })
     )
   })
 

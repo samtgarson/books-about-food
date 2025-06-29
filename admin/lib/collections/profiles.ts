@@ -38,7 +38,7 @@ export const customiseProfiles = (
       columnType: 'String'
     })
     .replaceFieldWriting('Avatar', async (dataUri, context) => {
-      if (!context.filter) return
+      if (!context.filter || !dataUri) return
       const records = await context.collection.list(context.filter, ['id'])
       await Promise.all(
         records.map((record) => uploadAvatar(dataUri, record.id))
@@ -57,6 +57,7 @@ export const customiseProfiles = (
 
   collection.addHook('Before', 'Create', async (context) => {
     context.data.forEach((profile) => {
+      profile.name = profile.name.trim()
       profile.slug ||= slugify(profile.name)
     })
   })
@@ -66,7 +67,9 @@ export const customiseProfiles = (
       context.records.map(async (record, i) => {
         const data = context.data[i]
 
-        await uploadAvatar(data.Avatar, record.id)
+        if (data.Avatar) {
+          await uploadAvatar(data.Avatar, record.id)
+        }
       })
     )
     await revalidatePath('')
