@@ -113,14 +113,14 @@ const NavContent = () => {
       <div className="items-between flex flex-wrap gap-24 px-16 sm:px-32">
         <div className="flex grow flex-col gap-3">
           <TopNavItem path={null}>Home</TopNavItem>
-          <TopNavItem index={2} path="about">
+          <TopNavItem index={1} path="about">
             About
           </TopNavItem>
           <TopNavItem path="cookbooks">Cookbooks</TopNavItem>
-          <TopNavItem index={3} path="people">
+          <TopNavItem index={2} path="people">
             People Directory
           </TopNavItem>
-          <TopNavItem index={4} path="publishers">
+          <TopNavItem index={3} path="publishers">
             Publishers
           </TopNavItem>
         </div>
@@ -138,17 +138,17 @@ const NavContent = () => {
           <TopNavItemExternal
             small
             href="https://www.instagram.com/booksabout.food"
-            index={5}
+            index={3}
           >
             Follow on Instagram
           </TopNavItemExternal>
           {user ? (
-            <TopNavItem small index={5} path="account">
+            <TopNavItem small index={4} path="account">
               Account
             </TopNavItem>
           ) : (
             <AuthedButton redirect="/account" source="Main menu">
-              <button {...navItemAttrs(6, true)}>Login</button>
+              <button {...navItemAttrs(4, true)}>Login</button>
             </AuthedButton>
           )}
         </div>
