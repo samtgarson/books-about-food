@@ -40,11 +40,14 @@ const AccountLink = ({ className }: { className?: string }) => {
   )
 }
 
-const navItemClassNames = () =>
-  cn('text-32 sm:text-40 animate-fade-slide-in flex gap-2 items-center')
+const navItemClassNames = (small?: boolean) =>
+  cn(
+    'animate-fade-slide-in flex gap-2 items-center',
+    small ? 'text-18 sm:text-24' : 'text-32 sm:text-40'
+  )
 
-const navItemAttrs = (index: number, className?: string) => ({
-  className: cn(navItemClassNames(), className),
+const navItemAttrs = (index: number, small?: boolean, className?: string) => ({
+  className: cn(navItemClassNames(small), className),
   style: { animationDelay: `${index * 50}ms` }
 })
 
@@ -53,7 +56,8 @@ const TopNavItem: FC<{
   path: string | null
   className?: string
   index?: number
-}> = ({ children, path, className, index = 0 }) => {
+  small?: boolean
+}> = ({ children, path, className, index = 0, small }) => {
   const segment = useSelectedLayoutSegment()
   const active = segment === path
   const href = `/${path || ''}`
@@ -64,7 +68,7 @@ const TopNavItem: FC<{
     <Link
       aria-current={active ? 'page' : undefined}
       href={href}
-      {...navItemAttrs(index, cn(className, loading && 'opacity-50!'))}
+      {...navItemAttrs(index, small, cn(className, loading && 'opacity-50!'))}
       style={{ animationDelay: `${index * 50}ms` }}
       onClick={(e) => {
         if (e.metaKey || e.ctrlKey) return
@@ -82,12 +86,13 @@ const TopNavItemExternal: FC<{
   children: string
   href: string
   index: number
-}> = ({ children, href, index }) => (
+  small?: boolean
+}> = ({ children, href, index, small }) => (
   <a
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    {...navItemAttrs(index)}
+    {...navItemAttrs(index, small)}
   >
     {children}
   </a>
@@ -98,42 +103,56 @@ const NavContent = () => {
   const user = useCurrentUser()
 
   return (
-    <div className="z-60 animate-fade-in fixed inset-0 flex max-h-screen flex-col items-center justify-center gap-3 overflow-auto bg-white pt-20">
+    <div className="z-60 animate-fade-in fixed inset-0 max-h-screen overflow-auto bg-white pt-32 sm:pt-36">
       <Container className="absolute inset-x-0 top-0 border-b border-black py-5">
-        <Dialog.Close className="all-caps flex items-center gap-8">
+        <Dialog.Close className="all-caps flex items-center gap-6 sm:gap-10">
           <X strokeWidth={1} />
           Close
         </Dialog.Close>
       </Container>
-      <TopNavItem path={null}>Home</TopNavItem>
-      <TopNavItem path="cookbooks">Cookbooks</TopNavItem>
-      <TopNavItem index={2} path="people">
-        People Directory
-      </TopNavItem>
-      <TopNavItem index={3} path="publishers">
-        Publishers
-      </TopNavItem>
-      <TopNavItemExternal
-        href="https://www.instagram.com/booksabout.food"
-        index={5}
-      >
-        Instagram
-      </TopNavItemExternal>
-      <TopNavItem index={4} path="account/submissions">
-        Submit
-      </TopNavItem>
-      {user ? (
-        <TopNavItem index={5} path="account">
-          Account
-        </TopNavItem>
-      ) : (
-        <AuthedButton redirect="/account" source="Main menu">
-          <button {...navItemAttrs(6)}>Login</button>
-        </AuthedButton>
-      )}
-      <TopNavItem index={4} path="about">
-        About
-      </TopNavItem>
+      <div className="items-between flex flex-wrap gap-24 px-16 sm:px-32">
+        <div className="flex grow flex-col gap-3">
+          <TopNavItem path={null}>Home</TopNavItem>
+          <TopNavItem index={2} path="about">
+            About
+          </TopNavItem>
+          <TopNavItem path="cookbooks">Cookbooks</TopNavItem>
+          <TopNavItem index={3} path="people">
+            People Directory
+          </TopNavItem>
+          <TopNavItem index={4} path="publishers">
+            Publishers
+          </TopNavItem>
+        </div>
+        <div className="flex flex-col gap-1">
+          <TopNavItem small index={1} path="account/submissions">
+            Submit a Cookbook
+          </TopNavItem>
+          <TopNavItemExternal
+            small
+            href="https://www.buymeacoffee.com/booksaboutfood"
+            index={2}
+          >
+            Buy us a Coffee
+          </TopNavItemExternal>
+          <TopNavItemExternal
+            small
+            href="https://www.instagram.com/booksabout.food"
+            index={5}
+          >
+            Follow on Instagram
+          </TopNavItemExternal>
+          {user ? (
+            <TopNavItem small index={5} path="account">
+              Account
+            </TopNavItem>
+          ) : (
+            <AuthedButton redirect="/account" source="Main menu">
+              <button {...navItemAttrs(6, true)}>Login</button>
+            </AuthedButton>
+          )}
+        </div>
+      </div>
     </div>
   )
 }
