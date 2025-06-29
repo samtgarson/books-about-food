@@ -17,8 +17,7 @@ export const footerData: FooterColumn[] = [
     items: [
       { label: 'About', path: '/about' },
       { label: 'Cookbooks', path: '/cookbooks' },
-      { label: 'Authors', path: '/authors' },
-      { label: 'People Portfolios', path: '/people' },
+      { label: 'People Directory', path: '/people' },
       { label: 'Publishers', path: '/publishers' },
       { label: 'FAQs', path: '/frequently-asked-questions' }
     ]

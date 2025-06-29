@@ -83,7 +83,7 @@ export default slugPage(async function CookbookPage(slug) {
           <AntiContainer desktop={false}>
             <Container
               desktop={false}
-              className="max-sm:py-4 border-t border-black sm:border-t-0"
+              className="border-t border-black max-sm:py-4 sm:border-t-0"
             >
               <ProfileListSection
                 profiles={book.authors}
@@ -96,7 +96,7 @@ export default slugPage(async function CookbookPage(slug) {
         <AntiContainer desktop={false}>
           <Container
             desktop={false}
-            className="max-sm:py-4 flex flex-col gap-4 border-t border-black sm:border-y-0"
+            className="flex flex-col gap-4 border-t border-black max-sm:py-4 sm:border-y-0"
           >
             {book.team.length > 0 && (
               <TeamList contributions={book.contributions} />
@@ -111,7 +111,7 @@ export default slugPage(async function CookbookPage(slug) {
             </MaxHeight>
           </Detail>
         )}
-        <BookLinks links={book.links} className="max-sm:py-4 w-full" />
+        <BookLinks links={book.links} className="w-full max-sm:py-4" />
       </Container>
       <Container
         className={cn(
@@ -204,7 +204,7 @@ export async function generateMetadata(
       type: 'book',
       releaseDate: book.isoReleaseDate,
       tags: ['Cookbook', ...book.tagNames],
-      authors: book.authors.map((author) => appUrl(`/authors/${author.slug}`)),
+      authors: book.authors.map((author) => appUrl(`/people/${author.slug}`)),
       images: [
         {
           url: `/cookbooks/${book.slug}/og-image.png`,

@@ -15,16 +15,16 @@ export const PeopleFilters = ({ filters }: PeopleFiltersProps) => {
     'use server'
     const { data: jobs = [] } = await call(fetchJobs)
     return jobs
-      .filter((job) => job.name !== 'Author')
       .map((job) => ({
         label: job.name,
         value: job.id
       }))
+      .concat({ label: 'Author', value: 'author' })
   }
 
   return (
     <FilterBar
-      title="People"
+      title="People Directory"
       search={{
         value: filters.search
       }}

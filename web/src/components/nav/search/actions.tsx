@@ -1,11 +1,4 @@
-import {
-  Book,
-  Home,
-  Icon,
-  Layers,
-  User,
-  Users
-} from 'src/components/atoms/icons'
+import { Book, Home, Icon, Layers, Users } from 'src/components/atoms/icons'
 import { QuickSearchItem } from './item'
 
 export class SearchAction {
@@ -27,8 +20,7 @@ export class SearchAction {
 const actions = [
   { title: 'Home', href: '/', icon: Home },
   { title: 'Cookbooks', href: '/cookbooks', icon: Book },
-  { title: 'Authors', href: '/authors', icon: User },
-  { title: 'People', href: '/people', icon: Users },
+  { title: 'People Directory', href: '/people', icon: Users },
   { title: 'Publishers', href: '/publishers', icon: Layers }
 ].map((action) => new SearchAction(action.title, action.href, action.icon))
 

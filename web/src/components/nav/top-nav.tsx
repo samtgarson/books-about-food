@@ -98,7 +98,7 @@ const NavContent = () => {
   const user = useCurrentUser()
 
   return (
-    <div className="z-60 fixed inset-0 flex max-h-screen animate-fade-in flex-col items-center justify-center gap-3 overflow-auto bg-white pt-20">
+    <div className="z-60 animate-fade-in fixed inset-0 flex max-h-screen flex-col items-center justify-center gap-3 overflow-auto bg-white pt-20">
       <Container className="absolute inset-x-0 top-0 border-b border-black py-5">
         <Dialog.Close className="all-caps flex items-center gap-8">
           <X strokeWidth={1} />
@@ -107,11 +107,8 @@ const NavContent = () => {
       </Container>
       <TopNavItem path={null}>Home</TopNavItem>
       <TopNavItem path="cookbooks">Cookbooks</TopNavItem>
-      <TopNavItem index={1} path="authors">
-        Authors
-      </TopNavItem>
       <TopNavItem index={2} path="people">
-        People
+        People Directory
       </TopNavItem>
       <TopNavItem index={3} path="publishers">
         Publishers
@@ -146,7 +143,7 @@ export const TopNav: FC = () => {
   const { theme, open, setOpen } = useNav()
 
   return (
-    <nav className="absolute inset-x-0 top-0 z-nav">
+    <nav className="z-nav absolute inset-x-0 top-0">
       <Container
         className={cn(
           'flex w-screen items-center gap-4 border-b border-black py-5 pr-4',

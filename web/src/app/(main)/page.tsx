@@ -86,7 +86,7 @@ async function HomepageContent() {
           </HomepageModule>
           <HomepageModule
             title="People Spotlight"
-            action={{ href: '/authors', label: 'View More' }}
+            action={{ href: '/people', label: 'View More' }}
             className="bg-khaki"
           >
             <Wrap

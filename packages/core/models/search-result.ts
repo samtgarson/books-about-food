@@ -63,7 +63,7 @@ export class SearchResult extends Colourful(
         case 'contributor':
           return `/people/${this.slug}`
         case 'author':
-          return `/authors/${this.slug}`
+          return `/people/${this.slug}`
         case 'publisher':
           return `/publishers/${this.slug}`
         case 'bookTag':

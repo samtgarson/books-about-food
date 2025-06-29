@@ -16,7 +16,7 @@ export const AuthorItem = ({
 }: AuthorItemProps) => (
   <li>
     <Link
-      href={profile ? `/authors/${profile?.slug}` : '#'}
+      href={profile ? `/people/${profile?.slug}` : '#'}
       className={cn(
         'flex h-full flex-col gap-6 text-center',
         !profile && 'pointer-events-none animate-pulse',

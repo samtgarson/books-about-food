@@ -6,12 +6,11 @@ import { SkeletonPeopleGrid } from './grid'
 import { PeopleList } from './list'
 
 export const generateMetadata = indexPageMetadata({
-  title: 'People',
+  title: 'People Directory',
   service: fetchProfiles,
   collection: "people who've worked on cookbooks",
   path: '/people',
-  image: true,
-  extraParams: { onlyAuthors: false }
+  image: true
 })
 
 export const revalidate = 3600

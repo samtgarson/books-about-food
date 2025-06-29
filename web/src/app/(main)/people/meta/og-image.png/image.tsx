@@ -9,9 +9,8 @@ const dims = {
   gap: 45
 }
 
-export async function profilesIndexOgImage({ authors }: { authors: boolean }) {
+export async function profilesIndexOgImage() {
   const { data } = await call(fetchProfiles, {
-    onlyAuthors: authors,
     perPage: 7,
     withAvatar: true
   })
@@ -20,9 +19,7 @@ export async function profilesIndexOgImage({ authors }: { authors: boolean }) {
     <OGTemplate.Root>
       <OGTemplate.Half>
         <OGTemplate.Title>
-          <span>
-            {data?.total} {authors ? 'Authors' : 'People'}
-          </span>
+          <span>{data?.total} People</span>
           <span>on Books About Food</span>
         </OGTemplate.Title>
       </OGTemplate.Half>
