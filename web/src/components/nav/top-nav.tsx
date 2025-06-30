@@ -42,7 +42,7 @@ const AccountLink = ({ className }: { className?: string }) => {
 
 const navItemClassNames = (small?: boolean) =>
   cn(
-    'animate-fade-slide-in flex gap-2 items-center',
+    'relative animate-fade-slide-in flex gap-2 items-center',
     small ? 'text-18 sm:text-24' : 'text-32 sm:text-40'
   )
 
@@ -68,7 +68,7 @@ const TopNavItem: FC<{
     <Link
       aria-current={active ? 'page' : undefined}
       href={href}
-      {...navItemAttrs(index, small, cn(className, loading && 'opacity-50!'))}
+      {...navItemAttrs(index, small, cn(className, loading && 'animate-pulse'))}
       style={{ animationDelay: `${index * 50}ms` }}
       onClick={(e) => {
         if (e.metaKey || e.ctrlKey) return
@@ -77,7 +77,6 @@ const TopNavItem: FC<{
       }}
     >
       {children}
-      {loading && <Loader className="animate-fade-slide-in" />}
     </Link>
   )
 }
@@ -103,8 +102,8 @@ const NavContent = () => {
   const user = useCurrentUser()
 
   return (
-    <div className="z-60 animate-fade-in fixed inset-0 max-h-screen overflow-auto bg-white pt-32 sm:pt-36">
-      <Container className="absolute inset-x-0 top-0 border-b border-black py-5">
+    <div className="z-60 animate-fade-in fixed inset-0 max-h-screen overflow-auto bg-white py-32 sm:py-36">
+      <Container className="fixed inset-x-0 top-0 z-10 border-b border-black bg-white py-5">
         <Dialog.Close className="all-caps flex items-center gap-6 sm:gap-10">
           <X strokeWidth={1} />
           Close
@@ -117,10 +116,13 @@ const NavContent = () => {
             About
           </TopNavItem>
           <TopNavItem path="cookbooks">Cookbooks</TopNavItem>
-          <TopNavItem index={2} path="people">
+          <TopNavItem path="collections" index={3}>
+            Collections
+          </TopNavItem>
+          <TopNavItem index={3} path="people">
             People Directory
           </TopNavItem>
-          <TopNavItem index={3} path="publishers">
+          <TopNavItem index={4} path="publishers">
             Publishers
           </TopNavItem>
         </div>
