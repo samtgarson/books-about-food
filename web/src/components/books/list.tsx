@@ -4,7 +4,7 @@ import {
 } from '@books-about-food/core/services/books/fetch-books'
 import { Pagination } from 'src/components/lists/pagination'
 import { call } from 'src/utils/service'
-import { CollectionGridTile } from '../collections/collection-grid-tile'
+import { BookGridCollectionTile } from '../collections/book-grid-collection-tile'
 import { GridContainer } from '../lists/grid-container'
 import { BookGrid, BookGridProps } from './grid'
 import { Skeleton } from './item'
@@ -42,7 +42,9 @@ export const BookList = async ({
         showEmpty={showEmpty}
         randomInsert={
           showCollection &&
-          !filters.search && <CollectionGridTile index={filters.page ?? 0} />
+          !filters.search && (
+            <BookGridCollectionTile index={filters.page ?? 0} />
+          )
         }
       />
     </Pagination>

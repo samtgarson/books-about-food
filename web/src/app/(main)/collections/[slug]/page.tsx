@@ -18,10 +18,12 @@ export const revalidate = 3600
 export const dynamicParams = true
 
 export async function generateStaticParams() {
-  const { data } = await call(fetchCollections, { publisherSlug: undefined })
-  if (!data) return []
+  const { data: { collections } = {} } = await call(fetchCollections, {
+    publisherSlug: undefined
+  })
+  if (!collections) return []
 
-  const slugs = data.map((collection) => ({ slug: collection.slug }))
+  const slugs = collections.map((collection) => ({ slug: collection.slug }))
   return slugs
 }
 

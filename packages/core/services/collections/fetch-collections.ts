@@ -1,29 +1,63 @@
-import prisma from '@books-about-food/database'
+import prisma, { Prisma } from '@books-about-food/database'
 import z from 'zod'
 import { Collection } from '../../models/collection'
 import { Service } from '../base'
 import { collectionIncludes } from '../utils'
+import { paginationInput } from '../utils/inputs'
+
+export type FetchCollectionsInput = NonNullable<
+  z.infer<(typeof fetchCollections)['input']>
+>
+
+const sortOptions = ['name', 'createdAt'] as const
 
 export const fetchCollections = new Service(
   z.object({
-    publisherSlug: z.string().nullish().default(null),
-    page: z.number().default(0),
-    perPage: z.number().default(12),
-    publisherFeatured: z.boolean().default(false)
+    publisherSlug: z.string().optional(),
+    publisherFeatured: z.boolean().optional(),
+    sort: z.enum(sortOptions).optional(),
+    ...paginationInput.shape
   }),
-  async function ({ publisherSlug, page, perPage, publisherFeatured } = {}) {
-    const data = await prisma.collection.findMany({
-      where: {
-        publisher: publisherSlug ? { slug: publisherSlug } : null,
-        publisherFeatured,
-        status: 'published'
-      },
-      orderBy: { createdAt: 'desc' },
-      take: perPage === 0 ? undefined : perPage,
-      skip: page * perPage || 0,
-      include: collectionIncludes
-    })
+  async function ({
+    publisherSlug,
+    page = 0,
+    perPage = 12,
+    publisherFeatured = false,
+    sort = 'name'
+  } = {}) {
+    const where: Prisma.CollectionWhereInput = {
+      publisher: publisherSlug ? { slug: publisherSlug } : null,
+      publisherFeatured,
+      status: 'published'
+    }
 
-    return data.map((collection) => new Collection(collection))
+    const [data, total] = await Promise.all([
+      prisma.collection.findMany({
+        where,
+        orderBy: orderBy(sort),
+        take: perPage === 'all' ? undefined : perPage,
+        skip: perPage === 'all' ? undefined : page * perPage,
+        include: collectionIncludes
+      }),
+      prisma.collection.count({ where })
+    ])
+
+    return {
+      collections: data.map((collection) => new Collection(collection)),
+      total,
+      perPage
+    }
   }
 )
+
+function orderBy(
+  sort: (typeof sortOptions)[number]
+): Prisma.CollectionOrderByWithRelationInput {
+  switch (sort) {
+    case 'name':
+      return { title: 'asc' }
+    case 'createdAt':
+    default:
+      return { createdAt: 'desc' }
+  }
+}

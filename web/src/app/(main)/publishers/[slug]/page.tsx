@@ -57,7 +57,10 @@ export const revalidate = 3600
 export const dynamicParams = true
 
 export default slugPage(async function PublisherPage(slug) {
-  const [{ data: publisher }, { data: [collection] = [] }] = await Promise.all([
+  const [
+    { data: publisher },
+    { data: { collections: [collection] = [] } = {} }
+  ] = await Promise.all([
     call(fetchPublisher, { slug }),
     call(fetchCollections, {
       publisherSlug: slug,
