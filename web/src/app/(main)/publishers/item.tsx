@@ -22,7 +22,7 @@ export const PublishersItem = ({
     >
       {publisher.logo ? (
         <Image
-          {...publisher.logo.imageAttrs(40)}
+          {...publisher.logo.imageAttrs(140)}
           className={cn(
             'w-[140px] object-contain object-center mix-blend-darken',
             square ? 'h-[140px]' : 'h-full'

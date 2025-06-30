@@ -7,8 +7,8 @@ export const generateMetadata = indexPageMetadata({
   title: 'Collections',
   service: fetchCollections,
   collection: 'curated collections of cookbooks',
-  path: '/collections'
-  //image: true
+  path: '/collections',
+  image: true
 })
 
 export const revalidate = 3600
