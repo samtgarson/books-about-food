@@ -1,7 +1,6 @@
 import { fetchSimilarBooks } from '@books-about-food/core/services/books/fetch-similar-books'
 import cn from 'classnames'
 import { call } from 'src/utils/service'
-import { AntiContainer } from '../atoms/container'
 import { GridContainer } from '../lists/grid-container'
 import { ListContainer } from '../lists/list-context'
 import { Wrap } from '../utils/wrap'
@@ -19,23 +18,19 @@ export const SimilarBooks = async ({ slug, className }: SimilarBooksProps) => {
   if (!books?.length) return null
   return (
     <>
-      <AntiContainer
+      <Wrap
+        c={ItemCarousel}
+        title="Similar Cookbooks"
+        items={books}
+        size="lg"
+        carouselClassName="pr-px"
         className={cn(
           'hidden border-t border-black sm:block sm:border-t-0',
           className
         )}
-      >
-        <Wrap
-          c={ItemCarousel}
-          title="Similar Cookbooks"
-          items={books}
-          size="lg"
-          carouselClassName="pr-px"
-          mobileColorful
-          key="similar-books"
-          rightPadding
-        />
-      </AntiContainer>
+        mobileColorful
+        key="similar-books"
+      />
       <ListContainer title="Similar Cookbooks" className="sm:hidden">
         <GridContainer>
           {books.map((book) => (
