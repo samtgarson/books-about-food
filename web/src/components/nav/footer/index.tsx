@@ -45,7 +45,7 @@ export const Footer = async () => {
                 images © of their respective owners.
               </p>
               <a
-                href="mailto:info@booksabout.food"
+                href="mailto:jamin@booksabout.food"
                 className="text-12 underline opacity-50"
               >
                 Contact
