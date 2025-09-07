@@ -190,7 +190,11 @@ export const TopNav: FC = () => {
           </Dialog.Portal>
         </Dialog.Root>
         <NewBookButton
-          className={cn('ml-auto', theme === 'dark' && 'text-white')}
+          className={cn(
+            'flex items-center gap-4',
+            'ml-auto',
+            theme === 'dark' && 'text-white'
+          )}
         >
           <Plus strokeWidth={1} />
         </NewBookButton>

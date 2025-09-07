@@ -5,6 +5,7 @@ import readMoreIcon from 'src/assets/homepage-links/read-more.png'
 import spotifyIcon from 'src/assets/homepage-links/spotify.png'
 import submitIcon from 'src/assets/homepage-links/submit.png'
 import { ArrowUpRight } from 'src/components/atoms/icons'
+import { NewBookButton } from '../books/new-book-button'
 
 export function HomepageLinks() {
   return (
@@ -24,38 +25,49 @@ export function HomepageLinks() {
         icon={instaIcon}
         href="https://www.instagram.com/booksabout.food"
       />
-      <HomepageLink
-        label="Submit a cookbook"
-        icon={submitIcon}
-        href="/account/submissions"
-        invert
-      />
+      <NewBookButton className={cn(linkClasses, invertedLinkClasses)}>
+        <HomepageLinkContent label="Submit a cookbook" icon={submitIcon} />
+      </NewBookButton>
     </div>
   )
 }
 
+const linkClasses =
+  'flex w-full items-center gap-4 border-b border-black p-5 transition-colors first:border-l-transparent md:w-1/2 md:gap-6 md:px-12 md:py-10 md:even:border-l xl:w-1/4 xl:border-l'
+const invertedLinkClasses = 'bg-black text-white hover:bg-black/80'
+
 function HomepageLink({
   label,
   icon,
-  href,
-  invert = false
+  href
 }: {
   label: string
   icon: StaticImageData
   href: string
   invert?: boolean
 }) {
-  const external = href.startsWith('http')
+  const external = href?.startsWith('http')
   return (
     <a
-      className={cn(
-        'flex w-full items-center gap-4 border-b border-black p-5 transition-colors first:border-l-transparent md:w-1/2 md:gap-6 md:px-12 md:py-10 md:even:border-l xl:w-1/4 xl:border-l',
-        invert ? 'bg-black text-white hover:bg-black/80' : 'hover:bg-khaki'
-      )}
+      className={cn(linkClasses, 'hover:bg-khaki')}
       href={href}
       target={external ? '_blank' : undefined}
       rel={external ? 'noopener noreferrer' : undefined}
     >
+      <HomepageLinkContent label={label} icon={icon} />
+    </a>
+  )
+}
+
+function HomepageLinkContent({
+  label,
+  icon
+}: {
+  label: string
+  icon: StaticImageData
+}) {
+  return (
+    <>
       <Image
         src={icon}
         width={48}
@@ -65,6 +77,6 @@ function HomepageLink({
       />
       {label}
       <ArrowUpRight className="ml-auto" strokeWidth={1} />
-    </a>
+    </>
   )
 }

@@ -27,7 +27,7 @@ export const NewBookButton = ({
   return (
     <Sheet.Root>
       <Sheet.Trigger
-        className={cn('flex items-center gap-4', className)}
+        className={cn(className)}
         aria-label="Submit a new cookbook"
         {...triggerProps}
       >
