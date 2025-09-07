@@ -44,7 +44,7 @@ export const Button = forwardRef(function Button(
   ref
 ) {
   const classes = cn(
-    'relative block shrink-0 whitespace-nowrap transition ease-out',
+    'relative block shrink-0 whitespace-nowrap transition ease-out rounded-full',
     variants[variant],
     className,
     loading && 'pointer-events-none',
