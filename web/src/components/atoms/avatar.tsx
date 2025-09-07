@@ -111,6 +111,7 @@ export const Avatar: FC<AvatarProps> = ({
 }) => (
   <BaseAvatar
     {...props}
+    key={profile.id}
     imgProps={profile.avatar?.imageAttrs()}
     backup={profile.name}
     foregroundColour={profile.foregroundColour}

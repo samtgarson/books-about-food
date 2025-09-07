@@ -20,6 +20,7 @@ export type ItemCarouselProps = {
   scrollerClassName?: string
   colorful?: boolean
   mobileColorful?: boolean
+  inContainer?: boolean
 } & Partial<
   Omit<Carousel.CarouselRootProps, 'totalItems' | 'alignment' | 'children'>
 >
@@ -41,6 +42,7 @@ export const ItemCarousel: FC<ItemCarouselProps> = ({
   scrollerClassName,
   colorful,
   mobileColorful,
+  inContainer = false,
   ...props
 }) => {
   const width = itemCarouselWidths[size]
@@ -61,7 +63,7 @@ export const ItemCarousel: FC<ItemCarouselProps> = ({
       >
         <Carousel.Scroller
           padded
-          containerProps={false}
+          containerProps={inContainer ? {} : false}
           className={cn('-mr-px', scrollerClassName)}
         >
           <ListContainer display="grid">

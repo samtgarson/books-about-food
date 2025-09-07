@@ -97,7 +97,7 @@ async function HomepageContent() {
           </Suspense>
         </div>
       </Container>
-      <Container className="-mt-px" right={false}>
+      <Container className="-mt-px" left={false} right={false}>
         <Wrap
           c={ItemCarousel}
           items={home.newlyAdded}
@@ -105,6 +105,7 @@ async function HomepageContent() {
           size="lg"
           readMoreLink="/cookbooks"
           className="pt-12 md:pt-20"
+          inContainer
           colorful
         />
       </Container>

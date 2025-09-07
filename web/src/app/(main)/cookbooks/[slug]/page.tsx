@@ -169,11 +169,9 @@ export default slugPage(async function CookbookPage(slug) {
           </Detail>
         )}
       </Container>
-      <Container className="max-sm:mt-8">
-        <Suspense>
-          <SimilarBooks slug={book.slug} />
-        </Suspense>
-      </Container>
+      <Suspense>
+        <SimilarBooks slug={book.slug} className="max-sm:mt-8" />
+      </Suspense>
       {book.designCommentary && (
         <DesignCommentary
           title="Why we like this cover"

@@ -30,6 +30,7 @@ export const SimilarBooks = async ({ slug, className }: SimilarBooksProps) => {
         )}
         mobileColorful
         key="similar-books"
+        inContainer
       />
       <ListContainer title="Similar Cookbooks" className="sm:hidden">
         <GridContainer>

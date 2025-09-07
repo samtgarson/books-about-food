@@ -81,6 +81,11 @@ export const ProfileItem = ({
   meta
 }: ProfileItemProps) => (
   <Wrapper profile={profile} index={index} className={className}>
-    <Content profile={profile} display={display} meta={meta} />
+    <Content
+      profile={profile}
+      display={display}
+      meta={meta}
+      key={profile?.id}
+    />
   </Wrapper>
 )
