@@ -2,7 +2,6 @@ import { fetchBooks } from '@books-about-food/core/services/books/fetch-books'
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
 import { AntiContainer, Container } from 'src/components/atoms/container'
-import { PageProps } from 'src/components/types'
 import { Wrap } from 'src/components/utils/wrap'
 import { genMetadata } from 'src/utils/metadata'
 import { call } from 'src/utils/service'
@@ -22,7 +21,7 @@ export const metadata = genMetadata('/top-ten/2024', null, {
   }
 })
 
-export default async function TopTen2024(props: PageProps) {
+export default async function TopTen2024(props: PageProps<'/top-ten/2024'>) {
   const searchParams = await props.searchParams
   const autoSubmit = searchParams.submit === 'true'
 

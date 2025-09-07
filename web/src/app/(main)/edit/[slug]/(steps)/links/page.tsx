@@ -4,9 +4,11 @@ import { EditLinksForm } from 'src/components/edit/books/forms/links'
 import { slugPage } from 'src/components/types'
 import { call } from 'src/utils/service'
 
-export default slugPage(async (slug) => {
-  const { data: book } = await call(fetchBook, { slug })
-  if (!book) notFound()
+export default slugPage<'/edit/[slug]/links'>(
+  async function LinksEditPage(slug) {
+    const { data: book } = await call(fetchBook, { slug })
+    if (!book) notFound()
 
-  return <EditLinksForm book={book} />
-})
+    return <EditLinksForm book={book} />
+  }
+)

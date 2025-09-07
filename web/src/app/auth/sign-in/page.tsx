@@ -2,7 +2,6 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import { SignInButtons } from 'src/components/auth/sign-in-buttons'
 import { Logo } from 'src/components/nav/logo'
-import { PageProps } from 'src/components/types'
 import { SignInErrorTypes } from 'src/types/next-auth'
 
 export const metadata: Metadata = {
@@ -25,7 +24,7 @@ const errors: Record<SignInErrorTypes, string> = {
   default: 'Unable to sign in.'
 }
 
-export default async function SignInPage(props: PageProps) {
+export default async function SignInPage(props: PageProps<'/auth/sign-in'>) {
   const searchParams = await props.searchParams
   const { callbackUrl = '/', error } = searchParams ?? {}
 

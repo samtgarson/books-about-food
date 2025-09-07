@@ -1,23 +1,15 @@
+import { AppRoutes } from '.next/types/routes'
 import { JSX } from 'react'
 
-type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
-export type SlugProps = PageProps<{ slug: string }>
-
-export interface PageProps<
-  Params extends Record<string, string | string[]> = never
-> {
-  params: Promise<Params>
-  searchParams: Promise<SearchParams>
-}
-
-export function slugPage(
-  pageFn: (
-    slug: string,
-    searchParams?: Promise<SearchParams>
-  ) => Promise<JSX.Element>
+export function slugPage<Path extends AppRoutes>(
+  pageFn: (slug: string) => Promise<JSX.Element>
 ) {
-  return async function (props: SlugProps) {
-    const { slug } = await props.params
-    return pageFn(slug, props.searchParams)
+  return async function (props: PageProps<Path>) {
+    const params = await props.params
+    if ('slug' in params && typeof params.slug === 'string') {
+      return pageFn(params.slug)
+    }
+
+    throw new Error('slugPage requires a slug parameter in the route')
   }
 }

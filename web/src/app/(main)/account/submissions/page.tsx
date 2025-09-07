@@ -2,7 +2,6 @@ import { Suspense } from 'react'
 import { AccountHeader } from 'src/components/accounts/header'
 import { SubmissionsList } from 'src/components/accounts/submissions-list'
 import { Loader } from 'src/components/atoms/loader'
-import { PageProps } from 'src/components/types'
 import { Toaster } from 'src/components/utils/toaster'
 import { genMetadata } from 'src/utils/metadata'
 
@@ -11,7 +10,7 @@ export const metadata = genMetadata('/account/submissions', null, {
   description: 'Submit a cookbook to the wider community'
 })
 
-export default async function Page(props: PageProps) {
+export default async function Page(props: PageProps<'/account/submissions'>) {
   const searchParams = await props.searchParams
   return (
     <div className="flex flex-col gap-8">

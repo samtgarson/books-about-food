@@ -5,7 +5,7 @@ import { PostForm } from 'src/components/posts/form'
 import { slugPage } from 'src/components/types'
 import { call } from 'src/utils/service'
 
-export default slugPage(async function EditPost(slug) {
+export default slugPage<'/admin/posts/[slug]'>(async function EditPost(slug) {
   const { data: post } = await call(fetchPost, { slug })
   if (!post) notFound()
 

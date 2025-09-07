@@ -1,14 +1,13 @@
 import { fetchProfile } from '@books-about-food/core/services/profiles/fetch-profile'
 import { Metadata, ResolvedMetadata } from 'next'
 import { notFound } from 'next/navigation'
-import { SlugProps } from 'src/components/types'
 import { genMetadata, profileTotal } from 'src/utils/metadata'
 import { call } from 'src/utils/service'
 import { ProfilePageProps } from './profile-page'
 
 export const metadata = (segment: ProfilePageProps['segment']) =>
   async function generateMetadata(
-    props: SlugProps,
+    props: PageProps<'/people/[slug]'>,
     parent: Promise<ResolvedMetadata>
   ): Promise<Metadata> {
     const { slug } = await props.params

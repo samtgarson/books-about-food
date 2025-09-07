@@ -24,7 +24,7 @@ import { SimilarBooks } from 'src/components/books/similar-books'
 import { TagList } from 'src/components/books/tag-list'
 import { TeamList } from 'src/components/books/team-list'
 import { ProfileListSection } from 'src/components/profiles/list-section'
-import { slugPage, SlugProps } from 'src/components/types'
+import { slugPage } from 'src/components/types'
 import { Wrap } from 'src/components/utils/wrap'
 import { bookTotal, genMetadata } from 'src/utils/metadata'
 import { call } from 'src/utils/service'
@@ -47,7 +47,7 @@ export async function generateStaticParams() {
   )
 }
 
-export default slugPage(async function CookbookPage(slug) {
+export default slugPage<'/cookbooks/[slug]'>(async function CookbookPage(slug) {
   const { data: book } = await call(fetchBook, { slug, onlyPublished: true })
   if (!book) notFound()
 
@@ -183,7 +183,7 @@ export default slugPage(async function CookbookPage(slug) {
 })
 
 export async function generateMetadata(
-  props: SlugProps,
+  props: PageProps<'/cookbooks/[slug]'>,
   parent: Promise<ResolvedMetadata>
 ): Promise<Metadata> {
   const { slug } = await props.params

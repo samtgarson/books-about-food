@@ -16,7 +16,7 @@ import { Wrap } from 'src/components/utils/wrap'
 import { call } from 'src/utils/service'
 import { getSessionUser } from 'src/utils/user'
 
-export default slugPage(async function EditBook(slug) {
+export default slugPage<'/edit/[slug]'>(async function EditBook(slug) {
   const { data: book } = await call(fetchBook, { slug })
   const currentUser = await getSessionUser()
 

@@ -2,13 +2,13 @@ import { fetchCollection } from '@books-about-food/core/services/collections/fet
 import Color from 'color'
 import { notFound } from 'next/navigation'
 import { NextRequest } from 'next/server'
-import { PageProps } from 'src/components/types'
 import { OGTemplate } from 'src/utils/image-response-helpers'
 import { call } from 'src/utils/service'
 
-type CollectionPageProps = PageProps<{ slug: string }>
-
-export async function GET(_request: NextRequest, props: CollectionPageProps) {
+export async function GET(
+  _request: NextRequest,
+  props: RouteContext<'/collections/[slug]/og-image.png'>
+) {
   const { slug } = await props.params
 
   const { data: collection } = await call(fetchCollection, { slug })

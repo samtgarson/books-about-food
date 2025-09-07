@@ -1,9 +1,9 @@
+import { AppRoutes } from '.next/types/routes'
 import { ComponentType, Fragment } from 'react'
 import { z } from 'zod'
 import { Container } from '../atoms/container'
 import { ObjectSuspense } from '../atoms/object-suspense'
 import { ListContainer } from '../lists/list-context'
-import { PageProps } from '../types'
 
 export type IndexPageProps<Input extends z.ZodTypeAny> = {
   components: {
@@ -17,12 +17,15 @@ export type IndexPageProps<Input extends z.ZodTypeAny> = {
   }
 }
 
-export const createIndexPage = <Input extends z.ZodTypeAny>({
+export const createIndexPage = <
+  Input extends z.ZodTypeAny,
+  Path extends AppRoutes
+>({
   components: { content: Content, filters: Filters, loading: Loading },
   schema,
   config: { wrapInListContext } = { wrapInListContext: false }
 }: IndexPageProps<Input>) => {
-  const IndexPage = async ({ searchParams }: PageProps) => {
+  const IndexPage = async ({ searchParams }: PageProps<Path>) => {
     const filters = schema.parse(await searchParams)
     const ListContext = wrapInListContext ? ListContainer : Fragment
 

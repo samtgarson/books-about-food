@@ -4,7 +4,7 @@ import { EditTeamForm } from 'src/components/edit/books/forms/team'
 import { slugPage } from 'src/components/types'
 import { call } from 'src/utils/service'
 
-export default slugPage(async (slug) => {
+export default slugPage<'/edit/[slug]/team'>(async function TeamEditPage(slug) {
   const { data: book } = await call(fetchBook, { slug })
   if (!book) notFound()
 

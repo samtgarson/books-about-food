@@ -31,52 +31,60 @@ import { pick } from 'src/utils/object-helpers'
 import { call } from 'src/utils/service'
 import { getSessionUser } from 'src/utils/user'
 
-export default slugPage(async function AccountPublisherPage(slug) {
-  const [
-    { data: publisher },
-    { data: memberships = [] },
-    { data: invitations = [] }
-  ] = await Promise.all([
-    call(fetchPublisher, { slug }),
-    call(fetchMemberships, { slug }),
-    call(fetchInvitations, { slug })
-  ])
-  const user = await getSessionUser()
-  const currentUserMembership = memberships.find((m) => m.user.id === user?.id)
-  if (!publisher || !user || !currentUserMembership) notFound()
+export default slugPage<'/account/publishers/[slug]'>(
+  async function AccountPublisherPage(slug) {
+    const [
+      { data: publisher },
+      { data: memberships = [] },
+      { data: invitations = [] }
+    ] = await Promise.all([
+      call(fetchPublisher, { slug }),
+      call(fetchMemberships, { slug }),
+      call(fetchInvitations, { slug })
+    ])
+    const user = await getSessionUser()
+    const currentUserMembership = memberships.find(
+      (m) => m.user.id === user?.id
+    )
+    if (!publisher || !user || !currentUserMembership) notFound()
 
-  return (
-    <div className="flex max-w-xl flex-col gap-12">
-      <Toaster
-        action="invite-accepted"
-        type="success"
-        message="Invite accepted"
-      />
-      <Toaster action="invite-resent" type="success" message="Invite resent" />
-      <AccountHeader title={publisher.name}>
-        <Button
-          href={`/publishers/${publisher.slug}`}
-          size="small"
-          variant="tertiary"
-        >
-          View page <ArrowUpRight strokeWidth={1} />
-        </Button>
-      </AccountHeader>
-      <Memberships
-        publisher={publisher}
-        memberships={memberships}
-        currentUser={user}
-      />
-      {currentUserMembership?.role === 'admin' && (
-        <Invites
+    return (
+      <div className="flex max-w-xl flex-col gap-12">
+        <Toaster
+          action="invite-accepted"
+          type="success"
+          message="Invite accepted"
+        />
+        <Toaster
+          action="invite-resent"
+          type="success"
+          message="Invite resent"
+        />
+        <AccountHeader title={publisher.name}>
+          <Button
+            href={`/publishers/${publisher.slug}`}
+            size="small"
+            variant="tertiary"
+          >
+            View page <ArrowUpRight strokeWidth={1} />
+          </Button>
+        </AccountHeader>
+        <Memberships
           publisher={publisher}
-          invitations={invitations}
+          memberships={memberships}
           currentUser={user}
         />
-      )}
-    </div>
-  )
-})
+        {currentUserMembership?.role === 'admin' && (
+          <Invites
+            publisher={publisher}
+            invitations={invitations}
+            currentUser={user}
+          />
+        )}
+      </div>
+    )
+  }
+)
 
 function Memberships({
   publisher,

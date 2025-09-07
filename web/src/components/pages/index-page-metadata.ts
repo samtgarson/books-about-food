@@ -4,7 +4,6 @@ import {
 } from '@books-about-food/core/services/base'
 import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { Metadata, ResolvedMetadata } from 'next'
-import { PageProps } from 'src/components/types'
 import { genMetadata } from 'src/utils/metadata'
 import { call } from 'src/utils/service'
 import { z } from 'zod'
@@ -30,7 +29,9 @@ export function indexPageMetadata<
   extraParams?: z.infer<I>
 }) {
   return async function generateMetadata(
-    { searchParams }: PageProps,
+    {
+      searchParams
+    }: { searchParams: Promise<Record<string, string | string[] | undefined>> },
     parent: Promise<ResolvedMetadata>
   ): Promise<Metadata> {
     const parsed = {

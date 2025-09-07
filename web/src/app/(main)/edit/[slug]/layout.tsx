@@ -3,10 +3,11 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { ReactNode } from 'react'
 import { Container } from 'src/components/atoms/container'
-import { SlugProps } from 'src/components/types'
 import { call } from 'src/utils/service'
 
-export async function generateMetadata(props: SlugProps): Promise<Metadata> {
+export async function generateMetadata(
+  props: LayoutProps<'/edit/[slug]'>
+): Promise<Metadata> {
   const { slug } = await props.params
 
   const { data: book } = await call(fetchBook, { slug })

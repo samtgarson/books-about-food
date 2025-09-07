@@ -4,9 +4,11 @@ import { EditPublisherForm } from 'src/components/edit/books/forms/publisher'
 import { slugPage } from 'src/components/types'
 import { call } from 'src/utils/service'
 
-export default slugPage(async (slug) => {
-  const { data: book } = await call(fetchBook, { slug })
-  if (!book) notFound()
+export default slugPage<'/edit/[slug]/publisher'>(
+  async function PublisherEditPage(slug) {
+    const { data: book } = await call(fetchBook, { slug })
+    if (!book) notFound()
 
-  return <EditPublisherForm book={book} />
-})
+    return <EditPublisherForm book={book} />
+  }
+)

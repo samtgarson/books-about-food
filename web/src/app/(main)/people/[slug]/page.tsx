@@ -10,7 +10,7 @@ export const dynamicParams = true
 
 export const generateMetadata = metadata('people')
 
-export default slugPage(async function PeoplePage(slug) {
+export default slugPage<'/people/[slug]'>(async function PeoplePage(slug) {
   return <ProfilePage segment="people" slug={slug} />
 })
 
