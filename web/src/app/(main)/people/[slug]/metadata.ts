@@ -21,7 +21,7 @@ export const metadata = (segment: ProfilePageProps['segment']) =>
     const [firstName, ...names] = profile.name.split(' ')
     return genMetadata(`/${segment}/${profile.slug}`, await parent, {
       title: profile.name,
-      description: `View ${profile.name}’s cookbooks and ${total} other profiles on Books About Food — the cookbook industry’s new digital home.`,
+      description: `View ${profile.name}’s cookbooks and ${total} other profiles on Books About Food — beautifully designed cookbooks and the people making them.`,
       openGraph: {
         images: [
           {

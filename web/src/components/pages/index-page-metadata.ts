@@ -48,7 +48,7 @@ export function indexPageMetadata<
 
     return genMetadata(canonical, await parent, {
       title,
-      description: `Browse through more than ${count} ${collection} on Books About Food — the cookbook industry's new digital home.`,
+      description: `Browse through more than ${count} ${collection} on Books About Food — beautifully designed cookbooks and the people making them.`,
       icons: links.length ? { other: links } : undefined,
       image: image ? `${path}/meta/og-image.png` : undefined
     })

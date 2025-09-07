@@ -13,8 +13,8 @@ import { Tag } from '../atoms/tag'
 export function USP() {
   return (
     <Container className="mb-12 mt-24 md:mb-20 md:mt-40">
-      <p className="mb-8 max-w-4xl text-24 md:mb-16 md:text-48">
-        Welcome to the cookbook industry’s new digital home
+      <p className="mb-16 max-w-4xl text-24 md:mb-20 md:text-48">
+        Beautifully designed cookbooks and the people making them
       </p>
       <ul className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
         {sellingPoints.map((sellingPoint) => (

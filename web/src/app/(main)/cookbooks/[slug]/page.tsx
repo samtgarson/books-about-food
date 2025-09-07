@@ -199,7 +199,7 @@ export async function generateMetadata(
     title: book.title,
     description: `View the ${book.title} cookbook and ${
       count - 1
-    } other curated cookbooks on Books About Food — the cookbook industry’s new digital home.`,
+    } other curated cookbooks on Books About Food — beautifully designed cookbooks and the people making them.`,
     openGraph: {
       type: 'book',
       releaseDate: book.isoReleaseDate,

@@ -83,7 +83,7 @@ export async function generateMetadata(
 
   return genMetadata(`/collections/${collection.slug}`, await parent, {
     title: collection.title,
-    description: `View the ${collection.title} collection and other curated cookbook collections on Books About Food — the cookbook industry’s new digital home.`,
+    description: `View the ${collection.title} collection and other curated cookbook collections on Books About Food — beautifully designed cookbooks and the people making them.`,
     openGraph: {
       images: [
         {

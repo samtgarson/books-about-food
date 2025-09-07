@@ -12,7 +12,7 @@ export const Footer = async () => {
           <div className="flex flex-col justify-between gap-8">
             <LogoShape text className="h-auto w-16" />
             <p className="text-18 font-medium">
-              The cookbook’s new digital home
+              Beautifully designed cookbooks and the people making them
             </p>
           </div>
           <div className="flex flex-col gap-8 sm:gap-16">

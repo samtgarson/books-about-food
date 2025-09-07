@@ -6,7 +6,7 @@
   <strong>Books About Food</strong>
 </p>
 <p align="center">
-  The cookbook industry's new digital home.<br />
+  Beautifully designed cookbooks and the people making them.<br />
   <a href="https://booksaboutfood.info"><strong>Learn more »</strong></a>
 </p>
 

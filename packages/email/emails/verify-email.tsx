@@ -21,7 +21,8 @@ export default emailTemplate({
           <>
             <Text>
               Thanks for joining Books About Food! We&apos;re working hard to
-              build the cookbook industry&apos;s new digital home.
+              build a space for beautifully designed cookbooks and the people
+              making them.
             </Text>
             <Text>Click the button below to verify your email address.</Text>
           </>

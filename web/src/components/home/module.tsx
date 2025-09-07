@@ -27,12 +27,12 @@ export function HomepageModule({
       <h2 className="flex items-center justify-between pb-8 text-24 sm:pb-0 lg:text-32 xl:text-48">
         <span>{title}</span>
         <Link href={action.href} className="hidden lg:block">
-          <Button variant="primary">{action.label}</Button>
+          <Button variant="outline">{action.label}</Button>
         </Link>
       </h2>
       {children}
       <Link href={action.href} className="lg:hidden">
-        <Button variant="primary" className="w-full">
+        <Button variant="outline" className="w-full">
           {action.label}
         </Button>
       </Link>

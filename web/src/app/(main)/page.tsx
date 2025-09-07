@@ -3,12 +3,10 @@ import { fetchHome } from '@books-about-food/core/services/home/fetch'
 import { Metadata } from 'next'
 import { Suspense } from 'react'
 import { Container } from 'src/components/atoms/container'
-import { Marquee } from 'src/components/atoms/marquee'
 import { ItemCarousel } from 'src/components/books/item-carousel'
-import { NewBookButton } from 'src/components/books/new-book-button'
 import { FeatureCarousel } from 'src/components/feature-carousel'
+import { HomepageLinks } from 'src/components/home/links'
 import { HomepageModule } from 'src/components/home/module'
-import { USP } from 'src/components/home/usp'
 import { FeaturedJobsList } from 'src/components/jobs/featured-jobs-list'
 import { ProfileCarousel } from 'src/components/profiles/profile-carousel'
 import { Wrap } from 'src/components/utils/wrap'
@@ -46,16 +44,6 @@ async function Page() {
           />
         </div>
       )}
-      <Marquee className="-rotate-15 fixed -right-[25%] bottom-0 left-0 z-40">
-        <a
-          href="https://www.instagram.com/booksabout.food"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Follow on Instagram
-        </a>
-        <NewBookButton className="text-white">Submit a cookbook</NewBookButton>
-      </Marquee>
       <Suspense fallback={null}>
         <HomepageContent />
       </Suspense>
@@ -96,7 +84,20 @@ async function HomepageContent() {
             />
           </HomepageModule>
         </div>
-        <USP />
+        <HomepageLinks />
+      </Container>
+      <Container className="flex flex-col md:pt-20">
+        <p className="max-w-4xl py-16 text-24 md:py-20 md:text-48">
+          Beautifully designed cookbooks and the people making them
+        </p>
+        <div>
+          <h3 className="all-caps mb-6 md:mb-8">People Directory</h3>
+          <Suspense fallback={null}>
+            <FeaturedJobsList />
+          </Suspense>
+        </div>
+      </Container>
+      <Container className="-mt-px" right={false}>
         <Wrap
           c={ItemCarousel}
           items={home.newlyAdded}
@@ -104,17 +105,8 @@ async function HomepageContent() {
           size="lg"
           readMoreLink="/cookbooks"
           className="pt-12 md:pt-20"
-          scrollerClassName="pb-36"
           colorful
         />
-      </Container>
-      <Container className="-mt-20 flex flex-col gap-24 py-12 md:gap-40 md:py-20">
-        <div>
-          <h3 className="all-caps mb-6 md:mb-8">People Directory</h3>
-          <Suspense fallback={null}>
-            <FeaturedJobsList />
-          </Suspense>
-        </div>
       </Container>
     </>
   )

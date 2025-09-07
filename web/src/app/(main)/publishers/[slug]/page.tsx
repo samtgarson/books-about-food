@@ -38,7 +38,7 @@ export async function generateMetadata(
     title: publisher.name,
     description: `View cookbooks published by ${publisher.name} and ${
       total - 1
-    } other publishers on Books About Food — the cookbook industry's new digital home.`,
+    } other publishers on Books About Food — beautifully designed cookbooks and the people making them.`,
     openGraph: {
       images: [
         {
