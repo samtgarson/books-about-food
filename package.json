@@ -62,7 +62,7 @@
   },
   "dependencies": {
     "tailwindcss": "^4.1.8",
-    "turbo": "^1.13.2"
+    "turbo": "^2.5.6"
   },
   "overrides": {
     "react": "19.0.0"
@@ -92,5 +92,6 @@
       "prettier --write",
       "prisma format"
     ]
-  }
+  },
+  "packageManager": "npm@11.6.0"
 }
