@@ -117,7 +117,7 @@ jobs:
         run: npx playwright install --with-deps chromium
         if: steps.playwright-cache.outputs.cache-hit != 'true'
       - name: Generate Prisma client
-        run: npm run -w packages/database db:build
+        run: npm run -w packages/database build
         env:
           DATABASE_URL: ${{ steps.install-deps.outputs.database-url }}
           DATABASE_DIRECT_URL: ${{ steps.install-deps.outputs.database-direct-url }}

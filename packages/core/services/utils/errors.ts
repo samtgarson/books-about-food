@@ -1,4 +1,4 @@
-import type { Prisma } from '@prisma/client'
+import type { Prisma } from '@books-about-food/database'
 import z from 'zod'
 export type ErrorType = keyof typeof ErrorTypeStatusMap
 const ErrorTypeStatusMap = {

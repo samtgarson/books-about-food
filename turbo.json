@@ -4,13 +4,12 @@
     "start": {
       "outputs": []
     },
-    "db:build": {
-      "cache": false,
-      "outputs": ["node_modules/.prisma/**"]
+    "@books-about-food/database#build": {
+      "env": ["DATABASE_URL", "DATABASE_DIRECT_URL"],
+      "outputs": ["$TURBO_ROOT$/node_modules/.prisma/**"]
     },
     "build": {
-      "dependsOn": ["^db:build"],
-      "outputs": [".next/**"]
+      "dependsOn": ["@books-about-food/database#build"]
     },
     "dev": {
       "cache": false,

@@ -5,7 +5,7 @@
   "main": "index.ts",
   "types": "index.ts",
   "scripts": {
-    "db:build": "npx prisma generate && npx prisma migrate deploy",
+    "build": "npx prisma generate && npx prisma migrate deploy",
     "clean-preview-branches": "neonctl branches list -o json | jq '.[].name | select(. != \"main\")' -c | xargs -I % neonctl branches delete %"
   },
   "prisma": {

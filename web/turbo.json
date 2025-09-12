@@ -1,0 +1,33 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "outputs": [".next/**"],
+      "env": [
+        "ADMIN_API_SECRET",
+        "AUTH_SECRET",
+        "AWS_ACCESS_KEY_ID",
+        "AWS_REGION",
+        "AWS_S3_BUCKET",
+        "AWS_S3_ENDPOINT",
+        "AWS_SECRET_ACCESS_KEY",
+        "CRON_SECRET",
+        "DATABASE_URL",
+        "DATABASE_DIRECT_URL",
+        "ENABLE_SPLASH",
+        "GOOGLE_API_KEY",
+        "GOOGLE_CLIENT_ID",
+        "GOOGLE_CLIENT_SECRET",
+        "INNGEST_EVENT_KEY",
+        "NEXTAUTH_SECRET",
+        "S3_DOMAIN",
+        "SENTRY_AUTH_TOKEN",
+        "SENTRY_ORG",
+        "SENTRY_PROJECT",
+        "SKIP_REDIS_CACHE",
+        "UPSTASH_REDIS_TOKEN",
+        "UPSTASH_REDIS_URL"
+      ]
+    }
+  }
+}
