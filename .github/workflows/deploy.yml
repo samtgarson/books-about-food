@@ -91,9 +91,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
       - name: Install dependencies and get database url
         id: install-deps
         run: |
@@ -150,9 +150,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
       # This should be unneeded eventually
       # https://github.com/BetaHuhn/deploy-to-vercel-action/issues/393
       - name: Install CLI deps
@@ -182,9 +182,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
       - name: Install CLI deps
         run: npm install --global vercel@latest neonctl
       - name: Remove preview deployment
