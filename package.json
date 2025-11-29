@@ -31,9 +31,9 @@
     "lint": "NODE_OPTIONS=\"--max-old-space-size=8192\" eslint . && prettier --check --ignore-path ./.prettierignore .",
     "format": "NODE_OPTIONS=\"--max-old-space-size=8192\" eslint . --fix && prettier --write --ignore-path ./.prettierignore .",
     "dev": "turbo run dev",
-    "dev:web": "turbo run dev --filter web",
+    "dev:web": "turbo run dev --filter @books-about-food/web",
     "dev:test": "DANGER_SEND_EMAILS=true npm run dev",
-    "heroku-postbuild": "turbo run build --filter admin",
+    "heroku-postbuild": "turbo run build --filter @books-about-food/admin",
     "postinstall": "patch-package",
     "type-check": "npx -ws tsc --noEmit",
     "prepare": "node .husky/install.mjs"

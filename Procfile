@@ -1,1 +1,1 @@
-web: npm run start -- --filter=admin
+web: npx turbo run start --filter=@books-about-food/admin

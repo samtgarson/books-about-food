@@ -1,6 +1,14 @@
 {
   "permissions": {
-    "allow": ["Bash(npx tsc:*)", "Bash(git fetch:*)", "Bash(git log:*)"],
+    "allow": [
+      "Bash(npx tsc:*)",
+      "Bash(git fetch:*)",
+      "Bash(git log:*)",
+      "WebFetch(domain:github.com)",
+      "WebSearch",
+      "WebFetch(domain:www.prisma.io)",
+      "Bash(cat:*)"
+    ],
     "deny": [],
     "ask": []
   }
