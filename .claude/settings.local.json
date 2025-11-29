@@ -7,7 +7,8 @@
       "WebFetch(domain:github.com)",
       "WebSearch",
       "WebFetch(domain:www.prisma.io)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(npm install:*)"
     ],
     "deny": [],
     "ask": []

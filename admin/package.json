@@ -46,7 +46,6 @@
     "@types/pg": "^8.11.11",
     "@types/sequelize": "^4.28.20",
     "@types/ws": "^8.18.0",
-    "dotenv": "^16.4.7",
     "esbuild": "^0.25.1",
     "forest-cli": "^5.3.0",
     "nodemon": "^3.1.9"

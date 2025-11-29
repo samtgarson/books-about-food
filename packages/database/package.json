@@ -12,12 +12,13 @@
     "schema": "prisma/schema.prisma"
   },
   "devDependencies": {
-    "prisma": "^6.5.0"
+    "prisma": "^7.0.0"
   },
   "dependencies": {
     "@books-about-food/shared": "*",
     "@neondatabase/serverless": "0.10.4",
-    "@prisma/client": "^6.5.0",
-    "@prisma/adapter-neon": "^6.5.0"
+    "@prisma/adapter-neon": "^7.0.0",
+    "@prisma/adapter-pg": "^7.0.0",
+    "@prisma/client": "^7.0.0"
   }
 }

@@ -6,7 +6,7 @@
     },
     "@books-about-food/database#build": {
       "env": ["DATABASE_URL", "DATABASE_DIRECT_URL"],
-      "outputs": ["$TURBO_ROOT$/node_modules/.prisma/**"]
+      "outputs": ["packages/database/generated/**"]
     },
     "build": {
       "dependsOn": ["@books-about-food/database#build"]

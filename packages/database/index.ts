@@ -1,6 +1,6 @@
-import { Pool } from '@neondatabase/serverless'
 import { PrismaNeon } from '@prisma/adapter-neon'
-import { PrismaClient } from '@prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
+import { PrismaClient } from './generated/client'
 
 let prisma: PrismaClient
 
@@ -11,18 +11,22 @@ if (process.env.NODE_ENV === 'production') {
     prisma: PrismaClient
   }
   if (!globalWithPrisma.prisma) {
-    globalWithPrisma.prisma = new PrismaClient()
+    globalWithPrisma.prisma = new PrismaClient({ adapter: adapter() })
   }
   prisma = globalWithPrisma.prisma
 }
 
 export default prisma
-export * from '@prisma/client'
+export * from './generated/client'
 
 function adapter() {
-  if (!process.env.VERCEL) return null
-
   const connectionString = `${process.env.DATABASE_URL}`
-  const pool = new Pool({ connectionString })
-  return new PrismaNeon(pool)
+
+  // Use Neon adapter only in Vercel production
+  if (process.env.VERCEL) {
+    return new PrismaNeon({ connectionString })
+  }
+
+  // Use standard PostgreSQL adapter everywhere else
+  return new PrismaPg({ connectionString })
 }

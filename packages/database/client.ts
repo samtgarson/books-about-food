@@ -1,1 +1,1 @@
-export { BookStatus, MembershipRole } from '@prisma/client'
+export { BookStatus, MembershipRole } from './generated/client'

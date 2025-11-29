@@ -1,6 +1,6 @@
 import { encode } from '@auth/core/jwt'
+import { PrismaClient } from '@books-about-food/database'
 import { BrowserContext, Page, test as base } from '@playwright/test'
-import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 

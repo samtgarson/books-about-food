@@ -45,6 +45,7 @@
     "@next/eslint-plugin-next": "^15.2.2",
     "@samtgarson/eslint-config": "^3.2.13",
     "@stylistic/eslint-plugin": "^4.2.0",
+    "dotenv": "^16.6.1",
     "eslint": "^9.22.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-import-resolver-typescript": "3.5.2",
