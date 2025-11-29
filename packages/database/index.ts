@@ -4,7 +4,7 @@ import { PrismaClient } from './generated/client'
 
 let prisma: PrismaClient
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.VERCEL) {
   prisma = new PrismaClient({ adapter: adapter() })
 } else {
   const globalWithPrisma = global as typeof globalThis & {

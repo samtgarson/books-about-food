@@ -11,6 +11,7 @@
     "@books-about-food/database": "*",
     "@playwright/test": "^1.57.0",
     "@types/node": "^24.10.1",
+    "execa": "^8.0.1",
     "gmail-inbox": "^1.5.0",
     "patch-package": "^8.0.1"
   }

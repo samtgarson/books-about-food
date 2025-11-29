@@ -8,7 +8,9 @@
       "WebSearch",
       "WebFetch(domain:www.prisma.io)",
       "Bash(cat:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "WebFetch(domain:zod.dev)",
+      "Bash(npm run type-check:*)"
     ],
     "deny": [],
     "ask": []

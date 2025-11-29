@@ -5,7 +5,8 @@ generator client {
   previewFeatures     = ["fullTextSearchPostgres", "views"]
   provider            = "prisma-client"
   output              = "../generated"
-  importFileExtension = "ts"
+  importFileExtension = ""
+  runtime             = "workerd"
 }
 
 datasource db {

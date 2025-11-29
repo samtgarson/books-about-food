@@ -1,8 +1,6 @@
 import { encode } from '@auth/core/jwt'
-import { PrismaClient } from '@books-about-food/database'
 import { BrowserContext, Page, test as base } from '@playwright/test'
-
-const prisma = new PrismaClient()
+import { $ } from 'execa'
 
 const helpers = ({
   context,
@@ -15,9 +13,7 @@ const helpers = ({
 }) => ({
   email,
   async login() {
-    const user = await prisma.user.create({
-      data: { email, role: 'user', emailVerified: new Date() }
-    })
+    const userId = await createUser(email)
     await page.goto('/', { waitUntil: 'commit' })
     const cookies = await context.cookies()
     const authCookie = cookies.find(
@@ -31,7 +27,7 @@ const helpers = ({
       token: {
         name: 'Sam Garson',
         email,
-        userId: user.id,
+        userId,
         role: 'user',
         publishers: []
       },
@@ -53,8 +49,37 @@ export const test = base.extend<Fixtures>({
 
     await use(helpers({ page, context, email }))
 
-    await prisma.user.deleteMany({ where: { email } })
+    await deleteUser(email)
   }
 })
+
+const databaseUrl =
+  process.env.DATABASE_URL || 'postgres://localhost:5432/baf_dev'
+
+async function createUser(email: string) {
+  const res = await executeSql(`
+    INSERT INTO "users" (email, role, "email_verified")
+    VALUES ('${email}', 'user', NOW())
+    RETURNING id;
+  `)
+
+  return res.trim()
+}
+
+async function deleteUser(email: string) {
+  await executeSql(`
+    DELETE FROM "users"
+    WHERE email = '${email}';
+  `)
+}
+
+async function executeSql(sql: string) {
+  const preparedSql = sql.replace(/\n/g, ' ').replace(/"/g, '\\"').trim()
+  const res = await $({
+    shell: true
+  })`psql ${databaseUrl} -c "${preparedSql}" -tq`
+  if (res.failed) throw new Error(`SQL execution failed: ${res.stderr}`)
+  return res.stdout
+}
 
 export { expect } from '@playwright/test'

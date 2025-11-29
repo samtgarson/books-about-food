@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 5000",
-    "build": "next build",
+    "dev": "next dev --port 5000 --turbo",
+    "build": "next build --turbo",
     "start": "next start"
   },
   "prettier": "@books-about-food/prettier-config",

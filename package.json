@@ -61,7 +61,6 @@
     "typescript-eslint": "^8.26.1"
   },
   "dependencies": {
-    "tailwindcss": "^4.1.8",
     "tsx": "^4.20.6",
     "turbo": "^2.5.6"
   },
