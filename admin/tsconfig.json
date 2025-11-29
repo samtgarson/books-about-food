@@ -9,8 +9,5 @@
     "types": ["node", "express", "sequelize"]
   },
   "include": ["./**/*", ".env", "../packages/**/*"],
-  "exclude": ["node_modules", "dist"],
-  "ts-node": {
-    "files": true
-  }
+  "exclude": ["node_modules", "dist"]
 }

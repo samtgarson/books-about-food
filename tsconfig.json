@@ -16,11 +16,5 @@
     "jsx": "react-jsx",
     "incremental": true
   },
-  "exclude": ["node_modules"],
-  "ts-node": {
-    "compilerOptions": {
-      "module": "commonjs"
-    },
-    "require": ["tsconfig-paths/register"]
-  }
+  "exclude": ["node_modules"]
 }

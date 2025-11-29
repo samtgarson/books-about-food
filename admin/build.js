@@ -31,6 +31,7 @@ if (sentryToken) {
 esbuild.build({
   entryPoints: [path.resolve(__dirname, 'lib/index.ts')],
   sourcemap: true, // Source map generation must be turned on
+  format: 'esm',
   bundle: true,
   outfile: path.resolve(__dirname, 'dist/index.js'),
   platform: 'node',
@@ -47,7 +48,7 @@ esbuild.build({
   loader: {
     '.node': 'file'
   },
-  target: 'node20',
+  target: 'node24',
   jsx: 'automatic',
   plugins,
   logLevel: 'info'

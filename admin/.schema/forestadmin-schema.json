@@ -4865,8 +4865,8 @@
   ],
   "meta": {
     "liana": "forest-nodejs-agent",
-    "liana_version": "1.60.1",
+    "liana_version": "1.66.2",
     "liana_features": null,
-    "stack": {"engine": "nodejs", "engine_version": "22.14.0"}
+    "stack": {"engine": "nodejs", "engine_version": "24.11.1"}
   }
 }
