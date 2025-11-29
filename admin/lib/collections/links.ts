@@ -1,63 +1,65 @@
-import prisma from '@books-about-food/database'
-import { CollectionCustomizer } from '@forestadmin/agent'
+import { Website, websites } from '@books-about-food/shared/data/websites'
+import { CollectionCustomizer, TRow } from '@forestadmin/agent'
 import { Schema } from '../../.schema/types'
 
-export const customiseLinks = (
+const websiteErrorMessage =
+  'Please choose either a website from the dropdown or enter a custom website'
+
+export function customiseLinks(
   collection: CollectionCustomizer<Schema, 'links'>
-) => {
+) {
   collection
     .removeField('site')
     .addField('Website', {
-      dependencies: ['id'],
+      dependencies: ['site'],
       getValues: async (records) => {
-        return Promise.all(
-          records.map(async (record) => {
-            const link = await prisma.link.findUnique({
-              where: { id: record.id }
-            })
-            return link?.site
-          })
+        return records.map((record) =>
+          websites.includes(record.site as Website) ? record.site : ''
+        )
+      },
+      columnType: 'Enum',
+      enumValues: [...websites, '']
+    })
+
+    .addField('WebsiteOther', {
+      dependencies: ['site'],
+      getValues: async (records) => {
+        return records.map((record) =>
+          websites.includes(record.site as Website) ? '' : record.site || ''
         )
       },
       columnType: 'String'
     })
-    .replaceFieldWriting('Website', async (Website) => {
-      return { Website }
-    })
 
-  collection
-    .addField('WebsiteOther', {
-      getValues: async (records) => {
-        return records.map(() => null)
-      },
-      columnType: 'String',
-      dependencies: ['site']
-    })
-    .replaceFieldWriting('WebsiteOther', async (site) => {
-      return { WebsiteOther: site }
-    })
-    .addHook('Before', 'Create', async (context) => {
-      context.data.forEach((link) => {
-        if (!link.Website && !link['WebsiteOther']) {
-          context.throwValidationError('Please provide a site name')
-        }
+  type LinkRow = TRow<Schema, 'links'>
 
-        link.site = link.Website || link['WebsiteOther'] || ''
-      })
-    })
-    .addHook('Before', 'Update', async (context) => {
-      if (
-        context.patch.Website === null &&
-        context.patch['WebsiteOther'] === null
-      ) {
-        context.throwValidationError('Please provide a site name')
-      }
+  function resolveWebsite(
+    { Website, WebsiteOther, ...data }: Partial<LinkRow>,
+    onError: (this: void, message: string) => void
+  ) {
+    if (!Website && !WebsiteOther) return data
 
-      context.patch.site =
-        context.patch.Website || context.patch['WebsiteOther'] || ''
-    })
+    const site = Website?.length ? Website : WebsiteOther
+    if (!site?.length) return onError(websiteErrorMessage)
+    return { ...data, site }
+  }
 
-  collection.addHook('Before', 'Update', async (context) => {
-    context.patch.updated_at = new Date().toISOString()
+  collection.overrideCreate(async function (context) {
+    const data = context.data.flatMap(
+      (r) => resolveWebsite(r, (m) => context.throwValidationError(m)) || []
+    )
+    return await context.collection.create(data)
+  })
+
+  collection.overrideUpdate(async function (context) {
+    const data = resolveWebsite(context.patch, (m) =>
+      context.throwValidationError(m)
+    )
+    if (!data) return
+
+    await context.collection.update(context.filter, {
+      ...data,
+      updated_at: new Date().toISOString()
+    })
   })
 }

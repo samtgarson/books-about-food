@@ -8557,7 +8557,7 @@ export type Schema = {
       'site': string;
       'updated_at': string;
       'url': string;
-      'Website': string | null;
+      'Website': '' | 'AbeBooks' | 'Amazon' | 'Bookshop.org' | 'Edelweiss+' | 'Worldcat' | null;
       'WebsiteOther': string | null;
     };
     nested: {

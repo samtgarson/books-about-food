@@ -1,6 +1,6 @@
 {
   "permissions": {
-    "allow": ["Bash(npx tsc:*)"],
+    "allow": ["Bash(npx tsc:*)", "Bash(git fetch:*)", "Bash(git log:*)"],
     "deny": [],
     "ask": []
   }
