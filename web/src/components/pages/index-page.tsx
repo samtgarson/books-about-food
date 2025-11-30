@@ -5,7 +5,7 @@ import { Container } from '../atoms/container'
 import { ObjectSuspense } from '../atoms/object-suspense'
 import { ListContainer } from '../lists/list-context'
 
-export type IndexPageProps<Input extends z.ZodTypeAny> = {
+export type IndexPageProps<Input extends z.ZodType> = {
   components: {
     content: ComponentType<{ filters: z.infer<Input> }>
     filters?: ComponentType<{ filters: z.infer<Input> }>
@@ -18,7 +18,7 @@ export type IndexPageProps<Input extends z.ZodTypeAny> = {
 }
 
 export const createIndexPage = <
-  Input extends z.ZodTypeAny,
+  Input extends z.ZodType,
   Path extends AppRoutes
 >({
   components: { content: Content, filters: Filters, loading: Loading },

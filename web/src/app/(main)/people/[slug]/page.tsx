@@ -15,7 +15,7 @@ export default slugPage<'/people/[slug]'>(async function PeoplePage(slug) {
 })
 
 export async function generateStaticParams() {
-  const { data } = await call(fetchProfiles, {}, { bypassCache: true })
+  const { data } = await call(fetchProfiles, {})
 
   return data?.profiles.map((profile) => ({ slug: profile.slug })) ?? []
 }

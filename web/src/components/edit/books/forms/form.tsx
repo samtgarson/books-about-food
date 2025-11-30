@@ -7,7 +7,7 @@ export function EditForm({
   action,
   children
 }: {
-  action: (data: Record<string, unknown>) => Promise<boolean>
+  action: (data: unknown) => Promise<boolean>
   children: ReactNode
 }) {
   return (

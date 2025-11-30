@@ -19,7 +19,7 @@ export type ServiceError = {
   originalError?: unknown
 }
 
-export type ServiceClass<I extends z.ZodTypeAny, R> =
+export type ServiceClass<I extends z.ZodType, R> =
   | Service<I, R>
   | AuthedService<I, R>
 
@@ -51,7 +51,7 @@ export type ServiceInput<
 
 abstract class BaseService<
   Authed extends boolean,
-  Input extends z.ZodTypeAny,
+  Input extends z.ZodType,
   Return
 > {
   constructor(
@@ -67,8 +67,8 @@ abstract class BaseService<
 
   public async call(
     ...args: Authed extends true
-      ? [input: z.input<Input>, user: User]
-      : [input: z.input<Input>, user?: never]
+      ? [input: z.output<Input>, user: User]
+      : [input: z.output<Input>, user?: never]
   ): Promise<ServiceResult<Return>> {
     const user = args[1]
     try {
@@ -104,7 +104,7 @@ abstract class BaseService<
   }
 }
 
-export class Service<Input extends z.ZodTypeAny, Return> extends BaseService<
+export class Service<Input extends z.ZodType, Return> extends BaseService<
   false,
   Input,
   Return
@@ -118,10 +118,11 @@ export class Service<Input extends z.ZodTypeAny, Return> extends BaseService<
   }
 }
 
-export class AuthedService<
-  Input extends z.ZodTypeAny,
+export class AuthedService<Input extends z.ZodType, Return> extends BaseService<
+  true,
+  Input,
   Return
-> extends BaseService<true, Input, Return> {
+> {
   constructor(
     public input: Input,
     call: (input: z.output<Input>, user: User) => Promise<Return>,
@@ -131,7 +132,7 @@ export class AuthedService<
   }
 
   async call(
-    input: z.input<Input>,
+    input: z.output<Input>,
     user: User
   ): Promise<ServiceResult<Return>> {
     if (!user)

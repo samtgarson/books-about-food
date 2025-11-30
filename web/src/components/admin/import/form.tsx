@@ -7,6 +7,7 @@ import * as Sheet from 'src/components/atoms/sheet'
 import { Form } from 'src/components/form'
 import { Input } from 'src/components/form/input'
 import { Submit } from 'src/components/form/submit'
+import z from 'zod'
 import { parseCsv } from './action'
 import { ImportList } from './list'
 
@@ -14,8 +15,8 @@ export function ImportForm() {
   const [preview, setPreview] = useState<ResultRow[]>()
   const [errors, setErrors] = useState<AppErrorJSON[]>()
 
-  async function processCSV(data: Record<string, unknown>) {
-    const { file } = data as { file: File }
+  async function processCSV(data: unknown) {
+    const { file } = z.object({ file: z.file() }).parse(data)
     if (file.size > 1000000)
       return { file: { message: 'File size must be less than 1mb' } }
     const csv = new TextDecoder('utf-8').decode(await file.arrayBuffer())

@@ -14,7 +14,12 @@ const schema = z.object({
   links: z
     .string()
     .transform(SuperJSON.parse)
-    .pipe(updateLinks.input.shape.links)
+    .pipe(
+      z
+        .string()
+        .transform(() => [])
+        .or(updateLinks.input.shape.links)
+    )
 })
 
 export const EditLinksForm = async ({ book }: { book: FullBook }) => {
@@ -23,13 +28,7 @@ export const EditLinksForm = async ({ book }: { book: FullBook }) => {
       action={async (values) => {
         'use server'
 
-        let links: z.infer<typeof updateLinks.input.shape.links>
-        if (values.links == '') {
-          links = []
-        } else {
-          links = schema.parse(values).links
-        }
-
+        const links = schema.parse(values).links
         const { success } = await call(updateLinks, {
           slug: book.slug,
           links

@@ -10,10 +10,14 @@
   "prettier": "@books-about-food/prettier-config",
   "overrides": {
     "@types/react": "19.1.12",
-    "@types/react-dom": "19.1.9"
+    "@types/react-dom": "19.1.9",
+    "next": "$next",
+    "next-auth": {
+      "@auth/core": "$@auth/core"
+    }
   },
   "dependencies": {
-    "@auth/core": "0.37.2",
+    "@auth/core": "0.41.1",
     "@auth/prisma-adapter": "^2.11.1",
     "@books-about-food/core": "*",
     "@books-about-food/database": "*",
@@ -53,8 +57,8 @@
     "inflection": "^3.0.2",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.555.0",
-    "next": "15.6.0-canary.2",
-    "next-auth": "5.0.0-beta.25",
+    "next": "^15.6.0-canary.57",
+    "next-auth": "5.0.0-beta.30",
     "radix-ui": "^1.4.3",
     "randomcolor": "^0.6.2",
     "react": "19.2.0",

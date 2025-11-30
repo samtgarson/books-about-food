@@ -7,7 +7,7 @@
     "test": "playwright test"
   },
   "devDependencies": {
-    "@auth/core": "^0.37.2",
+    "@auth/core": "^0.41.1",
     "@books-about-food/database": "*",
     "@playwright/test": "^1.57.0",
     "@types/node": "^24.10.1",

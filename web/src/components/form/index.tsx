@@ -13,13 +13,11 @@ import {
 import z from 'zod'
 import { FormContext, FormErrors, FormStyleVariant } from './context'
 
-export type FormAction<S = Record<string, unknown>> = (
-  values: S
-) => Promise<FormErrors | void>
+export type FormAction<S = unknown> = (values: S) => Promise<FormErrors | void>
 
-export interface FormProps<T extends z.ZodTypeAny | undefined = undefined>
+export interface FormProps<T extends z.ZodType | undefined = undefined>
   extends Omit<ComponentProps<typeof RForm.Root>, 'action'> {
-  action?: T extends z.ZodTypeAny ? FormAction<z.infer<T>> : FormAction
+  action?: T extends undefined ? FormAction : FormAction<z.infer<T>>
   naked?: boolean
   successMessage?: ReactNode
   schema?: T
@@ -27,7 +25,7 @@ export interface FormProps<T extends z.ZodTypeAny | undefined = undefined>
   autoSubmit?: boolean
 }
 
-export function Form<T extends z.ZodTypeAny | undefined = undefined>({
+export function Form<T extends z.ZodType | undefined = undefined>({
   className,
   action,
   naked = false,
@@ -47,14 +45,15 @@ export function Form<T extends z.ZodTypeAny | undefined = undefined>({
     async (data: FormData) => {
       if (!action) return
       let errors: FormErrors | void = undefined
-      let values = Object.fromEntries(data.entries())
-      if (schema) {
-        const parsed = schema.safeParse(values)
+      const values = Object.fromEntries(data.entries())
+      if (!schema) {
+        errors = await action(values)
+      } else {
+        const parsed = z.safeParse(schema, values)
         if (!parsed.success) return setErrors(parseZodError(parsed.error))
-        values = parsed.data
+        errors = await action(parsed.data)
       }
 
-      errors = await action(values)
       if (errors) setErrors(errors)
       else {
         formRef.current?.reset()
@@ -114,7 +113,9 @@ export function Form<T extends z.ZodTypeAny | undefined = undefined>({
 
 function parseZodError(e: z.ZodError): FormErrors {
   return e.issues.reduce((acc, curr) => {
-    acc[curr.path[0]] = { message: curr.message }
+    const key = curr.path[0]?.toString()
+    if (!key) return acc
+    acc[key] = { message: curr.message }
     return acc
   }, {} as FormErrors)
 }
