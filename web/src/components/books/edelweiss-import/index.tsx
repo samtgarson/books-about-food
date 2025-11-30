@@ -13,7 +13,7 @@ export function EdelweissImportForm() {
 
   return (
     <Form
-      schema={z.object({ url: z.string().url() })}
+      schema={z.object({ url: z.url() })}
       action={async function (data) {
         const token = await getAdminToken()
         const client = new AdminApiClient(token)

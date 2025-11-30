@@ -11,7 +11,7 @@ export type ImportBooksInput = z.infer<typeof importBooks.input>
 
 export const importBooks = new AuthedService(
   z.object({ csv: z.string() }),
-  async ({ csv } = {}, user) => {
+  async ({ csv }, user) => {
     if (user?.role !== 'admin') {
       throw new AppError('Forbidden', 'You must be an admin to import books')
     }

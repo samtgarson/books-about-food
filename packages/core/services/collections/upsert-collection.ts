@@ -13,7 +13,7 @@ export type UpsertCollectionInput = z.infer<typeof upsertCollectionSchema>
 
 export const upsertCollection = new AuthedService(
   upsertCollectionSchema,
-  async function ({ publisherSlug, ...attrs } = {}, user) {
+  async function ({ publisherSlug, ...attrs }, user) {
     const { data: publisher } = await fetchPublisher.call({
       slug: publisherSlug
     })

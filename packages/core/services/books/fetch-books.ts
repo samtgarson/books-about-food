@@ -23,7 +23,7 @@ const validator = z.object({
   status: arrayOrSingle(dbEnum(BookStatus)).optional(),
   submitterId: z.string().optional(),
   publisherSlug: z.string().optional(),
-  color: z.nativeEnum(NamedColor).or(array(z.coerce.number())).optional(),
+  color: z.enum(NamedColor).or(array(z.coerce.number())).optional(),
   releaseYear: z.number().optional(),
   pageCount: z
     .custom<FetchBooksPageFilters>((key) => {
@@ -38,7 +38,7 @@ export type FetchBooksOutput = Awaited<ReturnType<(typeof fetchBooks)['call']>>
 type BookSort = FetchBooksInput['sort']
 
 export const fetchBooks = new Service(
-  validator,
+  validator.optional(),
   async (input = {}) => {
     const { query, perPage } = baseQuery(input)
 
@@ -169,9 +169,8 @@ function specificColorJoin(color: number[]) {
 
 function namedColorJoin(color: NamedColor) {
   return sql`left outer join lateral (
-      select abs(${
-        namedHueMap[color]
-      }::int - (c.color ->> 'h')::decimal) * -1 as color
+      select abs(${namedHueMap[color]
+    }::int - (c.color ->> 'h')::decimal) * -1 as color
       from (
         select jsonb_array_elements(books.palette) color from books b
         where b.id = books.id

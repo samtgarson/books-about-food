@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 }
 
 async function Page() {
-  const { data: features } = await call(fetchFeatures)
+  const { data: features } = await call(fetchFeatures, undefined)
 
   return (
     <>
@@ -52,7 +52,7 @@ async function Page() {
 }
 
 async function HomepageContent() {
-  const { data: home } = await call(fetchHome)
+  const { data: home } = await call(fetchHome, undefined)
   if (!home) return null
 
   return (

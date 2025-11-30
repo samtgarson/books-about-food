@@ -9,7 +9,7 @@ import { createInviteSchema } from './schemas/create-invite'
 
 export const createInvite = new AuthedService(
   createInviteSchema,
-  async function ({ publisherId, email, role } = {}, user) {
+  async function ({ publisherId, email, role }, user) {
     const publisher = await prisma.publisher.findUnique({
       where: { id: publisherId, memberships: { some: { userId: user.id } } },
       include: publisherIncludes

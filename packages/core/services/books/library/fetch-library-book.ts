@@ -11,7 +11,7 @@ export type LibraryBook = ReturnType<typeof mapGoogleBook>
 
 export const fetchLibraryBook = new AuthedService(
   z.object({ id: z.string() }),
-  async ({ id } = {}) => {
+  async ({ id }) => {
     const result = await client.fetch(id)
     if (!result?.id || !result.volumeInfo?.title) return
 

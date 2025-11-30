@@ -4,7 +4,7 @@ import { bookJoin, bookSelect, queryBooks } from './sql-helpers'
 
 export const fetchSimilarBooks = new Service(
   z.object({ slug: z.string() }),
-  async ({ slug } = {}) => {
+  async ({ slug }) => {
     return queryBooks`
       select
         ${bookSelect},

@@ -4,7 +4,7 @@ import { z } from 'zod'
 
 export const fetchTags = new Service(
   z.object({ search: z.string().optional() }),
-  async function ({ search } = {}) {
+  async function ({ search }) {
     return prisma.tag.findMany({
       orderBy: { name: 'asc' },
       where: {

@@ -8,7 +8,7 @@ export const createPitch = new AuthedService(
   z.object({
     description: z.string()
   }),
-  async ({ description } = {}, author) => {
+  async ({ description }, author) => {
     const authorId = author.id
 
     return prisma.pitch.create({

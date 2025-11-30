@@ -6,7 +6,7 @@ export const fetchFavourite = new AuthedService(
   z.object({
     profileId: z.string()
   }),
-  async ({ profileId } = {}, user) => {
+  async ({ profileId }, user) => {
     const userId = user.id
 
     return prisma.favourite.findUnique({

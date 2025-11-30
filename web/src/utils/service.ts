@@ -12,7 +12,7 @@ import z from 'zod'
 import { getOrPopulateKv } from './kv'
 import { getSessionUser } from './user'
 
-class DeserializationError extends Error {}
+class DeserializationError extends Error { }
 
 type CallOptions = { bypassCache?: boolean; maxAgeOverride?: number }
 
@@ -21,7 +21,7 @@ export async function call<
   I extends z.ZodType<ServiceInput<S>>
 >(
   service: S,
-  args?: ServiceInput<S>,
+  args: ServiceInput<S>,
   options: CallOptions = {}
 ): Promise<ServiceReturn<S>> {
   const stringArgs = stringify(args)
@@ -92,7 +92,7 @@ export async function parseAndCall<
 >(service: S, args?: unknown): Promise<ServiceReturn<S>> {
   try {
     const input = (service.input as I).parse(args)
-    return call<S, I>(service, input)
+    return call<S, I>(service, input as ServiceInput<S>)
   } catch (e) {
     if (!(e instanceof z.ZodError)) {
       Sentry.captureException(e)

@@ -7,7 +7,7 @@ import { profileIncludes } from '../utils'
 
 export const findOrCreateProfile = new AuthedService(
   z.object({ name: z.string().trim() }),
-  async function ({ name } = {}) {
+  async function ({ name }) {
     const found = await prisma.profile.findMany({
       where: { name },
       include: profileIncludes

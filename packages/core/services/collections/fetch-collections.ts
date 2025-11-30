@@ -24,7 +24,7 @@ export const fetchCollections = new Service(
     perPage = 12,
     publisherFeatured = false,
     sort = 'name'
-  } = {}) {
+  }) {
     const where: Prisma.CollectionWhereInput = {
       publisher: publisherSlug ? { slug: publisherSlug } : null,
       publisherFeatured,

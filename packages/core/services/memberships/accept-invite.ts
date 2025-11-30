@@ -4,7 +4,7 @@ import { AuthedService } from '../base'
 
 export const acceptInvite = new AuthedService(
   z.object({ inviteId: z.string() }),
-  async function ({ inviteId } = {}, user) {
+  async function ({ inviteId }, user) {
     const invite = await prisma.publisherInvitation.findUniqueOrThrow({
       where: { id: inviteId, email: user.email },
       include: { publisher: true }

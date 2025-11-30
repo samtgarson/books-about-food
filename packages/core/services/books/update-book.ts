@@ -26,10 +26,10 @@ const updateBookInput = z
       coverImageId: z.string().optional(),
       previewImageIds: array(z.string()).optional(),
       publisherId: z.string().optional(),
-      releaseDate: processString(z.coerce.date().optional()),
+      releaseDate: processString(z.coerce.date()).optional(),
       pages: z.coerce.number().optional(),
       tags: array(z.string()).optional(),
-      source: z.nativeEnum(BookSource).optional().default('submitted'),
+      source: z.enum(BookSource).optional().default('submitted'),
       id: z.string().optional()
     })
   )
@@ -37,7 +37,6 @@ const updateBookInput = z
 export const updateBook = new AuthedService(
   updateBookInput,
   async (input, user) => {
-    if (!input) throw new Error('Input is required')
     const { slug, ...data } = input
 
     if (slug) {

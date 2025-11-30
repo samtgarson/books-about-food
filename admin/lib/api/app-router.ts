@@ -8,7 +8,7 @@ const authSchema = z.object({
   id: z.string(),
   email: z.string(),
   name: z.string().nullish().default(null),
-  role: z.nativeEnum(UserRole).default('user'),
+  role: z.enum(UserRole).default('user'),
   image: z.string().nullish().default(null),
   publishers: z.array(z.string()).default([])
 })
@@ -31,7 +31,7 @@ appRouter.post('/edelweiss-import', async (ctx) => {
   const parsed = edelweissImport.input.safeParse(ctx.request.body)
   if (!parsed.success) {
     ctx.status = 400
-    ctx.body = parsed.error.flatten()
+    ctx.body = z.treeifyError(parsed.error)
     return
   }
 

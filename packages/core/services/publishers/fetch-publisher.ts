@@ -6,7 +6,7 @@ import { publisherIncludes } from '../utils'
 
 export const fetchPublisher = new Service(
   z.object({ slug: z.string() }),
-  async function ({ slug } = {}) {
+  async function ({ slug }) {
     const raw = await prisma.publisher.findUnique({
       where: { slug },
       include: publisherIncludes

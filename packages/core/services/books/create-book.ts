@@ -19,7 +19,7 @@ export const createBook = new AuthedService(
     authorIds: z.array(z.string()).optional(),
     tags: z.array(z.string()).optional()
   }),
-  async ({ tags, authorIds, ...data } = {}, user) => {
+  async ({ tags, authorIds, ...data }, user) => {
     const { googleBooksId } = data
     let coverUrl: string | undefined
 

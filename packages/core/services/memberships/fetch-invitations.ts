@@ -7,7 +7,7 @@ import { AppError } from '../utils/errors'
 
 export const fetchInvitations = new AuthedService(
   z.object({ slug: z.string() }),
-  async function ({ slug } = {}, user) {
+  async function ({ slug }, user) {
     const publisher = await prisma.publisher.findUnique({
       where: { slug },
       include: {

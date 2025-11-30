@@ -6,7 +6,7 @@ import { collectionIncludes } from '../utils'
 
 export const fetchCollection = new Service(
   z.object({ slug: z.string().optional() }),
-  async function ({ slug } = {}) {
+  async function ({ slug }) {
     const data = await prisma.collection.findUniqueOrThrow({
       where: { slug, status: 'published' },
       include: collectionIncludes

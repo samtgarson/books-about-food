@@ -18,13 +18,13 @@ export const updateProfile = new AuthedService(
     name: z.string().optional(),
     description: z.string().nullish(),
     jobTitle: z.string().nullish(),
-    website: z.string().url().nullish(),
+    website: z.url().nullish(),
     instagram: z.string().regex(instagramHandle).nullish(),
     location: z.string().nullish(),
     avatar: z.string().nullish(),
     hiddenCollaborators: array(z.string()).optional()
   }),
-  async ({ slug, avatar, instagram, ...data } = {}, user) => {
+  async ({ slug, avatar, instagram, ...data }, user) => {
     const { data: profile } = await fetchProfile.call({ slug })
     if (profile && !can(user, profile).update) {
       throw new Error('You are not allowed to update this profile')

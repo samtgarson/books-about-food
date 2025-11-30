@@ -7,9 +7,9 @@ export type UpdateUserInput = z.infer<typeof updateUser.input>
 export const updateUser = new AuthedService(
   z.object({
     name: z.string().min(1).optional(),
-    email: z.string().email().optional()
+    email: z.email().optional()
   }),
-  async (params = {}, user) => {
+  async (params, user) => {
     const data: Prisma.UserUpdateInput = params
 
     if (params.email && params.email !== user.email) {

@@ -8,7 +8,7 @@ import { AppError } from '../utils/errors'
 
 export const archiveCollection = new AuthedService(
   z.object({ id: z.string() }),
-  async function ({ id } = {}, user) {
+  async function ({ id }, user) {
     const existing = new Collection(
       await prisma.collection.findUniqueOrThrow({
         where: { id },

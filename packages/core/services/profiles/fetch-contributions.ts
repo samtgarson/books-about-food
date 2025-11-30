@@ -12,7 +12,7 @@ export const fetchContributions = new Service(
     profileId: z.string(),
     bookId: z.string().optional()
   }),
-  async ({ profileId, bookId } = {}) => {
+  async ({ profileId, bookId }) => {
     const contributions = await prisma.contribution.findMany({
       where: { profileId, bookId },
       include: { job: { select: { name: true } } }

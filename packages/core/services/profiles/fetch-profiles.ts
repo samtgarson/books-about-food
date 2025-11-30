@@ -38,7 +38,7 @@ export const fetchProfiles = new Service(
     search,
     onlyPublished = true,
     withAvatar
-  } = {}) => {
+  }) => {
     const jobFilter = createJobFilter(jobs)
     const userIdFilter = userId ? { userId: userId } : {}
     const searchFilter = createSearchFilter(search)

@@ -9,7 +9,7 @@ export const fetchBook = new Service(
     slug: z.string(),
     onlyPublished: z.boolean().optional()
   }),
-  async ({ slug, onlyPublished } = {}) => {
+  async ({ slug, onlyPublished }) => {
     if (!slug) throw new Error('Slug is required')
     const raw = await prisma.book.findUnique({
       where: { slug, status: onlyPublished ? 'published' : undefined },

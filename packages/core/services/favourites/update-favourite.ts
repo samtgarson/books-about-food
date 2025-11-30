@@ -7,7 +7,7 @@ export const updateFavourite = new AuthedService(
     profileId: z.string(),
     isFavourite: z.boolean()
   }),
-  async ({ profileId, isFavourite } = {}, user) => {
+  async ({ profileId, isFavourite }, user) => {
     if (!profileId) return null
     const userId = user.id
 

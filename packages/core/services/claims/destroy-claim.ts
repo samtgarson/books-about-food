@@ -6,7 +6,7 @@ export const destroyClaim = new AuthedService(
   z.object({
     claimId: z.string()
   }),
-  async ({ claimId } = {}, user) => {
+  async ({ claimId }, user) => {
     if (!claimId) return null
 
     const claim = await prisma.claim.findUnique({

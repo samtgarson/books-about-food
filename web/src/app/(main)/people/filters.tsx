@@ -13,7 +13,7 @@ type PeopleFiltersProps = {
 export const PeopleFilters = ({ filters }: PeopleFiltersProps) => {
   const jobOptions = async () => {
     'use server'
-    const { data: jobs = [] } = await call(fetchJobs)
+    const { data: jobs = [] } = await call(fetchJobs, {})
     return jobs
       .map((job) => ({
         label: job.name,

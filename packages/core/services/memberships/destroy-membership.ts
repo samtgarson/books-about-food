@@ -8,7 +8,7 @@ import { AppError } from '../utils/errors'
 
 export const destroyMembership = new AuthedService(
   z.object({ id: z.string() }),
-  async function ({ id } = {}, user) {
+  async function ({ id }, user) {
     const publisher = await prisma.publisher.findFirst({
       where: { memberships: { some: { id } } },
       include: publisherIncludes

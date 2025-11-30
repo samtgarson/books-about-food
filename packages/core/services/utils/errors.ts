@@ -44,7 +44,7 @@ export class AppError extends Error {
       return new AppError(
         'InvalidInput',
         e.issues[0].message,
-        `${e.issues[0].path[0]}`
+        e.issues[0].path[0]?.toString()
       )
     }
 

@@ -35,7 +35,7 @@ export const dynamicParams = true
 
 export async function generateStaticParams() {
   const [{ data }, newlyAdded, comingSoon] = await Promise.all([
-    call(fetchBooks),
+    call(fetchBooks, undefined),
     fetchNewlyAdded(),
     fetchComingSoon()
   ])
@@ -195,9 +195,8 @@ export async function generateMetadata(
 
   return genMetadata(`/cookbooks/${book.slug}`, await parent, {
     title: book.title,
-    description: `View the ${book.title} cookbook and ${
-      count - 1
-    } other curated cookbooks on Books About Food — beautifully designed cookbooks and the people making them.`,
+    description: `View the ${book.title} cookbook and ${count - 1
+      } other curated cookbooks on Books About Food — beautifully designed cookbooks and the people making them.`,
     openGraph: {
       type: 'book',
       releaseDate: book.isoReleaseDate,

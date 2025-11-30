@@ -11,7 +11,7 @@ export const upsertPost = new AuthedService(
     content: z.string(),
     publishAt: z.coerce.date().optional()
   }),
-  async function ({ id, title, content, publishAt } = {}, currentUser) {
+  async function ({ id, title, content, publishAt }, currentUser) {
     const images = extractImages(content)
     const data = {
       title,

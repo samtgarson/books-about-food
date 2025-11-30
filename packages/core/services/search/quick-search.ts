@@ -4,7 +4,7 @@ import z from 'zod'
 
 export const quickSearch = new Service(
   z.object({ query: z.string() }),
-  async ({ query } = {}) => {
+  async ({ query }) => {
     if (query.length < 3) return []
 
     const contains = query

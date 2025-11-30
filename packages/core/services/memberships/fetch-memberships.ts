@@ -7,7 +7,7 @@ import { AppError } from '../utils/errors'
 
 export const fetchMemberships = new AuthedService(
   z.object({ slug: z.string() }),
-  async function ({ slug } = {}, user) {
+  async function ({ slug }, user) {
     const memberships = await prisma.membership.findMany({
       where: { publisher: { slug } },
       include: membershipIncludes

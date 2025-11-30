@@ -7,8 +7,8 @@ import { publisherIncludes } from '../utils'
 import { AppError } from '../utils/errors'
 
 export const updateMembership = new AuthedService(
-  z.object({ membershipId: z.string(), role: z.nativeEnum(MembershipRole) }),
-  async function ({ membershipId, role } = {}, user) {
+  z.object({ membershipId: z.string(), role: z.enum(MembershipRole) }),
+  async function ({ membershipId, role }, user) {
     const publisher = await prisma.publisher.findFirst({
       where: { memberships: { some: { id: membershipId } } },
       include: publisherIncludes

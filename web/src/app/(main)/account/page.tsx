@@ -19,7 +19,7 @@ export const metadata = genMetadata('/account', null, {
 const Page = async () => {
   const [user, { data: accounts = [] }] = await Promise.all([
     getUser(),
-    call(fetchAccounts)
+    call(fetchAccounts, undefined)
   ])
 
   if (!user) return null

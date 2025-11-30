@@ -7,7 +7,7 @@ const client = new GoogleBooksGateway()
 
 export const searchLibrary = new Service(
   z.object({ query: z.string() }),
-  async ({ query } = {}): Promise<BookResult[]> => {
+  async ({ query }): Promise<BookResult[]> => {
     if (!query.length) return []
 
     const result = await client.search(`intitle:"${query}" subject:Cooking`)

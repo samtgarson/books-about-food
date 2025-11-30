@@ -21,7 +21,7 @@ export const createImages = new Service(
         .or(z.object({ url: z.string() }))
     )
   }),
-  async ({ files, prefix } = {}) => {
+  async ({ files, prefix }) => {
     const data = await Promise.all(
       files.map(async (file) => {
         if ('url' in file) {

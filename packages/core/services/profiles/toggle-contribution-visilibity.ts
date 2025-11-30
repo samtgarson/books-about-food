@@ -12,7 +12,7 @@ export const toggleContributionVisibility = new Service(
     bookId: z.string(),
     hidden: z.boolean()
   }),
-  async ({ profileId, bookId, hidden } = {}) => {
+  async ({ profileId, bookId, hidden }) => {
     await prisma.contribution.updateMany({
       where: { profileId, bookId },
       data: { hidden }

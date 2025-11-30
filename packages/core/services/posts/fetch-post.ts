@@ -5,7 +5,7 @@ import { AuthedService } from '../base'
 
 export const fetchPost = new AuthedService(
   z.object({ slug: z.string() }),
-  async function fetchPost({ slug } = {}) {
+  async function fetchPost({ slug }) {
     const found = await prisma.post.findUnique({
       where: { slug }
     })

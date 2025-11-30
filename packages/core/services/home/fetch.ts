@@ -53,7 +53,7 @@ export async function fetchPublishers() {
   return raw.map((publisher) => new Publisher(publisher))
 }
 
-export const fetchHome = new Service(z.object({}), async () => {
+export const fetchHome = new Service(z.undefined(), async () => {
   const [comingSoon, newlyAdded, people, publishers] = await Promise.all([
     fetchComingSoon(),
     fetchNewlyAdded(),

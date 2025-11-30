@@ -25,29 +25,29 @@ export type ServiceClass<I extends z.ZodTypeAny, R> =
 
 export type ServiceResult<T> =
   | {
-      success: true
-      data: T
-      errors?: never
-    }
+    success: true
+    data: T
+    errors?: never
+  }
   | ServiceError
 
 export type ServiceReturn<
   S extends BaseService<any, any, any> | ServiceClass<any, any>
 > =
   S extends BaseService<any, any, infer R>
-    ? ServiceResult<R>
-    : S extends ServiceClass<any, infer R>
-      ? ServiceResult<R>
-      : never
+  ? ServiceResult<R>
+  : S extends ServiceClass<any, infer R>
+  ? ServiceResult<R>
+  : never
 
 export type ServiceInput<
   S extends BaseService<any, any, any> | ServiceClass<any, any>
 > =
   S extends BaseService<any, infer I, any>
-    ? z.input<I>
-    : S extends ServiceClass<infer I, any>
-      ? z.input<I>
-      : never
+  ? z.input<I>
+  : S extends ServiceClass<infer I, any>
+  ? z.input<I>
+  : never
 
 abstract class BaseService<
   Authed extends boolean,
@@ -59,22 +59,24 @@ abstract class BaseService<
     public input: Input,
     private _call: (
       ...args: Authed extends true
-        ? [input: z.output<Input> | undefined, user: User]
-        : [input: z.output<Input> | undefined, user?: never]
+        ? [input: z.output<Input>, user: User]
+        : [input: z.output<Input>, user?: never]
     ) => Promise<Return>,
     public requestMeta: RequestMeta = {}
-  ) {}
+  ) { }
 
   public async call(
     ...args: Authed extends true
-      ? [input: z.input<Input> | undefined, user: User]
-      : [input: z.input<Input> | undefined, user?: never]
+      ? [input: z.input<Input>, user: User]
+      : [input: z.input<Input>, user?: never]
   ): Promise<ServiceResult<Return>> {
+    const user = args[1]
     try {
-      args[0] = this.input.optional().parse(args[0])
+      const parsed = this.input.parse(args[0])
       return {
         success: true,
-        data: await this._call(...args)
+        // @ts-expect-error We have a zod input/output mismatch here that TS can't resolve
+        data: await this._call(parsed, user)
       }
     } catch (e) {
       console.log('Service failure', e)
@@ -109,7 +111,7 @@ export class Service<Input extends z.ZodTypeAny, Return> extends BaseService<
 > {
   constructor(
     public input: Input,
-    call: (input: z.output<Input> | undefined) => Promise<Return>,
+    call: (input: z.output<Input>) => Promise<Return>,
     public requestMeta: RequestMeta = {}
   ) {
     super(false, input, call, requestMeta)
@@ -122,14 +124,14 @@ export class AuthedService<
 > extends BaseService<true, Input, Return> {
   constructor(
     public input: Input,
-    call: (input: z.output<Input> | undefined, user: User) => Promise<Return>,
+    call: (input: z.output<Input>, user: User) => Promise<Return>,
     public requestMeta: RequestMeta = {}
   ) {
     super(true, input, call, requestMeta)
   }
 
   async call(
-    input: z.input<Input> | undefined,
+    input: z.input<Input>,
     user: User
   ): Promise<ServiceResult<Return>> {
     if (!user)

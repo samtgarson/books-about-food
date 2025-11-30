@@ -19,7 +19,7 @@ export const updatePublisher = new AuthedService(
     website: z.string().nullish(),
     instagram: z.string().nullish()
   }),
-  async function ({ slug, logo, description, ...data } = {}, user) {
+  async function ({ slug, logo, description, ...data }, user) {
     const { data: publisher } = await fetchPublisher.call({ slug })
 
     if (!publisher) throw new AppError('NotFound', 'Publisher not found')

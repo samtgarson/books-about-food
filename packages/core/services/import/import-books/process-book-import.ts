@@ -39,7 +39,7 @@ export const processBookImport = new AuthedService(
       })
     )
   }),
-  async ({ books } = {}, user) => {
+  async ({ books }, user) => {
     if (user?.role !== 'admin') {
       throw new AppError('Forbidden', 'You must be an admin to import books')
     }

@@ -10,13 +10,11 @@ export type FetchPublishersOutput = Awaited<
   ReturnType<(typeof fetchPublishers)['call']>
 >
 export const fetchPublishers = new Service(
-  z
-    .object({
-      search: z.string().optional()
-    })
-    .merge(paginationInput)
-    .optional(),
-  async ({ page = 0, perPage = 21, search: contains } = {}) => {
+  z.object({
+    search: z.string().optional(),
+    ...paginationInput.shape
+  }),
+  async ({ page = 0, perPage = 21, search: contains }) => {
     const where: Prisma.PublisherWhereInput = {
       name: { contains, mode: 'insensitive' },
       books: { some: { status: 'published' } }

@@ -65,7 +65,15 @@ This is a monorepo using npm workspaces and Turbo for orchestration. The applica
 - Image optimization uses Cloudflare in production, unoptimized locally
 - Pre-commit hooks run linting and type checking via lint-staged
 
+### Typescript Code Style
+
+- Prefer DRY, readable and well modularised code
+- Never use semi colons
+- NEVER use `any` type
+- Prefer `function` definitions over arrow functions
+
 ### Testing
 
 - E2E tests run against production-equivalent environments on main branch merges
 - Run `npx playwright install chromium` to set up test browser locally
+- Tests are exclusively used for testing preview deployments, do not run locally

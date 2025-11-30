@@ -12,7 +12,7 @@ export const updateLinks = new AuthedService(
       })
       .array()
   }),
-  async ({ slug, links } = []) => {
+  async ({ slug, links }) => {
     const book = await prisma.book.findUnique({
       where: { slug },
       include: { contributions: true }

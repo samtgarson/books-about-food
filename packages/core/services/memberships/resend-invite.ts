@@ -9,7 +9,7 @@ import { AppError } from '../utils/errors'
 
 export const resendInvite = new AuthedService(
   z.object({ id: z.string() }),
-  async function ({ id } = {}, user) {
+  async function ({ id }, user) {
     const publisher = await prisma.publisher.findFirst({
       where: {
         invitations: { some: { id, invitedById: user.id } },

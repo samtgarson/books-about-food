@@ -8,7 +8,7 @@ export const createClaim = new AuthedService(
   z.object({
     profileId: z.string()
   }),
-  async ({ profileId } = {}, user) => {
+  async ({ profileId }, user) => {
     if (!user?.email) return null
     if (!profileId) return null
 

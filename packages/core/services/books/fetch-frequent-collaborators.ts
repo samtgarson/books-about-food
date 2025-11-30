@@ -6,7 +6,7 @@ import { fetchProfile } from '../profiles/fetch-profile'
 
 export const fetchFrequentCollaborators = new Service(
   z.object({ slug: z.string() }),
-  async ({ slug } = {}) => {
+  async ({ slug }) => {
     if (!slug) return []
 
     const raw = await execute(slug)

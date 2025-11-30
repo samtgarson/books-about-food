@@ -15,7 +15,7 @@ export const updateContributors = new AuthedService(
     slug: z.string(),
     contributors: contributorSchema.array().nullish()
   }),
-  async ({ slug, contributors } = {}) => {
+  async ({ slug, contributors }) => {
     const book = await prisma.book.findUnique({
       where: { slug },
       include: { contributions: true }
