@@ -54,7 +54,7 @@ export const test = base.extend<Fixtures>({
 })
 
 const databaseUrl =
-  process.env.DATABASE_URL || 'postgres://localhost:5432/baf_dev'
+  process.env.DATABASE_DIRECT_URL || 'postgres://localhost:5432/baf_dev'
 
 async function createUser(email: string) {
   const res = await executeSql(`
@@ -77,7 +77,7 @@ async function executeSql(sql: string) {
   const preparedSql = sql.replace(/\n/g, ' ').replace(/"/g, '\\"').trim()
   const res = await $({
     shell: true
-  })`psql ${databaseUrl} -c "${preparedSql}" -tq`
+  })`psql "${databaseUrl}" -c "${preparedSql}" -tq`
   if (res.failed) throw new Error(`SQL execution failed: ${res.stderr}`)
   return res.stdout
 }
