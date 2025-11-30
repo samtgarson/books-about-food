@@ -5,6 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "start": "tsx ./lib/index.ts",
+    "build": "echo 'No build step required for admin'",
     "dev": "tsx watch --include '.' --include '../packages/*' -r dotenv/config ./lib/index.ts",
     "debug": "tsx watch --include '.' --include '../packages/*' ./lib/index.ts",
     "deploy": "forest deploy -f && forest branch -d main --force && forest branch main -o Production",

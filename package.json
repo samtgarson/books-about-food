@@ -34,6 +34,7 @@
     "dev:web": "turbo run dev --filter @books-about-food/web",
     "dev:test": "DANGER_SEND_EMAILS=true npm run dev",
     "postinstall": "patch-package",
+    "heroku-postbuild": "turbo build --filter=@books-about-food/admin",
     "type-check": "npx -ws tsc --noEmit",
     "prepare": "node .husky/install.mjs"
   },
