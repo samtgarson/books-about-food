@@ -10,7 +10,7 @@ const systemPath = (pathname: string) =>
 
 const { auth } = NextAuth(authConfig)
 
-export default auth(async function middleware(request) {
+export default auth(async function proxy(request) {
   if (request.method === 'POST' || systemPath(request.nextUrl.pathname)) {
     return NextResponse.next()
   }
