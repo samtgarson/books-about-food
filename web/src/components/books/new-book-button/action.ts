@@ -6,7 +6,7 @@ import { createImages } from '@books-about-food/core/services/images/create-imag
 import { array } from '@books-about-food/core/services/utils/inputs'
 import { redirect } from 'next/navigation'
 import { parseAppError } from 'src/components/form/utils'
-import { call, parseAndCall } from 'src/utils/service'
+import { call } from 'src/utils/service'
 import { stringify } from 'src/utils/superjson'
 import z from 'zod'
 
@@ -31,7 +31,7 @@ export const action = async (values: unknown) => {
     if (imageRes.success) coverImageId = imageRes.data[0].id
   }
 
-  const result = await parseAndCall(updateBook, { ...data, id, coverImageId })
+  const result = await call(updateBook, { ...data, id, coverImageId })
 
   if (result.success) redirect(`/edit/${result.data.slug}?action=created`)
   return parseAppError(

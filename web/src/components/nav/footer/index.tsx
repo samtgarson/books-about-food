@@ -1,5 +1,6 @@
 import { Container } from 'src/components/atoms/container'
 import { LogoShape } from 'src/components/icons/logo-shape'
+import { CurrentYear } from './current-year'
 import { footerData } from './data'
 import { FooterItem, FooterItemExternal } from './items'
 import { FooterWrapper } from './wrapper'
@@ -41,8 +42,8 @@ export const Footer = async () => {
             <div className="flex flex-wrap gap-3">
               <p className="text-12 opacity-50">
                 Copyright © 2022-
-                {new Date().getFullYear()} Books About Food. All book covers and
-                images © of their respective owners.
+                <CurrentYear /> Books About Food. All book covers and images ©
+                of their respective owners.
               </p>
               <a
                 href="mailto:jamin@booksabout.food"

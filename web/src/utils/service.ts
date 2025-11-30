@@ -5,131 +5,130 @@ import {
   ServiceReturn
 } from '@books-about-food/core/services/base'
 import { AppError } from '@books-about-food/core/services/utils/errors'
-import * as Sentry from '@sentry/nextjs'
 import { cache } from 'react'
+import hash from 'stable-hash'
 import { parse, stringify } from 'superjson'
-import z from 'zod'
 import { getOrPopulateKv } from './kv'
 import { getSessionUser } from './user'
 
-class DeserializationError extends Error {}
-
-type CallOptions = { bypassCache?: boolean; maxAgeOverride?: number }
 /**
- * Determines if a service requires arguments.
- * Returns false for services with z.undefined() input schema.
+ * Call a backend service with automatic authentication, caching, and validation.
+ *
+ * This function provides a unified interface for calling backend services with three
+ * usage patterns:
+ *
+ * 1. **Services without arguments** - Optional args parameter for services with `z.undefined()` input
+ * 2. **Services with typed arguments** - Provides IDE autocomplete and compile-time type checking
+ * 3. **Services with unknown arguments** - Accepts `unknown` for runtime validation (e.g., form data)
+ *
+ * @template S - The service class type extending ServiceClass
+ * @param service - The service instance to call (e.g., `fetchBook`, `updateUser`)
+ * @param args - Arguments for the service (optional for services with no args, typed or unknown)
+ *
+ * @returns Promise resolving to ServiceResult<T> with either:
+ *   - `{ success: true, data: T }` on success
+ *   - `{ success: false, errors: AppErrorJSON[] }` on validation or execution failure
+ *
+ * @example
+ * // Service with no arguments
+ * const { data: features } = await call(fetchFeatures)
+ *
+ * @example
+ * // Service with typed arguments (autocomplete works)
+ * const { data: book } = await call(fetchBook, { slug: 'my-book' })
+ *
+ * @example
+ * // Service with unknown arguments (runtime validation)
+ * const result = await call(updateUser, formData)
+ *
+ * **Behavior:**
+ * - **Validation**: Input is validated against the service's Zod schema
+ * - **Authentication**: Authenticated services automatically receive the current user
+ * - **Caching**: Non-authenticated services with a cache key are cached in Redis
+ * - **Deduplication**: All calls are deduplicated per-request via React cache
  */
-type ServiceRequiresArgs<S extends ServiceClass<any, any>> =
-  ServiceInput<S> extends undefined ? false : true
-
-// Overload 1: Services with no args (z.undefined())
+// Overload 1: Services with no args
 export async function call<S extends ServiceClass<any, any>>(
   service: S,
-  args?: ServiceRequiresArgs<S> extends false ? undefined : never
+  ...args: ServiceInput<S> extends undefined ? [] | [undefined] : never
 ): Promise<ServiceReturn<S>>
 
-// Overload 2: Services with args
-export async function call<
-  S extends ServiceClass<any, any>,
-  I extends z.ZodType<ServiceInput<S>>
->(
+// Overload 2: Services with typed args - provides autocomplete
+export async function call<S extends ServiceClass<any, any>>(
   service: S,
-  args: ServiceRequiresArgs<S> extends true ? z.output<I> : never
+  args: ServiceInput<S>
 ): Promise<ServiceReturn<S>>
 
-export async function call<
-  S extends ServiceClass<any, any>,
-  I extends z.ZodType<ServiceInput<S>>
->(
-  ...params: z.output<I> extends undefined
-    ? [service: S, args?: undefined]
-    : [service: S, args: z.output<I>]
+// Overload 3: Services with unknown args - for runtime validation
+export async function call<S extends ServiceClass<any, any>>(
+  service: S,
+  args: unknown
+): Promise<ServiceReturn<S>>
+
+// Implementation
+export async function call<S extends ServiceClass<any, any>>(
+  service: S,
+  ...args: [] | [unknown]
 ): Promise<ServiceReturn<S>> {
-  const [service, args] = params
-  const stringArgs = stringify(args)
-  try {
-    return await cachedCall<I, S>(service, stringArgs)
-  } catch (e) {
-    // @ts-expect-error TODO: resolve this undefined args issue
-    if (e instanceof DeserializationError) return rawCall<I, S>(service, args)
-    throw e
-  }
+  const input = args[0]
+
+  // Stringify for React cache (needs primitives for shallow equality)
+  const stringifiedArgs = stringify(input)
+
+  // Pass primitives to React cache
+  return cachedCall(service, stringifiedArgs)
 }
 
-async function _cachedCall<
-  I extends z.ZodType<ServiceInput<S>>,
-  S extends ServiceClass<I, any>
->(
+// React cache requires primitive arguments for shallow equality comparison
+const cachedCall = cache(_cachedCall)
+
+async function _cachedCall<S extends ServiceClass<any, any>>(
   service: S,
-  stringArgs: string,
-  {
-    bypassCache = !!process.env.SKIP_REDIS_CACHE,
-    maxAgeOverride
-  }: CallOptions = {}
-) {
-  let args: z.output<I>
-  try {
-    args = parse(stringArgs)
-  } catch {
-    throw new DeserializationError()
+  stringifiedArgs: string // Primitive for React cache
+): Promise<ServiceReturn<S>> {
+  // Parse stringified args back to object
+  const args = parse(stringifiedArgs)
+
+  const bypassCache = !!process.env.SKIP_REDIS_CACHE
+  const shouldCache = !service.authed && !!service.cacheKey && !bypassCache
+
+  if (!shouldCache) {
+    return executeService(service, args)
   }
-  const enabled = !service.authed && !!service.cacheKey && !bypassCache
-  if (!enabled) return rawCall<I, S>(service, args)
+
+  // Hash for shorter, deterministic Redis keys
+  const argsHash = hash(args)
 
   return getOrPopulateKv(
-    ['svc', service.cacheKey, btoa(stringArgs ?? '')],
-    () => rawCall<I, S>(service, args),
+    ['svc', service.cacheKey, argsHash],
+    () => executeService(service, args),
     {
-      expiry: maxAgeOverride || service.defaultCacheMaxAge,
+      expiry: service.defaultCacheMaxAge,
       skipResult: (data) => !data.success
     }
   )
 }
-const cachedCall = cache(_cachedCall)
 
-async function rawCall<
-  I extends z.ZodType<ServiceInput<S>>,
-  S extends ServiceClass<I, any>
->(service: S, args: z.output<I>) {
-  if (!service.authed) return service.call(args) as Promise<ServiceReturn<S>>
-
-  const user = await getSessionUser()
-  if (!user)
-    return {
-      success: false,
-      errors: [
-        new AppError(
-          'Unauthorized',
-          'Not authorized to perform this action'
-        ).toJSON()
-      ]
-    } as ServiceReturn<S>
-
-  return service.call(args, user) as Promise<ServiceReturn<S>>
-}
-
-export async function parseAndCall<
-  S extends ServiceClass<any, any>,
-  I extends z.ZodType<ServiceInput<S>>
->(service: S, args: unknown): Promise<ServiceReturn<S>> {
-  try {
-    const input = z.parse(service.input as I, args)
-    // @ts-expect-error TODO: resolve this undefined args issue
-    return call<S, I>(service, input)
-  } catch (e) {
-    if (!(e instanceof z.ZodError)) {
-      Sentry.captureException(e)
-      throw e
-    }
-    return {
-      success: false,
-      errors: e.issues.map((issue) =>
-        new AppError(
-          'InvalidInput',
-          issue.message,
-          issue.path.pop() as string
-        ).toJSON()
-      )
-    } as ServiceReturn<S>
+async function executeService<S extends ServiceClass<any, any>>(
+  service: S,
+  args: any
+): Promise<ServiceReturn<S>> {
+  // Non-authenticated services
+  if (!service.authed) {
+    return service.call(args) as Promise<ServiceReturn<S>>
   }
+
+  // Authenticated services - get user
+  const user = await getSessionUser()
+  if (user) return service.call(args, user) as Promise<ServiceReturn<S>>
+
+  return {
+    success: false,
+    errors: [
+      new AppError(
+        'Unauthorized',
+        'Not authorized to perform this action'
+      ).toJSON()
+    ]
+  } as ServiceReturn<S>
 }

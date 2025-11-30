@@ -8,7 +8,7 @@ import { upsertCollectionSchema } from '@books-about-food/core/services/collecti
 import { upsertCollection } from '@books-about-food/core/services/collections/upsert-collection'
 import { revalidatePath } from 'next/cache'
 import { parseAppError } from 'src/components/form/utils'
-import { call, parseAndCall } from 'src/utils/service'
+import { call } from 'src/utils/service'
 import { Stringified, stringify } from 'src/utils/superjson'
 import { z } from 'zod'
 
@@ -34,10 +34,7 @@ export async function action(input: z.infer<typeof upsertCollectionSchema>) {
 }
 
 export async function clear(data: FormData, publisherSlug: string) {
-  const res = await parseAndCall(
-    archiveCollection,
-    Object.fromEntries(data.entries())
-  )
+  const res = await call(archiveCollection, Object.fromEntries(data.entries()))
   if (res.success) return revalidatePath(`/publishers/${publisherSlug}`)
 
   return parseAppError(res.errors)

@@ -8,7 +8,7 @@ import { FormEditor } from 'src/components/form/editor'
 import { Input } from 'src/components/form/input'
 import { Submit } from 'src/components/form/submit'
 import { parseAppError } from 'src/components/form/utils'
-import { parseAndCall } from 'src/utils/service'
+import { call } from 'src/utils/service'
 
 export function PostForm({ post }: { post?: Post }) {
   const id = post?.id ?? randomUUID()
@@ -18,7 +18,7 @@ export function PostForm({ post }: { post?: Post }) {
       action={async function (data) {
         'use server'
 
-        const result = await parseAndCall(upsertPost, data)
+        const result = await call(upsertPost, data)
         if (result.success) {
           return redirect(`/admin/posts`)
         }

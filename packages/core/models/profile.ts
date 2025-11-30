@@ -67,10 +67,10 @@ export class NullProfile extends Profile {
       avatar: null,
       jobTitle: '',
       description: '',
-      mostRecentlyPublishedOn: new Date(),
+      mostRecentlyPublishedOn: null,
       location: '',
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: new Date('2000-01-01'),
+      updatedAt: new Date('2000-01-01'),
       hiddenCollaborators: [],
       _count: { authoredBooks: 0 }
     })
