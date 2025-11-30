@@ -15,7 +15,7 @@ function Root({ focused, onHover, children, ...props }: QuickSearchItemProps) {
     <Link
       className={cn(
         'flex items-center gap-4 p-3 transition-opacity sm:p-4',
-        focused ? 'bg-white/100' : 'bg-white/0'
+        focused ? 'bg-white' : 'bg-white/0'
       )}
       onMouseMove={onHover}
       {...props}

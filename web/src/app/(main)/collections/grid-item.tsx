@@ -18,7 +18,7 @@ export function CollectionGridItem({
   return (
     <li className={cn('relative max-sm:border-b max-sm:bg-white', className)}>
       <Link
-        className="flex flex-col flex-wrap items-start gap-1 gap-x-12 bg-white p-6 transition sm:aspect-[9/10] sm:rotate-(--rotate) sm:items-center sm:justify-center sm:gap-6 sm:p-9 sm:hover:rotate-[calc(var(--rotate)*-1)]"
+        className="flex flex-col flex-wrap items-start gap-1 gap-x-12 bg-white p-6 transition sm:aspect-9/10 sm:rotate-(--rotate) sm:items-center sm:justify-center sm:gap-6 sm:p-9 sm:hover:rotate-[calc(var(--rotate)*-1)]"
         href={collection.href}
         style={{ '--rotate': rotate } as React.CSSProperties}
       >
@@ -40,7 +40,7 @@ export function CollectionGridItemSkeleton({
   return (
     <li className={cn('relative max-sm:border-b', className)}>
       <div
-        className="flex rotate-(--rotate) animate-pulse flex-col flex-wrap items-start gap-1 gap-x-12 bg-white/50 p-6 transition hover:rotate-[calc(--rotate*-1)] sm:aspect-[9/10] sm:items-center sm:justify-center sm:gap-6 sm:p-9"
+        className="flex rotate-(--rotate) animate-pulse flex-col flex-wrap items-start gap-1 gap-x-12 bg-white/50 p-6 transition hover:rotate-[calc(--rotate*-1)] sm:aspect-9/10 sm:items-center sm:justify-center sm:gap-6 sm:p-9"
         style={
           {
             animationDelay: `${index * 100}ms`,

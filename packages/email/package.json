@@ -15,7 +15,8 @@
     "@react-email/components": "0.0.31",
     "classnames": "^2.5.1",
     "open": "^8",
-    "postmark": "^4.0.5"
+    "postmark": "^4.0.5",
+    "tailwindcss": "^3.4.17"
   },
   "peerDependencies": {
     "react": "^19.2"

@@ -1,13 +1,6 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
-const defaultTheme = require('tailwindcss/defaultTheme')
-
-/*************************
- * DEPRECATED, required for react-email for now
- *************************/
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./src/**/*.{js,ts,jsx,tsx}', './app/**/*.{js,ts,jsx,tsx}'],
+  content: ['./**/*.{js,ts,jsx,tsx}'],
   theme: {
     fontWeight: {
       normal: 400,
@@ -18,7 +11,7 @@ module.exports = {
         sans: [
           'Graphik',
           'var(--font-graphik)',
-          ...defaultTheme.fontFamily.sans
+          "ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'"
         ]
       }
     },

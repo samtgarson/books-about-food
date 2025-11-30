@@ -1,4 +1,3 @@
-import tailwindConfig from '@books-about-food/shared/tailwind.config'
 import {
   Body,
   Container,
@@ -12,6 +11,7 @@ import {
   Text
 } from '@react-email/components'
 import { ReactNode } from 'react'
+import tailwindConfig from '../tailwind.config'
 import Header from './header'
 
 type BaseLayoutProps = {
@@ -91,7 +91,7 @@ export default function BaseLayout({
                 <br />
                 Jamin & Sam at Books About Food
               </Text>
-              <Hr className="border-b-1 border-khaki pb-2" />
+              <Hr className="border-b border-khaki pb-2" />
               <Text className="text-12 text-neutral-grey">
                 Copyright © Books About Food {new Date().getFullYear()}
               </Text>

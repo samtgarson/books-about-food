@@ -11,7 +11,7 @@ export const inputClasses = (
   props: Pick<InputProps<'input'>, 'disabled'>
 ) =>
   cn(
-    'bg-white/60 p-4 transition-colors placeholder:text-black/20 focus-within:bg-white/100 focus-within:outline-hidden rounded-none',
+    'bg-white/60 p-4 transition-colors placeholder:text-black/20 focus-within:bg-white focus-within:outline-hidden rounded-none',
     props.disabled && 'text-neutral-grey',
     variant === 'bordered' && 'border-neutral-grey border'
   )

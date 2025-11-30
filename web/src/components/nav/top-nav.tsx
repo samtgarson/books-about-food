@@ -102,7 +102,7 @@ const NavContent = () => {
   const user = useCurrentUser()
 
   return (
-    <div className="fixed inset-0 z-60 max-h-screen animate-fade-in overflow-auto bg-white py-32 sm:py-36">
+    <div className="fixed inset-0 z-nav max-h-screen animate-fade-in overflow-auto bg-white py-32 sm:py-36">
       <Container className="fixed inset-x-0 top-0 z-10 border-b border-black bg-white py-5">
         <Dialog.Close className="flex items-center gap-6 all-caps sm:gap-10">
           <X strokeWidth={1} />
