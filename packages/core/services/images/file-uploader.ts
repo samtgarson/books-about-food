@@ -1,11 +1,14 @@
+import {
+  DeleteObjectCommand,
+  PutObjectCommand,
+  S3Client
+} from '@aws-sdk/client-s3'
 import { getEnv } from '@books-about-food/shared/utils/get-env'
-import { S3 } from 'aws-sdk'
 import { extension } from 'mime-types'
 
-const defaultClient = new S3({
+const defaultClient = new S3Client({
   endpoint: getEnv('AWS_S3_ENDPOINT'),
   region: process.env.AWS_REGION || 'auto',
-  signatureVersion: 'v4',
   credentials: {
     accessKeyId: getEnv('AWS_ACCESS_KEY_ID'),
     secretAccessKey: getEnv('AWS_SECRET_ACCESS_KEY')
@@ -14,7 +17,7 @@ const defaultClient = new S3({
 
 export class FileUploader {
   constructor(
-    private client: S3 = defaultClient,
+    private client: S3Client = defaultClient,
     private bucket: string = getEnv('AWS_S3_BUCKET')
   ) {}
 
@@ -26,8 +29,8 @@ export class FileUploader {
     const name = crypto.randomUUID()
     const Key = `${path}/${name}.${ext}`
 
-    await this.client
-      .upload({
+    await this.client.send(
+      new PutObjectCommand({
         Bucket: this.bucket,
         Key,
         Body: contents,
@@ -35,17 +38,17 @@ export class FileUploader {
         ACL: 'private',
         CacheControl: 'public,max-age=31536000,immutable'
       })
-      .promise()
+    )
 
     return { path: Key, id: name }
   }
 
   async delete(path: string) {
-    await this.client
-      .deleteObject({
+    await this.client.send(
+      new DeleteObjectCommand({
         Bucket: this.bucket,
         Key: path
       })
-      .promise()
+    )
   }
 }
