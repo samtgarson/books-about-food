@@ -14,7 +14,7 @@ export function TopTenSheetItem({
 }) {
   if (!book) {
     return (
-      <li className="flex h-[100px] w-[75px] scale-90 items-center justify-center rounded-sm bg-sand sm:scale-100">
+      <li className="flex h-[100px] w-[75px] scale-90 items-center justify-center rounded-xs bg-sand sm:scale-100">
         <Star strokeWidth={1} className="opacity-20" />
       </li>
     )
@@ -38,7 +38,7 @@ export function TopTenSheetItem({
         {book.cover && (
           <Image
             {...book.cover.imageAttrs(100)}
-            className="h-[100px] animate-scale-in rounded-sm"
+            className="h-[100px] animate-scale-in rounded-xs"
           />
         )}
       </button>

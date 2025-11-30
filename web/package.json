@@ -65,7 +65,7 @@
     "sonner": "^2.0.7",
     "stable-hash": "^0.0.6",
     "superjson": "^2.2.6",
-    "tailwindcss": "^3.4.17",
+    "tailwindcss": "^4.1.17",
     "use-debounce": "^10.0.6",
     "usehooks-ts": "^3.1.1",
     "xss": "^1.0.15",

@@ -22,7 +22,7 @@ export const Wrapper = ({
 }) => (
   <li
     className={cn(
-      'relative -mb-px list-none border border-black group-[.profile-list]:border-neutral-grey first:group-[.profile-list]:border-t-transparent last:mb-0 sm:-mr-px sm:border-black sm:last:-mb-px',
+      'relative -mb-px list-none border border-black group-[.profile-list]:border-neutral-grey group-[.profile-list]:first:border-t-transparent last:mb-0 sm:-mr-px sm:border-black sm:last:-mb-px',
       className,
       !profile && 'animate-pulse border-khaki'
     )}

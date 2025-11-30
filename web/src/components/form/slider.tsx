@@ -12,7 +12,7 @@ export const Slider = forwardRef<HTMLSpanElement, RSlider.SliderProps>(
         <RSlider.Track className="relative h-0.5 grow bg-khaki">
           <RSlider.Range className="absolute h-full bg-black/80" />
         </RSlider.Track>
-        <RSlider.Thumb className="block size-5 rounded-full bg-black shadow-sm" />
+        <RSlider.Thumb className="block size-5 rounded-full bg-black shadow-xs" />
       </RSlider.Root>
     )
   }

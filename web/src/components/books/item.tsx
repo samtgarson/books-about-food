@@ -214,7 +214,7 @@ export const Item = forwardRef<
       <Footer
         centered={centered}
         book={book}
-        className={cn('grid-container:hidden grid-container:sm:block')}
+        className={cn('grid-container:hidden sm:grid-container:block')}
       />
     </Container>
   )
