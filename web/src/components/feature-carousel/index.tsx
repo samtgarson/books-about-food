@@ -122,7 +122,7 @@ export function FeatureCarousel({
           <Faces books={features.map((f) => f.book)} />
         )}
       </AnimatePresence>
-      <div className={cn('absolute inset-x-0 bottom-16 top-16 sm:bottom-0')}>
+      <div className={cn('absolute inset-x-0 top-16 bottom-16 sm:bottom-0')}>
         {loop.map(({ isTitle, feature, isTakeover }, index) => {
           const virtualIndex = offset * totalSlides + index
           const batch = Math.floor(index / totalSlides) + offset

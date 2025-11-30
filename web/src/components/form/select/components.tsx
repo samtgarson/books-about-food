@@ -47,7 +47,7 @@ export function SearchInput<
         }
       })}
       className={cn(
-        'focus:outline-hidden grow bg-transparent',
+        'grow bg-transparent focus:outline-hidden',
         multi ? '-my-3 py-3' : 'absolute -inset-4 right-0 p-4'
       )}
     />
@@ -80,7 +80,7 @@ export function SelectedItems<
                 selectItem(value)
                 e.stopPropagation()
               }}
-              className="-my-2 -ml-3 -mr-4 rounded-full p-2.5 transition-colors hover:bg-khaki"
+              className="-my-2 -mr-4 -ml-3 rounded-full p-2.5 transition-colors hover:bg-khaki"
               type="button"
             >
               <X strokeWidth={1} size={16} />

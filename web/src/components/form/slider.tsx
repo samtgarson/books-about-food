@@ -7,7 +7,7 @@ export const Slider = forwardRef<HTMLSpanElement, RSlider.SliderProps>(
       <RSlider.Root
         {...props}
         ref={ref}
-        className="relative flex w-full touch-none select-none items-center"
+        className="relative flex w-full touch-none items-center select-none"
       >
         <RSlider.Track className="relative h-0.5 grow bg-khaki">
           <RSlider.Range className="absolute h-full bg-black/80" />

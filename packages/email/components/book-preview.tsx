@@ -29,7 +29,7 @@ export function BookPreview({
               className="object-cover align-middle"
             />
           ) : (
-            <div className="bg-sand ml-[-4px] mr-4 inline-block h-[62px] w-[47px] rounded-[30px] align-middle" />
+            <div className="mr-4 ml-[-4px] inline-block h-[62px] w-[47px] rounded-[30px] bg-sand align-middle" />
           )}
         </Column>
         <Column className="mr-auto bg-white p-4">

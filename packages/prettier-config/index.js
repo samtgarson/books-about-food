@@ -1,3 +1,11 @@
-import sharedConfig from '@samtgarson/eslint-config/prettier.json'
+const path = require('path')
+const sharedConfig = require('@samtgarson/eslint-config/prettier.json')
 
-export default sharedConfig
+module.exports = {
+  ...sharedConfig,
+  tailwindStylesheet: path.resolve(
+    __dirname,
+    '../../web/src/style/globals.css'
+  ),
+  plugins: [...sharedConfig.plugins, 'prettier-plugin-tailwindcss']
+}

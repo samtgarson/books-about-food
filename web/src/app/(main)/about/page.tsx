@@ -54,7 +54,7 @@ export default function AboutPage() {
               “the big niche”.
             </P>
             <h3 className="mb-6 font-medium">Who’s behind this project?</h3>
-            <div className="relative mb-6 flex aspect-auto min-h-96 w-full items-center justify-center gap-2 bg-sand pb-14 xl:absolute xl:right-0 xl:top-0 xl:aspect-[1.1] xl:w-[450px] 2xl:w-[550px]">
+            <div className="relative mb-6 flex aspect-auto min-h-96 w-full items-center justify-center gap-2 bg-sand pb-14 xl:absolute xl:top-0 xl:right-0 xl:aspect-[1.1] xl:w-[450px] 2xl:w-[550px]">
               <Image src={jamin} alt="Jamin Galea" height={200} />
               <Image src={sam} alt="Sam Garson" height={195} className="pt-8" />
               <p className="absolute inset-x-0 bottom-0 mt-auto p-5 md:p-8">

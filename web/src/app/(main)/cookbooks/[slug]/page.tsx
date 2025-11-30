@@ -57,7 +57,7 @@ export default slugPage<'/cookbooks/[slug]'>(async function CookbookPage(slug) {
         <div className="flex flex-col gap-4 pt-6 md:pt-20">
           <div
             className={cn(
-              'font-style-title flex items-center',
+              'flex items-center font-style-title',
               !book.subtitle && 'mb-4 sm:mb-0'
             )}
           >
@@ -71,7 +71,7 @@ export default slugPage<'/cookbooks/[slug]'>(async function CookbookPage(slug) {
           )}
         </div>
         <AntiContainer className="border-t border-black sm:border-t-0 md:-mt-8">
-          <div className="flex flex-col lg:absolute lg:-bottom-20 lg:right-0 lg:top-0 lg:w-[50vw]">
+          <div className="flex flex-col lg:absolute lg:top-0 lg:right-0 lg:-bottom-20 lg:w-[50vw]">
             <Wrap
               c={CoverCarousel}
               book={book}
@@ -195,8 +195,9 @@ export async function generateMetadata(
 
   return genMetadata(`/cookbooks/${book.slug}`, await parent, {
     title: book.title,
-    description: `View the ${book.title} cookbook and ${count - 1
-      } other curated cookbooks on Books About Food — beautifully designed cookbooks and the people making them.`,
+    description: `View the ${book.title} cookbook and ${
+      count - 1
+    } other curated cookbooks on Books About Food — beautifully designed cookbooks and the people making them.`,
     openGraph: {
       type: 'book',
       releaseDate: book.isoReleaseDate,

@@ -27,10 +27,10 @@ export function ProfilePreview({
               className="rounded-full object-cover align-middle"
             />
           ) : (
-            <div className="bg-sand ml-[-4px] mr-4 inline-block h-[30px] w-[30px] rounded-[30px] align-middle" />
+            <div className="mr-4 ml-[-4px] inline-block h-[30px] w-[30px] rounded-[30px] bg-sand align-middle" />
           )}
         </Column>
-        <Column className="whitespace-nowrap border border-solid border-y-black border-l-transparent p-4">
+        <Column className="border border-solid border-y-black border-l-transparent p-4 whitespace-nowrap">
           {resourceName}
         </Column>
         <Column className="w-0 md:w-full" />

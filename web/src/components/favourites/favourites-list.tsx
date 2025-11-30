@@ -54,11 +54,11 @@ export const FavouritesList = async () => {
             >
               <Avatar profile={profile} />
               <div className="flex flex-col overflow-hidden">
-                <p className="overflow-hidden text-ellipsis whitespace-nowrap font-medium">
+                <p className="overflow-hidden font-medium text-ellipsis whitespace-nowrap">
                   {profile.name}
                 </p>
                 {!!profile.jobTitle && (
-                  <p className="overflow-hidden text-ellipsis whitespace-nowrap text-12">
+                  <p className="overflow-hidden text-12 text-ellipsis whitespace-nowrap">
                     {profile.jobTitle}
                   </p>
                 )}

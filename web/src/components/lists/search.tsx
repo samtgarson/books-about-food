@@ -39,7 +39,7 @@ export const Search: FC<SearchProps> = ({
   return (
     <div
       className={cn(
-        'text-24 sm:text-32 group relative flex items-center',
+        'group relative flex items-center text-24 sm:text-32',
         className
       )}
     >

@@ -22,7 +22,7 @@ export const Wrapper = ({
 }) => (
   <li
     className={cn(
-      'relative -mb-px list-none border border-black last:mb-0 group-[.profile-list]:border-neutral-grey first:group-[.profile-list]:border-t-transparent sm:-mr-px sm:border-black sm:last:-mb-px',
+      'relative -mb-px list-none border border-black group-[.profile-list]:border-neutral-grey first:group-[.profile-list]:border-t-transparent last:mb-0 sm:-mr-px sm:border-black sm:last:-mb-px',
       className,
       !profile && 'animate-pulse border-khaki'
     )}
@@ -60,13 +60,13 @@ export const Content = ({
     <div className="flex flex-col gap-1">
       {profile ? (
         <>
-          <p className="text-16 font-medium leading-none">{profile.name}</p>
+          <p className="text-16 leading-none font-medium">{profile.name}</p>
           {meta && <p className="text-14 leading-tight">{meta}</p>}
         </>
       ) : (
         <>
           <p className="mb-1 h-4 w-40 bg-khaki leading-none"></p>
-          <p className="w-30 h-3.5 bg-khaki leading-none"></p>
+          <p className="h-3.5 w-30 bg-khaki leading-none"></p>
         </>
       )}
     </div>

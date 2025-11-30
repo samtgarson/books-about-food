@@ -20,8 +20,8 @@ export function TextArea({ label, name, ...props }: InputProps<'textarea'>) {
           {...props}
           required={required}
           className={cn(
-            'focus:outline-hidden bg-white/60 p-4 transition-colors placeholder:text-black/20 focus:bg-white/100',
-            variant === 'bordered' && 'border-neutral-grey border'
+            'bg-white/60 p-4 transition-colors placeholder:text-black/20 focus:bg-white/100 focus:outline-hidden',
+            variant === 'bordered' && 'border border-neutral-grey'
           )}
         />
       </Form.Control>

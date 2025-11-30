@@ -21,7 +21,7 @@ export async function BookGridCollectionTile({
   return (
     <li
       className={cn(
-        'grid-container:aspect-square relative h-full w-full max-sm:bg-white sm:aspect-square',
+        'relative h-full w-full max-sm:bg-white sm:aspect-square grid-container:aspect-square',
         className
       )}
     >

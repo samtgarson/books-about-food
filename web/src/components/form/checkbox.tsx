@@ -14,7 +14,7 @@ export function Checkbox({ label, name, ...props }: CheckboxProps) {
   return (
     <Form.Field name={name} className="flex flex-col gap-2">
       <Label required={props.required} className="text-12!">
-        <div className="border-gray-300 rounded-xs flex h-6 w-6 items-center justify-center border p-0.5">
+        <div className="border-gray-300 flex h-6 w-6 items-center justify-center rounded-xs border p-0.5">
           <Form.Control asChild>
             <input
               name={name}

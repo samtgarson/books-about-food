@@ -29,7 +29,7 @@ export function Description({ className }: { className?: string }) {
         <Edit2
           strokeWidth={1}
           size={24}
-          className="pointer-events-none absolute right-0 top-4"
+          className="pointer-events-none absolute top-4 right-0"
         />
       </div>
     )

@@ -27,15 +27,15 @@ export const AuthorItem = ({
       <Avatar profile={profile} size="3xl" fill />
       {profile ? (
         <div>
-          <p className="mb-1 mt-auto overflow-hidden text-ellipsis whitespace-nowrap text-16 font-medium">
+          <p className="mt-auto mb-1 overflow-hidden text-16 font-medium text-ellipsis whitespace-nowrap">
             {profile.name}
           </p>
-          <p className="overflow-hidden text-ellipsis whitespace-nowrap text-14">
+          <p className="overflow-hidden text-14 text-ellipsis whitespace-nowrap">
             {profile.jobTitle || <>&nbsp;</>}
           </p>
         </div>
       ) : (
-        <p className="w-30 h-4 bg-khaki" />
+        <p className="h-4 w-30 bg-khaki" />
       )}
     </Link>
   </li>

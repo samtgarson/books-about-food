@@ -42,13 +42,13 @@ export function Content({
     <Dialog.Portal container={container}>
       <Dialog.Overlay
         className={cn(
-          'z-sheet animate-fade-in fixed inset-0',
+          'fixed inset-0 z-sheet animate-fade-in',
           overlay && 'bg-black/80'
         )}
       />
       <div
         className={cn(
-          'z-sheet pointer-events-none fixed inset-0 flex backdrop-filter',
+          'pointer-events-none fixed inset-0 z-sheet flex backdrop-filter',
           {
             'items-end justify-center sm:items-start sm:pt-[15dvh] sm:short:pt-[5dvh]':
               type === 'dialog',
@@ -64,14 +64,14 @@ export function Content({
             if (!focusTriggerOnClose) e.preventDefault()
           }}
           className={cn(
-            'focus:outline-hidden group pointer-events-none relative flex w-full flex-1 shrink-0 flex-col justify-center gap-3 sm:gap-4',
+            'group pointer-events-none relative flex w-full flex-1 shrink-0 flex-col justify-center gap-3 focus:outline-hidden sm:gap-4',
             {
               'sm:max-w-lg': size === 'md',
               'sm:max-w-xl': size === 'lg',
               'sm:max-w-[90vw]': size === 'xl',
-              'sheet-dialog animate-fade-slide-in max-h-[min(var(--max-height),100dvh)] sm:max-h-[min(var(--max-height),75dvh)] sm:short:max-h-[min(var(--max-height),80dvh)]':
+              'sheet-dialog max-h-[min(var(--max-height),100dvh)] animate-fade-slide-in sm:max-h-[min(var(--max-height),75dvh)] sm:short:max-h-[min(var(--max-height),80dvh)]':
                 type === 'dialog',
-              'sheet-drawer animate-drawer-enter m-3 rounded-lg p-3':
+              'sheet-drawer m-3 animate-drawer-enter rounded-lg p-3':
                 type === 'drawer'
             },
             overlay && 'bg-white sm:p-8',

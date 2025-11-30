@@ -12,7 +12,7 @@ import z from 'zod'
 import { getOrPopulateKv } from './kv'
 import { getSessionUser } from './user'
 
-class DeserializationError extends Error { }
+class DeserializationError extends Error {}
 
 type CallOptions = { bypassCache?: boolean; maxAgeOverride?: number }
 

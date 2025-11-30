@@ -28,17 +28,17 @@ export function MiniItem({
         <div className="h-[50px] w-9 shrink-0 bg-khaki"></div>
       )}
       <div className="flex flex-col overflow-hidden">
-        <p className="overflow-hidden text-ellipsis whitespace-nowrap font-medium">
+        <p className="overflow-hidden font-medium text-ellipsis whitespace-nowrap">
           {book.title}
         </p>
         {!!book.authors.length && (
-          <p className="overflow-hidden text-ellipsis whitespace-nowrap text-12">
+          <p className="overflow-hidden text-12 text-ellipsis whitespace-nowrap">
             {book.authorNames}
           </p>
         )}
       </div>
       {children ?? (
-        <StatusTag className="text-10! ml-auto" status={book.status} />
+        <StatusTag className="ml-auto text-10!" status={book.status} />
       )}
     </Link>
   )

@@ -24,7 +24,7 @@ export function Tag({
   return (
     <div
       className={cn(
-        'all-caps-sm sm:all-caps whitespace-nowrap px-3 py-1.5',
+        'px-3 py-1.5 all-caps-sm whitespace-nowrap sm:all-caps',
         className,
         colors[color]
       )}

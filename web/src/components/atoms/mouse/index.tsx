@@ -53,7 +53,7 @@ export const Mouse = () => {
   return (
     <div
       className={cn(
-        'pointer-events-none fixed -left-2 -top-2 z-mouse-pointer will-change-transform',
+        'pointer-events-none fixed -top-2 -left-2 z-mouse-pointer will-change-transform',
         { 'mix-blend-difference': differenceMode }
       )}
       ref={ref}
@@ -64,7 +64,7 @@ export const Mouse = () => {
           {
             'transition-200 scale-x-0 opacity-0': mode === 'typeable',
             'scale-[5]': mode === 'next' || mode === 'prev',
-            'bg-transparent! duration-200! scale-150': mode === 'clickable',
+            'scale-150 bg-transparent! duration-200!': mode === 'clickable',
             'border-white bg-white text-black':
               theme === 'dark' || differenceMode,
             'border-black bg-black text-white':

@@ -98,7 +98,7 @@ function FilterItem({
 }) {
   return (
     <div className="flex flex-col gap-3.5">
-      <p className="all-caps flex gap-4">
+      <p className="flex gap-4 all-caps">
         {title}
         {Number(count) > 0 && (
           <span className="opacity-40">{count} selected</span>

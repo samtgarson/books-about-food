@@ -52,7 +52,7 @@ export const ItemCarousel: FC<ItemCarouselProps> = ({
     <div className={className}>
       {title && (
         <Container>
-          <h3 className={cn('all-caps mb-8')}>{title}</h3>
+          <h3 className={cn('mb-8 all-caps')}>{title}</h3>
         </Container>
       )}
       <Carousel.Root

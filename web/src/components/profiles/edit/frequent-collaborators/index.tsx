@@ -83,7 +83,7 @@ function EditContent({
 
   return (
     <button
-      className="absolute inset-0 bottom-0 top-0 z-20 flex items-center justify-end px-4 sm:justify-center"
+      className="absolute inset-0 top-0 bottom-0 z-20 flex items-center justify-end px-4 sm:justify-center"
       title={
         hidden
           ? `Show ${profile.name} on your public profile`

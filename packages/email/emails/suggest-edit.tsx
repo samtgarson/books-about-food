@@ -36,7 +36,7 @@ export default emailTemplate({
               Re:
               {resourceName}
             </Text>
-            <Text className="border-grey border border-solid p-4 italic">
+            <Text className="border border-solid border-grey p-4 italic">
               {suggestion}
             </Text>
             <Button href={url}>

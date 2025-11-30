@@ -38,7 +38,7 @@ export function TopTenSheet({
   return (
     <div
       className={cn(
-        'book-shadow fixed bottom-0 left-0 right-0 z-sheet mx-auto flex flex-col gap-6 overflow-hidden rounded-t-[16px] bg-white/80 p-6 backdrop-blur-3xl transition sm:bottom-6 sm:h-[164px] sm:w-min sm:flex-row sm:items-center sm:gap-8 sm:rounded-2xl sm:p-8',
+        'fixed right-0 bottom-0 left-0 z-sheet mx-auto flex flex-col gap-6 overflow-hidden rounded-t-[16px] bg-white/80 p-6 book-shadow backdrop-blur-3xl transition sm:bottom-6 sm:h-[164px] sm:w-min sm:flex-row sm:items-center sm:gap-8 sm:rounded-2xl sm:p-8',
         hidden && 'pointer-events-none translate-y-8 opacity-0'
       )}
     >

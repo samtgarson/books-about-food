@@ -311,8 +311,8 @@ export const SelectClient = function Select<
             forceMount
             collisionBoundary={boundaryRef}
             className={cn(
-              'book-shadow w-(--radix-popover-trigger-width) z-interactive-ui flex flex-col bg-white',
-              'data-[state=closed]:pointer-events-none! h-0 opacity-0 duration-100 data-[state=open]:h-fit data-[state=open]:opacity-100 data-[state=open]:transition-all'
+              'z-interactive-ui flex w-(--radix-popover-trigger-width) flex-col bg-white book-shadow',
+              'h-0 opacity-0 duration-100 data-[state=closed]:pointer-events-none! data-[state=open]:h-fit data-[state=open]:opacity-100 data-[state=open]:transition-all'
             )}
             {...getMenuProps({
               onOpenAutoFocus: (e) => e.preventDefault(),

@@ -26,7 +26,7 @@ export function BookFilters({ filters = {} }: BookFiltersProps) {
     >
       <DisplayToggle className="mr-auto sm:hidden" />
       {showReset && (
-        <Link className="all-caps mr-2" href="/cookbooks">
+        <Link className="mr-2 all-caps" href="/cookbooks">
           Reset
         </Link>
       )}

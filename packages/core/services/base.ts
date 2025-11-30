@@ -25,29 +25,29 @@ export type ServiceClass<I extends z.ZodTypeAny, R> =
 
 export type ServiceResult<T> =
   | {
-    success: true
-    data: T
-    errors?: never
-  }
+      success: true
+      data: T
+      errors?: never
+    }
   | ServiceError
 
 export type ServiceReturn<
   S extends BaseService<any, any, any> | ServiceClass<any, any>
 > =
   S extends BaseService<any, any, infer R>
-  ? ServiceResult<R>
-  : S extends ServiceClass<any, infer R>
-  ? ServiceResult<R>
-  : never
+    ? ServiceResult<R>
+    : S extends ServiceClass<any, infer R>
+      ? ServiceResult<R>
+      : never
 
 export type ServiceInput<
   S extends BaseService<any, any, any> | ServiceClass<any, any>
 > =
   S extends BaseService<any, infer I, any>
-  ? z.input<I>
-  : S extends ServiceClass<infer I, any>
-  ? z.input<I>
-  : never
+    ? z.input<I>
+    : S extends ServiceClass<infer I, any>
+      ? z.input<I>
+      : never
 
 abstract class BaseService<
   Authed extends boolean,
@@ -63,7 +63,7 @@ abstract class BaseService<
         : [input: z.output<Input>, user?: never]
     ) => Promise<Return>,
     public requestMeta: RequestMeta = {}
-  ) { }
+  ) {}
 
   public async call(
     ...args: Authed extends true

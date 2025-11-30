@@ -53,7 +53,7 @@ export function Takeover({
               'flex flex-col items-center justify-center gap-8 lg:items-start'
             )}
           >
-            <h2 className="text-24 sm:text-40 lg:text-48 max-sm:text-center">
+            <h2 className="text-24 max-sm:text-center sm:text-40 lg:text-48">
               Voting for the 2024 Top 10
               <br />
               cookbooks is now open!
@@ -63,7 +63,7 @@ export function Takeover({
           <Image
             src={logo}
             aria-hidden
-            className={cn('lg:order-0 max-sm:w-44 order-first lg:mr-[15vw]')}
+            className={cn('order-first max-sm:w-44 lg:order-0 lg:mr-[15vw]')}
             alt="BAF Top 10"
           />
         </div>

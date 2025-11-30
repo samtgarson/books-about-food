@@ -56,7 +56,7 @@ export function PaginationButtons({
               <Pill
                 selected={page === p}
                 disabled={page === p}
-                className="p-0! h-10 w-10"
+                className="h-10 w-10 p-0!"
                 title={`Page ${p + 1}`}
               >
                 {p + 1}
@@ -65,7 +65,7 @@ export function PaginationButtons({
           ))}
           {i < displayPages.length - 1 && (
             <li className="list-none" key={`ellipsis-${i}`}>
-              <Pill className="p-0! h-10 w-10" disabled>
+              <Pill className="h-10 w-10 p-0!" disabled>
                 …
               </Pill>
             </li>

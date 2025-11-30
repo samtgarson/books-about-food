@@ -1,10 +1,13 @@
 /node_modules
+.turbo
 .next/
 .vercel
-admin/dist
 
+admin/dist
 admin/.schema
 
 web/src/utils/passphrase/words.ts
 
 .mailing
+
+packages/database/generated

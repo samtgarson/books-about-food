@@ -2,7 +2,7 @@
 
 @config '../../tailwind.config.js';
 
-@plugin "@tailwindcss/typography";
+@plugin '@tailwindcss/typography';
 
 @theme {
   --font-sans: 'Graphik', 'var(--font-graphik)', 'sans-serif';
@@ -10,22 +10,22 @@
   --color-*: initial;
   --color-transparent: transparent;
   --color-current: currentColor;
-  --color-black: #1D1D1B;
+  --color-black: #1d1d1b;
   --color-white: #fff;
-  --color-grey: #F0EEEB;
-  --color-sand: #E7E5E2;
-  --color-khaki: #DDD8D1;
-  --color-neutral-grey: #BDBFC2;
-  --color-neutral-light-grey: #F7F7F7;
-  --color-blue-grey: #EEF1F4;
-  --color-primary-blue: #839DFF;
-  --color-primary-lime: #C7E171;
-  --color-primary-purple: #C67CFF;
-  --color-primary-red: #ED7656;
-  --color-primary-yellow: #EACA36;
-  --color-secondary-blue: #C3D6FF;
-  --color-secondary-yellow: #FAE068;
-  --color-tertiary-blue: #E0EAFF;
+  --color-grey: #f0eeeb;
+  --color-sand: #e7e5e2;
+  --color-khaki: #ddd8d1;
+  --color-neutral-grey: #bdbfc2;
+  --color-neutral-light-grey: #f7f7f7;
+  --color-blue-grey: #eef1f4;
+  --color-primary-blue: #839dff;
+  --color-primary-lime: #c7e171;
+  --color-primary-purple: #c67cff;
+  --color-primary-red: #ed7656;
+  --color-primary-yellow: #eaca36;
+  --color-secondary-blue: #c3d6ff;
+  --color-secondary-yellow: #fae068;
+  --color-tertiary-blue: #e0eaff;
 
   --container-4xs: 14rem;
   --container-5xs: 12rem;
@@ -79,32 +79,70 @@
   --auto-grid-2xl: 450px;
 
   @keyframes fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
   @keyframes fade-out {
-    from { opacity: 1; }
-    to { opacity: 0; }
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
   }
   @keyframes fade-slide-in {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   @keyframes fade-slide-in-right {
-    from { opacity: 0; transform: translateX(20px); }
-    to { opacity: 1; transform: translateX(0); }
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
   @keyframes scale-in {
-    from { transform: scale(0.9); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
+    from {
+      transform: scale(0.9);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
   }
   @keyframes accordion-open {
-    from { height: 0px; opacity: 0; }
-    to { height: var(--radix-accordion-content-height); opacity: 1; }
+    from {
+      height: 0px;
+      opacity: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+      opacity: 1;
+    }
   }
   @keyframes accordion-close {
-    from { height: var(--radix-accordion-content-height); opacity: 1; }
-    to { height: 0px; opacity: 0; }
+    from {
+      height: var(--radix-accordion-content-height);
+      opacity: 1;
+    }
+    to {
+      height: 0px;
+      opacity: 0;
+    }
   }
 }
 
@@ -145,11 +183,11 @@
 }
 
 @utility all-caps {
-  @apply text-10 font-medium uppercase tracking-[0.12em] sm:text-12;
+  @apply text-10 font-medium tracking-[0.12em] uppercase sm:text-12;
 }
 
 @utility all-caps-sm {
-  @apply text-10 font-medium uppercase tracking-[0.12em];
+  @apply text-10 font-medium tracking-[0.12em] uppercase;
 }
 
 @utility book-shadow {
@@ -188,7 +226,10 @@
 }
 
 @utility auto-grid-* {
-  grid-template-columns: repeat(auto-fill, minmax(min(--value(--auto-grid-*), 100%), 1fr))
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(min(--value(--auto-grid- *), 100%), 1fr)
+  );
 }
 
 @custom-variant grid-container (&:where(.grid-container.grid *));

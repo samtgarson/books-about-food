@@ -87,7 +87,7 @@ export function ImageUpload<Multi extends boolean = false>({
             />
             <button
               type="button"
-              className="absolute -right-3 -top-3 flex h-6 w-6 items-center justify-center rounded-full bg-white"
+              className="absolute -top-3 -right-3 flex h-6 w-6 items-center justify-center rounded-full bg-white"
               onClick={() => {
                 setImages((existing) =>
                   existing.filter((i) => i.id !== image.id)

@@ -67,12 +67,6 @@
   "overrides": {
     "react": "19.0.0"
   },
-  "eslintConfig": {
-    "root": true,
-    "extends": [
-      "@books-about-food"
-    ]
-  },
   "prettier": "@books-about-food/prettier-config",
   "lint-staged": {
     "*.(json|md)": [

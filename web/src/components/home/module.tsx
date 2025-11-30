@@ -19,7 +19,7 @@ export function HomepageModule({
   return (
     <section
       className={cn(
-        'lg:pb-0! peer w-full border-black p-8 peer-[&]:border-y lg:w-1/2 lg:border-y lg:p-12 lg:peer-[&]:border-l xl:p-16',
+        'peer w-full border-black p-8 peer-[&]:border-y lg:w-1/2 lg:border-y lg:p-12 lg:pb-0! lg:peer-[&]:border-l xl:p-16',
         className
       )}
       aria-label={title}

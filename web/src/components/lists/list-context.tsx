@@ -41,7 +41,7 @@ export function ListContainer({
       <AntiContainer desktop={false} className={cn(className)}>
         <Container desktop={false}>
           {title && (
-            <h3 className="all-caps my-4 flex items-center justify-between sm:mb-8 sm:mt-0">
+            <h3 className="my-4 flex items-center justify-between all-caps sm:mt-0 sm:mb-8">
               {title}
               <DisplayToggle className="sm:hidden" />
             </h3>

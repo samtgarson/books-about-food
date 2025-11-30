@@ -102,9 +102,9 @@ const NavContent = () => {
   const user = useCurrentUser()
 
   return (
-    <div className="z-60 animate-fade-in fixed inset-0 max-h-screen overflow-auto bg-white py-32 sm:py-36">
+    <div className="fixed inset-0 z-60 max-h-screen animate-fade-in overflow-auto bg-white py-32 sm:py-36">
       <Container className="fixed inset-x-0 top-0 z-10 border-b border-black bg-white py-5">
-        <Dialog.Close className="all-caps flex items-center gap-6 sm:gap-10">
+        <Dialog.Close className="flex items-center gap-6 all-caps sm:gap-10">
           <X strokeWidth={1} />
           Close
         </Dialog.Close>
@@ -164,7 +164,7 @@ export const TopNav: FC = () => {
   const { theme, open, setOpen } = useNav()
 
   return (
-    <nav className="z-nav absolute inset-x-0 top-0">
+    <nav className="absolute inset-x-0 top-0 z-nav">
       <Container
         className={cn(
           'flex w-screen items-center gap-4 border-b border-black py-5 pr-4',

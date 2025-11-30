@@ -12,7 +12,7 @@ import { Tag } from '../atoms/tag'
 
 export function USP() {
   return (
-    <Container className="mb-12 mt-24 md:mb-20 md:mt-40">
+    <Container className="mt-24 mb-12 md:mt-40 md:mb-20">
       <p className="mb-16 max-w-4xl text-24 md:mb-20 md:text-48">
         Beautifully designed cookbooks and the people making them
       </p>

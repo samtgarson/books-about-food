@@ -169,8 +169,9 @@ function specificColorJoin(color: number[]) {
 
 function namedColorJoin(color: NamedColor) {
   return sql`left outer join lateral (
-      select abs(${namedHueMap[color]
-    }::int - (c.color ->> 'h')::decimal) * -1 as color
+      select abs(${
+        namedHueMap[color]
+      }::int - (c.color ->> 'h')::decimal) * -1 as color
       from (
         select jsonb_array_elements(books.palette) color from books b
         where b.id = books.id

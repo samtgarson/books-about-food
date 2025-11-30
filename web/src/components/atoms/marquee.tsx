@@ -23,7 +23,7 @@ export const Marquee: FC<{ children: ReactNode; className?: string }> = ({
       <motion.div
         animate={{ x: ['0%', `-${100 / 5}%`] }}
         transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
-        className="flex w-max whitespace-nowrap text-20"
+        className="flex w-max text-20 whitespace-nowrap"
       >
         <span className={childClass}>{children}</span>
         <span aria-hidden className={childClass}>

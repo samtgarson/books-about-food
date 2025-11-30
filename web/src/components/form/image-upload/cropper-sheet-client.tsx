@@ -19,7 +19,7 @@ export function CropperSheetContent({
     <>
       <div
         className={cn(
-          'aspect-4/3 relative mb-4 h-full w-full',
+          'relative mb-4 aspect-4/3 h-full w-full',
           loading && 'pointer-events-none'
         )}
       >

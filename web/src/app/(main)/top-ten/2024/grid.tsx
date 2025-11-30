@@ -96,7 +96,7 @@ export function TopTenGrid({
         debounceDelay={100}
         className="mb-6"
       />
-      <AntiContainer className="flex flex-col items-center justify-center gap-2 border-t border-black bg-white pb-8 pt-6 sm:mb-6 sm:border-none md:mb-10">
+      <AntiContainer className="flex flex-col items-center justify-center gap-2 border-t border-black bg-white pt-6 pb-8 sm:mb-6 sm:border-none md:mb-10">
         <p className="all-caps opacity-40">Supported by</p>
         <TrackedLink
           href="https://themodestmerchant.com/"

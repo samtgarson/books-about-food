@@ -35,7 +35,7 @@ function FilterSheetContent({
     <>
       {labelText}{' '}
       {typeof count !== 'undefined' && count > 0 && (
-        <span className="all-caps font-bold leading-none! -my-1 rounded-full bg-black px-1.5 py-1 text-white">
+        <span className="font-bold -my-1 rounded-full bg-black px-1.5 py-1 all-caps leading-none! text-white">
           {count}
         </span>
       )}
@@ -64,7 +64,7 @@ function FilterSheetContent({
             <Link
               scroll={false}
               href=""
-              className="all-caps bg-transparent"
+              className="bg-transparent all-caps"
               onClick={close}
             >
               Reset

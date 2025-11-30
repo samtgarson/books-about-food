@@ -19,7 +19,7 @@ export const Faces: FC<FacesProps> = ({ books }) => {
   if (!display) return null
   return (
     <motion.div
-      className="pointer-events-none absolute -left-1/4 bottom-8 right-8 top-0 z-30 flex items-center justify-center sm:bottom-0 sm:left-[42vw] sm:right-[15vw]"
+      className="pointer-events-none absolute top-0 right-8 bottom-8 -left-1/4 z-30 flex items-center justify-center sm:right-[15vw] sm:bottom-0 sm:left-[42vw]"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, transition: { delay: 0.3 } }}
       exit={{ opacity: 0, transition: { duration: 0.2 } }}

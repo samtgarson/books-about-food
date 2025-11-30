@@ -29,7 +29,7 @@ export function EditableImage({
     <div className="relative pr-5">
       {children}
       {editMode && (
-        <div className="absolute right-0 top-0 flex gap-1">
+        <div className="absolute top-0 right-0 flex gap-1">
           <ImageUploadButton
             croppable={croppeable}
             name="avatar"

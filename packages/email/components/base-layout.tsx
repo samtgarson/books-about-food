@@ -76,7 +76,7 @@ export default function BaseLayout({
           <Container className="bg-grey px-5">
             <Section>
               <Header />
-              <Hr className="border-khaki border-b pb-2" />
+              <Hr className="border-b border-khaki pb-2" />
               {recipientName ? (
                 <Text>
                   Dear
@@ -91,8 +91,8 @@ export default function BaseLayout({
                 <br />
                 Jamin & Sam at Books About Food
               </Text>
-              <Hr className="border-khaki border-b-1 pb-2" />
-              <Text className="text-neutral-grey text-12">
+              <Hr className="border-b-1 border-khaki pb-2" />
+              <Text className="text-12 text-neutral-grey">
                 Copyright © Books About Food {new Date().getFullYear()}
               </Text>
             </Section>

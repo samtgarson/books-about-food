@@ -45,7 +45,7 @@ export default slugPage<'/edit/[slug]'>(async function EditBook(slug) {
           <div className="flex grow flex-col items-start gap-2 overflow-hidden sm:flex-row sm:items-center sm:gap-6">
             <div className="flex w-full grow flex-col overflow-hidden sm:gap-2">
               <h1
-                className="overflow-hidden text-ellipsis whitespace-nowrap text-20 sm:text-32"
+                className="overflow-hidden text-20 text-ellipsis whitespace-nowrap sm:text-32"
                 title={book.title}
               >
                 {book.title}

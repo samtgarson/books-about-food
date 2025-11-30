@@ -20,7 +20,7 @@ export function DesignCommentary({
   return (
     <div
       className={cn(
-        'fixed inset-x-4 bottom-4 z-nav flex -rotate-2 flex-col gap-1 rounded-lg bg-primary-lime p-6 transition ease-out hover:rotate-1 sm:bottom-16 sm:left-auto sm:right-16 sm:w-[400px]',
+        'fixed inset-x-4 bottom-4 z-nav flex -rotate-2 flex-col gap-1 rounded-lg bg-primary-lime p-6 transition ease-out hover:rotate-1 sm:right-16 sm:bottom-16 sm:left-auto sm:w-[400px]',
         display ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
       )}
     >

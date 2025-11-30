@@ -13,11 +13,11 @@ export function FrequentCollaboratorsDummy({
 }) {
   return (
     <div className={className}>
-      <h2 className="all-caps mb-4 w-full text-left">Frequent Collaborators</h2>
+      <h2 className="mb-4 w-full text-left all-caps">Frequent Collaborators</h2>
       <div className="relative">
         <GridContainer
           className={cn(
-            'max-sm:hidden relative -mt-px opacity-30 blur-md sm:mt-0'
+            'relative -mt-px opacity-30 blur-md max-sm:hidden sm:mt-0'
           )}
         >
           {dummyProfiles.map((profile) => (

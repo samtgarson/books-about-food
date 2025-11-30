@@ -35,7 +35,7 @@ export const BookList = async ({
       page={filters.page ?? 0}
       filteredTotal={filteredTotal}
     >
-      {title && <h3 className="all-caps my-4 sm:mb-8 sm:mt-0">{title}</h3>}
+      {title && <h3 className="my-4 all-caps sm:mt-0 sm:mb-8">{title}</h3>}
       <BookGrid
         {...gridProps}
         books={books}

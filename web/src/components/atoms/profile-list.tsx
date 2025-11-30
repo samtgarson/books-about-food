@@ -26,7 +26,7 @@ export function ProfileList({
       <Sheet.Root mobileOnly>
         <Sheet.Trigger className={cn('flex w-full flex-nowrap items-center')}>
           <div className={cn('flex grow flex-wrap gap-2')}>
-            <h2 className="all-caps mb-4 w-full text-left">{title}</h2>
+            <h2 className="mb-4 w-full text-left all-caps">{title}</h2>
             {profiles.map((profile) => (
               <Avatar
                 key={profile.id}

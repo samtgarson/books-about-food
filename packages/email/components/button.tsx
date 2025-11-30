@@ -9,7 +9,7 @@ export default function Button(props: ButtonProps) {
     <EmailButton
       className={cx(
         props.className,
-        'text-16 border border-solid border-black bg-white px-5 py-3'
+        'border border-solid border-black bg-white px-5 py-3 text-16'
       )}
       {...props}
     />

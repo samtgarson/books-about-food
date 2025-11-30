@@ -46,7 +46,7 @@ export function TopTenSheetItem({
         onClick={onDeselect}
         title="Remove"
         className={cn(
-          'absolute right-0 top-0 -mr-3 -mt-3 flex size-6 items-center justify-center rounded-full bg-black text-white'
+          'absolute top-0 right-0 -mt-3 -mr-3 flex size-6 items-center justify-center rounded-full bg-black text-white'
         )}
       >
         <X size={14} />

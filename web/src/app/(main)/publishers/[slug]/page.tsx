@@ -74,7 +74,7 @@ export default slugPage<'/publishers/[slug]'>(
     return (
       <Wrap c={EditPublisherProvider} publisher={publisher}>
         <Container belowNav>
-          <div className="font-style-title flex items-center justify-between py-14">
+          <div className="flex items-center justify-between py-14 font-style-title">
             <h1 title={publisher.name}>
               <EditableLogo />
             </h1>

@@ -24,7 +24,7 @@ export function FooterWrapper({ children }: { children: ReactNode }) {
   }, [setFooterVisible])
 
   return (
-    <footer className="mt-20 bg-white pb-6 pt-12 md:pb-10 md:pt-20" ref={ref}>
+    <footer className="mt-20 bg-white pt-12 pb-6 md:pt-20 md:pb-10" ref={ref}>
       {children}
     </footer>
   )

@@ -67,7 +67,7 @@ async function HomepageContent() {
               c={ItemCarousel}
               items={home.comingSoon}
               size="xl"
-              className="-mx-8 lg:-mx-12 lg:pb-6 lg:pt-10 xl:-mx-16"
+              className="-mx-8 lg:-mx-12 lg:pt-10 lg:pb-6 xl:-mx-16"
               centered
               startOn={1}
             />
@@ -80,7 +80,7 @@ async function HomepageContent() {
             <Wrap
               c={ProfileCarousel}
               items={home.people}
-              className="-mx-8 py-12 lg:-mx-12 lg:pb-16 lg:pt-[93px] xl:-mx-16"
+              className="-mx-8 py-12 lg:-mx-12 lg:pt-[93px] lg:pb-16 xl:-mx-16"
             />
           </HomepageModule>
         </div>
@@ -91,7 +91,7 @@ async function HomepageContent() {
           Beautifully designed cookbooks and the people making them
         </p>
         <div>
-          <h3 className="all-caps mb-6 md:mb-8">People Directory</h3>
+          <h3 className="mb-6 all-caps md:mb-8">People Directory</h3>
           <Suspense fallback={null}>
             <FeaturedJobsList />
           </Suspense>
