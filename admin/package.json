@@ -7,7 +7,6 @@
     "start": "tsx ./lib/index.ts",
     "dev": "tsx watch --include '.' --include '../packages/*' -r dotenv/config ./lib/index.ts",
     "debug": "tsx watch --include '.' --include '../packages/*' ./lib/index.ts",
-    "build": "node build.js",
     "deploy": "forest deploy -f && forest branch -d main --force && forest branch main -o Production",
     "heroku-cleanup": "npx playwright install chromium"
   },
