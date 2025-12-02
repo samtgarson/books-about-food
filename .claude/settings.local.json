@@ -11,7 +11,10 @@
       "Bash(npm install:*)",
       "WebFetch(domain:zod.dev)",
       "Bash(npm run type-check:*)",
-      "WebFetch(domain:docs.sentry.io)"
+      "WebFetch(domain:docs.sentry.io)",
+      "Bash(npm run:*)",
+      "Bash(lsof:*)",
+      "Bash(xargs kill:*)"
     ],
     "deny": [],
     "ask": []

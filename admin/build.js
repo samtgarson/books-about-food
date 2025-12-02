@@ -31,12 +31,10 @@ if (sentryToken) {
 esbuild.build({
   entryPoints: [path.resolve(__dirname, 'lib/index.ts')],
   sourcemap: true, // Source map generation must be turned on
-  format: 'esm',
   bundle: true,
   outfile: path.resolve(__dirname, 'dist/index.js'),
   platform: 'node',
   external: [
-    '@prisma/client',
     '@sparticuz/chromium-min',
     'fastify',
     'pg-hstore',
@@ -46,7 +44,8 @@ esbuild.build({
     'uglify-js'
   ],
   loader: {
-    '.node': 'file'
+    '.node': 'file',
+    '.wasm': 'file'
   },
   target: 'node24',
   jsx: 'automatic',

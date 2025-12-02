@@ -1,1 +1,1 @@
-export { BookStatus, MembershipRole } from './generated/client'
+export { BookStatus, MembershipRole } from './generated/enums'

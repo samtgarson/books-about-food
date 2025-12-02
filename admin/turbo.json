@@ -23,6 +23,7 @@
         "INNGEST_EVENT_KEY",
         "INNGEST_SIGNING_KEY",
         "NODE_ENV",
+        "PORT",
         "S3_DOMAIN",
         "SENTRY_AUTH_TOKEN",
         "SENTRY_DSN",
