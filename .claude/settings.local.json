@@ -14,7 +14,10 @@
       "WebFetch(domain:docs.sentry.io)",
       "Bash(npm run:*)",
       "Bash(lsof:*)",
-      "Bash(xargs kill:*)"
+      "Bash(xargs kill:*)",
+      "Bash(npm view:*)",
+      "Bash(curl:*)",
+      "WebFetch(domain:raw.githubusercontent.com)"
     ],
     "deny": [],
     "ask": []
