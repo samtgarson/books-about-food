@@ -1,6 +1,7 @@
 import { fetchSimilarBooks } from '@books-about-food/core/services/books/fetch-similar-books'
 import cn from 'classnames'
 import { call } from 'src/utils/service'
+import { Container } from '../atoms/container'
 import { GridContainer } from '../lists/grid-container'
 import { ListContainer } from '../lists/list-container'
 import { Wrap } from '../utils/wrap'
@@ -12,7 +13,7 @@ export type SimilarBooksProps = {
   className?: string
 }
 
-export const SimilarBooks = async ({ slug, className }: SimilarBooksProps) => {
+export async function SimilarBooks({ slug, className }: SimilarBooksProps) {
   const { data: books } = await call(fetchSimilarBooks, { slug })
 
   if (!books?.length) return null
@@ -32,18 +33,20 @@ export const SimilarBooks = async ({ slug, className }: SimilarBooksProps) => {
         key="similar-books"
         inContainer
       />
-      <ListContainer title="Similar Cookbooks" className="sm:hidden">
-        <GridContainer>
-          {books.map((book) => (
-            <Wrap
-              c={Item}
-              key={book.id.toString()}
-              book={book}
-              mobileColorful
-            />
-          ))}
-        </GridContainer>
-      </ListContainer>
+      <Container>
+        <ListContainer title="Similar Cookbooks" className="sm:hidden">
+          <GridContainer>
+            {books.map((book) => (
+              <Wrap
+                c={Item}
+                key={book.id.toString()}
+                book={book}
+                mobileColorful
+              />
+            ))}
+          </GridContainer>
+        </ListContainer>
+      </Container>
     </>
   )
 }

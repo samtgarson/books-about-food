@@ -96,7 +96,7 @@ export default slugPage<'/cookbooks/[slug]'>(async function CookbookPage(slug) {
         <AntiContainer desktop={false}>
           <Container
             desktop={false}
-            className="flex flex-col gap-4 border-t border-black max-sm:py-4 sm:border-y-0"
+            className="flex flex-col gap-4 border-y border-black max-sm:py-4 sm:border-y-0"
           >
             {book.team.length > 0 && (
               <TeamList contributions={book.contributions} />
