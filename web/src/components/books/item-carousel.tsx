@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { FC } from 'react'
 import * as Carousel from 'src/components/atoms/carousel'
 import { Container } from '../atoms/container'
-import { ListContainer } from '../lists/list-context'
+import { ListContainer } from '../lists/list-container'
 import { Item as BookItem } from './item'
 
 export type ItemCarouselProps = {

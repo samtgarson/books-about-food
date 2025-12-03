@@ -2,7 +2,7 @@ import { fetchSimilarBooks } from '@books-about-food/core/services/books/fetch-s
 import cn from 'classnames'
 import { call } from 'src/utils/service'
 import { GridContainer } from '../lists/grid-container'
-import { ListContainer } from '../lists/list-context'
+import { ListContainer } from '../lists/list-container'
 import { Wrap } from '../utils/wrap'
 import { Item } from './item'
 import { ItemCarousel } from './item-carousel'

@@ -2,7 +2,7 @@ import { Profile } from '@books-about-food/core/models/profile'
 import { fetchBooks } from '@books-about-food/core/services/books/fetch-books'
 import { GridContainer } from 'src/components/lists/grid-container'
 import { call } from 'src/utils/service'
-import { ListContainer } from '../lists/list-context'
+import { ListContainer } from '../lists/list-container'
 import { Wrap } from '../utils/wrap'
 import { ContributionVisibility } from './edit/contribution-visibility'
 
@@ -11,10 +11,10 @@ export type ContributionListProps = {
   className?: string
 }
 
-export const ContributionList = async ({
+export async function ContributionList({
   profile,
   className
-}: ContributionListProps) => {
+}: ContributionListProps) {
   const { data } = await call(fetchBooks, {
     profile: profile.slug,
     perPage: 'all'

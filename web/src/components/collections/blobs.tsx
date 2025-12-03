@@ -4,7 +4,7 @@ import { Collection } from '@books-about-food/core/models/collection'
 import cn from 'classnames'
 import { CSSProperties } from 'react'
 import { range } from 'src/utils/array-helpers'
-import { useListDisplay } from '../lists/list-context'
+import { useListDisplay } from '../lists/list-container'
 
 export function CollectionBlobs({ colors }: { colors: Collection['colors'] }) {
   const { display } = useListDisplay()

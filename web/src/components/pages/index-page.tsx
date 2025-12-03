@@ -3,7 +3,7 @@ import { ComponentType, Fragment } from 'react'
 import { z } from 'zod'
 import { Container } from '../atoms/container'
 import { ObjectSuspense } from '../atoms/object-suspense'
-import { ListContainer } from '../lists/list-context'
+import { ListContainer } from '../lists/list-container'
 
 export type IndexPageProps<Input extends z.ZodType> = {
   components: {

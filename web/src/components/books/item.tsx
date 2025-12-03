@@ -5,7 +5,7 @@ import cn from 'classnames'
 import Image from 'next/image'
 import Link from 'next/link'
 import { CSSProperties, ComponentProps, forwardRef } from 'react'
-import { useListDisplay } from '../lists/list-context'
+import { useListDisplay } from '../lists/list-container'
 import { useNav } from '../nav/context'
 
 export interface CookbookItemProps {

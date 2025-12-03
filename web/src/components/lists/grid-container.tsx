@@ -3,7 +3,7 @@
 import cn from 'classnames'
 import { forwardRef } from 'react'
 import { AntiContainer, ContainerProps } from '../atoms/container'
-import { useListDisplay } from './list-context'
+import { useListDisplay } from './list-container'
 
 export type GridContainerProps = ContainerProps & {
   size?: 'default' | 'large'

@@ -1,7 +1,7 @@
 'use client'
 import cn from 'classnames'
 import { Grid, List } from 'src/components/atoms/icons'
-import { useListDisplay } from './list-context'
+import { useListDisplay } from './list-container'
 
 export type DisplayToggleProps = {
   className?: string

@@ -6,7 +6,7 @@ import { ReactNode, useState } from 'react'
 import { Eye, EyeOff } from 'src/components/atoms/icons'
 import { Loader } from 'src/components/atoms/loader'
 import { Container, Cover, Footer } from 'src/components/books/item'
-import { useListDisplay } from 'src/components/lists/list-context'
+import { useListDisplay } from 'src/components/lists/list-container'
 
 type EditableBookItemProps = {
   book: Book
