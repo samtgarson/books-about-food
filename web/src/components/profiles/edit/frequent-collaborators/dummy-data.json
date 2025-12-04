@@ -1,7 +1,4 @@
-import { Profile } from '@books-about-food/core/models/profile'
-import { parse } from 'superjson'
-
-export const dummyProfiles = parse<Profile[]>(`{
+{
   "json": [
     {
       "_type": "profile",
@@ -23,7 +20,7 @@ export const dummyProfiles = parse<Profile[]>(`{
       "mostRecentlyPublishedOn": "2023-09-28T00:00:00.000Z",
       "userId": null,
       "hiddenCollaborators": [],
-      "location": "London",
+      "locations": [],
       "role": "contributor"
     },
     {
@@ -46,7 +43,7 @@ export const dummyProfiles = parse<Profile[]>(`{
       "mostRecentlyPublishedOn": "2023-05-26T00:00:00.000Z",
       "userId": null,
       "hiddenCollaborators": [],
-      "location": "Sydney",
+      "locations": [],
       "role": "contributor"
     },
     {
@@ -69,7 +66,7 @@ export const dummyProfiles = parse<Profile[]>(`{
       "mostRecentlyPublishedOn": "2023-11-16T00:00:00.000Z",
       "userId": null,
       "hiddenCollaborators": [],
-      "location": null,
+      "locations": [],
       "role": "author"
     },
     {
@@ -92,7 +89,7 @@ export const dummyProfiles = parse<Profile[]>(`{
       "mostRecentlyPublishedOn": "2023-08-31T00:00:00.000Z",
       "userId": null,
       "hiddenCollaborators": [],
-      "location": "London",
+      "locations": [],
       "role": "contributor"
     },
     {
@@ -115,145 +112,61 @@ export const dummyProfiles = parse<Profile[]>(`{
       "mostRecentlyPublishedOn": "2023-09-28T00:00:00.000Z",
       "userId": null,
       "hiddenCollaborators": [],
-      "location": null,
+      "locations": [],
       "role": "contributor"
     }
   ],
   "meta": {
     "values": {
       "0": [
-        [
-          "class",
-          "Profile"
-        ],
+        ["class", "Profile"],
         {
-          "description": [
-            "undefined"
-          ],
-          "website": [
-            "undefined"
-          ],
-          "avatar": [
-            [
-              "class",
-              "Image"
-            ]
-          ],
-          "mostRecentlyPublishedOn": [
-            "Date"
-          ],
-          "userId": [
-            "undefined"
-          ]
+          "description": ["undefined"],
+          "website": ["undefined"],
+          "avatar": [["class", "Image"]],
+          "mostRecentlyPublishedOn": ["Date"],
+          "userId": ["undefined"]
         }
       ],
       "1": [
-        [
-          "class",
-          "Profile"
-        ],
+        ["class", "Profile"],
         {
-          "description": [
-            "undefined"
-          ],
-          "website": [
-            "undefined"
-          ],
-          "avatar": [
-            [
-              "class",
-              "Image"
-            ]
-          ],
-          "mostRecentlyPublishedOn": [
-            "Date"
-          ],
-          "userId": [
-            "undefined"
-          ]
+          "description": ["undefined"],
+          "website": ["undefined"],
+          "avatar": [["class", "Image"]],
+          "mostRecentlyPublishedOn": ["Date"],
+          "userId": ["undefined"]
         }
       ],
       "2": [
-        [
-          "class",
-          "Profile"
-        ],
+        ["class", "Profile"],
         {
-          "description": [
-            "undefined"
-          ],
-          "avatar": [
-            [
-              "class",
-              "Image"
-            ]
-          ],
-          "mostRecentlyPublishedOn": [
-            "Date"
-          ],
-          "userId": [
-            "undefined"
-          ],
-          "location": [
-            "undefined"
-          ]
+          "description": ["undefined"],
+          "avatar": [["class", "Image"]],
+          "mostRecentlyPublishedOn": ["Date"],
+          "userId": ["undefined"]
         }
       ],
       "3": [
-        [
-          "class",
-          "Profile"
-        ],
+        ["class", "Profile"],
         {
-          "description": [
-            "undefined"
-          ],
-          "avatar": [
-            [
-              "class",
-              "Image"
-            ]
-          ],
-          "mostRecentlyPublishedOn": [
-            "Date"
-          ],
-          "userId": [
-            "undefined"
-          ]
+          "description": ["undefined"],
+          "avatar": [["class", "Image"]],
+          "mostRecentlyPublishedOn": ["Date"],
+          "userId": ["undefined"]
         }
       ],
       "4": [
-        [
-          "class",
-          "Profile"
-        ],
+        ["class", "Profile"],
         {
-          "description": [
-            "undefined"
-          ],
-          "website": [
-            "undefined"
-          ],
-          "instagram": [
-            "undefined"
-          ],
-          "avatar": [
-            [
-              "class",
-              "Image"
-            ]
-          ],
-          "mostRecentlyPublishedOn": [
-            "Date"
-          ],
-          "userId": [
-            "undefined"
-          ],
-          "location": [
-            "undefined"
-          ]
+          "description": ["undefined"],
+          "website": ["undefined"],
+          "instagram": ["undefined"],
+          "avatar": [["class", "Image"]],
+          "mostRecentlyPublishedOn": ["Date"],
+          "userId": ["undefined"]
         }
       ]
     }
   }
-}`)
+}

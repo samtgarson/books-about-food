@@ -135,8 +135,25 @@ model Profile {
   claims        Claim[]
   authoredBooks Book[]            @relation("authored_books")
   features      FeaturedProfile[]
+  locations     Location[]
 
   @@map("profiles")
+}
+
+model Location {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
+  placeId     String   @unique @map("place_id")
+  displayText String   @map("display_text")
+  country     String?
+  region      String?
+  latitude    Float?
+  longitude   Float?
+
+  profiles Profile[]
+
+  @@map("locations")
 }
 
 model Job {

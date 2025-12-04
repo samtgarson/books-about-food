@@ -3,6 +3,7 @@ import { Collection } from '@books-about-food/core/models/collection'
 import { Contribution } from '@books-about-food/core/models/contribution'
 import { FullBook } from '@books-about-food/core/models/full-book'
 import { Image } from '@books-about-food/core/models/image'
+import { Location } from '@books-about-food/core/models/location'
 import { Profile } from '@books-about-food/core/models/profile'
 import { Publisher } from '@books-about-food/core/models/publisher'
 import {
@@ -18,6 +19,7 @@ registerClass(Profile, { identifier: 'Profile' })
 registerClass(Publisher, { identifier: 'Publisher' })
 registerClass(Contribution, { identifier: 'Contribution' })
 registerClass(Collection, { identifier: 'Collection' })
+registerClass(Location, { identifier: 'Location' })
 
 export const stringify = <T>(value: T): Stringified<T> => {
   return sjStringify(value) as Stringified<T>

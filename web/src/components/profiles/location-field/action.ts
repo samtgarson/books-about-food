@@ -5,7 +5,7 @@ import { stringify } from 'src/utils/superjson'
 
 const places = new GooglePlacesGateway()
 
-export const search = async (query: string, token: string) => {
+export async function search(query: string, token: string) {
   if (query.length < 2) {
     return stringify([])
   }
@@ -13,6 +13,10 @@ export const search = async (query: string, token: string) => {
   const result = await places.search(query, token)
 
   return stringify(
-    result.map(({ description }) => ({ description, id: description }))
+    result.map(({ description, place_id }) => ({
+      displayText: description,
+      placeId: place_id,
+      id: place_id
+    }))
   )
 }

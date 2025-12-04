@@ -1,10 +1,16 @@
+import { Profile } from '@books-about-food/core/models/profile'
 import cn from 'classnames'
 import { Avatar } from 'src/components/atoms/avatar'
 import { Lock } from 'src/components/atoms/icons'
 import { AuthedButton } from 'src/components/auth/authed-button'
 import { GridContainer } from 'src/components/lists/grid-container'
+import { deserialize, SuperJSONResult } from 'superjson'
 import { ProfileItem } from '../../item'
-import { dummyProfiles } from './dummy-data'
+import dummyData from './dummy-data'
+
+export const dummyProfiles = deserialize<Profile[]>(
+  dummyData as unknown as SuperJSONResult
+)
 
 export function FrequentCollaboratorsDummy({
   className

@@ -17,7 +17,8 @@
       "Bash(xargs kill:*)",
       "Bash(npm view:*)",
       "Bash(curl:*)",
-      "WebFetch(domain:raw.githubusercontent.com)"
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(ls:*)"
     ],
     "deny": [],
     "ask": []

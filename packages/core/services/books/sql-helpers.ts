@@ -92,7 +92,8 @@ function mapProfile(profile: Profile): BookAttrs['authors'][0] {
   return {
     ...camelizeKeys(profile),
     avatar: profile.avatar ? camelizeKeys(profile.avatar) : null,
-    _count: { authoredBooks: profile.authored_book_count }
+    _count: { authoredBooks: profile.authored_book_count },
+    locations: []
   }
 }
 

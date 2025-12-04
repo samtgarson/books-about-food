@@ -13,8 +13,10 @@ export const ProfileOverflow = ({
   const { openSheet } = useSheet()
   const currentUser = useCurrentUser()
   const editable =
-    profile.userId === currentUser?.id || currentUser?.role === 'admin'
+    currentUser &&
+    (profile.userId === currentUser?.id || currentUser?.role === 'admin')
 
+  if (!editable) return null
   return (
     <Overflow.Root {...props}>
       {!editable && (

@@ -41,6 +41,8 @@ export type CollectionAttrs = Prisma.CollectionGetPayload<{
 
 export type PostAttrs = Prisma.PostGetPayload<null>
 
+export type LocationAttrs = Prisma.LocationGetPayload<null>
+
 export type BookResult = {
   id: string
   title: string

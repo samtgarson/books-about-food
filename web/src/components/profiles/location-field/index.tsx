@@ -1,31 +1,37 @@
 'use client'
 
 import cn from 'classnames'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { Detail } from 'src/components/atoms/detail'
 import * as Sheet from 'src/components/atoms/sheet'
+import { InPlaceField } from 'src/components/edit/in-place/field'
 import { Form } from 'src/components/form'
 import { Select } from 'src/components/form/select'
 import { Submit } from 'src/components/form/submit'
 import { useDebouncedPromise } from 'src/hooks/use-debounce-promise'
-import z from 'zod'
 import { useEditProfile } from '../edit/context'
-import { Field } from '../edit/field'
 import { search } from './action'
 
-const schema = z.object({ location: z.string().nullish().default(null) })
+type LocationOption = {
+  displayText: string
+  placeId: string
+  id: string
+}
 
-export const LocationField = () => {
+export function LocationField() {
   const loadOptions = useDebouncedPromise(search, 250)
   const { onSave, profile, editMode } = useEditProfile()
   const token = useRef(Math.random().toString(36).substring(2, 12))
-  const defaultValue = profile.location
-    ? profile.location
-        .split(' • ')
-        .map((loc) => ({ description: loc, id: loc }))
-    : undefined
 
-  if (!editMode && !profile.location) return null
+  const defaultValue: LocationOption[] = profile.locations.map((loc) => ({
+    displayText: loc.displayText,
+    placeId: loc.placeId,
+    id: loc.placeId
+  }))
+
+  const [selection, setSelection] = useState<LocationOption[]>(defaultValue)
+
+  if (!editMode && profile.locations.length === 0) return null
   return (
     <Detail maxWidth>
       <Sheet.Root>
@@ -37,9 +43,11 @@ export const LocationField = () => {
           tabIndex={editMode ? undefined : -1}
           aria-label="Edit location"
         >
-          <Field
+          <InPlaceField
             disabled
-            attr="location"
+            value={profile.location}
+            editMode={editMode}
+            onSave={async () => true}
             placeholder="Add a location"
             className="text-left"
           />
@@ -47,23 +55,26 @@ export const LocationField = () => {
         <Sheet.Content title="Choose a location">
           {({ close }) => (
             <Form
-              action={async (data) => {
-                const { location } = schema.parse(data)
-
-                await onSave({ location })
+              action={async () => {
+                const locations = selection.map(({ placeId, displayText }) => ({
+                  placeId,
+                  displayText
+                }))
+                await onSave({ locations })
                 close()
               }}
               variant="bordered"
             >
               <Sheet.Body>
-                <Select
-                  name="location"
+                <Select<LocationOption, true, 'id'>
+                  name="locations"
                   loadOptions={(query) => loadOptions(query, token.current)}
-                  render="description"
+                  render="displayText"
                   valueKey="id"
                   label="Location"
                   multi
                   defaultValue={defaultValue}
+                  onChange={setSelection}
                   separator=" • "
                 />
               </Sheet.Body>
