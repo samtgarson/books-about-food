@@ -5,7 +5,11 @@ export abstract class BaseGoogleGateway {
   abstract path: string
   protected subdomain = 'www'
 
-  protected request(path: string, params: Record<string, string> = {}) {
+  protected request(
+    path: string,
+    params: Record<string, string> = {},
+    headers?: Headers
+  ) {
     if (!path.startsWith('/')) path = `/${path}`
     const url = new URL(`${this.path}${path}`, this.baseUrl)
     Object.entries(params).forEach(([key, value]) => {
@@ -13,7 +17,7 @@ export abstract class BaseGoogleGateway {
     })
     url.searchParams.append('key', this.key)
 
-    return fetch(url.toString())
+    return fetch(url.toString(), { headers })
   }
 
   private get baseUrl() {

@@ -14,6 +14,7 @@ import { customiseFeatures } from './collections/features'
 import { customiseImages } from './collections/images'
 import { customiseJobs } from './collections/jobs'
 import { customiseLinks } from './collections/links'
+import { customiseLocations } from './collections/locations'
 import { customiseProfiles } from './collections/profiles'
 import { customisePublishers } from './collections/publishers'
 import { customiseTagGroups } from './collections/tag-groups'
@@ -50,6 +51,7 @@ agent
   .customizeCollection('jobs', customiseJobs)
   .customizeCollection('images', customiseImages)
   .customizeCollection('links', customiseLinks)
+  .customizeCollection('locations', customiseLocations)
   .customizeCollection('claims', customiseClaims)
   .customizeCollection('users', customiseUsers)
   .customizeCollection('verification_tokens', customiseVerificationTokens)

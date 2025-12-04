@@ -1,3 +1,5 @@
+import { GooglePlacesGateway } from '@books-about-food/core/gateways/google-places'
+import { findOrCreateLocation } from '@books-about-food/core/services/locations/find-or-create-location'
 import prisma from '@books-about-food/database'
 import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { imageUrl } from '@books-about-food/shared/utils/image-url'
@@ -6,7 +8,10 @@ import { CollectionCustomizer } from '@forestadmin/agent'
 import { revalidatePath } from 'lib/services/revalidate-path'
 import { resourceAction } from 'lib/utils/actions'
 import { deleteImage, uploadImage } from 'lib/utils/image-utils'
+import { z } from 'zod/v4'
 import { Schema } from '../../.schema/types'
+
+const places = new GooglePlacesGateway()
 
 const uploadAvatar = async (dataUri: string, profileId: string) => {
   if (!dataUri) {
@@ -17,6 +22,10 @@ const uploadAvatar = async (dataUri: string, profileId: string) => {
   const prefix = `profile-avatars/${profileId}`
   return await uploadImage(dataUri, prefix, 'profileId', profileId, true)
 }
+
+const newLocationFormSchema = z.object({
+  ['Search for a location']: z.string()
+})
 
 export const customiseProfiles = (
   collection: CollectionCustomizer<Schema, 'profiles'>
@@ -128,6 +137,65 @@ export const customiseProfiles = (
         update: {}
       })
       await revalidatePath('')
+    }
+  })
+
+  resourceAction({
+    collection,
+    name: '📍 Add location',
+    submitButtonLabel: 'Add to profile',
+    successMessage: '✅ Profile updated successfully',
+    form: [
+      {
+        label: 'Search for a location',
+        type: 'String',
+        widget: 'Dropdown',
+        search: 'dynamic',
+        placeholder: 'Start typing to search Google Places...',
+        async options(_context, searchValue) {
+          if (!searchValue || searchValue.length < 2) return []
+
+          const results = await places.search(searchValue, 'forest-admin-token')
+
+          return results.map(({ description, place_id }) => ({
+            value: `${description}|${place_id}`,
+            label: description
+          }))
+        }
+      }
+    ],
+    async fn(id, { formValues }) {
+      const parsed = newLocationFormSchema.safeParse(formValues).data
+      const value = parsed?.['Search for a location']
+      if (!value) throw new Error('Please select a location')
+
+      const [displayText, placeId] = value.split('|')
+      if (!placeId) throw new Error('Invalid location selection')
+
+      const locationResult = await findOrCreateLocation.call({
+        placeId,
+        displayText
+      })
+
+      if (!locationResult.success) {
+        throw new Error('Failed to fetch location details from Google Places')
+      }
+
+      const location = locationResult.data
+      await prisma.location.update({
+        where: { id: location.id },
+        data: {
+          placeId: location.placeId,
+          displayText: location.displayText,
+          country: location.country ?? null,
+          region: location.region ?? null,
+          latitude: location.latitude ?? null,
+          longitude: location.longitude ?? null,
+          profiles: {
+            connect: { id: `${id}` }
+          }
+        }
+      })
     }
   })
 }

@@ -88,6 +88,12 @@ const updateTags = async (bookId: string, tags: string[] = []) =>
     }
   })
 
+const collaboratorFormSchema = z.object({
+  Job: z.string().array().nullish(),
+  Assistant: z.boolean().nullish(),
+  Name: z.string().nullish()
+})
+
 export const customiseBooks = (
   collection: CollectionCustomizer<Schema, 'books'>
 ) => {
@@ -298,13 +304,9 @@ export const customiseBooks = (
     ],
     execute: async (context, result) => {
       const bookId = `${await context.getRecordId()}`
-      const formValues = z
-        .object({
-          Job: z.string().array().nullish(),
-          Assistant: z.boolean().nullish(),
-          Name: z.string().nullish()
-        })
-        .safeParse(context.formValues).data
+      const formValues = collaboratorFormSchema.safeParse(
+        context.formValues
+      ).data
       const jobId = formValues?.Job?.[0]
 
       if (!jobId) return result.error('Job is required')
