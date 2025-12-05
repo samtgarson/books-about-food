@@ -57,6 +57,7 @@ export default defineConfig([
         'error',
         {
           'nextauth]': 'always',
+          json: 'always',
           svg: 'always'
         }
       ],

@@ -6,7 +6,7 @@ import { AuthedButton } from 'src/components/auth/authed-button'
 import { GridContainer } from 'src/components/lists/grid-container'
 import { deserialize, SuperJSONResult } from 'superjson'
 import { ProfileItem } from '../../item'
-import dummyData from './dummy-data'
+import dummyData from './dummy-data.json'
 
 export const dummyProfiles = deserialize<Profile[]>(
   dummyData as unknown as SuperJSONResult
