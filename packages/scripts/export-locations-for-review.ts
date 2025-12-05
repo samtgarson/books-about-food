@@ -163,7 +163,7 @@ async function main() {
         suggestedPlaceId: match.placeId,
         suggestedDisplay: match.displayText,
         confidence: match.confidence,
-        approved: match.confidence === 'none' ? '' : 'Y'
+        approved: match.confidence === 'high' ? 'Y' : ''
       })
     }
 

@@ -31,8 +31,7 @@ export function LocationField() {
 
   const [selection, setSelection] = useState<LocationOption[]>(defaultValue)
 
-  // if (!editMode && profile.locations.length === 0) return null
-  if (!editMode && !profile.location?.length) return null
+  if (!editMode && profile.locations.length === 0) return null
   return (
     <Detail maxWidth>
       <Sheet.Root>

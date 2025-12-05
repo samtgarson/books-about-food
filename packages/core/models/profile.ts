@@ -16,7 +16,6 @@ export class Profile extends Colourful(
     instagram?: string
     avatar?: Image
     jobTitle?: string
-    location?: string
     locations: Location[]
     mostRecentlyPublishedOn?: Date
     userId?: string
@@ -38,16 +37,14 @@ export class Profile extends Colourful(
       this.mostRecentlyPublishedOn = attrs.mostRecentlyPublishedOn ?? undefined
       this.userId = attrs.userId ?? undefined
       this.hiddenCollaborators = attrs.hiddenCollaborators
-      this.location = attrs.location ?? undefined
       this.locations = (attrs.locations ?? []).map((loc) => new Location(loc))
       this.role = attrs._count.authoredBooks > 0 ? 'author' : 'contributor'
     }
 
-    /** Backwards-compatible getter for location display string */
-    // get location(): string | undefined {
-    //   if (this.locations.length === 0) return undefined
-    //   return this.locations.map((l) => l.displayText).join(' • ')
-    // }
+    get location(): string | undefined {
+      if (this.locations.length === 0) return undefined
+      return this.locations.map((l) => l.displayText).join(' • ')
+    }
 
     get initials() {
       const names = this.name.split(' ')
