@@ -1,0 +1,9 @@
+{
+  "name": "@books-about-food/scripts",
+  "private": true,
+  "scripts": {},
+  "dependencies": {
+    "@books-about-food/database": "*",
+    "@books-about-food/core": "*"
+  }
+}

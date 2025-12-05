@@ -90,7 +90,8 @@ export default defineConfig([
       'packages/core/**/*.tsx',
       'packages/e2e/**/*.ts',
       'packages/database/prisma.config.ts',
-      'admin/build.js'
+      'admin/build.js',
+      'packages/scripts/**/*.ts'
     ],
 
     rules: {
