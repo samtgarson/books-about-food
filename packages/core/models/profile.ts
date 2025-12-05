@@ -41,7 +41,6 @@ export class Profile extends Colourful(
       this.location = attrs.location ?? undefined
       this.locations = (attrs.locations ?? []).map((loc) => new Location(loc))
       this.role = attrs._count.authoredBooks > 0 ? 'author' : 'contributor'
-      console.log(this.location)
     }
 
     /** Backwards-compatible getter for location display string */
