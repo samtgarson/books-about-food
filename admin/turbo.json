@@ -20,6 +20,7 @@
         "EDELWEISS_SESSION",
         "FOREST_AUTH_SECRET",
         "FOREST_ENV_SECRET",
+        "GOOGLE_API_KEY",
         "INNGEST_EVENT_KEY",
         "INNGEST_SIGNING_KEY",
         "NODE_ENV",
