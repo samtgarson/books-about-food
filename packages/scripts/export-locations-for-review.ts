@@ -23,9 +23,10 @@
  * - approved: Empty (to be filled by human reviewer with 'Y')
  */
 
+import 'dotenv/config'
+
 import { GooglePlacesGateway } from '@books-about-food/core/gateways/google-places'
 import prisma from '@books-about-food/database'
-import 'dotenv/config'
 
 const places = new GooglePlacesGateway()
 
@@ -100,7 +101,8 @@ async function main() {
       location: {
         not: null,
         notIn: ['']
-      }
+      },
+      locations: { none: {} } // Exclude profiles that already have linked locations
     },
     select: {
       id: true,

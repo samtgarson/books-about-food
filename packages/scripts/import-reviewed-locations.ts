@@ -21,6 +21,8 @@
  * - approved: 'Y' to process, empty/anything else to skip
  */
 
+import 'dotenv/config'
+
 import { findOrCreateLocation } from '@books-about-food/core/services/locations/find-or-create-location'
 import prisma from '@books-about-food/database'
 
