@@ -6,7 +6,7 @@
     },
     "@books-about-food/database#build": {
       "env": ["DATABASE_URL", "DATABASE_DIRECT_URL"],
-      "outputs": ["packages/database/generated/**"]
+      "outputs": ["generated/**"]
     },
     "build": {
       "dependsOn": ["@books-about-food/database#build"]
