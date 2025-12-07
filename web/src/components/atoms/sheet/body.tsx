@@ -67,7 +67,7 @@ export const Body = forwardRef<SheetBodyControl, SheetBodyProps>(function Body(
       <div
         ref={scrollRoot}
         className={cn(
-          'pointer-events-auto isolate flex flex-1 flex-col overflow-auto',
+          'pointer-events-auto isolate flex flex-1 flex-col overflow-auto overflow-x-hidden',
           containerClassName
         )}
       >

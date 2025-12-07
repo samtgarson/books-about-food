@@ -10,6 +10,7 @@ export class Location extends BaseModel {
   region?: string
   latitude?: number
   longitude?: number
+  profileCount: number
 
   constructor(attrs: LocationAttrs) {
     super()
@@ -20,6 +21,7 @@ export class Location extends BaseModel {
     this.region = attrs.region ?? undefined
     this.latitude = attrs.latitude ?? undefined
     this.longitude = attrs.longitude ?? undefined
+    this.profileCount = attrs._count.profiles ?? 0
   }
 
   get name() {

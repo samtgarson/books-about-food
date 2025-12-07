@@ -64,18 +64,17 @@ export function Content({
             if (!focusTriggerOnClose) e.preventDefault()
           }}
           className={cn(
-            'group pointer-events-none relative flex w-full flex-1 shrink-0 flex-col justify-center gap-3 focus:outline-hidden sm:gap-4',
+            'group pointer-events-none relative flex w-full flex-1 shrink-0 flex-col justify-center gap-3 overflow-x-hidden bg-white focus:outline-hidden sm:gap-4',
             {
               'sm:max-w-lg': size === 'md',
               'sm:max-w-xl': size === 'lg',
               'sm:max-w-[90vw]': size === 'xl',
               'sheet-dialog max-h-[min(var(--max-height),100dvh)] animate-fade-slide-in sm:max-h-[min(var(--max-height),75dvh)] sm:short:max-h-[min(var(--max-height),80dvh)]':
                 type === 'dialog',
-              'sheet-drawer m-3 animate-drawer-enter rounded-lg p-3':
+              'sheet-drawer m-3 animate-drawer-enter rounded-lg shadow-xl':
                 type === 'drawer'
             },
-            overlay && 'bg-white sm:p-8',
-            wide ? 'py-5' : 'p-5',
+            wide ? 'py-5 sm:py-8' : 'p-5 sm:p-8',
             className
           )}
           aria-describedby={undefined}
@@ -118,7 +117,7 @@ function AuthedContent({
 
   if (status === 'loading' || loading)
     return (
-      <Body>
+      <Body className="items-center justify-center">
         <Loader />
       </Body>
     )
@@ -144,7 +143,8 @@ function ControlsBar({
         'z-30 -mb-3 flex items-center justify-end gap-4 border-b pb-3 transition-colors sm:-mb-4 sm:pb-4',
         '-mx-5 sm:-mx-8 sm:px-8',
         !scrollState.top ? 'border-neutral-grey' : 'border-transparent',
-        wide ? 'px-10' : 'px-5',
+        wide ? 'px-10 sm:px-16' : 'px-5',
+        controls !== null && 'flex-wrap',
         className
       )}
     >
