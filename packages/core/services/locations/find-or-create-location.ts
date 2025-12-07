@@ -3,6 +3,7 @@ import z from 'zod'
 import { GooglePlacesGateway } from '../../gateways/google-places'
 import { Location } from '../../models/location'
 import { Service } from '../base'
+import { locationIncludes } from '../utils'
 
 const places = new GooglePlacesGateway()
 
@@ -13,12 +14,14 @@ export const findOrCreateLocation = new Service(
   }),
   async function ({ placeId, displayText }) {
     const existing = await prisma.location.findUnique({
-      where: { placeId }
+      where: { placeId },
+      include: locationIncludes
     })
 
     if (existing) return new Location(existing)
 
     const details = await places.getPlaceDetails(placeId)
+    if (!details) return null
 
     const created = await prisma.location.create({
       data: {
@@ -26,9 +29,10 @@ export const findOrCreateLocation = new Service(
         displayText,
         country: details?.country,
         region: details?.region,
-        latitude: details?.latitude,
-        longitude: details?.longitude
-      }
+        latitude: details.latitude,
+        longitude: details.longitude
+      },
+      include: locationIncludes
     })
 
     return new Location(created)

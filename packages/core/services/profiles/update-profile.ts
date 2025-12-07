@@ -42,9 +42,7 @@ export const updateProfile = new AuthedService(
       const locationResults = await Promise.all(
         locations.map((loc) => findOrCreateLocation.call(loc))
       )
-      locationIds = locationResults
-        .filter((r) => r.success && r.data)
-        .map((r) => r.data!.id)
+      locationIds = locationResults.flatMap((r) => r.data?.id ?? [])
     }
 
     const updated = await prisma.profile.update({

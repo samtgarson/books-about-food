@@ -189,8 +189,8 @@ export const customiseProfiles = (
           displayText: location.displayText,
           country: location.country ?? null,
           region: location.region ?? null,
-          latitude: location.latitude ?? null,
-          longitude: location.longitude ?? null,
+          latitude: location.latitude,
+          longitude: location.longitude,
           profiles: {
             connect: { id: `${id}` }
           }

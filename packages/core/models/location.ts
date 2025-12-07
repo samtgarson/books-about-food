@@ -8,8 +8,8 @@ export class Location extends BaseModel {
   displayText: string
   country?: string
   region?: string
-  latitude?: number
-  longitude?: number
+  latitude: number
+  longitude: number
   profileCount: number
 
   constructor(attrs: LocationAttrs) {
@@ -19,8 +19,8 @@ export class Location extends BaseModel {
     this.displayText = attrs.displayText
     this.country = attrs.country ?? undefined
     this.region = attrs.region ?? undefined
-    this.latitude = attrs.latitude ?? undefined
-    this.longitude = attrs.longitude ?? undefined
+    this.latitude = attrs.latitude
+    this.longitude = attrs.longitude
     this.profileCount = attrs._count.profiles ?? 0
   }
 

@@ -135,7 +135,7 @@ model Profile {
   claims        Claim[]
   authoredBooks Book[]            @relation("authored_books")
   features      FeaturedProfile[]
-  locations     Location[]
+  locations     Location[]        @relation("profiles_locations")
 
   @@map("profiles")
 }
@@ -148,10 +148,10 @@ model Location {
   displayText String   @map("display_text")
   country     String?
   region      String?
-  latitude    Float?
-  longitude   Float?
+  latitude    Float
+  longitude   Float
 
-  profiles Profile[]
+  profiles Profile[] @relation("profiles_locations")
 
   @@map("locations")
 }

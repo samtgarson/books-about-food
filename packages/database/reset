@@ -28,22 +28,24 @@ function dump () {
 
   echo "> Dumping production data"
   pg_dump \
-    -t jobs \
+    -t _authored_books \
+    -t _books_tags \
+    -t _profiles_locations \
+    -t _profiles_jobs \
     -t books \
+    -t collection_items \
+    -t collections \
     -t contributions \
+    -t featured_profiles \
+    -t features \
+    -t frequently_asked_questions \
     -t images \
+    -t jobs \
     -t links \
+    -t locations \
     -t profiles \
     -t publishers \
     -t tags \
-    -t features \
-    -t _books_tags \
-    -t _profiles_jobs \
-    -t _authored_books \
-    -t featured_profiles \
-    -t frequently_asked_questions \
-    -t collections \
-    -t collection_items \
     --data-only -Fc \
     $PROD_DATABASE_URL > $prod_dump
 

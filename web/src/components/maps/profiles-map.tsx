@@ -3,8 +3,10 @@
 import type { Point } from 'geojson'
 import type { GeoJSONSource, MapMouseEvent } from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import Map, { Layer, MapRef, Source } from 'react-map-gl/mapbox'
+import { usePromise } from 'src/hooks/use-promise'
+import { fetchGeoJSON } from './action'
 import { clusterLayer, countLayer, unclusteredPointLayer } from './layers'
 import {
   MapProfilesDrawer,
@@ -16,8 +18,10 @@ export type ProfilesMapProps = {
 }
 
 export function ProfilesMap({ className }: ProfilesMapProps) {
+  const { value: geojson } = usePromise(fetchGeoJSON, undefined)
   const mapRef = useRef<MapRef>(null)
   const sheetRef = useRef<MapProfilesDrawerControl>(null)
+  const [cursor, setCursor] = useState<'grab' | 'pointer'>('grab')
 
   function handleClick(event: MapMouseEvent) {
     const feature = event.features?.[0]
@@ -68,12 +72,15 @@ export function ProfilesMap({ className }: ProfilesMapProps) {
           clusterLayer.id as string,
           unclusteredPointLayer.id as string
         ]}
+        cursor={cursor}
+        onMouseEnter={() => setCursor('pointer')}
+        onMouseLeave={() => setCursor('grab')}
         onClick={handleClick}
       >
         <Source
           id="locations"
           type="geojson"
-          data="/api/locations/geojson"
+          data={geojson}
           cluster={true}
           clusterMaxZoom={14}
           clusterRadius={50}

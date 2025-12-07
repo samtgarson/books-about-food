@@ -20,6 +20,7 @@
         "GOOGLE_CLIENT_SECRET",
         "INNGEST_EVENT_KEY",
         "NEXTAUTH_SECRET",
+        "NEXT_PUBLIC_MAPBOX_TOKEN",
         "S3_DOMAIN",
         "SENTRY_AUTH_TOKEN",
         "SENTRY_ORG",
