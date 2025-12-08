@@ -64,9 +64,6 @@
     "tsx": "^4.20.6",
     "turbo": "^2.6.1"
   },
-  "overrides": {
-    "react": "19.0.0"
-  },
   "prettier": "@books-about-food/prettier-config",
   "lint-staged": {
     "*.(json|md)": [
