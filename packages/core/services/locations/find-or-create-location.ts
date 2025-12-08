@@ -27,10 +27,7 @@ export const findOrCreateLocation = new Service(
       data: {
         placeId,
         displayText,
-        country: details?.country,
-        region: details?.region,
-        latitude: details.latitude,
-        longitude: details.longitude
+        ...details
       },
       include: locationIncludes
     })
