@@ -390,6 +390,15 @@ view SearchResult {
   @@map("search_results")
 }
 
+view LocationFilterOption {
+  value        String  @unique
+  type         String
+  locationId   String? @map("location_id") @db.Uuid
+  profileCount Int     @map("profile_count")
+
+  @@map("location_filter_options")
+}
+
 model FrequentlyAskedQuestion {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt DateTime @default(now()) @map("created_at")

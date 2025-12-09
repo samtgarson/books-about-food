@@ -12,7 +12,7 @@ import { Search } from './search'
 type BaseFilterSelectProps<Value> = {
   options:
     | { label: string; value: Value }[]
-    | (() => Promise<{ label: string; value: Value }[]>)
+    | ((query: string) => Promise<{ label: string; value: Value }[]>)
   placeholder: string
   search?: boolean
   param: string
@@ -39,14 +39,15 @@ export function FilterSelect<Value extends string | number = string>({
   search,
   param
 }: FilterSelectProps<Value>) {
+  const [searchValue, setSearchValue] = useState('')
   const { loading, value: options } = usePromise(
     optionsProvider instanceof Function
-      ? optionsProvider
+      ? () => optionsProvider(searchValue)
       : async () => optionsProvider,
-    []
+    [],
+    [searchValue]
   )
   const [value, setValue] = useState(initialValue)
-  const [searchValue, setSearchValue] = useState('')
 
   const matches = useMemo(
     () =>
@@ -107,7 +108,7 @@ export function FilterSelect<Value extends string | number = string>({
           <Search
             value={searchValue}
             onChange={setSearchValue}
-            className="mb-4 text-18! sm:mb-6 sm:text-24!"
+            className="mb-4 text-18! transition-all focus-within:px-2 sm:mb-6 sm:text-24!"
           />
         )}
         <ul className="flex flex-col gap-2 sm:gap-3">

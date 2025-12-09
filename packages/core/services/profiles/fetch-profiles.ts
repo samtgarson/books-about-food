@@ -4,6 +4,7 @@ import prisma, { Prisma } from '@books-about-food/database'
 import { z } from 'zod'
 import { profileIncludes } from '../utils'
 import { array, paginationInput } from '../utils/inputs'
+import { buildLocationFilter } from './utils/build-location-filter'
 
 export const FETCH_PROFILES_ONLY_PUBLISHED_QUERY = {
   OR: [
@@ -19,10 +20,22 @@ export type FetchProfilesOutput = Awaited<
   ReturnType<(typeof fetchProfiles)['call']>
 >
 
+// Define location filter type supporting both UUIDs and composite IDs
+const locationFilterSchema = z.union([
+  z.uuid(),
+  z.custom<`${'country' | 'region'}:${string}`>(
+    (val) => {
+      if (typeof val !== 'string') return false
+      return /^(country|region):.+$/.test(val)
+    },
+    { message: 'Must be a UUID or composite filter like "country:France"' }
+  )
+])
+
 export const fetchProfiles = new Service(
   z.object({
     userId: z.string().optional(),
-    locationIds: array(z.string()).optional(),
+    locationIds: array(locationFilterSchema).optional(),
     sort: z.enum(['name', 'trending']).optional(),
     search: z.string().optional(),
     jobs: array(z.string()).optional(),
@@ -43,17 +56,14 @@ export const fetchProfiles = new Service(
   }) => {
     const jobFilter = createJobFilter(jobs)
     const userIdFilter = userId ? { userId: userId } : {}
-    const locationFilter =
-      locationIds && locationIds.length > 0
-        ? { locations: { some: { id: { in: locationIds } } } }
-        : {}
+    const locationFilter = buildLocationFilter(locationIds || [])
     const searchFilter = createSearchFilter(search)
 
     const where: Prisma.ProfileWhereInput = {
       AND: [
         { name: { not: '' } },
         userIdFilter,
-        locationFilter,
+        locationFilter || {},
         searchFilter,
         jobFilter,
         onlyPublished ? FETCH_PROFILES_ONLY_PUBLISHED_QUERY : {},
