@@ -52,9 +52,9 @@ export const BookList = async ({
 }
 
 export const SkeletonBookList = () => (
-  <Pagination total={100} perPage={18} filteredTotal={100}>
+  <Pagination total={100} perPage={24} filteredTotal={100}>
     <GridContainer className="sm:gap-y-16">
-      {Array.from({ length: 18 }, (_, i) => (
+      {Array.from({ length: 24 }, (_, i) => (
         <Skeleton key={i} index={i} />
       ))}
     </GridContainer>

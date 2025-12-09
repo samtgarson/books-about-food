@@ -64,7 +64,7 @@ function countQuery(input: FetchBooksInput) {
 
 function baseQuery({
   page = 0,
-  perPage = 18,
+  perPage = 23,
   sort: sortKey = 'releaseDate',
   ...input
 }: FetchBooksInput) {
