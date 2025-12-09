@@ -1,4 +1,5 @@
 import prisma from '@books-about-food/database'
+import { slugify } from '@books-about-food/shared/utils/slugify'
 import z from 'zod'
 import { GooglePlacesGateway } from '../../gateways/google-places'
 import { Location } from '../../models/location'
@@ -27,6 +28,7 @@ export const findOrCreateLocation = new Service(
       data: {
         placeId,
         displayText,
+        slug: slugify(displayText),
         ...details
       },
       include: locationIncludes

@@ -34,9 +34,9 @@ export const PeopleFilters = ({ filters }: PeopleFiltersProps) => {
         search
         options={locationOptions}
         placeholder="Locations"
-        value={wrapArray(filters.locationIds ?? [])}
+        value={wrapArray(filters.locations ?? [])}
         multi
-        param="locationIds"
+        param="locations"
       />
     </FilterBar>
   )

@@ -144,6 +144,7 @@ model Location {
   id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
+  slug        String   @unique
   placeId     String   @unique @map("place_id")
   displayText String   @map("display_text")
   country     String?
@@ -391,10 +392,10 @@ view SearchResult {
 }
 
 view LocationFilterOption {
-  value        String  @unique
-  type         String
-  locationId   String? @map("location_id") @db.Uuid
-  profileCount Int     @map("profile_count")
+  id           String @unique
+  value        String @map("option_value")
+  type         String @map("option_type")
+  profileCount Int    @map("profile_count")
 
   @@map("location_filter_options")
 }

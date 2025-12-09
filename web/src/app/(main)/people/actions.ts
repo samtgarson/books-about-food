@@ -7,7 +7,10 @@ import {
 } from '@books-about-food/core/services/locations/search-location-options'
 import { call } from 'src/utils/service'
 
-export async function locationOptions(query: string) {
+export async function locationOptions(
+  query: string,
+  _existingIds: string[] = []
+) {
   const shortQuery = query.length < 2
   const options: SearchLocationOptionsInput = {
     query: shortQuery ? null : query,
@@ -22,9 +25,9 @@ export async function locationOptions(query: string) {
     return []
   }
 
-  return result.data.map(({ value, type, locationId }) => ({
-    value: locationId || `${type}:${value}`,
-    label: value
+  return result.data.map(({ value: label, id: value }) => ({
+    label,
+    value
   }))
 }
 

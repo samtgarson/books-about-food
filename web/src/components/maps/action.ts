@@ -5,9 +5,9 @@ import { fetchProfiles } from '@books-about-food/core/services/profiles/fetch-pr
 import { call } from 'src/utils/service'
 import { stringify } from 'src/utils/superjson'
 
-export async function fetchProfilesByLocation(locationId: string) {
+export async function fetchProfilesByLocation(location: string) {
   const { data } = await call(fetchProfiles, {
-    locationIds: [locationId],
+    locations: [location],
     perPage: 'all'
   })
   return stringify(data?.profiles || [])

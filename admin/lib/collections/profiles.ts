@@ -177,7 +177,7 @@ export const customiseProfiles = (
         displayText
       })
 
-      if (!locationResult.success) {
+      if (!locationResult.success || !locationResult.data) {
         throw new Error('Failed to fetch location details from Google Places')
       }
 

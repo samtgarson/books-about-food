@@ -3,7 +3,7 @@ import { Service } from '@books-about-food/core/services/base'
 import prisma, { Prisma } from '@books-about-food/database'
 import { z } from 'zod'
 import { profileIncludes } from '../utils'
-import { array, paginationInput } from '../utils/inputs'
+import { array, paginationInput, slug } from '../utils/inputs'
 import { buildLocationFilter } from './utils/build-location-filter'
 
 export const FETCH_PROFILES_ONLY_PUBLISHED_QUERY = {
@@ -20,22 +20,22 @@ export type FetchProfilesOutput = Awaited<
   ReturnType<(typeof fetchProfiles)['call']>
 >
 
-// Define location filter type supporting both UUIDs and composite IDs
+// Define location filter type supporting both slugs and composite filters
 const locationFilterSchema = z.union([
-  z.uuid(),
+  slug,
   z.custom<`${'country' | 'region'}:${string}`>(
     (val) => {
       if (typeof val !== 'string') return false
       return /^(country|region):.+$/.test(val)
     },
-    { message: 'Must be a UUID or composite filter like "country:France"' }
+    { message: 'Must be a slug or composite filter like "country:France"' }
   )
 ])
 
 export const fetchProfiles = new Service(
   z.object({
     userId: z.string().optional(),
-    locationIds: array(locationFilterSchema).optional(),
+    locations: array(locationFilterSchema).optional(),
     sort: z.enum(['name', 'trending']).optional(),
     search: z.string().optional(),
     jobs: array(z.string()).optional(),
@@ -45,9 +45,9 @@ export const fetchProfiles = new Service(
   }),
   async ({
     page = 0,
-    perPage = 21,
+    perPage = 24,
     userId,
-    locationIds,
+    locations,
     jobs,
     sort = 'name',
     search,
@@ -56,7 +56,7 @@ export const fetchProfiles = new Service(
   }) => {
     const jobFilter = createJobFilter(jobs)
     const userIdFilter = userId ? { userId: userId } : {}
-    const locationFilter = buildLocationFilter(locationIds || [])
+    const locationFilter = buildLocationFilter(locations || [])
     const searchFilter = createSearchFilter(search)
 
     const where: Prisma.ProfileWhereInput = {

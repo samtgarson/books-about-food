@@ -8,13 +8,6 @@ import {
   TSortClause
 } from '@forestadmin/agent';
 
-export type _LocationToProfileCustomizer = CollectionCustomizer<Schema, '_LocationToProfile'>;
-export type _LocationToProfileRecord = TPartialRow<Schema, '_LocationToProfile'>;
-export type _LocationToProfileConditionTree = TConditionTree<Schema, '_LocationToProfile'>;
-export type _LocationToProfileFilter = TPaginatedFilter<Schema, '_LocationToProfile'>;
-export type _LocationToProfileSortClause = TSortClause<Schema, '_LocationToProfile'>;
-export type _LocationToProfileAggregation = TAggregation<Schema, '_LocationToProfile'>;
-
 export type _authoredBooksCustomizer = CollectionCustomizer<Schema, '_authored_books'>;
 export type _authoredBooksRecord = TPartialRow<Schema, '_authored_books'>;
 export type _authoredBooksConditionTree = TConditionTree<Schema, '_authored_books'>;
@@ -35,6 +28,13 @@ export type _prismaMigrationsConditionTree = TConditionTree<Schema, '_prisma_mig
 export type _prismaMigrationsFilter = TPaginatedFilter<Schema, '_prisma_migrations'>;
 export type _prismaMigrationsSortClause = TSortClause<Schema, '_prisma_migrations'>;
 export type _prismaMigrationsAggregation = TAggregation<Schema, '_prisma_migrations'>;
+
+export type _profilesLocationsCustomizer = CollectionCustomizer<Schema, '_profiles_locations'>;
+export type _profilesLocationsRecord = TPartialRow<Schema, '_profiles_locations'>;
+export type _profilesLocationsConditionTree = TConditionTree<Schema, '_profiles_locations'>;
+export type _profilesLocationsFilter = TPaginatedFilter<Schema, '_profiles_locations'>;
+export type _profilesLocationsSortClause = TSortClause<Schema, '_profiles_locations'>;
+export type _profilesLocationsAggregation = TAggregation<Schema, '_profiles_locations'>;
 
 export type AccountsCustomizer = CollectionCustomizer<Schema, 'accounts'>;
 export type AccountsRecord = TPartialRow<Schema, 'accounts'>;
@@ -133,6 +133,13 @@ export type LinksConditionTree = TConditionTree<Schema, 'links'>;
 export type LinksFilter = TPaginatedFilter<Schema, 'links'>;
 export type LinksSortClause = TSortClause<Schema, 'links'>;
 export type LinksAggregation = TAggregation<Schema, 'links'>;
+
+export type LocationFilterOptionsCustomizer = CollectionCustomizer<Schema, 'location_filter_options'>;
+export type LocationFilterOptionsRecord = TPartialRow<Schema, 'location_filter_options'>;
+export type LocationFilterOptionsConditionTree = TConditionTree<Schema, 'location_filter_options'>;
+export type LocationFilterOptionsFilter = TPaginatedFilter<Schema, 'location_filter_options'>;
+export type LocationFilterOptionsSortClause = TSortClause<Schema, 'location_filter_options'>;
+export type LocationFilterOptionsAggregation = TAggregation<Schema, 'location_filter_options'>;
 
 export type LocationsCustomizer = CollectionCustomizer<Schema, 'locations'>;
 export type LocationsRecord = TPartialRow<Schema, 'locations'>;
@@ -1748,7 +1755,21 @@ export type Schema = {
       'book:publisher:imprint:imprint:imprint:website': string | null;
     };
   };
-  '_LocationToProfile': {
+  '_prisma_migrations': {
+    plain: {
+      'applied_steps_count': number;
+      'checksum': string;
+      'finished_at': string | null;
+      'id': string;
+      'logs': string | null;
+      'migration_name': string;
+      'rolled_back_at': string | null;
+      'started_at': string;
+    };
+    nested: {};
+    flat: {};
+  };
+  '_profiles_locations': {
     plain: {
       'A': string;
       'B': string;
@@ -1762,10 +1783,11 @@ export type Schema = {
       'location:created_at': string;
       'location:display_text': string;
       'location:id': string;
-      'location:latitude': number | null;
-      'location:longitude': number | null;
+      'location:latitude': number;
+      'location:longitude': number;
       'location:place_id': string;
       'location:region': string | null;
+      'location:slug': string;
       'location:updated_at': string;
       'profile:Avatar': string | null;
       'profile:created_at': string;
@@ -2071,20 +2093,6 @@ export type Schema = {
       'profile:image:publisher:imprint:imprint:updated_at': string;
       'profile:image:publisher:imprint:imprint:website': string | null;
     };
-  };
-  '_prisma_migrations': {
-    plain: {
-      'applied_steps_count': number;
-      'checksum': string;
-      'finished_at': string | null;
-      'id': string;
-      'logs': string | null;
-      'migration_name': string;
-      'rolled_back_at': string | null;
-      'started_at': string;
-    };
-    nested: {};
-    flat: {};
   };
   'accounts': {
     plain: {
@@ -9495,16 +9503,27 @@ export type Schema = {
       'book:publisher:imprint:imprint:imprint:website': string | null;
     };
   };
+  'location_filter_options': {
+    plain: {
+      'location_slug': string | null;
+      'profile_count': number | null;
+      'type': string | null;
+      'value': string;
+    };
+    nested: {};
+    flat: {};
+  };
   'locations': {
     plain: {
       'country': string | null;
       'created_at': string;
       'display_text': string;
       'id': string;
-      'latitude': number | null;
-      'longitude': number | null;
+      'latitude': number;
+      'longitude': number;
       'place_id': string;
       'region': string | null;
+      'slug': string;
       'updated_at': string;
     };
     nested: {};

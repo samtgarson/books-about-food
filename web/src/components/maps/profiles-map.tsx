@@ -48,10 +48,10 @@ export function ProfilesMap({ className }: ProfilesMapProps) {
         })
       })
     } else {
-      const locationId = feature.properties?.id
+      const location = feature.properties?.id
       const displayText = feature.properties?.displayText
-      if (typeof locationId === 'string' && typeof displayText === 'string') {
-        sheetRef.current?.open(locationId, displayText)
+      if (typeof location === 'string' && typeof displayText === 'string') {
+        sheetRef.current?.open(location, displayText)
       }
     }
   }

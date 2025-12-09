@@ -28,3 +28,5 @@ export const processString = <T extends z.ZodType>(type: T) =>
     if (typeof val === 'string' && val.length === 0) return undefined
     return val
   }, type)
+
+export const slug = z.string().regex(/^[a-z0-9-]+$/, 'Must be a valid slug')

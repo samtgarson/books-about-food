@@ -4,6 +4,7 @@ import { LocationAttrs } from './types'
 export class Location extends BaseModel {
   _type = 'location' as const
   id: string
+  slug: string
   placeId: string
   displayText: string
   country?: string
@@ -15,6 +16,7 @@ export class Location extends BaseModel {
   constructor(attrs: LocationAttrs) {
     super()
     this.id = attrs.id
+    this.slug = attrs.slug
     this.placeId = attrs.placeId
     this.displayText = attrs.displayText
     this.country = attrs.country ?? undefined
@@ -29,7 +31,7 @@ export class Location extends BaseModel {
   }
 
   get href() {
-    return `/locations/${encodeURIComponent(this.placeId)}`
+    return `/locations/${this.slug}`
   }
 
   toString() {

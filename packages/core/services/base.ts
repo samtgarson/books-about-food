@@ -67,8 +67,8 @@ abstract class BaseService<
 
   public async call(
     ...args: Authed extends true
-      ? [input: z.output<Input>, user: User]
-      : [input: z.output<Input>, user?: never]
+      ? [input: z.input<Input>, user: User]
+      : [input: z.input<Input>, user?: never]
   ): Promise<ServiceResult<Return>> {
     const user = args[1]
     try {
@@ -132,7 +132,7 @@ export class AuthedService<Input extends z.ZodType, Return> extends BaseService<
   }
 
   async call(
-    input: z.output<Input>,
+    input: z.input<Input>,
     user: User
   ): Promise<ServiceResult<Return>> {
     if (!user)

@@ -1,23 +1,21 @@
 import { Prisma } from '@books-about-food/database'
 
-type LocationFilter = string // UUID or "type:value"
-
 export function buildLocationFilter(
-  locationIds: LocationFilter[]
+  locations: string[]
 ): Prisma.ProfileWhereInput | null {
-  if (!locationIds || locationIds.length === 0) return null
+  if (!locations || locations.length === 0) return null
 
-  // Separate UUIDs from composite filters
-  const uuidFilters: string[] = []
+  // Separate slugs from composite filters
+  const slugFilters: string[] = []
   const compositeFilters: Array<{ type: string; value: string }> = []
 
-  for (const id of locationIds) {
-    if (id.includes(':')) {
-      const [type, value] = id.split(':', 2)
+  for (const filter of locations) {
+    if (filter.includes(':')) {
+      const [type, value] = filter.split(':', 2)
       compositeFilters.push({ type, value })
     } else {
-      // UUID format
-      uuidFilters.push(id)
+      // Slug format
+      slugFilters.push(filter)
     }
   }
 
@@ -34,12 +32,11 @@ export function buildLocationFilter(
   // Build OR conditions
   const locationConditions: Prisma.ProfileWhereInput[] = []
 
-  // UUID-based filtering (cities + backward compatibility)
-  // Cities now pass their actual location UUID from the view's location_id column
-  if (uuidFilters.length > 0) {
+  // Slug-based filtering (cities)
+  if (slugFilters.length > 0) {
     locationConditions.push({
       locations: {
-        some: { id: { in: uuidFilters } }
+        some: { slug: { in: slugFilters } }
       }
     })
   }

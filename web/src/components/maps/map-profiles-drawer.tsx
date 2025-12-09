@@ -16,7 +16,7 @@ import { Search } from '../lists/search'
 import { fetchProfilesByLocation } from './action'
 
 export type MapProfilesDrawerControl = {
-  open(id: string, title: string): Promise<void>
+  open(location: string, title: string): Promise<void>
   close(): void
 }
 
@@ -29,11 +29,11 @@ export const MapProfilesDrawer = forwardRef<MapProfilesDrawerControl>(
     const [title, setTitle] = useState<string | null>(null)
 
     useImperativeHandle(ref, () => ({
-      async open(id, title) {
+      async open(location, title) {
         setTitle(title)
         setLoading(true)
         sheetRef.current?.setOpen(true)
-        const stringified = await fetchProfilesByLocation(id)
+        const stringified = await fetchProfilesByLocation(location)
         setProfiles(parse(stringified))
         setLoading(false)
       },
