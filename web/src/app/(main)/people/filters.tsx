@@ -32,7 +32,10 @@ export const PeopleFilters = ({ filters }: PeopleFiltersProps) => {
       />
       <FilterSelect
         search
-        options={locationOptions}
+        options={async function (query: string) {
+          'use server'
+          return locationOptions(query, filters.locations)
+        }}
         placeholder="Locations"
         value={wrapArray(filters.locations ?? [])}
         multi

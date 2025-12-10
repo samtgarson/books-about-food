@@ -2,18 +2,18 @@ import prisma, { Prisma } from '@books-about-food/database'
 import { z } from 'zod'
 import { Service } from '../base'
 
-const searchLocationOptionsSchema = z.object({
+const fetchLocationFilterOptionsSchema = z.object({
   query: z.string().min(2).nullish(),
   sort: z.literal(['relevance', 'popularity']).optional().default('relevance'),
   limit: z.number().min(1).optional().default(20)
 })
 
-export type SearchLocationOptionsInput = z.input<
-  typeof searchLocationOptionsSchema
+export type FetchLocationFilterOptionsInput = z.input<
+  typeof fetchLocationFilterOptionsSchema
 >
 
-export const searchLocationOptions = new Service(
-  searchLocationOptionsSchema,
+export const fetchLocationFilterOptions = new Service(
+  fetchLocationFilterOptionsSchema,
   async function ({ query, sort, limit: take }) {
     const orderBy: Prisma.LocationFilterOptionOrderByWithRelationInput = {}
     if (sort === 'popularity' || !query?.length) {
