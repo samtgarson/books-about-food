@@ -64,7 +64,7 @@ export function Content({
             if (!focusTriggerOnClose) e.preventDefault()
           }}
           className={cn(
-            'group pointer-events-none relative flex w-full flex-1 shrink-0 flex-col justify-center gap-3 overflow-x-hidden bg-white focus:outline-hidden sm:gap-4',
+            'group pointer-events-none relative flex w-full flex-1 shrink-0 flex-col justify-center gap-3 overflow-hidden bg-white focus:outline-hidden sm:gap-4',
             {
               'sm:max-w-lg': size === 'md',
               'sm:max-w-xl': size === 'lg',

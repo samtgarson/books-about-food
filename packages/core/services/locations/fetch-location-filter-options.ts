@@ -5,7 +5,10 @@ import { Service } from '../base'
 const fetchLocationFilterOptionsSchema = z.object({
   query: z.string().min(2).nullish(),
   sort: z.literal(['relevance', 'popularity']).optional().default('relevance'),
-  limit: z.number().min(1).optional().default(20)
+  limit: z
+    .union([z.number().min(1), z.literal(false)])
+    .optional()
+    .default(20)
 })
 
 export type FetchLocationFilterOptionsInput = z.input<
@@ -36,7 +39,7 @@ export const fetchLocationFilterOptions = new Service(
           : undefined
       },
       orderBy,
-      take
+      take: take === false ? undefined : take
     })
   }
 )
