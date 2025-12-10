@@ -276,6 +276,7 @@ export type Schema = {
       'profile:instagram': string | null;
       'profile:job_title': string | null;
       'profile:location': string | null;
+      'profile:locationCount': number | null;
       'profile:most_recently_published_on': string | null;
       'profile:name': string;
       'profile:slug': string;
@@ -386,6 +387,7 @@ export type Schema = {
       'book:image:profile:instagram': string | null;
       'book:image:profile:job_title': string | null;
       'book:image:profile:location': string | null;
+      'book:image:profile:locationCount': number | null;
       'book:image:profile:most_recently_published_on': string | null;
       'book:image:profile:name': string;
       'book:image:profile:slug': string;
@@ -636,6 +638,7 @@ export type Schema = {
       'book:publisher:image:profile:instagram': string | null;
       'book:publisher:image:profile:job_title': string | null;
       'book:publisher:image:profile:location': string | null;
+      'book:publisher:image:profile:locationCount': number | null;
       'book:publisher:image:profile:most_recently_published_on': string | null;
       'book:publisher:image:profile:name': string;
       'book:publisher:image:profile:slug': string;
@@ -788,6 +791,7 @@ export type Schema = {
       'book:image:preview_for:image:profile:instagram': string | null;
       'book:image:preview_for:image:profile:job_title': string | null;
       'book:image:preview_for:image:profile:location': string | null;
+      'book:image:preview_for:image:profile:locationCount': number | null;
       'book:image:preview_for:image:profile:most_recently_published_on': string | null;
       'book:image:preview_for:image:profile:name': string;
       'book:image:preview_for:image:profile:slug': string;
@@ -990,6 +994,7 @@ export type Schema = {
       'book:publisher:imprint:image:profile:instagram': string | null;
       'book:publisher:imprint:image:profile:job_title': string | null;
       'book:publisher:imprint:image:profile:location': string | null;
+      'book:publisher:imprint:image:profile:locationCount': number | null;
       'book:publisher:imprint:image:profile:most_recently_published_on': string | null;
       'book:publisher:imprint:image:profile:name': string;
       'book:publisher:imprint:image:profile:slug': string;
@@ -1262,6 +1267,7 @@ export type Schema = {
       'book:image:profile:instagram': string | null;
       'book:image:profile:job_title': string | null;
       'book:image:profile:location': string | null;
+      'book:image:profile:locationCount': number | null;
       'book:image:profile:most_recently_published_on': string | null;
       'book:image:profile:name': string;
       'book:image:profile:slug': string;
@@ -1443,6 +1449,7 @@ export type Schema = {
       'book:publisher:image:profile:instagram': string | null;
       'book:publisher:image:profile:job_title': string | null;
       'book:publisher:image:profile:location': string | null;
+      'book:publisher:image:profile:locationCount': number | null;
       'book:publisher:image:profile:most_recently_published_on': string | null;
       'book:publisher:image:profile:name': string;
       'book:publisher:image:profile:slug': string;
@@ -1517,6 +1524,7 @@ export type Schema = {
       'book:image:preview_for:image:profile:instagram': string | null;
       'book:image:preview_for:image:profile:job_title': string | null;
       'book:image:preview_for:image:profile:location': string | null;
+      'book:image:preview_for:image:profile:locationCount': number | null;
       'book:image:preview_for:image:profile:most_recently_published_on': string | null;
       'book:image:preview_for:image:profile:name': string;
       'book:image:preview_for:image:profile:slug': string;
@@ -1719,6 +1727,7 @@ export type Schema = {
       'book:publisher:imprint:image:profile:instagram': string | null;
       'book:publisher:imprint:image:profile:job_title': string | null;
       'book:publisher:imprint:image:profile:location': string | null;
+      'book:publisher:imprint:image:profile:locationCount': number | null;
       'book:publisher:imprint:image:profile:most_recently_published_on': string | null;
       'book:publisher:imprint:image:profile:name': string;
       'book:publisher:imprint:image:profile:slug': string;
@@ -1797,6 +1806,7 @@ export type Schema = {
       'profile:instagram': string | null;
       'profile:job_title': string | null;
       'profile:location': string | null;
+      'profile:locationCount': number | null;
       'profile:most_recently_published_on': string | null;
       'profile:name': string;
       'profile:slug': string;
@@ -2244,6 +2254,7 @@ export type Schema = {
       'book:image:profile:instagram': string | null;
       'book:image:profile:job_title': string | null;
       'book:image:profile:location': string | null;
+      'book:image:profile:locationCount': number | null;
       'book:image:profile:most_recently_published_on': string | null;
       'book:image:profile:name': string;
       'book:image:profile:slug': string;
@@ -2425,6 +2436,7 @@ export type Schema = {
       'book:publisher:image:profile:instagram': string | null;
       'book:publisher:image:profile:job_title': string | null;
       'book:publisher:image:profile:location': string | null;
+      'book:publisher:image:profile:locationCount': number | null;
       'book:publisher:image:profile:most_recently_published_on': string | null;
       'book:publisher:image:profile:name': string;
       'book:publisher:image:profile:slug': string;
@@ -2499,6 +2511,7 @@ export type Schema = {
       'book:image:preview_for:image:profile:instagram': string | null;
       'book:image:preview_for:image:profile:job_title': string | null;
       'book:image:preview_for:image:profile:location': string | null;
+      'book:image:preview_for:image:profile:locationCount': number | null;
       'book:image:preview_for:image:profile:most_recently_published_on': string | null;
       'book:image:preview_for:image:profile:name': string;
       'book:image:preview_for:image:profile:slug': string;
@@ -2701,6 +2714,7 @@ export type Schema = {
       'book:publisher:imprint:image:profile:instagram': string | null;
       'book:publisher:imprint:image:profile:job_title': string | null;
       'book:publisher:imprint:image:profile:location': string | null;
+      'book:publisher:imprint:image:profile:locationCount': number | null;
       'book:publisher:imprint:image:profile:most_recently_published_on': string | null;
       'book:publisher:imprint:image:profile:name': string;
       'book:publisher:imprint:image:profile:slug': string;
@@ -2846,6 +2860,7 @@ export type Schema = {
       'image:profile:instagram': string | null;
       'image:profile:job_title': string | null;
       'image:profile:location': string | null;
+      'image:profile:locationCount': number | null;
       'image:profile:most_recently_published_on': string | null;
       'image:profile:name': string;
       'image:profile:slug': string;
@@ -3027,6 +3042,7 @@ export type Schema = {
       'publisher:image:profile:instagram': string | null;
       'publisher:image:profile:job_title': string | null;
       'publisher:image:profile:location': string | null;
+      'publisher:image:profile:locationCount': number | null;
       'publisher:image:profile:most_recently_published_on': string | null;
       'publisher:image:profile:name': string;
       'publisher:image:profile:slug': string;
@@ -3101,6 +3117,7 @@ export type Schema = {
       'image:preview_for:image:profile:instagram': string | null;
       'image:preview_for:image:profile:job_title': string | null;
       'image:preview_for:image:profile:location': string | null;
+      'image:preview_for:image:profile:locationCount': number | null;
       'image:preview_for:image:profile:most_recently_published_on': string | null;
       'image:preview_for:image:profile:name': string;
       'image:preview_for:image:profile:slug': string;
@@ -3303,6 +3320,7 @@ export type Schema = {
       'publisher:imprint:image:profile:instagram': string | null;
       'publisher:imprint:image:profile:job_title': string | null;
       'publisher:imprint:image:profile:location': string | null;
+      'publisher:imprint:image:profile:locationCount': number | null;
       'publisher:imprint:image:profile:most_recently_published_on': string | null;
       'publisher:imprint:image:profile:name': string;
       'publisher:imprint:image:profile:slug': string;
@@ -3447,6 +3465,7 @@ export type Schema = {
       'image:preview_for:publisher:image:profile:instagram': string | null;
       'image:preview_for:publisher:image:profile:job_title': string | null;
       'image:preview_for:publisher:image:profile:location': string | null;
+      'image:preview_for:publisher:image:profile:locationCount': number | null;
       'image:preview_for:publisher:image:profile:most_recently_published_on': string | null;
       'image:preview_for:publisher:image:profile:name': string;
       'image:preview_for:publisher:image:profile:slug': string;
@@ -3562,6 +3581,7 @@ export type Schema = {
       'publisher:image:preview_for:image:profile:instagram': string | null;
       'publisher:image:preview_for:image:profile:job_title': string | null;
       'publisher:image:preview_for:image:profile:location': string | null;
+      'publisher:image:preview_for:image:profile:locationCount': number | null;
       'publisher:image:preview_for:image:profile:most_recently_published_on': string | null;
       'publisher:image:preview_for:image:profile:name': string;
       'publisher:image:preview_for:image:profile:slug': string;
@@ -3738,6 +3758,7 @@ export type Schema = {
       'publisher:imprint:imprint:image:profile:instagram': string | null;
       'publisher:imprint:imprint:image:profile:job_title': string | null;
       'publisher:imprint:imprint:image:profile:location': string | null;
+      'publisher:imprint:imprint:image:profile:locationCount': number | null;
       'publisher:imprint:imprint:image:profile:most_recently_published_on': string | null;
       'publisher:imprint:imprint:image:profile:name': string;
       'publisher:imprint:imprint:image:profile:slug': string;
@@ -3799,6 +3820,7 @@ export type Schema = {
       'profile:instagram': string | null;
       'profile:job_title': string | null;
       'profile:location': string | null;
+      'profile:locationCount': number | null;
       'profile:most_recently_published_on': string | null;
       'profile:name': string;
       'profile:slug': string;
@@ -4241,6 +4263,7 @@ export type Schema = {
       'book:image:profile:instagram': string | null;
       'book:image:profile:job_title': string | null;
       'book:image:profile:location': string | null;
+      'book:image:profile:locationCount': number | null;
       'book:image:profile:most_recently_published_on': string | null;
       'book:image:profile:name': string;
       'book:image:profile:slug': string;
@@ -4450,6 +4473,7 @@ export type Schema = {
       'book:publisher:image:profile:instagram': string | null;
       'book:publisher:image:profile:job_title': string | null;
       'book:publisher:image:profile:location': string | null;
+      'book:publisher:image:profile:locationCount': number | null;
       'book:publisher:image:profile:most_recently_published_on': string | null;
       'book:publisher:image:profile:name': string;
       'book:publisher:image:profile:slug': string;
@@ -4548,6 +4572,7 @@ export type Schema = {
       'collection:publisher:image:profile:instagram': string | null;
       'collection:publisher:image:profile:job_title': string | null;
       'collection:publisher:image:profile:location': string | null;
+      'collection:publisher:image:profile:locationCount': number | null;
       'collection:publisher:image:profile:most_recently_published_on': string | null;
       'collection:publisher:image:profile:name': string;
       'collection:publisher:image:profile:slug': string;
@@ -4622,6 +4647,7 @@ export type Schema = {
       'book:image:preview_for:image:profile:instagram': string | null;
       'book:image:preview_for:image:profile:job_title': string | null;
       'book:image:preview_for:image:profile:location': string | null;
+      'book:image:preview_for:image:profile:locationCount': number | null;
       'book:image:preview_for:image:profile:most_recently_published_on': string | null;
       'book:image:preview_for:image:profile:name': string;
       'book:image:preview_for:image:profile:slug': string;
@@ -4824,6 +4850,7 @@ export type Schema = {
       'book:publisher:imprint:image:profile:instagram': string | null;
       'book:publisher:imprint:image:profile:job_title': string | null;
       'book:publisher:imprint:image:profile:location': string | null;
+      'book:publisher:imprint:image:profile:locationCount': number | null;
       'book:publisher:imprint:image:profile:most_recently_published_on': string | null;
       'book:publisher:imprint:image:profile:name': string;
       'book:publisher:imprint:image:profile:slug': string;
@@ -5000,6 +5027,7 @@ export type Schema = {
       'collection:publisher:imprint:image:profile:instagram': string | null;
       'collection:publisher:imprint:image:profile:job_title': string | null;
       'collection:publisher:imprint:image:profile:location': string | null;
+      'collection:publisher:imprint:image:profile:locationCount': number | null;
       'collection:publisher:imprint:image:profile:most_recently_published_on': string | null;
       'collection:publisher:imprint:image:profile:name': string;
       'collection:publisher:imprint:image:profile:slug': string;
@@ -5159,6 +5187,7 @@ export type Schema = {
       'publisher:image:profile:instagram': string | null;
       'publisher:image:profile:job_title': string | null;
       'publisher:image:profile:location': string | null;
+      'publisher:image:profile:locationCount': number | null;
       'publisher:image:profile:most_recently_published_on': string | null;
       'publisher:image:profile:name': string;
       'publisher:image:profile:slug': string;
@@ -5335,6 +5364,7 @@ export type Schema = {
       'publisher:imprint:image:profile:instagram': string | null;
       'publisher:imprint:image:profile:job_title': string | null;
       'publisher:imprint:image:profile:location': string | null;
+      'publisher:imprint:image:profile:locationCount': number | null;
       'publisher:imprint:image:profile:most_recently_published_on': string | null;
       'publisher:imprint:image:profile:name': string;
       'publisher:imprint:image:profile:slug': string;
@@ -5437,6 +5467,7 @@ export type Schema = {
       'publisher:image:preview_for:image:profile:instagram': string | null;
       'publisher:image:preview_for:image:profile:job_title': string | null;
       'publisher:image:preview_for:image:profile:location': string | null;
+      'publisher:image:preview_for:image:profile:locationCount': number | null;
       'publisher:image:preview_for:image:profile:most_recently_published_on': string | null;
       'publisher:image:preview_for:image:profile:name': string;
       'publisher:image:preview_for:image:profile:slug': string;
@@ -5613,6 +5644,7 @@ export type Schema = {
       'publisher:imprint:imprint:image:profile:instagram': string | null;
       'publisher:imprint:imprint:image:profile:job_title': string | null;
       'publisher:imprint:imprint:image:profile:location': string | null;
+      'publisher:imprint:imprint:image:profile:locationCount': number | null;
       'publisher:imprint:imprint:image:profile:most_recently_published_on': string | null;
       'publisher:imprint:imprint:image:profile:name': string;
       'publisher:imprint:imprint:image:profile:slug': string;
@@ -5705,6 +5737,7 @@ export type Schema = {
       'profile:instagram': string | null;
       'profile:job_title': string | null;
       'profile:location': string | null;
+      'profile:locationCount': number | null;
       'profile:most_recently_published_on': string | null;
       'profile:name': string;
       'profile:slug': string;
@@ -5815,6 +5848,7 @@ export type Schema = {
       'book:image:profile:instagram': string | null;
       'book:image:profile:job_title': string | null;
       'book:image:profile:location': string | null;
+      'book:image:profile:locationCount': number | null;
       'book:image:profile:most_recently_published_on': string | null;
       'book:image:profile:name': string;
       'book:image:profile:slug': string;
@@ -6065,6 +6099,7 @@ export type Schema = {
       'book:publisher:image:profile:instagram': string | null;
       'book:publisher:image:profile:job_title': string | null;
       'book:publisher:image:profile:location': string | null;
+      'book:publisher:image:profile:locationCount': number | null;
       'book:publisher:image:profile:most_recently_published_on': string | null;
       'book:publisher:image:profile:name': string;
       'book:publisher:image:profile:slug': string;
@@ -6217,6 +6252,7 @@ export type Schema = {
       'book:image:preview_for:image:profile:instagram': string | null;
       'book:image:preview_for:image:profile:job_title': string | null;
       'book:image:preview_for:image:profile:location': string | null;
+      'book:image:preview_for:image:profile:locationCount': number | null;
       'book:image:preview_for:image:profile:most_recently_published_on': string | null;
       'book:image:preview_for:image:profile:name': string;
       'book:image:preview_for:image:profile:slug': string;
@@ -6419,6 +6455,7 @@ export type Schema = {
       'book:publisher:imprint:image:profile:instagram': string | null;
       'book:publisher:imprint:image:profile:job_title': string | null;
       'book:publisher:imprint:image:profile:location': string | null;
+      'book:publisher:imprint:image:profile:locationCount': number | null;
       'book:publisher:imprint:image:profile:most_recently_published_on': string | null;
       'book:publisher:imprint:image:profile:name': string;
       'book:publisher:imprint:image:profile:slug': string;
@@ -6590,6 +6627,7 @@ export type Schema = {
       'profile:instagram': string | null;
       'profile:job_title': string | null;
       'profile:location': string | null;
+      'profile:locationCount': number | null;
       'profile:most_recently_published_on': string | null;
       'profile:name': string;
       'profile:slug': string;
@@ -6915,6 +6953,7 @@ export type Schema = {
       'profile:instagram': string | null;
       'profile:job_title': string | null;
       'profile:location': string | null;
+      'profile:locationCount': number | null;
       'profile:most_recently_published_on': string | null;
       'profile:name': string;
       'profile:slug': string;
@@ -7321,6 +7360,7 @@ export type Schema = {
       'book:image:profile:instagram': string | null;
       'book:image:profile:job_title': string | null;
       'book:image:profile:location': string | null;
+      'book:image:profile:locationCount': number | null;
       'book:image:profile:most_recently_published_on': string | null;
       'book:image:profile:name': string;
       'book:image:profile:slug': string;
@@ -7502,6 +7542,7 @@ export type Schema = {
       'book:publisher:image:profile:instagram': string | null;
       'book:publisher:image:profile:job_title': string | null;
       'book:publisher:image:profile:location': string | null;
+      'book:publisher:image:profile:locationCount': number | null;
       'book:publisher:image:profile:most_recently_published_on': string | null;
       'book:publisher:image:profile:name': string;
       'book:publisher:image:profile:slug': string;
@@ -7576,6 +7617,7 @@ export type Schema = {
       'book:image:preview_for:image:profile:instagram': string | null;
       'book:image:preview_for:image:profile:job_title': string | null;
       'book:image:preview_for:image:profile:location': string | null;
+      'book:image:preview_for:image:profile:locationCount': number | null;
       'book:image:preview_for:image:profile:most_recently_published_on': string | null;
       'book:image:preview_for:image:profile:name': string;
       'book:image:preview_for:image:profile:slug': string;
@@ -7778,6 +7820,7 @@ export type Schema = {
       'book:publisher:imprint:image:profile:instagram': string | null;
       'book:publisher:imprint:image:profile:job_title': string | null;
       'book:publisher:imprint:image:profile:location': string | null;
+      'book:publisher:imprint:image:profile:locationCount': number | null;
       'book:publisher:imprint:image:profile:most_recently_published_on': string | null;
       'book:publisher:imprint:image:profile:name': string;
       'book:publisher:imprint:image:profile:slug': string;
@@ -7915,6 +7958,7 @@ export type Schema = {
       'profile:instagram': string | null;
       'profile:job_title': string | null;
       'profile:location': string | null;
+      'profile:locationCount': number | null;
       'profile:most_recently_published_on': string | null;
       'profile:name': string;
       'profile:slug': string;
@@ -8093,6 +8137,7 @@ export type Schema = {
       'preview_for:image:profile:instagram': string | null;
       'preview_for:image:profile:job_title': string | null;
       'preview_for:image:profile:location': string | null;
+      'preview_for:image:profile:locationCount': number | null;
       'preview_for:image:profile:most_recently_published_on': string | null;
       'preview_for:image:profile:name': string;
       'preview_for:image:profile:slug': string;
@@ -8217,6 +8262,7 @@ export type Schema = {
       'cover_for:publisher:image:profile:instagram': string | null;
       'cover_for:publisher:image:profile:job_title': string | null;
       'cover_for:publisher:image:profile:location': string | null;
+      'cover_for:publisher:image:profile:locationCount': number | null;
       'cover_for:publisher:image:profile:most_recently_published_on': string | null;
       'cover_for:publisher:image:profile:name': string;
       'cover_for:publisher:image:profile:slug': string;
@@ -8385,6 +8431,7 @@ export type Schema = {
       'preview_for:publisher:image:profile:instagram': string | null;
       'preview_for:publisher:image:profile:job_title': string | null;
       'preview_for:publisher:image:profile:location': string | null;
+      'preview_for:publisher:image:profile:locationCount': number | null;
       'preview_for:publisher:image:profile:most_recently_published_on': string | null;
       'preview_for:publisher:image:profile:name': string;
       'preview_for:publisher:image:profile:slug': string;
@@ -8559,6 +8606,7 @@ export type Schema = {
       'cover_for:publisher:imprint:image:profile:instagram': string | null;
       'cover_for:publisher:imprint:image:profile:job_title': string | null;
       'cover_for:publisher:imprint:image:profile:location': string | null;
+      'cover_for:publisher:imprint:image:profile:locationCount': number | null;
       'cover_for:publisher:imprint:image:profile:most_recently_published_on': string | null;
       'cover_for:publisher:imprint:image:profile:name': string;
       'cover_for:publisher:imprint:image:profile:slug': string;
@@ -8633,6 +8681,7 @@ export type Schema = {
       'preview_for:image:preview_for:image:profile:instagram': string | null;
       'preview_for:image:preview_for:image:profile:job_title': string | null;
       'preview_for:image:preview_for:image:profile:location': string | null;
+      'preview_for:image:preview_for:image:profile:locationCount': number | null;
       'preview_for:image:preview_for:image:profile:most_recently_published_on': string | null;
       'preview_for:image:preview_for:image:profile:name': string;
       'preview_for:image:preview_for:image:profile:slug': string;
@@ -8835,6 +8884,7 @@ export type Schema = {
       'preview_for:publisher:imprint:image:profile:instagram': string | null;
       'preview_for:publisher:imprint:image:profile:job_title': string | null;
       'preview_for:publisher:imprint:image:profile:location': string | null;
+      'preview_for:publisher:imprint:image:profile:locationCount': number | null;
       'preview_for:publisher:imprint:image:profile:most_recently_published_on': string | null;
       'preview_for:publisher:imprint:image:profile:name': string;
       'preview_for:publisher:imprint:image:profile:slug': string;
@@ -9010,6 +9060,7 @@ export type Schema = {
       'book:image:profile:instagram': string | null;
       'book:image:profile:job_title': string | null;
       'book:image:profile:location': string | null;
+      'book:image:profile:locationCount': number | null;
       'book:image:profile:most_recently_published_on': string | null;
       'book:image:profile:name': string;
       'book:image:profile:slug': string;
@@ -9191,6 +9242,7 @@ export type Schema = {
       'book:publisher:image:profile:instagram': string | null;
       'book:publisher:image:profile:job_title': string | null;
       'book:publisher:image:profile:location': string | null;
+      'book:publisher:image:profile:locationCount': number | null;
       'book:publisher:image:profile:most_recently_published_on': string | null;
       'book:publisher:image:profile:name': string;
       'book:publisher:image:profile:slug': string;
@@ -9265,6 +9317,7 @@ export type Schema = {
       'book:image:preview_for:image:profile:instagram': string | null;
       'book:image:preview_for:image:profile:job_title': string | null;
       'book:image:preview_for:image:profile:location': string | null;
+      'book:image:preview_for:image:profile:locationCount': number | null;
       'book:image:preview_for:image:profile:most_recently_published_on': string | null;
       'book:image:preview_for:image:profile:name': string;
       'book:image:preview_for:image:profile:slug': string;
@@ -9467,6 +9520,7 @@ export type Schema = {
       'book:publisher:imprint:image:profile:instagram': string | null;
       'book:publisher:imprint:image:profile:job_title': string | null;
       'book:publisher:imprint:image:profile:location': string | null;
+      'book:publisher:imprint:image:profile:locationCount': number | null;
       'book:publisher:imprint:image:profile:most_recently_published_on': string | null;
       'book:publisher:imprint:image:profile:name': string;
       'book:publisher:imprint:image:profile:slug': string;
@@ -9505,10 +9559,10 @@ export type Schema = {
   };
   'location_filter_options': {
     plain: {
-      'location_slug': string | null;
+      'id': string;
+      'option_type': string | null;
+      'option_value': string | null;
       'profile_count': number | null;
-      'type': string | null;
-      'value': string;
     };
     nested: {};
     flat: {};
@@ -9656,6 +9710,7 @@ export type Schema = {
       'publisher:image:profile:instagram': string | null;
       'publisher:image:profile:job_title': string | null;
       'publisher:image:profile:location': string | null;
+      'publisher:image:profile:locationCount': number | null;
       'publisher:image:profile:most_recently_published_on': string | null;
       'publisher:image:profile:name': string;
       'publisher:image:profile:slug': string;
@@ -9832,6 +9887,7 @@ export type Schema = {
       'publisher:imprint:image:profile:instagram': string | null;
       'publisher:imprint:image:profile:job_title': string | null;
       'publisher:imprint:image:profile:location': string | null;
+      'publisher:imprint:image:profile:locationCount': number | null;
       'publisher:imprint:image:profile:most_recently_published_on': string | null;
       'publisher:imprint:image:profile:name': string;
       'publisher:imprint:image:profile:slug': string;
@@ -9934,6 +9990,7 @@ export type Schema = {
       'publisher:image:preview_for:image:profile:instagram': string | null;
       'publisher:image:preview_for:image:profile:job_title': string | null;
       'publisher:image:preview_for:image:profile:location': string | null;
+      'publisher:image:preview_for:image:profile:locationCount': number | null;
       'publisher:image:preview_for:image:profile:most_recently_published_on': string | null;
       'publisher:image:preview_for:image:profile:name': string;
       'publisher:image:preview_for:image:profile:slug': string;
@@ -10110,6 +10167,7 @@ export type Schema = {
       'publisher:imprint:imprint:image:profile:instagram': string | null;
       'publisher:imprint:imprint:image:profile:job_title': string | null;
       'publisher:imprint:imprint:image:profile:location': string | null;
+      'publisher:imprint:imprint:image:profile:locationCount': number | null;
       'publisher:imprint:imprint:image:profile:most_recently_published_on': string | null;
       'publisher:imprint:imprint:image:profile:name': string;
       'publisher:imprint:imprint:image:profile:slug': string;
@@ -10203,6 +10261,7 @@ export type Schema = {
       'instagram': string | null;
       'job_title': string | null;
       'location': string | null;
+      'locationCount': number | null;
       'most_recently_published_on': string | null;
       'name': string;
       'slug': string;
@@ -10874,6 +10933,7 @@ export type Schema = {
       'publisher:image:profile:instagram': string | null;
       'publisher:image:profile:job_title': string | null;
       'publisher:image:profile:location': string | null;
+      'publisher:image:profile:locationCount': number | null;
       'publisher:image:profile:most_recently_published_on': string | null;
       'publisher:image:profile:name': string;
       'publisher:image:profile:slug': string;
@@ -11050,6 +11110,7 @@ export type Schema = {
       'publisher:imprint:image:profile:instagram': string | null;
       'publisher:imprint:image:profile:job_title': string | null;
       'publisher:imprint:image:profile:location': string | null;
+      'publisher:imprint:image:profile:locationCount': number | null;
       'publisher:imprint:image:profile:most_recently_published_on': string | null;
       'publisher:imprint:image:profile:name': string;
       'publisher:imprint:image:profile:slug': string;
@@ -11152,6 +11213,7 @@ export type Schema = {
       'publisher:image:preview_for:image:profile:instagram': string | null;
       'publisher:image:preview_for:image:profile:job_title': string | null;
       'publisher:image:preview_for:image:profile:location': string | null;
+      'publisher:image:preview_for:image:profile:locationCount': number | null;
       'publisher:image:preview_for:image:profile:most_recently_published_on': string | null;
       'publisher:image:preview_for:image:profile:name': string;
       'publisher:image:preview_for:image:profile:slug': string;
@@ -11328,6 +11390,7 @@ export type Schema = {
       'publisher:imprint:imprint:image:profile:instagram': string | null;
       'publisher:imprint:imprint:image:profile:job_title': string | null;
       'publisher:imprint:imprint:image:profile:location': string | null;
+      'publisher:imprint:imprint:image:profile:locationCount': number | null;
       'publisher:imprint:imprint:image:profile:most_recently_published_on': string | null;
       'publisher:imprint:imprint:image:profile:name': string;
       'publisher:imprint:imprint:image:profile:slug': string;
@@ -11477,6 +11540,7 @@ export type Schema = {
       'image:profile:instagram': string | null;
       'image:profile:job_title': string | null;
       'image:profile:location': string | null;
+      'image:profile:locationCount': number | null;
       'image:profile:most_recently_published_on': string | null;
       'image:profile:name': string;
       'image:profile:slug': string;
@@ -11653,6 +11717,7 @@ export type Schema = {
       'imprint:image:profile:instagram': string | null;
       'imprint:image:profile:job_title': string | null;
       'imprint:image:profile:location': string | null;
+      'imprint:image:profile:locationCount': number | null;
       'imprint:image:profile:most_recently_published_on': string | null;
       'imprint:image:profile:name': string;
       'imprint:image:profile:slug': string;
@@ -11755,6 +11820,7 @@ export type Schema = {
       'image:preview_for:image:profile:instagram': string | null;
       'image:preview_for:image:profile:job_title': string | null;
       'image:preview_for:image:profile:location': string | null;
+      'image:preview_for:image:profile:locationCount': number | null;
       'image:preview_for:image:profile:most_recently_published_on': string | null;
       'image:preview_for:image:profile:name': string;
       'image:preview_for:image:profile:slug': string;
@@ -11931,6 +11997,7 @@ export type Schema = {
       'imprint:imprint:image:profile:instagram': string | null;
       'imprint:imprint:image:profile:job_title': string | null;
       'imprint:imprint:image:profile:location': string | null;
+      'imprint:imprint:image:profile:locationCount': number | null;
       'imprint:imprint:image:profile:most_recently_published_on': string | null;
       'imprint:imprint:image:profile:name': string;
       'imprint:imprint:image:profile:slug': string;
@@ -12029,6 +12096,7 @@ export type Schema = {
       'image:cover_for:publisher:image:profile:instagram': string | null;
       'image:cover_for:publisher:image:profile:job_title': string | null;
       'image:cover_for:publisher:image:profile:location': string | null;
+      'image:cover_for:publisher:image:profile:locationCount': number | null;
       'image:cover_for:publisher:image:profile:most_recently_published_on': string | null;
       'image:cover_for:publisher:image:profile:name': string;
       'image:cover_for:publisher:image:profile:slug': string;
@@ -12184,6 +12252,7 @@ export type Schema = {
       'image:preview_for:publisher:image:profile:instagram': string | null;
       'image:preview_for:publisher:image:profile:job_title': string | null;
       'image:preview_for:publisher:image:profile:location': string | null;
+      'image:preview_for:publisher:image:profile:locationCount': number | null;
       'image:preview_for:publisher:image:profile:most_recently_published_on': string | null;
       'image:preview_for:publisher:image:profile:name': string;
       'image:preview_for:publisher:image:profile:slug': string;
@@ -12286,6 +12355,7 @@ export type Schema = {
       'imprint:image:preview_for:image:profile:instagram': string | null;
       'imprint:image:preview_for:image:profile:job_title': string | null;
       'imprint:image:preview_for:image:profile:location': string | null;
+      'imprint:image:preview_for:image:profile:locationCount': number | null;
       'imprint:image:preview_for:image:profile:most_recently_published_on': string | null;
       'imprint:image:preview_for:image:profile:name': string;
       'imprint:image:preview_for:image:profile:slug': string;
@@ -12462,6 +12532,7 @@ export type Schema = {
       'imprint:imprint:imprint:image:profile:instagram': string | null;
       'imprint:imprint:imprint:image:profile:job_title': string | null;
       'imprint:imprint:imprint:image:profile:location': string | null;
+      'imprint:imprint:imprint:image:profile:locationCount': number | null;
       'imprint:imprint:imprint:image:profile:most_recently_published_on': string | null;
       'imprint:imprint:imprint:image:profile:name': string;
       'imprint:imprint:imprint:image:profile:slug': string;

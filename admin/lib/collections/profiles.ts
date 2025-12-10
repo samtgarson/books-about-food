@@ -54,6 +54,33 @@ export const customiseProfiles = (
       )
     })
 
+  collection
+    .addField('locationCount', {
+      dependencies: ['id'],
+      columnType: 'Number',
+      getValues: async (records) => {
+        const data = await prisma.profile.findMany({
+          where: {
+            id: { in: records.map((r) => r.id) }
+          },
+          select: {
+            id: true,
+            _count: {
+              select: { locations: true }
+            }
+          }
+        })
+
+        const countMap = new Map(
+          data.map((item) => [item.id, item._count.locations])
+        )
+
+        return records.map((record) => countMap.get(record.id) || 0)
+      }
+    })
+    .emulateFieldFiltering('locationCount')
+    .emulateFieldSorting('locationCount')
+
   collection.addManyToManyRelation(
     'Authored Books',
     'books',

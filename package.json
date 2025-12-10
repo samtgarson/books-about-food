@@ -71,7 +71,7 @@
       "prettier --write"
     ],
     "*.(ts|tsx|js)": [
-      "eslint --fix",
+      "eslint_d --fix",
       "prettier --write"
     ],
     "web/**/*.(ts|tsx)": [
@@ -85,7 +85,7 @@
       "prisma format"
     ],
     "*.sql": [
-      "sql-formatter --fix"
+      "npx sql-formatter --fix"
     ]
   },
   "packageManager": "npm@11.6.0"
