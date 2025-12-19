@@ -1,25 +1,37 @@
 'use client'
 
 import { NamedColor } from '@books-about-food/core/services/books/colors'
-import { ReactNode, useState } from 'react'
+import { ReactNode, useMemo, useState } from 'react'
 import { FilterSheet } from 'src/components/lists/filter-sheet'
 import { Sort } from 'src/components/lists/sort'
 import { usePromise } from 'src/hooks/use-promise'
 import { toggleItemAuto } from 'src/utils/array-helpers'
+import { fetchTagGroupOptions } from './actions'
 import { ColorCircle, colorMap } from './colors'
-import { PillList, Tag } from './pill-list'
+import { PillList } from './pill-list'
 import { Filters, count } from './util'
 
 export type BookFilterPopupProps = {
   filters?: Filters
-  fetchTags: () => Promise<Tag[]>
 }
 export function BookFilterPopup({
-  filters: initialFilters = {},
-  fetchTags
+  filters: initialFilters = {}
 }: BookFilterPopupProps) {
-  const { loading, value: tags } = usePromise(fetchTags, [])
+  const { loading, value: tagGroups } = usePromise(fetchTagGroupOptions, [])
   const [filters, setFilters] = useState(initialFilters)
+
+  const tagGroupsWithSelectedCount = useMemo(() => {
+    return tagGroups.map((group) => {
+      const groupTagSlugs = group.tags.map((t) => t.value)
+      const selectedInGroup = (filters.tags ?? []).filter((slug) =>
+        groupTagSlugs.includes(slug)
+      )
+      return {
+        ...group,
+        selectedCount: selectedInGroup.length
+      }
+    })
+  }, [filters.tags, tagGroups])
 
   return (
     <FilterSheet
@@ -43,19 +55,27 @@ export function BookFilterPopup({
             onClick={(sort) => setFilters({ ...filters, sort })}
           />
         </FilterItem>
-        <FilterItem title="Tags" count={filters.tags?.length}>
-          <PillList
-            selected={filters.tags ?? []}
-            tags={tags}
-            initialSelected={initialFilters.tags}
-            onClick={(value) => {
-              setFilters({
-                ...filters,
-                tags: toggleItemAuto(filters.tags ?? [], value)
-              })
-            }}
-          />
-        </FilterItem>
+        {tagGroupsWithSelectedCount.map((group) => {
+          return (
+            <FilterItem
+              key={group.slug}
+              title={group.name}
+              count={group.selectedCount}
+            >
+              <PillList
+                selected={filters.tags ?? []}
+                tags={group.tags}
+                initialSelected={initialFilters.tags}
+                onClick={(value) => {
+                  setFilters({
+                    ...filters,
+                    tags: toggleItemAuto(filters.tags ?? [], value)
+                  })
+                }}
+              />
+            </FilterItem>
+          )
+        })}
         <FilterItem title="Colour" count={filters.color ? 1 : 0}>
           <div className="flex flex-wrap gap-3">
             {(Object.keys(colorMap) as NamedColor[]).map((color) => (

@@ -6,7 +6,8 @@ import {
   locationIncludes,
   membershipIncludes,
   profileIncludes,
-  publisherIncludes
+  publisherIncludes,
+  tagGroupIncludes
 } from '@books-about-food/core/services/utils'
 import type { BookVote, Prisma } from '@books-about-food/database'
 
@@ -42,6 +43,10 @@ export type PostAttrs = Prisma.PostGetPayload<null>
 
 export type LocationAttrs = Prisma.LocationGetPayload<{
   include: typeof locationIncludes
+}>
+
+export type TagGroup = Prisma.TagGroupGetPayload<{
+  include: typeof tagGroupIncludes
 }>
 
 export type BookResult = {

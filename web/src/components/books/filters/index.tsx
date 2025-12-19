@@ -1,9 +1,7 @@
 import { FetchBooksInput } from '@books-about-food/core/services/books/fetch-books'
-import { fetchTags } from '@books-about-food/core/services/tags/fetch'
 import Link from 'next/link'
 import { DisplayToggle } from 'src/components/lists/display-toggle'
 import { FilterBar } from 'src/components/lists/filter-bar'
-import { call } from 'src/utils/service'
 import stringify from 'stable-hash'
 import { BookFilterPopup } from './popup'
 import { count } from './util'
@@ -30,18 +28,7 @@ export function BookFilters({ filters = {} }: BookFiltersProps) {
           Reset
         </Link>
       )}
-      <BookFilterPopup
-        key={stringify(filters)}
-        filters={filters}
-        fetchTags={async () => {
-          'use server'
-          const { data: tags = [] } = await call(fetchTags, {})
-          return tags.map((tag) => ({
-            label: tag.name,
-            value: tag.slug
-          }))
-        }}
-      />
+      <BookFilterPopup key={stringify(filters)} filters={filters} />
     </FilterBar>
   )
 }

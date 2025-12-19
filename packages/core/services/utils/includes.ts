@@ -53,3 +53,7 @@ export const collectionIncludes = {
     include: { book: { include: bookIncludes } }
   }
 } satisfies Prisma.CollectionDefaultArgs['include']
+
+export const tagGroupIncludes = {
+  tags: { orderBy: { name: 'asc' as const } }
+} satisfies Prisma.TagGroupDefaultArgs['include']

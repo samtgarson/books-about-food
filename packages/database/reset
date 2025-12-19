@@ -46,11 +46,15 @@ function dump () {
     -t profiles \
     -t publishers \
     -t tags \
+    -t tag_groups \
     --data-only -Fc \
     $PROD_DATABASE_URL > $prod_dump
 
   echo "> Resetting local database"
   if npx -w packages/database prisma migrate reset; then
+    echo "> Clearing seeded data from migrations"
+    psql $DATABASE_URL -c "TRUNCATE tags, tag_groups CASCADE;"
+
     echo "> Restoring production data"
     pg_restore --disable-triggers -d $DATABASE_URL $prod_dump || true
   fi
