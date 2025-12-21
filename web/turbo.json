@@ -1,6 +1,9 @@
 {
   "extends": ["//"],
   "tasks": {
+    "dev": {
+      "with": ["@books-about-food/jobs#dev"]
+    },
     "build": {
       "outputs": [".next/**"],
       "env": [
