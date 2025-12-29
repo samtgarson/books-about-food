@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports, import-x/no-extraneous-dependencies */
 
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true'
-})
+import { withPayload } from '@payloadcms/next/withPayload'
+import { withSentryConfig } from '@sentry/nextjs'
 
 const imagesConfig =
   process.env.NODE_ENV === 'production'
@@ -31,11 +30,8 @@ const nextConfig = {
   })
 }
 
-// Injected content via Sentry wizard below
-const { withSentryConfig } = require('@sentry/nextjs')
-
-module.exports = withSentryConfig(
-  withBundleAnalyzer(nextConfig),
+export default withSentryConfig(
+  withPayload(nextConfig),
   {
     // For all available options, see:
     // https://github.com/getsentry/sentry-webpack-plugin#options

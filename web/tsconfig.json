@@ -2,7 +2,7 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "plugins": [
       {
         "name": "next"
@@ -12,7 +12,8 @@
     "strictNullChecks": true,
     "types": ["react/experimental"],
     "paths": {
-      "app/*": ["./src/app/*"]
+      "app/*": ["./src/app/*"],
+      "@payload-config": ["src/payload.config.ts"]
     },
     "jsx": "react-jsx"
   },

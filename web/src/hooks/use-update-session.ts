@@ -1,4 +1,4 @@
-import { updateSession } from 'app/auth/actions'
+import { updateSession } from 'app/(frontend)/auth/actions'
 import { useSession } from 'next-auth/react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 

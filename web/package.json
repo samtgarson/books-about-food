@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev --port 5000",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "payload": "PAYLOAD_CONFIG_PATH=src/payload.config.ts payload"
   },
   "prettier": "@books-about-food/prettier-config",
   "overrides": {
@@ -24,6 +25,9 @@
     "@books-about-food/email": "*",
     "@books-about-food/jobs": "*",
     "@books-about-food/shared": "*",
+    "@payloadcms/db-postgres": "^3.69.0",
+    "@payloadcms/next": "^3.69.0",
+    "@payloadcms/richtext-lexical": "^3.69.0",
     "@prisma/client": "^7.0.1",
     "@sentry/nextjs": "^10.27.0",
     "@tailwindcss/postcss": "^4.1.17",
@@ -54,6 +58,7 @@
     "downshift": "^9.0.10",
     "fathom-client": "^3.7.2",
     "framer-motion": "^12.23.24",
+    "graphql": "^16.12.0",
     "hoist-non-react-statics": "^3.3.2",
     "inflection": "^3.0.2",
     "jsonwebtoken": "^9.0.2",
@@ -61,6 +66,7 @@
     "mapbox-gl": "^3.17.0",
     "next": "^16.0.7",
     "next-auth": "5.0.0-beta.30",
+    "payload": "^3.69.0",
     "radix-ui": "^1.4.3",
     "randomcolor": "^0.6.2",
     "react": "^19.2.1",

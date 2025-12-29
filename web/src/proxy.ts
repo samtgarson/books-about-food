@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 import { authConfig } from './utils/auth-config'
 
 const protectedPath = (pathname: string) =>
-  ['/account', '/edit'].some((path) => pathname.startsWith(path))
+  ['/admin', '/account', '/edit'].some((path) => pathname.startsWith(path))
 
 const systemPath = (pathname: string) =>
   ['/api', '/_next', '/auth'].some((path) => pathname.startsWith(path))

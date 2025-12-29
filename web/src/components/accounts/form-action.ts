@@ -1,7 +1,7 @@
 'use server'
 
 import { updateUser } from '@books-about-food/core/services/users/update-user'
-import { updateSession } from 'app/auth/actions'
+import { updateSession } from 'app/(frontend)/auth/actions'
 import { revalidatePath } from 'next/cache'
 import { call } from 'src/utils/service'
 

@@ -18,7 +18,9 @@ export default defineConfig([
   globalIgnores([
     'packages/e2e/bin/generate-google-token.js',
     '**/.vercel',
-    'packages/prettier-config/index.js'
+    'packages/prettier-config/index.js',
+    'web/src/app/(payload)',
+    'web/src/payload/migrations'
   ]),
   {
     extends: [baseConfig, tsConfig, eslintConfigPrettier],

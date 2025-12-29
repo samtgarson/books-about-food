@@ -1,7 +1,7 @@
 import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { Metadata, Viewport } from 'next'
 
-export const metadata = {
+export const metadata: Metadata = {
   title:
     'Books About Food - Beautifully designed cookbooks and the people making them.',
   description:
@@ -24,7 +24,7 @@ export const metadata = {
       'Books About Food is a unique, design-forward space created to showcase books about food and the people involved in making them.',
     type: 'website'
   }
-} satisfies Metadata
+}
 
 export const viewport: Viewport = {
   width: 'device-width',

@@ -1,26 +1,5 @@
 {
   "permissions": {
-    "allow": [
-      "Bash(npx tsc:*)",
-      "Bash(git fetch:*)",
-      "Bash(git log:*)",
-      "WebFetch(domain:github.com)",
-      "WebSearch",
-      "WebFetch(domain:www.prisma.io)",
-      "Bash(cat:*)",
-      "Bash(npm install:*)",
-      "WebFetch(domain:zod.dev)",
-      "Bash(npm run type-check:*)",
-      "WebFetch(domain:docs.sentry.io)",
-      "Bash(npm run:*)",
-      "Bash(lsof:*)",
-      "Bash(xargs kill:*)",
-      "Bash(npm view:*)",
-      "Bash(curl:*)",
-      "WebFetch(domain:raw.githubusercontent.com)",
-      "Bash(ls:*)"
-    ],
-    "deny": [],
-    "ask": []
+    "allow": []
   }
 }
