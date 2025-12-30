@@ -22,6 +22,12 @@ export const Publishers: CollectionConfig = {
       admin: { readOnly: true }
     },
     {
+      name: 'logo',
+      type: 'relationship',
+      relationTo: 'images',
+      hasMany: false
+    },
+    {
       name: 'description',
       type: 'textarea'
     },

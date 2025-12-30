@@ -7,7 +7,13 @@ export const Books: CollectionConfig = {
   admin: {
     group: 'Resources',
     useAsTitle: 'title',
-    defaultColumns: ['title', 'status', 'publisher', 'releaseDate'],
+    defaultColumns: [
+      'title',
+      'status',
+      'authorNames',
+      'publisher',
+      'releaseDate'
+    ],
     preview({ slug }) {
       return `/cookbooks/${slug}`
     }
@@ -41,8 +47,21 @@ export const Books: CollectionConfig = {
       name: 'authors',
       type: 'relationship',
       relationTo: 'profiles',
-      hasMany: true,
-      admin: { description: 'Primary authors of the book' }
+      hasMany: true
+    },
+    {
+      name: 'authorNames',
+      label: 'Authors',
+      type: 'text',
+      virtual: 'authors.name',
+      admin: {
+        hidden: true,
+        components: {
+          Cell: {
+            path: 'src/payload/components/virtual-array-cell.tsx'
+          }
+        }
+      }
     },
     {
       name: 'status',
@@ -132,6 +151,25 @@ export const Books: CollectionConfig = {
       relationTo: 'users',
       hasMany: false,
       admin: { readOnly: true, position: 'sidebar' }
+    },
+    {
+      name: 'coverImage',
+      type: 'upload',
+      relationTo: 'images',
+      hasMany: false
+    },
+    {
+      name: 'previewImages',
+      type: 'array',
+      fields: [
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'images',
+          hasMany: false,
+          required: true
+        }
+      ]
     },
     {
       name: 'links',

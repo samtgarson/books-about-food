@@ -32,6 +32,12 @@ export const Profiles: CollectionConfig = {
       }
     },
     {
+      name: 'avatar',
+      type: 'relationship',
+      relationTo: 'images',
+      hasMany: false
+    },
+    {
       name: 'description',
       type: 'textarea'
     },

@@ -25,10 +25,14 @@ import {
   RscEntryLexicalCell as RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
   RscEntryLexicalField as RscEntryLexicalField_44fe37237e0ebf4470c9990d8cb7b07e
 } from '@payloadcms/richtext-lexical/rsc'
+import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
 import { CollectionCards as CollectionCards_ab83ff7e88da8d3530831f296ec4756a } from '@payloadcms/ui/rsc'
 import { default as default_27ebd803f1d6864aa932968f3f635a5d } from 'src/payload/components/array-row-label.tsx'
+import { default as default_623cfffd3de46a45c0dea5cd6367a895 } from 'src/payload/components/virtual-array-cell.tsx'
 
 export const importMap = {
+  'src/payload/components/virtual-array-cell.tsx#default':
+    default_623cfffd3de46a45c0dea5cd6367a895,
   'src/payload/components/array-row-label.tsx#default':
     default_27ebd803f1d6864aa932968f3f635a5d,
   '@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell':
@@ -77,6 +81,8 @@ export const importMap = {
     BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   '@payloadcms/richtext-lexical/client#ItalicFeatureClient':
     ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  '@payloadcms/storage-s3/client#S3ClientUploadHandler':
+    S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
   '@payloadcms/ui/rsc#CollectionCards':
     CollectionCards_ab83ff7e88da8d3530831f296ec4756a
 }

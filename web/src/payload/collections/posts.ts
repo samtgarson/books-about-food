@@ -38,9 +38,9 @@ export const Posts: CollectionConfig = {
     },
     {
       name: 'images',
-      type: 'join',
-      collection: 'images',
-      on: 'owner'
+      type: 'relationship',
+      relationTo: 'images',
+      hasMany: true
     }
   ]
 }

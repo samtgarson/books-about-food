@@ -2,6 +2,7 @@
 
 import { useRowLabel } from '@payloadcms/ui'
 import type { Data } from 'payload'
+import { getValueAtKeyPath } from './utils'
 
 function ArrayFieldTitle({
   itemPlaceholder,
@@ -11,13 +12,7 @@ function ArrayFieldTitle({
   keyPath: string[]
 }) {
   const { data } = useRowLabel<Data>()
-  console.log(data)
-  const title = keyPath.reduce((obj, key) => {
-    if (typeof obj === 'string') return obj
-    if (obj !== null && typeof obj === 'object' && key in obj)
-      return obj[key as keyof typeof obj]
-    return null
-  }, data as unknown)
+  const title = getValueAtKeyPath(data, keyPath)
 
   return <>{title || itemPlaceholder}</>
 }

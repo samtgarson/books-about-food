@@ -1,9 +1,13 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
+import type { GenerateFileURL } from '@payloadcms/plugin-cloud-storage/types'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { s3Storage } from '@payloadcms/storage-s3'
 import path from 'path'
 import { buildConfig } from 'payload'
+import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
+import { imageUrl } from '@books-about-food/shared/utils/image-url'
 import { BookVotes } from './payload/collections/book-votes'
 import { Books } from './payload/collections/books'
 import { Claims } from './payload/collections/claims'
@@ -71,5 +75,34 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL
     },
     migrationDir: path.resolve(dirname, 'payload', 'migrations')
-  })
+  }),
+  upload: {},
+  sharp,
+  plugins: [
+    s3Storage({
+      acl: 'private',
+      collections: {
+        images: {
+          disablePayloadAccessControl: true,
+          prefix: 'payload',
+          generateFileURL({
+            filename,
+            prefix
+          }: Parameters<GenerateFileURL>[0]) {
+            return imageUrl(filename, prefix)
+          }
+        }
+      },
+      bucket: process.env.AWS_S3_BUCKET || '',
+      config: {
+        endpoint: process.env.AWS_S3_ENDPOINT,
+        region: process.env.AWS_REGION || 'auto',
+        credentials: {
+          accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || ''
+        },
+        forcePathStyle: true
+      }
+    })
+  ]
 })
