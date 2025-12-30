@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { slugField } from '../fields/slug'
 
 export const Publishers: CollectionConfig = {
   slug: 'publishers',
@@ -14,13 +15,7 @@ export const Publishers: CollectionConfig = {
       required: true,
       unique: true
     },
-    {
-      name: 'slug',
-      type: 'text',
-      required: true,
-      unique: true,
-      admin: { readOnly: true }
-    },
+    slugField('name'),
     {
       name: 'logo',
       type: 'relationship',

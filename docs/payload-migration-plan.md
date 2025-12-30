@@ -366,7 +366,6 @@ For Images (which can belong to Book covers, Book previews, Publisher logos, Pro
 **Browser verification:**
 
 - [ ] Creating a Book auto-generates slug from title with hash
-- [ ] Creating a Tag auto-generates slug from name (no hash)
 - [ ] All resources generate correct slugs per requirements table
 
 **STOP FOR REVIEW** before proceeding to Phase 6.

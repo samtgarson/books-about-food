@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { slugField } from '../fields/slug'
 
 export const Tags: CollectionConfig = {
   slug: 'tags',
@@ -14,12 +15,7 @@ export const Tags: CollectionConfig = {
       required: true,
       unique: true
     },
-    {
-      name: 'slug',
-      type: 'text',
-      required: true,
-      unique: true
-    },
+    slugField('name'),
     {
       name: 'group',
       type: 'relationship',

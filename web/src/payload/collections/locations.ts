@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { slugField } from '../fields/slug'
 
 export const Locations: CollectionConfig = {
   slug: 'locations',
@@ -20,13 +21,7 @@ export const Locations: CollectionConfig = {
       type: 'text',
       required: true
     },
-    {
-      name: 'slug',
-      type: 'text',
-      required: true,
-      unique: true,
-      admin: { readOnly: true }
-    },
+    slugField('displayText'),
     {
       name: 'country',
       type: 'text'

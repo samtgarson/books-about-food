@@ -1,6 +1,6 @@
 import { websites } from '@books-about-food/shared/data/websites'
-import { slugify } from '@books-about-food/shared/utils/slugify'
 import type { CollectionConfig, Data } from 'payload'
+import { slugField } from '../fields/slug'
 
 export const Books: CollectionConfig = {
   slug: 'books',
@@ -28,21 +28,7 @@ export const Books: CollectionConfig = {
       name: 'subtitle',
       type: 'text'
     },
-    {
-      name: 'slug',
-      type: 'text',
-      required: true,
-      unique: true,
-      admin: { readOnly: true },
-      hooks: {
-        beforeValidate: [
-          ({ data }) => {
-            if (!data?.title) return null
-            return slugify(data.title)
-          }
-        ]
-      }
-    },
+    slugField('title'),
     {
       name: 'authors',
       type: 'relationship',

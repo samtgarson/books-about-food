@@ -1,5 +1,5 @@
-import { slugify } from '@books-about-food/shared/utils/slugify'
 import type { CollectionConfig } from 'payload'
+import { slugField } from '../fields/slug'
 
 export const Collections: CollectionConfig = {
   slug: 'collections',
@@ -18,21 +18,7 @@ export const Collections: CollectionConfig = {
       type: 'text',
       required: true
     },
-    {
-      name: 'slug',
-      type: 'text',
-      required: true,
-      unique: true,
-      admin: { readOnly: true },
-      hooks: {
-        beforeValidate: [
-          ({ data }) => {
-            if (!data?.title) return null
-            return slugify(data.title as string)
-          }
-        ]
-      }
-    },
+    slugField('title'),
     {
       name: 'description',
       type: 'textarea'

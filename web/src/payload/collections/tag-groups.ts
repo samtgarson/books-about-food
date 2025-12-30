@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { slugField } from '../fields/slug'
 
 export const TagGroups: CollectionConfig = {
   slug: 'tag-groups',
@@ -18,12 +19,7 @@ export const TagGroups: CollectionConfig = {
       required: true,
       unique: true
     },
-    {
-      name: 'slug',
-      type: 'text',
-      required: true,
-      unique: true
-    },
+    slugField('name'),
     {
       name: 'adminOnly',
       type: 'checkbox',

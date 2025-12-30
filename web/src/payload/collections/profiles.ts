@@ -1,5 +1,5 @@
-import { slugify } from '@books-about-food/shared/utils/slugify'
 import type { CollectionConfig } from 'payload'
+import { slugField } from '../fields/slug'
 
 export const Profiles: CollectionConfig = {
   slug: 'profiles',
@@ -17,20 +17,7 @@ export const Profiles: CollectionConfig = {
       type: 'text',
       required: true
     },
-    {
-      name: 'slug',
-      type: 'text',
-      unique: true,
-      admin: { readOnly: true },
-      hooks: {
-        beforeValidate: [
-          ({ data }) => {
-            if (!data?.name) return null
-            return slugify(data.name as string)
-          }
-        ]
-      }
-    },
+    slugField('name'),
     {
       name: 'avatar',
       type: 'relationship',

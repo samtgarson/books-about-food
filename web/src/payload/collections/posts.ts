@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { slugField } from '../fields/slug'
 
 export const Posts: CollectionConfig = {
   slug: 'posts',
@@ -13,13 +14,7 @@ export const Posts: CollectionConfig = {
       type: 'text',
       required: true
     },
-    {
-      name: 'slug',
-      type: 'text',
-      required: true,
-      unique: true,
-      admin: { readOnly: true }
-    },
+    slugField('title'),
     {
       name: 'content',
       type: 'richText',
