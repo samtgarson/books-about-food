@@ -4,9 +4,10 @@ export const Claims: CollectionConfig = {
   slug: 'claims',
   admin: {
     group: 'Users',
+    groupBy: true,
     description: 'Claims made by users to take ownership of their profile.',
     useAsTitle: 'id',
-    defaultColumns: ['profile', 'user', 'approvedAt', 'cancelledAt']
+    defaultColumns: ['profile', 'user', 'state', 'approvedAt', 'cancelledAt']
   },
   access: {
     create: () => false
@@ -39,6 +40,38 @@ export const Claims: CollectionConfig = {
     {
       name: 'cancelledAt',
       type: 'date'
+    },
+    {
+      name: 'state',
+      label: 'Status',
+      type: 'select',
+      options: [
+        { label: 'Pending', value: 'pending' },
+        { label: 'Approved', value: 'approved' },
+        { label: 'Cancelled', value: 'cancelled' }
+      ],
+      defaultValue: 'pending',
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        components: {
+          Field: {
+            path: 'src/payload/components/claims/status.tsx#ClaimStatusField'
+          },
+          Cell: {
+            path: 'src/payload/components/claims/status.tsx#ClaimStatusCell'
+          }
+        }
+      },
+      hooks: {
+        beforeChange: [
+          ({ siblingData }) => {
+            if (siblingData?.cancelledAt) return 'cancelled'
+            if (siblingData?.approvedAt) return 'approved'
+            return 'pending'
+          }
+        ]
+      }
     }
   ]
 }

@@ -1,5 +1,4 @@
 import type { CollectionConfig } from 'payload'
-import { slugField } from '../fields/slug'
 
 export const Locations: CollectionConfig = {
   slug: 'locations',
@@ -10,35 +9,60 @@ export const Locations: CollectionConfig = {
   },
   fields: [
     {
+      name: 'locationSearch',
+      type: 'ui',
+      admin: {
+        components: {
+          Field: {
+            path: 'src/payload/components/locations/picker.tsx#LocationPicker'
+          }
+        }
+      }
+    },
+    {
       name: 'placeId',
       type: 'text',
       required: true,
       unique: true,
-      admin: { description: 'Google Place ID' }
+      admin: {
+        readOnly: true,
+        description: 'Google Place ID'
+      }
     },
     {
       name: 'displayText',
       type: 'text',
-      required: true
+      required: true,
+      admin: { readOnly: true }
     },
-    slugField('displayText'),
+    {
+      name: 'slug',
+      type: 'text',
+      required: true,
+      unique: true,
+      admin: { readOnly: true }
+    },
     {
       name: 'country',
-      type: 'text'
+      type: 'text',
+      admin: { readOnly: true }
     },
     {
       name: 'region',
-      type: 'text'
+      type: 'text',
+      admin: { readOnly: true }
     },
     {
       name: 'latitude',
       type: 'number',
-      required: true
+      required: true,
+      admin: { readOnly: true }
     },
     {
       name: 'longitude',
       type: 'number',
-      required: true
+      required: true,
+      admin: { readOnly: true }
     },
     {
       name: 'profiles',

@@ -27,14 +27,28 @@ import {
 } from '@payloadcms/richtext-lexical/rsc'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
 import { CollectionCards as CollectionCards_ab83ff7e88da8d3530831f296ec4756a } from '@payloadcms/ui/rsc'
-import { default as default_27ebd803f1d6864aa932968f3f635a5d } from 'src/payload/components/array-row-label.tsx'
-import { default as default_623cfffd3de46a45c0dea5cd6367a895 } from 'src/payload/components/virtual-array-cell.tsx'
+import {
+  ClaimStatusCell as ClaimStatusCell_fc67a8149c7740e8ab61a3dfe58d2655,
+  ClaimStatusField as ClaimStatusField_fc67a8149c7740e8ab61a3dfe58d2655
+} from 'src/payload/components/claims/status.tsx'
+import { default as default_d0c4937741f3409f53e663e045013704 } from 'src/payload/components/fields/array-row-label.tsx'
+import { ColorPickerField as ColorPickerField_6ba8973719d5d8d53be77fbc1fccc74e } from 'src/payload/components/fields/color-picker.tsx'
+import { default as default_90441ee41512d23c76c47f07c342aebe } from 'src/payload/components/fields/string-array-cell.tsx'
+import { LocationPicker as LocationPicker_93ac9f2330a13c266b57068fdb40f96f } from 'src/payload/components/locations/picker.tsx'
 
 export const importMap = {
-  'src/payload/components/virtual-array-cell.tsx#default':
-    default_623cfffd3de46a45c0dea5cd6367a895,
-  'src/payload/components/array-row-label.tsx#default':
-    default_27ebd803f1d6864aa932968f3f635a5d,
+  'src/payload/components/fields/string-array-cell.tsx#default':
+    default_90441ee41512d23c76c47f07c342aebe,
+  'src/payload/components/fields/color-picker.tsx#ColorPickerField':
+    ColorPickerField_6ba8973719d5d8d53be77fbc1fccc74e,
+  'src/payload/components/fields/array-row-label.tsx#default':
+    default_d0c4937741f3409f53e663e045013704,
+  'src/payload/components/claims/status.tsx#ClaimStatusCell':
+    ClaimStatusCell_fc67a8149c7740e8ab61a3dfe58d2655,
+  'src/payload/components/claims/status.tsx#ClaimStatusField':
+    ClaimStatusField_fc67a8149c7740e8ab61a3dfe58d2655,
+  'src/payload/components/locations/picker.tsx#LocationPicker':
+    LocationPicker_93ac9f2330a13c266b57068fdb40f96f,
   '@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell':
     RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
   '@payloadcms/richtext-lexical/rsc#RscEntryLexicalField':

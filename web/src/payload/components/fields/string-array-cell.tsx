@@ -1,6 +1,6 @@
 'use client'
 
-import { DefaultCellComponentProps } from 'payload'
+import type { DefaultCellComponentProps } from 'payload'
 
 export default function StringArrayCell({
   cellData

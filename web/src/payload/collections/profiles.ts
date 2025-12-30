@@ -73,7 +73,7 @@ export const Profiles: CollectionConfig = {
         initCollapsed: true,
         components: {
           RowLabel: {
-            path: 'src/payload/components/array-row-label.tsx',
+            path: 'src/payload/components/fields/array-row-label.tsx',
             clientProps: {
               itemPlaceholder: 'New contribution',
               keyPath: ['title']

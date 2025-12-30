@@ -44,7 +44,7 @@ export const Books: CollectionConfig = {
         hidden: true,
         components: {
           Cell: {
-            path: 'src/payload/components/virtual-array-cell.tsx'
+            path: 'src/payload/components/fields/string-array-cell.tsx'
           }
         }
       }
@@ -104,8 +104,15 @@ export const Books: CollectionConfig = {
     },
     {
       name: 'backgroundColor',
-      type: 'json',
-      admin: { position: 'sidebar' }
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        components: {
+          Field: {
+            path: 'src/payload/components/fields/color-picker.tsx#ColorPickerField'
+          }
+        }
+      }
     },
     {
       name: 'palette',
@@ -113,7 +120,14 @@ export const Books: CollectionConfig = {
       fields: [
         {
           name: 'color',
-          type: 'text'
+          type: 'text',
+          admin: {
+            components: {
+              Field: {
+                path: 'src/payload/components/fields/color-picker.tsx#ColorPickerField'
+              }
+            }
+          }
         }
       ],
       minRows: 3,
@@ -164,7 +178,7 @@ export const Books: CollectionConfig = {
       admin: {
         components: {
           RowLabel: {
-            path: 'src/payload/components/array-row-label.tsx',
+            path: 'src/payload/components/fields/array-row-label.tsx',
             clientProps: {
               itemPlaceholder: 'New link',
               keyPath: ['label']
