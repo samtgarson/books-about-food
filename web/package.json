@@ -28,6 +28,7 @@
     "@payloadcms/db-postgres": "^3.69.0",
     "@payloadcms/next": "^3.69.0",
     "@payloadcms/richtext-lexical": "^3.69.0",
+    "@payloadcms/ui": "^3.69.0",
     "@prisma/client": "^7.0.1",
     "@sentry/nextjs": "^10.27.0",
     "@tailwindcss/postcss": "^4.1.17",

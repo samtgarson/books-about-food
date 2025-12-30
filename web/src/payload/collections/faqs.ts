@@ -2,8 +2,8 @@ import type { CollectionConfig } from 'payload'
 
 export const FAQs: CollectionConfig = {
   slug: 'faqs',
-  dbName: 'frequently_asked_questions',
   admin: {
+    group: 'Content',
     useAsTitle: 'question',
     defaultColumns: ['question']
   },

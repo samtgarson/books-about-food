@@ -26,409 +26,348 @@ This migration follows an incremental, testable approach:
 
 ---
 
+## Database Strategy (UPDATED)
+
+### Payload as Source of Truth
+
+After evaluation, we've decided that **Payload will be the source of truth for database structure**, replacing Prisma for the admin system. This is because:
+
+1. Payload expects to manage its own migrations and schema
+2. Keeping Prisma and Payload schemas in sync manually would be error-prone
+3. Payload's native Drizzle adapter provides direct database access when needed
+
+### Separate Schema Approach
+
+To enable a clean migration path:
+
+1. Payload operates in a separate PostgreSQL schema (`payload`)
+2. This allows Payload to auto-generate all migrations freely
+3. Once complete, we'll migrate data from the old `public` schema to the `payload` schema
+4. Frontend code will then switch from Prisma to Payload's query API (or Drizzle for complex queries)
+
+### Configuration
+
+```typescript
+// payload.config.ts
+db: postgresAdapter({
+  idType: 'uuid',
+  schemaName: 'payload',
+  pool: { connectionString: process.env.DATABASE_URL },
+  migrationDir: path.resolve(dirname, 'payload', 'migrations')
+})
+```
+
+### Field Handling
+
+Payload automatically manages these fields—do NOT define them manually:
+
+- `id` (UUID, auto-generated)
+- `createdAt` (timestamp)
+- `updatedAt` (timestamp)
+
+---
+
+## Relationship Patterns
+
+### Many-to-Many Without Join Tables
+
+For simple many-to-many relationships where no additional data is needed on the relationship:
+
+1. **Store on one side** with `hasMany: true`
+2. **Virtual join on the other** for bidirectional access
+
+Example: Books ↔ Tags
+
+```typescript
+// Books collection
+{
+  name: 'tags',
+  type: 'relationship',
+  relationTo: 'tags',
+  hasMany: true
+}
+
+// Tags collection
+{
+  name: 'books',
+  type: 'join',
+  collection: 'books',
+  on: 'tags'
+}
+```
+
+### Many-to-Many With Join Data
+
+When additional data is needed on the relationship, use an explicit join collection:
+
+Example: Contributions (Books ↔ Profiles with Job role)
+
+```typescript
+// Contributions collection (explicit join table)
+{
+  name: 'book',
+  type: 'relationship',
+  relationTo: 'books',
+  required: true
+},
+{
+  name: 'profile',
+  type: 'relationship',
+  relationTo: 'profiles',
+  required: true
+},
+{
+  name: 'job',
+  type: 'relationship',
+  relationTo: 'jobs',
+  required: true
+},
+{
+  name: 'tag',
+  type: 'select',
+  options: [{ label: 'Assistant', value: 'Assistant' }]
+}
+```
+
+### Polymorphic Relationships
+
+For Images (which can belong to Book covers, Book previews, Publisher logos, Profile avatars, or Posts):
+
+```typescript
+// Images collection - polymorphic relationship
+{
+  name: 'owner',
+  type: 'relationship',
+  relationTo: ['books', 'publishers', 'profiles', 'posts'],
+  required: true
+},
+{
+  name: 'imageType',
+  type: 'select',
+  options: [
+    { label: 'Cover', value: 'cover' },
+    { label: 'Preview', value: 'preview' },
+    { label: 'Logo', value: 'logo' },
+    { label: 'Avatar', value: 'avatar' },
+    { label: 'Post Image', value: 'post' }
+  ],
+  required: true
+}
+```
+
+---
+
+## Collection Mapping
+
+### Prisma → Payload Collection Status
+
+| Prisma Model            | Payload Collection    | Status      | Notes                                                |
+| ----------------------- | --------------------- | ----------- | ---------------------------------------------------- |
+| Book                    | books                 | Created     | Needs: tags (hasMany), authors (hasMany to profiles) |
+| Profile                 | profiles              | Created     | Needs: user (relationship), locations (hasMany)      |
+| Publisher               | publishers            | Created     | Needs: imprints (virtual join to self)               |
+| User                    | users                 | Created     | Has NextAuth integration                             |
+| Contribution            | contributions         | Created     | Explicit join table with relationships               |
+| Image                   | images                | Created     | Needs: polymorphic owner, Payload upload config      |
+| Claim                   | claims                | Created     | Needs: profile, user relationships                   |
+| Tag                     | tags                  | Created     | Needs: books (virtual join)                          |
+| TagGroup                | tag-groups            | Created     | Needs: tags (virtual join)                           |
+| Collection              | collections           | Created     | Needs: books (hasMany)                               |
+| CollectionItem          | —                     | Not needed  | Replaced by hasMany on collections                   |
+| Job                     | jobs                  | Created     | Complete                                             |
+| Location                | locations             | Created     | Needs: profiles (virtual join)                       |
+| Feature                 | features              | Created     | Has book relationship                                |
+| FeaturedProfile         | featured-profiles     | Created     | Has profile relationship                             |
+| FrequentlyAskedQuestion | faqs                  | Created     | Complete                                             |
+| Link                    | links                 | Created     | Has book relationship                                |
+| Account                 | —                     | Not needed  | NextAuth internal                                    |
+| Session                 | —                     | Not needed  | NextAuth internal                                    |
+| VerificationToken       | —                     | Not needed  | NextAuth internal                                    |
+| Favourite               | favourites            | Not created | Needs creation                                       |
+| Membership              | memberships           | Not created | Needs creation                                       |
+| PublisherInvitation     | publisher-invitations | Not created | Needs creation                                       |
+| Pitch                   | pitches               | Not created | Needs creation                                       |
+| Post                    | posts                 | Not created | Needs creation                                       |
+| BookVote                | book-votes            | Not created | Needs creation                                       |
+
+### Missing Collections to Create
+
+1. **Favourites** - User favorites profiles
+2. **Memberships** - User membership in publishers with role
+3. **PublisherInvitations** - Invitation to join publisher team
+4. **Pitches** - User pitch submissions
+5. **Posts** - Blog posts with images
+6. **BookVotes** - User votes for books
+
+### Fields to Add to Existing Collections
+
+**Books:**
+
+- `tags` - hasMany relationship to tags
+- `authors` - hasMany relationship to profiles (shortcut for author role)
+
+**Profiles:**
+
+- `user` - relationship to users (currently still text)
+- `locations` - hasMany relationship to locations
+
+**Tags:**
+
+- `books` - virtual join field from books.tags
+
+**TagGroups:**
+
+- `tags` - virtual join field from tags.group
+
+**Publishers:**
+
+- `imprints` - virtual join field (self-referential from house)
+- `books` - virtual join field from books.publisher
+
+**Locations:**
+
+- `profiles` - virtual join field from profiles.locations
+- Remove manual `id` field (Payload handles this)
+
+**Images:**
+
+- Convert from multiple optional FK fields to polymorphic relationship
+- Add Payload upload configuration
+
+---
+
 ## Current System Overview
 
 ### Architecture
 
-| Component       | Current (Forest Admin)       | Target (Payload CMS)                                       |
-| --------------- | ---------------------------- | ---------------------------------------------------------- |
-| Server          | Koa.js on Heroku (port 5001) | Next.js (integrated into /web)                             |
-| Database        | PostgreSQL via Prisma        | PostgreSQL via Prisma (shared schema)                      |
-| Background Jobs | Inngest                      | Inngest (keep for MVP)                                     |
-| Image Storage   | Cloudflare R2                | Cloudflare R2 (via S3 adapter)                             |
-| Authentication  | Forest Admin dashboard       | Payload auth (using existing users table, admin role only) |
-
-### Collections
-
-The admin manages these database tables:
-
-| Collection          | Notes                                                        |
-| ------------------- | ------------------------------------------------------------ |
-| Books               | Primary content with images, colors, publishing workflow     |
-| Profiles            | People (authors, photographers, etc.) with avatars           |
-| Publishers          | Publishing houses with logos, imprint hierarchy              |
-| Users               | App users with role-based access                             |
-| Contributions       | Links profiles to books with job roles                       |
-| Images              | Polymorphic image storage (covers, previews, avatars, logos) |
-| Claims              | Profile ownership requests                                   |
-| Tags                | Book categories                                              |
-| Tag Groups          | Tag category groupings                                       |
-| Collections         | Curated book lists                                           |
-| Jobs                | Contributor role definitions (Author, Photographer, etc.)    |
-| Locations           | Geographic places via Google Places                          |
-| Features            | Homepage featured books                                      |
-| Featured Profiles   | Homepage featured profiles                                   |
-| FAQs                | Frequently asked questions                                   |
-| Links               | External book purchase links                                 |
-| Verification Tokens | Email verification tokens                                    |
+| Component       | Current (Forest Admin)                  | Target (Payload CMS)                      |
+| --------------- | --------------------------------------- | ----------------------------------------- |
+| Server          | Koa.js on Heroku (port 5001)            | Next.js (integrated into /web)            |
+| Database        | PostgreSQL via Prisma (`public` schema) | PostgreSQL via Payload (`payload` schema) |
+| ORM             | Prisma                                  | Payload Query API + Drizzle               |
+| Background Jobs | Inngest                                 | Inngest (keep for MVP)                    |
+| Image Storage   | Cloudflare R2                           | Cloudflare R2 (via Payload S3 adapter)    |
+| Authentication  | Forest Admin dashboard                  | NextAuth + Payload custom auth strategy   |
 
 ---
 
 ## Functional Requirements
 
-This section describes all custom functionality that must be replicated in Payload, expressed as business requirements.
-
-### 1. Automatic Slug Generation
-
-**Requirement:** Several resources use URL-friendly slugs derived from their display name. Slugs must be automatically generated when a record is created, and regenerated when the name/title changes.
-
-| Resource    | Source Field  | Slug Behavior                             |
-| ----------- | ------------- | ----------------------------------------- |
-| Books       | `title`       | Include random hash suffix for uniqueness |
-| Profiles    | `name`        | Include random hash suffix                |
-| Publishers  | `name`        | Include random hash suffix                |
-| Tags        | `name`        | No hash suffix                            |
-| Tag Groups  | `name`        | No hash suffix                            |
-| Collections | `title`       | No hash suffix                            |
-| Locations   | `displayText` | Include random hash suffix                |
-
----
-
-### 2. Image Upload and Management
-
-**Requirement:** Images are stored in Cloudflare R2 and managed through the admin. Different resources have different image types with specific storage paths.
-
-| Resource   | Image Type | Storage Path Pattern            | Single/Multiple |
-| ---------- | ---------- | ------------------------------- | --------------- |
-| Books      | Cover      | `books/{bookId}/cover`          | Single          |
-| Books      | Previews   | `books/{bookId}/previews`       | Multiple        |
-| Profiles   | Avatar     | `profile-avatars/{profileId}`   | Single          |
-| Publishers | Logo       | `publisher-logos/{publisherId}` | Single          |
-
-**Additional Requirements:**
-
-- When an image is uploaded, detect and store its dimensions
-- When a resource is deleted, its associated images must be deleted from R2
-- When a book cover is uploaded/changed, its color palette must be regenerated (via background job)
-- Images should display as thumbnails in list views and be uploadable in edit views
-
----
-
-### 3. Book Color Palette
-
-**Requirement:** Books have a background color and a palette of 3 colors extracted from their cover image. These colors are stored in HSL format in the database but should be displayed and editable as color pickers in the admin.
-
-| Field                                    | Storage Format         | Admin Display   |
-| ---------------------------------------- | ---------------------- | --------------- |
-| `backgroundColor`                        | HSL object `{h, s, l}` | Color picker    |
-| `palette[0]`, `palette[1]`, `palette[2]` | Array of color strings | 3 color pickers |
-
-**Additional Requirement:** When the cover image changes, a background job automatically extracts and updates these colors. There should also be a bulk action to regenerate palettes for all books missing palette data.
-
----
-
-### 4. Book Publishing Workflow
-
-**Requirement:** Books have a status field (`draft`, `inReview`, `published`). Admins need an easy way to publish books.
-
-**Publish Action Requirements:**
-
-1. Set book status to `published`
-2. If the book was submitted by a user (source = `submitted`, status was `inReview`):
-   - Send the submitter an email notification that their submission was published
-3. Refresh the cached book page on the frontend
-
----
-
-### 5. Adding Collaborators to Books
-
-**Requirement:** Admins need to add contributors (profiles) to books with a specific job role. The interface should:
-
-1. Allow searching for existing profiles by name
-2. Allow creating a new profile inline if one doesn't exist
-3. Select a job role from the Jobs collection
-4. Optionally mark the contribution as "Assistant" (e.g., "Assistant Food Stylist")
-
-**Edge Cases:**
-
-- If the same profile is already added with the same job, show an error
-- When a new profile is created, auto-generate its slug from the name
-
----
-
-### 6. User Access Approval
-
-**Requirement:** New users sign up with a `waitlist` role. Admins need to approve these users to grant them access.
-
-**Approve Action Requirements:**
-
-1. Change user role from `waitlist` to `user`
-2. Send the user an email notification that they've been approved
-
----
-
-### 7. Claim Approval
-
-**Requirement:** Users can claim ownership of a profile (to edit their own author page). Claims have a state: Pending, Approved, or Cancelled (derived from `approvedAt` and `cancelledAt` timestamps).
-
-**Approve Action Requirements:**
-
-1. Connect the claiming user to the profile (set `profile.userId`)
-2. Set `claim.approvedAt` to current timestamp
-3. Send the user an email notification that their claim was approved
-4. Refresh the profile page on the frontend
-
-**Display Requirement:** Show a computed "State" field in the list view (Pending/Approved/Cancelled) based on timestamps.
-
----
-
-### 8. Profile Homepage Featuring
-
-**Requirement:** Admins can feature profiles on the homepage with a single click.
-
-**Feature Action Requirements:**
-
-1. Create or update a `FeaturedProfile` record linked to the profile
-2. Refresh the homepage on the frontend
-
----
-
-### 9. Adding Locations to Profiles
-
-**Requirement:** Profiles can be associated with locations (cities, countries). Locations must be created via Google Places search, not manually entered.
-
-**Add Location Flow:**
-
-1. Admin clicks "Add Location" on a profile
-2. Search input appears with autocomplete from Google Places API
-3. Admin selects a location from the suggestions
-4. System creates or finds the location record using the Google Place ID
-5. Location is linked to the profile
-
-**Location Creation:** When a new location is created from Google Places:
-
-- Store the Place ID, display text, country, region, latitude, longitude
-- Auto-generate slug from display text
-- Direct creation of locations (bypassing Google Places) should be blocked
-
----
-
-### 10. Contribution Display
-
-**Requirement:** In the contributions list view, show a human-readable display name format: `{Profile Name} [{Job} on {Book Title}]`
-
-**Additional Requirement:** The database stores a `tag` field with value "Assistant" or null. Display this as a boolean "Assistant" checkbox in the admin.
-
----
-
-### 11. Link Website Selection
-
-**Requirement:** Book links have a `site` field that can be either a predefined website (from a list) or a custom website name.
-
-**Admin Display:**
-
-- Dropdown with predefined options: Bookshop.org, Edelweiss+, Amazon, Publisher website, etc.
-- Text field for custom website if not in the dropdown
-- Exactly one must be provided (dropdown OR custom text)
-
----
-
-### 12. Verification Email Resend
-
-**Requirement:** Admins can resend verification emails for pending verification tokens.
-
----
-
-### 13. Frontend Cache Invalidation
-
-**Requirement:** When content changes in the admin, the corresponding pages on the frontend must be refreshed (ISR revalidation).
-
-| Resource Change                  | Pages to Revalidate                           |
-| -------------------------------- | --------------------------------------------- |
-| Book created/updated/deleted     | `/cookbooks/{slug}`, homepage                 |
-| Profile updated/deleted          | `/people/{slug}`, `/authors/{slug}`, homepage |
-| Publisher updated                | `/publishers/{slug}`                          |
-| FAQ changed                      | `/frequently-asked-questions`                 |
-| Feature/Featured Profile changed | Homepage                                      |
-
----
-
-### 14. Default Values for New Books
-
-**Requirement:** When creating a book through the admin:
-
-- Status defaults to `published`
-- Source is set to `admin`
-- Title is trimmed of whitespace
-
----
-
-### 15. Timestamp Updates
-
-**Requirement:** All resources should have their `updatedAt` timestamp updated when modified through the admin.
-
----
-
-### 16. Profile Metadata
-
-**Requirement:** When a book is created or updated, all associated profiles (authors and contributors) should have their `mostRecentlyPublishedOn` date recalculated based on their latest published book.
-
----
-
-## Authentication Requirements
-
-**Requirement:** Only users with `role: 'admin'` in the existing Users table should be able to access the Payload admin panel.
-
-**Approach:**
-
-1. Configure Payload to use the existing `users` table for authentication
-2. Set up access control that checks `user.role === 'admin'`
-3. Regular users (role: `user` or `waitlist`) cannot access the admin at all
-
----
-
-## Deployment Architecture
-
-Deploy Payload as part of the existing Next.js web application:
-
-```
-/web
-├── app/
-│   ├── (frontend)/     # Existing frontend routes
-│   └── (payload)/      # Payload admin routes
-│       └── admin/
-│           └── [[...segments]]/
-│               └── page.tsx
-├── payload.config.ts
-└── collections/
-```
-
-**Admin URL:** `https://booksaboutfood.info/admin` (or `localhost:5000/admin` in dev)
-
----
-
-## Background Jobs Strategy
-
-### MVP: Keep Inngest
-
-For the initial migration, continue using Inngest for background jobs. Payload hooks will trigger Inngest events just as Forest Admin hooks do today.
-
-**Current Inngest Jobs:**
-| Job | Trigger | Description |
-|-----|---------|-------------|
-| `generate-palette` | `book.updated` (when cover changes) | Extracts colors from cover image |
-| `email` | `jobs.email` | Sends templated emails |
-| `send-verification` | `jobs.send-verification` | Sends verification emails |
-| `clean-images` | Image deletion | Cleans up R2 storage |
-| `convert-webp` | Image upload | Converts images to WebP |
-
-### Future: Payload Jobs Queue
-
-Payload 3.0 includes a built-in Jobs Queue. Migration would be straightforward since:
-
-- Inngest functions → Payload tasks
-- `inngest.send()` → `payload.jobs.queue()`
-- Job logic is already isolated in `packages/jobs`
+(See original document for complete requirements - unchanged)
 
 ---
 
 ## Migration Phases
 
-### Phase 1: Minimal Viable Admin
+### Phase 1: Minimal Viable Admin ✅ COMPLETE
 
 **Goal:** See Payload admin in browser at `/admin` with basic data display.
 
-**Steps:**
+**Completed:**
 
-1. Install Payload dependencies in `/web`
-2. Create minimal `payload.config.ts`
-3. Set up database adapter pointing to existing Postgres
-4. Create stub collection configs for 2-3 simple collections (e.g., Tags, Jobs, FAQs)
-5. Run `npm run dev` and verify admin loads at `localhost:5000/admin`
-
-**Browser verification:**
-
-- [ ] Admin panel loads without errors
-- [ ] Can see list of Tags/Jobs/FAQs
-- [ ] Can view individual records
-- [ ] Data matches what's in the database
-
-**STOP FOR REVIEW** before proceeding to Phase 2.
+- [x] Installed Payload dependencies in `/web`
+- [x] Created `payload.config.ts` with separate schema
+- [x] Set up Postgres adapter with UUID IDs
+- [x] Created initial collection configs
+- [x] Admin loads at `localhost:5000/admin`
 
 ---
 
-### Phase 2: All Collections (Read-Only)
+### Phase 2: Complete Collection Schema (IN PROGRESS)
 
-**Goal:** All 17 collections visible in admin with correct fields and relationships.
+**Goal:** All collections match Prisma schema with correct relationships.
 
 **Steps:**
 
-1. Add remaining collection configs with all fields
-2. Set up relationships between collections
-3. Configure admin display (useAsTitle, defaultColumns, etc.)
-4. Temporarily set all collections to read-only
+1. **Remove redundant fields** from all collections:
+
+   - Remove manual `id` fields (Payload handles this)
+   - Remove manual `createdAt`/`updatedAt` (Payload handles this)
+   - Remove `dbName` (Payload manages its own tables in `payload` schema)
+
+2. **Add missing relationships** to existing collections:
+
+   - Books: `tags` (hasMany), `authors` (hasMany to profiles)
+   - Profiles: `user` (relationship), `locations` (hasMany)
+   - Collections: `books` (hasMany, replacing CollectionItem)
+   - Images: polymorphic `owner` relationship
+
+3. **Add virtual join fields** for bidirectional access:
+
+   - Tags: `books` join field
+   - TagGroups: `tags` join field
+   - Publishers: `imprints`, `books` join fields
+   - Locations: `profiles` join field
+   - Jobs: `contributions` join field
+
+4. **Create missing collections:**
+   - Favourites
+   - Memberships
+   - PublisherInvitations
+   - Pitches
+   - Posts
+   - BookVotes
 
 **Browser verification:**
 
-- [ ] All 17 collections appear in sidebar
+- [ ] All collections appear in sidebar
 - [ ] Each collection shows correct fields
-- [ ] Relationships display correctly (e.g., Book shows Publisher)
-- [ ] List views show expected columns
+- [ ] Relationships can be selected and display correctly
+- [ ] Virtual join fields show related records
 
 **STOP FOR REVIEW** before proceeding to Phase 3.
 
 ---
 
-### Phase 3: Authentication & Write Access
+### Phase 3: Authentication & Access Control ✅ COMPLETE
 
 **Goal:** Admin-only access with full CRUD operations.
 
-**Steps:**
+**Completed:**
 
-1. Configure Payload auth to use existing users table
-2. Implement admin role check in access control
-3. Enable write operations on all collections
-4. Test login/logout flow
-
-**Browser verification:**
-
-- [ ] Can log in with admin user credentials
-- [ ] Non-admin users cannot access `/admin`
-- [ ] Can create, update, delete records
-- [ ] Changes persist to database
-
-**STOP FOR REVIEW** before proceeding to Phase 4.
+- [x] Configured Payload auth with NextAuth integration
+- [x] Admin role check via custom auth strategy
+- [x] Non-admin users cannot access `/admin`
 
 ---
 
 ### Phase 4: Image Uploads
 
-**Goal:** Image upload working with R2 storage.
+**Goal:** Image upload working with R2 storage via Payload's upload system.
 
 **Steps:**
 
-1. Configure S3 storage adapter for R2
-2. Set up upload fields on Books (cover, previews), Profiles (avatar), Publishers (logo)
-3. Configure storage paths per resource type
-4. Test upload, display, and deletion
+1. Install and configure `@payloadcms/storage-s3` for R2
+2. Configure Images collection as Payload upload collection
+3. Set up storage paths per image type (cover, preview, avatar, logo)
+4. Migrate from polymorphic FK fields to Payload's upload pattern
+5. Test upload, display, and deletion
 
 **Browser verification:**
 
 - [ ] Can upload images through admin
 - [ ] Images display as thumbnails in list/edit views
 - [ ] Images stored in correct R2 paths
-- [ ] Deleting a record cleans up associated images
+- [ ] Deleting owner cleans up associated images
 
 **STOP FOR REVIEW** before proceeding to Phase 5.
 
 ---
 
-### Phase 5: Slug Generation & Timestamps
+### Phase 5: Slug Generation & Hooks
 
-**Goal:** Automatic slug generation and timestamp updates.
+**Goal:** Automatic slug generation and business logic hooks.
 
 **Steps:**
 
-1. Implement beforeChange hooks for slug generation
-2. Add timestamp update hooks
-3. Test create and update flows
+1. Implement `beforeChange` hooks for slug generation per requirements
+2. Test create and update flows for all slug-generating collections
 
 **Browser verification:**
 
-- [ ] Creating a Book auto-generates slug from title
-- [ ] Updating a Book title regenerates slug
-- [ ] All resources have correct slugs per the requirements table
-- [ ] `updatedAt` updates on save
+- [ ] Creating a Book auto-generates slug from title with hash
+- [ ] Creating a Tag auto-generates slug from name (no hash)
+- [ ] All resources generate correct slugs per requirements table
 
 **STOP FOR REVIEW** before proceeding to Phase 6.
 
@@ -440,16 +379,15 @@ Payload 3.0 includes a built-in Jobs Queue. Migration would be straightforward s
 
 **Steps:**
 
-1. Create color picker components for book palette fields
-2. Implement computed State field for Claims
+1. Create color picker components for book `backgroundColor` and `palette` fields
+2. Implement computed State field for Claims (Pending/Approved/Cancelled)
 3. Implement computed DisplayName for Contributions
-4. Implement Assistant boolean field for Contributions
-5. Implement Link website dropdown/text combo
+4. Implement Link website dropdown/text combo
 
 **Browser verification:**
 
 - [ ] Color pickers display and save correctly (HSL conversion works)
-- [ ] Claims show Pending/Approved/Cancelled state
+- [ ] Claims show correct computed state
 - [ ] Contributions show formatted display name
 - [ ] Links show dropdown with custom text fallback
 
@@ -463,13 +401,12 @@ Payload 3.0 includes a built-in Jobs Queue. Migration would be straightforward s
 
 **Steps:**
 
-1. Implement Publish action for Books
+1. Implement Publish action for Books (with email notification)
 2. Implement Approve actions for Users and Claims
 3. Implement Feature on Homepage for Profiles
-4. Implement Add Collaborator for Books
-5. Implement Add Location for Profiles (Google Places)
-6. Implement Resend Verification for Tokens
-7. Implement Generate Missing Palettes bulk action
+4. Implement Add Collaborator for Books (search/create profile)
+5. Implement Add Location for Profiles (Google Places integration)
+6. Implement Generate Missing Palettes bulk action
 
 **Browser verification:**
 
@@ -487,8 +424,8 @@ Payload 3.0 includes a built-in Jobs Queue. Migration would be straightforward s
 
 **Steps:**
 
-1. Implement afterChange/afterDelete hooks to call revalidatePath
-2. Implement Inngest triggers for palette generation
+1. Implement `afterChange`/`afterDelete` hooks to call `revalidatePath`
+2. Implement Inngest triggers for palette generation on cover change
 3. Test cache invalidation end-to-end
 
 **Browser verification:**
@@ -501,7 +438,55 @@ Payload 3.0 includes a built-in Jobs Queue. Migration would be straightforward s
 
 ---
 
-### Phase 9: Final Testing & Cutover
+### Phase 9: Data Migration
+
+**Goal:** Migrate existing data from `public` schema to `payload` schema.
+
+**Steps:**
+
+1. Analyze Payload's generated schema in `payload` schema
+2. Create data migration scripts to copy data with field mappings:
+   - Handle ID format differences
+   - Map old FK columns to Payload relationship format
+   - Handle polymorphic image relationships
+   - Map many-to-many join table data to hasMany arrays
+3. Test migration in staging environment
+4. Verify data integrity after migration
+
+**Verification:**
+
+- [ ] All records migrated successfully
+- [ ] Relationships preserved correctly
+- [ ] Images still accessible
+- [ ] No data loss
+
+**STOP FOR REVIEW** before proceeding to Phase 10.
+
+---
+
+### Phase 10: Frontend Migration
+
+**Goal:** Migrate frontend from Prisma to Payload query API.
+
+**Steps:**
+
+1. Replace Prisma calls with Payload Local API calls in frontend
+2. For complex queries, use Payload's Drizzle client directly
+3. Update any type references from Prisma types to Payload types
+4. Test all frontend features
+
+**Verification:**
+
+- [ ] All frontend pages load correctly
+- [ ] Search works
+- [ ] Filtering works
+- [ ] All data displays correctly
+
+**STOP FOR REVIEW** before proceeding to Phase 11.
+
+---
+
+### Phase 11: Final Testing & Cutover
 
 **Goal:** Complete migration and decommission Forest Admin.
 
@@ -511,50 +496,37 @@ Payload 3.0 includes a built-in Jobs Queue. Migration would be straightforward s
 2. Document any workflow differences
 3. Deploy to production
 4. Run both admins in parallel for verification period
-5. Decommission Forest Admin
+5. Decommission Forest Admin:
    - Remove dependencies from `/admin`
    - Delete Heroku deployment
    - Cancel Forest Admin subscription
+6. Remove Prisma from packages (or keep for reference during transition)
+7. Drop old `public` schema tables once verified
 
 **Verification:**
 
 - [ ] Team has tested all workflows
 - [ ] No critical issues found
 - [ ] Forest Admin fully removed
-
----
-
-## Data Considerations
-
-### Prisma Schema Integration
-
-Payload will use the existing Prisma schema from `packages/database`:
-
-1. Configure Payload's database adapter to work with the existing tables
-2. Keep using Prisma for frontend queries (no changes needed)
-3. Payload operates on the same tables as the rest of the application
-
-**Note:** Payload may create some internal tables for its own use (e.g., preferences). These won't conflict with existing tables.
-
-### No Data Migration Required
-
-Since Payload will use the same database tables, no data migration is needed. The admin simply provides a new interface to the existing data.
+- [ ] Prisma dependencies removed
 
 ---
 
 ## Open Questions
 
-1. **Payload version:** Use latest stable 3.x release?
-2. **Database adapter:** Native Postgres adapter or Prisma adapter?
+1. ~~**Payload version:** Use latest stable 3.x release?~~ → Using 3.x
+2. ~~**Database adapter:** Native Postgres adapter or Prisma adapter?~~ → Native Postgres with separate schema
 3. **Custom components:** Build from scratch or use existing Payload plugins?
+4. **Frontend migration order:** Migrate all at once or incrementally?
 
 ---
 
 ## References
 
 - [Payload CMS Documentation](https://payloadcms.com/docs)
-- [Payload 3.0 Announcement](https://payloadcms.com/posts/blog/payload-30-the-first-cms-that-installs-directly-into-any-nextjs-app)
+- [Payload Relationships](https://payloadcms.com/docs/fields/relationship)
+- [Payload Join Fields](https://payloadcms.com/docs/fields/join)
+- [Payload Uploads](https://payloadcms.com/docs/upload/overview)
+- [Payload S3 Storage Adapter](https://payloadcms.com/docs/upload/storage-adapters)
 - [Payload Hooks Overview](https://payloadcms.com/docs/hooks/overview)
 - [Payload Access Control](https://payloadcms.com/docs/access-control/overview)
-- [Payload S3 Storage Adapter](https://payloadcms.com/docs/upload/storage-adapters)
-- [Payload Jobs Queue](https://payloadcms.com/docs/jobs-queue/overview)

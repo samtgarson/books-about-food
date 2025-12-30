@@ -2,8 +2,8 @@ import type { CollectionConfig } from 'payload'
 
 export const Jobs: CollectionConfig = {
   slug: 'jobs',
-  dbName: 'jobs',
   admin: {
+    group: 'Metadata',
     useAsTitle: 'name',
     defaultColumns: ['name', 'featured']
   },

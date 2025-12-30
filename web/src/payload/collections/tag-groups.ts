@@ -2,8 +2,8 @@ import type { CollectionConfig } from 'payload'
 
 export const TagGroups: CollectionConfig = {
   slug: 'tag-groups',
-  dbName: 'tag_groups',
   admin: {
+    group: 'Metadata',
     useAsTitle: 'name',
     defaultColumns: ['name', 'slug', 'adminOnly']
   },
@@ -28,6 +28,12 @@ export const TagGroups: CollectionConfig = {
       name: 'adminOnly',
       type: 'checkbox',
       defaultValue: false
+    },
+    {
+      name: 'tags',
+      type: 'join',
+      collection: 'tags',
+      on: 'group'
     }
   ]
 }

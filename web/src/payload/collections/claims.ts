@@ -2,10 +2,14 @@ import type { CollectionConfig } from 'payload'
 
 export const Claims: CollectionConfig = {
   slug: 'claims',
-  dbName: 'claims',
   admin: {
+    group: 'Users',
+    description: 'Claims made by users to take ownership of their profile.',
     useAsTitle: 'id',
-    defaultColumns: ['profileId', 'userId', 'approvedAt', 'cancelledAt']
+    defaultColumns: ['profile', 'user', 'approvedAt', 'cancelledAt']
+  },
+  access: {
+    create: () => false
   },
   fields: [
     {

@@ -1,11 +1,15 @@
+import { slugify } from '@books-about-food/shared/utils/slugify'
 import type { CollectionConfig } from 'payload'
 
 export const Profiles: CollectionConfig = {
   slug: 'profiles',
-  dbName: 'profiles',
   admin: {
+    group: 'Resources',
     useAsTitle: 'name',
-    defaultColumns: ['name', 'slug', 'jobTitle']
+    defaultColumns: ['name', 'slug', 'jobTitle'],
+    preview({ slug }) {
+      return `/people/${slug}`
+    }
   },
   fields: [
     {
@@ -16,9 +20,16 @@ export const Profiles: CollectionConfig = {
     {
       name: 'slug',
       type: 'text',
-      required: true,
       unique: true,
-      admin: { readOnly: true }
+      admin: { readOnly: true },
+      hooks: {
+        beforeValidate: [
+          ({ data }) => {
+            if (!data?.name) return null
+            return slugify(data.name as string)
+          }
+        ]
+      }
     },
     {
       name: 'description',
@@ -30,7 +41,8 @@ export const Profiles: CollectionConfig = {
     },
     {
       name: 'location',
-      type: 'text'
+      type: 'text',
+      hidden: true
     },
     {
       name: 'website',
@@ -43,19 +55,96 @@ export const Profiles: CollectionConfig = {
     {
       name: 'mostRecentlyPublishedOn',
       type: 'date',
-      admin: { readOnly: true }
+      admin: { readOnly: true, position: 'sidebar' }
     },
     {
-      name: 'userId',
-      type: 'text',
-      admin: { description: 'Connected User UUID' }
-    },
-    {
-      name: 'hiddenCollaborators',
+      name: 'user',
       type: 'relationship',
-      relationTo: 'profiles',
+      relationTo: 'users',
+      hasMany: false,
+      admin: { description: 'Connected user account', position: 'sidebar' }
+    },
+    {
+      name: 'locations',
+      type: 'relationship',
+      relationTo: 'locations',
       hasMany: true,
-      admin: { description: 'Collaborators to hide from public view' }
+      admin: {
+        description: 'Geographic locations associated with this profile'
+      }
+    },
+    {
+      name: 'contributions',
+      type: 'array',
+      admin: {
+        initCollapsed: true,
+        components: {
+          RowLabel: {
+            path: 'src/payload/components/array-row-label.tsx',
+            clientProps: {
+              itemPlaceholder: 'New contribution',
+              keyPath: ['title']
+            }
+          }
+        }
+      },
+      fields: [
+        {
+          name: 'book',
+          type: 'relationship',
+          relationTo: 'books',
+          required: true
+        },
+        {
+          name: 'title',
+          type: 'text',
+          admin: {
+            hidden: true
+          },
+          hooks: {
+            beforeChange: [
+              async ({ siblingData, req }) => {
+                if (!siblingData.book || !siblingData.job) return null
+                const [book, job] = await Promise.all([
+                  req.payload.findByID({
+                    id: siblingData.book,
+                    collection: 'books'
+                  }),
+                  req.payload.findByID({
+                    id: siblingData.job,
+                    collection: 'jobs'
+                  })
+                ])
+                if (!book || !job) return null
+                return `${book.title} (${job.name})`
+              }
+            ]
+          }
+        },
+        {
+          name: 'job',
+          type: 'relationship',
+          relationTo: 'jobs',
+          required: true
+        },
+        {
+          name: 'tag',
+          type: 'select', // "Assistant" or null,
+          options: [{ label: 'Assistant', value: 'Assistant' }]
+        },
+        {
+          name: 'hidden',
+          type: 'checkbox',
+          defaultValue: false
+        }
+      ]
+    },
+    {
+      name: 'Claims',
+      type: 'join',
+      collection: 'claims',
+      on: 'profile',
+      admin: { position: 'sidebar' }
     }
   ]
 }

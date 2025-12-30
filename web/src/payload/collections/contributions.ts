@@ -2,11 +2,10 @@ import type { CollectionConfig } from 'payload'
 
 export const Contributions: CollectionConfig = {
   slug: 'contributions',
-  dbName: 'contributions',
   admin: {
     useAsTitle: 'id',
     hidden: true,
-    defaultColumns: ['profileId', 'bookId', 'jobId', 'tag']
+    defaultColumns: ['profile', 'book', 'jobId', 'tag']
   },
   fields: [
     {

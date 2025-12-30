@@ -1,9 +1,10 @@
+import { slugify } from '@books-about-food/shared/utils/slugify'
 import type { CollectionConfig } from 'payload'
 
 export const Collections: CollectionConfig = {
   slug: 'collections',
-  dbName: 'collections',
   admin: {
+    group: 'Resources',
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', 'status']
   },
@@ -22,7 +23,15 @@ export const Collections: CollectionConfig = {
       type: 'text',
       required: true,
       unique: true,
-      admin: { readOnly: true }
+      admin: { readOnly: true },
+      hooks: {
+        beforeValidate: [
+          ({ data }) => {
+            if (!data?.title) return null
+            return slugify(data.title as string)
+          }
+        ]
+      }
     },
     {
       name: 'description',
@@ -46,12 +55,20 @@ export const Collections: CollectionConfig = {
     },
     {
       name: 'bookshopDotOrgUrl',
+      label: 'Bookshop.org URL',
       type: 'text'
     },
     {
       name: 'publisherFeatured',
       type: 'checkbox',
       defaultValue: false
+    },
+    {
+      name: 'books',
+      type: 'relationship',
+      relationTo: 'books',
+      hasMany: true,
+      admin: { description: 'Books in this collection' }
     }
   ]
 }

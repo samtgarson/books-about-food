@@ -2,18 +2,12 @@ import type { CollectionConfig } from 'payload'
 
 export const Locations: CollectionConfig = {
   slug: 'locations',
-  dbName: 'locations',
   admin: {
+    group: 'Metadata',
     useAsTitle: 'displayText',
     defaultColumns: ['displayText', 'country', 'region']
   },
   fields: [
-    {
-      name: 'id',
-      type: 'text',
-      required: true,
-      admin: { readOnly: true }
-    },
     {
       name: 'placeId',
       type: 'text',
@@ -50,6 +44,12 @@ export const Locations: CollectionConfig = {
       name: 'longitude',
       type: 'number',
       required: true
+    },
+    {
+      name: 'profiles',
+      type: 'join',
+      collection: 'profiles',
+      on: 'locations'
     }
   ]
 }

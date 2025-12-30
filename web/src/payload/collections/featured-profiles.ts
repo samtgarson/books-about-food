@@ -2,10 +2,10 @@ import type { CollectionConfig } from 'payload'
 
 export const FeaturedProfiles: CollectionConfig = {
   slug: 'featured-profiles',
-  dbName: 'featured_profiles',
   admin: {
-    useAsTitle: 'profileId',
-    defaultColumns: ['profileId', 'until']
+    group: 'Content',
+    useAsTitle: 'profile',
+    defaultColumns: ['profile', 'until']
   },
   labels: {
     singular: 'Featured Profile',

@@ -2,28 +2,30 @@ import type { CollectionConfig } from 'payload'
 
 export const Images: CollectionConfig = {
   slug: 'images',
-  dbName: 'images',
   admin: {
-    useAsTitle: 'path',
-    defaultColumns: ['path', 'width', 'height'],
-    hidden: true
+    group: 'Resources',
+    useAsTitle: 'id',
+    defaultColumns: ['owner', 'imageType', 'caption']
   },
   fields: [
     {
-      name: 'path',
-      type: 'text',
+      name: 'owner',
+      type: 'relationship',
+      relationTo: ['books', 'publishers', 'profiles', 'posts'],
       required: true,
-      unique: true
+      admin: { description: 'The entity this image belongs to' }
     },
     {
-      name: 'width',
-      type: 'number',
-      required: true
-    },
-    {
-      name: 'height',
-      type: 'number',
-      required: true
+      name: 'imageType',
+      type: 'select',
+      required: true,
+      options: [
+        { label: 'Cover', value: 'cover' },
+        { label: 'Preview', value: 'preview' },
+        { label: 'Logo', value: 'logo' },
+        { label: 'Avatar', value: 'avatar' },
+        { label: 'Post Image', value: 'post' }
+      ]
     },
     {
       name: 'caption',
@@ -37,41 +39,6 @@ export const Images: CollectionConfig = {
       name: 'order',
       type: 'number',
       defaultValue: 0
-    },
-    {
-      name: 'coverForId',
-      type: 'text',
-      admin: { description: 'Book UUID (cover image)' }
-    },
-    {
-      name: 'previewForId',
-      type: 'text',
-      admin: { description: 'Book UUID (preview image)' }
-    },
-    {
-      name: 'publisherId',
-      type: 'text',
-      admin: { description: 'Publisher UUID (logo)' }
-    },
-    {
-      name: 'profileId',
-      type: 'text',
-      admin: { description: 'Profile UUID (avatar)' }
-    },
-    {
-      name: 'postId',
-      type: 'text',
-      admin: { description: 'Post UUID' }
-    },
-    {
-      name: 'createdAt',
-      type: 'date',
-      admin: { readOnly: true }
-    },
-    {
-      name: 'updatedAt',
-      type: 'date',
-      admin: { readOnly: true }
     }
   ]
 }

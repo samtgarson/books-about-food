@@ -2,10 +2,10 @@ import type { CollectionConfig } from 'payload'
 
 export const Features: CollectionConfig = {
   slug: 'features',
-  dbName: 'features',
   admin: {
-    useAsTitle: 'bookId',
-    defaultColumns: ['bookId', 'tagLine', 'order', 'until']
+    group: 'Content',
+    useAsTitle: 'book',
+    defaultColumns: ['book', 'tagLine', 'order', 'until']
   },
   labels: {
     singular: 'Featured Book',

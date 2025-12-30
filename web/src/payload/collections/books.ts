@@ -1,11 +1,16 @@
-import type { CollectionConfig } from 'payload'
+import { websites } from '@books-about-food/shared/data/websites'
+import { slugify } from '@books-about-food/shared/utils/slugify'
+import type { CollectionConfig, Data } from 'payload'
 
 export const Books: CollectionConfig = {
   slug: 'books',
-  dbName: 'books',
   admin: {
+    group: 'Resources',
     useAsTitle: 'title',
-    defaultColumns: ['title', 'status', 'publisher', 'releaseDate']
+    defaultColumns: ['title', 'status', 'publisher', 'releaseDate'],
+    preview({ slug }) {
+      return `/cookbooks/${slug}`
+    }
   },
   fields: [
     {
@@ -22,7 +27,22 @@ export const Books: CollectionConfig = {
       type: 'text',
       required: true,
       unique: true,
-      admin: { readOnly: true }
+      admin: { readOnly: true },
+      hooks: {
+        beforeValidate: [
+          ({ data }) => {
+            if (!data?.title) return null
+            return slugify(data.title)
+          }
+        ]
+      }
+    },
+    {
+      name: 'authors',
+      type: 'relationship',
+      relationTo: 'profiles',
+      hasMany: true,
+      admin: { description: 'Primary authors of the book' }
     },
     {
       name: 'status',
@@ -33,18 +53,6 @@ export const Books: CollectionConfig = {
         { label: 'Published', value: 'published' }
       ],
       defaultValue: 'draft'
-    },
-    {
-      name: 'source',
-      type: 'select',
-      options: [
-        { label: 'Admin', value: 'admin' },
-        { label: 'Import', value: 'import' },
-        { label: 'Submitted', value: 'submitted' },
-        { label: 'Edelweiss', value: 'edelweiss' }
-      ],
-      defaultValue: 'admin',
-      admin: { readOnly: true }
     },
     {
       name: 'releaseDate',
@@ -63,22 +71,54 @@ export const Books: CollectionConfig = {
     },
     {
       name: 'designCommentary',
-      type: 'textarea'
+      type: 'textarea',
+      admin: {
+        position: 'sidebar'
+      }
+    },
+    {
+      name: 'tags',
+      type: 'relationship',
+      relationTo: 'tags',
+      hasMany: true,
+      admin: {
+        position: 'sidebar'
+      }
+    },
+    {
+      name: 'source',
+      type: 'select',
+      options: [
+        { label: 'Admin', value: 'admin' },
+        { label: 'Import', value: 'import' },
+        { label: 'Submitted', value: 'submitted' },
+        { label: 'Edelweiss', value: 'edelweiss' }
+      ],
+      defaultValue: 'admin',
+      admin: { readOnly: true, position: 'sidebar' }
     },
     {
       name: 'backgroundColor',
       type: 'json',
-      admin: { description: 'HSL color object {h, s, l}' }
+      admin: { position: 'sidebar' }
     },
     {
       name: 'palette',
-      type: 'json',
-      admin: { description: 'Array of color strings' }
+      type: 'array',
+      fields: [
+        {
+          name: 'color',
+          type: 'text'
+        }
+      ],
+      minRows: 3,
+      maxRows: 3,
+      admin: { position: 'sidebar' }
     },
     {
       name: 'googleBooksId',
       type: 'text',
-      admin: { readOnly: true }
+      admin: { readOnly: true, position: 'sidebar' }
     },
     {
       name: 'publisher',
@@ -91,7 +131,60 @@ export const Books: CollectionConfig = {
       type: 'relationship',
       relationTo: 'users',
       hasMany: false,
-      admin: { readOnly: true }
+      admin: { readOnly: true, position: 'sidebar' }
+    },
+    {
+      name: 'links',
+      type: 'array',
+      interfaceName: 'BookLinks',
+      admin: {
+        components: {
+          RowLabel: {
+            path: 'src/payload/components/array-row-label.tsx',
+            clientProps: {
+              itemPlaceholder: 'New link',
+              keyPath: ['label']
+            }
+          }
+        }
+      },
+      fields: [
+        {
+          name: 'label',
+          type: 'text',
+          required: true
+        },
+        {
+          name: 'url',
+          type: 'text',
+          required: true
+        },
+        {
+          name: 'site',
+          type: 'select',
+          options: [
+            ...websites.map((site) => ({ label: site, value: site })),
+            { label: 'Other', value: 'Other' }
+          ],
+          required: true
+        },
+        {
+          name: 'site (other)',
+          type: 'text',
+          validate: (
+            value: unknown,
+            { siblingData }: { siblingData: Data }
+          ) => {
+            if (siblingData?.site === 'Other' && !value) {
+              return 'Please specify the site name'
+            }
+            return true
+          },
+          admin: {
+            condition: (data, siblingData) => siblingData?.site === 'Other'
+          }
+        }
+      ]
     }
   ]
 }

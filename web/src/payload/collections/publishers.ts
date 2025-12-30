@@ -2,8 +2,8 @@ import type { CollectionConfig } from 'payload'
 
 export const Publishers: CollectionConfig = {
   slug: 'publishers',
-  dbName: 'publishers',
   admin: {
+    group: 'Resources',
     useAsTitle: 'name',
     defaultColumns: ['name', 'slug', 'website']
   },
@@ -45,7 +45,8 @@ export const Publishers: CollectionConfig = {
       name: 'house',
       type: 'relationship',
       relationTo: 'publishers',
-      hasMany: false
+      hasMany: false,
+      label: 'Publishing House'
     },
     {
       name: 'hiddenBooks',
@@ -55,6 +56,18 @@ export const Publishers: CollectionConfig = {
       admin: {
         description: 'Books hidden from this publisher page'
       }
+    },
+    {
+      name: 'imprints',
+      type: 'join',
+      collection: 'publishers',
+      on: 'house'
+    },
+    {
+      name: 'books',
+      type: 'join',
+      collection: 'books',
+      on: 'publisher'
     }
   ]
 }

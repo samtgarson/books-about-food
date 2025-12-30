@@ -4,18 +4,23 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 
+import { BookVotes } from './payload/collections/book-votes'
 import { Books } from './payload/collections/books'
 import { Claims } from './payload/collections/claims'
 import { Collections } from './payload/collections/collections'
 import { Contributions } from './payload/collections/contributions'
 import { FAQs } from './payload/collections/faqs'
+import { Favourites } from './payload/collections/favourites'
 import { FeaturedProfiles } from './payload/collections/featured-profiles'
 import { Features } from './payload/collections/features'
 import { Images } from './payload/collections/images'
 import { Jobs } from './payload/collections/jobs'
-import { Links } from './payload/collections/links'
 import { Locations } from './payload/collections/locations'
+import { Memberships } from './payload/collections/memberships'
+import { Pitches } from './payload/collections/pitches'
+import { Posts } from './payload/collections/posts'
 import { Profiles } from './payload/collections/profiles'
+import { PublisherInvitations } from './payload/collections/publisher-invitations'
 import { Publishers } from './payload/collections/publishers'
 import { TagGroups } from './payload/collections/tag-groups'
 import { Tags } from './payload/collections/tags'
@@ -32,32 +37,26 @@ export default buildConfig({
     }
   },
   collections: [
-    // Core content
+    BookVotes,
     Books,
-    Profiles,
-    Publishers,
-
-    // Relationships
-    Contributions,
-    Images,
-    Links,
-
-    // Categorization
-    Tags,
-    TagGroups,
-    Collections,
-
-    // Features
-    Features,
-    FeaturedProfiles,
     Claims,
-    Locations,
-
-    // Reference
-    Jobs,
+    Collections,
+    Contributions,
     FAQs,
-
-    // Auth (must be last as it's the admin user collection)
+    Favourites,
+    FeaturedProfiles,
+    Features,
+    Images,
+    Jobs,
+    Locations,
+    Memberships,
+    Pitches,
+    Posts,
+    Profiles,
+    PublisherInvitations,
+    Publishers,
+    TagGroups,
+    Tags,
     Users
   ],
   editor: lexicalEditor(),

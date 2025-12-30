@@ -89,6 +89,7 @@ export default defineConfig([
   },
   {
     files: [
+      'eslint.config.mjs',
       'packages/core/**/*.ts',
       'packages/core/**/*.tsx',
       'packages/e2e/**/*.ts',
@@ -99,6 +100,13 @@ export default defineConfig([
 
     rules: {
       'import-x/no-extraneous-dependencies': 0
+    }
+  },
+  {
+    files: ['web/src/payload/**/*'],
+    rules: {
+      '@typescript-eslint/no-unsafe-member-access': 0,
+      '@typescript-eslint/no-unsafe-argument': 0
     }
   }
 ])

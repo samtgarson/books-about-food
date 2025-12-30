@@ -3,7 +3,6 @@ import { getUser } from 'src/utils/user'
 
 export const Users: CollectionConfig = {
   slug: 'users',
-  dbName: 'users',
   auth: {
     disableLocalStrategy: true,
     strategies: [
@@ -32,6 +31,7 @@ export const Users: CollectionConfig = {
     ]
   },
   admin: {
+    group: 'Users',
     useAsTitle: 'email'
   },
   fields: [
