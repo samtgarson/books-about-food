@@ -1,8 +1,17 @@
 import type { CollectionConfig } from 'payload'
 import { slugField } from '../fields/slug'
+import { revalidatePaths } from '../plugins/cache-revalidation'
 
 export const Profiles: CollectionConfig = {
   slug: 'profiles',
+  custom: {
+    revalidatePaths: revalidatePaths((doc) => [
+      `/people/${doc.slug}`,
+      '/people',
+      '/people/map',
+      '/'
+    ])
+  },
   admin: {
     group: 'Resources',
     useAsTitle: 'name',

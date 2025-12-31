@@ -4,6 +4,9 @@ import type { CollectionConfig } from 'payload'
 
 export const Images: CollectionConfig = {
   slug: 'images',
+  access: {
+    update: () => false
+  },
   upload: {
     displayPreview: true,
     mimeTypes: ['image/*'],
@@ -42,7 +45,6 @@ export const Images: CollectionConfig = {
         if (!req?.payloadUploadSizes?.blurPlaceholder) return data
         const buffer = req.payloadUploadSizes.blurPlaceholder
         const placeholderUrl = `data:image/png;base64,${buffer.toString('base64')}`
-        console.log('Generated placeholder URL for image', placeholderUrl)
         return {
           ...data,
           placeholderUrl

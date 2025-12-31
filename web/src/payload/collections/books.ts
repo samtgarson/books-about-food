@@ -1,9 +1,46 @@
+import { inngest } from '@books-about-food/core/jobs'
 import { websites } from '@books-about-food/shared/data/websites'
-import type { CollectionConfig, Data } from 'payload'
+import type { CollectionConfig, Data, FieldHook } from 'payload'
 import { slugField } from '../fields/slug'
+import { Book } from '../payload-types'
+import { revalidatePaths } from '../plugins/cache-revalidation'
+
+// Field hook to trigger palette generation when cover image changes
+const triggerPaletteGeneration: FieldHook<Book, string | undefined> = async ({
+  value,
+  previousValue,
+  originalDoc: { id: bookId } = {},
+  req
+}) => {
+  if (value && previousValue !== value && bookId) {
+    try {
+      await inngest.send({
+        name: 'book.updated',
+        data: {
+          id: bookId,
+          coverImageChanged: true
+        }
+      })
+      req.payload.logger.info(`Triggered palette generation for book ${bookId}`)
+    } catch (error) {
+      req.payload.logger.error(
+        `Failed to trigger palette generation: ${error instanceof Error ? error.message : String(error)}`
+      )
+    }
+  }
+
+  return value
+}
 
 export const Books: CollectionConfig = {
   slug: 'books',
+  custom: {
+    revalidatePaths: revalidatePaths((doc) => [
+      `/cookbooks/${doc.slug}`,
+      '/cookbooks',
+      '/'
+    ])
+  },
   admin: {
     group: 'Resources',
     useAsTitle: 'title',
@@ -165,7 +202,10 @@ export const Books: CollectionConfig = {
       name: 'coverImage',
       type: 'upload',
       relationTo: 'images',
-      hasMany: false
+      hasMany: false,
+      hooks: {
+        afterChange: [triggerPaletteGeneration]
+      }
     },
     {
       name: 'previewImages',

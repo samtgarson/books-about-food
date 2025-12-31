@@ -106,7 +106,8 @@ export default defineConfig([
     files: ['web/src/payload/**/*'],
     rules: {
       '@typescript-eslint/no-unsafe-member-access': 0,
-      '@typescript-eslint/no-unsafe-argument': 0
+      '@typescript-eslint/no-unsafe-argument': 0,
+      '@typescript-eslint/no-unsafe-return': 0
     }
   }
 ])

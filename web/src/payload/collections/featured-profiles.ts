@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 export const FeaturedProfiles: CollectionConfig = {
   slug: 'featured-profiles',
+  custom: { revalidatePaths: () => ['/'] },
   admin: {
     group: 'Content',
     useAsTitle: 'profile',

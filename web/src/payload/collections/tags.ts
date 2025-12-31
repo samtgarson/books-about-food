@@ -3,6 +3,7 @@ import { slugField } from '../fields/slug'
 
 export const Tags: CollectionConfig = {
   slug: 'tags',
+  custom: { revalidatePaths: () => ['/cookbooks', '/people'] },
   admin: {
     group: 'Metadata',
     useAsTitle: 'name',

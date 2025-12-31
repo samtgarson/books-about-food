@@ -1,6 +1,12 @@
 'use client'
 
-import { Button, ConfirmationModal, useModal } from '@payloadcms/ui'
+import {
+  Button,
+  ConfirmationModal,
+  useDocumentInfo,
+  useFormModified,
+  useModal
+} from '@payloadcms/ui'
 import { useRouter } from 'next/navigation'
 import { useCallback, useId, useState } from 'react'
 import { toast } from 'sonner'
@@ -30,12 +36,14 @@ export function ActionButton({
   successMessage,
   variant = 'secondary',
   size = 'medium',
-  disabled = false
+  disabled: disabledFromProps = false
 }: ActionButtonProps) {
   const router = useRouter()
   const { openModal } = useModal()
   const modalSlug = useId()
   const [loading, setLoading] = useState(false)
+  const modified = useFormModified()
+  const { uploadStatus } = useDocumentInfo()
 
   const executeAction = useCallback(async () => {
     setLoading(true)
@@ -62,11 +70,14 @@ export function ActionButton({
     }
   }, [confirmMessage, openModal, modalSlug, executeAction])
 
+  const disabled =
+    disabledFromProps || modified || uploadStatus === 'uploading' || loading
+
   return (
     <>
       <Button
         onClick={handleClick}
-        disabled={disabled || loading}
+        disabled={disabled}
         buttonStyle={variant}
         size={size}
       >

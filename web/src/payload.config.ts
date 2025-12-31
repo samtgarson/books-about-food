@@ -29,6 +29,7 @@ import { Publishers } from './payload/collections/publishers'
 import { TagGroups } from './payload/collections/tag-groups'
 import { Tags } from './payload/collections/tags'
 import { Users } from './payload/collections/users'
+import { cacheRevalidationPlugin } from './payload/plugins/cache-revalidation'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -79,6 +80,7 @@ export default buildConfig({
   upload: {},
   sharp,
   plugins: [
+    cacheRevalidationPlugin(),
     s3Storage({
       acl: 'private',
       collections: {
