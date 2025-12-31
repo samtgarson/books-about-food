@@ -128,7 +128,7 @@ export const Books: CollectionConfig = {
         description: 'Generated from the cover image',
         components: {
           Field: {
-            path: 'src/payload/components/fields/color-picker.tsx#ColorPickerField'
+            path: 'src/payload/components/fields/color-picker/index.tsx#ColorPickerField'
           }
         }
       }
@@ -143,7 +143,7 @@ export const Books: CollectionConfig = {
           admin: {
             components: {
               Field: {
-                path: 'src/payload/components/fields/color-picker.tsx#ColorPickerField'
+                path: 'src/payload/components/fields/color-picker/index.tsx#ColorPickerField'
               }
             }
           }

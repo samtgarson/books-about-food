@@ -1,0 +1,15 @@
+.color-picker-field {
+  .field-type__wrap {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+
+    input {
+      width: auto;
+
+      &[type='text'] {
+        flex-grow: 1;
+      }
+    }
+  }
+}
