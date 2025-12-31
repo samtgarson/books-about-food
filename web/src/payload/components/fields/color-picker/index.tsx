@@ -1,7 +1,9 @@
 'use client'
 
+import { Hsl } from '@books-about-food/shared/utils/types'
 import { useField } from '@payloadcms/ui'
 import { TextInput } from '@payloadcms/ui/fields/Text'
+import Color from 'color'
 import type { TextFieldClient } from 'payload'
 import { type ChangeEvent } from 'react'
 import './styles.css'
@@ -28,8 +30,10 @@ export function ColorPickerField({
     showError,
     value,
     disabled
-  } = useField<string>({ path })
-  const colorValue = typeof value === 'string' ? value : ''
+  } = useField<Hsl>({ path })
+
+  const color = value ? Color.hsl(value) : null
+  const displayValue = color ? color.hex() : ''
 
   return (
     <TextInput
@@ -37,8 +41,8 @@ export function ColorPickerField({
       BeforeInput={
         <input
           type="color"
-          value={colorValue || '#ffffff'}
-          onChange={(e) => setValue(e.target.value)}
+          value={displayValue}
+          onChange={(e) => setValue(Color(e.target.value).hsl().object())}
           style={{
             width: '40px',
             height: '40px',
@@ -59,13 +63,15 @@ export function ColorPickerField({
       }}
       Label={Label}
       label={label}
-      onChange={(e: ChangeEvent<HTMLInputElement>) => setValue(e.target.value)}
+      onChange={(e: ChangeEvent<HTMLInputElement>) =>
+        setValue(Color(e.target.value).hsl().object())
+      }
       path={path}
       placeholder={typeof placeholder === 'string' ? placeholder : '#000000'}
       readOnly={readOnly || disabled}
       required={required}
       showError={showError}
-      value={colorValue}
+      value={displayValue}
     />
   )
 }

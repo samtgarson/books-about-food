@@ -39,12 +39,9 @@ import { LocationPicker as LocationPicker_b815847c38c8122cb3b5e41e02f031b2 } fro
 import { ProfileFeatureButton as ProfileFeatureButton_2d1432831a4612dc81865021c6b3cbad } from 'src/payload/collections/profiles/components/feature-button.tsx'
 import { UserApproveButton as UserApproveButton_8139da074bcc9123dc98f7c747378aef } from 'src/payload/collections/users/components/approve-button.tsx'
 import { ColorPickerField as ColorPickerField_769bfdd285767568b612dcc4334e8b2f } from 'src/payload/components/fields/color-picker/index.tsx'
-import { default as default_90441ee41512d23c76c47f07c342aebe } from 'src/payload/components/fields/string-array-cell.tsx'
 import { ArrayRowLabel as ArrayRowLabel_1a7e8d7c06d750553aaed5d2957fb002 } from 'src/payload/components/ui/array-row-label.tsx'
 
 export const importMap = {
-  'src/payload/components/fields/string-array-cell.tsx#default':
-    default_90441ee41512d23c76c47f07c342aebe,
   'src/payload/components/fields/color-picker/index.tsx#ColorPickerField':
     ColorPickerField_769bfdd285767568b612dcc4334e8b2f,
   'src/payload/components/ui/array-row-label.tsx#ArrayRowLabel':

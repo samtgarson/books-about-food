@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { dayOnlyDisplayFormat } from '../utils'
 
 export const FeaturedProfiles: CollectionConfig = {
   slug: 'featured-profiles',
@@ -25,7 +26,10 @@ export const FeaturedProfiles: CollectionConfig = {
       name: 'until',
       type: 'date',
       admin: {
-        date: { pickerAppearance: 'dayOnly' }
+        date: {
+          pickerAppearance: 'dayOnly',
+          displayFormat: dayOnlyDisplayFormat
+        }
       }
     }
   ]

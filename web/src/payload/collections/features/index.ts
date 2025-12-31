@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { dayOnlyDisplayFormat } from '../utils'
 
 export const Features: CollectionConfig = {
   slug: 'features',
@@ -32,7 +33,10 @@ export const Features: CollectionConfig = {
       name: 'until',
       type: 'date',
       admin: {
-        date: { pickerAppearance: 'dayOnly' }
+        date: {
+          pickerAppearance: 'dayOnly',
+          displayFormat: dayOnlyDisplayFormat
+        }
       }
     }
   ]

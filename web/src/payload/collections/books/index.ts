@@ -2,6 +2,7 @@ import { websites } from '@books-about-food/shared/data/websites'
 import type { CollectionConfig, Data } from 'payload'
 import { slugField } from '../../fields/slug'
 import { revalidatePaths } from '../../plugins/cache-revalidation'
+import { colorField, dayOnlyDisplayFormat } from '../utils'
 import { triggerPaletteGeneration } from './hooks/trigger-palette-generation'
 
 export const Books: CollectionConfig = {
@@ -16,13 +17,7 @@ export const Books: CollectionConfig = {
   admin: {
     group: 'Resources',
     useAsTitle: 'title',
-    defaultColumns: [
-      'title',
-      'status',
-      'authorNames',
-      'publisher',
-      'releaseDate'
-    ],
+    defaultColumns: ['title', 'status', 'authors', 'publisher', 'releaseDate'],
     preview({ slug }) {
       return `/cookbooks/${slug}`
     },
@@ -54,20 +49,6 @@ export const Books: CollectionConfig = {
       hasMany: true
     },
     {
-      name: 'authorNames',
-      label: 'Authors',
-      type: 'text',
-      virtual: 'authors.name',
-      admin: {
-        hidden: true,
-        components: {
-          Cell: {
-            path: 'src/payload/components/fields/string-array-cell.tsx'
-          }
-        }
-      }
-    },
-    {
       name: 'status',
       type: 'select',
       options: [
@@ -81,7 +62,10 @@ export const Books: CollectionConfig = {
       name: 'releaseDate',
       type: 'date',
       admin: {
-        date: { pickerAppearance: 'dayOnly' }
+        date: {
+          pickerAppearance: 'dayOnly',
+          displayFormat: dayOnlyDisplayFormat
+        }
       }
     },
     {
@@ -120,35 +104,16 @@ export const Books: CollectionConfig = {
       defaultValue: 'admin',
       admin: { readOnly: true, position: 'sidebar' }
     },
-    {
-      name: 'backgroundColor',
-      type: 'text',
+    colorField('backgroundColor', {
       admin: {
         position: 'sidebar',
-        description: 'Generated from the cover image',
-        components: {
-          Field: {
-            path: 'src/payload/components/fields/color-picker/index.tsx#ColorPickerField'
-          }
-        }
+        description: 'Generated from the cover image'
       }
-    },
+    }),
     {
       name: 'palette',
       type: 'array',
-      fields: [
-        {
-          name: 'color',
-          type: 'text',
-          admin: {
-            components: {
-              Field: {
-                path: 'src/payload/components/fields/color-picker/index.tsx#ColorPickerField'
-              }
-            }
-          }
-        }
-      ],
+      fields: [colorField('color')],
       minRows: 3,
       maxRows: 3,
       admin: {
@@ -175,32 +140,11 @@ export const Books: CollectionConfig = {
       admin: { readOnly: true, position: 'sidebar' }
     },
     {
-      name: 'coverImage',
-      type: 'upload',
-      relationTo: 'images',
-      hasMany: false,
-      hooks: {
-        afterChange: [triggerPaletteGeneration]
-      }
-    },
-    {
-      name: 'previewImages',
-      type: 'array',
-      fields: [
-        {
-          name: 'image',
-          type: 'upload',
-          relationTo: 'images',
-          hasMany: false,
-          required: true
-        }
-      ]
-    },
-    {
       name: 'links',
       type: 'array',
       interfaceName: 'BookLinks',
       admin: {
+        initCollapsed: true,
         components: {
           RowLabel: {
             path: 'src/payload/components/ui/array-row-label.tsx#ArrayRowLabel',
@@ -246,6 +190,28 @@ export const Books: CollectionConfig = {
           admin: {
             condition: (data, siblingData) => siblingData?.site === 'Other'
           }
+        }
+      ]
+    },
+    {
+      name: 'coverImage',
+      type: 'upload',
+      relationTo: 'images',
+      hasMany: false,
+      hooks: {
+        afterChange: [triggerPaletteGeneration]
+      }
+    },
+    {
+      name: 'previewImages',
+      type: 'array',
+      fields: [
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'images',
+          hasMany: false,
+          required: true
         }
       ]
     }

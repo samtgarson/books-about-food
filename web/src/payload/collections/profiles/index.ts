@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { slugField } from '../../fields/slug'
 import { revalidatePaths } from '../../plugins/cache-revalidation'
+import { dayOnlyDisplayFormat } from '../utils'
 
 export const Profiles: CollectionConfig = {
   slug: 'profiles',
@@ -66,7 +67,14 @@ export const Profiles: CollectionConfig = {
     {
       name: 'mostRecentlyPublishedOn',
       type: 'date',
-      admin: { readOnly: true, position: 'sidebar' }
+      admin: {
+        readOnly: true,
+        position: 'sidebar',
+        date: {
+          pickerAppearance: 'dayOnly',
+          displayFormat: dayOnlyDisplayFormat
+        }
+      }
     },
     {
       name: 'user',
