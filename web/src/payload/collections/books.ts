@@ -16,6 +16,15 @@ export const Books: CollectionConfig = {
     ],
     preview({ slug }) {
       return `/cookbooks/${slug}`
+    },
+    components: {
+      edit: {
+        beforeDocumentControls: [
+          {
+            path: 'src/payload/components/actions/books/publish-button.tsx#BookPublishButton'
+          }
+        ]
+      }
     }
   },
   fields: [

@@ -7,7 +7,19 @@ export const Claims: CollectionConfig = {
     groupBy: true,
     description: 'Claims made by users to take ownership of their profile.',
     useAsTitle: 'id',
-    defaultColumns: ['profile', 'user', 'state', 'approvedAt', 'cancelledAt']
+    defaultColumns: ['profile', 'user', 'state', 'actions', 'approvedAt'],
+    components: {
+      edit: {
+        beforeDocumentControls: [
+          {
+            path: 'src/payload/components/actions/claims/cancel-button.tsx#ClaimCancelButton'
+          },
+          {
+            path: 'src/payload/components/actions/claims/approve-button.tsx#ClaimApproveButton'
+          }
+        ]
+      }
+    }
   },
   access: {
     create: () => false
@@ -40,6 +52,18 @@ export const Claims: CollectionConfig = {
     {
       name: 'cancelledAt',
       type: 'date'
+    },
+    {
+      name: 'actions',
+      type: 'ui',
+      admin: {
+        disableListColumn: false,
+        components: {
+          Cell: {
+            path: 'src/payload/components/actions/claims/approve-cell.tsx#ClaimApproveCell'
+          }
+        }
+      }
     },
     {
       name: 'state',

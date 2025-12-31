@@ -32,7 +32,16 @@ export const Users: CollectionConfig = {
   },
   admin: {
     group: 'Users',
-    useAsTitle: 'email'
+    useAsTitle: 'email',
+    components: {
+      edit: {
+        beforeDocumentControls: [
+          {
+            path: 'src/payload/components/actions/users/approve-button.tsx#UserApproveButton'
+          }
+        ]
+      }
+    }
   },
   fields: [
     {

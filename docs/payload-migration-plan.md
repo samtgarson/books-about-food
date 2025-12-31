@@ -396,20 +396,104 @@ For Images (which can belong to Book covers, Book previews, Publisher logos, Pro
 
 ### Phase 7: Custom Actions
 
-**Goal:** All admin actions working.
+**Goal:** All admin actions working with proper UX using Payload's native component slots.
 
-**Steps:**
+#### Implementation Approach
 
-1. Implement Publish action for Books (with email notification)
-2. Implement Approve actions for Users and Claims
-3. Implement Feature on Homepage for Profiles
-4. Implement Add Collaborator for Books (search/create profile)
-5. Implement Add Location for Profiles (Google Places integration)
-6. Implement Generate Missing Palettes bulk action
+**Component Slots:**
+
+- `admin.components.beforeDocumentControls` - Buttons next to Save (for primary actions like Approve, Publish)
+- `field.admin.components.Cell` - Custom table cells (for row-level quick actions)
+- `editMenuItems` - 3-dot dropdown menu items (for secondary actions)
+
+**Patterns:**
+
+1. **Generic Action Button** (`/payload/components/actions/action-button.tsx`)
+
+   - Reusable client component for all action buttons
+   - Accepts: `action` (server action), `label`, `icon`, `variant`, `confirm` (optional confirmation message)
+   - Uses `toast` (Sonner) for success/error feedback
+   - Calls `router.refresh()` after successful action
+
+2. **Generic Action Cell** (`/payload/components/actions/action-cell.tsx`)
+
+   - Reusable for table row quick actions
+   - Compact button/icon display for list views
+
+3. **Server Actions** (`/payload/actions/*.ts`)
+   - Each action as a `'use server'` function
+   - Uses `getPayload()` for database operations
+   - Triggers Inngest jobs where needed for emails/background work
+   - Returns `{ success: boolean; error?: string }`
+
+#### Actions to Implement
+
+| Action          | Collection | Location                      | Notes                                    |
+| --------------- | ---------- | ----------------------------- | ---------------------------------------- |
+| Approve Claim   | claims     | beforeDocumentControls + Cell | Sets `approvedAt`, links profile to user |
+| Cancel Claim    | claims     | editMenuItems                 | Sets `cancelledAt`                       |
+| Approve User    | users      | beforeDocumentControls        | Sets role, sends welcome email           |
+| Publish Book    | books      | beforeDocumentControls        | Sets `publishedAt`, sends notification   |
+| Feature Profile | profiles   | beforeDocumentControls        | Creates/updates featured-profiles entry  |
+
+#### Directory Structure
+
+```
+/payload/
+├── actions/
+│   ├── claims.ts          # approveClaim, cancelClaim
+│   ├── users.ts           # approveUser
+│   ├── books.ts           # publishBook
+│   └── profiles.ts        # featureProfile
+└── components/
+    └── actions/
+        ├── action-button.tsx      # Generic action button (client)
+        ├── action-cell.tsx        # Generic table cell action (client)
+        ├── claims/
+        │   ├── approve-button.tsx # Claim-specific approve (server wrapper)
+        │   └── approve-cell.tsx   # Claim approve in table
+        ├── users/
+        │   └── approve-button.tsx
+        ├── books/
+        │   └── publish-button.tsx
+        └── profiles/
+            └── feature-button.tsx
+```
+
+#### Implementation Steps
+
+1. **Create generic action infrastructure:**
+
+   - `ActionButton` client component with toast integration
+   - `ActionCell` for table row actions
+   - Type definitions for action responses
+
+2. **Implement Claims actions:**
+
+   - `approveClaim` server action (sets approvedAt, updates profile.user)
+   - `cancelClaim` server action (sets cancelledAt)
+   - Wire up to beforeDocumentControls and Cell
+   - Show Approve only when state is 'pending'
+
+3. **Implement Users actions:**
+
+   - `approveUser` server action
+   - Trigger welcome email via Inngest
+
+4. **Implement Books actions:**
+
+   - `publishBook` server action
+   - Trigger notification email via Inngest
+
+5. **Implement Profiles actions:**
+   - `featureProfile` server action
 
 **Browser verification:**
 
-- [ ] Each action executes successfully
+- [ ] Approve Claim button appears only for pending claims
+- [ ] Approve Claim works from both edit view and table cell
+- [ ] Toast notifications show on success/error
+- [ ] Page refreshes to show updated state after action
 - [ ] Emails sent where applicable (check Inngest dashboard)
 - [ ] Database updated correctly after each action
 

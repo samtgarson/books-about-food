@@ -9,6 +9,15 @@ export const Profiles: CollectionConfig = {
     defaultColumns: ['name', 'slug', 'jobTitle'],
     preview({ slug }) {
       return `/people/${slug}`
+    },
+    components: {
+      edit: {
+        beforeDocumentControls: [
+          {
+            path: 'src/payload/components/actions/profiles/feature-button.tsx#ProfileFeatureButton'
+          }
+        ]
+      }
     }
   },
   fields: [
