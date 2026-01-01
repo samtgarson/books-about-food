@@ -4,6 +4,7 @@ import { dayOnlyDisplayFormat } from '../utils'
 export const FeaturedProfiles: CollectionConfig = {
   slug: 'featured-profiles',
   custom: { revalidatePaths: () => ['/'] },
+  orderable: true,
   admin: {
     group: 'Content',
     useAsTitle: 'profile',

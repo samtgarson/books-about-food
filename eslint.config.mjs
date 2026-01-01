@@ -20,7 +20,8 @@ export default defineConfig([
     '**/.vercel',
     'packages/prettier-config/index.js',
     'web/src/app/(payload)',
-    'web/src/payload/migrations'
+    'web/src/payload/migrations/**/*',
+    '!web/src/payload/migrations/from-prisma/**/*'
   ]),
   {
     extends: [baseConfig, tsConfig, eslintConfigPrettier],

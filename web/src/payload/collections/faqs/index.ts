@@ -3,6 +3,7 @@ import { revalidatePaths } from '../../plugins/cache-revalidation'
 
 export const FAQs: CollectionConfig = {
   slug: 'faqs',
+  orderable: true,
   custom: {
     revalidatePaths: revalidatePaths(() => ['/frequently-asked-questions'])
   },
@@ -24,8 +25,9 @@ export const FAQs: CollectionConfig = {
     },
     {
       name: 'answer',
-      type: 'textarea',
-      required: true
+      type: 'richText'
+      // TODO: enable once migration is done
+      // required: true,
     }
   ]
 }

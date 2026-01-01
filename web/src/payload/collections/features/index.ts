@@ -3,6 +3,7 @@ import { dayOnlyDisplayFormat } from '../utils'
 
 export const Features: CollectionConfig = {
   slug: 'features',
+  orderable: true,
   admin: {
     group: 'Content',
     useAsTitle: 'book',
@@ -23,11 +24,6 @@ export const Features: CollectionConfig = {
     {
       name: 'tagLine',
       type: 'text'
-    },
-    {
-      name: 'order',
-      type: 'number',
-      defaultValue: 0
     },
     {
       name: 'until',
