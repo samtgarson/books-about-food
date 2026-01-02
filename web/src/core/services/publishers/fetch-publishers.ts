@@ -1,8 +1,8 @@
-import prisma, { Prisma } from '@books-about-food/database'
+import { Where } from 'payload'
 import { Publisher } from 'src/core/models/publisher'
 import { Service } from 'src/core/services/base'
+import { PUBLISHER_DEPTH } from 'src/core/services/utils/payload-depth'
 import { z } from 'zod'
-import { publisherIncludes } from '../utils'
 import { paginationInput } from '../utils/inputs'
 
 export type FetchPublishersInput = z.infer<(typeof fetchPublishers)['input']>
@@ -14,29 +14,32 @@ export const fetchPublishers = new Service(
     search: z.string().optional(),
     ...paginationInput.shape
   }),
-  async ({ page = 0, perPage = 21, search: contains }, _ctx) => {
-    const where: Prisma.PublisherWhereInput = {
-      name: { contains, mode: 'insensitive' },
-      books: { some: { status: 'published' } }
+  async ({ page = 0, perPage = 21, search }, { payload }) => {
+    const where: Where = {
+      'books.status': { equals: 'published' }
     }
 
-    const [raw, total, filteredTotal] = await Promise.all([
-      prisma.publisher.findMany({
-        where,
-        orderBy: [
-          { logo: { publisher: { books: { _count: 'desc' } } } },
-          { name: 'asc' }
-        ],
-        take: perPage === 'all' ? undefined : perPage,
-        skip: perPage === 'all' ? 0 : perPage * page,
-        include: publisherIncludes
-      }),
-      prisma.publisher.count(),
-      prisma.publisher.count({ where })
-    ])
+    if (search) {
+      where.name = { contains: search }
+    }
 
-    const publishers = raw.map((publisher) => new Publisher(publisher))
+    // Fetch publishers
+    const result = await payload.find({
+      collection: 'publishers',
+      where,
+      ...(perPage === 'all'
+        ? { pagination: false }
+        : { page: page + 1, limit: perPage }),
+      sort: 'name',
+      depth: PUBLISHER_DEPTH
+    })
 
-    return { publishers, total, filteredTotal, perPage }
+    const publishers = result.docs.map((publisher) => new Publisher(publisher))
+
+    return {
+      publishers,
+      total: result.totalDocs,
+      perPage: perPage === 'all' ? ('all' as const) : perPage
+    }
   }
 )

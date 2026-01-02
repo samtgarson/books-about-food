@@ -13,15 +13,10 @@ export type PublishersListProps = {
 export async function PublishersList({ filters = {} }: PublishersListProps) {
   const { data } = await call(fetchPublishers, filters)
   if (!data) return null
-  const { publishers, filteredTotal, total, perPage } = data
+  const { publishers, total, perPage } = data
 
   return (
-    <Pagination
-      total={total}
-      perPage={perPage}
-      page={filters?.page ?? 0}
-      filteredTotal={filteredTotal}
-    >
+    <Pagination total={total} perPage={perPage} page={filters?.page ?? 0}>
       <PublisherGrid publishers={publishers} />
       {publishers.length === 0 && <p>No publishers found</p>}
     </Pagination>

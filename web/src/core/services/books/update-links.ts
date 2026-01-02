@@ -23,26 +23,16 @@ export const updateLinks = new AuthedService(
 
     const book = docs[0]
 
-    // Delete existing links
-    const { docs: existingLinks } = await payload.find({
-      collection: 'book-links',
-      where: { book: { equals: book.id } },
-      user
-    })
-
-    await Promise.all(
-      existingLinks.map((link) =>
-        payload.delete({
-          collection: 'book-links',
-          id: link.id,
-          user
-        })
-      )
-    )
-
-    // Create new links
-    await Promise.all(
-      links.map((link) =>
+    // Delete all existing links and create new ones in parallel
+    await Promise.all([
+      // Delete existing links using bulk delete
+      payload.delete({
+        collection: 'book-links',
+        where: { book: { equals: book.id } },
+        user
+      }),
+      // Create new links
+      ...links.map((link) =>
         payload.create({
           collection: 'book-links',
           data: {
@@ -53,6 +43,6 @@ export const updateLinks = new AuthedService(
           user
         })
       )
-    )
+    ])
   }
 )

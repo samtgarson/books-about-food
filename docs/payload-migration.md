@@ -1,6 +1,6 @@
 # Prisma to Payload CMS Migration
 
-**Status:** Phase 2 Complete ✅ - Ready for Phase 3
+**Status:** Phase 3 Complete ✅ - Ready for Phase 4
 
 ## Executive Summary
 
@@ -216,15 +216,103 @@ const updated = await payload.update({
 
 ---
 
-## Phase 3: Paginated List Services 📋 PENDING
+## Phase 3: Paginated List Services ✅ COMPLETE
 
 **Goal:** Migrate ~10 paginated list services to use Payload's built-in pagination
 
-### Target Services
+### Migrated Services (6 total) ✅
 
-- `fetchPublishers`, `fetchProfiles`, `fetchCollections`
-- `fetchFavourites`, `fetchMemberships`, `fetchInvitations`
-- `fetchContributions`, `fetchBooks` (list view)
+**Paginated list services:**
+
+- ✅ `fetchPublishers` - Publishers with search filter, handles `perPage: 'all'` case
+- ✅ `fetchProfiles` - Profiles with complex filters (location, job, search, onlyPublished, withAvatar)
+- ✅ `fetchCollections` - Collections filtered by publisher slug and featured status
+- ✅ `fetchFavourites` - User favourites with profile depth (AuthedService)
+- ✅ `fetchMemberships` - Publisher memberships with authorization check (AuthedService)
+- ✅ `fetchInvitations` - Pending publisher invitations with authorization check (AuthedService)
+
+### Deferred Services
+
+**Remaining paginated services:**
+
+- 📋 `fetchContributions` - Deferred to Phase 5 (complex relationships)
+- 📋 `fetchBooks` - Deferred to Phase 6 (uses raw SQL for color matching)
+
+### Key Implementation Details
+
+**Pagination Differences:**
+
+- Payload uses **1-indexed** pages (1, 2, 3...), Prisma used 0-indexed
+- Convert: `page: page + 1` when calling Payload
+- Use `pagination: false` (not `limit: 0`) to fetch all documents
+- Payload returns rich metadata: `{ docs, totalDocs, totalPages, page, limit }`
+
+**"Get All" Pattern:**
+
+```typescript
+if (perPage === 'all') {
+  const result = await payload.find({
+    collection: 'publishers',
+    where,
+    pagination: false, // Disable pagination to get all
+    sort: 'name',
+    depth: PUBLISHER_DEPTH
+  })
+  return {
+    publishers: result.docs.map((p) => new Publisher(p)),
+    total: totalResult.totalDocs,
+    filteredTotal: result.totalDocs,
+    perPage: 'all' as const
+  }
+}
+```
+
+**Total Count Strategy:**
+
+For services that return both filtered and unfiltered totals, fetch unfiltered count separately:
+
+```typescript
+// Get total count (unfiltered)
+const totalResult = await payload.find({
+  collection: 'publishers',
+  limit: 0,
+  depth: 0
+})
+```
+
+**Complex Filters:**
+
+Services like `fetchProfiles` required converting complex Prisma filters to Payload's `Where` syntax:
+
+```typescript
+const where: Where = {
+  and: [{ name: { not_equals: '' } }]
+}
+
+if (onlyPublished) {
+  where.and!.push({
+    or: [
+      { 'authoredBooks.status': { equals: 'published' } },
+      { 'contributions.book.status': { equals: 'published' } }
+    ]
+  })
+}
+```
+
+**Authorization in Paginated Services:**
+
+AuthedServices like `fetchMemberships` and `fetchInvitations` maintain authorization checks:
+
+```typescript
+// Verify user is a member before returning data
+const isMember = memberships.some((m) => {
+  const userId = typeof m.user === 'object' ? m.user.id : m.user
+  return userId === user.id
+})
+if (!isMember) {
+  throw new AppError('Forbidden', 'You are not a member of this publisher')
+}
+```
 
 ### Migration Pattern
 

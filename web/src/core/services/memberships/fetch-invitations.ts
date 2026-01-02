@@ -1,30 +1,32 @@
-import prisma from '@books-about-food/database'
+import { Where } from 'payload'
 import z from 'zod'
 import { Invitation } from '../../models/invitation'
 import { AuthedService } from '../base'
-import { invitationIncludes } from '../utils'
 import { AppError } from '../utils/errors'
+import { INVITATION_DEPTH } from '../utils/payload-depth'
 
 export const fetchInvitations = new AuthedService(
   z.object({ slug: z.string() }),
-  async function ({ slug }, { user }) {
-    const publisher = await prisma.publisher.findUnique({
-      where: { slug },
-      include: {
-        memberships: { where: { userId: user.id } },
-        invitations: {
-          include: invitationIncludes,
-          where: { acceptedAt: null }
-        }
-      }
-    })
-
-    if (!publisher) throw new AppError('NotFound', 'Publisher not found')
-    const isMember = publisher?.memberships.length > 0
-    if (!isMember) {
+  async function ({ slug }, { payload, user }) {
+    // Check if user is a member using user.publishers
+    if (!user.publishers.includes(slug)) {
       throw new AppError('Forbidden', 'You are not a member of this publisher')
     }
 
-    return publisher.invitations.map((m) => new Invitation(m))
+    // Get pending invitations for this publisher using slug
+    const { docs: invitations } = await payload.find({
+      collection: 'invitations',
+      where: {
+        and: [
+          { 'publisher.slug': { equals: slug } },
+          { acceptedAt: { equals: null } }
+        ]
+      } as Where,
+      depth: INVITATION_DEPTH,
+      pagination: false,
+      user
+    })
+
+    return invitations.map((i) => new Invitation(i))
   }
 )

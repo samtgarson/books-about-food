@@ -1,17 +1,9 @@
-import prisma, { Prisma } from '@books-about-food/database'
+import { Where } from 'payload'
 import { Profile } from 'src/core/models/profile'
 import { Service } from 'src/core/services/base'
+import { PROFILE_DEPTH } from 'src/core/services/utils/payload-depth'
 import { z } from 'zod'
-import { profileIncludes } from '../utils'
 import { array, paginationInput, slug } from '../utils/inputs'
-import { buildLocationFilter } from './utils/build-location-filter'
-
-export const FETCH_PROFILES_ONLY_PUBLISHED_QUERY = {
-  OR: [
-    { authoredBooks: { some: { status: 'published' as const } } },
-    { contributions: { some: { book: { status: 'published' as const } } } }
-  ]
-}
 
 export type FetchProfilesInput = NonNullable<
   z.infer<(typeof fetchProfiles)['input']>
@@ -37,7 +29,7 @@ export const fetchProfiles = new Service(
     userId: z.string().optional(),
     locations: array(locationFilterSchema).optional(),
     sort: z.enum(['name', 'trending']).optional(),
-    search: z.string().optional(),
+    search: z.string().trim().optional(),
     jobs: array(z.string()).optional(),
     onlyPublished: z.boolean().optional(),
     withAvatar: z.boolean().optional(),
@@ -55,73 +47,132 @@ export const fetchProfiles = new Service(
       onlyPublished = true,
       withAvatar
     },
-    _ctx
+    { payload }
   ) => {
-    const jobFilter = createJobFilter(jobs)
-    const userIdFilter = userId ? { userId: userId } : {}
-    const locationFilter = buildLocationFilter(locations || [])
-    const searchFilter = createSearchFilter(search)
-
-    const where: Prisma.ProfileWhereInput = {
-      AND: [
-        { name: { not: '' } },
-        userIdFilter,
-        locationFilter || {},
-        searchFilter,
-        jobFilter,
-        onlyPublished ? FETCH_PROFILES_ONLY_PUBLISHED_QUERY : {},
-        withAvatar ? { avatar: { isNot: null } } : {}
-      ]
+    const where: Where = {
+      and: [{ name: { not_equals: '' } }]
     }
 
-    const orderBy: Prisma.ProfileOrderByWithRelationInput =
-      sort === 'name'
-        ? { name: 'asc' }
-        : { mostRecentlyPublishedOn: { sort: 'desc', nulls: 'last' } }
+    // User filter
+    if (userId) {
+      where.and!.push({ user: { equals: userId } })
+    }
 
-    const [raw, total, filteredTotal] = await Promise.all([
-      prisma.profile.findMany({
-        orderBy,
-        where,
-        take: perPage === 'all' ? undefined : perPage,
-        skip: perPage === 'all' ? 0 : perPage * page,
-        include: profileIncludes
-      }),
-      prisma.profile.count(),
-      prisma.profile.count({ where })
-    ])
+    // Location filter
+    if (locations && locations.length > 0) {
+      const locationConditions = buildPayloadLocationFilter(locations)
+      if (locationConditions) {
+        where.and!.push(locationConditions)
+      }
+    }
 
-    const profiles = raw.map((profile) => new Profile(profile))
+    // Search filter
+    if (search) {
+      where.and!.push({
+        or: [{ name: { contains: search } }, { jobTitle: { contains: search } }]
+      })
+    }
 
-    return { profiles, total, filteredTotal, perPage }
+    // Job filter
+    if (jobs && jobs.length > 0) {
+      const jobConditions: Where[] = []
+      const hasAuthor = jobs.includes('author')
+      const jobsWithoutAuthor = jobs.filter((job) => job !== 'author')
+
+      if (jobsWithoutAuthor.length > 0) {
+        jobConditions.push({
+          'contributions.job.id': { in: jobs }
+        })
+      }
+
+      if (hasAuthor) {
+        jobConditions.push({ authoredBooks: { exists: true } })
+      }
+
+      if (jobConditions.length > 0) {
+        where.and!.push({ or: jobConditions })
+      }
+    }
+
+    // Only published filter
+    if (onlyPublished) {
+      where.and!.push({
+        or: [
+          { 'authoredBooks.status': { equals: 'published' } },
+          { 'contributions.book.status': { equals: 'published' } }
+        ]
+      })
+    }
+
+    // Avatar filter
+    if (withAvatar) {
+      where.and!.push({ avatar: { exists: true } })
+    }
+
+    const sortField = sort === 'name' ? 'name' : '-mostRecentlyPublishedOn'
+
+    // Fetch profiles
+    const result = await payload.find({
+      collection: 'profiles',
+      where,
+      ...(perPage === 'all'
+        ? { pagination: false }
+        : { page: page + 1, limit: perPage }),
+      sort: sortField,
+      depth: PROFILE_DEPTH
+    })
+
+    const profiles = result.docs.map((profile) => new Profile(profile))
+
+    return {
+      profiles,
+      total: result.totalDocs,
+      perPage: perPage === 'all' ? ('all' as const) : perPage
+    }
   },
   { cache: 'fetch-profiles' }
 )
 
-function createJobFilter(jobs: string[] | undefined): Prisma.ProfileWhereInput {
-  const jobFilter: Prisma.ProfileWhereInput['OR'] = []
-  const hasAuthor = jobs?.includes('author')
-  const jobsWithoutAuthor = jobs?.filter((job) => job !== 'author') ?? []
+function buildPayloadLocationFilter(locations: string[]): Where | null {
+  if (!locations || locations.length === 0) return null
 
-  if (jobsWithoutAuthor.length > 0) {
-    jobFilter.push({
-      contributions: { some: { job: { id: { in: jobs } } } }
-    })
+  const slugFilters: string[] = []
+  const compositeFilters: Array<{ type: string; value: string }> = []
+
+  for (const filter of locations) {
+    if (filter.includes(':')) {
+      const [type, value] = filter.split(':', 2)
+      compositeFilters.push({ type, value })
+    } else {
+      slugFilters.push(filter)
+    }
   }
 
-  if (hasAuthor) jobFilter.push({ authoredBooks: { some: {} } })
-
-  if (!jobFilter.length) return {}
-  return { OR: jobFilter }
-}
-
-function createSearchFilter(search?: string): Prisma.ProfileWhereInput {
-  const contains = search?.trim()
-  if (!contains || contains.length === 0) return {}
-  return {
-    OR: [
-      { name: { contains, mode: 'insensitive' } },
-      { jobTitle: { contains, mode: 'insensitive' } }
-    ]
+  const byType = {
+    region: compositeFilters
+      .filter((f) => f.type === 'region')
+      .map((f) => f.value),
+    country: compositeFilters
+      .filter((f) => f.type === 'country')
+      .map((f) => f.value)
   }
+
+  const locationConditions: Where[] = []
+
+  if (slugFilters.length > 0) {
+    locationConditions.push({ 'locations.slug': { in: slugFilters } })
+  }
+
+  if (byType.region.length > 0) {
+    locationConditions.push({ 'locations.region': { in: byType.region } })
+  }
+
+  if (byType.country.length > 0) {
+    locationConditions.push({ 'locations.country': { in: byType.country } })
+  }
+
+  if (locationConditions.length === 0) return null
+  if (locationConditions.length === 1) return locationConditions[0]
+
+  return { or: locationConditions }
 }

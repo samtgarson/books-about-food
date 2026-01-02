@@ -1,9 +1,9 @@
-import prisma, { Prisma } from '@books-about-food/database'
+import { Where } from 'payload'
 import z from 'zod'
 import { Collection } from '../../models/collection'
 import { Service } from '../base'
-import { collectionIncludes } from '../utils'
 import { paginationInput } from '../utils/inputs'
+import { COLLECTION_DEPTH } from '../utils/payload-depth'
 
 export type FetchCollectionsInput = NonNullable<
   z.infer<(typeof fetchCollections)['input']>
@@ -26,41 +26,34 @@ export const fetchCollections = new Service(
       publisherFeatured = false,
       sort = 'name'
     },
-    _ctx
+    { payload }
   ) {
-    const where: Prisma.CollectionWhereInput = {
-      publisher: publisherSlug ? { slug: publisherSlug } : null,
-      publisherFeatured,
-      status: 'published'
+    const where: Where = {
+      status: { equals: 'published' },
+      publisherFeatured: { equals: publisherFeatured }
     }
 
-    const [data, total] = await Promise.all([
-      prisma.collection.findMany({
-        where,
-        orderBy: orderBy(sort),
-        take: perPage === 'all' ? undefined : perPage,
-        skip: perPage === 'all' ? undefined : page * perPage,
-        include: collectionIncludes
-      }),
-      prisma.collection.count({ where })
-    ])
+    if (publisherSlug) {
+      where['publisher.slug'] = { equals: publisherSlug }
+    }
+
+    const sortField = sort === 'name' ? 'title' : '-createdAt'
+
+    // Fetch collections with conditional pagination
+    const result = await payload.find({
+      collection: 'collections',
+      where,
+      ...(perPage === 'all'
+        ? { pagination: false }
+        : { page: page + 1, limit: perPage }),
+      sort: sortField,
+      depth: COLLECTION_DEPTH
+    })
 
     return {
-      collections: data.map((collection) => new Collection(collection)),
-      total,
-      perPage
+      collections: result.docs.map((collection) => new Collection(collection)),
+      total: result.totalDocs,
+      perPage: perPage === 'all' ? ('all' as const) : perPage
     }
   }
 )
-
-function orderBy(
-  sort: (typeof sortOptions)[number]
-): Prisma.CollectionOrderByWithRelationInput {
-  switch (sort) {
-    case 'name':
-      return { title: 'asc' }
-    case 'createdAt':
-    default:
-      return { createdAt: 'desc' }
-  }
-}
