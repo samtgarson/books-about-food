@@ -1,3 +1,4 @@
+import { Accounts } from './accounts'
 import { BookVotes } from './book-votes'
 import { Books } from './books'
 import { Claims } from './claims'
@@ -19,8 +20,10 @@ import { Publishers } from './publishers'
 import { TagGroups } from './tag-groups'
 import { Tags } from './tags'
 import { Users } from './users'
+import { VerificationTokens } from './verification-tokens'
 
 export const collections = [
+  Accounts,
   BookVotes,
   Books,
   Claims,
@@ -41,5 +44,6 @@ export const collections = [
   Publishers,
   TagGroups,
   Tags,
-  Users
+  Users,
+  VerificationTokens
 ]

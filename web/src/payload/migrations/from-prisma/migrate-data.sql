@@ -19,6 +19,71 @@ select
 from
   public.users;
 
+-- Accounts (NextAuth, generate new UUIDs since Prisma uses cuid)
+insert into
+  payload.accounts (
+    id,
+    user_id,
+    type,
+    provider,
+    provider_account_id,
+    refresh_token,
+    access_token,
+    expires_at,
+    token_type,
+    scope,
+    id_token,
+    session_state,
+    created_at,
+    updated_at
+  )
+select
+  gen_random_uuid() as id,
+  a.user_id,
+  a.type,
+  a.provider,
+  a.provider_account_id,
+  a.refresh_token,
+  a.access_token,
+  a.expires_at,
+  a.token_type,
+  a.scope,
+  a.id_token,
+  a.session_state,
+  a.created_at,
+  a.created_at as updated_at
+from
+  public.accounts a
+where
+  exists (
+    select
+      1
+    from
+      payload.users u
+    where
+      u.id = a.user_id
+  );
+
+-- Verification Tokens (NextAuth, generate new UUIDs since Prisma has no id)
+insert into
+  payload.verification_tokens (
+    id,
+    identifier,
+    token,
+    expires,
+    created_at,
+    updated_at
+  )
+select
+  gen_random_uuid() as id,
+  identifier,
+  token,
+  expires,
+  now() as created_at,
+  now() as updated_at
+from
+  public.verification_tokens;
+
 -- Jobs
 insert into
   payload.jobs (id, name, featured, created_at, updated_at)
@@ -551,7 +616,7 @@ insert into
     id,
     book_id,
     tag_line,
-    "order",
+    _order,
     until,
     created_at,
     updated_at
