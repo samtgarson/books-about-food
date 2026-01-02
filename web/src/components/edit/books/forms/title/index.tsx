@@ -1,7 +1,7 @@
-import { FullBook } from '@books-about-food/core/models/full-book'
 import { PageSubtitle } from 'src/components/atoms/page-title'
 import { Input } from 'src/components/form/input'
 import { Submit } from 'src/components/form/submit'
+import { FullBook } from 'src/core/models/full-book'
 import { createAction } from '../action'
 import { EditForm } from '../form'
 import { TitleFormContent } from './form-content'

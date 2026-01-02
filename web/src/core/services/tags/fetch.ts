@@ -1,0 +1,17 @@
+import prisma from '@books-about-food/database'
+import { Service } from 'src/core/services/base'
+import { z } from 'zod'
+
+export const fetchTags = new Service(
+  z.object({ search: z.string().optional() }),
+  async function ({ search }, _ctx) {
+    return prisma.tag.findMany({
+      orderBy: { name: 'asc' },
+      where: {
+        name: { contains: search, mode: 'insensitive' },
+        group: { adminOnly: false },
+        books: { some: { status: 'published' } }
+      }
+    })
+  }
+)

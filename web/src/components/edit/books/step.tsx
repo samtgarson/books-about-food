@@ -1,9 +1,9 @@
-import { Profile } from '@books-about-food/core/models/profile'
 import cn from 'classnames'
 import Link from 'next/link'
 import { FC } from 'react'
 import { ChevronRight } from 'src/components/atoms/icons'
 import { AvatarList } from 'src/components/profiles/avatar-list'
+import { Profile } from 'src/core/models/profile'
 import { StepCompletionMeta } from './state'
 
 export interface StepProps {

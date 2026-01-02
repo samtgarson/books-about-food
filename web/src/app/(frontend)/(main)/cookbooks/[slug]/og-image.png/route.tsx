@@ -1,8 +1,8 @@
-import { fetchBook } from '@books-about-food/core/services/books/fetch-book'
 import { appUrl } from '@books-about-food/shared/utils/app-url'
 import Color from 'color'
 import { NextRequest } from 'next/server'
 import comingSoon from 'src/assets/images/cover-coming-soon.png'
+import { fetchBook } from 'src/core/services/books/fetch-book'
 import { OGTemplate } from 'src/utils/image-response-helpers'
 import { call } from 'src/utils/service'
 

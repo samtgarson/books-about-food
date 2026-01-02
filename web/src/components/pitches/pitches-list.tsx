@@ -1,5 +1,5 @@
-import { fetchAuthoredPitches } from '@books-about-food/core/services/pitches/fetch-authored-pitches'
 import Link from 'next/link'
+import { fetchAuthoredPitches } from 'src/core/services/pitches/fetch-authored-pitches'
 import { call } from 'src/utils/service'
 
 export const PitchesList = async () => {

@@ -1,13 +1,13 @@
 'use client'
 
-import { FullBook } from '@books-about-food/core/models/full-book'
-import { Image } from '@books-about-food/core/models/image'
-import { Profile } from '@books-about-food/core/models/profile'
-import { ContributorAttrs } from '@books-about-food/core/services/books/update-contributors'
 import { Job } from '@books-about-food/database'
 import { BaseAvatar } from 'src/components/atoms/avatar'
 import { CollectionInput } from 'src/components/form/collection-input'
 import { ContributionForm } from 'src/components/form/contribution-form'
+import { FullBook } from 'src/core/models/full-book'
+import { Image } from 'src/core/models/image'
+import { Profile } from 'src/core/models/profile'
+import { ContributorAttrs } from 'src/core/services/books/update-contributors'
 import { useCurrentUser } from 'src/hooks/use-current-user'
 
 export type TeamSelectValue = ContributorAttrs & {

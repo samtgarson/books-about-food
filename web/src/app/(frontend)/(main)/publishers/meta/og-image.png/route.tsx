@@ -1,5 +1,5 @@
-import { fetchPublishers } from '@books-about-food/core/services/publishers/fetch-publishers'
 import { notFound } from 'next/navigation'
+import { fetchPublishers } from 'src/core/services/publishers/fetch-publishers'
 import { OGTemplate } from 'src/utils/image-response-helpers'
 import { call } from 'src/utils/service'
 

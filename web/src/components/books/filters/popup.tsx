@@ -1,9 +1,9 @@
 'use client'
 
-import { NamedColor } from '@books-about-food/core/services/books/colors'
 import { ReactNode, useMemo, useState } from 'react'
 import { FilterSheet } from 'src/components/lists/filter-sheet'
 import { Sort } from 'src/components/lists/sort'
+import { NamedColor } from 'src/core/services/books/colors'
 import { usePromise } from 'src/hooks/use-promise'
 import { toggleItemAuto } from 'src/utils/array-helpers'
 import { fetchTagGroupOptions } from './actions'

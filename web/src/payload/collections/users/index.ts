@@ -23,7 +23,10 @@ export const Users: CollectionConfig = {
           return {
             user: {
               ...user,
-              collection: 'users'
+              collection: 'users' as const,
+              createdAt: user.createdAt.toISOString(),
+              updatedAt: user.updatedAt.toISOString(),
+              emailVerified: user.emailVerified?.toISOString() ?? null
             }
           }
         }

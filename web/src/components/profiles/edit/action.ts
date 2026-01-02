@@ -1,10 +1,10 @@
 'use server'
 
+import { redirect } from 'next/navigation'
 import {
   UpdateProfileInput,
   updateProfile
-} from '@books-about-food/core/services/profiles/update-profile'
-import { redirect } from 'next/navigation'
+} from 'src/core/services/profiles/update-profile'
 import { call } from 'src/utils/service'
 import { stringify } from 'src/utils/superjson'
 

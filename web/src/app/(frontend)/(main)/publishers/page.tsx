@@ -1,10 +1,10 @@
-import {
-  FetchPublishersInput,
-  fetchPublishers
-} from '@books-about-food/core/services/publishers/fetch-publishers'
 import { FilterBar } from 'src/components/lists/filter-bar'
 import { createIndexPage } from 'src/components/pages/index-page'
 import { indexPageMetadata } from 'src/components/pages/index-page-metadata'
+import {
+  FetchPublishersInput,
+  fetchPublishers
+} from 'src/core/services/publishers/fetch-publishers'
 import { PublishersList } from './list'
 
 export const generateMetadata = indexPageMetadata({

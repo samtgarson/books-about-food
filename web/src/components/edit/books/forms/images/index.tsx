@@ -1,9 +1,9 @@
-import { FullBook } from '@books-about-food/core/models/full-book'
 import { PageSubtitle } from 'src/components/atoms/page-title'
 import { Checkbox } from 'src/components/form/checkbox'
 import { ImageUpload } from 'src/components/form/image-upload'
 import { Submit } from 'src/components/form/submit'
 import { Wrap } from 'src/components/utils/wrap'
+import { FullBook } from 'src/core/models/full-book'
 import { createAction } from '../action'
 import { EditForm } from '../form'
 

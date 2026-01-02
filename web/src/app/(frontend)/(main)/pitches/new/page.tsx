@@ -1,10 +1,10 @@
-import { createPitch } from '@books-about-food/core/services/pitches/create-pitch'
 import { redirect } from 'next/navigation'
 import { Container } from 'src/components/atoms/container'
 import { PageBackLink } from 'src/components/atoms/page-back-link'
 import { Form, FormAction } from 'src/components/form'
 import { Submit } from 'src/components/form/submit'
 import { TextArea } from 'src/components/form/textarea'
+import { createPitch } from 'src/core/services/pitches/create-pitch'
 import { call } from 'src/utils/service'
 
 export default function Page() {

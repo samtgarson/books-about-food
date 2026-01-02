@@ -1,8 +1,8 @@
 'use server'
 
-import { updateUser } from '@books-about-food/core/services/users/update-user'
 import { updateSession } from 'app/(frontend)/auth/actions'
 import { revalidatePath } from 'next/cache'
+import { updateUser } from 'src/core/services/users/update-user'
 import { call } from 'src/utils/service'
 
 export const action = async (input: unknown) => {

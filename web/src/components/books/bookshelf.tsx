@@ -1,7 +1,7 @@
-import { Book } from '@books-about-food/core/models/book'
 import cn from 'classnames'
 import Color from 'color'
 import { CSSProperties, useMemo } from 'react'
+import { Book } from 'src/core/models/book'
 import { shuffle } from 'src/utils/array-helpers'
 
 export function Bookshelf({

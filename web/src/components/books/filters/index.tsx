@@ -1,7 +1,7 @@
-import { FetchBooksInput } from '@books-about-food/core/services/books/fetch-books'
 import Link from 'next/link'
 import { DisplayToggle } from 'src/components/lists/display-toggle'
 import { FilterBar } from 'src/components/lists/filter-bar'
+import { FetchBooksInput } from 'src/core/services/books/fetch-books'
 import stringify from 'stable-hash'
 import { BookFilterPopup } from './popup'
 import { count } from './util'

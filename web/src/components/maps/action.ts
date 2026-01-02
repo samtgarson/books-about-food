@@ -1,7 +1,7 @@
 'use server'
 
-import { fetchLocations } from '@books-about-food/core/services/locations/fetch-locations'
-import { fetchProfiles } from '@books-about-food/core/services/profiles/fetch-profiles'
+import { fetchLocations } from 'src/core/services/locations/fetch-locations'
+import { fetchProfiles } from 'src/core/services/profiles/fetch-profiles'
 import { call } from 'src/utils/service'
 import { stringify } from 'src/utils/superjson'
 

@@ -1,8 +1,8 @@
-import { FetchProfilesInput } from '@books-about-food/core/services/profiles/fetch-profiles'
 import { wrapArray } from '@books-about-food/shared/utils/array'
 import { FilterBar } from 'src/components/lists/filter-bar'
 import { FilterSelect } from 'src/components/lists/filter-select'
 import { Sort } from 'src/components/lists/sort'
+import { FetchProfilesInput } from 'src/core/services/profiles/fetch-profiles'
 import { jobOptions, locationOptions } from './actions'
 
 type PeopleFiltersProps = {

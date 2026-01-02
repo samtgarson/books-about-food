@@ -1,6 +1,6 @@
 'use server'
 
-import { fetchTagGroups } from '@books-about-food/core/services/tags/fetch-groups'
+import { fetchTagGroups } from 'src/core/services/tags/fetch-groups'
 import { call } from 'src/utils/service'
 import { Tag } from './pill-list'
 

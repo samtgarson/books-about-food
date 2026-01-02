@@ -1,7 +1,7 @@
 'use server'
 
-import { GooglePlacesGateway } from '@books-about-food/core/gateways/google-places'
 import { slugify } from '@books-about-food/shared/utils/slugify'
+import { GooglePlacesGateway } from 'src/core/gateways/google-places'
 
 const places = new GooglePlacesGateway()
 

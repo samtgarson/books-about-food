@@ -1,8 +1,8 @@
+import { Pagination } from 'src/components/lists/pagination'
 import {
   FetchPublishersInput,
   fetchPublishers
-} from '@books-about-food/core/services/publishers/fetch-publishers'
-import { Pagination } from 'src/components/lists/pagination'
+} from 'src/core/services/publishers/fetch-publishers'
 import { call } from 'src/utils/service'
 import { PublisherGrid } from './grid'
 

@@ -1,6 +1,5 @@
 import { Redis } from '@upstash/redis'
-import { deserialize } from 'superjson'
-import { SuperJSONResult } from 'superjson/dist/types'
+import { deserialize, SuperJSONResult } from 'superjson'
 import { stringify } from './superjson'
 
 const CACHE_VERSION = 'v1'

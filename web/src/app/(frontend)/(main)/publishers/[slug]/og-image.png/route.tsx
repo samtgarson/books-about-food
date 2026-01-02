@@ -1,7 +1,7 @@
-import { fetchBooks } from '@books-about-food/core/services/books/fetch-books'
-import { fetchPublisher } from '@books-about-food/core/services/publishers/fetch-publisher'
 import { NextRequest } from 'next/server'
 import { CSSProperties } from 'react'
+import { fetchBooks } from 'src/core/services/books/fetch-books'
+import { fetchPublisher } from 'src/core/services/publishers/fetch-publisher'
 import { OGTemplate } from 'src/utils/image-response-helpers'
 import { call } from 'src/utils/service'
 

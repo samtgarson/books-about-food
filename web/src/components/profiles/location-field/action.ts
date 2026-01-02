@@ -1,6 +1,6 @@
 'use server'
 
-import { GooglePlacesGateway } from '@books-about-food/core/gateways/google-places'
+import { GooglePlacesGateway } from 'src/core/gateways/google-places'
 import { stringify } from 'src/utils/superjson'
 
 const places = new GooglePlacesGateway()

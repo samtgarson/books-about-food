@@ -1,5 +1,3 @@
-import { fetchFeatures } from '@books-about-food/core/services/features/fetch-features'
-import { fetchHome } from '@books-about-food/core/services/home/fetch'
 import { Metadata } from 'next'
 import { Suspense } from 'react'
 import { Container } from 'src/components/atoms/container'
@@ -10,6 +8,8 @@ import { HomepageModule } from 'src/components/home/module'
 import { FeaturedJobsList } from 'src/components/jobs/featured-jobs-list'
 import { ProfileCarousel } from 'src/components/profiles/profile-carousel'
 import { Wrap } from 'src/components/utils/wrap'
+import { fetchFeatures } from 'src/core/services/features/fetch-features'
+import { fetchHome } from 'src/core/services/home/fetch'
 import { call } from 'src/utils/service'
 
 // const EditFeatureCarouselDialog = dynamic(

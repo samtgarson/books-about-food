@@ -1,11 +1,11 @@
-import { Book } from '@books-about-food/core/models/book'
-import { Collection } from '@books-about-food/core/models/collection'
-import { Contribution } from '@books-about-food/core/models/contribution'
-import { FullBook } from '@books-about-food/core/models/full-book'
-import { Image } from '@books-about-food/core/models/image'
-import { Location } from '@books-about-food/core/models/location'
-import { Profile } from '@books-about-food/core/models/profile'
-import { Publisher } from '@books-about-food/core/models/publisher'
+import { Book } from 'src/core/models/book'
+import { Collection } from 'src/core/models/collection'
+import { Contribution } from 'src/core/models/contribution'
+import { FullBook } from 'src/core/models/full-book'
+import { Image } from 'src/core/models/image'
+import { Location } from 'src/core/models/location'
+import { Profile } from 'src/core/models/profile'
+import { Publisher } from 'src/core/models/publisher'
 import {
   registerClass,
   parse as sjParse,

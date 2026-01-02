@@ -1,6 +1,6 @@
-import { Book } from '@books-about-food/core/models/book'
 import { motion } from 'framer-motion'
 import { FC, useEffect, useMemo, useState } from 'react'
+import { Book } from 'src/core/models/book'
 import { Avatar } from '../atoms/avatar'
 import { Face } from './face'
 

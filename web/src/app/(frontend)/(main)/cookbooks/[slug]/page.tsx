@@ -1,9 +1,3 @@
-import { fetchBook } from '@books-about-food/core/services/books/fetch-book'
-import { fetchBooks } from '@books-about-food/core/services/books/fetch-books'
-import {
-  fetchComingSoon,
-  fetchNewlyAdded
-} from '@books-about-food/core/services/home/fetch'
 import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { toColorString } from '@books-about-food/shared/utils/types'
 import cn from 'classnames'
@@ -26,6 +20,9 @@ import { TeamList } from 'src/components/books/team-list'
 import { ProfileListSection } from 'src/components/profiles/list-section'
 import { slugPage } from 'src/components/types'
 import { Wrap } from 'src/components/utils/wrap'
+import { fetchBook } from 'src/core/services/books/fetch-book'
+import { fetchBooks } from 'src/core/services/books/fetch-books'
+import { fetchComingSoon, fetchNewlyAdded } from 'src/core/services/home/fetch'
 import { bookTotal, genMetadata } from 'src/utils/metadata'
 import { call } from 'src/utils/service'
 

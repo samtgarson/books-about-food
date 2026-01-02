@@ -1,11 +1,11 @@
 'use client'
 
-import { Profile } from '@books-about-food/core/models/profile'
-import { UpdateProfileInput } from '@books-about-food/core/services/profiles/update-profile'
 import {
   InPlaceField,
   InPlaceFieldProps
 } from 'src/components/edit/in-place/field'
+import { Profile } from 'src/core/models/profile'
+import { UpdateProfileInput } from 'src/core/services/profiles/update-profile'
 import { KeysMatching } from 'src/utils/types'
 import { useEditProfile } from './context'
 

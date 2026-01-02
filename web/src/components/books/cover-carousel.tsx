@@ -1,9 +1,9 @@
 'use client'
 
-import { FullBook } from '@books-about-food/core/models/full-book'
 import Image from 'next/image'
 import { FC } from 'react'
 import * as Carousel from 'src/components/atoms/carousel'
+import { FullBook } from 'src/core/models/full-book'
 
 export type CoverCarouselProps = {
   book: FullBook

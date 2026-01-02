@@ -1,9 +1,9 @@
 'use client'
 
-import { Feature } from '@books-about-food/core/services/features/fetch-features'
 import { Reorder } from 'framer-motion'
 import { useState } from 'react'
 import * as Sheet from 'src/components/atoms/sheet'
+import { Feature } from 'src/core/services/features/fetch-features'
 import { Menu } from '../atoms/icons'
 import { MiniItem } from '../books/mini-item'
 import { Form } from '../form'

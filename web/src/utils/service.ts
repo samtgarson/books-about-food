@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { cache } from 'react'
 import {
+  AuthedServiceContext,
   ServiceClass,
+  ServiceContext,
   ServiceInput,
   ServiceReturn
-} from '@books-about-food/core/services/base'
-import { AppError } from '@books-about-food/core/services/utils/errors'
-import { cache } from 'react'
+} from 'src/core/services/base'
+import { AppError } from 'src/core/services/utils/errors'
+import { getPayloadClient } from 'src/core/services/utils/payload'
 import hash from 'stable-hash'
 import { parse, stringify } from 'superjson'
 import { getOrPopulateKv } from './kv'
@@ -113,14 +116,21 @@ async function executeService<S extends ServiceClass<any, any>>(
   service: S,
   args: any
 ): Promise<ServiceReturn<S>> {
+  // Get Payload client for all services
+  const payload = await getPayloadClient()
+
   // Non-authenticated services
   if (!service.authed) {
-    return service.call(args) as Promise<ServiceReturn<S>>
+    const context: ServiceContext = { payload }
+    return service.call(args, context) as Promise<ServiceReturn<S>>
   }
 
   // Authenticated services - get user
   const user = await getSessionUser()
-  if (user) return service.call(args, user) as Promise<ServiceReturn<S>>
+  if (user) {
+    const context: AuthedServiceContext = { payload, user }
+    return service.call(args, context) as Promise<ServiceReturn<S>>
+  }
 
   return {
     success: false,

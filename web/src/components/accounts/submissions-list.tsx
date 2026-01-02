@@ -1,8 +1,8 @@
-import { fetchBooks } from '@books-about-food/core/services/books/fetch-books'
 import { MiniItem } from 'src/components/books/mini-item'
 import { NewBookButton } from 'src/components/books/new-book-button'
 import { GridContainer } from 'src/components/lists/grid-container'
 import { PaginationButtons } from 'src/components/lists/pagination'
+import { fetchBooks } from 'src/core/services/books/fetch-books'
 import { call } from 'src/utils/service'
 import { getSessionUser } from 'src/utils/user'
 

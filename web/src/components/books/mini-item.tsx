@@ -1,8 +1,8 @@
-import { Book } from '@books-about-food/core/models/book'
 import cn from 'classnames'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ReactNode } from 'react'
+import { Book } from 'src/core/models/book'
 import { StatusTag } from './status-tag'
 
 export function MiniItem({

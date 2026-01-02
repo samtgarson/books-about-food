@@ -1,7 +1,7 @@
 import { PrismaAdapter } from '@auth/prisma-adapter'
-import { inngest } from '@books-about-food/core/jobs'
 import prisma from '@books-about-food/database'
 import NextAuth from 'next-auth'
+import { inngest } from 'src/core/jobs'
 import { identify } from './lib/tracking/identify'
 import { track } from './lib/tracking/track'
 import { authConfig } from './utils/auth-config'

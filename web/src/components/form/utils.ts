@@ -1,7 +1,4 @@
-import {
-  AppErrorJSON,
-  ErrorType
-} from '@books-about-food/core/services/utils/errors'
+import { AppErrorJSON, ErrorType } from 'src/core/services/utils/errors'
 import type { FormErrors } from './context'
 
 export function parseAppError(

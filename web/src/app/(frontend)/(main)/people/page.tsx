@@ -1,6 +1,6 @@
-import { fetchProfiles } from '@books-about-food/core/services/profiles/fetch-profiles'
 import { createIndexPage } from 'src/components/pages/index-page'
 import { indexPageMetadata } from 'src/components/pages/index-page-metadata'
+import { fetchProfiles } from 'src/core/services/profiles/fetch-profiles'
 import { PeopleFilters } from './filters'
 import { SkeletonPeopleGrid } from './grid'
 import { PeopleList } from './list'

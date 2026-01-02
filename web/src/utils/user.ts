@@ -1,7 +1,7 @@
-import { User } from '@books-about-food/core/types'
 import prisma from '@books-about-food/database'
 import { cache } from 'react'
 import { auth } from 'src/auth'
+import { User } from 'src/core/types'
 
 export const getSessionUser = async () => {
   const session = await auth()

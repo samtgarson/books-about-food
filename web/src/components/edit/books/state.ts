@@ -1,7 +1,7 @@
-import { FullBook } from '@books-about-food/core/models/full-book'
-import { Profile } from '@books-about-food/core/models/profile'
-import { User } from '@books-about-food/core/types'
 import prisma from '@books-about-food/database'
+import { FullBook } from 'src/core/models/full-book'
+import { Profile } from 'src/core/models/profile'
+import { User } from 'src/core/types'
 
 export type StepCompletionMeta =
   | undefined

@@ -1,7 +1,7 @@
-import { fetchCollection } from '@books-about-food/core/services/collections/fetch-collection'
 import Color from 'color'
 import { notFound } from 'next/navigation'
 import { NextRequest } from 'next/server'
+import { fetchCollection } from 'src/core/services/collections/fetch-collection'
 import { OGTemplate } from 'src/utils/image-response-helpers'
 import { call } from 'src/utils/service'
 

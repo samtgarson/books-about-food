@@ -1,8 +1,8 @@
 'use server'
 
-import { createImages } from '@books-about-food/core/services/images/create-images'
 import prisma from '@books-about-food/database'
 import sharp from 'sharp'
+import { createImages } from 'src/core/services/images/create-images'
 import { call } from 'src/utils/service'
 import type { Area } from './cropper-sheet'
 

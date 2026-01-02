@@ -1,11 +1,11 @@
 'use client'
 
-import { Publisher } from '@books-about-food/core/models/publisher'
-import { UpdatePublisherInput } from '@books-about-food/core/services/publishers/update-publisher'
 import {
   InPlaceField,
   InPlaceFieldProps
 } from 'src/components/edit/in-place/field'
+import { Publisher } from 'src/core/models/publisher'
+import { UpdatePublisherInput } from 'src/core/services/publishers/update-publisher'
 import { KeysMatching } from 'src/utils/types'
 import { useEditPublisher } from './context'
 

@@ -1,6 +1,5 @@
 'use client'
 
-import { Profile } from '@books-about-food/core/models/profile'
 import {
   forwardRef,
   useImperativeHandle,
@@ -9,6 +8,7 @@ import {
   useState
 } from 'react'
 import { ProfileItem } from 'src/components/profiles/item'
+import { Profile } from 'src/core/models/profile'
 import { parse } from 'src/utils/superjson'
 import * as Sheet from '../atoms/sheet'
 import { SheetControl } from '../atoms/sheet/root'

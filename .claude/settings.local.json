@@ -2,9 +2,8 @@
   "permissions": {
     "allow": [
       "WebFetch(domain:payloadcms.com)",
-      "Bash(grep:*)",
-      "Bash(find:*)",
-      "Bash(head:*)"
+      "Bash(npm run type-check:*)",
+      "Bash(npx:*)"
     ]
   }
 }

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { BaseModel } from '@books-about-food/core/models'
 import {
   Context,
   ReactNode,
@@ -9,6 +8,7 @@ import {
   useState
 } from 'react'
 import { errorToast, successToast } from 'src/components/utils/toaster'
+import { BaseModel } from 'src/core/models'
 import { usePrevious } from 'src/hooks/use-previous'
 import { revalidate } from './action'
 

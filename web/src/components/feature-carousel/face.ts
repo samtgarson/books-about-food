@@ -1,5 +1,5 @@
-import { Book } from '@books-about-food/core/models/book'
-import { Profile } from '@books-about-food/core/models/profile'
+import { Book } from 'src/core/models/book'
+import { Profile } from 'src/core/models/profile'
 import { randomBelow, sample } from 'src/utils/array-helpers'
 import { Dot, RandomPlacer } from 'src/utils/random-placer'
 import { AvatarSize } from '../atoms/avatar'

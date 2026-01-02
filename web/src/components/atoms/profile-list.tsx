@@ -1,9 +1,9 @@
 'use client'
 
-import { Profile } from '@books-about-food/core/models/profile'
 import cn from 'classnames'
 import { ReactNode } from 'react'
 import { Eye } from 'src/components/atoms/icons'
+import { Profile } from 'src/core/models/profile'
 import { Avatar } from '../atoms/avatar'
 import * as Sheet from '../atoms/sheet'
 import { GridContainer } from '../lists/grid-container'

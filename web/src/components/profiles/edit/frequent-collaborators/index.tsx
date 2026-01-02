@@ -1,12 +1,12 @@
 'use client'
 
-import { Profile } from '@books-about-food/core/models/profile'
 import cn from 'classnames'
 import { useCallback, useMemo, useState } from 'react'
 import { Eye, EyeOff } from 'src/components/atoms/icons'
 import { Loader } from 'src/components/atoms/loader'
 import { ProfileList } from 'src/components/atoms/profile-list'
 import { Content, Wrapper } from 'src/components/profiles/item'
+import { Profile } from 'src/core/models/profile'
 import { useCurrentUser } from 'src/hooks/use-current-user'
 import { useServer } from 'src/hooks/use-server'
 import { useEditProfile } from '../context'

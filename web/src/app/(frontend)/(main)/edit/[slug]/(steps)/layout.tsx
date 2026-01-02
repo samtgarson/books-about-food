@@ -1,6 +1,6 @@
-import { fetchBook } from '@books-about-food/core/services/books/fetch-book'
 import { notFound } from 'next/navigation'
 import { PageBackLink } from 'src/components/atoms/page-back-link'
+import { fetchBook } from 'src/core/services/books/fetch-book'
 import { call } from 'src/utils/service'
 
 export default async function EditLayout(props: LayoutProps<'/edit/[slug]'>) {

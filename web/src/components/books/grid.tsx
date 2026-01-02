@@ -1,6 +1,6 @@
-import { Book } from '@books-about-food/core/models/book'
 import cn from 'classnames'
 import { ComponentPropsWithoutRef, ReactNode } from 'react'
+import { Book } from 'src/core/models/book'
 import { randomBelow } from 'src/utils/array-helpers'
 import { GridContainer, GridContainerProps } from '../lists/grid-container'
 import { Wrap } from '../utils/wrap'

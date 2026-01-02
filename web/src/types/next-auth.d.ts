@@ -1,6 +1,6 @@
-import { User as CoreUser } from '@books-about-food/core/types'
 import { UserRole } from '@books-about-food/database'
 import 'next-auth'
+import { User as CoreUser } from 'src/core/types'
 
 declare module '@auth/core/jwt' {
   interface JWT extends Omit<DefaultJWT, 'email'> {

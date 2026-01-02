@@ -1,5 +1,3 @@
-import { fetchFrequentCollaborators } from '@books-about-food/core/services/books/fetch-frequent-collaborators'
-import { fetchProfile } from '@books-about-food/core/services/profiles/fetch-profile'
 import cn from 'classnames'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
@@ -15,6 +13,8 @@ import { LinkList } from 'src/components/profiles/link-list'
 import { LocationField } from 'src/components/profiles/location-field'
 import { ProfileOverflow } from 'src/components/profiles/profile-overflow'
 import { Wrap } from 'src/components/utils/wrap'
+import { fetchFrequentCollaborators } from 'src/core/services/books/fetch-frequent-collaborators'
+import { fetchProfile } from 'src/core/services/profiles/fetch-profile'
 import { call } from 'src/utils/service'
 
 export type ProfilePageProps = {

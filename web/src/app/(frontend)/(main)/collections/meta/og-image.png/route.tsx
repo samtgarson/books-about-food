@@ -1,5 +1,5 @@
-import { fetchCollections } from '@books-about-food/core/services/collections/fetch-collections'
 import { notFound } from 'next/navigation'
+import { fetchCollections } from 'src/core/services/collections/fetch-collections'
 import { OGTemplate } from 'src/utils/image-response-helpers'
 import { call } from 'src/utils/service'
 

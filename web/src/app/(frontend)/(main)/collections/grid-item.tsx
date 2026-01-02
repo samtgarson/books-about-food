@@ -1,7 +1,7 @@
-import { Collection } from '@books-about-food/core/models/collection'
 import cn from 'classnames'
 import Link from 'next/link'
 import { CollectionBlobs } from 'src/components/collections/blobs'
+import { Collection } from 'src/core/models/collection'
 
 function randomRotate() {
   return `${(Math.random() * 4 - 2).toFixed(2)}deg`

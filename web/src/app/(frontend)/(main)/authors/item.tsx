@@ -1,7 +1,7 @@
-import { Profile } from '@books-about-food/core/models/profile'
 import cn from 'classnames'
 import Link from 'next/link'
 import { Avatar } from 'src/components/atoms/avatar'
+import { Profile } from 'src/core/models/profile'
 
 export type AuthorItemProps = {
   profile?: Profile

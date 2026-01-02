@@ -1,10 +1,10 @@
 'use client'
 
-import { Publisher } from '@books-about-food/core/models/publisher'
-import { createInviteSchema } from '@books-about-food/core/services/memberships/schemas/create-invite'
 import { MembershipRole } from '@books-about-food/database/client'
 import { titleize } from 'inflection'
 import * as Sheet from 'src/components/atoms/sheet'
+import { Publisher } from 'src/core/models/publisher'
+import { createInviteSchema } from 'src/core/services/memberships/schemas/create-invite'
 import { z } from 'zod'
 import { Plus } from '../atoms/icons'
 import { Form } from '../form'

@@ -1,7 +1,7 @@
 'use server'
 
-import { fetchJobs } from '@books-about-food/core/services/jobs/fetch-jobs'
-import { fetchLocationFilterOptions } from '@books-about-food/core/services/locations/fetch-location-filter-options'
+import { fetchJobs } from 'src/core/services/jobs/fetch-jobs'
+import { fetchLocationFilterOptions } from 'src/core/services/locations/fetch-location-filter-options'
 import { call } from 'src/utils/service'
 
 export async function locationOptions(

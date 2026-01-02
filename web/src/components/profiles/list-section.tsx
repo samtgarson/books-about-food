@@ -1,5 +1,5 @@
-import { Profile } from '@books-about-food/core/models/profile'
 import { FC } from 'react'
+import { Profile } from 'src/core/models/profile'
 import { ProfileList } from '../atoms/profile-list'
 import { Wrap } from '../utils/wrap'
 import { ProfileItem } from './item'

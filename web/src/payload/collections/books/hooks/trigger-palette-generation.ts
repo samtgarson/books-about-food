@@ -1,5 +1,5 @@
-import { inngest } from '@books-about-food/core/jobs'
 import type { FieldHook } from 'payload'
+import { inngest } from 'src/core/jobs'
 import type { Book } from '../../../payload-types'
 
 /**

@@ -1,9 +1,9 @@
 'use client'
 
-import { FullBook } from '@books-about-food/core/models/full-book'
-import { hashtags } from '@books-about-food/core/services/books/utils/hashtags'
 import { Hash, PencilMini } from 'src/components/atoms/icons'
 import * as Overflow from 'src/components/atoms/overflow'
+import { FullBook } from 'src/core/models/full-book'
+import { hashtags } from 'src/core/services/books/utils/hashtags'
 import { usePolicy } from 'src/hooks/use-policy'
 import { useSheet } from '../sheets/global-sheet'
 import { successToast } from '../utils/toaster'

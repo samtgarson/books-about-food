@@ -1,5 +1,5 @@
-import { NamedColor } from '@books-about-food/core/services/books/colors'
 import cn from 'classnames'
+import { NamedColor } from 'src/core/services/books/colors'
 
 export const colorMap: Record<NamedColor, string> = {
   [NamedColor.white]: '#ffffff',

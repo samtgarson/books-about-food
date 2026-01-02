@@ -1,6 +1,6 @@
-import { BookResult } from '@books-about-food/core/models/types'
 import cn from 'classnames'
 import { forwardRef } from 'react'
+import { BookResult } from 'src/core/models/types'
 import { Stringified } from 'src/utils/superjson'
 import { Select, SelectControl } from './select'
 

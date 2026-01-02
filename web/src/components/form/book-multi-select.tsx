@@ -1,10 +1,10 @@
 'use client'
 
-import { BookResult } from '@books-about-food/core/models/types'
 import { AnimatePresence, Reorder } from 'framer-motion'
 import { Form } from 'radix-ui'
 import { useRef, useState } from 'react'
 import { Menu, X } from 'src/components/atoms/icons'
+import { BookResult } from 'src/core/models/types'
 import { Stringified } from 'src/utils/superjson'
 import { BookResultRow, BookSelect } from './book-select'
 import { Label } from './label'

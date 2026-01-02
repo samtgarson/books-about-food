@@ -1,7 +1,7 @@
-import { fetchCollections } from '@books-about-food/core/services/collections/fetch-collections'
 import cn from 'classnames'
 import Link from 'next/link'
 import { CollectionBlobs } from 'src/components/collections/blobs'
+import { fetchCollections } from 'src/core/services/collections/fetch-collections'
 import { call } from 'src/utils/service'
 
 export type BookGridCollectionTileProps = { index: number; className?: string }

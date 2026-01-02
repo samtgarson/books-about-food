@@ -1,8 +1,8 @@
-import { fetchPost } from '@books-about-food/core/services/posts/fetch-post'
 import { notFound } from 'next/navigation'
 import { AccountHeader } from 'src/components/accounts/header'
 import { PostForm } from 'src/components/posts/form'
 import { slugPage } from 'src/components/types'
+import { fetchPost } from 'src/core/services/posts/fetch-post'
 import { call } from 'src/utils/service'
 
 export default slugPage<'/admin/posts/[slug]'>(async function EditPost(slug) {

@@ -1,5 +1,5 @@
-import { fetchProfile } from '@books-about-food/core/services/profiles/fetch-profile'
 import { NextRequest } from 'next/server'
+import { fetchProfile } from 'src/core/services/profiles/fetch-profile'
 import cloudflareLoader from 'src/lib/cloudflare/image-loader'
 import { OGTemplate } from 'src/utils/image-response-helpers'
 import { call } from 'src/utils/service'

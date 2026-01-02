@@ -1,7 +1,7 @@
-import { NullProfile, Profile } from '@books-about-food/core/models/profile'
 import cn from 'classnames'
 import Image, { ImageProps } from 'next/image'
 import { CSSProperties, ComponentProps, FC, useId } from 'react'
+import { NullProfile, Profile } from 'src/core/models/profile'
 
 export const avatarSize = {
   '3xs': 24,

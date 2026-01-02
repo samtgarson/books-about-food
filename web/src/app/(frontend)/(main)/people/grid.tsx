@@ -1,8 +1,8 @@
-import { Profile } from '@books-about-food/core/models/profile'
 import Link from 'next/link'
 import { FC } from 'react'
 import { GridContainer } from 'src/components/lists/grid-container'
 import { ProfileItem } from 'src/components/profiles/item'
+import { Profile } from 'src/core/models/profile'
 
 export type PeopleListProps = {
   profiles: Profile[]

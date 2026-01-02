@@ -1,8 +1,8 @@
 'use client'
 
-import { Book } from '@books-about-food/core/models/book'
 import { FC, useMemo } from 'react'
 import { EditableBookItem } from 'src/components/edit/in-place/editable-book-item'
+import { Book } from 'src/core/models/book'
 import { useEditProfile } from '../context'
 import { action } from './action'
 

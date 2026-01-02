@@ -1,8 +1,8 @@
 'use server'
 
-import { createClaim } from '@books-about-food/core/services/claims/create-claim'
-import { destroyClaim } from '@books-about-food/core/services/claims/destroy-claim'
-import { fetchClaim } from '@books-about-food/core/services/claims/fetch-claim'
+import { createClaim } from 'src/core/services/claims/create-claim'
+import { destroyClaim } from 'src/core/services/claims/destroy-claim'
+import { fetchClaim } from 'src/core/services/claims/fetch-claim'
 import { call } from 'src/utils/service'
 
 export async function fetch(profileId: string) {

@@ -1,8 +1,8 @@
 'use server'
 
-import { Profile } from '@books-about-food/core/models/profile'
-import { fetchLibraryBook } from '@books-about-food/core/services/books/library/fetch-library-book'
-import { findOrCreateProfile } from '@books-about-food/core/services/profiles/find-or-create-profile'
+import { Profile } from 'src/core/models/profile'
+import { fetchLibraryBook } from 'src/core/services/books/library/fetch-library-book'
+import { findOrCreateProfile } from 'src/core/services/profiles/find-or-create-profile'
 import { call } from 'src/utils/service'
 import { Stringified, stringify } from 'src/utils/superjson'
 import { TitleFormContentProps } from './form-content'

@@ -1,10 +1,10 @@
 'use client'
 
-import { Book } from '@books-about-food/core/models/book'
 import cn from 'classnames'
 import Link from 'next/link'
 import { FC } from 'react'
 import * as Carousel from 'src/components/atoms/carousel'
+import { Book } from 'src/core/models/book'
 import { Container } from '../atoms/container'
 import { ListContainer } from '../lists/list-container'
 import { Item as BookItem } from './item'

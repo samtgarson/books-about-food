@@ -1,6 +1,6 @@
-import { fetchFeaturedJobs } from '@books-about-food/core/services/home/fetch-jobs'
 import { pluralize } from 'inflection'
 import Link from 'next/link'
+import { fetchFeaturedJobs } from 'src/core/services/home/fetch-jobs'
 import { call } from 'src/utils/service'
 
 export async function FeaturedJobsList() {

@@ -1,9 +1,6 @@
-import {
-  ServiceClass,
-  ServiceInput
-} from '@books-about-food/core/services/base'
 import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { Metadata, ResolvedMetadata } from 'next'
+import { ServiceClass, ServiceInput } from 'src/core/services/base'
 import { genMetadata } from 'src/utils/metadata'
 import { call } from 'src/utils/service'
 import { z } from 'zod'

@@ -1,6 +1,6 @@
-import { Profile } from '@books-about-food/core/models/profile'
-import { fetchBooks } from '@books-about-food/core/services/books/fetch-books'
 import { GridContainer } from 'src/components/lists/grid-container'
+import { Profile } from 'src/core/models/profile'
+import { fetchBooks } from 'src/core/services/books/fetch-books'
 import { call } from 'src/utils/service'
 import { ListContainer } from '../lists/list-container'
 import { Wrap } from '../utils/wrap'

@@ -1,7 +1,7 @@
-import { SearchResult } from '@books-about-food/core/models/search-result'
 import prisma from '@books-about-food/database'
 import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { MetadataRoute } from 'next'
+import { SearchResult } from 'src/core/models/search-result'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const records = await prisma.searchResult.findMany({

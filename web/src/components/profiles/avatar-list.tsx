@@ -1,6 +1,6 @@
-import { Profile } from '@books-about-food/core/models/profile'
 import cn from 'classnames'
 import { FC } from 'react'
+import { Profile } from 'src/core/models/profile'
 import { Avatar, AvatarProps } from '../atoms/avatar'
 
 export const AvatarList: FC<{ profiles: Profile[] } & AvatarProps> = ({

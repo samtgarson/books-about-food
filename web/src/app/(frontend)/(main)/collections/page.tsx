@@ -1,6 +1,6 @@
-import { fetchCollections } from '@books-about-food/core/services/collections/fetch-collections'
 import { createIndexPage } from 'src/components/pages/index-page'
 import { indexPageMetadata } from 'src/components/pages/index-page-metadata'
+import { fetchCollections } from 'src/core/services/collections/fetch-collections'
 import { CollectionsGrid, CollectionsSkeletonGrid } from './grid'
 
 export const generateMetadata = indexPageMetadata({

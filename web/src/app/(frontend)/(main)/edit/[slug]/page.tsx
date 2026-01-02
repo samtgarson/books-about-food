@@ -1,4 +1,3 @@
-import { fetchBook } from '@books-about-food/core/services/books/fetch-book'
 import prisma from '@books-about-food/database'
 import Image from 'next/image'
 import { notFound, redirect } from 'next/navigation'
@@ -13,6 +12,7 @@ import { ParamSheet } from 'src/components/sheets/use-param-sheet'
 import { slugPage } from 'src/components/types'
 import { Toaster } from 'src/components/utils/toaster'
 import { Wrap } from 'src/components/utils/wrap'
+import { fetchBook } from 'src/core/services/books/fetch-book'
 import { call } from 'src/utils/service'
 import { getSessionUser } from 'src/utils/user'
 

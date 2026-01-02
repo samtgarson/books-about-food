@@ -1,5 +1,5 @@
-import { Profile } from '@books-about-food/core/models/profile'
-import { fetchProfiles } from '@books-about-food/core/services/profiles/fetch-profiles'
+import { Profile } from 'src/core/models/profile'
+import { fetchProfiles } from 'src/core/services/profiles/fetch-profiles'
 import cloudflareLoader from 'src/lib/cloudflare/image-loader'
 import { OGTemplate } from 'src/utils/image-response-helpers'
 import { call } from 'src/utils/service'

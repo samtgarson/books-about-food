@@ -1,9 +1,9 @@
 'use client'
 
-import { Book } from '@books-about-food/core/models/book'
 import cn from 'classnames'
 import { FC } from 'react'
 import { Plus } from 'src/components/atoms/icons'
+import { Book } from 'src/core/models/book'
 import { useSheet } from '../sheets/global-sheet'
 
 export type CorrectionButtonProps = {

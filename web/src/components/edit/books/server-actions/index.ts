@@ -1,11 +1,11 @@
 'use server'
 
-import { fetchJobs } from '@books-about-food/core/services/jobs/fetch-jobs'
-import { fetchProfiles } from '@books-about-food/core/services/profiles/fetch-profiles'
-import { fetchTags } from '@books-about-food/core/services/tags/fetch'
-import { profileIncludes } from '@books-about-food/core/services/utils'
 import prisma from '@books-about-food/database'
 import { slugify } from '@books-about-food/shared/utils/slugify'
+import { fetchJobs } from 'src/core/services/jobs/fetch-jobs'
+import { fetchProfiles } from 'src/core/services/profiles/fetch-profiles'
+import { fetchTags } from 'src/core/services/tags/fetch'
+import { profileIncludes } from 'src/core/services/utils'
 import { call } from 'src/utils/service'
 import { stringify } from 'src/utils/superjson'
 

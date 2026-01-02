@@ -1,11 +1,11 @@
-import { FullBook } from '@books-about-food/core/models/full-book'
-import { fetchBook } from '@books-about-food/core/services/books/fetch-book'
 import cn from 'classnames'
 import { revalidatePath } from 'next/cache'
 import { redirect, RedirectType } from 'next/navigation'
 import { FC } from 'react'
 import { ArrowRight } from 'src/components/atoms/icons'
 import { Submit } from 'src/components/form/submit'
+import { FullBook } from 'src/core/models/full-book'
+import { fetchBook } from 'src/core/services/books/fetch-book'
 import { call } from 'src/utils/service'
 import { BookEditState } from './state'
 

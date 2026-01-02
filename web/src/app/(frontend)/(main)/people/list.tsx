@@ -1,8 +1,8 @@
+import { Pagination } from 'src/components/lists/pagination'
 import {
   FetchProfilesInput,
   fetchProfiles
-} from '@books-about-food/core/services/profiles/fetch-profiles'
-import { Pagination } from 'src/components/lists/pagination'
+} from 'src/core/services/profiles/fetch-profiles'
 import { call } from 'src/utils/service'
 import { PeopleGrid } from './grid'
 

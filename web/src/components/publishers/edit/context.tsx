@@ -1,12 +1,12 @@
 'use client'
 
-import { Publisher } from '@books-about-food/core/models/publisher'
-import { UpdatePublisherInput } from '@books-about-food/core/services/publishers/update-publisher'
 import { ReactNode, useCallback, useContext } from 'react'
 import {
   EditInPlaceProvider,
   createInPlaceContext
 } from 'src/components/edit/in-place/context'
+import { Publisher } from 'src/core/models/publisher'
+import { UpdatePublisherInput } from 'src/core/services/publishers/update-publisher'
 import { usePolicy } from 'src/hooks/use-policy'
 import { parse } from 'src/utils/superjson'
 import { action } from './action'

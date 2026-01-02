@@ -1,5 +1,5 @@
-import { fetchProfiles } from '@books-about-food/core/services/profiles/fetch-profiles'
 import { slugPage } from 'src/components/types'
+import { fetchProfiles } from 'src/core/services/profiles/fetch-profiles'
 import { call } from 'src/utils/service'
 import { metadata } from './metadata'
 import { ProfilePage } from './profile-page'

@@ -1,5 +1,3 @@
-import { Post } from '@books-about-food/core/models/post'
-import { upsertPost } from '@books-about-food/core/services/posts/upsert-post'
 import { dateString } from '@books-about-food/shared/utils/date'
 import { randomUUID } from 'crypto'
 import { redirect } from 'next/navigation'
@@ -8,6 +6,8 @@ import { FormEditor } from 'src/components/form/editor'
 import { Input } from 'src/components/form/input'
 import { Submit } from 'src/components/form/submit'
 import { parseAppError } from 'src/components/form/utils'
+import { Post } from 'src/core/models/post'
+import { upsertPost } from 'src/core/services/posts/upsert-post'
 import { call } from 'src/utils/service'
 
 export function PostForm({ post }: { post?: Post }) {

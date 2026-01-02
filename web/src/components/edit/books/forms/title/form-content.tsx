@@ -1,8 +1,8 @@
-import { FullBook } from '@books-about-food/core/models/full-book'
 import { ContactLink } from 'src/components/atoms/contact-link'
 import { Input } from 'src/components/form/input'
 import { ProfileSelect } from 'src/components/form/profile-select'
 import { Wrap } from 'src/components/utils/wrap'
+import { FullBook } from 'src/core/models/full-book'
 import { TagSelect } from './tag-select'
 
 export type TitleFormContentProps = Partial<

@@ -1,8 +1,8 @@
 'use client'
 
-import { Profile } from '@books-about-food/core/models/profile'
 import { PencilMini } from 'src/components/atoms/icons'
 import * as Overflow from 'src/components/atoms/overflow'
+import { Profile } from 'src/core/models/profile'
 import { useCurrentUser } from 'src/hooks/use-current-user'
 import { useSheet } from '../sheets/global-sheet'
 

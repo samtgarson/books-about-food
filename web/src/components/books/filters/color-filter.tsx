@@ -1,12 +1,12 @@
 'use client'
 
-import { NamedColor } from '@books-about-food/core/services/books/colors'
 import cn from 'classnames'
 import Link from 'next/link'
 import { useRef } from 'react'
 import { ParamLink } from 'src/components/atoms/param-link'
 import { Pill } from 'src/components/atoms/pill'
 import * as Sheet from 'src/components/atoms/sheet'
+import { NamedColor } from 'src/core/services/books/colors'
 import { ColorCircle, colorMap, rainbowGradient } from './colors'
 
 export function ColorFilter({ value }: { value?: number[] | NamedColor }) {

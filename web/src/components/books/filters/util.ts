@@ -1,4 +1,4 @@
-import { FetchBooksInput } from '@books-about-food/core/services/books/fetch-books'
+import { FetchBooksInput } from 'src/core/services/books/fetch-books'
 
 export type Filters = Omit<FetchBooksInput, 'page' | 'perPage'>
 

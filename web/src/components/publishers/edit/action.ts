@@ -1,10 +1,10 @@
 'use server'
 
+import { redirect } from 'next/navigation'
 import {
   UpdatePublisherInput,
   updatePublisher
-} from '@books-about-food/core/services/publishers/update-publisher'
-import { redirect } from 'next/navigation'
+} from 'src/core/services/publishers/update-publisher'
 import { call } from 'src/utils/service'
 import { stringify } from 'src/utils/superjson'
 

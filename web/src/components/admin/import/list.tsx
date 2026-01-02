@@ -1,4 +1,3 @@
-import { ResultRow } from '@books-about-food/core/services/import/import-books/types'
 import * as Sentry from '@sentry/nextjs'
 import { Accordion } from 'radix-ui'
 import { ChangeEvent, useMemo, useState } from 'react'
@@ -6,6 +5,7 @@ import { Button } from 'src/components/atoms/button'
 import { Pagination } from 'src/components/lists/pagination'
 import { Search } from 'src/components/lists/search'
 import { errorToast, successToast } from 'src/components/utils/toaster'
+import { ResultRow } from 'src/core/services/import/import-books/types'
 import { process } from './action'
 import { ImportFormRow } from './row'
 

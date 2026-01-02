@@ -1,9 +1,9 @@
-import { Publisher } from '@books-about-food/core/models/publisher'
-import { fetchBooks } from '@books-about-food/core/services/books/fetch-books'
 import { SkeletonBookList } from 'src/components/books/list'
 import { GridContainer } from 'src/components/lists/grid-container'
 import { ListContainer } from 'src/components/lists/list-container'
 import { Wrap } from 'src/components/utils/wrap'
+import { Publisher } from 'src/core/models/publisher'
+import { fetchBooks } from 'src/core/services/books/fetch-books'
 import { call } from 'src/utils/service'
 import { PublisherBookListItem } from './item'
 

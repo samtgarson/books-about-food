@@ -1,8 +1,8 @@
-import { fetchBook } from '@books-about-food/core/services/books/fetch-book'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { ReactNode } from 'react'
 import { Container } from 'src/components/atoms/container'
+import { fetchBook } from 'src/core/services/books/fetch-book'
 import { call } from 'src/utils/service'
 
 export async function generateMetadata(

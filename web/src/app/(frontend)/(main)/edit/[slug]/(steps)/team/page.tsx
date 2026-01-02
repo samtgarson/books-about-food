@@ -1,7 +1,7 @@
-import { fetchBook } from '@books-about-food/core/services/books/fetch-book'
 import { notFound } from 'next/navigation'
 import { EditTeamForm } from 'src/components/edit/books/forms/team'
 import { slugPage } from 'src/components/types'
+import { fetchBook } from 'src/core/services/books/fetch-book'
 import { call } from 'src/utils/service'
 
 export default slugPage<'/edit/[slug]/team'>(async function TeamEditPage(slug) {

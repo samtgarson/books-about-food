@@ -1,6 +1,6 @@
-import { Book as Model } from '@books-about-food/core/models/book'
 import cn from 'classnames'
 import * as Book from 'src/components/books/item'
+import { Book as Model } from 'src/core/models/book'
 
 export function TopTenGridItem({
   book,

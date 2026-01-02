@@ -1,10 +1,10 @@
-import {
-  fetchCollections,
-  FetchCollectionsInput
-} from '@books-about-food/core/services/collections/fetch-collections'
 import { PageTitle } from 'src/components/atoms/page-title'
 import { GridContainer } from 'src/components/lists/grid-container'
 import { Pagination } from 'src/components/lists/pagination'
+import {
+  fetchCollections,
+  FetchCollectionsInput
+} from 'src/core/services/collections/fetch-collections'
 import { call } from 'src/utils/service'
 import { CollectionGridItem, CollectionGridItemSkeleton } from './grid-item'
 

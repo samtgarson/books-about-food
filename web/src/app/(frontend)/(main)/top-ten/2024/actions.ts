@@ -1,8 +1,8 @@
 'use server'
 
-import { inngest } from '@books-about-food/core/jobs'
 import prisma from '@books-about-food/database'
 import { revalidatePath } from 'next/cache'
+import { inngest } from 'src/core/jobs'
 import { track } from 'src/lib/tracking/track'
 import { getSessionUser } from 'src/utils/user'
 

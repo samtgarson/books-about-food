@@ -1,5 +1,5 @@
-import { Contribution } from '@books-about-food/core/models/contribution'
-import { Profile } from '@books-about-food/core/models/profile'
+import { Contribution } from 'src/core/models/contribution'
+import { Profile } from 'src/core/models/profile'
 import { ProfileList } from '../atoms/profile-list'
 import { ProfileItem } from '../profiles/item'
 import { Wrap } from '../utils/wrap'

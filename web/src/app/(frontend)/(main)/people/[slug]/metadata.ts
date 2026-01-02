@@ -1,6 +1,6 @@
-import { fetchProfile } from '@books-about-food/core/services/profiles/fetch-profile'
 import { Metadata, ResolvedMetadata } from 'next'
 import { notFound } from 'next/navigation'
+import { fetchProfile } from 'src/core/services/profiles/fetch-profile'
 import { genMetadata, profileTotal } from 'src/utils/metadata'
 import { call } from 'src/utils/service'
 import { ProfilePageProps } from './profile-page'

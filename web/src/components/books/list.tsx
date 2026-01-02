@@ -1,8 +1,8 @@
+import { Pagination } from 'src/components/lists/pagination'
 import {
   FetchBooksInput,
   fetchBooks
-} from '@books-about-food/core/services/books/fetch-books'
-import { Pagination } from 'src/components/lists/pagination'
+} from 'src/core/services/books/fetch-books'
 import { call } from 'src/utils/service'
 import { BookGridCollectionTile } from '../collections/book-grid-collection-tile'
 import { GridContainer } from '../lists/grid-container'

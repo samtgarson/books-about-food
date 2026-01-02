@@ -1,12 +1,12 @@
 'use client'
 
-import { Profile } from '@books-about-food/core/models/profile'
-import { UpdateProfileInput } from '@books-about-food/core/services/profiles/update-profile'
 import { ReactNode, useCallback, useContext } from 'react'
 import {
   EditInPlaceProvider,
   createInPlaceContext
 } from 'src/components/edit/in-place/context'
+import { Profile } from 'src/core/models/profile'
+import { UpdateProfileInput } from 'src/core/services/profiles/update-profile'
 import { usePolicy } from 'src/hooks/use-policy'
 import { parse } from 'src/utils/superjson'
 import { action } from './action'

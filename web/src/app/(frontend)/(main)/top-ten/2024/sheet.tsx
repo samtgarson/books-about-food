@@ -1,11 +1,11 @@
 'use client'
 
-import { Book as Model } from '@books-about-food/core/models/book'
 import cn from 'classnames'
 import { useState } from 'react'
 import { Button } from 'src/components/atoms/button'
 import { Loader } from 'src/components/atoms/loader'
 import { AuthedButton } from 'src/components/auth/authed-button'
+import { Book as Model } from 'src/core/models/book'
 import { range } from 'src/utils/array-helpers'
 import { TopTenSheetItem } from './sheet-item'
 

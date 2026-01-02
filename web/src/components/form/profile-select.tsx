@@ -1,8 +1,8 @@
 'use client'
 
-import { Profile } from '@books-about-food/core/models/profile'
 import cn from 'classnames'
 import { Select } from 'src/components/form/select'
+import { Profile } from 'src/core/models/profile'
 import { Avatar } from '../atoms/avatar'
 import { createProfile, profiles } from '../edit/books/server-actions'
 import { SelectProps } from './select/types'
