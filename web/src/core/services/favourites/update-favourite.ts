@@ -1,4 +1,3 @@
-import prisma from '@books-about-food/database'
 import { AuthedService } from 'src/core/services/base'
 import { z } from 'zod'
 
@@ -7,33 +6,54 @@ export const updateFavourite = new AuthedService(
     profileId: z.string(),
     isFavourite: z.boolean()
   }),
-  async ({ profileId, isFavourite }, { user }) => {
+  async ({ profileId, isFavourite }, { payload, user }) => {
     if (!profileId) return null
-    const userId = user.id
 
     if (isFavourite) {
-      return prisma.favourite.upsert({
-        create: {
-          userId,
-          profileId
-        },
-        update: {},
+      // Check if favourite already exists
+      const { docs } = await payload.find({
+        collection: 'favourites',
         where: {
-          profileId_userId: {
-            profileId,
-            userId
-          }
-        }
+          and: [
+            { user: { equals: user.id } },
+            { profile: { equals: profileId } }
+          ]
+        },
+        limit: 1,
+        user
+      })
+
+      if (docs[0]) {
+        return docs[0]
+      }
+
+      // Create new favourite
+      return await payload.create({
+        collection: 'favourites',
+        data: {
+          user: user.id,
+          profile: profileId
+        },
+        user
       })
     }
 
-    await prisma.favourite.delete({
+    // Delete favourite
+    const { docs } = await payload.find({
+      collection: 'favourites',
       where: {
-        profileId_userId: {
-          profileId,
-          userId
-        }
-      }
+        and: [{ user: { equals: user.id } }, { profile: { equals: profileId } }]
+      },
+      limit: 1,
+      user
     })
+
+    if (docs[0]) {
+      await payload.delete({
+        collection: 'favourites',
+        id: docs[0].id,
+        user
+      })
+    }
   }
 )

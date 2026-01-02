@@ -1,25 +1,33 @@
-import prisma from '@books-about-food/database'
+import { Where } from 'payload'
 import { FullBook } from 'src/core/models/full-book'
 import { Service } from 'src/core/services/base'
+import { FULL_BOOK_DEPTH } from 'src/core/services/utils/payload-depth'
 import { z } from 'zod'
-import { fullBookIncludes } from '../utils/includes'
 
 export const fetchBook = new Service(
   z.object({
     slug: z.string(),
     onlyPublished: z.boolean().optional()
   }),
-  async ({ slug, onlyPublished }, _ctx) => {
+  async ({ slug, onlyPublished }, { payload }) => {
     if (!slug) throw new Error('Slug is required')
-    const raw = await prisma.book.findUnique({
-      where: { slug, status: onlyPublished ? 'published' : undefined },
-      include: fullBookIncludes
+
+    const where: Where = { slug: { equals: slug } }
+    if (onlyPublished) {
+      where.status = { equals: 'published' }
+    }
+
+    const { docs } = await payload.find({
+      collection: 'books',
+      where,
+      limit: 1,
+      depth: FULL_BOOK_DEPTH
     })
 
-    if (!raw) {
+    if (!docs[0]) {
       throw new Error('Book not found')
     }
 
-    return new FullBook(raw)
+    return new FullBook(docs[0])
   }
 )

@@ -1,4 +1,3 @@
-import prisma from '@books-about-food/database'
 import { AuthedService } from 'src/core/services/base'
 import { z } from 'zod'
 
@@ -12,21 +11,48 @@ export const updateLinks = new AuthedService(
       })
       .array()
   }),
-  async ({ slug, links }, _ctx) => {
-    const book = await prisma.book.findUnique({
-      where: { slug },
-      include: { contributions: true }
+  async ({ slug, links }, { payload, user }) => {
+    const { docs } = await payload.find({
+      collection: 'books',
+      where: { slug: { equals: slug } },
+      limit: 1,
+      user
     })
-    if (!book) throw new Error('Book not found')
 
-    await prisma.book.update({
-      where: { slug },
-      data: {
-        links: {
-          deleteMany: { bookId: book.id },
-          create: links
-        }
-      }
+    if (!docs[0]) throw new Error('Book not found')
+
+    const book = docs[0]
+
+    // Delete existing links
+    const { docs: existingLinks } = await payload.find({
+      collection: 'book-links',
+      where: { book: { equals: book.id } },
+      user
     })
+
+    await Promise.all(
+      existingLinks.map((link) =>
+        payload.delete({
+          collection: 'book-links',
+          id: link.id,
+          user
+        })
+      )
+    )
+
+    // Create new links
+    await Promise.all(
+      links.map((link) =>
+        payload.create({
+          collection: 'book-links',
+          data: {
+            book: book.id,
+            site: link.site,
+            url: link.url
+          },
+          user
+        })
+      )
+    )
   }
 )

@@ -1,18 +1,23 @@
-import prisma from '@books-about-food/database'
 import { Service } from 'src/core/services/base'
-import { tagGroupIncludes } from 'src/core/services/utils'
+import { TAG_GROUP_DEPTH } from 'src/core/services/utils/payload-depth'
 import { z } from 'zod'
 
 export const fetchTagGroups = new Service(z.undefined(), async function (
   _input,
-  _ctx
+  { payload }
 ) {
-  return prisma.tagGroup.findMany({
-    orderBy: { name: 'asc' },
-    include: tagGroupIncludes,
+  const { docs } = await payload.find({
+    collection: 'tag-groups',
+    sort: 'name',
     where: {
-      adminOnly: false,
-      tags: { some: { books: { some: { status: 'published' } } } }
-    }
+      adminOnly: { equals: false },
+      tags: {
+        // Has at least one tag with at least one published book
+        'tags.books.status': { equals: 'published' }
+      }
+    },
+    depth: TAG_GROUP_DEPTH
   })
+
+  return docs
 })

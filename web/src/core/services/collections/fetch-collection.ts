@@ -1,17 +1,25 @@
-import prisma from '@books-about-food/database'
 import z from 'zod'
 import { Collection } from '../../models/collection'
 import { Service } from '../base'
-import { collectionIncludes } from '../utils'
+import { COLLECTION_DEPTH } from '../utils/payload-depth'
 
 export const fetchCollection = new Service(
   z.object({ slug: z.string().optional() }),
-  async function ({ slug }, _ctx) {
-    const data = await prisma.collection.findUniqueOrThrow({
-      where: { slug, status: 'published' },
-      include: collectionIncludes
+  async function ({ slug }, { payload }) {
+    const { docs } = await payload.find({
+      collection: 'collections',
+      where: {
+        slug: { equals: slug },
+        status: { equals: 'published' }
+      },
+      limit: 1,
+      depth: COLLECTION_DEPTH
     })
 
-    return new Collection(data)
+    if (!docs[0]) {
+      throw new Error('Collection not found')
+    }
+
+    return new Collection(docs[0])
   }
 )

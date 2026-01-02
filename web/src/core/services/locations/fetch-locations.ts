@@ -1,24 +1,26 @@
-import prisma from '@books-about-food/database'
-import { LocationWhereInput } from '@books-about-food/database/client'
+import { Where } from 'payload'
 import z from 'zod'
 import { Location } from '../../models/location'
 import { Service } from '../base'
-import { locationIncludes } from '../utils'
+import { LOCATION_DEPTH } from '../utils/payload-depth'
 
 export const fetchLocations = new Service(
   z.object({
     hasProfiles: z.boolean().optional()
   }),
-  async function ({ hasProfiles = false }, _ctx): Promise<Location[]> {
-    const where: LocationWhereInput = {}
-    if (hasProfiles) where.profiles = { some: {} }
+  async function ({ hasProfiles = false }, { payload }): Promise<Location[]> {
+    const where: Where = {}
+    if (hasProfiles) {
+      where.profiles = { exists: true }
+    }
 
-    const locations = await prisma.location.findMany({
+    const { docs } = await payload.find({
+      collection: 'locations',
       where,
-      include: locationIncludes
+      depth: LOCATION_DEPTH
     })
 
-    return locations.map((location) => new Location(location))
+    return docs.map((location) => new Location(location))
   },
   { cache: 'locations' }
 )

@@ -1,4 +1,3 @@
-import prisma from '@books-about-food/database'
 import { AuthedService } from 'src/core/services/base'
 import { z } from 'zod'
 
@@ -6,17 +5,20 @@ export const fetchClaim = new AuthedService(
   z.object({
     profileId: z.string()
   }),
-  async ({ profileId }, { user }) => {
-    const userId = user.id
-
-    return prisma.claim.findUnique({
+  async ({ profileId }, { payload, user }) => {
+    const { docs } = await payload.find({
+      collection: 'claims',
       where: {
-        userId_profileId: {
-          userId,
-          profileId
-        },
-        cancelledAt: null
-      }
+        and: [
+          { user: { equals: user.id } },
+          { profile: { equals: profileId } },
+          { cancelledAt: { equals: null } }
+        ]
+      },
+      limit: 1,
+      user
     })
+
+    return docs[0] || null
   }
 )

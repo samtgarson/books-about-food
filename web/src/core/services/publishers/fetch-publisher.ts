@@ -1,17 +1,18 @@
-import prisma from '@books-about-food/database'
 import z from 'zod'
 import { Publisher } from '../../models/publisher'
 import { Service } from '../base'
-import { publisherIncludes } from '../utils'
+import { PUBLISHER_DEPTH } from '../utils/payload-depth'
 
 export const fetchPublisher = new Service(
   z.object({ slug: z.string() }),
-  async function ({ slug }, _ctx) {
-    const raw = await prisma.publisher.findUnique({
-      where: { slug },
-      include: publisherIncludes
+  async function ({ slug }, { payload }) {
+    const { docs } = await payload.find({
+      collection: 'publishers',
+      where: { slug: { equals: slug } },
+      limit: 1,
+      depth: PUBLISHER_DEPTH
     })
 
-    if (raw) return new Publisher(raw)
+    if (docs[0]) return new Publisher(docs[0])
   }
 )

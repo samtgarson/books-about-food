@@ -1,8 +1,7 @@
-import prisma from '@books-about-food/database'
 import { FullBook } from 'src/core/models/full-book'
 import { Service } from 'src/core/services/base'
+import { FULL_BOOK_DEPTH } from 'src/core/services/utils/payload-depth'
 import { z } from 'zod'
-import { fullBookIncludes } from '../utils/includes'
 
 export type Feature = Exclude<
   Awaited<ReturnType<(typeof fetchFeatures)['call']>>['data'],
@@ -11,17 +10,19 @@ export type Feature = Exclude<
 
 export const fetchFeatures = new Service(
   z.undefined(),
-  async (_input, _ctx) => {
-    const raw = await prisma.feature.findMany({
-      orderBy: [{ order: 'asc' }, { createdAt: 'desc' }],
+  async (_input, { payload }) => {
+    const { docs } = await payload.find({
+      collection: 'features',
+      sort: ['order', '-createdAt'],
       where: {
-        OR: [{ until: null }, { until: { gte: new Date() } }]
+        or: [
+          { until: { equals: null } },
+          { until: { greater_than_equal: new Date().toISOString() } }
+        ]
       },
-      include: {
-        book: { include: fullBookIncludes }
-      }
+      depth: FULL_BOOK_DEPTH
     })
 
-    return raw.map((f) => ({ ...f, book: new FullBook(f.book) }))
+    return docs.map((f) => ({ ...f, book: new FullBook(f.book) }))
   }
 )

@@ -1,25 +1,28 @@
-import prisma, { Prisma } from '@books-about-food/database'
+import { Where } from 'payload'
 import { Profile } from 'src/core/models/profile'
 import { Service } from 'src/core/services/base'
+import { PROFILE_DEPTH } from 'src/core/services/utils/payload-depth'
 import { z } from 'zod'
-import { profileIncludes } from '../utils'
 
 export const fetchProfile = new Service(
   z.object({ onlyPublished: z.boolean().optional(), slug: z.string() }),
-  async ({ slug, onlyPublished }, _ctx) => {
-    const where: Prisma.ProfileWhereUniqueInput = { slug }
+  async ({ slug, onlyPublished }, { payload }) => {
+    const where: Where = { slug: { equals: slug } }
 
-    if (onlyPublished)
-      where.OR = [
-        { authoredBooks: { some: { status: 'published' } } },
-        { contributions: { some: { book: { status: 'published' } } } }
+    if (onlyPublished) {
+      where.or = [
+        { 'authoredBooks.status': { equals: 'published' } },
+        { 'contributions.book.status': { equals: 'published' } }
       ]
+    }
 
-    const raw = await prisma.profile.findUnique({
+    const { docs } = await payload.find({
+      collection: 'profiles',
       where,
-      include: profileIncludes
+      limit: 1,
+      depth: PROFILE_DEPTH
     })
 
-    return raw && new Profile(raw)
+    return docs[0] ? new Profile(docs[0]) : null
   }
 )
