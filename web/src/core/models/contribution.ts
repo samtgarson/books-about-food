@@ -1,20 +1,33 @@
-import { Job } from '@books-about-food/database'
+import type {
+  Book as PayloadBook,
+  Job as PayloadJob,
+  Profile as PayloadProfile
+} from 'src/payload/payload-types'
 import { Profile } from './profile'
-import { BookAttrs } from './types'
+import { requirePopulated } from './utils/payload-validation'
+
+type ContributionAttrs = NonNullable<PayloadBook['contributions']>[number]
 
 export class Contribution {
   id: string
-  job: Job
+  job: PayloadJob
   profile: Profile
   tag?: string
   hidden: boolean
 
-  constructor(attrs: BookAttrs['contributions'][number]) {
-    this.id = attrs.id
-    this.job = attrs.job
-    this.profile = new Profile(attrs.profile)
-    this.tag = attrs.tag || undefined
-    this.hidden = !!attrs.hidden
+  constructor(attrs: ContributionAttrs) {
+    // Validate relationships are populated
+    const profile = requirePopulated<PayloadProfile>(
+      attrs.profile,
+      'Contribution.profile'
+    )
+    const job = requirePopulated<PayloadJob>(attrs.job, 'Contribution.job')
+
+    this.id = attrs.id ?? ''
+    this.job = job
+    this.profile = new Profile(profile as typeof profile & { profile: never })
+    this.tag = attrs.tag ?? undefined
+    this.hidden = false // Book contributions array doesn't have hidden field
   }
 
   get profileName() {

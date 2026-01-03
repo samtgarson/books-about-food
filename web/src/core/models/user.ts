@@ -1,5 +1,4 @@
-import { User as DbUser } from '@books-about-food/database'
-import { Image } from './image'
+import type { User as PayloadUser } from 'src/payload/payload-types'
 import { Colourful } from './mixins/colourful'
 
 export class User extends Colourful(
@@ -7,26 +6,11 @@ export class User extends Colourful(
     id: string
     email: string
     name?: string
-    image?: Image
 
-    constructor(attrs: DbUser) {
+    constructor(attrs: PayloadUser) {
       this.id = attrs.id
       this.email = attrs.email
       this.name = attrs.name ?? undefined
-      this.image = attrs.image
-        ? new Image(
-            {
-              id: attrs.id,
-              path: attrs.image,
-              width: 32,
-              height: 32,
-              caption: null,
-              placeholderUrl: null,
-              order: 0
-            },
-            `Avatar for ${attrs.name}`
-          )
-        : undefined
     }
 
     get displayName() {

@@ -1,6 +1,6 @@
 import { dateString } from '@books-about-food/shared/utils/date'
+import type { Post as PayloadPost } from 'src/payload/payload-types'
 import { BaseModel } from '.'
-import { PostAttrs } from './types'
 
 export class Post extends BaseModel {
   _type = 'post' as const
@@ -10,13 +10,13 @@ export class Post extends BaseModel {
   public slug: string
   public publishAt: Date | null
 
-  constructor(attrs: PostAttrs) {
+  constructor(attrs: PayloadPost) {
     super()
     this.id = attrs.id
     this.title = attrs.title
-    this.content = attrs.content
+    this.content = attrs.content // Lexical JSON content
     this.slug = attrs.slug
-    this.publishAt = attrs.publishAt
+    this.publishAt = attrs.publishAt ? new Date(attrs.publishAt) : null
   }
 
   get name() {

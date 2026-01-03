@@ -1,59 +1,39 @@
-import type { BookVote, Prisma } from '@books-about-food/database'
-import {
-  bookIncludes,
-  collectionIncludes,
-  fullBookIncludes,
-  invitationIncludes,
-  locationIncludes,
-  membershipIncludes,
-  profileIncludes,
-  publisherIncludes,
-  tagGroupIncludes
-} from 'src/core/services/utils'
+/**
+ * Legacy types file - minimal re-exports for backward compatibility.
+ * Model types are now defined inline in their respective model files.
+ */
 
-export type BookAttrs = Prisma.BookGetPayload<{
-  include: typeof bookIncludes
-}>
+import type {
+  Book as PayloadBook,
+  Image as PayloadImage,
+  Publisher as PayloadPublisher
+} from 'src/payload/payload-types'
 
-export type FullBookAttrs = Prisma.BookGetPayload<{
-  include: typeof fullBookIncludes
-}>
+// Re-export Payload types for convenience
+export type { BookVote, TagGroup } from 'src/payload/payload-types'
 
-export type PublisherAttrs = Prisma.PublisherGetPayload<{
-  include: typeof publisherIncludes
-}>
+// Legacy type aliases - prefer importing PayloadBook directly
+export type BookAttrs = PayloadBook
 
-export type ProfileAttrs = Prisma.ProfileGetPayload<{
-  include: typeof profileIncludes
-}>
+// Full book type with additional resolved fields (used by update-book service)
+export type FullBookAttrs = PayloadBook & {
+  previewImages?: Array<{
+    image: PayloadImage
+    id?: string | null
+  }>
+  tags?: Array<{
+    id: string
+    name: string
+    slug: string
+  }>
+  publisher?: PayloadPublisher
+  links?: NonNullable<PayloadBook['links']>
+}
 
-export type MembershipAttrs = Prisma.MembershipGetPayload<{
-  include: typeof membershipIncludes
-}>
-
-export type InvitationAttrs = Prisma.PublisherInvitationGetPayload<{
-  include: typeof invitationIncludes
-}>
-
-export type CollectionAttrs = Prisma.CollectionGetPayload<{
-  include: typeof collectionIncludes
-}>
-
-export type PostAttrs = Prisma.PostGetPayload<null>
-
-export type LocationAttrs = Prisma.LocationGetPayload<{
-  include: typeof locationIncludes
-}>
-
-export type TagGroup = Prisma.TagGroupGetPayload<{
-  include: typeof tagGroupIncludes
-}>
-
+// Book search result type (used by book-select components)
 export type BookResult = {
   id: string
   title: string
   authors: string[]
   image?: string
 }
-
-export type { BookVote }

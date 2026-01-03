@@ -1,6 +1,6 @@
-import * as Prisma from '@books-about-food/database'
 import { imageUrl } from '@books-about-food/shared/utils/image-url'
 import { ImageProps } from 'next/image'
+import type { Image as PayloadImage } from 'src/payload/payload-types'
 
 export class Image {
   id: string
@@ -9,29 +9,18 @@ export class Image {
   height: number
   caption: string
   placeholderUrl?: string
-  order: number
 
   constructor(
-    attrs: Pick<
-      Prisma.Image,
-      | 'path'
-      | 'width'
-      | 'height'
-      | 'caption'
-      | 'placeholderUrl'
-      | 'id'
-      | 'order'
-    >,
-    defaultCaption: string,
+    attrs: PayloadImage,
+    caption: string,
     private optimized = false
   ) {
     this.id = attrs.id
-    this.path = attrs.path
-    this.width = attrs.width
-    this.height = attrs.height
-    this.caption = attrs.caption || defaultCaption
+    this.path = attrs.url ?? `${attrs.prefix ?? ''}/${attrs.filename ?? ''}`
+    this.width = attrs.width ?? 0
+    this.height = attrs.height ?? 0
+    this.caption = caption
     this.placeholderUrl = attrs.placeholderUrl ?? undefined
-    this.order = attrs.order
   }
 
   get src() {

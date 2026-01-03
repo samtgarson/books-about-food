@@ -91,7 +91,6 @@ export interface Config {
     books: Book
     claims: Claim
     collections: Collection
-    contributions: Contribution
     faqs: Faq
     favourites: Favourite
     'featured-profiles': FeaturedProfile
@@ -119,11 +118,13 @@ export interface Config {
       profiles: 'profiles'
     }
     profiles: {
-      Claims: 'claims'
+      authoredBooks: 'books'
+      claims: 'claims'
     }
     publishers: {
       imprints: 'publishers'
       books: 'books'
+      memberships: 'memberships'
     }
     'tag-groups': {
       tags: 'tags'
@@ -138,7 +139,6 @@ export interface Config {
     books: BooksSelect<false> | BooksSelect<true>
     claims: ClaimsSelect<false> | ClaimsSelect<true>
     collections: CollectionsSelect<false> | CollectionsSelect<true>
-    contributions: ContributionsSelect<false> | ContributionsSelect<true>
     faqs: FaqsSelect<false> | FaqsSelect<true>
     favourites: FavouritesSelect<false> | FavouritesSelect<true>
     'featured-profiles':
@@ -259,6 +259,7 @@ export interface Book {
   subtitle?: string | null
   slug: string
   authors?: (string | Profile)[] | null
+  authorNames?: string[] | null
   status?: ('draft' | 'inReview' | 'published') | null
   releaseDate?: string | null
   pages?: number | null
@@ -289,7 +290,15 @@ export interface Book {
   googleBooksId?: string | null
   publisher?: (string | null) | Publisher
   submitter?: (string | null) | User
-  links?: BookLinks
+  contributions?:
+    | {
+        profile: string | Profile
+        title?: string | null
+        job: string | Job
+        tag?: 'Assistant' | null
+        id?: string | null
+      }[]
+    | null
   coverImage?: (string | null) | Image
   previewImages?:
     | {
@@ -297,6 +306,7 @@ export interface Book {
         id?: string | null
       }[]
     | null
+  links?: BookLinks
   updatedAt: string
   createdAt: string
 }
@@ -323,17 +333,24 @@ export interface Profile {
    * Geographic locations associated with this profile
    */
   locations?: (string | Location)[] | null
+  authoredBooks?: {
+    docs?: (string | Book)[]
+    hasNextPage?: boolean
+    totalDocs?: number
+  }
   contributions?:
     | {
-        book: string | Book
         title?: string | null
-        job: string | Job
-        tag?: 'Assistant' | null
-        hidden?: boolean | null
+        book?: (string | null) | Book
+        job?: (string | null) | Job
         id?: string | null
       }[]
     | null
-  Claims?: {
+  /**
+   * Profiles to exclude from the "Frequent Collaborators" section on this profile page.
+   */
+  hiddenFrequentCollaborators?: (string | Profile)[] | null
+  claims?: {
     docs?: (string | Claim)[]
     hasNextPage?: boolean
     totalDocs?: number
@@ -472,20 +489,38 @@ export interface Publisher {
   genericContact?: string | null
   directContact?: string | null
   house?: (string | null) | Publisher
-  /**
-   * Books hidden from this publisher page
-   */
-  hiddenBooks?: (string | Book)[] | null
   imprints?: {
     docs?: (string | Publisher)[]
     hasNextPage?: boolean
     totalDocs?: number
   }
+  /**
+   * Books hidden from this publisher page
+   */
+  hiddenBooks?: (string | Book)[] | null
   books?: {
     docs?: (string | Book)[]
     hasNextPage?: boolean
     totalDocs?: number
   }
+  memberships?: {
+    docs?: (string | Membership)[]
+    hasNextPage?: boolean
+    totalDocs?: number
+  }
+  claimed?: boolean | null
+  updatedAt: string
+  createdAt: string
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "memberships".
+ */
+export interface Membership {
+  id: string
+  publisher: string | Publisher
+  user: string | User
+  role: 'admin' | 'member'
   updatedAt: string
   createdAt: string
 }
@@ -506,20 +541,6 @@ export interface Collection {
    * Books in this collection
    */
   books?: (string | Book)[] | null
-  updatedAt: string
-  createdAt: string
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "contributions".
- */
-export interface Contribution {
-  id: string
-  book: string | Book
-  profile: string | Profile
-  job: string | Job
-  tag?: 'Assistant' | null
-  hidden?: boolean | null
   updatedAt: string
   createdAt: string
 }
@@ -585,18 +606,6 @@ export interface Feature {
   book: string | Book
   tagLine?: string | null
   until?: string | null
-  updatedAt: string
-  createdAt: string
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "memberships".
- */
-export interface Membership {
-  id: string
-  publisher: string | Publisher
-  user: string | User
-  role: 'admin' | 'member'
   updatedAt: string
   createdAt: string
 }
@@ -713,10 +722,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'collections'
         value: string | Collection
-      } | null)
-    | ({
-        relationTo: 'contributions'
-        value: string | Contribution
       } | null)
     | ({
         relationTo: 'faqs'
@@ -866,6 +871,7 @@ export interface BooksSelect<T extends boolean = true> {
   subtitle?: T
   slug?: T
   authors?: T
+  authorNames?: T
   status?: T
   releaseDate?: T
   pages?: T
@@ -883,7 +889,15 @@ export interface BooksSelect<T extends boolean = true> {
   googleBooksId?: T
   publisher?: T
   submitter?: T
-  links?: T | BookLinksSelect<T>
+  contributions?:
+    | T
+    | {
+        profile?: T
+        title?: T
+        job?: T
+        tag?: T
+        id?: T
+      }
   coverImage?: T
   previewImages?:
     | T
@@ -891,6 +905,7 @@ export interface BooksSelect<T extends boolean = true> {
         image?: T
         id?: T
       }
+  links?: T | BookLinksSelect<T>
   updatedAt?: T
   createdAt?: T
 }
@@ -932,19 +947,6 @@ export interface CollectionsSelect<T extends boolean = true> {
   bookshopDotOrgUrl?: T
   publisherFeatured?: T
   books?: T
-  updatedAt?: T
-  createdAt?: T
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "contributions_select".
- */
-export interface ContributionsSelect<T extends boolean = true> {
-  book?: T
-  profile?: T
-  job?: T
-  tag?: T
-  hidden?: T
   updatedAt?: T
   createdAt?: T
 }
@@ -1103,17 +1105,17 @@ export interface ProfilesSelect<T extends boolean = true> {
   mostRecentlyPublishedOn?: T
   user?: T
   locations?: T
+  authoredBooks?: T
   contributions?:
     | T
     | {
-        book?: T
         title?: T
+        book?: T
         job?: T
-        tag?: T
-        hidden?: T
         id?: T
       }
-  Claims?: T
+  hiddenFrequentCollaborators?: T
+  claims?: T
   updatedAt?: T
   createdAt?: T
 }
@@ -1144,9 +1146,11 @@ export interface PublishersSelect<T extends boolean = true> {
   genericContact?: T
   directContact?: T
   house?: T
-  hiddenBooks?: T
   imprints?: T
+  hiddenBooks?: T
   books?: T
+  memberships?: T
+  claimed?: T
   updatedAt?: T
   createdAt?: T
 }

@@ -1,6 +1,7 @@
+import type { Collection as PayloadCollection } from 'src/payload/payload-types'
 import { BaseModel } from '.'
 import { Book } from './book'
-import { CollectionAttrs } from './types'
+import { extractId, requirePopulatedArray } from './utils/payload-validation'
 
 export class Collection extends BaseModel {
   _type = 'collection' as const
@@ -12,15 +13,19 @@ export class Collection extends BaseModel {
   publisherId?: string
   bookshopDotOrgUrl?: string
 
-  constructor(attrs: CollectionAttrs) {
+  constructor(attrs: PayloadCollection) {
     super()
+
+    // Validate relationships are populated
+    const books = requirePopulatedArray(attrs.books, 'Collection.books')
+
     this.id = attrs.id
     this.slug = attrs.slug
-    this.books = attrs.collectionItems.map((item) => new Book(item.book))
+    this.books = books.map((book) => new Book(book))
     this.title = attrs.title
-    this.description = attrs.description || undefined
-    this.publisherId = attrs.publisherId || undefined
-    this.bookshopDotOrgUrl = attrs.bookshopDotOrgUrl || undefined
+    this.description = attrs.description ?? undefined
+    this.publisherId = extractId(attrs.publisher)
+    this.bookshopDotOrgUrl = attrs.bookshopDotOrgUrl ?? undefined
   }
 
   get colors() {

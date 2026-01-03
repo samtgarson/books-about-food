@@ -1,5 +1,5 @@
+import type { Location as PayloadLocation } from 'src/payload/payload-types'
 import { BaseModel } from '.'
-import { LocationAttrs } from './types'
 
 export class Location extends BaseModel {
   _type = 'location' as const
@@ -13,7 +13,7 @@ export class Location extends BaseModel {
   longitude: number
   profileCount: number
 
-  constructor(attrs: LocationAttrs) {
+  constructor(attrs: PayloadLocation) {
     super()
     this.id = attrs.id
     this.slug = attrs.slug
@@ -23,7 +23,9 @@ export class Location extends BaseModel {
     this.region = attrs.region ?? undefined
     this.latitude = attrs.latitude
     this.longitude = attrs.longitude
-    this.profileCount = attrs._count.profiles ?? 0
+    // profiles is a join field that may or may not be populated
+    this.profileCount =
+      typeof attrs.profiles === 'object' ? (attrs.profiles?.totalDocs ?? 0) : 0
   }
 
   get name() {

@@ -1,12 +1,21 @@
-import { BookStatus } from '@books-about-food/database'
 import { Hsl, isHsl, toColorString } from '@books-about-food/shared/utils/types'
 import Color from 'color'
 import { format, isFuture } from 'date-fns'
+import type {
+  Book as PayloadBook,
+  Image as PayloadImage
+} from 'src/payload/payload-types'
 import { BaseModel } from '.'
 import { Contribution } from './contribution'
 import { Image } from './image'
 import { Profile } from './profile'
-import { BookAttrs } from './types'
+import {
+  extractId,
+  optionalPopulated,
+  requirePopulatedArray
+} from './utils/payload-validation'
+
+export type BookStatus = 'draft' | 'inReview' | 'published'
 
 export class Book extends BaseModel {
   _type = 'book' as const
@@ -26,28 +35,51 @@ export class Book extends BaseModel {
   blurb?: string
   designCommentary?: string
 
-  constructor(attrs: BookAttrs) {
+  constructor(attrs: PayloadBook) {
     super()
+
+    // Validate relationships are populated
+    const coverImage = optionalPopulated<PayloadImage>(
+      attrs.coverImage,
+      'Book.coverImage'
+    )
+    const authors = requirePopulatedArray(attrs.authors, 'Book.authors')
+
+    // Validate contributions array
+    const hasUnpopulatedContributions = attrs.contributions?.some(
+      (c) => typeof c.profile === 'string' || typeof c.job === 'string'
+    )
+    if (hasUnpopulatedContributions) {
+      throw new Error(
+        'Book.contributions (profile/job) must be populated. Ensure sufficient depth when querying.'
+      )
+    }
+
     this.id = attrs.id
     this.title = attrs.title
     this.subtitle = attrs.subtitle ?? undefined
     this.slug = attrs.slug
-    this.cover = attrs.coverImage
-      ? new Image(attrs.coverImage, `Cover for ${attrs.title}`, true)
+    this.cover = coverImage
+      ? new Image(coverImage, `Cover for ${attrs.title}`, true)
       : undefined
-    this.releaseDate = attrs.releaseDate ?? undefined
+    this.releaseDate = attrs.releaseDate
+      ? new Date(attrs.releaseDate)
+      : undefined
     this.pages = attrs.pages ?? undefined
     this.contributions = (attrs.contributions ?? []).map(
       (contribution) => new Contribution(contribution)
     )
-    this.status = attrs.status
-    this.submitterId = attrs.submitterId ?? undefined
-    this.authors = attrs.authors?.map((author) => new Profile(author)) ?? []
+    this.status = (attrs.status ?? 'draft') as BookStatus
+    this.submitterId = extractId(attrs.submitter)
+    this.authors = authors.map((author) => new Profile(author))
     this.backgroundColor = isHsl(attrs.backgroundColor)
       ? toColorString(attrs.backgroundColor)
       : undefined
     this.colors = Array.isArray(attrs.palette)
-      ? attrs.palette.filter(isHsl)
+      ? attrs.palette
+          .map((p) => p.color)
+          .filter((c): c is NonNullable<typeof c> => !!c)
+          .filter(isHsl)
       : []
     this.blurb = attrs.blurb ?? undefined
     this.designCommentary = attrs.designCommentary ?? undefined

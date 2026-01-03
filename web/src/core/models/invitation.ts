@@ -1,6 +1,10 @@
-import { MembershipRole } from '@books-about-food/database'
-import { InvitationAttrs } from './types'
+import type {
+  PublisherInvitation as PayloadPublisherInvitation,
+  User as PayloadUser
+} from 'src/payload/payload-types'
+import { MembershipRole } from './membership'
 import { User } from './user'
+import { requirePopulated } from './utils/payload-validation'
 
 export class Invitation {
   public id: string
@@ -10,12 +14,18 @@ export class Invitation {
   public createdAt: Date
   public acceptedAt?: Date
 
-  constructor(attrs: InvitationAttrs) {
+  constructor(attrs: PayloadPublisherInvitation) {
+    // Validate required relationships are populated
+    const invitedBy = requirePopulated<PayloadUser>(
+      attrs.invitedBy,
+      'Invitation.invitedBy'
+    )
+
     this.id = attrs.id
-    this.invitedBy = new User(attrs.invitedBy)
+    this.invitedBy = new User(invitedBy)
     this.role = attrs.role
     this.email = attrs.email
-    this.createdAt = attrs.createdAt
-    this.acceptedAt = attrs.acceptedAt || undefined
+    this.createdAt = new Date(attrs.createdAt)
+    this.acceptedAt = attrs.acceptedAt ? new Date(attrs.acceptedAt) : undefined
   }
 }

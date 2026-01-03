@@ -1,15 +1,23 @@
-import { MembershipRole } from '@books-about-food/database'
-import { MembershipAttrs } from './types'
+import type {
+  Membership as PayloadMembership,
+  User as PayloadUser
+} from 'src/payload/payload-types'
 import { User } from './user'
+import { requirePopulated } from './utils/payload-validation'
+
+export type MembershipRole = 'admin' | 'member'
 
 export class Membership {
   public id: string
   public user: User
   public role: MembershipRole
 
-  constructor(attrs: MembershipAttrs) {
+  constructor(attrs: PayloadMembership) {
+    // Validate required relationships are populated
+    const user = requirePopulated<PayloadUser>(attrs.user, 'Membership.user')
+
     this.id = attrs.id
-    this.user = new User(attrs.user)
+    this.user = new User(user)
     this.role = attrs.role
   }
 }

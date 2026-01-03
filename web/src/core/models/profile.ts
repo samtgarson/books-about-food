@@ -1,9 +1,19 @@
 import { normalizeUrl } from 'src/core/utils/url'
+import type { Profile as PayloadProfile } from 'src/payload/payload-types'
 import { BaseModel } from '.'
 import { Image } from './image'
 import { Location } from './location'
 import { Colourful } from './mixins/colourful'
-import { ProfileAttrs } from './types'
+import {
+  extractId,
+  extractIds,
+  optionalPopulated,
+  requirePopulatedArray
+} from './utils/payload-validation'
+
+type ProfileAttrs = PayloadProfile & {
+  hiddenFrequentCollaborators?: (string | PayloadProfile)[] | null
+}
 
 export class Profile extends Colourful(
   class extends BaseModel {
@@ -23,20 +33,30 @@ export class Profile extends Colourful(
 
     constructor(attrs: ProfileAttrs) {
       super()
+
+      // Validate relationships are populated
+      const avatar = optionalPopulated(attrs.avatar, 'Profile.avatar')
+      const locations = requirePopulatedArray(
+        attrs.locations,
+        'Profile.locations'
+      )
+
       this.id = attrs.id
       this.name = attrs.name
       this.description = attrs.description ?? undefined
       this.slug = attrs.slug
       this.website = normalizeUrl(attrs.website ?? undefined)
       this.instagram = attrs.instagram ?? undefined
-      this.avatar = attrs.avatar
-        ? new Image(attrs.avatar, `Avatar for ${attrs.name}`, true)
+      this.avatar = avatar
+        ? new Image(avatar, `Avatar for ${attrs.name}`, true)
         : undefined
       this.jobTitle = attrs.jobTitle ?? undefined
-      this.mostRecentlyPublishedOn = attrs.mostRecentlyPublishedOn ?? undefined
-      this.userId = attrs.userId ?? undefined
-      this.hiddenCollaborators = attrs.hiddenCollaborators
-      this.locations = (attrs.locations ?? []).map((loc) => new Location(loc))
+      this.mostRecentlyPublishedOn = attrs.mostRecentlyPublishedOn
+        ? new Date(attrs.mostRecentlyPublishedOn)
+        : undefined
+      this.userId = extractId(attrs.user)
+      this.hiddenCollaborators = extractIds(attrs.hiddenFrequentCollaborators)
+      this.locations = locations.map((loc) => new Location(loc))
     }
 
     get location(): string | undefined {
@@ -62,22 +82,21 @@ export class Profile extends Colourful(
 export class NullProfile extends Profile {
   constructor() {
     super({
-      userId: '',
       id: '',
       name: '',
       slug: '',
-      website: '',
-      instagram: '',
-      avatar: null,
-      jobTitle: '',
-      description: '',
+      description: null,
+      website: null,
+      instagram: null,
+      jobTitle: null,
       mostRecentlyPublishedOn: null,
-      location: '',
+      hiddenFrequentCollaborators: [],
+      createdAt: '2000-01-01T00:00:00.000Z',
+      updatedAt: '2000-01-01T00:00:00.000Z',
+      avatar: undefined,
       locations: [],
-      createdAt: new Date('2000-01-01'),
-      updatedAt: new Date('2000-01-01'),
-      hiddenCollaborators: [],
-      _count: { authoredBooks: 0 }
+      user: undefined,
+      contributions: undefined
     })
   }
 
