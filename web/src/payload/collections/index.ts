@@ -3,7 +3,6 @@ import { BookVotes } from './book-votes'
 import { Books } from './books'
 import { Claims } from './claims'
 import { Collections } from './collections'
-import { Contributions } from './contributions'
 import { FAQs } from './faqs'
 import { Favourites } from './favourites'
 import { FeaturedProfiles } from './featured-profiles'
@@ -28,7 +27,7 @@ export const collections = [
   Books,
   Claims,
   Collections,
-  Contributions,
+  // Contributions,
   FAQs,
   Favourites,
   FeaturedProfiles,

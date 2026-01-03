@@ -372,58 +372,6 @@ where
       pp.id = c.profile_id
   );
 
--- Contributions (standalone table, skip orphaned references)
-insert into
-  payload.contributions (
-    id,
-    book_id,
-    profile_id,
-    job_id,
-    tag,
-    hidden,
-    created_at,
-    updated_at
-  )
-select
-  c.id,
-  c.book_id,
-  c.profile_id,
-  c.job_id,
-  case
-    when c.tag = 'Assistant' then 'Assistant'::payload.enum_contributions_tag
-    else null
-  end,
-  c.hidden,
-  c.created_at,
-  c.updated_at
-from
-  public.contributions c
-where
-  exists (
-    select
-      1
-    from
-      payload.books pb
-    where
-      pb.id = c.book_id
-  )
-  and exists (
-    select
-      1
-    from
-      payload.profiles pp
-    where
-      pp.id = c.profile_id
-  )
-  and exists (
-    select
-      1
-    from
-      payload.jobs pj
-    where
-      pj.id = c.job_id
-  );
-
 -- Memberships (skip rows where user or publisher doesn't exist)
 insert into
   payload.memberships (
@@ -930,22 +878,21 @@ where
   );
 
 -- ============================================================================
--- PHASE 7: Profiles contributions (embedded array)
+-- PHASE 7: Books contributions (embedded array)
 -- This duplicates data from contributions table into embedded array format
 -- ============================================================================
 insert into
-  payload.profiles_contributions (
+  payload.books_contributions (
     _parent_id,
     _order,
     id,
-    book_id,
+    profile_id,
     job_id,
     title,
-    tag,
-    hidden
+    tag
   )
 select
-  c.profile_id as _parent_id,
+  c.book_id as _parent_id,
   row_number() over (
     partition by
       c.profile_id
@@ -953,34 +900,34 @@ select
       c.created_at
   ) as _order,
   gen_random_uuid()::text as id,
-  c.book_id,
+  c.profile_id,
   c.job_id,
-  b.title || ' (' || j.name || ')' as title,
+  p.name || ' (' || j.name || ')' as title,
   case
-    when c.tag = 'Assistant' then 'Assistant'::payload.enum_profiles_contributions_tag
+    when c.tag = 'Assistant' then 'Assistant'::payload.enum_books_contributions_tag
     else null
-  end,
-  c.hidden
+  end
 from
   public.contributions c
-  join public.books b on b.id = c.book_id
+  join public.profiles p on p.id = c.profile_id
   join public.jobs j on j.id = c.job_id
+  join public.books b on b.id = c.book_id
 where
   exists (
-    select
-      1
-    from
-      payload.profiles pp
-    where
-      pp.id = c.profile_id
-  )
-  and exists (
     select
       1
     from
       payload.books pb
     where
       pb.id = c.book_id
+  )
+  and exists (
+    select
+      1
+    from
+      payload.profiles pp
+    where
+      pp.id = c.profile_id
   )
   and exists (
     select

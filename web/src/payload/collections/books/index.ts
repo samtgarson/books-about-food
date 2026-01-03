@@ -1,5 +1,7 @@
 import { websites } from '@books-about-food/shared/data/websites'
+import { eq } from '@payloadcms/db-postgres/drizzle'
 import type { CollectionConfig, Data } from 'payload'
+import { contributions, jobs, profiles } from 'src/payload-generated-schema'
 import { slugField } from '../../fields/slug'
 import { revalidatePaths } from '../../plugins/cache-revalidation'
 import { colorField, dayOnlyDisplayFormat } from '../utils'
@@ -17,7 +19,13 @@ export const Books: CollectionConfig = {
   admin: {
     group: 'Resources',
     useAsTitle: 'title',
-    defaultColumns: ['title', 'status', 'authors', 'publisher', 'releaseDate'],
+    defaultColumns: [
+      'title',
+      'status',
+      'authorNames',
+      'publisher',
+      'releaseDate'
+    ],
     preview({ slug }) {
       return `/cookbooks/${slug}`
     },
@@ -47,6 +55,19 @@ export const Books: CollectionConfig = {
       type: 'relationship',
       relationTo: 'profiles',
       hasMany: true
+    },
+    {
+      name: 'authorNames',
+      virtual: 'authors.name',
+      type: 'text',
+      admin: {
+        hidden: true,
+        components: {
+          Cell: {
+            path: 'src/payload/components/fields/string-array-cell.tsx'
+          }
+        }
+      }
     },
     {
       name: 'status',
@@ -114,8 +135,6 @@ export const Books: CollectionConfig = {
       name: 'palette',
       type: 'array',
       fields: [colorField('color')],
-      minRows: 3,
-      maxRows: 3,
       admin: {
         position: 'sidebar',
         description: 'Generated from the cover image'
@@ -138,6 +157,93 @@ export const Books: CollectionConfig = {
       relationTo: 'users',
       hasMany: false,
       admin: { readOnly: true, position: 'sidebar' }
+    },
+    {
+      name: 'contributions',
+      type: 'array',
+      admin: {
+        initCollapsed: true,
+        components: {
+          RowLabel: {
+            path: 'src/payload/components/ui/array-row-label.tsx#ArrayRowLabel',
+            clientProps: {
+              itemPlaceholder: 'New contribution',
+              keyPath: ['title']
+            }
+          }
+        }
+      },
+      fields: [
+        {
+          name: 'profile',
+          type: 'relationship',
+          relationTo: 'profiles',
+          required: true,
+          hasMany: false
+        },
+        {
+          name: 'title',
+          type: 'text',
+          admin: {
+            hidden: true
+          },
+          hooks: {
+            beforeChange: [
+              async function ({ siblingData, req }) {
+                if (!siblingData.id || !siblingData.book || !siblingData.job)
+                  return null
+
+                const [{ profileName, jobTitle }] = await req.payload.db.drizzle
+                  .selectDistinct({
+                    profileName: profiles.name,
+                    jobTitle: jobs.name
+                  })
+                  .from(contributions)
+                  .innerJoin(profiles, eq(profiles.id, contributions.profile))
+                  .innerJoin(jobs, eq(jobs.id, contributions.job))
+                  .where(eq(contributions.id, siblingData.id))
+
+                if (!profileName || !jobTitle) return null
+                return `${profileName} (${jobTitle})`
+              }
+            ]
+          }
+        },
+        {
+          name: 'job',
+          type: 'relationship',
+          relationTo: 'jobs',
+          required: true
+        },
+        {
+          name: 'tag',
+          type: 'select', // "Assistant" or null,
+          options: [{ label: 'Assistant', value: 'Assistant' }]
+        }
+      ]
+    },
+    {
+      name: 'coverImage',
+      type: 'upload',
+      relationTo: 'images',
+      hasMany: false,
+      hooks: {
+        afterChange: [triggerPaletteGeneration]
+      }
+    },
+    {
+      name: 'previewImages',
+      type: 'array',
+      admin: { initCollapsed: true },
+      fields: [
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'images',
+          hasMany: false,
+          required: true
+        }
+      ]
     },
     {
       name: 'links',
@@ -190,28 +296,6 @@ export const Books: CollectionConfig = {
           admin: {
             condition: (data, siblingData) => siblingData?.site === 'Other'
           }
-        }
-      ]
-    },
-    {
-      name: 'coverImage',
-      type: 'upload',
-      relationTo: 'images',
-      hasMany: false,
-      hooks: {
-        afterChange: [triggerPaletteGeneration]
-      }
-    },
-    {
-      name: 'previewImages',
-      type: 'array',
-      fields: [
-        {
-          name: 'image',
-          type: 'upload',
-          relationTo: 'images',
-          hasMany: false,
-          required: true
         }
       ]
     }

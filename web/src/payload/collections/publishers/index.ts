@@ -26,7 +26,7 @@ export const Publishers: CollectionConfig = {
     slugField('name'),
     {
       name: 'logo',
-      type: 'relationship',
+      type: 'upload',
       relationTo: 'images',
       hasMany: false
     },
@@ -55,7 +55,15 @@ export const Publishers: CollectionConfig = {
       type: 'relationship',
       relationTo: 'publishers',
       hasMany: false,
-      label: 'Publishing House'
+      label: 'Publishing House',
+      admin: { position: 'sidebar' }
+    },
+    {
+      name: 'imprints',
+      type: 'join',
+      collection: 'publishers',
+      on: 'house',
+      admin: { position: 'sidebar' }
     },
     {
       name: 'hiddenBooks',
@@ -63,20 +71,38 @@ export const Publishers: CollectionConfig = {
       relationTo: 'books',
       hasMany: true,
       admin: {
-        description: 'Books hidden from this publisher page'
+        description: 'Books hidden from this publisher page',
+        position: 'sidebar'
       }
-    },
-    {
-      name: 'imprints',
-      type: 'join',
-      collection: 'publishers',
-      on: 'house'
     },
     {
       name: 'books',
       type: 'join',
       collection: 'books',
-      on: 'publisher'
+      on: 'publisher',
+      admin: { defaultColumns: ['title', 'status', 'authors'] }
+    },
+    {
+      name: 'memberships',
+      type: 'join',
+      collection: 'memberships',
+      on: 'publisher',
+      admin: {
+        defaultColumns: ['user', 'role']
+      }
+    },
+    {
+      name: 'claimed',
+      type: 'checkbox',
+      virtual: true,
+      // admin: { hidden: true },
+      hooks: {
+        afterRead: [
+          async function ({ siblingData }) {
+            return siblingData.memberships.docs?.length > 0
+          }
+        ]
+      }
     }
   ]
 }

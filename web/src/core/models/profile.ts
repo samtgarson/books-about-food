@@ -20,7 +20,6 @@ export class Profile extends Colourful(
     mostRecentlyPublishedOn?: Date
     userId?: string
     hiddenCollaborators: string[]
-    role: 'author' | 'contributor'
 
     constructor(attrs: ProfileAttrs) {
       super()
@@ -38,7 +37,6 @@ export class Profile extends Colourful(
       this.userId = attrs.userId ?? undefined
       this.hiddenCollaborators = attrs.hiddenCollaborators
       this.locations = (attrs.locations ?? []).map((loc) => new Location(loc))
-      this.role = attrs._count.authoredBooks > 0 ? 'author' : 'contributor'
     }
 
     get location(): string | undefined {
@@ -52,7 +50,7 @@ export class Profile extends Colourful(
     }
 
     get href() {
-      return `/${this.role}s/${this.slug}`
+      return `/people/${this.slug}`
     }
 
     get claimed() {

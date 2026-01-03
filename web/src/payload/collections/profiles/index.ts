@@ -1,4 +1,6 @@
+import { eq } from '@payloadcms/db-postgres/drizzle'
 import type { CollectionConfig } from 'payload'
+import { books, books_contributions, jobs } from 'src/payload-generated-schema'
 import { slugField } from '../../fields/slug'
 import { revalidatePaths } from '../../plugins/cache-revalidation'
 import { dayOnlyDisplayFormat } from '../utils'
@@ -39,7 +41,7 @@ export const Profiles: CollectionConfig = {
     slugField('name'),
     {
       name: 'avatar',
-      type: 'relationship',
+      type: 'upload',
       relationTo: 'images',
       hasMany: false
     },
@@ -93,9 +95,19 @@ export const Profiles: CollectionConfig = {
       }
     },
     {
+      name: 'authoredBooks',
+      type: 'join',
+      collection: 'books',
+      on: 'authors',
+      hasMany: true,
+      admin: { allowCreate: false }
+    },
+    {
       name: 'contributions',
       type: 'array',
+      virtual: true,
       admin: {
+        readOnly: true,
         initCollapsed: true,
         components: {
           RowLabel: {
@@ -108,62 +120,50 @@ export const Profiles: CollectionConfig = {
         }
       },
       fields: [
-        {
-          name: 'book',
-          type: 'relationship',
-          relationTo: 'books',
-          required: true
-        },
-        {
-          name: 'title',
-          type: 'text',
-          admin: {
-            hidden: true
-          },
-          hooks: {
-            beforeChange: [
-              async ({ siblingData, req }) => {
-                if (!siblingData.book || !siblingData.job) return null
-                const [book, job] = await Promise.all([
-                  req.payload.findByID({
-                    id: siblingData.book,
-                    collection: 'books'
-                  }),
-                  req.payload.findByID({
-                    id: siblingData.job,
-                    collection: 'jobs'
-                  })
-                ])
-                if (!book || !job) return null
-                return `${book.title} (${job.name})`
-              }
-            ]
+        { name: 'title', type: 'text', admin: { hidden: true } },
+        { name: 'book', type: 'relationship', relationTo: 'books' },
+        { name: 'job', type: 'relationship', relationTo: 'jobs' }
+      ],
+      hooks: {
+        afterRead: [
+          async function ({ originalDoc, req }) {
+            const [{ bookTitle, jobTitle, book, job }] =
+              await req.payload.db.drizzle
+                .select({
+                  bookTitle: books.title,
+                  jobTitle: jobs.name,
+                  book: books_contributions._parentID,
+                  job: books_contributions.job
+                })
+                .from(books_contributions)
+                .innerJoin(books, eq(books.id, books_contributions._parentID))
+                .innerJoin(jobs, eq(jobs.id, books_contributions.job))
+                .where(eq(books_contributions.profile, originalDoc.id))
+
+            const title =
+              bookTitle && jobTitle ? `${bookTitle} (${jobTitle})` : null
+            return { title, book, job }
           }
-        },
-        {
-          name: 'job',
-          type: 'relationship',
-          relationTo: 'jobs',
-          required: true
-        },
-        {
-          name: 'tag',
-          type: 'select', // "Assistant" or null,
-          options: [{ label: 'Assistant', value: 'Assistant' }]
-        },
-        {
-          name: 'hidden',
-          type: 'checkbox',
-          defaultValue: false
-        }
-      ]
+        ]
+      }
     },
     {
-      name: 'Claims',
+      name: 'hiddenFrequentCollaborators',
+      type: 'relationship',
+      relationTo: 'profiles',
+      hasMany: true,
+      admin: {
+        description:
+          'Profiles to exclude from the "Frequent Collaborators" section on this profile page.',
+        position: 'sidebar'
+      }
+    },
+    {
+      name: 'claims',
       type: 'join',
       collection: 'claims',
       on: 'profile',
-      admin: { position: 'sidebar' }
+      admin: { position: 'sidebar', allowCreate: false }
     }
   ]
 }
