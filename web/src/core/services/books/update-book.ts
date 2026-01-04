@@ -1,14 +1,15 @@
-import prisma, { BookSource, Prisma } from '@books-about-food/database'
 import { slugify } from '@books-about-food/shared/utils/slugify'
-import { FullBookAttrs } from 'src/core/models/types'
+import { RequiredDataFromCollectionSlug } from 'payload'
 import { can } from 'src/core/policies'
 import { AuthedService } from 'src/core/services/base'
+import { enum_books_source } from 'src/payload-generated-schema'
+import { Book } from 'src/payload/payload-types'
 import { z } from 'zod'
 import { inngest } from '../../jobs'
 import { FullBook } from '../../models/full-book'
-import { fullBookIncludes } from '../utils'
 import { AppError } from '../utils/errors'
 import { array, processString } from '../utils/inputs'
+import { FULL_BOOK_DEPTH } from '../utils/payload-depth'
 import { fetchBook } from './fetch-book'
 
 export type UpdateBookInput = z.infer<typeof updateBookInput>
@@ -29,79 +30,84 @@ const updateBookInput = z
       releaseDate: processString(z.coerce.date()).optional(),
       pages: z.coerce.number().optional(),
       tags: array(z.string()).optional(),
-      source: z.enum(BookSource).optional().default('submitted'),
+      source: z
+        .enum(enum_books_source.enumValues)
+        .optional()
+        .default('submitted'),
       id: z.string().optional()
     })
   )
 
 export const updateBook = new AuthedService(
   updateBookInput,
-  async (input, ctx) => {
-    const { user } = ctx
-    const { slug, ...data } = input
-
-    if (slug) {
-      const { data: book } = await fetchBook.call({ slug }, ctx)
-      if (book && !can(user, book).update) {
-        throw new Error('You do not have permission to edit this book')
-      }
-    }
-
+  async (input, { payload, user }) => {
     const {
-      title,
-      authorIds,
-      coverImageId,
+      authorIds: authors,
+      coverImageId: coverImage,
       previewImageIds,
       tags,
-      publisherId,
+      publisherId: publisher,
+      releaseDate,
       ...attrs
-    } = data
+    } = input
 
-    const properties = {
+    // Build update data object
+    const updateData: Partial<RequiredDataFromCollectionSlug<'books'>> = {
       ...attrs,
-      title,
-      slug: title && !slug ? slugify(title) : undefined,
-      coverImage: coverImageId ? { connect: { id: coverImageId } } : undefined,
-      publisher: publisherId ? { connect: { id: publisherId } } : undefined
-    } satisfies Prisma.BookUpdateInput
+      title: input.title,
+      slug: input.slug === undefined ? slugify(input.title) : input.slug,
+      releaseDate: releaseDate?.toISOString(),
+      coverImage,
+      publisher,
+      authors,
+      tags,
+      previewImages: previewImageIds?.map((imageId) => ({ image: imageId }))
+    }
 
-    const previewImages = previewImageIds?.map((id) => ({ id }))
-    const connectTags = tags?.map((slug) => ({ slug }))
-    const authors = authorIds?.map((id) => ({ id }))
+    // Remove undefined values
+    Object.keys(updateData).forEach((k) => {
+      const key = k as keyof typeof updateData
+      if (updateData[key] === undefined) delete updateData[key]
+    })
 
-    let result: FullBookAttrs | undefined = undefined
-    if (slug) {
-      result = await prisma.book.update({
-        where: { slug },
-        data: {
-          ...properties,
-          id: undefined,
-          previewImages: { set: previewImages },
-          tags: { set: connectTags },
-          authors: { set: authors }
-        },
-        include: fullBookIncludes
+    let result: Book
+    // Check permissions if updating existing book
+    if (input.slug !== undefined) {
+      const { data: book } = await fetchBook.call(
+        { slug: input.slug },
+        { payload }
+      )
+      if (!book) throw new AppError('NotFound', 'Book not found')
+      if (!can(user, book).update) {
+        throw new Error('You do not have permission to edit this book')
+      }
+
+      result = await payload.update({
+        collection: 'books',
+        id: book.id,
+        data: updateData,
+        depth: FULL_BOOK_DEPTH,
+        user
       })
-    } else if (title) {
-      result = await prisma.book.create({
+    } else {
+      // Create new book
+      result = await payload.create({
+        collection: 'books',
         data: {
-          ...properties,
-          title,
-          slug: slugify(title),
-          previewImages: { connect: previewImages },
-          tags: { connect: connectTags },
-          submitter: { connect: { id: user.id } },
-          authors: { connect: authors }
+          ...updateData,
+          slug: slugify(input.title),
+          title: input.title,
+          submitter: user.id
         },
-        include: fullBookIncludes
+        depth: FULL_BOOK_DEPTH,
+        user
       })
     }
-    if (!result) throw new AppError('InvalidInput', 'Title or slug is required')
 
     await inngest.send({
       name: 'book.updated',
       user,
-      data: { id: result.id, coverImageChanged: !!coverImageId }
+      data: { id: result.id, coverImageChanged: !!coverImage }
     })
 
     return new FullBook(result)

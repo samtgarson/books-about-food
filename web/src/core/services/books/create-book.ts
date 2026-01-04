@@ -1,4 +1,3 @@
-import prisma from '@books-about-food/database'
 import { slugify } from '@books-about-food/shared/utils/slugify'
 import { AuthedService, AuthedServiceContext } from 'src/core/services/base'
 import { z } from 'zod'
@@ -19,18 +18,26 @@ export const createBook = new AuthedService(
     tags: z.array(z.string()).optional()
   }),
   async ({ tags, authorIds, ...data }, ctx) => {
-    const { user } = ctx
+    const { payload, user } = ctx
     const { googleBooksId } = data
     let coverUrl: string | undefined
 
     if (googleBooksId) {
-      if (await prisma.book.count({ where: { googleBooksId } }))
+      // Check if book with this googleBooksId already exists
+      const { totalDocs } = await payload.count({
+        collection: 'books',
+        where: { googleBooksId: { equals: googleBooksId } }
+      })
+
+      if (totalDocs > 0) {
         throw new AppError(
           'UniqueConstraintViolation',
           'Book already exists',
           'title'
         )
+      }
 
+      // Fetch from Google Books API
       const { data: libraryBook } = await fetchLibraryBook.call(
         {
           id: googleBooksId
@@ -43,6 +50,7 @@ export const createBook = new AuthedService(
       coverUrl = cover
       data = { ...attrs, ...data }
 
+      // Create author profiles if needed
       if (!authorIds?.length && authorNames.length) {
         const ids = await Promise.all(
           authorNames.map(async (name) => findOrCreateAuthor(name, ctx))
@@ -51,16 +59,20 @@ export const createBook = new AuthedService(
       }
     }
 
-    const book = await prisma.book.create({
+    // Create initial book
+    const book = await payload.create({
+      collection: 'books',
       data: {
         ...data,
-        id: undefined,
         source: 'submitted',
         slug: slugify(data.title),
-        submitterId: user.id
-      }
+        submitter: user.id
+      },
+      depth: 0,
+      user
     })
 
+    // Upload cover image if provided
     let coverImageId: string | undefined = undefined
     if (coverUrl) {
       const imageRes = await createImages.call(
@@ -73,6 +85,7 @@ export const createBook = new AuthedService(
       if (imageRes.success) coverImageId = imageRes.data[0].id
     }
 
+    // Update book with relationships
     const update = await updateBook.call(
       {
         slug: book.slug,

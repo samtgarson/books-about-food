@@ -1,4 +1,4 @@
-import prisma from '@books-about-food/database'
+import { Where } from 'payload'
 import { Service } from 'src/core/services/base'
 import { z } from 'zod'
 
@@ -12,11 +12,24 @@ export const fetchContributions = new Service(
     profileId: z.string(),
     bookId: z.string().optional()
   }),
-  async ({ profileId, bookId }, _ctx) => {
-    const contributions = await prisma.contribution.findMany({
-      where: { profileId, bookId },
-      include: { job: { select: { name: true } } }
+  async ({ profileId, bookId }, { payload }) => {
+    // Build where clause
+    const where: Where = {
+      profile: { equals: profileId }
+    }
+
+    if (bookId) {
+      where.book = { equals: bookId }
+    }
+
+    // Fetch contributions with job details
+    const { docs } = await payload.find({
+      collection: 'contributions',
+      where,
+      depth: 1, // Populate job
+      pagination: false
     })
-    return contributions
+
+    return docs
   }
 )

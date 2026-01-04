@@ -8,6 +8,24 @@
 
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BookSource".
+ */
+export type BookSource = ('admin' | 'import' | 'submitted' | 'edelweiss') | null
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BookContributions".
+ */
+export type BookContributions =
+  | {
+      profile: string | Profile
+      title?: string | null
+      job: string | Job
+      tag?: 'Assistant' | null
+      id?: string | null
+    }[]
+  | null
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "BookLinks".
  */
 export type BookLinks =
@@ -266,7 +284,7 @@ export interface Book {
   blurb?: string | null
   designCommentary?: string | null
   tags?: (string | Tag)[] | null
-  source?: ('admin' | 'import' | 'submitted' | 'edelweiss') | null
+  source?: BookSource
   backgroundColor?: {
     h: number
     s: number
@@ -290,15 +308,7 @@ export interface Book {
   googleBooksId?: string | null
   publisher?: (string | null) | Publisher
   submitter?: (string | null) | User
-  contributions?:
-    | {
-        profile: string | Profile
-        title?: string | null
-        job: string | Job
-        tag?: 'Assistant' | null
-        id?: string | null
-      }[]
-    | null
+  contributions?: BookContributions
   coverImage?: (string | null) | Image
   previewImages?:
     | {
@@ -889,15 +899,7 @@ export interface BooksSelect<T extends boolean = true> {
   googleBooksId?: T
   publisher?: T
   submitter?: T
-  contributions?:
-    | T
-    | {
-        profile?: T
-        title?: T
-        job?: T
-        tag?: T
-        id?: T
-      }
+  contributions?: T | BookContributionsSelect<T>
   coverImage?: T
   previewImages?:
     | T
@@ -908,6 +910,17 @@ export interface BooksSelect<T extends boolean = true> {
   links?: T | BookLinksSelect<T>
   updatedAt?: T
   createdAt?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BookContributions_select".
+ */
+export interface BookContributionsSelect<T extends boolean = true> {
+  profile?: T
+  title?: T
+  job?: T
+  tag?: T
+  id?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -1,12 +1,13 @@
-import prisma from '@books-about-food/database'
 import { slugify } from '@books-about-food/shared/utils/slugify'
+import { RequiredDataFromCollectionSlug } from 'payload'
 import { Profile } from 'src/core/models/profile'
 import { can } from 'src/core/policies'
 import { AuthedService } from 'src/core/services/base'
 import { z } from 'zod'
 import { findOrCreateLocation } from '../locations/find-or-create-location'
-import { profileIncludes } from '../utils'
+import { AppError } from '../utils/errors'
 import { array } from '../utils/inputs'
+import { PROFILE_DEPTH } from '../utils/payload-depth'
 import { fetchProfile } from './fetch-profile'
 
 export type UpdateProfileInput = z.infer<typeof updateProfile.input>
@@ -31,45 +32,51 @@ export const updateProfile = new AuthedService(
     hiddenCollaborators: array(z.string()).optional()
   }),
   async ({ slug, avatar, instagram, locations, ...data }, ctx) => {
-    const { user } = ctx
+    const { payload, user } = ctx
     const { data: profile } = await fetchProfile.call({ slug }, ctx)
-    if (profile && !can(user, profile).update) {
-      throw new Error('You are not allowed to update this profile')
+    if (!profile) throw new AppError('NotFound', 'Profile not found')
+    if (!can(user, profile).update) {
+      throw new AppError(
+        'Forbidden',
+        'You are not allowed to update this profile'
+      )
     }
 
+    // Build update data
+    const updateData: Partial<RequiredDataFromCollectionSlug<'profiles'>> = {
+      ...data,
+      instagram: normalizeHandles(instagram),
+      slug: data.name ? slugify(data.name) : undefined
+    }
+
+    // Handle avatar (null = remove, string = set, undefined = no change)
+    if (avatar === null) {
+      updateData.avatar = null
+    } else if (avatar) {
+      updateData.avatar = avatar
+    }
+
+    // Handle locations
     // Find or create locations and collect their IDs
-    let locationIds: string[] | undefined
     if (locations !== undefined && locations !== null) {
       const locationResults = await Promise.all(
         locations.map((loc) => findOrCreateLocation.call(loc, ctx))
       )
-      locationIds = locationResults.flatMap((r) => r.data?.id ?? [])
+      updateData.locations = locationResults.flatMap((r) => r.data?.id ?? [])
     }
 
-    const updated = await prisma.profile.update({
-      where: { slug },
-      data: {
-        ...data,
-        instagram: normalizeHandles(instagram),
-        slug: data.name ? slugify(data.name) : undefined,
-        avatar: avatarProps(avatar),
-        locations:
-          locationIds !== undefined
-            ? { set: locationIds.map((id) => ({ id })) }
-            : undefined
-      },
-      include: profileIncludes
+    // Update profile
+    const updated = await payload.update({
+      collection: 'profiles',
+      id: profile.id,
+      data: updateData,
+      depth: PROFILE_DEPTH,
+      user
     })
 
     return new Profile(updated)
   }
 )
-
-function avatarProps(id?: string | null) {
-  if (id === null) return { disconnect: true }
-  if (id) return { connect: { id } }
-  return undefined
-}
 
 function normalizeHandles(handle: string | null | undefined) {
   if (!handle) return handle

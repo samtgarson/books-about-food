@@ -1,45 +1,59 @@
-import prisma from '@books-about-food/database'
 import { inngest } from '../../jobs'
 import { Publisher } from '../../models/publisher'
 import { can } from '../../policies'
 import { AuthedService } from '../base'
-import { publisherIncludes } from '../utils'
 import { AppError } from '../utils/errors'
+import { PUBLISHER_DEPTH } from '../utils/payload-depth'
 import { createInviteSchema } from './schemas/create-invite'
 
 export const createInvite = new AuthedService(
   createInviteSchema,
-  async function ({ publisherId, email, role }, { user }) {
-    const publisher = await prisma.publisher.findUnique({
-      where: { id: publisherId, memberships: { some: { userId: user.id } } },
-      include: publisherIncludes
+  async function ({ publisherId, email, role }, { payload, user }) {
+    // Find publisher and verify user is a member
+    const { docs } = await payload.find({
+      collection: 'publishers',
+      where: {
+        and: [
+          { id: { equals: publisherId } },
+          { 'memberships.user': { equals: user.id } }
+        ]
+      },
+      limit: 1,
+      depth: PUBLISHER_DEPTH,
+      user
     })
 
-    if (!publisher) throw new AppError('NotFound', 'Publisher not found')
-    if (!can(user, new Publisher(publisher)).update) {
+    if (!docs[0]) throw new AppError('NotFound', 'Publisher not found')
+
+    // Check authorization
+    if (!can(user, new Publisher(docs[0])).update) {
       throw new AppError(
         'Forbidden',
         'You do not have permission to invite to this publisher.'
       )
     }
 
-    const invite = await prisma.publisherInvitation.create({
+    // Create invitation
+    const invite = await payload.create({
+      collection: 'publisher-invitations',
       data: {
-        publisherId,
+        publisher: publisherId,
         email,
         role,
-        invitedById: user.id
+        invitedBy: user.id
       },
-      include: { publisher: { select: { name: true } } }
+      depth: 1,
+      user
     })
 
+    // Send email notification
     inngest.send({
       name: 'jobs.email',
       data: {
         key: 'publisherInvite',
         props: {
           inviterName: user.name || user.email,
-          publisherName: invite.publisher.name
+          publisherName: docs[0].name
         }
       },
       user: { email }

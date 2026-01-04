@@ -1,4 +1,5 @@
-import prisma from '@books-about-food/database'
+import { BasePayload } from 'payload'
+import { BookContribution } from 'src/core/models/types'
 import { AuthedService } from 'src/core/services/base'
 import { z } from 'zod'
 
@@ -15,68 +16,91 @@ export const updateContributors = new AuthedService(
     slug: z.string(),
     contributors: contributorSchema.array().nullish()
   }),
-  async ({ slug, contributors }, _ctx) => {
-    const book = await prisma.book.findUnique({
-      where: { slug },
-      include: { contributions: true }
+  async ({ slug, contributors }, { payload, user }) => {
+    // Find book by slug
+    const {
+      docs: [book]
+    } = await payload.find({
+      collection: 'books',
+      where: { slug: { equals: slug } },
+      limit: 1,
+      depth: 0
     })
+
     if (!book) throw new Error('Book not found')
     const bookId = book.id
 
+    // If no contributors, clear the contributions array
     if (!contributors) {
-      await prisma.contribution.deleteMany({
-        where: { book: { slug } }
+      await payload.update({
+        collection: 'books',
+        id: bookId,
+        data: { contributions: [] },
+        user
       })
       return
     }
 
-    const resources = await Promise.all(contributors.map(createProfileAndJob))
-    const contributions = await Promise.all(resources.map(createContributions))
+    // Fetch existingJobs for all contributions
+    const existingJobsMap = await fetchExistingJobs(payload, contributors)
 
-    await prisma.book.update({
-      where: { slug },
-      data: {
-        contributions: {
-          deleteMany: { id: { notIn: contributions.map(({ id }) => id) } },
-          connect: contributions.map(({ id }) => ({ id }))
+    // Build contributions array
+    const contributionsData = await Promise.all(
+      contributors.map(async function ({
+        profileId,
+        jobName,
+        assistant = false
+      }): Promise<BookContribution> {
+        // Find or create job
+
+        let jobId: string
+        if (existingJobsMap[jobName]) {
+          jobId = existingJobsMap[jobName]
+        } else {
+          const newJob = await payload.create({
+            collection: 'jobs',
+            data: { name: jobName },
+            depth: 0,
+            user
+          })
+          jobId = newJob.id
         }
-      }
-    })
 
-    async function createProfileAndJob({
-      profileId,
-      jobName,
-      assistant = false
-    }: z.infer<typeof contributorSchema>) {
-      const job = await prisma.job.upsert({
-        where: { name: jobName },
-        create: { name: jobName },
-        update: {}
-      })
-      return { profile: { id: profileId }, job, assistant }
-    }
-
-    async function createContributions({
-      profile,
-      job,
-      assistant
-    }: Awaited<ReturnType<typeof createProfileAndJob>>) {
-      return prisma.contribution.upsert({
-        where: {
-          profileId_bookId_jobId: {
-            profileId: profile.id,
-            bookId: bookId,
-            jobId: job.id
-          }
-        },
-        create: {
-          profile: { connect: { id: profile.id } },
-          book: { connect: { id: bookId } },
-          job: { connect: { id: job.id } },
+        return {
+          profile: profileId,
+          job: jobId,
           tag: assistant ? 'Assistant' : undefined
-        },
-        update: { tag: assistant ? 'Assistant' : undefined }
+        }
       })
-    }
+    )
+
+    // Update book with new contributions array
+    await payload.update({
+      collection: 'books',
+      id: bookId,
+      data: { contributions: contributionsData },
+      user
+    })
   }
 )
+
+async function fetchExistingJobs(
+  payload: BasePayload,
+  contributors: ContributorAttrs[]
+) {
+  const { docs } = await payload.find({
+    collection: 'jobs',
+    where: {
+      name: {
+        in: contributors.map((c) => c.jobName)
+      }
+    },
+    depth: 0,
+    limit: contributors.length
+  })
+
+  return docs.reduce(
+    (map, job) => ({ ...map, [job.name]: job.id }),
+    {} as Record<string, string>
+  )
+}

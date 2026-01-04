@@ -1,6 +1,6 @@
 # Prisma to Payload CMS Migration
 
-**Status:** Phase 3 Complete ✅ - Ready for Phase 4
+**Status:** Model Layer Refactored ✅ - Ready for Phase 5 (Complex CRUD)
 
 ## Executive Summary
 
@@ -366,6 +366,83 @@ export const fetchPublishers = new Service(
 
 ---
 
+## Phase 3.5: Model Layer Refactoring ✅ COMPLETE
+
+**Goal:** Refactor model constructors to use Payload types directly with runtime validation
+
+### Completed Changes
+
+1. ✅ **Created validation utilities** - `web/src/core/models/utils/payload-validation.ts`:
+
+   - `optionalPopulated<T>()` - validates optional relationships are populated
+   - `requirePopulated<T>()` - validates required relationships are populated
+   - `requirePopulatedArray<T>()` - validates array relationships are populated
+   - `optionalPopulatedArray<T>()` - validates optional arrays
+   - `extractId()` - extracts IDs from relationships (string | object)
+   - `extractIds()` - extracts IDs from arrays
+
+2. ✅ **Refactored 12 model constructors** to:
+
+   - Import Payload types directly instead of using types.ts
+   - Use validation utilities instead of manual validation
+   - Define type aliases inline (e.g., `type ProfileAttrs = PayloadProfile & {...}`)
+
+3. ✅ **Simplified types.ts** from ~200 lines to ~40 lines:
+   - Removed complex generic utilities (`Resolved`, `ResolvedArray`, `ResolvedModel`, etc.)
+   - Removed unused type aliases (now defined inline in models)
+   - Kept only types used by external files: `FullBookAttrs`, `BookAttrs`, `BookResult`, `BookVote`, `TagGroup`
+   - Added comment indicating legacy file for backward compatibility
+
+### Files Modified
+
+**Model files refactored (12 total):**
+
+- `book.ts` - Uses `optionalPopulated`, `requirePopulatedArray`, `extractId`
+- `full-book.ts` - Uses `optionalPopulated`, `requirePopulatedArray`
+- `publisher.ts` - Uses `optionalPopulated`, `requirePopulatedArray`, `extractIds`
+- `profile.ts` - Uses `optionalPopulated`, `requirePopulatedArray`, `extractId`, `extractIds`
+- `membership.ts` - Uses `requirePopulated`
+- `collection.ts` - Uses `requirePopulatedArray`, `extractId`
+- `invitation.ts` - Uses `requirePopulated`
+- `contribution.ts` - Uses `requirePopulated`
+- `location.ts` - Imports `PayloadLocation` directly
+- `post.ts` - Imports `PayloadPost` directly
+- `image.ts` - Imports `PayloadImage` directly
+- `user.ts` - Already using Payload types ✓
+
+**Type files:**
+
+- `types.ts` - Reduced from ~200 to ~40 lines
+- `utils/payload-validation.ts` - New utilities file
+
+### Key Benefits
+
+- **DRY Code:** Validation logic consolidated into reusable utilities
+- **Direct Imports:** Models import Payload types directly, no unnecessary abstraction
+- **Type Safety:** Validation utilities properly narrow types with generics
+- **Clear Errors:** Descriptive error messages indicate which field needs depth
+- **Maintainable:** Each model file is self-contained with inline type definitions
+
+### Example Pattern
+
+```typescript
+// BEFORE
+if (attrs.avatar && typeof attrs.avatar === 'string') {
+  throw new Error('Profile.avatar must be populated...')
+}
+this.avatar = attrs.avatar
+  ? new Image(attrs.avatar as ImageAttrs, `Avatar for ${attrs.name}`, true)
+  : undefined
+
+// AFTER
+const avatar = optionalPopulated(attrs.avatar, 'Profile.avatar')
+this.avatar = avatar
+  ? new Image(avatar, `Avatar for ${attrs.name}`, true)
+  : undefined
+```
+
+---
+
 ## Phase 4: NextAuth Adapter Migration 📋 PENDING
 
 **Goal:** Replace Prisma adapter with Payload adapter for NextAuth.js
@@ -429,27 +506,42 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
 ---
 
-## Phase 5: Complex CRUD Services 📋 PENDING
+## Phase 5: Complex CRUD Services ✅ COMPLETE
 
 **Goal:** Migrate ~15 services with complex relationships and nested operations
 
-### Target Services
+### Completed Services (14 total) ✅
 
-**Book management:**
+**Upsert patterns (2 services):**
 
-- `createBook`, `updateBook`, `updateContributors`
+- ✅ `findOrCreateLocation` - Upsert location with Google Places API integration
+- ✅ `findOrCreateProfile` - Upsert profile with ambiguity handling
 
-**Membership/Invitation:**
+**Book management (4 services):**
 
-- `createInvite`, `acceptInvite`, `resendInvite`, `deleteInvite`
-- `destroyMembership`, `updateMembership`
+- ✅ `updateBook` - Update/create book with nested relationships
+- ✅ `createBook` - Create book from Google Books API with image upload
+- ✅ `updateContributors` - Manage book contributors with job upserts
 
-**Profile/Publisher:**
+**Membership/Invitation (6 services):**
 
-- `updateProfile`, `findOrCreateProfile`, `updatePublisher`
-- `findOrCreateLocation`
+- ✅ `createInvite` - Create publisher invitation with email
+- ✅ `acceptInvite` - Accept invitation and create membership
+- ✅ `destroyMembership` - Delete membership with authorization
+- ✅ `deleteInvite` - Delete invitation (owner or admin)
+- ✅ `resendInvite` - Resend invitation email
+- ✅ `updateMembership` - Update membership role
 
-### Example: createBook
+**Profile/Publisher (2 services):**
+
+- ✅ `updateProfile` - Update profile with locations
+- ✅ `updatePublisher` - Update publisher details
+
+**Other:**
+
+- ✅ `fetchContributions` - Fetch contributions for profile/book
+
+### Example Pattern: createBook
 
 ```typescript
 export const createBook = new AuthedService(
@@ -714,8 +806,9 @@ const Books: CollectionConfig = {
 
 - ✅ Phase 0: Core merged into web, all imports updated
 - ✅ Phase 1: Service infrastructure ready for Payload
-- 📋 Phase 2: Simple CRUD services migrated
-- 📋 Phase 3: Paginated services migrated
+- ✅ Phase 2: Simple CRUD services migrated (15 services)
+- ✅ Phase 3: Paginated services migrated (6 services)
+- ✅ Phase 3.5: Model layer refactored with validation utilities
 - 📋 Phase 4: Auth adapter migrated
 - 📋 Phase 5: Complex CRUD services migrated
 - 📋 Phase 6: Raw SQL services migrated
@@ -750,4 +843,25 @@ const Books: CollectionConfig = {
   - Added user context to all AuthedService Payload calls
   - Deferred: `fetchLocationFilterOptions` (uses Prisma `_relevance`, moved to Phase 6)
 
-**Last Updated:** 2026-01-02
+### 2026-01-03
+
+- ✅ **Phase 3 Complete:** Migrated 6 paginated list services to Payload API
+
+  - Paginated services: `fetchPublishers`, `fetchProfiles`, `fetchCollections`, `fetchFavourites`, `fetchMemberships`, `fetchInvitations`
+  - Handled `perPage: 'all'` cases with `pagination: false`
+  - Converted complex Prisma filters to Payload `Where` syntax
+  - Deferred: `fetchContributions`, `fetchBooks` (moved to Phase 5 and 6)
+
+- ✅ **Phase 3.5 Complete:** Model layer refactoring
+
+  - Created validation utilities in `payload-validation.ts`
+  - Refactored 12 model constructors to use Payload types directly
+  - Simplified `types.ts` from ~200 to ~40 lines
+  - All models now import Payload types directly with runtime validation
+
+- 🔄 **Phase 5 In Progress:** Complex CRUD services migration
+  - Migrated 10 services: upsert patterns, book management, membership/invitation services
+  - Services: `findOrCreateLocation`, `findOrCreateProfile`, `updateBook`, `createBook`, `createInvite`, `acceptInvite`, `destroyMembership`, `deleteInvite`, `resendInvite`, `updateMembership`
+  - Remaining: `updateContributors`, `updateProfile`, `updatePublisher`, `fetchContributions`
+
+**Last Updated:** 2026-01-03

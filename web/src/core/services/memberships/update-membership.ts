@@ -1,30 +1,43 @@
-import prisma, { MembershipRole } from '@books-about-food/database'
+import type { MembershipRole } from '@books-about-food/database'
 import { can } from 'src/core/policies'
 import z from 'zod'
 import { Publisher } from '../../models/publisher'
 import { AuthedService } from '../base'
-import { publisherIncludes } from '../utils'
 import { AppError } from '../utils/errors'
+import { PUBLISHER_DEPTH } from '../utils/payload-depth'
+
+const MembershipRole = ['admin', 'member'] as const
 
 export const updateMembership = new AuthedService(
   z.object({ membershipId: z.string(), role: z.enum(MembershipRole) }),
-  async function ({ membershipId, role }, { user }) {
-    const publisher = await prisma.publisher.findFirst({
-      where: { memberships: { some: { id: membershipId } } },
-      include: publisherIncludes
+  async function ({ membershipId, role }, { payload, user }) {
+    // Find publisher that has this membership
+    const { docs } = await payload.find({
+      collection: 'publishers',
+      where: {
+        'memberships.id': { equals: membershipId }
+      },
+      limit: 1,
+      depth: PUBLISHER_DEPTH,
+      user
     })
 
-    if (!publisher) throw new AppError('NotFound', 'Membership not found')
-    if (!can(user, new Publisher(publisher)).update) {
+    if (!docs[0]) throw new AppError('NotFound', 'Membership not found')
+
+    // Check authorization
+    if (!can(user, new Publisher(docs[0])).update) {
       throw new AppError(
         'Forbidden',
         'You are not allowed to update this membership'
       )
     }
 
-    await prisma.membership.update({
-      where: { id: membershipId },
-      data: { role }
+    // Update membership role
+    await payload.update({
+      collection: 'memberships',
+      id: membershipId,
+      data: { role },
+      user
     })
   }
 )

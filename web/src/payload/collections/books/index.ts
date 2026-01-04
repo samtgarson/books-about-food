@@ -116,6 +116,7 @@ export const Books: CollectionConfig = {
     {
       name: 'source',
       type: 'select',
+      interfaceName: 'BookSource',
       options: [
         { label: 'Admin', value: 'admin' },
         { label: 'Import', value: 'import' },
@@ -143,6 +144,7 @@ export const Books: CollectionConfig = {
     {
       name: 'googleBooksId',
       type: 'text',
+      unique: true,
       admin: { readOnly: true, position: 'sidebar' }
     },
     {
@@ -161,6 +163,7 @@ export const Books: CollectionConfig = {
     {
       name: 'contributions',
       type: 'array',
+      interfaceName: 'BookContributions',
       admin: {
         initCollapsed: true,
         components: {

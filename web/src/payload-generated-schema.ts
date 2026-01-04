@@ -56,9 +56,6 @@ export const enum_collections_status = db_schema.enum(
   'enum_collections_status',
   ['draft', 'inReview', 'published']
 )
-export const enum_contributions_tag = db_schema.enum('enum_contributions_tag', [
-  'Assistant'
-])
 export const enum_memberships_role = db_schema.enum('enum_memberships_role', [
   'admin',
   'member'
@@ -448,51 +445,6 @@ export const collections_rels = db_schema.table(
       foreignColumns: [books.id],
       name: 'collections_rels_books_fk'
     }).onDelete('cascade')
-  ]
-)
-
-export const contributions = db_schema.table(
-  'contributions',
-  {
-    id: uuid('id').defaultRandom().primaryKey(),
-    book: uuid('book_id')
-      .notNull()
-      .references(() => books.id, {
-        onDelete: 'set null'
-      }),
-    profile: uuid('profile_id')
-      .notNull()
-      .references(() => profiles.id, {
-        onDelete: 'set null'
-      }),
-    job: uuid('job_id')
-      .notNull()
-      .references(() => jobs.id, {
-        onDelete: 'set null'
-      }),
-    tag: enum_contributions_tag('tag'),
-    hidden: boolean('hidden').default(false),
-    updatedAt: timestamp('updated_at', {
-      mode: 'string',
-      withTimezone: true,
-      precision: 3
-    })
-      .defaultNow()
-      .notNull(),
-    createdAt: timestamp('created_at', {
-      mode: 'string',
-      withTimezone: true,
-      precision: 3
-    })
-      .defaultNow()
-      .notNull()
-  },
-  (columns) => [
-    index('contributions_book_idx').on(columns.book),
-    index('contributions_profile_idx').on(columns.profile),
-    index('contributions_job_idx').on(columns.job),
-    index('contributions_updated_at_idx').on(columns.updatedAt),
-    index('contributions_created_at_idx').on(columns.createdAt)
   ]
 )
 
@@ -1262,7 +1214,6 @@ export const payload_locked_documents_rels = db_schema.table(
     booksID: uuid('books_id'),
     claimsID: uuid('claims_id'),
     collectionsID: uuid('collections_id'),
-    contributionsID: uuid('contributions_id'),
     faqsID: uuid('faqs_id'),
     favouritesID: uuid('favourites_id'),
     'featured-profilesID': uuid('featured_profiles_id'),
@@ -1295,9 +1246,6 @@ export const payload_locked_documents_rels = db_schema.table(
     index('payload_locked_documents_rels_claims_id_idx').on(columns.claimsID),
     index('payload_locked_documents_rels_collections_id_idx').on(
       columns.collectionsID
-    ),
-    index('payload_locked_documents_rels_contributions_id_idx').on(
-      columns.contributionsID
     ),
     index('payload_locked_documents_rels_faqs_id_idx').on(columns.faqsID),
     index('payload_locked_documents_rels_favourites_id_idx').on(
@@ -1365,11 +1313,6 @@ export const payload_locked_documents_rels = db_schema.table(
       columns: [columns['collectionsID']],
       foreignColumns: [collections.id],
       name: 'payload_locked_documents_rels_collections_fk'
-    }).onDelete('cascade'),
-    foreignKey({
-      columns: [columns['contributionsID']],
-      foreignColumns: [contributions.id],
-      name: 'payload_locked_documents_rels_contributions_fk'
     }).onDelete('cascade'),
     foreignKey({
       columns: [columns['faqsID']],
@@ -1698,23 +1641,6 @@ export const relations_collections = relations(
     })
   })
 )
-export const relations_contributions = relations(contributions, ({ one }) => ({
-  book: one(books, {
-    fields: [contributions.book],
-    references: [books.id],
-    relationName: 'book'
-  }),
-  profile: one(profiles, {
-    fields: [contributions.profile],
-    references: [profiles.id],
-    relationName: 'profile'
-  }),
-  job: one(jobs, {
-    fields: [contributions.job],
-    references: [jobs.id],
-    relationName: 'job'
-  })
-}))
 export const relations_faqs = relations(faqs, () => ({}))
 export const relations_favourites = relations(favourites, ({ one }) => ({
   profile: one(profiles, {
@@ -1913,11 +1839,6 @@ export const relations_payload_locked_documents_rels = relations(
       references: [collections.id],
       relationName: 'collections'
     }),
-    contributionsID: one(contributions, {
-      fields: [payload_locked_documents_rels.contributionsID],
-      references: [contributions.id],
-      relationName: 'contributions'
-    }),
     faqsID: one(faqs, {
       fields: [payload_locked_documents_rels.faqsID],
       references: [faqs.id],
@@ -2049,7 +1970,6 @@ type DatabaseSchema = {
   enum_books_source: typeof enum_books_source
   enum_claims_state: typeof enum_claims_state
   enum_collections_status: typeof enum_collections_status
-  enum_contributions_tag: typeof enum_contributions_tag
   enum_memberships_role: typeof enum_memberships_role
   enum_publisher_invitations_role: typeof enum_publisher_invitations_role
   enum_users_role: typeof enum_users_role
@@ -2064,7 +1984,6 @@ type DatabaseSchema = {
   claims: typeof claims
   collections: typeof collections
   collections_rels: typeof collections_rels
-  contributions: typeof contributions
   faqs: typeof faqs
   favourites: typeof favourites
   featured_profiles: typeof featured_profiles
@@ -2102,7 +2021,6 @@ type DatabaseSchema = {
   relations_claims: typeof relations_claims
   relations_collections_rels: typeof relations_collections_rels
   relations_collections: typeof relations_collections
-  relations_contributions: typeof relations_contributions
   relations_faqs: typeof relations_faqs
   relations_favourites: typeof relations_favourites
   relations_featured_profiles: typeof relations_featured_profiles
