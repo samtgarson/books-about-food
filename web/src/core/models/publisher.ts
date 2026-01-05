@@ -23,6 +23,14 @@ export class Publisher extends BaseModel {
   description?: string
   claimed: boolean
 
+  static slim(attrs: PayloadPublisher) {
+    return new Publisher({
+      ...attrs,
+      imprints: { docs: [] },
+      house: undefined
+    })
+  }
+
   constructor(attrs: PayloadPublisher) {
     super()
 

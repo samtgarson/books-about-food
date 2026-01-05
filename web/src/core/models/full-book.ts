@@ -38,7 +38,7 @@ export class FullBook extends Book {
         new Image(preview, `Preview ${i} for ${attrs.title}`, true)
     )
     this.tags = tags.map((tag) => ({ slug: tag.slug, name: tag.name }))
-    this.publisher = publisher ? new Publisher(publisher) : undefined
+    this.publisher = publisher ? Publisher.slim(publisher) : undefined
     this.links = attrs.links ?? []
   }
 
