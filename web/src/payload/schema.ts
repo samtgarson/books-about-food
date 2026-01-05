@@ -294,6 +294,7 @@ export const books = db_schema.table(
   },
   (columns) => [
     uniqueIndex('books_slug_idx').on(columns.slug),
+    uniqueIndex('books_google_books_id_idx').on(columns.googleBooksId),
     index('books_publisher_idx').on(columns.publisher),
     index('books_submitter_idx').on(columns.submitter),
     index('books_cover_image_idx').on(columns.coverImage),

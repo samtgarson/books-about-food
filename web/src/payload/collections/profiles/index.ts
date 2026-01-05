@@ -1,6 +1,6 @@
 import { eq } from '@payloadcms/db-postgres/drizzle'
 import type { CollectionConfig } from 'payload'
-import { books, books_contributions, jobs } from 'src/payload-generated-schema'
+import { books, books_contributions, jobs } from 'src/payload/schema'
 import { slugField } from '../../fields/slug'
 import { revalidatePaths } from '../../plugins/cache-revalidation'
 import { dayOnlyDisplayFormat } from '../utils'

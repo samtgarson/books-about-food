@@ -11,5 +11,6 @@ export const postgres = postgresAdapter({
   pool: {
     connectionString: process.env.DATABASE_URL
   },
-  migrationDir: path.resolve(dirname, 'payload', 'migrations')
+  migrationDir: path.resolve(dirname, '..', 'migrations'),
+  generateSchemaOutputFile: path.resolve(dirname, '..', 'schema.ts')
 })

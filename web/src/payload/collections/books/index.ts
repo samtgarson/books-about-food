@@ -1,7 +1,7 @@
 import { websites } from '@books-about-food/shared/data/websites'
 import { eq } from '@payloadcms/db-postgres/drizzle'
 import type { CollectionConfig, Data } from 'payload'
-import { contributions, jobs, profiles } from 'src/payload-generated-schema'
+import { books_contributions, jobs, profiles } from 'src/payload/schema'
 import { slugField } from '../../fields/slug'
 import { revalidatePaths } from '../../plugins/cache-revalidation'
 import { colorField, dayOnlyDisplayFormat } from '../utils'
@@ -201,10 +201,13 @@ export const Books: CollectionConfig = {
                     profileName: profiles.name,
                     jobTitle: jobs.name
                   })
-                  .from(contributions)
-                  .innerJoin(profiles, eq(profiles.id, contributions.profile))
-                  .innerJoin(jobs, eq(jobs.id, contributions.job))
-                  .where(eq(contributions.id, siblingData.id))
+                  .from(books_contributions)
+                  .innerJoin(
+                    profiles,
+                    eq(profiles.id, books_contributions.profile)
+                  )
+                  .innerJoin(jobs, eq(jobs.id, books_contributions.job))
+                  .where(eq(books_contributions.id, siblingData.id))
 
                 if (!profileName || !jobTitle) return null
                 return `${profileName} (${jobTitle})`
