@@ -1,17 +1,48 @@
-import prisma, { BookStatus, Prisma } from '@books-about-food/database'
-import { shuffle, wrapArray } from '@books-about-food/shared/utils/array'
+import { wrapArray } from '@books-about-food/shared/utils/array'
+import { Hsl } from '@books-about-food/shared/utils/types'
+import {
+  SQL,
+  and,
+  countDistinct,
+  eq,
+  getTableColumns,
+  gte,
+  inArray,
+  lte,
+  or,
+  sql
+} from '@payloadcms/db-postgres/drizzle'
+import { PgSelect } from '@payloadcms/db-postgres/drizzle/pg-core'
+import { BasePayload } from 'payload'
+import { Book } from 'src/core/models/book'
 import { Service } from 'src/core/services/base'
+import { Book as PayloadBook } from 'src/payload/payload-types'
+import {
+  books,
+  books_contributions,
+  books_palette,
+  books_rels,
+  enum_books_status,
+  images,
+  jobs,
+  profiles,
+  publishers,
+  tags
+} from 'src/payload/schema'
 import { z } from 'zod'
-import { array, arrayOrSingle, dbEnum, paginationInput } from '../utils/inputs'
-import { NamedColor, OddColors, namedHueMap } from './colors'
+import { array, arrayOrSingle, paginationInput } from '../utils/inputs'
+import { NamedColor, OddColors } from './colors'
 import {
   FetchBooksPageFilters,
   fetchBooksPageFilterValues,
   fetchBooksPageFilters
 } from './filters'
-import { bookJoin, bookSelect, queryBooks } from './sql-helpers'
 
-const { sql, join, empty, raw } = Prisma
+type Drizzle = (typeof BasePayload)['prototype']['db']['drizzle']
+type BookRow = Awaited<ReturnType<typeof selectBooks>>[0]
+type AuthorsMap = Awaited<ReturnType<typeof fetchAuthorsForBooks>>
+type ContributionsMap = Awaited<ReturnType<typeof fetchContributionsForBooks>>
+type PaletteMap = Awaited<ReturnType<typeof fetchPaletteForBooks>>
 
 const validator = z.object({
   sort: z
@@ -20,7 +51,7 @@ const validator = z.object({
   tags: array(z.string()).optional(),
   search: z.string().optional(),
   profile: z.string().optional(),
-  status: arrayOrSingle(dbEnum(BookStatus)).optional(),
+  status: arrayOrSingle(z.enum(enum_books_status.enumValues)).optional(),
   submitterId: z.string().optional(),
   publisherSlug: z.string().optional(),
   color: z.enum(NamedColor).or(array(z.coerce.number())).optional(),
@@ -39,146 +70,363 @@ type BookSort = FetchBooksInput['sort']
 
 export const fetchBooks = new Service(
   validator.optional(),
-  async (input = {}, _ctx) => {
-    const { query, perPage } = baseQuery(input)
+  async (input = {}, { payload }) => {
+    const db = payload.db.drizzle
+    const {
+      page = 0,
+      perPage = 23,
+      sort: sortKey = 'releaseDate',
+      ...filters
+    } = input
 
-    const [books, filteredCount, total] = await Promise.all([
-      query,
-      prisma.$queryRaw<{ count: number }[]>(countQuery(input)),
-      prisma.book.count()
+    // Get count with filters applied
+    const countResult = await withFiltersAndJoins(
+      db,
+      db
+        .select({ count: countDistinct(books.id) })
+        .from(books)
+        .$dynamic(),
+      filters
+    )
+
+    // Get paginated books with filters applied
+    const offset = perPage === 'all' ? 0 : page * perPage
+    const limit = perPage === 'all' ? undefined : perPage
+
+    let selectQuery = selectBooks(db, filters, sortKey)
+      .orderBy(getSortExpression(sortKey, filters.color))
+      .offset(offset)
+
+    if (limit) {
+      selectQuery = selectQuery.limit(limit)
+    }
+
+    const results = await selectQuery
+
+    // If no books, return early
+    if (results.length === 0) {
+      return {
+        books: [],
+        total: 0,
+        perPage:
+          input.perPage === 'all' ? ('all' as const) : input.perPage || 23
+      }
+    }
+
+    // Fetch related data for all books
+    const bookIds = results.map((r) => r.id)
+    const [authorsMap, contributionsMap, paletteMap] = await Promise.all([
+      fetchAuthorsForBooks(db, bookIds),
+      fetchContributionsForBooks(db, bookIds),
+      fetchPaletteForBooks(db, bookIds)
     ])
-    const filteredTotal = Number(filteredCount[0].count)
-    const sortedBooks = input.sort === 'random' ? shuffle(books) : books
 
-    return { books: sortedBooks, filteredTotal, total, perPage }
+    const total = Number(countResult[0].count)
+    const perPageResult =
+      input.perPage === 'all' ? ('all' as const) : input.perPage || 23
+
+    return {
+      books: results.map((row) =>
+        transformToBook(row, authorsMap, contributionsMap, paletteMap)
+      ),
+      total,
+      perPage: perPageResult
+    }
   },
   { cache: 'fetch-books' }
 )
 
-function countQuery(input: FetchBooksInput) {
-  const filters = sqlFilters(input)
+function selectBooks(
+  db: Drizzle,
+  filters: Exclude<FetchBooksInput, 'page' | 'perPage' | 'sort'>,
+  sortKey: BookSort
+) {
+  const {
+    publisher: _p,
+    submitter: _s,
+    coverImage: _ci,
+    ...bookCols
+  } = getTableColumns(books)
 
-  return sql`select count(distinct books.id) from books
-    ${filters}`
+  return withFiltersAndJoins(
+    db,
+    db
+      .select({
+        ...bookCols,
+
+        // Cover image
+        coverImage: imageColumns,
+
+        // Publisher
+        publisher: {
+          id: publishers.id,
+          name: publishers.name,
+          slug: publishers.slug,
+          createdAt: publishers.createdAt,
+          updatedAt: publishers.updatedAt
+        },
+
+        // Color match score (for sorting when color filter is active)
+        // Uses a correlated subquery to find the best matching color in the palette
+        // When no color filter but sorting by color, use the first palette entry's hue
+        color_match: filters.color
+          ? sql<number>`(
+              SELECT MAX(${colorMatchScore(filters.color)})
+              FROM ${books_palette}
+              WHERE ${books_palette._parentID} = ${books.id}
+            )`.as('color_match')
+          : sortKey === 'color'
+            ? sql<number>`(
+                SELECT (${books_palette.color} ->> 'h')::decimal
+                FROM ${books_palette}
+                WHERE ${books_palette._parentID} = ${books.id}
+                ORDER BY ${books_palette._order} ASC
+                LIMIT 1
+              )`.as('color_match')
+            : sql<number | null>`NULL`.as('color_match')
+      })
+      .from(books)
+      .$dynamic(),
+    filters
+  )
 }
 
-function baseQuery({
-  page = 0,
-  perPage = 23,
-  sort: sortKey = 'releaseDate',
-  ...input
-}: FetchBooksInput) {
-  const filters = sqlFilters(input)
-  const sort = sortQuery(input.color ? 'color' : sortKey)
-  const limit = perPage === 'all' ? empty : sql`limit ${perPage}`
-  const offset = perPage === 'all' ? 0 : page * perPage
+function withFiltersAndJoins<T extends PgSelect>(
+  db: Drizzle,
+  qb: T,
+  filters: Omit<FetchBooksInput, 'page' | 'perPage' | 'sort'>
+) {
+  const where = buildWhereConditions(db, filters)
 
-  const query = queryBooks`
-    select distinct
-      ${bookSelect},
-      ${sort} as sort
-    from books
-    ${filters}
-    group by books.id, cover_image.id, sort
-    order by sort desc nulls last
-    ${limit}
-    offset ${offset}`
+  // Apply only the necessary joins (not for filtering - we use subqueries for that)
+  let query = qb
+    .leftJoin(images, eq(books.coverImage, images.id))
+    .leftJoin(publishers, eq(books.publisher, publishers.id))
 
-  return { query, perPage }
+  // Apply where conditions
+  if (where.length > 0) {
+    query = query.where(and(...where))
+  }
+
+  return query
 }
 
-function sqlFilters(input: FetchBooksInput) {
-  const whereArray = whereQuery(input)
-  const where = join(whereArray, ' and ')
-  return sql`
-    left outer join _books_tags on _books_tags."A" = books.id
-    left outer join tags on _books_tags."B" = tags.id
-    ${bookJoin}
-    ${colorJoin(input.color)}
-    where ${where}`
-}
+function buildWhereConditions(
+  db: Drizzle,
+  input: Omit<FetchBooksInput, 'page' | 'perPage' | 'sort'>
+): SQL[] {
+  const where: SQL[] = []
 
-function whereQuery({
-  tags,
-  profile,
-  status = 'published' as const,
-  submitterId,
-  publisherSlug,
-  pageCount,
-  color,
-  search,
-  releaseYear
-}: FetchBooksInput) {
-  const where: Prisma.Sql[] = []
-  where.push(sql`status::text in (${join(wrapArray(status))})`)
-  if (submitterId) where.push(sql`submitter_id::text = ${submitterId}`)
-  if (tags && tags.length > 0) where.push(sql`tags.slug in (${join(tags)})`)
-  if (profile) where.push(profileQuery(profile))
-  if (pageCount) where.push(pageCountQuery(pageCount))
-  if (publisherSlug) where.push(sql`publishers.slug = ${publisherSlug}`)
-  if (color?.length) where.push(sql`matched_palette.color is not null`)
-  if (releaseYear)
-    where.push(sql`extract(year from books.release_date) = ${releaseYear}`)
+  // Status filter
+  const statusFilter = wrapArray(input.status || 'published')
+  if (statusFilter.length > 0) {
+    where.push(inArray(books.status, statusFilter))
+  }
 
-  const searchWhere = searchQuery(search)
-  if (searchWhere) where.push(searchWhere)
+  // Submitter filter
+  if (input.submitterId) {
+    where.push(eq(books.submitter, input.submitterId))
+  }
+
+  // Tags filter - use subquery to avoid joins
+  if (input.tags?.length) {
+    const sq = db
+      .select({ bookId: books_rels.parent })
+      .from(books_rels)
+      .innerJoin(tags, eq(books_rels.tagsID, tags.id))
+      .where(and(eq(books_rels.path, 'tags'), inArray(tags.slug, input.tags)))
+    where.push(inArray(books.id, sq))
+  }
+
+  // Profile filter - use subquery for authors or contributors
+  if (input.profile) {
+    const authorsSq = db
+      .select({ bookId: books_rels.parent })
+      .from(books_rels)
+      .innerJoin(profiles, eq(books_rels.profilesID, profiles.id))
+      .where(
+        and(eq(books_rels.path, 'authors'), eq(profiles.slug, input.profile))
+      )
+
+    const contributorsSq = db
+      .select({ bookId: books_contributions._parentID })
+      .from(books_contributions)
+      .innerJoin(profiles, eq(books_contributions.profile, profiles.id))
+      .where(eq(profiles.slug, input.profile))
+
+    // Combine with OR - book must be in either subquery
+    where.push(
+      or(inArray(books.id, authorsSq), inArray(books.id, contributorsSq))!
+    )
+  }
+
+  // Publisher filter
+  if (input.publisherSlug) {
+    where.push(eq(publishers.slug, input.publisherSlug))
+  }
+
+  // Page count filter
+  if (input.pageCount) {
+    const pageFilter = fetchBooksPageFilters.find(
+      (f) => f.value === input.pageCount
+    )
+    if (pageFilter) {
+      where.push(
+        and(gte(books.pages, pageFilter.min), lte(books.pages, pageFilter.max))!
+      )
+    }
+  }
+
+  // Release year filter
+  if (input.releaseYear) {
+    where.push(
+      sql`EXTRACT(year FROM ${books.releaseDate}) = ${input.releaseYear}`
+    )
+  }
+
+  // Color filter - use subquery with actual color matching
+  if (input.color) {
+    const colorCondition = colorMatchCondition(input.color)
+    where.push(
+      sql`${books.id} IN (
+        SELECT ${books_palette._parentID}
+        FROM ${books_palette}
+        WHERE ${colorCondition}
+      )`
+    )
+  }
+
+  // Search filter - uses pre-computed searchText field
+  // This field contains: title, subtitle, publisher name, tag names, author names, contributor names
+  if (input.search?.trim()) {
+    const searchTerm = `%${input.search.trim()}%`
+    where.push(sql`${books.searchText} ILIKE ${searchTerm}`)
+  }
+
   return where
 }
 
-function profileQuery(profile?: string) {
-  if (!profile) return empty
-  return sql`(contributions.profile ->> 'slug' = ${profile} or authors.slug = ${profile})`
-}
+function getSortExpression(
+  sortKey: BookSort,
+  hasColorFilter?: NamedColor | number[]
+): SQL {
+  const actualSort = hasColorFilter ? 'color' : sortKey || 'releaseDate'
 
-function pageCountQuery(pageCount: FetchBooksPageFilters) {
-  const pageCountFilter = fetchBooksPageFilters.find(
-    (f) => f.value === pageCount
-  )
-  if (pageCountFilter) {
-    const { min, max } = pageCountFilter
-    return sql`between ${min} and ${max}`
+  switch (actualSort) {
+    case 'releaseDate':
+      return sql`${books.releaseDate} DESC NULLS LAST`
+    case 'createdAt':
+      return sql`${books.createdAt} DESC NULLS LAST`
+    case 'title':
+      return sql`${books.title} ASC NULLS LAST`
+    case 'color':
+      // Color sorting will be handled by the color matching lateral join
+      return sql`color_match DESC NULLS LAST`
+    case 'random':
+      return sql`RANDOM()`
   }
-  return empty
 }
 
-function searchQuery(search?: string) {
-  const contains = search?.trim()
-  const hasSearch = (contains && contains.length > 0) || undefined
+// Fetch authors for multiple books
+async function fetchAuthorsForBooks(db: Drizzle, bookIds: string[]) {
+  const authorsData = await db
+    .select({
+      bookId: books_rels.parent,
+      ...profileColumns
+    })
+    .from(books_rels)
+    .innerJoin(profiles, eq(books_rels.profilesID, profiles.id))
+    .leftJoin(images, eq(profiles.avatar, images.id))
+    .where(
+      and(inArray(books_rels.parent, bookIds), eq(books_rels.path, 'authors'))
+    )
 
-  if (!hasSearch) return
+  // Group by book ID - extract profile columns
+  type AuthorRow = Omit<(typeof authorsData)[0], 'bookId'>
+  const authorsMap = new Map<string, AuthorRow[]>()
+  for (const row of authorsData) {
+    const { bookId, ...profile } = row
+    const existing = authorsMap.get(bookId) || []
+    existing.push(profile)
+    authorsMap.set(bookId, existing)
+  }
 
-  return sql`concat_ws(' ', books.title, books.subtitle, publishers.name, contributions.profile ->> 'name', tags.name) ilike ${`%${contains}%`}`
+  return authorsMap
 }
 
-function specificColorJoin(color: number[]) {
-  const [h, s, l] = color
+// Fetch contributions for multiple books
+async function fetchContributionsForBooks(db: Drizzle, bookIds: string[]) {
+  const contributionsData = await db
+    .select({
+      bookId: books_contributions._parentID,
+      id: books_contributions.id,
+      order: books_contributions._order,
+      profile: profileColumns,
+      job: getTableColumns(jobs)
+    })
+    .from(books_contributions)
+    .innerJoin(profiles, eq(books_contributions.profile, profiles.id))
+    .innerJoin(images, eq(profiles.avatar, images.id))
+    .innerJoin(jobs, eq(books_contributions.job, jobs.id))
+    .where(inArray(books_contributions._parentID, bookIds))
+    .orderBy(books_contributions._order)
 
-  return sql`left outer join lateral (
-      select
-        abs(${h}::int - (c.color ->> 'h')::decimal) * -1 as color
-      from (
-        select jsonb_array_elements(books.palette) color from books b
-        where b.id = books.id
-      ) c
-      where abs(${h}::int - (c.color ->> 'h')::decimal) < ${hueRadius(h)}::int
-        and abs(${s}::int - (c.color ->> 's')::decimal) < 20
-        and abs(${l}::int - (c.color ->> 'l')::decimal) < 15
-      limit 1
-    ) matched_palette on true`
+  // Group by book ID and reshape to match expected format
+  type ContributionRow = (typeof contributionsData)[0]
+  const contributionsMap = new Map<string, ContributionRow[]>()
+
+  for (const row of contributionsData) {
+    const existing = contributionsMap.get(row.bookId) || []
+    existing.push(row)
+    contributionsMap.set(row.bookId, existing)
+  }
+
+  return contributionsMap
 }
 
-function namedColorJoin(color: NamedColor) {
-  return sql`left outer join lateral (
-      select abs(${
-        namedHueMap[color]
-      }::int - (c.color ->> 'h')::decimal) * -1 as color
-      from (
-        select jsonb_array_elements(books.palette) color from books b
-        where b.id = books.id
-      ) c
-      where ${raw(namedColorQuery(color))}
-      limit 1
-    ) matched_palette on true`
+// Fetch palette for multiple books
+async function fetchPaletteForBooks(db: Drizzle, bookIds: string[]) {
+  const paletteData = await db
+    .select({
+      bookId: books_palette._parentID,
+      color: books_palette.color
+    })
+    .from(books_palette)
+    .where(inArray(books_palette._parentID, bookIds))
+    .orderBy(books_palette._order)
+
+  // Group by book ID
+  const paletteMap = new Map<string, { color: Hsl }[]>()
+  for (const row of paletteData) {
+    const existing = paletteMap.get(row.bookId) || []
+    existing.push({ color: toHsl(row.color) })
+    paletteMap.set(row.bookId, existing)
+  }
+
+  return paletteMap
+}
+
+function transformToBook(
+  row: BookRow,
+  authorsMap: AuthorsMap,
+  contributionsMap: ContributionsMap,
+  paletteMap: PaletteMap
+): Book {
+  // Get related data for this book
+  const authors = authorsMap.get(row.id) || []
+  const contributions = contributionsMap.get(row.id) || []
+  const palette = paletteMap.get(row.id) || []
+
+  // Transform the raw database row to PayloadBook
+  const bookData: PayloadBook = {
+    ...row,
+    backgroundColor: toHsl(row.backgroundColor),
+    authors,
+    contributions,
+    palette
+  }
+
+  return new Book(bookData)
 }
 
 /** Gets relative radius for a hue considering visual perception of breadth of color */
@@ -194,25 +442,27 @@ function hueRadius(h: number) {
 function namedColorQuery(color: NamedColor) {
   switch (color) {
     case NamedColor.white:
-      return `(c.color ->> 'l')::decimal > 90`
+      return sql`(${books_palette.color} ->> 'l')::decimal > 90`
     case NamedColor.black:
-      return `(c.color ->> 'l')::decimal < 10`
+      return sql`(${books_palette.color} ->> 'l')::decimal < 10`
     case NamedColor.brown:
-      return `(c.color ->> 'h')::decimal between 10 and 35
-      and (c.color ->> 's')::decimal > 35
-      and (c.color ->> 'l')::decimal between 8 and 40`
+      return sql`(${books_palette.color} ->> 'h')::decimal between 10 and 35
+      and (${books_palette.color} ->> 's')::decimal > 35
+      and (${books_palette.color} ->> 'l')::decimal between 8 and 40`
     case NamedColor.gray:
-      return `(c.color ->> 's')::decimal < 15
-      and (c.color ->> 'l')::decimal between 25 and 70`
+      return sql`(${books_palette.color} ->> 's')::decimal < 15
+      and (${books_palette.color} ->> 'l')::decimal between 25 and 70`
     default:
-      return `(${namedColorToHueBand(color).map(hueBoundToSql).join(' or ')})
-      and (c.color ->> 's')::decimal > 40
-      and (c.color ->> 'l')::decimal between 20 and 70`
+      return sql`(${sql.raw(namedColorToHueBand(color).map(hueBoundToSql).join(' or '))})
+      and (${books_palette.color} ->> 's')::decimal > 40
+      and (${books_palette.color} ->> 'l')::decimal between 20 and 70`
   }
 }
 
 function hueBoundToSql([lower, upper]: [number, number]) {
-  return `(c.color ->> 'h')::decimal between ${lower} and ${upper}`
+  // Note: Used within sql.raw() context, so must return plain string
+  // The "color" column reference works in the subquery context
+  return `("color" ->> 'h')::decimal between ${lower} and ${upper}`
 }
 
 function namedColorToHueBand(
@@ -243,26 +493,75 @@ function namedColorToHueBand(
   }
 }
 
-function colorJoin(color?: NamedColor | number[]) {
-  if (typeof color === 'string') return namedColorJoin(color)
-  if (color?.length) return specificColorJoin(color)
-  return sql`left outer join lateral (
-    select (b.palette -> 0 ->> 'h')::decimal as color from books b
-    where b.id = books.id
-  ) matched_palette on true`
+function toHsl(color: unknown) {
+  return z
+    .object({ h: z.number(), s: z.number(), l: z.number() })
+    .parse(color) as Hsl
 }
 
-function sortQuery(sort?: BookSort) {
-  switch (sort) {
-    case 'releaseDate':
-      return raw('books.release_date')
-    case 'createdAt':
-      return raw('books.created_at')
-    case 'color':
-      return raw('matched_palette.color')
-    case 'title':
-      return raw('books.title')
-    default:
-      return raw('books.release_date')
+/**
+ * Generate color match SQL for filtering and scoring
+ * Returns SQL condition that matches palette colors against the target color
+ */
+function colorMatchCondition(color: NamedColor | number[]): SQL {
+  // If it's a named color, use the predefined query
+  if (typeof color === 'string') return namedColorQuery(color)
+
+  // For HSL array [h, s, l], calculate distance
+  const [targetH, targetS, targetL] = color
+  const radius = hueRadius(targetH)
+
+  // Calculate hue distance with wraparound
+  // Use LEAST to get minimum distance considering wraparound at 360
+  return sql`
+    LEAST(
+      ABS((${books_palette.color} ->> 'h')::decimal - ${targetH}),
+      360 - ABS((${books_palette.color} ->> 'h')::decimal - ${targetH})
+    ) <= ${radius}
+    AND ABS((${books_palette.color} ->> 's')::decimal - ${targetS}) <= 35
+    AND ABS((${books_palette.color} ->> 'l')::decimal - ${targetL}) <= 35
+  `
+}
+
+/**
+ * Generate color match score SQL
+ * Higher score = better match (inverse distance formula: 1.0 / (1.0 + distance²))
+ */
+function colorMatchScore(color: NamedColor | number[]): SQL {
+  // For named colors, return 1 if match, 0 if not (binary)
+  if (typeof color === 'string') {
+    return sql`CASE WHEN ${namedColorQuery(color)} THEN 1 ELSE 0 END`
   }
+
+  // For HSL array, calculate distance (lower = better match)
+  const [targetH, targetS, targetL] = color
+  return sql`
+    1.0 / (1.0 +
+      POWER(LEAST(
+        ABS((${books_palette.color} ->> 'h')::decimal - ${targetH}),
+        360 - ABS((${books_palette.color} ->> 'h')::decimal - ${targetH})
+      ), 2) +
+      POWER(ABS((${books_palette.color} ->> 's')::decimal - ${targetS}), 2) / 100.0 +
+      POWER(ABS((${books_palette.color} ->> 'l')::decimal - ${targetL}), 2) / 100.0
+    )
+  `
+}
+
+const imageColumns = {
+  id: images.id,
+  url: images.url,
+  filename: images.filename,
+  mimeType: images.mimeType,
+  filesize: images.filesize,
+  width: images.width,
+  height: images.height,
+  placeholderUrl: images.placeholderUrl,
+  prefix: images.prefix,
+  createdAt: images.createdAt,
+  updatedAt: images.updatedAt
+}
+
+const profileColumns = {
+  ...getTableColumns(profiles),
+  avatar: imageColumns
 }

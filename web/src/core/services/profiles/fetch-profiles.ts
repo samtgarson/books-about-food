@@ -1,4 +1,4 @@
-import { Where } from 'payload'
+import { JoinQuery, Where } from 'payload'
 import { Profile } from 'src/core/models/profile'
 import { Service } from 'src/core/services/base'
 import { PROFILE_DEPTH } from 'src/core/services/utils/payload-depth'
@@ -49,6 +49,7 @@ export const fetchProfiles = new Service(
     },
     { payload }
   ) => {
+    const joins: JoinQuery<'profiles'> = {}
     const where: Where = {
       and: [{ name: { not_equals: '' } }]
     }
@@ -96,10 +97,11 @@ export const fetchProfiles = new Service(
 
     // Only published filter
     if (onlyPublished) {
+      joins.contributions = { where: { status: { equals: 'published' } } }
       where.and!.push({
         or: [
           { 'authoredBooks.status': { equals: 'published' } },
-          { 'contributions.book.status': { equals: 'published' } }
+          { authoredBooks: { exists: false } }
         ]
       })
     }
@@ -119,7 +121,8 @@ export const fetchProfiles = new Service(
         ? { pagination: false }
         : { page: page + 1, limit: perPage }),
       sort: sortField,
-      depth: PROFILE_DEPTH
+      depth: PROFILE_DEPTH,
+      joins
     })
 
     const profiles = result.docs.map((profile) => new Profile(profile))

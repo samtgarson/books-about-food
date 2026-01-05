@@ -1,7 +1,6 @@
 import prisma from '@books-about-food/database'
 import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { Metadata, ResolvedMetadata } from 'next'
-import { FETCH_PROFILES_ONLY_PUBLISHED_QUERY } from 'src/core/services/profiles/fetch-profiles'
 
 const titleTemplate = (t: string) => `${t} on Books About Food`
 
@@ -51,7 +50,8 @@ export function genMetadata(
 
 export const bookTotal = prisma.book.count({ where: { status: 'published' } })
 export const profileTotal = prisma.profile.count({
-  where: FETCH_PROFILES_ONLY_PUBLISHED_QUERY
+  // FIXME: implement this filter during the migration to Payload
+  // where: FETCH_PROFILES_ONLY_PUBLISHED_QUERY
 })
 export const publisherTotal = prisma.publisher.count({
   where: { books: { some: { status: 'published' } } }

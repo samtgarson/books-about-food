@@ -256,6 +256,7 @@ export const books = db_schema.table(
     title: varchar('title').notNull(),
     subtitle: varchar('subtitle'),
     slug: varchar('slug').notNull(),
+    searchText: varchar('search_text'),
     status: enum_books_status('status').default('draft'),
     releaseDate: timestamp('release_date', {
       mode: 'string',
@@ -294,7 +295,7 @@ export const books = db_schema.table(
   },
   (columns) => [
     uniqueIndex('books_slug_idx').on(columns.slug),
-    uniqueIndex('books_google_books_id_idx').on(columns.googleBooksId),
+    index('books_search_text_idx').on(columns.searchText),
     index('books_publisher_idx').on(columns.publisher),
     index('books_submitter_idx').on(columns.submitter),
     index('books_cover_image_idx').on(columns.coverImage),

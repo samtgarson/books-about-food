@@ -18,7 +18,7 @@ export async function PublisherBookList({ publisher }: PublisherBookListProps) {
     perPage: 'all'
   })
 
-  if (!data?.filteredTotal) return null
+  if (!data?.total) return null
   const { books } = data
   return (
     <ListContainer title="All Releases">

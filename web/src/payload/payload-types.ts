@@ -137,6 +137,7 @@ export interface Config {
     }
     profiles: {
       authoredBooks: 'books'
+      contributions: 'books'
       claims: 'claims'
     }
     publishers: {
@@ -276,6 +277,10 @@ export interface Book {
   title: string
   subtitle?: string | null
   slug: string
+  /**
+   * Computed field containing all searchable text (title, subtitle, publisher, tags, authors, contributors)
+   */
+  searchText?: string | null
   authors?: (string | Profile)[] | null
   authorNames?: string[] | null
   status?: ('draft' | 'inReview' | 'published') | null
@@ -348,14 +353,11 @@ export interface Profile {
     hasNextPage?: boolean
     totalDocs?: number
   }
-  contributions?:
-    | {
-        title?: string | null
-        book?: (string | null) | Book
-        job?: (string | null) | Job
-        id?: string | null
-      }[]
-    | null
+  contributions?: {
+    docs?: (string | Book)[]
+    hasNextPage?: boolean
+    totalDocs?: number
+  }
   /**
    * Profiles to exclude from the "Frequent Collaborators" section on this profile page.
    */
@@ -419,17 +421,6 @@ export interface Location {
     hasNextPage?: boolean
     totalDocs?: number
   }
-  updatedAt: string
-  createdAt: string
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "jobs".
- */
-export interface Job {
-  id: string
-  name: string
-  featured?: boolean | null
   updatedAt: string
   createdAt: string
 }
@@ -531,6 +522,17 @@ export interface Membership {
   publisher: string | Publisher
   user: string | User
   role: 'admin' | 'member'
+  updatedAt: string
+  createdAt: string
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "jobs".
+ */
+export interface Job {
+  id: string
+  name: string
+  featured?: boolean | null
   updatedAt: string
   createdAt: string
 }
@@ -880,6 +882,7 @@ export interface BooksSelect<T extends boolean = true> {
   title?: T
   subtitle?: T
   slug?: T
+  searchText?: T
   authors?: T
   authorNames?: T
   status?: T
@@ -1119,14 +1122,7 @@ export interface ProfilesSelect<T extends boolean = true> {
   user?: T
   locations?: T
   authoredBooks?: T
-  contributions?:
-    | T
-    | {
-        title?: T
-        book?: T
-        job?: T
-        id?: T
-      }
+  contributions?: T
   hiddenFrequentCollaborators?: T
   claims?: T
   updatedAt?: T

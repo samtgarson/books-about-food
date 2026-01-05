@@ -71,6 +71,11 @@ export default slugPage<'/publishers/[slug]'>(
     ])
     if (!publisher) return notFound()
 
+    console.log(
+      'Rendering PublisherPage for:',
+      JSON.stringify(publisher, null, 2)
+    )
+
     return (
       <Wrap c={EditPublisherProvider} publisher={publisher}>
         <Container belowNav>

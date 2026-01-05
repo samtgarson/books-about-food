@@ -1,3 +1,4 @@
+import { requirePopulatedArray } from 'src/core/models/utils/payload-validation'
 import { Service } from 'src/core/services/base'
 import { TAG_GROUP_DEPTH } from 'src/core/services/utils/payload-depth'
 import { z } from 'zod'
@@ -19,5 +20,8 @@ export const fetchTagGroups = new Service(z.undefined(), async function (
     depth: TAG_GROUP_DEPTH
   })
 
-  return docs
+  return docs.map(({ tags, ...group }) => ({
+    ...group,
+    tags: requirePopulatedArray(tags?.docs || [], 'TagGroup.tags')
+  }))
 })

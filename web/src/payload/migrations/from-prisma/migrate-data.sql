@@ -939,6 +939,81 @@ where
   );
 
 -- ============================================================================
+-- PHASE 8: Populate computed fields
+-- ============================================================================
+-- Populate search_text field for all books
+-- Combines: title, subtitle, publisher name, tag names, author names, contributor names
+-- Uses ' | ' separator to prevent false matches across field boundaries
+update payload.books
+set
+  search_text = (
+    select
+      string_agg(distinct search_part, ' | ')
+    from
+      (
+        -- Book title
+        select
+          b.title as search_part
+        from
+          payload.books b
+        where
+          b.id = payload.books.id
+          and b.title is not null
+        union all
+        -- Book subtitle
+        select
+          b.subtitle
+        from
+          payload.books b
+        where
+          b.id = payload.books.id
+          and b.subtitle is not null
+        union all
+        -- Publisher name
+        select
+          p.name
+        from
+          payload.books b
+          join payload.publishers p on p.id = b.publisher_id
+        where
+          b.id = payload.books.id
+          and p.name is not null
+        union all
+        -- Tag names
+        select
+          t.name
+        from
+          payload.books_rels br
+          join payload.tags t on t.id = br.tags_id
+        where
+          br.parent_id = payload.books.id
+          and br.path = 'tags'
+          and t.name is not null
+        union all
+        -- Author names
+        select
+          p.name
+        from
+          payload.books_rels br
+          join payload.profiles p on p.id = br.profiles_id
+        where
+          br.parent_id = payload.books.id
+          and br.path = 'authors'
+          and p.name is not null
+        union all
+        -- Contributor names
+        select
+          p.name
+        from
+          payload.books_contributions bc
+          join payload.profiles p on p.id = bc.profile_id
+        where
+          bc._parent_id = payload.books.id
+          and p.name is not null
+      ) parts
+  );
+
+-- ============================================================================
 -- VERIFICATION QUERIES (uncomment to check counts)
 -- ============================================================================
 -- SELECT 'users' as table_name, (SELECT count(*) FROM public.users) as public_count, (SELECT count(*) FROM payload.users) as payload_count;

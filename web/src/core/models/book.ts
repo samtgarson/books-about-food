@@ -75,12 +75,7 @@ export class Book extends BaseModel {
     this.backgroundColor = isHsl(attrs.backgroundColor)
       ? toColorString(attrs.backgroundColor)
       : undefined
-    this.colors = Array.isArray(attrs.palette)
-      ? attrs.palette
-          .map((p) => p.color)
-          .filter((c): c is NonNullable<typeof c> => !!c)
-          .filter(isHsl)
-      : []
+    this.colors = (attrs.palette || []).map((p) => p.color).filter(isHsl)
     this.blurb = attrs.blurb ?? undefined
     this.designCommentary = attrs.designCommentary ?? undefined
   }

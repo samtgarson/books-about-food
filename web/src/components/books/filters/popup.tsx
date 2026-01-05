@@ -18,7 +18,11 @@ export function BookFilterPopup({
   filters: initialFilters = {}
 }: BookFilterPopupProps) {
   const { loading, value: tagGroups } = usePromise(fetchTagGroupOptions, [])
-  const [filters, setFilters] = useState(initialFilters)
+  const [filters, setFiltersInternal] = useState(initialFilters)
+
+  function setFilters(newFilters: Filters) {
+    setFiltersInternal({ ...newFilters, page: undefined })
+  }
 
   const tagGroupsWithSelectedCount = useMemo(() => {
     return tagGroups.map((group) => {
@@ -84,6 +88,10 @@ export function BookFilterPopup({
                 key={color}
                 selected={filters.color === color}
                 onClick={() => {
+                  if (filters.color === color) {
+                    setFilters({ ...filters, color: undefined })
+                    return
+                  }
                   setFilters({
                     ...filters,
                     color,

@@ -23,6 +23,7 @@ export const fetchBook = new Service(
       limit: 1,
       depth: FULL_BOOK_DEPTH
     })
+    // console.log('Fetched book docs:', JSON.stringify(docs[0], null, 2))
 
     if (!docs[0]) {
       throw new Error('Book not found')

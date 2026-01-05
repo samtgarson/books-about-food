@@ -17,7 +17,7 @@
  */
 
 export const LOCATION_DEPTH = 1
-export const PROFILE_DEPTH = 2
+export const PROFILE_DEPTH = 1
 export const PUBLISHER_DEPTH = 2
 export const BOOK_DEPTH = 3
 export const FULL_BOOK_DEPTH = 3

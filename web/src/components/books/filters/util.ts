@@ -1,6 +1,6 @@
 import { FetchBooksInput } from 'src/core/services/books/fetch-books'
 
-export type Filters = Omit<FetchBooksInput, 'page' | 'perPage'>
+export type Filters = Omit<FetchBooksInput, 'perPage'>
 
 export function count(filters: Filters) {
   if (Object.keys(filters).length === 0) return 0

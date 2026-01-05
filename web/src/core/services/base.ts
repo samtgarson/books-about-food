@@ -82,7 +82,8 @@ abstract class BaseService<
         data: await this._call(parsed, context)
       }
     } catch (e) {
-      console.log('Service failure', e)
+      // @ts-expect-error error is untyped
+      console.log('Service failure', e, e?.data, e?.cause)
       if (isServiceError(e)) return e
       Sentry.captureException(e)
       return {

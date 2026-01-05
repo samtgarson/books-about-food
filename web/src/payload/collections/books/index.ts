@@ -6,6 +6,7 @@ import { slugField } from '../../fields/slug'
 import { revalidatePaths } from '../../plugins/cache-revalidation'
 import { colorField, dayOnlyDisplayFormat } from '../utils'
 import { triggerPaletteGeneration } from './hooks/trigger-palette-generation'
+import { updateSearchText } from './hooks/update-search-text'
 
 export const Books: CollectionConfig = {
   slug: 'books',
@@ -15,6 +16,9 @@ export const Books: CollectionConfig = {
       '/cookbooks',
       '/'
     ])
+  },
+  hooks: {
+    beforeChange: [updateSearchText]
   },
   admin: {
     group: 'Resources',
@@ -50,6 +54,16 @@ export const Books: CollectionConfig = {
       type: 'text'
     },
     slugField('title'),
+    {
+      name: 'searchText',
+      type: 'text',
+      admin: {
+        hidden: true,
+        description:
+          'Computed field containing all searchable text (title, subtitle, publisher, tags, authors, contributors)'
+      },
+      index: true
+    },
     {
       name: 'authors',
       type: 'relationship',
@@ -144,7 +158,8 @@ export const Books: CollectionConfig = {
     {
       name: 'googleBooksId',
       type: 'text',
-      unique: true,
+      // FIX: return this constraint once unique index issue is resolved
+      // unique: true,
       admin: { readOnly: true, position: 'sidebar' }
     },
     {
