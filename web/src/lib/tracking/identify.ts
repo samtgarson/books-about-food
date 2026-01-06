@@ -1,9 +1,14 @@
-import { User } from 'next-auth'
-
 import { headers } from 'next/headers'
 import { ip, token, trackingEnabled } from './utils'
 
-export const identify = async ({ id, name, email, image }: User) => {
+export interface IdentifyUser {
+  id: string
+  name?: string
+  email: string
+  image?: string
+}
+
+export const identify = async ({ id, name, email, image }: IdentifyUser) => {
   if (!trackingEnabled) return
   if (!token) return
 

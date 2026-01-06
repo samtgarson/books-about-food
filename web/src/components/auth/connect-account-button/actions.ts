@@ -1,6 +1,6 @@
 'use server'
 
-import { actions } from 'src/auth'
+import * as actions from 'src/auth'
 
 export async function connectAccount(provider: string) {
   await actions.signIn(provider, {

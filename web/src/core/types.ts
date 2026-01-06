@@ -1,5 +1,6 @@
-import { User as DbUser } from '@books-about-food/database'
+import { User as DbUser } from 'src/payload/payload-types'
 
-export type User = Pick<DbUser, 'id' | 'name' | 'email' | 'image' | 'role'> & {
+export type User = Pick<DbUser, 'id' | 'name' | 'email' | 'role' | 'image'> & {
   publishers: string[]
+  emailVerified: Date | null
 }

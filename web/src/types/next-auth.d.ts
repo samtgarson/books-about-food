@@ -1,23 +1,30 @@
-import { UserRole } from '@books-about-food/database'
 import 'next-auth'
-import { User as CoreUser } from 'src/core/types'
+import type { PayloadAuthjsUser } from 'payload-authjs'
+import type { User as PayloadUser } from 'src/payload/payload-types'
 
 declare module '@auth/core/jwt' {
   interface JWT extends Omit<DefaultJWT, 'email'> {
-    userId: string
+    id: string
     role: UserRole
     email: string
     publishers: string[]
+    emailVerified: Date | null
   }
 }
 
 declare module 'next-auth' {
-  interface Session {
-    user: CoreUser
-  }
-
   // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-  interface User extends CoreUser {}
+  interface User extends PayloadAuthjsUser<PayloadUser> {}
+  interface Session {
+    user: {
+      id: string
+      role: UserRole
+      email: string
+      picture: string | undefined
+      publishers: string[]
+      emailVerified: Date | null
+    }
+  }
 }
 
 /** [Documentation](https://next-auth.js.org/configuration/pages#sign-in-page) */

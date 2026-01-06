@@ -45,8 +45,8 @@ export default async function RootLayout({
       <body className="relative flex min-h-screen flex-col transition-colors duration-700">
         <Sentry.ErrorBoundary fallback={<div>FOO</div>}>
           <Fathom />
-          <TrackingProvider>
-            <AuthProvider>
+          <AuthProvider>
+            <TrackingProvider>
               <GlobalSheetProvider>
                 <VisualBoundaryProvider>
                   <Toaster
@@ -66,8 +66,8 @@ export default async function RootLayout({
                   {children}
                 </VisualBoundaryProvider>
               </GlobalSheetProvider>
-            </AuthProvider>
-          </TrackingProvider>
+            </TrackingProvider>
+          </AuthProvider>
           <Mouse />
           <SpeedInsights />
         </Sentry.ErrorBoundary>

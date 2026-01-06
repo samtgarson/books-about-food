@@ -1,7 +1,7 @@
 'use server'
 
-import { updateSession } from 'app/(frontend)/auth/actions'
 import { revalidatePath } from 'next/cache'
+import { updateSession } from 'src/app/(frontend)/auth/actions'
 import { updateUser } from 'src/core/services/users/update-user'
 import { call } from 'src/utils/service'
 

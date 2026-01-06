@@ -1,5 +1,6 @@
 'use client'
 
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 import {
@@ -14,7 +15,6 @@ import {
 import { useRoute } from 'src/hooks/use-route'
 import { TrackableEvents } from 'src/lib/tracking/events'
 import { track as action } from 'src/lib/tracking/track'
-import { stringify } from 'src/utils/superjson'
 
 type TrackingContext = {
   track: <T extends keyof TrackableEvents>(
@@ -28,6 +28,7 @@ type TrackingContext = {
 const TrackingContext = createContext({} as TrackingContext)
 
 function TrackingProviderContent({ children }: { children: ReactNode }) {
+  const { data } = useSession()
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const route = useRoute()
@@ -36,11 +37,12 @@ function TrackingProviderContent({ children }: { children: ReactNode }) {
     if (!pathname) return
     const search = Object.fromEntries(searchParams.entries())
     action('Viewed a page', {
+      userId: data?.user?.id,
       Path: pathname,
       Search: Object.keys(search).length > 0 ? search : undefined,
       Route: route
     })
-  }, [pathname, searchParams, route])
+  }, [pathname, searchParams, route, data?.user?.id])
 
   const track = useCallback(
     async function <T extends keyof TrackableEvents>(
@@ -51,17 +53,15 @@ function TrackingProviderContent({ children }: { children: ReactNode }) {
         ? `${pathname}?${searchParams}`
         : pathname
 
-      await action(
-        name,
-        stringify({
-          ...properties,
-          'Tracked from (path)': path,
-          'Tracked from (route)': route,
-          $referrer: document.referrer
-        })
-      )
+      await action(name, {
+        ...properties,
+        userId: data?.user?.id,
+        'Tracked from (path)': path,
+        'Tracked from (route)': route,
+        $referrer: document.referrer
+      })
     },
-    [pathname, searchParams, route]
+    [searchParams, pathname, data?.user?.id, route]
   )
 
   return (

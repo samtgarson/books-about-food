@@ -104,7 +104,6 @@ export interface Config {
   }
   blocks: {}
   collections: {
-    accounts: Account
     'book-votes': BookVote
     books: Book
     claims: Claim
@@ -125,7 +124,6 @@ export interface Config {
     'tag-groups': TagGroup
     tags: Tag
     users: User
-    'verification-tokens': VerificationToken
     'payload-kv': PayloadKv
     'payload-locked-documents': PayloadLockedDocument
     'payload-preferences': PayloadPreference
@@ -151,9 +149,11 @@ export interface Config {
     tags: {
       books: 'books'
     }
+    users: {
+      memberships: 'memberships'
+    }
   }
   collectionsSelect: {
-    accounts: AccountsSelect<false> | AccountsSelect<true>
     'book-votes': BookVotesSelect<false> | BookVotesSelect<true>
     books: BooksSelect<false> | BooksSelect<true>
     claims: ClaimsSelect<false> | ClaimsSelect<true>
@@ -178,9 +178,6 @@ export interface Config {
     'tag-groups': TagGroupsSelect<false> | TagGroupsSelect<true>
     tags: TagsSelect<false> | TagsSelect<true>
     users: UsersSelect<false> | UsersSelect<true>
-    'verification-tokens':
-      | VerificationTokensSelect<false>
-      | VerificationTokensSelect<true>
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>
     'payload-locked-documents':
       | PayloadLockedDocumentsSelect<false>
@@ -224,38 +221,6 @@ export interface UserAuthOperations {
     email: string
     password: string
   }
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "accounts".
- */
-export interface Account {
-  id: string
-  user: string | User
-  type: string
-  provider: string
-  providerAccountId: string
-  refreshToken?: string | null
-  accessToken?: string | null
-  expiresAt?: number | null
-  tokenType?: string | null
-  scope?: string | null
-  idToken?: string | null
-  sessionState?: string | null
-  updatedAt: string
-  createdAt: string
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
- */
-export interface User {
-  id: string
-  email: string
-  name?: string | null
-  role?: ('user' | 'admin' | 'waitlist') | null
-  updatedAt: string
-  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -402,6 +367,91 @@ export interface Image {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: string
+  email: string
+  emailVerified?: string | null
+  name?: string | null
+  image?: string | null
+  role?: ('user' | 'admin' | 'waitlist') | null
+  memberships?: {
+    docs?: (string | Membership)[]
+    hasNextPage?: boolean
+    totalDocs?: number
+  }
+  publishers?: string[] | null
+  accounts?:
+    | {
+        provider: string
+        providerAccountId: string
+        type: 'oidc' | 'oauth' | 'email' | 'webauthn'
+        id?: string | null
+      }[]
+    | null
+  verificationTokens?:
+    | {
+        token: string
+        expires: string
+        id?: string | null
+      }[]
+    | null
+  updatedAt: string
+  createdAt: string
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "memberships".
+ */
+export interface Membership {
+  id: string
+  publisher: string | Publisher
+  user: string | User
+  role: 'admin' | 'member'
+  updatedAt: string
+  createdAt: string
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "publishers".
+ */
+export interface Publisher {
+  id: string
+  name: string
+  slug: string
+  logo?: (string | null) | Image
+  description?: string | null
+  website?: string | null
+  instagram?: string | null
+  genericContact?: string | null
+  directContact?: string | null
+  house?: (string | null) | Publisher
+  imprints?: {
+    docs?: (string | Publisher)[]
+    hasNextPage?: boolean
+    totalDocs?: number
+  }
+  /**
+   * Books hidden from this publisher page
+   */
+  hiddenBooks?: (string | Book)[] | null
+  books?: {
+    docs?: (string | Book)[]
+    hasNextPage?: boolean
+    totalDocs?: number
+  }
+  memberships?: {
+    docs?: (string | Membership)[]
+    hasNextPage?: boolean
+    totalDocs?: number
+  }
+  claimed?: boolean | null
+  updatedAt: string
+  createdAt: string
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "locations".
  */
 export interface Location {
@@ -472,56 +522,6 @@ export interface TagGroup {
     hasNextPage?: boolean
     totalDocs?: number
   }
-  updatedAt: string
-  createdAt: string
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "publishers".
- */
-export interface Publisher {
-  id: string
-  name: string
-  slug: string
-  logo?: (string | null) | Image
-  description?: string | null
-  website?: string | null
-  instagram?: string | null
-  genericContact?: string | null
-  directContact?: string | null
-  house?: (string | null) | Publisher
-  imprints?: {
-    docs?: (string | Publisher)[]
-    hasNextPage?: boolean
-    totalDocs?: number
-  }
-  /**
-   * Books hidden from this publisher page
-   */
-  hiddenBooks?: (string | Book)[] | null
-  books?: {
-    docs?: (string | Book)[]
-    hasNextPage?: boolean
-    totalDocs?: number
-  }
-  memberships?: {
-    docs?: (string | Membership)[]
-    hasNextPage?: boolean
-    totalDocs?: number
-  }
-  claimed?: boolean | null
-  updatedAt: string
-  createdAt: string
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "memberships".
- */
-export interface Membership {
-  id: string
-  publisher: string | Publisher
-  user: string | User
-  role: 'admin' | 'member'
   updatedAt: string
   createdAt: string
 }
@@ -681,18 +681,6 @@ export interface PublisherInvitation {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "verification-tokens".
- */
-export interface VerificationToken {
-  id: string
-  identifier: string
-  token: string
-  expires: string
-  updatedAt: string
-  createdAt: string
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -715,10 +703,6 @@ export interface PayloadKv {
 export interface PayloadLockedDocument {
   id: string
   document?:
-    | ({
-        relationTo: 'accounts'
-        value: string | Account
-      } | null)
     | ({
         relationTo: 'book-votes'
         value: string | BookVote
@@ -799,10 +783,6 @@ export interface PayloadLockedDocument {
         relationTo: 'users'
         value: string | User
       } | null)
-    | ({
-        relationTo: 'verification-tokens'
-        value: string | VerificationToken
-      } | null)
   globalSlug?: string | null
   user: {
     relationTo: 'users'
@@ -844,25 +824,6 @@ export interface PayloadMigration {
   batch?: number | null
   updatedAt: string
   createdAt: string
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "accounts_select".
- */
-export interface AccountsSelect<T extends boolean = true> {
-  user?: T
-  type?: T
-  provider?: T
-  providerAccountId?: T
-  refreshToken?: T
-  accessToken?: T
-  expiresAt?: T
-  tokenType?: T
-  scope?: T
-  idToken?: T
-  sessionState?: T
-  updatedAt?: T
-  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1192,20 +1153,29 @@ export interface TagsSelect<T extends boolean = true> {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  id?: T
   email?: T
+  emailVerified?: T
   name?: T
+  image?: T
   role?: T
-  updatedAt?: T
-  createdAt?: T
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "verification-tokens_select".
- */
-export interface VerificationTokensSelect<T extends boolean = true> {
-  identifier?: T
-  token?: T
-  expires?: T
+  memberships?: T
+  publishers?: T
+  accounts?:
+    | T
+    | {
+        provider?: T
+        providerAccountId?: T
+        type?: T
+        id?: T
+      }
+  verificationTokens?:
+    | T
+    | {
+        token?: T
+        expires?: T
+        id?: T
+      }
   updatedAt?: T
   createdAt?: T
 }

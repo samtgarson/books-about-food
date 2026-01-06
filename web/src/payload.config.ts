@@ -1,7 +1,9 @@
 import path from 'path'
 import { buildConfig } from 'payload'
+import { authjsPlugin } from 'payload-authjs'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
+import { authConfig } from './utils/auth-config'
 
 import { collections } from './payload/collections'
 import { editor } from './payload/config/editor'
@@ -28,5 +30,11 @@ export default buildConfig({
   db: postgres,
   upload: {},
   sharp,
-  plugins: [s3Storage, cacheRevalidationPlugin()]
+  plugins: [
+    authjsPlugin({
+      authjsConfig: authConfig
+    }),
+    s3Storage,
+    cacheRevalidationPlugin()
+  ]
 })

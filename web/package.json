@@ -6,7 +6,8 @@
     "dev": "next dev --port 5000",
     "build": "next build",
     "start": "next start",
-    "payload": "PAYLOAD_CONFIG_PATH=src/payload.config.ts payload"
+    "payload": "npx tsx ../node_modules/payload/bin.js",
+    "payload:generate": "npm run payload generate:types && rm ./src/app/\\(payload\\)/admin/importMap.js && npm run payload generate:importmap && npm run payload generate:db-schema"
   },
   "prettier": "@books-about-food/prettier-config",
   "overrides": {
@@ -67,12 +68,13 @@
     "inngest": "^3.46.0",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.555.0",
-    "mime-types": "^3.0.2",
     "mapbox-gl": "^3.17.0",
+    "mime-types": "^3.0.2",
     "neat-csv": "^6",
     "next": "^16.0.7",
     "next-auth": "5.0.0-beta.30",
     "payload": "^3.69.0",
+    "payload-authjs": "^0.10.0",
     "plaiceholder": "^2.5.0",
     "radix-ui": "^1.4.3",
     "randomcolor": "^0.6.2",

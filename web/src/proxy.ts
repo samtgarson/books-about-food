@@ -1,6 +1,5 @@
-import NextAuth from 'next-auth'
 import { NextResponse } from 'next/server'
-import { authConfig } from './utils/auth-config'
+import { auth } from './auth'
 
 const protectedPath = (pathname: string) =>
   ['/admin', '/account', '/edit'].some((path) => pathname.startsWith(path))
@@ -8,7 +7,7 @@ const protectedPath = (pathname: string) =>
 const systemPath = (pathname: string) =>
   ['/api', '/_next', '/auth'].some((path) => pathname.startsWith(path))
 
-const { auth } = NextAuth(authConfig)
+// const { auth } = NextAuth(authConfig)
 
 export default auth(async function proxy(request) {
   if (request.method === 'POST' || systemPath(request.nextUrl.pathname)) {

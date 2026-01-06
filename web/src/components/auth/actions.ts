@@ -1,6 +1,6 @@
 'use server'
 
-import { actions } from 'src/auth'
+import * as actions from 'src/auth'
 
 export async function emailSignIn({
   email,
@@ -24,5 +24,5 @@ export async function googleSignIn(redirect = '/') {
 }
 
 export async function signOut() {
-  await actions.signOut({ redirectTo: '/', redirect: true })
+  await actions.signOut()
 }

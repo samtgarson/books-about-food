@@ -20,6 +20,7 @@ export async function createVotes(bookIds: string[]) {
   })
 
   await track('Performed an action', {
+    userId: user.id,
     Action: 'Voted on Top Ten 2024'
   })
 
@@ -36,11 +37,12 @@ export async function fetchVotes() {
 }
 
 export async function onVote(bookIds: string[]) {
+  const user = await getSessionUser()
   await track('Performed an action', {
+    userId: user?.id,
     Action: 'Selected a book on Top Ten 2024',
     Extra: { 'Number of Selected Books': bookIds.length }
   })
-  const user = await getSessionUser()
   if (!user) return
 
   await inngest.send({

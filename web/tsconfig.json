@@ -1,18 +1,14 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "module": "esnext",
-    "moduleResolution": "bundler",
     "plugins": [
       {
         "name": "next"
       }
     ],
     "baseUrl": ".",
-    "strictNullChecks": true,
     "types": ["react/experimental"],
     "paths": {
-      "app/*": ["./src/app/*"],
       "@payload-config": ["src/payload.config.ts"]
     },
     "jsx": "react-jsx"

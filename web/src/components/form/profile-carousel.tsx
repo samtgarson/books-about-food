@@ -1,8 +1,8 @@
 'use client'
 
-import { AuthorItem } from 'app/(frontend)/(main)/authors/item'
 import cn from 'classnames'
 import { FC } from 'react'
+import { AuthorItem } from 'src/app/(frontend)/(main)/authors/item'
 import * as Carousel from 'src/components/atoms/carousel'
 import { Profile } from 'src/core/models/profile'
 

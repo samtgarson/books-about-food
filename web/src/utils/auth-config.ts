@@ -1,9 +1,12 @@
-import { AuthConfig } from '@auth/core'
 import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { getEnv } from '@books-about-food/shared/utils/get-env'
 import GoogleProvider from 'next-auth/providers/google'
+import type { EnrichedAuthConfig } from 'payload-authjs'
+import { inngest } from 'src/core/jobs'
+import { identify, IdentifyUser } from 'src/lib/tracking/identify'
+import { track } from 'src/lib/tracking/track'
 
-export const authConfig = {
+export const authConfig: EnrichedAuthConfig = {
   session: {
     strategy: 'jwt'
   },
@@ -20,38 +23,83 @@ export const authConfig = {
       allowDangerousEmailAccountLinking: true,
       redirectProxyUrl:
         process.env.NODE_ENV === 'development' ? undefined : appUrl('/api/auth')
-    })
+    }),
+    {
+      id: 'email',
+      type: 'email',
+      name: 'Email',
+      from: '',
+      server: '',
+      maxAge: 60 * 10,
+      options: {},
+      async sendVerificationRequest({ url, identifier: email }) {
+        try {
+          if (process.env.NODE_ENV === 'development') {
+            console.log(`Sending verification email to ${email} at ${url}`)
+          }
+          await inngest.send({
+            name: 'jobs.email',
+            data: { key: 'verifyEmail', props: { url, email } },
+            user: { email }
+          })
+          console.log(`Sent verification email to ${email}`)
+        } catch (error) {
+          console.error(`Error sending verification email to ${email}: `, error)
+        }
+      }
+    }
   ],
   pages: {
     signIn: '/auth/sign-in',
     signOut: '/account',
     error: '/auth/sign-in'
   },
+  events: {
+    async signIn({ user, isNewUser, account }) {
+      if (!user?.id || !account) return
+
+      await Promise.all([
+        identify(user as IdentifyUser),
+        track('Signed in', {
+          'First Time': !!isNewUser,
+          userId: user.id,
+          Provider: account?.provider
+        })
+      ])
+    }
+  },
   callbacks: {
     async jwt({ token, user }) {
-      if (user) {
-        token.userId = user.id as string
-        token.role = user.role
-        token.image = user.image || undefined
-        token.publishers = user.publishers
-      }
+      if (!user) return token
 
-      return token
+      return {
+        id: user.id as string,
+        role: user.role,
+        email: user.email!,
+        name: user.name || undefined,
+        picture: user.image || undefined,
+        emailVerified: user.emailVerified ? new Date(user.emailVerified) : null,
+        publishers: user.publishers || []
+      }
     },
     async session({ session, token }) {
       if (token) {
-        // @ts-expect-error next-auth types are still weird
+        const { id, picture, publishers, role, name, email, emailVerified } =
+          token
+
+        session.userId = id
         session.user = {
-          email: token.email,
-          name: token.name || null,
-          id: token.userId,
-          role: token.role,
-          image: token.picture || null,
-          publishers: token.publishers
+          id,
+          role,
+          email,
+          name,
+          picture: picture || undefined,
+          publishers,
+          emailVerified: emailVerified ? new Date(emailVerified) : null
         }
       }
 
       return session
     }
   }
-} satisfies AuthConfig
+}
