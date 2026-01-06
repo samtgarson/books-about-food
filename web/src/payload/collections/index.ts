@@ -20,12 +20,10 @@ import { Tags } from './tags'
 import { Users } from './users'
 
 export const collections = [
-  // Accounts,
   BookVotes,
   Books,
   Claims,
   Collections,
-  // Contributions,
   FAQs,
   Favourites,
   FeaturedProfiles,
@@ -42,5 +40,4 @@ export const collections = [
   TagGroups,
   Tags,
   Users
-  // VerificationTokens
 ]
