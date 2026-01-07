@@ -7,7 +7,6 @@
     "dev": "inngest-cli dev --no-discovery -u http://localhost:5001/api/inngest"
   },
   "dependencies": {
-    "@books-about-food/core": "*",
     "@books-about-food/database": "*",
     "@books-about-food/email": "*",
     "@books-about-food/shared": "*",

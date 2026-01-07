@@ -23,8 +23,9 @@
 
 import 'dotenv/config'
 
-import { findOrCreateLocation } from '@books-about-food/core/services/locations/find-or-create-location'
 import prisma from '@books-about-food/database'
+import { findOrCreateLocation } from 'src/core/services/locations/find-or-create-location'
+import { getPayloadClient } from 'src/core/services/utils/payload'
 
 type CSVRow = {
   profileId: string
@@ -160,9 +161,10 @@ async function main() {
     locationsByProfile.entries()
   )) {
     try {
+      const payload = await getPayloadClient()
       // Find or create all locations for this profile
       const locationResults = await Promise.all(
-        locations.map((loc) => findOrCreateLocation.call(loc))
+        locations.map((loc) => findOrCreateLocation.call(loc, { payload }))
       )
 
       // Extract location IDs
