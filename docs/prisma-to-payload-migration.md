@@ -1,6 +1,6 @@
 # Prisma to Payload CMS Migration
 
-**Status:** Model Layer Refactored ✅ - Ready for Phase 5 (Complex CRUD)
+**Status:** Phases 0-6 Complete ✅ - Ready for Phase 7 (Inngest to Payload Jobs) or Phase 8 (Cleanup Remaining Prisma Services)
 
 ## Executive Summary
 
@@ -74,8 +74,8 @@ web/src/
 1. ✅ Created `web/src/core/services/utils/payload.ts` - Payload client singleton
 2. ✅ Updated `web/src/core/services/base.ts` - Added context pattern:
    ```typescript
-   export type ServiceContext = { payload: Payload }
-   export type AuthedServiceContext = ServiceContext & { user: User }
+   export type ServiceContext = { payload: Payload };
+   export type AuthedServiceContext = ServiceContext & { user: User };
    ```
 3. ✅ Created `web/src/core/services/utils/payload-depth.ts` - Depth constants
 4. ✅ Updated all 58+ service signatures:
@@ -148,25 +148,25 @@ export const fetchBook = new Service(
   async ({ slug }, _ctx) => {
     const book = await prisma.book.findUnique({
       where: { slug },
-      include: bookIncludes
-    })
-    return book ? new Book(book) : null
-  }
-)
+      include: bookIncludes,
+    });
+    return book ? new Book(book) : null;
+  },
+);
 
 // AFTER (Payload)
 export const fetchBook = new Service(
   z.object({ slug: z.string() }),
   async ({ slug }, { payload }) => {
     const { docs } = await payload.find({
-      collection: 'books',
+      collection: "books",
       where: { slug: { equals: slug } },
       limit: 1,
-      depth: BOOK_DEPTH
-    })
-    return docs[0] ? new Book(docs[0]) : null
-  }
-)
+      depth: BOOK_DEPTH,
+    });
+    return docs[0] ? new Book(docs[0]) : null;
+  },
+);
 ```
 
 ### Payload Query Patterns
@@ -175,43 +175,43 @@ export const fetchBook = new Service(
 
 ```typescript
 const { docs } = await payload.find({
-  collection: 'books',
+  collection: "books",
   where: { slug: { equals: slug } },
   limit: 1,
-  depth: BOOK_DEPTH
-})
+  depth: BOOK_DEPTH,
+});
 ```
 
 **Find many:**
 
 ```typescript
 const { docs } = await payload.find({
-  collection: 'tags',
+  collection: "tags",
   where: { group: { equals: groupSlug } },
-  sort: 'name',
-  depth: TAG_DEPTH
-})
+  sort: "name",
+  depth: TAG_DEPTH,
+});
 ```
 
 **Create:**
 
 ```typescript
 const newBook = await payload.create({
-  collection: 'books',
-  data: { title, slug, status: 'draft' },
-  depth: BOOK_DEPTH
-})
+  collection: "books",
+  data: { title, slug, status: "draft" },
+  depth: BOOK_DEPTH,
+});
 ```
 
 **Update:**
 
 ```typescript
 const updated = await payload.update({
-  collection: 'books',
+  collection: "books",
   id: bookId,
-  data: { status: 'published' },
-  depth: BOOK_DEPTH
-})
+  data: { status: "published" },
+  depth: BOOK_DEPTH,
+});
 ```
 
 ---
@@ -250,20 +250,20 @@ const updated = await payload.update({
 **"Get All" Pattern:**
 
 ```typescript
-if (perPage === 'all') {
+if (perPage === "all") {
   const result = await payload.find({
-    collection: 'publishers',
+    collection: "publishers",
     where,
     pagination: false, // Disable pagination to get all
-    sort: 'name',
-    depth: PUBLISHER_DEPTH
-  })
+    sort: "name",
+    depth: PUBLISHER_DEPTH,
+  });
   return {
     publishers: result.docs.map((p) => new Publisher(p)),
     total: totalResult.totalDocs,
     filteredTotal: result.totalDocs,
-    perPage: 'all' as const
-  }
+    perPage: "all" as const,
+  };
 }
 ```
 
@@ -274,10 +274,10 @@ For services that return both filtered and unfiltered totals, fetch unfiltered c
 ```typescript
 // Get total count (unfiltered)
 const totalResult = await payload.find({
-  collection: 'publishers',
+  collection: "publishers",
   limit: 0,
-  depth: 0
-})
+  depth: 0,
+});
 ```
 
 **Complex Filters:**
@@ -286,16 +286,16 @@ Services like `fetchProfiles` required converting complex Prisma filters to Payl
 
 ```typescript
 const where: Where = {
-  and: [{ name: { not_equals: '' } }]
-}
+  and: [{ name: { not_equals: "" } }],
+};
 
 if (onlyPublished) {
   where.and!.push({
     or: [
-      { 'authoredBooks.status': { equals: 'published' } },
-      { 'contributions.book.status': { equals: 'published' } }
-    ]
-  })
+      { "authoredBooks.status": { equals: "published" } },
+      { "contributions.book.status": { equals: "published" } },
+    ],
+  });
 }
 ```
 
@@ -306,11 +306,11 @@ AuthedServices like `fetchMemberships` and `fetchInvitations` maintain authoriza
 ```typescript
 // Verify user is a member before returning data
 const isMember = memberships.some((m) => {
-  const userId = typeof m.user === 'object' ? m.user.id : m.user
-  return userId === user.id
-})
+  const userId = typeof m.user === "object" ? m.user.id : m.user;
+  return userId === user.id;
+});
 if (!isMember) {
-  throw new AppError('Forbidden', 'You are not a member of this publisher')
+  throw new AppError("Forbidden", "You are not a member of this publisher");
 }
 ```
 
@@ -325,37 +325,37 @@ export const fetchPublishers = new Service(
       prisma.publisher.findMany({
         skip: page * perPage,
         take: perPage,
-        include: publisherIncludes
+        include: publisherIncludes,
       }),
-      prisma.publisher.count()
-    ])
+      prisma.publisher.count(),
+    ]);
 
     return {
       publishers: publishers.map((p) => new Publisher(p)),
       total,
-      totalPages: Math.ceil(total / perPage)
-    }
-  }
-)
+      totalPages: Math.ceil(total / perPage),
+    };
+  },
+);
 
 // AFTER (Payload with built-in pagination)
 export const fetchPublishers = new Service(
   z.object({ page: z.number(), perPage: z.number() }),
   async ({ page, perPage }, { payload }) => {
     const result = await payload.find({
-      collection: 'publishers',
+      collection: "publishers",
       limit: perPage,
       page: page + 1, // Payload is 1-indexed!
-      depth: PUBLISHER_DEPTH
-    })
+      depth: PUBLISHER_DEPTH,
+    });
 
     return {
       publishers: result.docs.map((p) => new Publisher(p)),
       total: result.totalDocs,
-      totalPages: result.totalPages
-    }
-  }
-)
+      totalPages: result.totalPages,
+    };
+  },
+);
 ```
 
 **Key Differences:**
@@ -373,7 +373,6 @@ export const fetchPublishers = new Service(
 ### Completed Changes
 
 1. ✅ **Created validation utilities** - `web/src/core/models/utils/payload-validation.ts`:
-
    - `optionalPopulated<T>()` - validates optional relationships are populated
    - `requirePopulated<T>()` - validates required relationships are populated
    - `requirePopulatedArray<T>()` - validates array relationships are populated
@@ -382,7 +381,6 @@ export const fetchPublishers = new Service(
    - `extractIds()` - extracts IDs from arrays
 
 2. ✅ **Refactored 12 model constructors** to:
-
    - Import Payload types directly instead of using types.ts
    - Use validation utilities instead of manual validation
    - Define type aliases inline (e.g., `type ProfileAttrs = PayloadProfile & {...}`)
@@ -427,82 +425,58 @@ export const fetchPublishers = new Service(
 
 ```typescript
 // BEFORE
-if (attrs.avatar && typeof attrs.avatar === 'string') {
-  throw new Error('Profile.avatar must be populated...')
+if (attrs.avatar && typeof attrs.avatar === "string") {
+  throw new Error("Profile.avatar must be populated...");
 }
 this.avatar = attrs.avatar
   ? new Image(attrs.avatar as ImageAttrs, `Avatar for ${attrs.name}`, true)
-  : undefined
+  : undefined;
 
 // AFTER
-const avatar = optionalPopulated(attrs.avatar, 'Profile.avatar')
+const avatar = optionalPopulated(attrs.avatar, "Profile.avatar");
 this.avatar = avatar
   ? new Image(avatar, `Avatar for ${attrs.name}`, true)
-  : undefined
+  : undefined;
 ```
 
 ---
 
-## Phase 4: NextAuth Adapter Migration 📋 PENDING
+## Phase 4: NextAuth Adapter Migration ✅ COMPLETE
 
 **Goal:** Replace Prisma adapter with Payload adapter for NextAuth.js
 
-### Approach
+### Completed Changes
 
-Vendor the [PayloadAdapter](https://github.com/CrawlerCode/payload-authjs/blob/main/packages/payload-authjs/src/authjs/PayloadAdapter.ts) into `web/src/lib/auth/payload-adapter.ts`
-
-### Files to Modify
-
-1. `/web/src/lib/auth/payload-adapter.ts` (new file - vendor from GitHub)
-2. `/web/src/auth.ts` - Update adapter and JWT callback
+1. ✅ **Migrated to payload-authjs package** - Using `getAuthjsInstance(payload)` instead of custom adapter
+2. ✅ **Updated auth.ts** - Replaced NextAuth configuration with Payload integration
+3. ✅ **Updated user collection** - Enhanced users collection with auth fields
+4. ✅ **Updated accounts collection** - Configured for NextAuth compatibility
+5. ✅ **Removed Prisma adapter dependencies** - Cleaned up auth-related imports
 
 ### Implementation
 
 ```typescript
-// BEFORE
-import { PrismaAdapter } from '@auth/prisma-adapter'
-import prisma from '@books-about-food/database'
+// AFTER (using payload-authjs)
+import { getPayload } from "payload";
+import { getAuthjsInstance } from "payload-authjs";
+import payloadConfig from "src/payload.config";
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
-  adapter: PrismaAdapter(prisma)
-  // ...
-})
-
-// AFTER
-import { PayloadAdapter } from '@/lib/auth/payload-adapter'
-import { getPayloadClient } from 'src/core/services/utils/payload'
-
-export const { handlers, signIn, signOut, auth } = NextAuth({
-  adapter: PayloadAdapter(getPayloadClient),
-  // ...
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.userId = user.id
-        token.role = user.role
-      }
-
-      // Fetch fresh user data with memberships
-      if (token.userId) {
-        const payload = await getPayloadClient()
-        const dbUser = await payload.findByID({
-          collection: 'users',
-          id: token.userId,
-          depth: 1 // Include memberships
-        })
-
-        if (dbUser) {
-          token.role = dbUser.role
-          token.memberships =
-            dbUser.memberships?.map((m) => m.publisherId) || []
-        }
-      }
-
-      return token
-    }
-  }
-})
+const payload = await getPayload({ config: payloadConfig });
+export const {
+  handlers: { GET, POST },
+  signIn,
+  signOut,
+  auth,
+  unstable_update,
+} = getAuthjsInstance(payload);
 ```
+
+**Key Benefits:**
+
+- Native Payload integration with auth
+- JWT callbacks handled by Payload
+- Automatic user/account management through Payload collections
+- Simplified auth configuration
 
 ---
 
@@ -548,26 +522,26 @@ export const createBook = new AuthedService(
   z.object({
     title: z.string(),
     authorIds: z.array(z.string()).optional(),
-    tags: z.array(z.string()).optional()
+    tags: z.array(z.string()).optional(),
   }),
   async ({ title, authorIds, tags }, { payload, user }) => {
     const book = await payload.create({
-      collection: 'books',
+      collection: "books",
       data: {
         title,
         slug: slugify(title),
-        status: 'draft',
+        status: "draft",
         submitter: user.id,
         authors: authorIds, // Relationship IDs
         tags: tags, // Relationship IDs
-        source: 'submitted'
+        source: "submitted",
       },
-      depth: FULL_BOOK_DEPTH
-    })
+      depth: FULL_BOOK_DEPTH,
+    });
 
-    return new FullBook(book)
-  }
-)
+    return new FullBook(book);
+  },
+);
 ```
 
 ### Patterns for Complex Operations
@@ -576,44 +550,44 @@ export const createBook = new AuthedService(
 
 ```typescript
 const existing = await payload.find({
-  collection: 'locations',
+  collection: "locations",
   where: { placeId: { equals: placeId } },
-  limit: 1
-})
+  limit: 1,
+});
 
 if (existing.docs[0]) {
-  return existing.docs[0]
+  return existing.docs[0];
 }
 
 return await payload.create({
-  collection: 'locations',
-  data: { placeId, displayText, slug }
-})
+  collection: "locations",
+  data: { placeId, displayText, slug },
+});
 ```
 
 **Nested relationship updates:**
 
 ```typescript
 await payload.update({
-  collection: 'books',
+  collection: "books",
   id: bookId,
   data: {
     authors: authorIds, // Replace relationships
-    contributions: contributionIds // Replace relationships
-  }
-})
+    contributions: contributionIds, // Replace relationships
+  },
+});
 ```
 
 ---
 
-## Phase 6: Raw SQL Services 🔄 IN PROGRESS
+## Phase 6: Raw SQL Services ✅ COMPLETE
 
 **Goal:** Migrate services using raw SQL to Payload's Drizzle integration
 
-### Critical Files
+### Migrated Services (2 total) ✅
 
 - ✅ `web/src/core/services/books/fetch-books.ts` - **COMPLETE** - Complex color matching, search optimization
-- 📋 `web/src/core/services/books/fetch-similar-books.ts` - **NEXT** - Tag-based similarity
+- ✅ `web/src/core/services/books/fetch-similar-books.ts` - **COMPLETE** - Tag-based similarity with Drizzle joins
 
 ### Completed: fetch-books.ts ✅
 
@@ -647,6 +621,42 @@ await payload.update({
 - Bulk fetching for related data (prevents N+1)
 - Correlated subqueries for computed columns
 - Type-safe SQL with Drizzle schema references
+
+### Completed: fetch-similar-books.ts ✅
+
+**Tag-based similarity matching using Drizzle joins:**
+
+1. ✅ **Drizzle query structure** - Uses `innerJoin` to traverse relationships
+2. ✅ **Tag extraction** - Queries tags for input book via books_rels polymorphic table
+3. ✅ **Reuses fetch-books** - Calls fetchBooks service with tag filter
+4. ✅ **Proper filtering** - Excludes the input book from results
+
+**Implementation pattern:**
+
+```typescript
+// Get tags for the input book
+const inputBookTags = await db
+  .select({ tagSlug: tags.slug })
+  .from(tags)
+  .innerJoin(
+    books_rels,
+    and(eq(books_rels.tagsID, tags.id), eq(books_rels.path, "tags")),
+  )
+  .innerJoin(books, eq(books_rels.parent, books.id))
+  .where(eq(books.slug, slug));
+
+// Use existing fetchBooks service for similarity
+const res = await fetchBooks.call({ tags: tagSlugs, perPage: 10 }, { payload });
+
+// Filter out the input book
+return res.data.books.filter((book) => book.slug !== slug);
+```
+
+**Key benefits:**
+
+- Leverages polymorphic books_rels table correctly
+- Reuses complex fetchBooks logic (no duplication)
+- Type-safe with Drizzle operators
 
 ### Implementation Notes
 
@@ -742,50 +752,50 @@ export default buildConfig({
   jobs: {
     tasks: [
       {
-        slug: 'generate-palette',
+        slug: "generate-palette",
         handler: async ({ input, req }) => {
           const book = await req.payload.findByID({
-            collection: 'books',
-            id: input.bookId
-          })
+            collection: "books",
+            id: input.bookId,
+          });
 
           // Generate palette using Vibrant
-          const palette = await generatePalette(book.coverImage.url)
+          const palette = await generatePalette(book.coverImage.url);
 
           await req.payload.update({
-            collection: 'books',
+            collection: "books",
             id: input.bookId,
-            data: { palette, backgroundColor: palette.dominant }
-          })
+            data: { palette, backgroundColor: palette.dominant },
+          });
         },
-        inputSchema: [{ name: 'bookId', type: 'text', required: true }]
+        inputSchema: [{ name: "bookId", type: "text", required: true }],
       },
       {
-        slug: 'clean-images',
-        schedule: [{ cron: '0 9 * * 1' }], // Mondays 9am
+        slug: "clean-images",
+        schedule: [{ cron: "0 9 * * 1" }], // Mondays 9am
         handler: async ({ req }) => {
           // Find orphaned images and delete
           const images = await req.payload.find({
-            collection: 'images',
+            collection: "images",
             where: {
               and: [
                 { coverImageBooks: { exists: false } },
-                { previewImageBooks: { exists: false } }
-              ]
-            }
-          })
+                { previewImageBooks: { exists: false } },
+              ],
+            },
+          });
 
           await Promise.all(
             images.docs.map((img) =>
-              req.payload.delete({ collection: 'images', id: img.id })
-            )
-          )
-        }
-      }
+              req.payload.delete({ collection: "images", id: img.id }),
+            ),
+          );
+        },
+      },
     ],
-    autoRun: [{ cron: '* * * * *', limit: 10 }] // Process every minute
-  }
-})
+    autoRun: [{ cron: "* * * * *", limit: 10 }], // Process every minute
+  },
+});
 ```
 
 ### Queue Jobs from Hooks
@@ -793,22 +803,22 @@ export default buildConfig({
 ```typescript
 // In afterChange hook
 const Books: CollectionConfig = {
-  slug: 'books',
+  slug: "books",
   hooks: {
     afterChange: [
       async ({ doc, previousDoc, req }) => {
-        const coverChanged = doc.coverImage !== previousDoc?.coverImage
+        const coverChanged = doc.coverImage !== previousDoc?.coverImage;
 
         if (coverChanged) {
           await req.payload.jobs.queue({
-            task: 'generate-palette',
-            input: { bookId: doc.id }
-          })
+            task: "generate-palette",
+            input: { bookId: doc.id },
+          });
         }
-      }
-    ]
-  }
-}
+      },
+    ],
+  },
+};
 ```
 
 ### Migration Steps
@@ -818,6 +828,49 @@ const Books: CollectionConfig = {
 3. Remove `web/src/core/jobs` directory
 4. Remove `/admin/inngest` directory
 5. Remove Inngest dependencies
+
+---
+
+## Phase 8: Cleanup Remaining Prisma Services 📋 PENDING
+
+**Goal:** Migrate remaining services that still use Prisma ORM
+
+### Services to Migrate
+
+**Home services (2 files):**
+
+- 📋 `web/src/core/services/home/fetch-jobs.ts` - Uses `prisma.$queryRaw` for job aggregation
+- 📋 `web/src/core/services/home/fetch.ts` - Multiple Prisma queries for homepage data (books, profiles, publishers)
+
+**Posts:**
+
+- 📋 `web/src/core/services/posts/upsert-post.ts` - Uses `prisma.post.upsert()`
+
+**Auth services:**
+
+- 📋 `web/src/core/services/auth/destroy-account.ts` - Uses `prisma.account.deleteMany()`
+- 📋 `web/src/core/services/auth/get-accounts.ts` - Uses `prisma.account.findMany()`
+
+**Images:**
+
+- 📋 `web/src/core/services/images/create-images.ts` - Uses `prisma.image.createMany()` and `findMany()`
+
+### Migration Approach
+
+**Home services:** Convert raw SQL to Drizzle, use Payload API for entity fetching
+**Posts:** Use Payload `update()` with `upsert` pattern (find + create/update)
+**Auth services:** Use Payload API for accounts collection operations
+**Images:** Use Payload `create()` in loop or batch operations
+
+### Final Cleanup
+
+After all services are migrated:
+
+1. Remove `@books-about-food/database` package dependency
+2. Remove `@prisma/client` from package.json
+3. Remove any remaining Prisma imports
+4. Delete `packages/database` directory (if it still exists)
+5. Update documentation to remove Prisma references
 
 ---
 
@@ -865,10 +918,11 @@ const Books: CollectionConfig = {
 - ✅ Phase 2: Simple CRUD services migrated (15 services)
 - ✅ Phase 3: Paginated services migrated (6 services)
 - ✅ Phase 3.5: Model layer refactored with validation utilities
-- 📋 Phase 4: Auth adapter migrated
+- ✅ Phase 4: Auth adapter migrated
 - ✅ Phase 5: Complex CRUD services migrated (14 services)
-- 🔄 Phase 6: Raw SQL services migrated (1 of 2 in progress)
+- ✅ Phase 6: Raw SQL services migrated (2 services)
 - 📋 Phase 7: Jobs migrated to Payload
+- 📋 Phase 8: Cleanup remaining Prisma services
 - 📋 No TypeScript errors
 - 📋 Dev server runs successfully
 - 📋 All features working in preview deployment
@@ -902,14 +956,12 @@ const Books: CollectionConfig = {
 ### 2026-01-03
 
 - ✅ **Phase 3 Complete:** Migrated 6 paginated list services to Payload API
-
   - Paginated services: `fetchPublishers`, `fetchProfiles`, `fetchCollections`, `fetchFavourites`, `fetchMemberships`, `fetchInvitations`
   - Handled `perPage: 'all'` cases with `pagination: false`
   - Converted complex Prisma filters to Payload `Where` syntax
   - Deferred: `fetchContributions`, `fetchBooks` (moved to Phase 5 and 6)
 
 - ✅ **Phase 3.5 Complete:** Model layer refactoring
-
   - Created validation utilities in `payload-validation.ts`
   - Refactored 12 model constructors to use Payload types directly
   - Simplified `types.ts` from ~200 to ~40 lines
@@ -936,6 +988,19 @@ const Books: CollectionConfig = {
     - Converted all SQL to use Drizzle schema references
     - Added Phase 8 to migration SQL for searchText population
     - Fixed color sorting to work with and without color filter
-  - 📋 **fetch-similar-books.ts:** Next up - Tag-based similarity scoring
+  - ✅ **fetch-similar-books.ts COMPLETE:** Tag-based similarity using Drizzle joins
+    - Queries tags via books_rels polymorphic table
+    - Reuses fetchBooks service for tag-based filtering
+    - Properly excludes input book from results
 
-**Last Updated:** 2026-01-05
+### 2026-01-06
+
+- ✅ **Phase 4 Complete:** NextAuth Adapter Migration
+  - Migrated to payload-authjs package using `getAuthjsInstance(payload)`
+  - Updated users and accounts collections for auth compatibility
+  - Removed Prisma adapter dependencies
+  - Simplified auth configuration with native Payload integration
+
+- ✅ **Phase 6 Complete:** Raw SQL Services migration (all services migrated)
+
+**Last Updated:** 2026-01-06

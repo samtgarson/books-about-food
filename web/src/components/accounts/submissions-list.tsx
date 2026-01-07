@@ -17,7 +17,7 @@ export async function SubmissionsList({ page }: { page: number }) {
   })
   if (!res.success) throw res.originalError
 
-  const { books, filteredTotal, total } = res.data
+  const { books, total } = res.data
 
   return (
     <>
@@ -29,12 +29,7 @@ export async function SubmissionsList({ page }: { page: number }) {
         ))}
       </GridContainer>
       <NewBookButton className="flex w-full items-center gap-4 self-start text-14" />
-      <PaginationButtons
-        page={page}
-        total={total}
-        perPage={perPage}
-        filteredTotal={filteredTotal}
-      />
+      <PaginationButtons page={page} total={total} perPage={perPage} />
     </>
   )
 }

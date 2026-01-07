@@ -1,3 +1,4 @@
+import { JWT } from '@auth/core/jwt'
 import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { getEnv } from '@books-about-food/shared/utils/get-env'
 import GoogleProvider from 'next-auth/providers/google'
@@ -72,6 +73,13 @@ export const authConfig: EnrichedAuthConfig = {
     async jwt({ token, user }) {
       if (!user) return token
 
+      const publishers = user.memberships?.docs?.flatMap((membership) =>
+        typeof membership === 'string'
+          ? []
+          : typeof membership.publisher === 'string'
+            ? membership.publisher
+            : membership.publisher?.id
+      )
       return {
         id: user.id as string,
         role: user.role,
@@ -79,8 +87,8 @@ export const authConfig: EnrichedAuthConfig = {
         name: user.name || undefined,
         picture: user.image || undefined,
         emailVerified: user.emailVerified ? new Date(user.emailVerified) : null,
-        publishers: user.publishers || []
-      }
+        publishers
+      } as JWT
     },
     async session({ session, token }) {
       if (token) {

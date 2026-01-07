@@ -14,7 +14,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
       <div className="flex flex-wrap gap-x-32 gap-y-12">
         <div className="w-80">
           <SidebarItem label="Import Books" href="/admin-tools" exact />
-          <SidebarItem label="Posts" href="/admin-tools/posts" />
+          {/*<SidebarItem label="Posts" href="/admin-tools/posts" />*/}
         </div>
         <div className="flex max-w-4xl min-w-[330px] grow flex-col gap-16">
           {children}

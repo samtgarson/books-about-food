@@ -6,7 +6,7 @@ import { extractId, requirePopulatedArray } from './utils/payload-validation'
 export class Collection extends BaseModel {
   _type = 'collection' as const
   id: string
-  slug: string
+  slug: SafeSlug<string>
   books: Book[]
   title: string
   description?: string

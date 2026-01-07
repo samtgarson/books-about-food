@@ -11,7 +11,7 @@ export class Image {
   placeholderUrl?: string
 
   constructor(
-    attrs: PayloadImage,
+    attrs: Omit<PayloadImage, 'createdAt' | 'updatedAt'>,
     caption: string,
     private optimized = false
   ) {

@@ -3,6 +3,7 @@
 import { withPayload } from '@payloadcms/next/withPayload'
 import { withSentryConfig } from '@sentry/nextjs'
 
+/** @type {import('next').NextConfig['images']} */
 const imagesConfig =
   process.env.NODE_ENV === 'production'
     ? {
@@ -24,6 +25,7 @@ const nextConfig = {
       bodySizeLimit: '4mb'
     }
   },
+  // typedRoutes: true,
   transpilePackages: ['shared', 'database', 'email', 'core'],
   images: Object.assign(imagesConfig, {
     minimumCacheTTL: 60 * 60 * 24 * 90 // 90 days

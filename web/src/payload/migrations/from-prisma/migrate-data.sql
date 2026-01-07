@@ -10,7 +10,7 @@ begin;
 insert into
   payload.users (id, email, name, role, created_at, updated_at)
 select
-  id,
+  id::text,
   email,
   name,
   role::text::payload.enum_users_role,
@@ -19,39 +19,29 @@ select
 from
   public.users;
 
--- Accounts (NextAuth, generate new UUIDs since Prisma uses cuid)
+-- Accounts (NextAuth, now embedded as array in users table via payload-authjs)
+-- Simplified structure: only provider, provider_account_id, type
 insert into
-  payload.accounts (
+  payload.users_accounts (
+    _order,
+    _parent_id,
     id,
-    user_id,
-    type,
     provider,
     provider_account_id,
-    refresh_token,
-    access_token,
-    expires_at,
-    token_type,
-    scope,
-    id_token,
-    session_state,
-    created_at,
-    updated_at
+    type
   )
 select
-  gen_random_uuid() as id,
-  a.user_id,
-  a.type,
+  row_number() over (
+    partition by
+      a.user_id
+    order by
+      a.created_at
+  ) as _order,
+  a.user_id::text as _parent_id,
+  gen_random_uuid()::text as id,
   a.provider,
   a.provider_account_id,
-  a.refresh_token,
-  a.access_token,
-  a.expires_at,
-  a.token_type,
-  a.scope,
-  a.id_token,
-  a.session_state,
-  a.created_at,
-  a.created_at as updated_at
+  a.type
 from
   public.accounts a
 where
@@ -61,28 +51,27 @@ where
     from
       payload.users u
     where
-      u.id = a.user_id
+      u.id::uuid = a.user_id
   );
 
--- Verification Tokens (NextAuth, generate new UUIDs since Prisma has no id)
+-- Verification Tokens (NextAuth, now embedded as array in users table via payload-authjs)
+-- Match identifier (email) to user.email to find parent
 insert into
-  payload.verification_tokens (
-    id,
-    identifier,
-    token,
-    expires,
-    created_at,
-    updated_at
-  )
+  payload.users_verification_tokens (_order, _parent_id, id, token, expires)
 select
-  gen_random_uuid() as id,
-  identifier,
-  token,
-  expires,
-  now() as created_at,
-  now() as updated_at
+  row_number() over (
+    partition by
+      u.id
+    order by
+      vt.expires
+  ) as _order,
+  u.id as _parent_id,
+  gen_random_uuid()::text as id,
+  vt.token,
+  vt.expires
 from
-  public.verification_tokens;
+  public.verification_tokens vt
+  join payload.users u on u.email = vt.identifier;
 
 -- Jobs
 insert into
@@ -262,7 +251,7 @@ select
   p.instagram,
   p.most_recently_published_on,
   case
-    when u.id is not null then p.user_id
+    when u.id is not null then p.user_id::text
     else null
   end as user_id,
   p.created_at,
@@ -270,7 +259,7 @@ select
 from
   public.profiles p
   left join public.images i on i.profile_id = p.id
-  left join payload.users u on u.id = p.user_id;
+  left join payload.users u on u.id::uuid = p.user_id;
 
 -- Books (with cover_image from images)
 -- Note: background_color in Prisma is JSON like {"h":0,"s":0,"l":0}, keep as JSON string for querying/sorting
@@ -311,7 +300,7 @@ select
   b.google_books_id,
   b.publisher_id,
   case
-    when u.id is not null then b.submitter_id
+    when u.id is not null then b.submitter_id::text
     else null
   end as submitter_id,
   i.id as cover_image_id,
@@ -320,7 +309,7 @@ select
 from
   public.books b
   left join public.images i on i.cover_for_id = b.id
-  left join payload.users u on u.id = b.submitter_id;
+  left join payload.users u on u.id::uuid = b.submitter_id;
 
 -- ============================================================================
 -- PHASE 4: Entities depending on the above
@@ -341,7 +330,7 @@ insert into
 select
   c.id,
   c.profile_id,
-  c.user_id,
+  c.user_id::text,
   c.secret,
   c.approved_at,
   c.cancelled_at,
@@ -361,7 +350,7 @@ where
     from
       payload.users u
     where
-      u.id = c.user_id
+      u.id::uuid = c.user_id
   )
   and exists (
     select
@@ -385,7 +374,7 @@ insert into
 select
   m.id,
   m.publisher_id,
-  m.user_id,
+  m.user_id::text,
   m.role::text::payload.enum_memberships_role,
   m.created_at,
   m.updated_at
@@ -398,7 +387,7 @@ where
     from
       payload.users u
     where
-      u.id = m.user_id
+      u.id::uuid = m.user_id
   )
   and exists (
     select
@@ -425,7 +414,7 @@ select
   pi.id,
   pi.email,
   pi.publisher_id,
-  pi.invited_by_id,
+  pi.invited_by_id::text,
   pi.role::text::payload.enum_publisher_invitations_role,
   pi.accepted_at,
   pi.created_at,
@@ -439,7 +428,7 @@ where
     from
       payload.users u
     where
-      u.id = pi.invited_by_id
+      u.id::uuid = pi.invited_by_id
   )
   and exists (
     select
@@ -456,7 +445,7 @@ insert into
 select
   bv.id,
   bv.book_id,
-  bv.user_id,
+  bv.user_id::text,
   bv.created_at,
   bv.created_at
 from
@@ -468,7 +457,7 @@ where
     from
       payload.users u
     where
-      u.id = bv.user_id
+      u.id::uuid = bv.user_id
   )
   and exists (
     select
@@ -491,7 +480,7 @@ insert into
   )
 select
   p.id,
-  p.author_id,
+  p.author_id::text,
   p.description,
   p.view_count,
   p.created_at,
@@ -505,7 +494,7 @@ where
     from
       payload.users u
     where
-      u.id = p.author_id
+      u.id::uuid = p.author_id
   );
 
 -- Favourites (skip rows where user or profile doesn't exist)
@@ -514,7 +503,7 @@ insert into
 select
   f.id,
   f.profile_id,
-  f.user_id,
+  f.user_id::text,
   f.created_at,
   f.updated_at
 from
@@ -526,7 +515,7 @@ where
     from
       payload.users u
     where
-      u.id = f.user_id
+      u.id::uuid = f.user_id
   )
   and exists (
     select

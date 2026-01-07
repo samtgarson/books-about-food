@@ -1,18 +1,18 @@
-import { Link } from '@books-about-food/database'
 import { isWebsite } from '@books-about-food/shared/data/websites'
 import Image from 'next/image'
 import { FC } from 'react'
 import { linkLogos } from 'src/assets/link-logos'
 import { ArrowUpRight } from 'src/components/atoms/icons'
+import { BookLink } from 'src/core/models/types'
 
 export type BookLinksProps = {
-  links: Link[]
+  links: BookLink[]
   className?: string
 }
 
 const DefaultLogo = () => <ArrowUpRight strokeWidth={1} size={27} />
 
-const titleFor = (link: Link) => {
+const titleFor = (link: BookLink) => {
   switch (link.site) {
     case 'Amazon':
     case 'Bookshop.org':
@@ -37,7 +37,7 @@ export const BookLinks: FC<BookLinksProps> = ({ links, className }) =>
       <ul className="flex flex-wrap gap-x-4 gap-y-2">
         {links.map((link) => (
           <li
-            key={link.id}
+            key={link.url}
             className="min-w-[250px] grow basis-[calc(50%-8px)]"
           >
             <a

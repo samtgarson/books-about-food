@@ -117,7 +117,6 @@ export const updateSearchText: CollectionBeforeChangeHook<Book> = async ({
   // The separator prevents false matches across field boundaries (e.g., "book" + "mark" != "bookmark")
   const uniqueParts = Array.from(new Set(searchableParts))
 
-  // @ts-expect-error - searchText will be added to schema after regeneration
   data.searchText = uniqueParts.join(' | ')
 
   return data

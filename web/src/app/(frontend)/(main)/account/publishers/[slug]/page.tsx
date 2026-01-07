@@ -110,7 +110,7 @@ function Memberships({
             )}
           >
             <BaseAvatar
-              imgProps={user.image?.imageAttrs()}
+              imgProps={user.image?.imageAttrs?.()}
               backup={user.displayName}
               size="2xs"
             />

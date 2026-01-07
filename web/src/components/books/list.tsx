@@ -25,16 +25,11 @@ export const BookList = async ({
   const { data } = await call(fetchBooks, filters)
   if (!data) return null
 
-  const { books, filteredTotal, total, perPage } = data
+  const { books, total, perPage } = data
   if (!books.length && !showEmpty) return null
 
   return (
-    <Pagination
-      total={total}
-      perPage={perPage}
-      page={filters.page ?? 0}
-      filteredTotal={filteredTotal}
-    >
+    <Pagination total={total} perPage={perPage} page={filters.page ?? 0}>
       {title && <h3 className="my-4 all-caps sm:mt-0 sm:mb-8">{title}</h3>}
       <BookGrid
         {...gridProps}

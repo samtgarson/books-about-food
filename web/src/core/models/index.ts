@@ -1,6 +1,8 @@
+import { Route } from 'next'
+
 export abstract class BaseModel {
   abstract _type: Model
-  abstract href: string
+  abstract href: Route<string>
   abstract name: string
 
   static isModel(obj: unknown): obj is BaseModel {

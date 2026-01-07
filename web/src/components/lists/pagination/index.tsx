@@ -4,7 +4,6 @@ import { Pill } from 'src/components/atoms/pill'
 import { Button, Wrapper } from './utils'
 
 export type PaginationProps = {
-  filteredTotal?: number
   total: number
   perPage: number | 'all'
   page?: number
@@ -23,13 +22,12 @@ export function Pagination({ children, ...props }: PaginationProps) {
 
 export function PaginationButtons({
   total,
-  filteredTotal = total,
   perPage,
   page,
   onPageClick,
   className
 }: Omit<PaginationProps, 'children'> & { className?: string }) {
-  const totalPages = perPage === 'all' ? 1 : Math.ceil(filteredTotal / perPage)
+  const totalPages = perPage === 'all' ? 1 : Math.ceil(total / perPage)
 
   const displayPages = useMemo(() => {
     const pages = Array.from({ length: totalPages }, (_, i) => i)

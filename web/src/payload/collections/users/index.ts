@@ -1,5 +1,4 @@
-import type { CollectionConfig, FieldHookArgs } from 'payload'
-import { User } from 'src/payload/payload-types'
+import type { CollectionConfig } from 'payload'
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -72,25 +71,6 @@ export const Users: CollectionConfig = {
       type: 'join',
       collection: 'memberships',
       on: 'user'
-    },
-    {
-      name: 'publishers',
-      virtual: true,
-      type: 'text',
-      hasMany: true,
-      admin: {
-        hidden: true
-      },
-      hooks: {
-        afterRead: [
-          async ({ siblingData }: FieldHookArgs<User, string[], User>) => {
-            if (!Array.isArray(siblingData?.memberships?.docs)) return []
-            return siblingData.memberships.docs.map(
-              (m) => typeof m !== 'string' && m.publisher
-            )
-          }
-        ]
-      }
     }
     // {
     //   name: 'image',
