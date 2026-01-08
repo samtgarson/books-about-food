@@ -1,15 +1,16 @@
-import type { MembershipRole } from '@books-about-food/database'
 import { can } from 'src/core/policies'
+import { enum_memberships_role } from 'src/payload/schema'
 import z from 'zod'
 import { Publisher } from '../../models/publisher'
 import { AuthedService } from '../base'
 import { AppError } from '../utils/errors'
 import { PUBLISHER_DEPTH } from '../utils/payload-depth'
 
-const MembershipRole = ['admin', 'member'] as const
-
 export const updateMembership = new AuthedService(
-  z.object({ membershipId: z.string(), role: z.enum(MembershipRole) }),
+  z.object({
+    membershipId: z.string(),
+    role: z.enum(enum_memberships_role.enumValues)
+  }),
   async function ({ membershipId, role }, { payload, user }) {
     // Find publisher that has this membership
     const { docs } = await payload.find({

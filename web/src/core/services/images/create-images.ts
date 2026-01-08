@@ -1,13 +1,9 @@
-import prisma from '@books-about-food/database'
-import sizeOf from 'buffer-image-size'
-import { contentType } from 'mime-types'
+import { extension } from 'mime-types'
+import { File } from 'payload'
 import { Service } from 'src/core/services/base'
-import { FileUploader } from 'src/core/services/images/file-uploader'
-import { ImageBlurrer } from 'src/core/services/images/image-blurrer'
 import { z } from 'zod'
 
 export type CreateImageInput = z.infer<typeof createImages.input>
-const uploader = new FileUploader()
 
 export const createImages = new Service(
   z.object({
@@ -15,41 +11,44 @@ export const createImages = new Service(
     files: z.array(
       z
         .object({
-          buffer: z.instanceof(Buffer),
-          type: z.string()
+          size: z.number(),
+          name: z.string(),
+          mimetype: z.string(),
+          data: z.instanceof(Buffer)
         })
-        .or(z.object({ url: z.string() }))
+        .or(z.url())
     )
   }),
-  async ({ files, prefix }, _ctx) => {
-    const data = await Promise.all(
-      files.map(async (file) => {
-        if ('url' in file) {
-          file = await fileFromUrl(file.url)
-        }
-        const { buffer, type } = file
-        const { path, id } = await uploader.upload(buffer, type, prefix)
-        const blurrer = new ImageBlurrer({ s3path: path })
-        const placeholderUrl = await blurrer.call()
-        const { width, height } = sizeOf(buffer)
+  async ({ files }, { payload }) => {
+    const imageData = await Promise.all(
+      files.map(async (input) => {
+        const file =
+          typeof input === 'string' ? await fileFromUrl(input) : input
 
-        return { id, path, width, height, placeholderUrl }
+        return payload.create({
+          collection: 'images',
+          data: {},
+          file
+        })
       })
     )
 
-    await prisma.image.createMany({ data })
-
-    return prisma.image.findMany({
-      where: { id: { in: data.map(({ id }) => id) } }
-    })
+    return imageData
   }
 )
 
-async function fileFromUrl(url: string) {
+async function fileFromUrl(url: string): Promise<File> {
   const res = await fetch(url)
-  const buffer = Buffer.from(await res.arrayBuffer())
-  const type =
-    contentType(res.headers.get('content-type') || 'image/jpeg') || 'image/jpeg'
-
-  return { buffer, type }
+  const arrayBuffer = await res.arrayBuffer()
+  const mimetype = res.headers.get('Content-Type') || 'image/jpeg'
+  const ext = extension(mimetype)
+  const filename = url.split('/').pop() || 'image'
+  return {
+    data: Buffer.from(arrayBuffer),
+    size: arrayBuffer.byteLength,
+    name: ext
+      ? `${filename.split('.').slice(0, -1).join('.')}.${ext}`
+      : filename,
+    mimetype
+  }
 }

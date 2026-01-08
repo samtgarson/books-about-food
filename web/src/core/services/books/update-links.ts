@@ -1,5 +1,10 @@
+import { BookLinkSite } from 'src/core/models/types'
+import { can } from 'src/core/policies'
 import { AuthedService } from 'src/core/services/base'
+import { enum_books_links_site } from 'src/payload/schema'
 import { z } from 'zod'
+import { AppError } from '../utils/errors'
+import { fetchBook } from './fetch-book'
 
 export const updateLinks = new AuthedService(
   z.object({
@@ -12,37 +17,30 @@ export const updateLinks = new AuthedService(
       .array()
   }),
   async ({ slug, links }, { payload, user }) => {
-    const { docs } = await payload.find({
+    const { data: book } = await fetchBook.call({ slug }, { payload })
+
+    if (!book) throw new AppError('NotFound', 'Book not found')
+    if (!can(user, book).update)
+      throw new AppError('Forbidden', 'You cannot update this book')
+
+    payload.update({
       collection: 'books',
-      where: { slug: { equals: slug } },
-      limit: 1,
-      user
-    })
-
-    if (!docs[0]) throw new Error('Book not found')
-
-    const book = docs[0]
-
-    // Delete all existing links and create new ones in parallel
-    await Promise.all([
-      // Delete existing links using bulk delete
-      payload.delete({
-        collection: 'book-links',
-        where: { book: { equals: book.id } },
-        user
-      }),
-      // Create new links
-      ...links.map((link) =>
-        payload.create({
-          collection: 'book-links',
-          data: {
-            book: book.id,
-            site: link.site,
+      where: { id: { equals: book.id } },
+      data: {
+        links: links.map(function (link) {
+          const site = isKnownSite(link.site) ? link.site : 'Other'
+          const siteOther = site === 'Other' ? link.site : undefined
+          return {
+            site,
+            'site (other)': siteOther,
             url: link.url
-          },
-          user
+          }
         })
-      )
-    ])
+      }
+    })
   }
 )
+
+function isKnownSite(site: string): site is BookLinkSite {
+  return enum_books_links_site.enumValues.includes(site as BookLinkSite)
+}

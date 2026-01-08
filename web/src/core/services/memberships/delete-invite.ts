@@ -28,7 +28,8 @@ export const deleteInvite = new AuthedService(
         ? publisher.memberships.docs
         : []
 
-    const adminOfPublisher = memberships?.find((m: Membership) => {
+    const adminOfPublisher = memberships?.find((m: string | Membership) => {
+      if (typeof m === 'string') return false
       const userId = typeof m.user === 'string' ? m.user : m.user?.id
       return userId === user.id && m.role === 'admin'
     })

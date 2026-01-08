@@ -11,10 +11,6 @@ import {
   requirePopulatedArray
 } from './utils/payload-validation'
 
-type ProfileAttrs = PayloadProfile & {
-  hiddenFrequentCollaborators?: (string | PayloadProfile)[] | null
-}
-
 export class Profile extends Colourful(
   class extends BaseModel {
     _type = 'profile' as const
@@ -31,7 +27,7 @@ export class Profile extends Colourful(
     userId?: string
     hiddenCollaborators: string[]
 
-    constructor(attrs: ProfileAttrs) {
+    constructor(attrs: PayloadProfile) {
       super()
 
       // Validate relationships are populated
