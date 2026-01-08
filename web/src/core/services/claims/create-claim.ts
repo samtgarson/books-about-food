@@ -1,4 +1,3 @@
-import prisma from '@books-about-food/database'
 import { AuthedService } from 'src/core/services/base'
 import { generate } from 'src/core/services/utils/passphrase'
 import { z } from 'zod'
@@ -8,11 +7,10 @@ export const createClaim = new AuthedService(
   z.object({
     profileId: z.string()
   }),
-  async ({ profileId }, { user }) => {
+  async ({ profileId }, { payload, user }) => {
     if (!user?.email) return null
     if (!profileId) return null
 
-    const userId = user.id
     const secret = generate({
       length: 3,
       numbers: false,
@@ -20,18 +18,19 @@ export const createClaim = new AuthedService(
       separator: ' '
     })
 
-    const { profile, ...claim } = await prisma.claim.create({
+    const claim = await payload.create({
+      collection: 'claims',
       data: {
-        profileId,
-        userId,
-        secret
+        profile: profileId,
+        user: user.id,
+        secret,
+        state: 'pending'
       },
-      include: {
-        profile: { include: { avatar: true } }
-      }
+      depth: 2 // Include profile with avatar
     })
 
-    const resourceName = profile.name
+    const profile = typeof claim.profile === 'object' ? claim.profile : null
+    const resourceName = profile?.name || 'Unknown'
 
     await inngest.send({
       name: 'jobs.email',
@@ -39,13 +38,14 @@ export const createClaim = new AuthedService(
         key: 'newClaim',
         props: {
           claimId: claim.id,
-          resourceName: resourceName,
+          resourceName,
           resourceAvatar: null,
           userEmail: user.email
         }
       },
       user: { name: 'BAF Admins', email: 'jamin@booksabout.food' }
     })
+
     return claim
   }
 )

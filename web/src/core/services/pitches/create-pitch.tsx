@@ -1,4 +1,3 @@
-import prisma from '@books-about-food/database'
 import { AuthedService } from 'src/core/services/base'
 import { z } from 'zod'
 
@@ -8,14 +7,14 @@ export const createPitch = new AuthedService(
   z.object({
     description: z.string()
   }),
-  async ({ description }, { user: author }) => {
-    const authorId = author.id
-
-    return prisma.pitch.create({
+  async ({ description }, { payload, user: author }) => {
+    return payload.create({
+      collection: 'pitches',
       data: {
         description,
-        authorId
-      }
+        author: author.id
+      },
+      depth: 0
     })
   }
 )

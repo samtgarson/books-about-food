@@ -1,5 +1,4 @@
 'use client'
-import { Claim } from '@books-about-food/database'
 import { useRouter } from 'next/navigation'
 import { useCallback, useState } from 'react'
 import { Copy } from 'src/components/atoms/icons'
@@ -44,12 +43,13 @@ const ClaimProfileSheet: SheetComponent<ClaimProfileSheetProps> = ({
     if (!claim) return
     setDestroying(true)
     await destroy(claim.id)
+    setValue(null)
     router.refresh()
     closeSheet()
-  }, [claim, closeSheet, router])
+  }, [claim, closeSheet, router, setValue])
 
-  const copySecret = useCallback(async (claim: Claim) => {
-    await navigator.clipboard.writeText(claim.secret)
+  const copySecret = useCallback(async (secret: string) => {
+    await navigator.clipboard.writeText(secret)
     successToast('Code copied to your clipboard')
   }, [])
 
@@ -111,7 +111,7 @@ const ClaimProfileSheet: SheetComponent<ClaimProfileSheetProps> = ({
               <button
                 className="relative flex w-full items-center justify-center bg-grey px-4 py-5 font-mono text-20 uppercase"
                 title="Copy the passphrase to your clipboard"
-                onClick={() => copySecret(claim)}
+                onClick={() => copySecret(claim.secret)}
               >
                 {claim.secret}
                 <Copy strokeWidth={1} size={20} className="absolute right-4" />

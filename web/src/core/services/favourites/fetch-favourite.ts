@@ -1,4 +1,3 @@
-import prisma from '@books-about-food/database'
 import { AuthedService } from 'src/core/services/base'
 import { z } from 'zod'
 
@@ -6,16 +5,16 @@ export const fetchFavourite = new AuthedService(
   z.object({
     profileId: z.string()
   }),
-  async ({ profileId }, { user }) => {
-    const userId = user.id
-
-    return prisma.favourite.findUnique({
+  async ({ profileId }, { payload, user }) => {
+    const { docs } = await payload.find({
+      collection: 'favourites',
       where: {
-        profileId_userId: {
-          userId,
-          profileId
-        }
-      }
+        and: [{ user: { equals: user.id } }, { profile: { equals: profileId } }]
+      },
+      limit: 1,
+      depth: 0
     })
+
+    return docs[0] || null
   }
 )

@@ -1,4 +1,3 @@
-import prisma from '@books-about-food/database'
 import { AuthedService } from 'src/core/services/base'
 import { z } from 'zod'
 
@@ -6,18 +5,20 @@ export const destroyClaim = new AuthedService(
   z.object({
     claimId: z.string()
   }),
-  async ({ claimId }, { user }) => {
+  async ({ claimId }, { payload, user }) => {
     if (!claimId) return null
 
-    const claim = await prisma.claim.findUnique({
-      where: { id: claimId }
+    await payload.update({
+      collection: 'claims',
+      data: { cancelledAt: new Date().toISOString() },
+      where: {
+        id: { equals: claimId },
+        user: { equals: user.id }
+      },
+      limit: 1,
+      depth: 0
     })
-    if (!claim || claim.userId !== user.id) return null
 
-    await prisma.claim.update({
-      where: { id: claimId },
-      data: { cancelledAt: new Date() }
-    })
     return null
   }
 )
