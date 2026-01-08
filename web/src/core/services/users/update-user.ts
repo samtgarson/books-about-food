@@ -1,4 +1,3 @@
-import prisma, { Prisma } from '@books-about-food/database'
 import { z } from 'zod'
 import { AuthedService } from '../base'
 
@@ -9,16 +8,18 @@ export const updateUser = new AuthedService(
     name: z.string().min(1).optional(),
     email: z.email().optional()
   }),
-  async (params, { user }) => {
-    const data: Prisma.UserUpdateInput = params
+  async (params, { payload, user }) => {
+    const data: Record<string, unknown> = params
 
     if (params.email && params.email !== user.email) {
       data.emailVerified = null
     }
 
-    return prisma.user.update({
-      where: { id: user.id },
-      data
+    return payload.update({
+      collection: 'users',
+      id: user.id,
+      data,
+      depth: 0
     })
   }
 )

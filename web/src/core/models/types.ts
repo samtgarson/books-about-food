@@ -3,7 +3,7 @@
  * Model types are now defined inline in their respective model files.
  */
 
-import type { BookContributions } from 'src/payload/payload-types'
+import type { BookContributions, User } from 'src/payload/payload-types'
 
 // Re-export Payload types for convenience
 export type * from 'src/payload/payload-types'
@@ -16,7 +16,8 @@ export type BookResult = {
   image?: string
 }
 
-export type BookContribution = Exclude<BookContributions, null>[number]
+export type BookContribution = NonNullable<BookContributions>[number]
+export type Account = NonNullable<User['accounts']>[number]
 
 export type BookLink = {
   id: string

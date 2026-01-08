@@ -1,6 +1,6 @@
 'use client'
 
-import { Account } from '@books-about-food/database'
+import { Account } from 'src/core/models/types'
 import { User } from 'src/core/types'
 import { emailSignIn } from '../auth/actions'
 import { ConnectAccountButton } from '../auth/connect-account-button'

@@ -70,51 +70,6 @@ export const enum_users_role = db_schema.enum('enum_users_role', [
   'waitlist'
 ])
 
-export const accounts = db_schema.table(
-  'accounts',
-  {
-    id: uuid('id').defaultRandom().primaryKey(),
-    user: uuid('user_id')
-      .notNull()
-      .references(() => users.id, {
-        onDelete: 'set null'
-      }),
-    type: varchar('type').notNull(),
-    provider: varchar('provider').notNull(),
-    providerAccountId: varchar('provider_account_id').notNull(),
-    refreshToken: varchar('refresh_token'),
-    accessToken: varchar('access_token'),
-    expiresAt: numeric('expires_at', { mode: 'number' }),
-    tokenType: varchar('token_type'),
-    scope: varchar('scope'),
-    idToken: varchar('id_token'),
-    sessionState: varchar('session_state'),
-    updatedAt: timestamp('updated_at', {
-      mode: 'string',
-      withTimezone: true,
-      precision: 3
-    })
-      .defaultNow()
-      .notNull(),
-    createdAt: timestamp('created_at', {
-      mode: 'string',
-      withTimezone: true,
-      precision: 3
-    })
-      .defaultNow()
-      .notNull()
-  },
-  (columns) => [
-    index('accounts_user_idx').on(columns.user),
-    index('accounts_updated_at_idx').on(columns.updatedAt),
-    index('accounts_created_at_idx').on(columns.createdAt),
-    uniqueIndex('provider_providerAccountId_idx').on(
-      columns.provider,
-      columns.providerAccountId
-    )
-  ]
-)
-
 export const book_votes = db_schema.table(
   'book_votes',
   {
@@ -124,7 +79,7 @@ export const book_votes = db_schema.table(
       .references(() => books.id, {
         onDelete: 'set null'
       }),
-    user: uuid('user_id')
+    user: varchar('user_id')
       .notNull()
       .references(() => users.id, {
         onDelete: 'set null'
@@ -272,7 +227,7 @@ export const books = db_schema.table(
     publisher: uuid('publisher_id').references(() => publishers.id, {
       onDelete: 'set null'
     }),
-    submitter: uuid('submitter_id').references(() => users.id, {
+    submitter: varchar('submitter_id').references(() => users.id, {
       onDelete: 'set null'
     }),
     coverImage: uuid('cover_image_id').references(() => images.id, {
@@ -347,7 +302,7 @@ export const claims = db_schema.table(
       .references(() => profiles.id, {
         onDelete: 'set null'
       }),
-    user: uuid('user_id')
+    user: varchar('user_id')
       .notNull()
       .references(() => users.id, {
         onDelete: 'set null'
@@ -489,7 +444,7 @@ export const favourites = db_schema.table(
       .references(() => profiles.id, {
         onDelete: 'set null'
       }),
-    user: uuid('user_id')
+    user: varchar('user_id')
       .notNull()
       .references(() => users.id, {
         onDelete: 'set null'
@@ -717,7 +672,7 @@ export const memberships = db_schema.table(
       .references(() => publishers.id, {
         onDelete: 'set null'
       }),
-    user: uuid('user_id')
+    user: varchar('user_id')
       .notNull()
       .references(() => users.id, {
         onDelete: 'set null'
@@ -750,7 +705,7 @@ export const pitches = db_schema.table(
   'pitches',
   {
     id: uuid('id').defaultRandom().primaryKey(),
-    author: uuid('author_id')
+    author: varchar('author_id')
       .notNull()
       .references(() => users.id, {
         onDelete: 'set null'
@@ -786,7 +741,7 @@ export const posts = db_schema.table(
     title: varchar('title').notNull(),
     slug: varchar('slug').notNull(),
     content: jsonb('content').notNull(),
-    author: uuid('author_id')
+    author: varchar('author_id')
       .notNull()
       .references(() => users.id, {
         onDelete: 'set null'
@@ -865,7 +820,7 @@ export const profiles = db_schema.table(
       withTimezone: true,
       precision: 3
     }),
-    user: uuid('user_id').references(() => users.id, {
+    user: varchar('user_id').references(() => users.id, {
       onDelete: 'set null'
     }),
     updatedAt: timestamp('updated_at', {
@@ -936,7 +891,7 @@ export const publisher_invitations = db_schema.table(
       .references(() => publishers.id, {
         onDelete: 'set null'
       }),
-    invitedBy: uuid('invited_by_id')
+    invitedBy: varchar('invited_by_id')
       .notNull()
       .references(() => users.id, {
         onDelete: 'set null'
@@ -1104,12 +1059,67 @@ export const tags = db_schema.table(
   ]
 )
 
+export const users_accounts = db_schema.table(
+  'users_accounts',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: varchar('_parent_id').notNull(),
+    id: varchar('id').primaryKey(),
+    provider: varchar('provider').notNull(),
+    providerAccountId: varchar('provider_account_id').notNull(),
+    type: varchar('type').notNull()
+  },
+  (columns) => [
+    index('users_accounts_order_idx').on(columns._order),
+    index('users_accounts_parent_id_idx').on(columns._parentID),
+    index('users_accounts_provider_account_id_idx').on(
+      columns.providerAccountId
+    ),
+    foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [users.id],
+      name: 'users_accounts_parent_id_fk'
+    }).onDelete('cascade')
+  ]
+)
+
+export const users_verification_tokens = db_schema.table(
+  'users_verification_tokens',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: varchar('_parent_id').notNull(),
+    id: varchar('id').primaryKey(),
+    token: varchar('token').notNull(),
+    expires: timestamp('expires', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3
+    }).notNull()
+  },
+  (columns) => [
+    index('users_verification_tokens_order_idx').on(columns._order),
+    index('users_verification_tokens_parent_id_idx').on(columns._parentID),
+    index('users_verification_tokens_token_idx').on(columns.token),
+    foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [users.id],
+      name: 'users_verification_tokens_parent_id_fk'
+    }).onDelete('cascade')
+  ]
+)
+
 export const users = db_schema.table(
   'users',
   {
-    id: uuid('id').defaultRandom().primaryKey(),
+    id: varchar('id').primaryKey(),
     email: varchar('email').notNull(),
+    emailVerified: timestamp('email_verified', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3
+    }),
     name: varchar('name'),
+    image: varchar('image'),
     role: enum_users_role('role').default('user'),
     updatedAt: timestamp('updated_at', {
       mode: 'string',
@@ -1130,40 +1140,6 @@ export const users = db_schema.table(
     uniqueIndex('users_email_idx').on(columns.email),
     index('users_updated_at_idx').on(columns.updatedAt),
     index('users_created_at_idx').on(columns.createdAt)
-  ]
-)
-
-export const verification_tokens = db_schema.table(
-  'verification_tokens',
-  {
-    id: uuid('id').defaultRandom().primaryKey(),
-    identifier: varchar('identifier').notNull(),
-    token: varchar('token').notNull(),
-    expires: timestamp('expires', {
-      mode: 'string',
-      withTimezone: true,
-      precision: 3
-    }).notNull(),
-    updatedAt: timestamp('updated_at', {
-      mode: 'string',
-      withTimezone: true,
-      precision: 3
-    })
-      .defaultNow()
-      .notNull(),
-    createdAt: timestamp('created_at', {
-      mode: 'string',
-      withTimezone: true,
-      precision: 3
-    })
-      .defaultNow()
-      .notNull()
-  },
-  (columns) => [
-    uniqueIndex('verification_tokens_token_idx').on(columns.token),
-    index('verification_tokens_updated_at_idx').on(columns.updatedAt),
-    index('verification_tokens_created_at_idx').on(columns.createdAt),
-    uniqueIndex('identifier_token_idx').on(columns.identifier, columns.token)
   ]
 )
 
@@ -1211,7 +1187,6 @@ export const payload_locked_documents_rels = db_schema.table(
     order: integer('order'),
     parent: uuid('parent_id').notNull(),
     path: varchar('path').notNull(),
-    accountsID: uuid('accounts_id'),
     'book-votesID': uuid('book_votes_id'),
     booksID: uuid('books_id'),
     claimsID: uuid('claims_id'),
@@ -1231,16 +1206,12 @@ export const payload_locked_documents_rels = db_schema.table(
     publishersID: uuid('publishers_id'),
     'tag-groupsID': uuid('tag_groups_id'),
     tagsID: uuid('tags_id'),
-    usersID: uuid('users_id'),
-    'verification-tokensID': uuid('verification_tokens_id')
+    usersID: varchar('users_id')
   },
   (columns) => [
     index('payload_locked_documents_rels_order_idx').on(columns.order),
     index('payload_locked_documents_rels_parent_idx').on(columns.parent),
     index('payload_locked_documents_rels_path_idx').on(columns.path),
-    index('payload_locked_documents_rels_accounts_id_idx').on(
-      columns.accountsID
-    ),
     index('payload_locked_documents_rels_book_votes_id_idx').on(
       columns['book-votesID']
     ),
@@ -1283,18 +1254,10 @@ export const payload_locked_documents_rels = db_schema.table(
     ),
     index('payload_locked_documents_rels_tags_id_idx').on(columns.tagsID),
     index('payload_locked_documents_rels_users_id_idx').on(columns.usersID),
-    index('payload_locked_documents_rels_verification_tokens_id_idx').on(
-      columns['verification-tokensID']
-    ),
     foreignKey({
       columns: [columns['parent']],
       foreignColumns: [payload_locked_documents.id],
       name: 'payload_locked_documents_rels_parent_fk'
-    }).onDelete('cascade'),
-    foreignKey({
-      columns: [columns['accountsID']],
-      foreignColumns: [accounts.id],
-      name: 'payload_locked_documents_rels_accounts_fk'
     }).onDelete('cascade'),
     foreignKey({
       columns: [columns['book-votesID']],
@@ -1395,11 +1358,6 @@ export const payload_locked_documents_rels = db_schema.table(
       columns: [columns['usersID']],
       foreignColumns: [users.id],
       name: 'payload_locked_documents_rels_users_fk'
-    }).onDelete('cascade'),
-    foreignKey({
-      columns: [columns['verification-tokensID']],
-      foreignColumns: [verification_tokens.id],
-      name: 'payload_locked_documents_rels_verification_tokens_fk'
     }).onDelete('cascade')
   ]
 )
@@ -1439,7 +1397,7 @@ export const payload_preferences_rels = db_schema.table(
     order: integer('order'),
     parent: uuid('parent_id').notNull(),
     path: varchar('path').notNull(),
-    usersID: uuid('users_id')
+    usersID: varchar('users_id')
   },
   (columns) => [
     index('payload_preferences_rels_order_idx').on(columns.order),
@@ -1486,13 +1444,6 @@ export const payload_migrations = db_schema.table(
   ]
 )
 
-export const relations_accounts = relations(accounts, ({ one }) => ({
-  user: one(users, {
-    fields: [accounts.user],
-    references: [users.id],
-    relationName: 'user'
-  })
-}))
 export const relations_book_votes = relations(book_votes, ({ one }) => ({
   book: one(books, {
     fields: [book_votes.book],
@@ -1802,11 +1753,34 @@ export const relations_tags = relations(tags, ({ one }) => ({
     relationName: 'group'
   })
 }))
-export const relations_users = relations(users, () => ({}))
-export const relations_verification_tokens = relations(
-  verification_tokens,
-  () => ({})
+export const relations_users_accounts = relations(
+  users_accounts,
+  ({ one }) => ({
+    _parentID: one(users, {
+      fields: [users_accounts._parentID],
+      references: [users.id],
+      relationName: 'accounts'
+    })
+  })
 )
+export const relations_users_verification_tokens = relations(
+  users_verification_tokens,
+  ({ one }) => ({
+    _parentID: one(users, {
+      fields: [users_verification_tokens._parentID],
+      references: [users.id],
+      relationName: 'verificationTokens'
+    })
+  })
+)
+export const relations_users = relations(users, ({ many }) => ({
+  accounts: many(users_accounts, {
+    relationName: 'accounts'
+  }),
+  verificationTokens: many(users_verification_tokens, {
+    relationName: 'verificationTokens'
+  })
+}))
 export const relations_payload_kv = relations(payload_kv, () => ({}))
 export const relations_payload_locked_documents_rels = relations(
   payload_locked_documents_rels,
@@ -1815,11 +1789,6 @@ export const relations_payload_locked_documents_rels = relations(
       fields: [payload_locked_documents_rels.parent],
       references: [payload_locked_documents.id],
       relationName: '_rels'
-    }),
-    accountsID: one(accounts, {
-      fields: [payload_locked_documents_rels.accountsID],
-      references: [accounts.id],
-      relationName: 'accounts'
     }),
     'book-votesID': one(book_votes, {
       fields: [payload_locked_documents_rels['book-votesID']],
@@ -1920,11 +1889,6 @@ export const relations_payload_locked_documents_rels = relations(
       fields: [payload_locked_documents_rels.usersID],
       references: [users.id],
       relationName: 'users'
-    }),
-    'verification-tokensID': one(verification_tokens, {
-      fields: [payload_locked_documents_rels['verification-tokensID']],
-      references: [verification_tokens.id],
-      relationName: 'verification-tokens'
     })
   })
 )
@@ -1975,7 +1939,6 @@ type DatabaseSchema = {
   enum_memberships_role: typeof enum_memberships_role
   enum_publisher_invitations_role: typeof enum_publisher_invitations_role
   enum_users_role: typeof enum_users_role
-  accounts: typeof accounts
   book_votes: typeof book_votes
   books_palette: typeof books_palette
   books_contributions: typeof books_contributions
@@ -2004,15 +1967,15 @@ type DatabaseSchema = {
   publishers_rels: typeof publishers_rels
   tag_groups: typeof tag_groups
   tags: typeof tags
+  users_accounts: typeof users_accounts
+  users_verification_tokens: typeof users_verification_tokens
   users: typeof users
-  verification_tokens: typeof verification_tokens
   payload_kv: typeof payload_kv
   payload_locked_documents: typeof payload_locked_documents
   payload_locked_documents_rels: typeof payload_locked_documents_rels
   payload_preferences: typeof payload_preferences
   payload_preferences_rels: typeof payload_preferences_rels
   payload_migrations: typeof payload_migrations
-  relations_accounts: typeof relations_accounts
   relations_book_votes: typeof relations_book_votes
   relations_books_palette: typeof relations_books_palette
   relations_books_contributions: typeof relations_books_contributions
@@ -2041,8 +2004,9 @@ type DatabaseSchema = {
   relations_publishers: typeof relations_publishers
   relations_tag_groups: typeof relations_tag_groups
   relations_tags: typeof relations_tags
+  relations_users_accounts: typeof relations_users_accounts
+  relations_users_verification_tokens: typeof relations_users_verification_tokens
   relations_users: typeof relations_users
-  relations_verification_tokens: typeof relations_verification_tokens
   relations_payload_kv: typeof relations_payload_kv
   relations_payload_locked_documents_rels: typeof relations_payload_locked_documents_rels
   relations_payload_locked_documents: typeof relations_payload_locked_documents
