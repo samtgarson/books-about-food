@@ -52,7 +52,6 @@ export async function fetchFeaturedProfiles(payload: BasePayload) {
     where: {
       or: [{ until: { exists: false } }, { until: { greater_than_equal: now } }]
     },
-    // sort: '-createdAt',
     limit: 10,
     depth: PROFILE_DEPTH + 1 // +1 to populate the profile relationship
   })
@@ -60,36 +59,26 @@ export async function fetchFeaturedProfiles(payload: BasePayload) {
 }
 
 export async function fetchPublishers(payload: BasePayload) {
-  // Fetch publishers with books relationship populated
   const { docs } = await payload.find({
     collection: 'publishers',
-    limit: 50, // Fetch more than needed to sort
+    sort: '-publishedBooksCount',
+    limit: 12,
     depth: PUBLISHER_DEPTH
   })
 
-  // Sort by book count in JS (Payload doesn't support aggregation sorting)
-  const sorted = docs
-    .map((pub) => ({
-      pub,
-      bookCount: Array.isArray(pub.books) ? pub.books.length : 0
-    }))
-    .sort((a, b) => b.bookCount - a.bookCount)
-    .slice(0, 12)
-    .map(({ pub }) => new Publisher(pub))
-
-  return sorted
+  return docs.map((pub) => new Publisher(pub))
 }
 
 export const fetchHome = new Service(
   z.undefined(),
   async (_input, { payload }) => {
-    const [comingSoon, newlyAdded, people, publishers] = await Promise.all([
+    const [comingSoon, newlyAdded, people] = await Promise.all([
       fetchComingSoon(payload),
       fetchNewlyAdded(payload),
-      fetchFeaturedProfiles(payload),
-      fetchPublishers(payload)
+      fetchFeaturedProfiles(payload)
+      // fetchPublishers(payload)
     ])
 
-    return { comingSoon, newlyAdded, publishers, people }
+    return { comingSoon, newlyAdded, people }
   }
 )

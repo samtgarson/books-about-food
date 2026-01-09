@@ -76,6 +76,16 @@ export const Publishers: CollectionConfig = {
       }
     },
     {
+      name: 'publishedBooksCount',
+      type: 'number',
+      defaultValue: 0,
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        description: 'Auto-updated count of published books'
+      }
+    },
+    {
       name: 'books',
       type: 'join',
       collection: 'books',

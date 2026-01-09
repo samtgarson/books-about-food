@@ -6,6 +6,10 @@ import { slugField } from '../../fields/slug'
 import { revalidatePaths } from '../../plugins/cache-revalidation'
 import { colorField, dayOnlyDisplayFormat } from '../utils'
 import { triggerPaletteGeneration } from './hooks/trigger-palette-generation'
+import {
+  updatePublisherBookCountAfterChange,
+  updatePublisherBookCountAfterDelete
+} from './hooks/update-publisher-book-count'
 import { updateSearchText } from './hooks/update-search-text'
 
 export const Books: CollectionConfig = {
@@ -18,7 +22,9 @@ export const Books: CollectionConfig = {
     ])
   },
   hooks: {
-    beforeChange: [updateSearchText]
+    beforeChange: [updateSearchText],
+    afterChange: [updatePublisherBookCountAfterChange],
+    afterDelete: [updatePublisherBookCountAfterDelete]
   },
   admin: {
     group: 'Resources',
