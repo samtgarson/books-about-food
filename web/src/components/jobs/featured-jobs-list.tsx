@@ -15,7 +15,7 @@ export async function FeaturedJobsList() {
             href={`/people?jobs=${job.id}`}
           >
             <p className="opacity-50">{job.count}</p>
-            <p>{job.count === '1' ? job.name : pluralize(job.name)}</p>
+            <p>{job.count === 1 ? job.name : pluralize(job.name)}</p>
           </Link>
         </li>
       ))}

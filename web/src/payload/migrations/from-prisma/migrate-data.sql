@@ -553,7 +553,6 @@ insert into
     id,
     book_id,
     tag_line,
-    _order,
     until,
     created_at,
     updated_at
@@ -562,7 +561,6 @@ select
   f.id,
   f.book_id,
   f.tag_line,
-  f."order",
   f.until,
   f.created_at,
   f.updated_at

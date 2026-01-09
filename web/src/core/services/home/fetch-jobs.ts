@@ -1,15 +1,23 @@
-import prisma from '@books-about-food/database'
+import { countDistinct, eq } from '@payloadcms/db-postgres/drizzle'
 import { Service } from 'src/core/services/base'
+import { books_contributions, jobs } from 'src/payload/schema'
 import { z } from 'zod'
 
 export const fetchFeaturedJobs = new Service(
   z.undefined(),
-  async (_input, _ctx) =>
-    prisma.$queryRaw<{ id: string; name: string; count: string }[]>`
-      select jobs.id, jobs.name, count(distinct contributions.profile_id)::text from jobs
-      left outer join contributions on contributions.job_id = jobs.id
-      where jobs.featured = true
-      group by jobs.id
-      order by jobs.name asc;
-    `
+  async (_input, { payload }) => {
+    const db = payload.db.drizzle
+
+    return db
+      .select({
+        id: jobs.id,
+        name: jobs.name,
+        count: countDistinct(books_contributions._parentID).as('count')
+      })
+      .from(jobs)
+      .leftJoin(books_contributions, eq(books_contributions.job, jobs.id))
+      .where(eq(jobs.featured, true))
+      .groupBy(jobs.id)
+      .orderBy(jobs.name)
+  }
 )

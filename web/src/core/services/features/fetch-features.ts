@@ -1,6 +1,7 @@
 import { FullBook } from 'src/core/models/full-book'
 import { Service } from 'src/core/services/base'
 import { FULL_BOOK_DEPTH } from 'src/core/services/utils/payload-depth'
+import { Book } from 'src/payload/payload-types'
 import { z } from 'zod'
 
 export type Feature = Exclude<
@@ -13,16 +14,15 @@ export const fetchFeatures = new Service(
   async (_input, { payload }) => {
     const { docs } = await payload.find({
       collection: 'features',
-      sort: ['order', '-createdAt'],
       where: {
         or: [
           { until: { equals: null } },
           { until: { greater_than_equal: new Date().toISOString() } }
         ]
       },
-      depth: FULL_BOOK_DEPTH
+      depth: FULL_BOOK_DEPTH + 1 // +1 to populate the book relationship
     })
 
-    return docs.map((f) => ({ ...f, book: new FullBook(f.book) }))
+    return docs.map((f) => ({ ...f, book: new FullBook(f.book as Book) }))
   }
 )

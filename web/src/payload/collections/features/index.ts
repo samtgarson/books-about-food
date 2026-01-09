@@ -7,7 +7,7 @@ export const Features: CollectionConfig = {
   admin: {
     group: 'Content',
     useAsTitle: 'book',
-    defaultColumns: ['book', 'tagLine', 'order', 'until']
+    defaultColumns: ['book', 'tagLine', 'until']
   },
   labels: {
     singular: 'Featured Book',
