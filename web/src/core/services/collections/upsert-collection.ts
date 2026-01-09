@@ -1,12 +1,12 @@
-import prisma from '@books-about-food/database'
 import { slugify } from '@books-about-food/shared/utils/slugify'
+import { BasePayload } from 'payload'
 import z from 'zod'
 import { Collection } from '../../models/collection'
 import { can } from '../../policies'
 import { AuthedService } from '../base'
 import { fetchPublisher } from '../publishers/fetch-publisher'
-import { collectionIncludes } from '../utils'
 import { AppError } from '../utils/errors'
+import { COLLECTION_DEPTH } from '../utils/payload-depth'
 import { upsertCollectionSchema } from './schemas/upsert-collection'
 
 export type UpsertCollectionInput = z.infer<typeof upsertCollectionSchema>
@@ -14,11 +14,9 @@ export type UpsertCollectionInput = z.infer<typeof upsertCollectionSchema>
 export const upsertCollection = new AuthedService(
   upsertCollectionSchema,
   async function ({ publisherSlug, ...attrs }, ctx) {
-    const { user } = ctx
+    const { user, payload } = ctx
     const { data: publisher } = await fetchPublisher.call(
-      {
-        slug: publisherSlug
-      },
+      { slug: publisherSlug },
       ctx
     )
     if (!publisher || !can(user, publisher).update) {
@@ -28,37 +26,37 @@ export const upsertCollection = new AuthedService(
       )
     }
 
-    const data = await upsert(attrs, publisher.id)
+    const data = await upsert(attrs, publisher.id, payload)
     return new Collection(data)
-  }
+  },
+  { cache: false }
 )
 
 async function upsert(
   { id, title, bookIds }: Omit<UpsertCollectionInput, 'publisherSlug'>,
-  publisherId: string
+  publisherId: string,
+  payload: BasePayload
 ) {
-  const collectionItemData = bookIds.map((bookId, i) => ({ bookId, order: i }))
   if (id) {
-    return await prisma.collection.update({
-      where: { id, publisherId },
-      include: collectionIncludes,
+    return await payload.update({
+      collection: 'collections',
+      id,
       data: {
         title,
-        collectionItems: {
-          deleteMany: {},
-          createMany: { data: collectionItemData }
-        }
-      }
+        books: bookIds // Payload handles ordering based on array position
+      },
+      depth: COLLECTION_DEPTH
     })
   }
 
-  return await prisma.collection.create({
-    include: collectionIncludes,
+  return await payload.create({
+    collection: 'collections',
     data: {
       title,
       slug: slugify(title),
-      publisherId: publisherId,
-      collectionItems: { createMany: { data: collectionItemData } }
-    }
+      publisher: publisherId,
+      books: bookIds // Array order becomes _order in collections_rels
+    },
+    depth: COLLECTION_DEPTH
   })
 }
