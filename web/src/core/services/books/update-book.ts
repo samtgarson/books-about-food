@@ -4,6 +4,7 @@ import { can } from 'src/core/policies'
 import { AuthedService } from 'src/core/services/base'
 import { Book } from 'src/payload/payload-types'
 import { enum_books_source } from 'src/payload/schema'
+import { withoutUndefined } from 'src/utils/object-helpers'
 import { z } from 'zod'
 import { inngest } from '../../jobs'
 import { FullBook } from '../../models/full-book'
@@ -52,23 +53,21 @@ export const updateBook = new AuthedService(
     } = input
 
     // Build update data object
-    const updateData: Partial<RequiredDataFromCollectionSlug<'books'>> = {
-      ...attrs,
-      title: input.title,
-      slug: input.slug === undefined ? slugify(input.title) : input.slug,
-      releaseDate: releaseDate?.toISOString(),
-      coverImage,
-      publisher,
-      authors,
-      tags,
-      previewImages: previewImageIds?.map((imageId) => ({ image: imageId }))
-    }
-
-    // Remove undefined values
-    Object.keys(updateData).forEach((k) => {
-      const key = k as keyof typeof updateData
-      if (updateData[key] === undefined) delete updateData[key]
-    })
+    const updateData: Partial<RequiredDataFromCollectionSlug<'books'>> =
+      withoutUndefined({
+        ...attrs,
+        title: input.title,
+        slug: input.slug === undefined ? slugify(input.title) : input.slug,
+        releaseDate: releaseDate?.toISOString(),
+        coverImage,
+        publisher,
+        authors,
+        tags,
+        previewImages: previewImageIds?.map((imageId, i) => ({
+          image: imageId,
+          _order: i
+        }))
+      })
 
     let result: Book
     // Check permissions if updating existing book
@@ -77,6 +76,7 @@ export const updateBook = new AuthedService(
         { slug: input.slug },
         { payload }
       )
+
       if (!book) throw new AppError('NotFound', 'Book not found')
       if (!can(user, book).update) {
         throw new Error('You do not have permission to edit this book')

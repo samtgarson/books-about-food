@@ -10,8 +10,8 @@ export function slugField(sourceField: string = 'title'): TextField {
     admin: { readOnly: true },
     hooks: {
       beforeValidate: [
-        ({ data }) => {
-          if (!data?.[sourceField]) return null
+        ({ data, value }) => {
+          if (!data?.[sourceField]) return value
           return slugify(data[sourceField] as string)
         }
       ]

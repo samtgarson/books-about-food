@@ -74,7 +74,9 @@ export async function call<S extends ServiceClass<any, any>>(
   ...args: [] | [unknown]
 ): Promise<ServiceReturn<S>> {
   const input = args[0]
-
+  if (service.skipCacheCompletely) {
+    return executeService(service, input)
+  }
   // Stringify for React cache (needs primitives for shallow equality)
   const stringifiedArgs = stringify(input)
 

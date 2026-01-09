@@ -1,6 +1,7 @@
 'use server'
 
 import prisma from '@books-about-food/database'
+import type { File } from 'payload'
 import sharp from 'sharp'
 import { createImages } from 'src/core/services/images/create-images'
 import { call } from 'src/utils/service'
@@ -15,17 +16,21 @@ export async function upload(
   const files = await Promise.all(blobs.map(parseFile))
 
   if (files.length === 1 && cropArea) {
-    files[0].buffer = await cropImage(files[0].buffer, cropArea)
+    files[0].data = await cropImage(files[0].data, cropArea)
   }
 
   return call(createImages, {
-    prefix,
     files
   })
 }
 
-async function parseFile(file: Blob) {
-  return { buffer: Buffer.from(await file.arrayBuffer()), type: file.type }
+async function parseFile(file: Blob): Promise<File> {
+  return {
+    data: Buffer.from(await file.arrayBuffer()),
+    mimetype: file.type,
+    name: file instanceof File ? file.name : 'upload',
+    size: file.size
+  }
 }
 
 async function cropImage(file: Buffer, cropArea: Area) {

@@ -47,14 +47,17 @@ export class FullBook extends Book {
     return this.tags.map((tag) => tag.name)
   }
 
-  private transformLink = (
-    link: Exclude<BookLinks, null>[number]
-  ): BookLink => ({
-    id: link.id!,
-    url: link.url,
-    site:
-      link.site === 'Other' && link['site (other)']
-        ? link['site (other)']
-        : link.site
-  })
+  private transformLink(
+    this: void,
+    link: NonNullable<BookLinks>[number]
+  ): BookLink {
+    return {
+      id: link.id!,
+      url: link.url,
+      site:
+        link.site === 'Other' && link['site (other)']
+          ? link['site (other)']
+          : link.site
+    }
+  }
 }

@@ -7,7 +7,6 @@ export type CreateImageInput = z.infer<typeof createImages.input>
 
 export const createImages = new Service(
   z.object({
-    prefix: z.string(),
     files: z.array(
       z
         .object({
@@ -34,7 +33,8 @@ export const createImages = new Service(
     )
 
     return imageData
-  }
+  },
+  { cache: false }
 )
 
 async function fileFromUrl(url: string): Promise<File> {

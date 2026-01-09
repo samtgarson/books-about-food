@@ -15,7 +15,7 @@ export type AuthedServiceContext = ServiceContext & {
 }
 
 export type RequestMeta = {
-  cache?: string | { maxAge?: number; key: string }
+  cache?: string | { maxAge?: number; key: string } | false
   admin?: boolean
 }
 
@@ -96,7 +96,8 @@ abstract class BaseService<
   public get cacheKey() {
     if (typeof this.requestMeta.cache === 'string')
       return this.requestMeta.cache
-    return this.requestMeta.cache?.key
+    if (!this.requestMeta.cache) return undefined
+    return this.requestMeta.cache.key
   }
 
   public get defaultCacheMaxAge() {
@@ -105,6 +106,10 @@ abstract class BaseService<
       this.requestMeta.cache.maxAge
     )
       return this.requestMeta.cache.maxAge
+  }
+
+  public get skipCacheCompletely() {
+    return this.requestMeta.cache === false
   }
 }
 
