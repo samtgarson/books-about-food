@@ -1,15 +1,10 @@
 import { BasePayload } from 'payload'
 import { Book } from 'src/core/models/book'
 import { Profile } from 'src/core/models/profile'
-import { Publisher } from 'src/core/models/publisher'
 import { Service } from 'src/core/services/base'
 import { Profile as PayloadProfile } from 'src/payload/payload-types'
 import { z } from 'zod'
-import {
-  BOOK_DEPTH,
-  PROFILE_DEPTH,
-  PUBLISHER_DEPTH
-} from '../utils/payload-depth'
+import { BOOK_DEPTH, PROFILE_DEPTH } from '../utils/payload-depth'
 
 export async function fetchComingSoon(payload: BasePayload) {
   const now = new Date().toISOString()
@@ -58,16 +53,16 @@ export async function fetchFeaturedProfiles(payload: BasePayload) {
   return docs.map(({ profile }) => new Profile(profile as PayloadProfile))
 }
 
-export async function fetchPublishers(payload: BasePayload) {
-  const { docs } = await payload.find({
-    collection: 'publishers',
-    sort: '-publishedBooksCount',
-    limit: 12,
-    depth: PUBLISHER_DEPTH
-  })
+// export async function fetchPublishers(payload: BasePayload) {
+//   const { docs } = await payload.find({
+//     collection: 'publishers',
+//     sort: '-publishedBooksCount',
+//     limit: 12,
+//     depth: PUBLISHER_DEPTH
+//   })
 
-  return docs.map((pub) => new Publisher(pub))
-}
+//   return docs.map((pub) => new Publisher(pub))
+// }
 
 export const fetchHome = new Service(
   z.undefined(),

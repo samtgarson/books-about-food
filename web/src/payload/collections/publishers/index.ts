@@ -76,16 +76,6 @@ export const Publishers: CollectionConfig = {
       }
     },
     {
-      name: 'publishedBooksCount',
-      type: 'number',
-      defaultValue: 0,
-      admin: {
-        position: 'sidebar',
-        readOnly: true,
-        description: 'Auto-updated count of published books'
-      }
-    },
-    {
       name: 'books',
       type: 'join',
       collection: 'books',
@@ -109,7 +99,7 @@ export const Publishers: CollectionConfig = {
       hooks: {
         afterRead: [
           async function ({ siblingData }) {
-            return siblingData.memberships.docs?.length > 0
+            return siblingData.memberships?.docs?.length > 0
           }
         ]
       }

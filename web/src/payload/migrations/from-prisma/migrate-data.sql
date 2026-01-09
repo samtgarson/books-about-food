@@ -1001,22 +1001,6 @@ set
   );
 
 -- ============================================================================
--- PHASE 9: Populate computed fields
--- ============================================================================
--- Populate publishedBooksCount for all publishers
-update payload.publishers
-set
-  published_books_count = (
-    select
-      count(*)
-    from
-      payload.books
-    where
-      books.publisher_id = publishers.id
-      and books.status = 'published'
-  );
-
--- ============================================================================
 -- VERIFICATION QUERIES (uncomment to check counts)
 -- ============================================================================
 -- SELECT 'users' as table_name, (SELECT count(*) FROM public.users) as public_count, (SELECT count(*) FROM payload.users) as payload_count;
