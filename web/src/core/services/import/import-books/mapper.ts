@@ -1,6 +1,6 @@
-import prisma from '@books-about-food/database'
 import { slugify } from '@books-about-food/shared/utils/slugify'
 import { Row } from 'neat-csv'
+import { BasePayload } from 'payload'
 import { ResultRow } from './types'
 
 export const basicColumnMap: Record<
@@ -24,6 +24,7 @@ export const isBasicAttr = (key: string): key is keyof typeof basicColumnMap =>
   key in basicColumnMap
 
 export async function mapper(
+  payload: BasePayload,
   jobs: string[],
   row: Row,
   result: ResultRow,
@@ -34,19 +35,21 @@ export async function mapper(
   if (!jobs.includes(normalisedKey)) return result
   const name = row[key].trim()
 
+  const { docs: found } = await payload.find({
+    collection: 'profiles',
+    where: {
+      name: { equals: name }
+    },
+    limit: 10,
+    depth: 0
+  })
+  const error = found.length > 1 ? 'MultipleMatches' : undefined
+
   if (normalisedKey === 'Author') {
-    const found = await prisma.profile.findMany({
-      where: { name: { equals: name, mode: 'insensitive' } }
-    })
-    const error = found.length > 1 ? 'MultipleMatches' : undefined
     result.authors.push({ name, id: found[0]?.id, error })
     return result
   }
 
-  const found = await prisma.profile.findMany({
-    where: { name: { equals: name, mode: 'insensitive' } }
-  })
-  const error = found.length > 1 ? 'MultipleMatches' : undefined
   result.contributors.push({
     job: normalisedKey,
     name,
