@@ -88,6 +88,9 @@
     ],
     "*.sql": [
       "npx sql-formatter --fix"
+    ],
+    "web/src/payload/collections/*": [
+      "npm run -w web payload:generate"
     ]
   },
   "packageManager": "npm@11.6.0"

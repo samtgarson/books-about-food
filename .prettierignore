@@ -11,3 +11,4 @@ web/src/utils/passphrase/words.ts
 .mailing
 
 packages/database/generated
+web/src/payload/schema.ts

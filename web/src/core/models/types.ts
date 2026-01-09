@@ -26,3 +26,5 @@ export type BookLink = {
   url: string
   site: string
 }
+
+export type BookStatus = 'draft' | 'inReview' | 'published'

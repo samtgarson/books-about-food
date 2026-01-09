@@ -435,10 +435,6 @@ export interface Publisher {
    * Books hidden from this publisher page
    */
   hiddenBooks?: (string | Book)[] | null
-  /**
-   * Auto-updated count of published books
-   */
-  publishedBooksCount?: number | null
   books?: {
     docs?: (string | Book)[]
     hasNextPage?: boolean
@@ -1121,7 +1117,6 @@ export interface PublishersSelect<T extends boolean = true> {
   house?: T
   imprints?: T
   hiddenBooks?: T
-  publishedBooksCount?: T
   books?: T
   memberships?: T
   claimed?: T

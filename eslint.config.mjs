@@ -59,7 +59,6 @@ export default defineConfig([
       "import-x/extensions": [
         "error",
         {
-          "nextauth]": "always",
           json: "always",
           svg: "always",
         },
@@ -75,6 +74,7 @@ export default defineConfig([
         },
       ],
       "@typescript-eslint/no-unsafe-assignment": 0,
+      "no-fallthrough": ["error", { allowEmptyCase: true }],
     },
   },
   // TODO: Fix this

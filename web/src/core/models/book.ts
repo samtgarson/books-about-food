@@ -9,13 +9,12 @@ import { BaseModel } from '.'
 import { Contribution } from './contribution'
 import { Image } from './image'
 import { Profile } from './profile'
+import { BookStatus } from './types'
 import {
   extractId,
   optionalPopulated,
   requirePopulatedArray
 } from './utils/payload-validation'
-
-export type BookStatus = 'draft' | 'inReview' | 'published'
 
 export class Book extends BaseModel {
   _type = 'book' as const
