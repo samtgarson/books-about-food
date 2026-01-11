@@ -1,24 +1,19 @@
 'use client'
 
-import { Bold } from '@tiptap/extension-bold'
-import { Document } from '@tiptap/extension-document'
-import { Dropcursor } from '@tiptap/extension-dropcursor'
-import { History } from '@tiptap/extension-history'
-import { Italic } from '@tiptap/extension-italic'
-import { Link } from '@tiptap/extension-link'
-import { Paragraph } from '@tiptap/extension-paragraph'
-import { Placeholder } from '@tiptap/extension-placeholder'
-import { Text } from '@tiptap/extension-text'
-import { Typography } from '@tiptap/extension-typography'
-import { Underline } from '@tiptap/extension-underline'
-import { EditorContent, useEditor } from '@tiptap/react'
+import { imageUrl } from '@books-about-food/shared/utils/image-url'
+import { EditorContent } from '@tiptap/react'
 import cn from 'classnames'
 import { useState } from 'react'
 import { Loader } from 'src/components/atoms/loader'
-import { ImageUploader } from './file-handler'
+import {
+  createExtensions,
+  createImageUploader,
+  htmlClasses,
+  useEditor
+} from 'src/lib/editor'
+import { upload } from '../image-upload/action'
 import { EditorMenu } from './menu'
 import './styles.css'
-import { htmlClasses } from './util'
 
 export type EditorProps = {
   placeholder?: string
@@ -27,6 +22,7 @@ export type EditorProps = {
   onBlur?: () => void
   className?: string
   imagePrefix?: string
+  id?: string
 }
 
 export function Editor({
@@ -35,28 +31,35 @@ export function Editor({
   onChange,
   onBlur,
   className,
-  imagePrefix
+  imagePrefix,
+  id
 }: EditorProps) {
   const [wrapper, setWrapper] = useState<HTMLElement | null>(null)
   const [loading, setLoading] = useState(false)
+
+  // Create image uploader extension if imagePrefix is provided
+  const imageUploader = imagePrefix
+    ? createImageUploader(async (file) => {
+        const fd = new FormData()
+        fd.append('image', file, file.name)
+        const { data: [result] = [] } = await upload(imagePrefix, fd)
+        if (!result.filename) return null
+        return imageUrl(result.filename, result.prefix)
+      }, setLoading)
+    : undefined
+
   const editor = useEditor({
-    immediatelyRender: false,
-    extensions: extensions({ placeholder, setLoading, imagePrefix }),
-    content: value,
+    value,
+    onChange,
+    onBlur: (event) => {
+      if (!wrapper?.contains(event.relatedTarget as Node)) onBlur?.()
+    },
     editable: !loading,
+    extensions: createExtensions({ placeholder }, imageUploader),
     editorProps: {
       attributes: {
         class: cn(className, 'bg-white', htmlClasses)
       }
-    },
-    onUpdate({ editor }) {
-      const html = editor
-        .getHTML()
-        .replace(/(^(<p><\/p>)+)|((<p><\/p>)+$)/g, '')
-      onChange?.(html)
-    },
-    onBlur({ event }) {
-      if (!wrapper?.contains(event.relatedTarget as Node)) onBlur?.()
     }
   })
 
@@ -66,45 +69,10 @@ export function Editor({
       className={cn('relative transition-opacity', loading && 'opacity-50')}
     >
       <EditorMenu editor={editor} container={wrapper || undefined} />
-      <EditorContent editor={editor} />
+      <EditorContent id={id} editor={editor} />
       {loading && (
         <Loader className="absolute inset-x-0 top-1/2 mx-auto -mt-3" />
       )}
     </div>
   )
-}
-
-function extensions({
-  placeholder,
-  setLoading,
-  imagePrefix
-}: Pick<EditorProps, 'placeholder' | 'imagePrefix'> & {
-  setLoading: (loading: boolean) => void
-}) {
-  const arr = [
-    Bold,
-    Document,
-    Dropcursor,
-    History,
-    Italic,
-    Link.configure({
-      openOnClick: false,
-      HTMLAttributes: {
-        rel: 'noopener noreferrer nofollow',
-        target: '_blank'
-      }
-    }),
-    Paragraph,
-    Placeholder.configure({
-      placeholder
-    }),
-    Text,
-    Typography,
-    Underline
-  ]
-  if (imagePrefix) {
-    arr.push(ImageUploader(setLoading, imagePrefix))
-  }
-
-  return arr
 }

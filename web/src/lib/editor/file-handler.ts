@@ -1,17 +1,12 @@
-import { imageUrl } from '@books-about-food/shared/utils/image-url'
 import Image from '@tiptap/extension-image'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Editor } from '@tiptap/react'
-import { upload } from '../image-upload/action'
 
-async function uploadImage(prefix: string, file: File) {
-  const fd = new FormData()
-  fd.append('image', file, file.name)
-  const { data: [result] = [] } = await upload(prefix, fd)
-
-  if (!result.filename) return null
-  return imageUrl(result.filename, result.prefix)
-}
+/**
+ * Upload handler function signature.
+ * Should upload the file and return the URL of the uploaded image.
+ */
+export type ImageUploadHandler = (file: File) => Promise<string | null>
 
 function getFileList(event: ClipboardEvent | DragEvent) {
   if (event instanceof ClipboardEvent) {
@@ -25,7 +20,7 @@ function getFileList(event: ClipboardEvent | DragEvent) {
 
 async function insertImages(
   editor: Editor,
-  prefix: string,
+  uploadHandler: ImageUploadHandler,
   setLoading: (loading: boolean) => void,
   event: ClipboardEvent | DragEvent
 ) {
@@ -34,9 +29,7 @@ async function insertImages(
   event.preventDefault()
 
   setLoading(true)
-  const urls = await Promise.all(
-    Array.from(files).map((file) => uploadImage(prefix, file))
-  )
+  const urls = await Promise.all(Array.from(files).map(uploadHandler))
 
   urls.forEach((url) => {
     if (!url) return
@@ -49,25 +42,31 @@ async function insertImages(
   return false
 }
 
-export function ImageUploader(
-  setLoading: (loading: boolean) => void,
-  prefix: string
+/**
+ * Creates a TipTap Image extension with drag-and-drop and paste upload support.
+ *
+ * @param uploadHandler - Function that handles uploading the file and returns the URL
+ * @param setLoading - Callback to set loading state during upload
+ */
+export function createImageUploader(
+  uploadHandler: ImageUploadHandler,
+  setLoading: (loading: boolean) => void
 ) {
   return Image.extend({
     addProseMirrorPlugins() {
       const { editor } = this
       return [
-        // a plugin which handles uploading a file when one is dropped into the editor
+        // Plugin which handles uploading a file when dropped or pasted into the editor
         new Plugin({
           key: new PluginKey('imageDrop'),
           props: {
             handleDOMEvents: {
               drop(_view, event) {
-                insertImages(editor, prefix, setLoading, event)
+                insertImages(editor, uploadHandler, setLoading, event)
               }
             },
             handlePaste(_view, event) {
-              insertImages(editor, prefix, setLoading, event)
+              insertImages(editor, uploadHandler, setLoading, event)
             }
           }
         })

@@ -133,13 +133,13 @@ select
 from
   public.locations;
 
--- FAQs (answer is HTML, needs separate conversion to Lexical format)
--- Run convert-faq-answers.ts after this migration to convert HTML → Lexical
+-- FAQs
 insert into
-  payload.faqs (id, question, created_at, updated_at)
+  payload.faqs (id, question, answer, created_at, updated_at)
 select
   id,
   question,
+  answer,
   created_at,
   updated_at
 from

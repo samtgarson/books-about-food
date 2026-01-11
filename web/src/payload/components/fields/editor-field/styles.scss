@@ -1,0 +1,170 @@
+@import '~@payloadcms/ui/scss';
+
+@layer payload-default {
+  .field-type.editor {
+    position: relative;
+
+    .tiptap {
+      @include formInput;
+      height: auto;
+      min-height: 150px;
+      max-width: 75ch;
+
+      p.is-editor-empty:first-child::before {
+        opacity: 0.6;
+        content: attr(data-placeholder);
+        height: 0;
+        pointer-events: none;
+      }
+
+      img {
+        max-width: 100%;
+        border: 1px solid transparent;
+
+        &.ProseMirror-selectednode {
+          border: 2px solid var(--theme-elevation-500);
+        }
+      }
+    }
+
+    .editor-wrapper {
+      position: relative;
+
+      &.loading {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+    }
+
+    // Inline toolbar styles (from payload richtext-lexical)
+    .inline-toolbar-popup {
+      display: flex;
+      align-items: center;
+      background: var(--theme-input-bg);
+      padding: base(0.2);
+      vertical-align: middle;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      animation: fade-in 0.15s ease-in-out;
+      border-radius: var(--style-radius-m);
+      transition: opacity 0.2s;
+      will-change: transform;
+      box-shadow:
+        0px 1px 2px 1px rgba(0, 0, 0, 0.1),
+        0px 4px 16px 0px rgba(0, 0, 0, 0.2),
+        0px -4px 8px 0px rgba(0, 0, 0, 0.1);
+
+      .divider {
+        width: 1px;
+        height: 15px;
+        background-color: var(--theme-border-color);
+        margin: 0 6.25px;
+      }
+    }
+
+    // Toolbar button styles (from payload richtext-lexical)
+    .toolbar-popup__button {
+      display: flex;
+      align-items: center;
+      vertical-align: middle;
+      justify-content: center;
+      height: 30px;
+      width: 30px;
+      border: 0;
+      background: none;
+      border-radius: var(--style-radius-m);
+      cursor: pointer;
+      padding: 0;
+      transition: background-color 0.15s cubic-bezier(0, 0.2, 0.2, 1);
+
+      .icon {
+        color: var(--theme-elevation-600);
+      }
+
+      &:hover:not(.disabled) {
+        background-color: var(--theme-elevation-100);
+      }
+
+      &.active {
+        background-color: var(--theme-elevation-150);
+        color: var(--theme-text);
+
+        &:hover {
+          background-color: var(--theme-elevation-200);
+        }
+
+        .icon {
+          opacity: 1;
+        }
+      }
+
+      &.disabled {
+        cursor: not-allowed;
+
+        .icon {
+          opacity: 0.2;
+        }
+      }
+    }
+
+    .editor-link-modal {
+      .modal-content {
+        padding: 20px;
+
+        h2 {
+          margin: 0 0 16px 0;
+          font-size: 18px;
+        }
+
+        .form-group {
+          margin-bottom: 16px;
+
+          label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+          }
+
+          input {
+            @include formInput;
+            width: 100%;
+          }
+        }
+
+        .modal-actions {
+          display: flex;
+          gap: 8px;
+          justify-content: flex-end;
+        }
+      }
+    }
+  }
+
+  html[data-theme='light'] {
+    .field-type.editor {
+      &.error {
+        .tiptap {
+          @include lightInputError;
+        }
+      }
+
+      // Light theme adjustments for toolbar (from payload richtext-lexical)
+      .inline-toolbar-popup {
+        box-shadow:
+          0px 1px 2px 1px rgba(0, 0, 0, 0.05),
+          0px 4px 8px 0px rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+
+  html[data-theme='dark'] {
+    .field-type.editor {
+      &.error {
+        .tiptap {
+          @include darkInputError;
+        }
+      }
+    }
+  }
+}

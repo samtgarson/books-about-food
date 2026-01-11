@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { editorField } from 'src/payload/fields/editor'
 import { slugField } from '../../fields/slug'
 
 export const Posts: CollectionConfig = {
@@ -15,11 +16,10 @@ export const Posts: CollectionConfig = {
       required: true
     },
     slugField('title'),
-    {
-      name: 'content',
-      type: 'richText',
-      required: true
-    },
+    editorField('content', {
+      required: true,
+      placeholder: 'Write your post content here...'
+    }),
     {
       name: 'author',
       type: 'relationship',

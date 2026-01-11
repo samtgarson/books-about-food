@@ -6,7 +6,6 @@ import { fileURLToPath } from 'url'
 import { authConfig } from './utils/auth-config'
 
 import { collections } from './payload/collections'
-import { editor } from './payload/config/editor'
 import { postgres } from './payload/config/postgres'
 import { s3Storage } from './payload/config/s3-storage'
 import { cacheRevalidationPlugin } from './payload/plugins/cache-revalidation'
@@ -22,7 +21,6 @@ export default buildConfig({
     }
   },
   collections,
-  editor,
   secret: process.env.PAYLOAD_SECRET || 'payload-secret-change-me',
   typescript: {
     outputFile: path.resolve(dirname, 'payload', 'payload-types.ts')

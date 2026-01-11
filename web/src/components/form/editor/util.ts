@@ -1,1 +1,2 @@
-export const htmlClasses = 'prose prose-strong:font-medium prose-a:font-normal'
+// Re-export from shared library for backwards compatibility
+export { htmlClasses } from 'src/lib/editor'

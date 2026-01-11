@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { editorField } from 'src/payload/fields/editor'
 import { revalidatePaths } from '../../plugins/cache-revalidation'
 
 export const FAQs: CollectionConfig = {
@@ -23,11 +24,9 @@ export const FAQs: CollectionConfig = {
       required: true,
       unique: true
     },
-    {
-      name: 'answer',
-      type: 'richText'
-      // TODO: enable once migration is done
-      // required: true,
-    }
+    editorField('answer', {
+      required: true,
+      placeholder: 'Type answer...'
+    })
   ]
 }

@@ -1,4 +1,4 @@
-import { BubbleMenu, Editor, isNodeSelection } from '@tiptap/react'
+import { BubbleMenu, Editor } from '@tiptap/react'
 import cn from 'classnames'
 import { forwardRef } from 'react'
 import {
@@ -6,9 +6,12 @@ import {
   Icon,
   Italic,
   Link,
+  List,
+  ListOrdered,
   Trash2,
   Underline
 } from 'src/components/atoms/icons'
+import { createMenuActions, getMenuActiveStates } from 'src/lib/editor'
 import EditorLinkSheet from './link-sheet'
 
 const iconAttrs = { size: 18, strokeWidth: 1 }
@@ -37,6 +40,10 @@ const Item = forwardRef<
   )
 })
 
+const Divider = () => (
+  <div className="mx-1 h-5 w-px bg-neutral-grey opacity-30" />
+)
+
 export function EditorMenu({
   editor,
   container
@@ -45,9 +52,9 @@ export function EditorMenu({
   container?: HTMLElement
 }) {
   if (!editor) return null
-  const isImage =
-    isNodeSelection(editor.state.selection) &&
-    editor.state.selection.node.type.name === 'image'
+
+  const actions = createMenuActions(editor)
+  const states = getMenuActiveStates(editor)
 
   return (
     <BubbleMenu
@@ -55,31 +62,42 @@ export function EditorMenu({
       tippyOptions={{ animation: 'fade', interactive: true, zIndex: 60 }}
     >
       <div className={cn('relative flex justify-between float-menu')}>
-        {isImage ? (
+        {states.isImageSelected ? (
           <Item
-            onClick={() => editor.chain().deleteSelection().run()}
+            onClick={actions.deleteSelection}
             icon={Trash2}
             active={false}
           />
         ) : (
           <>
             <Item
-              onClick={() => editor.chain().focus().toggleBold().run()}
-              active={editor.isActive('bold')}
+              onClick={actions.toggleBulletList}
+              active={states.isBulletListActive}
+              icon={List}
+            />
+            <Item
+              onClick={actions.toggleOrderedList}
+              active={states.isOrderedListActive}
+              icon={ListOrdered}
+            />
+            <Divider />
+            <Item
+              onClick={actions.toggleBold}
+              active={states.isBoldActive}
               icon={Bold}
             />
             <Item
-              onClick={() => editor.chain().focus().toggleItalic().run()}
-              active={editor.isActive('italic')}
+              onClick={actions.toggleItalic}
+              active={states.isItalicActive}
               icon={Italic}
             />
             <Item
-              onClick={() => editor.chain().focus().toggleUnderline().run()}
-              active={editor.isActive('underline')}
+              onClick={actions.toggleUnderline}
+              active={states.isUnderlineActive}
               icon={Underline}
             />
             <EditorLinkSheet editor={editor} container={container}>
-              <Item active={editor.isActive('link')} icon={Link} />
+              <Item active={states.isLinkActive} icon={Link} />
             </EditorLinkSheet>
           </>
         )}

@@ -23,6 +23,7 @@ import { Wrap } from 'src/components/utils/wrap'
 import { fetchBook } from 'src/core/services/books/fetch-book'
 import { fetchBooks } from 'src/core/services/books/fetch-books'
 import { fetchComingSoon, fetchNewlyAdded } from 'src/core/services/home/fetch'
+import { getPayloadClient } from 'src/core/services/utils/payload'
 import { bookTotal, genMetadata } from 'src/utils/metadata'
 import { call } from 'src/utils/service'
 
@@ -31,10 +32,11 @@ export const revalidate = 3600
 export const dynamicParams = true
 
 export async function generateStaticParams() {
+  const payload = await getPayloadClient()
   const [{ data }, newlyAdded, comingSoon] = await Promise.all([
     call(fetchBooks, undefined),
-    fetchNewlyAdded(),
-    fetchComingSoon()
+    fetchNewlyAdded(payload),
+    fetchComingSoon(payload)
   ])
 
   return (
