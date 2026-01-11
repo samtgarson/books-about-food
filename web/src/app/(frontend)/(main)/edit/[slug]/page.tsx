@@ -1,4 +1,3 @@
-import prisma from '@books-about-food/database'
 import Image from 'next/image'
 import { notFound, redirect } from 'next/navigation'
 import { Button } from 'src/components/atoms/button'
@@ -13,6 +12,7 @@ import { slugPage } from 'src/components/types'
 import { Toaster } from 'src/components/utils/toaster'
 import { Wrap } from 'src/components/utils/wrap'
 import { fetchBook } from 'src/core/services/books/fetch-book'
+import { getPayloadClient } from 'src/core/services/utils/payload'
 import { call } from 'src/utils/service'
 import { getSessionUser } from 'src/utils/user'
 
@@ -79,7 +79,11 @@ export default slugPage<'/edit/[slug]'>(async function EditBook(slug) {
           <form
             action={async function () {
               'use server'
-              await prisma.book.delete({ where: { id: book.id } })
+              const payload = await getPayloadClient()
+              await payload.delete({
+                collection: 'books',
+                id: book.id
+              })
               redirect('/account/submissions?action=deleted')
             }}
             className="text-center"

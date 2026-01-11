@@ -30,6 +30,7 @@ const Item = forwardRef<
       onClick={onClick}
       className={buttonClasses}
       data-active={active || null}
+      type="button"
     >
       <Icon {...iconAttrs} />
     </button>

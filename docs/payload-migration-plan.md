@@ -50,11 +50,11 @@ To enable a clean migration path:
 ```typescript
 // payload.config.ts
 db: postgresAdapter({
-  idType: 'uuid',
-  schemaName: 'payload',
+  idType: "uuid",
+  schemaName: "payload",
   pool: { connectionString: process.env.DATABASE_URL },
-  migrationDir: path.resolve(dirname, 'payload', 'migrations')
-})
+  migrationDir: path.resolve(dirname, "payload", "migrations"),
+});
 ```
 
 ### Field Handling
@@ -401,6 +401,9 @@ npx tsx src/payload/migrations/convert-faq-answers.ts
 2. For complex queries, use Payload's Drizzle client directly
 3. Update any type references from Prisma types to Payload types
 4. Test all frontend features
+
+**Detailed Plan:**
+See `docs/prisma-to-payload-migration.md` for step-by-step instructions.
 
 **Verification:**
 

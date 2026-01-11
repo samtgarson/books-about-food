@@ -1,13 +1,39 @@
-import prisma from '@books-about-food/database'
 import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { MetadataRoute } from 'next'
-import { SearchResult } from 'src/core/models/search-result'
+import { getPayloadClient } from 'src/core/services/utils/payload'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const records = await prisma.searchResult.findMany({
-    where: {
-      type: { in: ['book', 'author', 'contributor', 'publisher', 'collection'] }
-    }
+  const payload = await getPayloadClient()
+
+  // TODO: Return to this once we have search results re-implemented in payload
+
+  // Fetch all published books
+  const { docs: books } = await payload.find({
+    collection: 'books',
+    where: { status: { equals: 'published' } },
+    pagination: false,
+    depth: 0
+  })
+
+  // Fetch all profiles (authors and contributors)
+  const { docs: profiles } = await payload.find({
+    collection: 'profiles',
+    pagination: false,
+    depth: 0
+  })
+
+  // Fetch all publishers
+  const { docs: publishers } = await payload.find({
+    collection: 'publishers',
+    pagination: false,
+    depth: 0
+  })
+
+  // Fetch all collections
+  const { docs: collections } = await payload.find({
+    collection: 'collections',
+    pagination: false,
+    depth: 0
   })
 
   return [
@@ -53,14 +79,29 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: 'daily'
     },
-    ...records.map(function (record): MetadataRoute.Sitemap[number] {
-      const model = new SearchResult(record)
-      return {
-        url: appUrl(model.href),
-        priority: 0.8,
-        lastModified: model.updatedAt,
-        changeFrequency: 'weekly'
-      }
-    })
+    ...books.map((book) => ({
+      url: appUrl(`/cookbooks/${book.slug}`),
+      priority: 0.8,
+      lastModified: new Date(book.updatedAt),
+      changeFrequency: 'weekly' as const
+    })),
+    ...profiles.map((profile) => ({
+      url: appUrl(`/people/${profile.slug}`),
+      priority: 0.8,
+      lastModified: new Date(profile.updatedAt),
+      changeFrequency: 'weekly' as const
+    })),
+    ...publishers.map((publisher) => ({
+      url: appUrl(`/publishers/${publisher.slug}`),
+      priority: 0.8,
+      lastModified: new Date(publisher.updatedAt),
+      changeFrequency: 'weekly' as const
+    })),
+    ...collections.map((collection) => ({
+      url: appUrl(`/collections/${collection.slug}`),
+      priority: 0.8,
+      lastModified: new Date(collection.updatedAt),
+      changeFrequency: 'weekly' as const
+    }))
   ]
 }
