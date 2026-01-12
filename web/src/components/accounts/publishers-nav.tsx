@@ -1,4 +1,4 @@
-import prisma from '@books-about-food/database'
+import { getPayloadClient } from 'src/core/services/utils/payload'
 import { getSessionUser } from 'src/utils/user'
 import { SidebarItem } from '../nav/sidebar/item'
 
@@ -6,8 +6,15 @@ export async function PublishersNav() {
   const user = await getSessionUser()
   if (!user) return null
 
-  const publishers = await prisma.publisher.findMany({
-    where: { memberships: { some: { userId: user.id } } }
+  const payload = await getPayloadClient()
+  const { docs: publishers } = await payload.find({
+    collection: 'publishers',
+    where: {
+      memberships: {
+        contains: user.id
+      }
+    },
+    depth: 0
   })
 
   if (!publishers.length) return null

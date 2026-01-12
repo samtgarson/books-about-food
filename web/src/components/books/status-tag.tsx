@@ -1,4 +1,4 @@
-import { BookStatus } from '@books-about-food/database/client'
+import { BookStatus } from 'src/core/models/types'
 import { Tag, TagProps } from '../atoms/tag'
 
 export function StatusTag({
@@ -6,19 +6,19 @@ export function StatusTag({
   ...props
 }: { status: BookStatus } & Omit<TagProps, 'children' | 'color'>) {
   switch (status) {
-    case BookStatus.draft:
+    case 'draft':
       return (
         <Tag {...props} color="grey">
           Draft
         </Tag>
       )
-    case BookStatus.inReview:
+    case 'inReview':
       return (
         <Tag {...props} color="purple">
           In Review
         </Tag>
       )
-    case BookStatus.published:
+    case 'published':
       return (
         <Tag {...props} color="lime">
           Published

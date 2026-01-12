@@ -1,10 +1,9 @@
-/**
- * Legacy types file - minimal re-exports for backward compatibility.
- * Model types are now defined inline in their respective model files.
- */
-
+import { PgEnum } from '@payloadcms/db-postgres/drizzle/pg-core'
 import type { BookContributions, User } from 'src/payload/payload-types'
-import { enum_books_links_site } from 'src/payload/schema'
+import {
+  enum_books_links_site,
+  enum_memberships_role
+} from 'src/payload/schema'
 
 // Re-export Payload types for convenience
 export type * from 'src/payload/payload-types'
@@ -17,9 +16,14 @@ export type BookResult = {
   image?: string
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type PgEnumValue<T extends PgEnum<any>> =
+  T extends PgEnum<infer U> ? U[number] : never
+
 export type BookContribution = NonNullable<BookContributions>[number]
 export type Account = NonNullable<User['accounts']>[number]
-export type BookLinkSite = (typeof enum_books_links_site.enumValues)[number]
+export type BookLinkSite = PgEnumValue<typeof enum_books_links_site>
+export type MembershipRole = PgEnumValue<typeof enum_memberships_role>
 
 export type BookLink = {
   id: string

@@ -51,12 +51,13 @@ export const fetchProfiles = new Service(
   ) => {
     const joins: JoinQuery<'profiles'> = {}
     const where: Where = {
-      and: [{ name: { not_equals: '' } }]
+      name: { not_equals: '' },
+      and: []
     }
 
     // User filter
     if (userId) {
-      where.and!.push({ user: { equals: userId } })
+      where.user = { equals: userId }
     }
 
     // Location filter
@@ -100,15 +101,15 @@ export const fetchProfiles = new Service(
       joins.contributions = { where: { status: { equals: 'published' } } }
       where.and!.push({
         or: [
-          { 'authoredBooks.status': { equals: 'published' } },
-          { authoredBooks: { exists: false } }
+          { 'authoredBooks.status': { equals: 'published' } }
+          // { 'contributions.status': { equals: 'published' } }
         ]
       })
     }
 
     // Avatar filter
     if (withAvatar) {
-      where.and!.push({ avatar: { exists: true } })
+      where.avatar = { exists: true }
     }
 
     const sortField = sort === 'name' ? 'name' : '-mostRecentlyPublishedOn'

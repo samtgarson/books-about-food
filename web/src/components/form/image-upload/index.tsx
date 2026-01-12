@@ -12,13 +12,13 @@ import { Image } from 'src/core/models/image'
 import { InputProps, useRequired } from '../input-props'
 import { Label } from '../label'
 import { Messages } from '../messages'
-import { reorderImages } from './action'
 import { ImageUploadButton } from './upload-button'
 
 export type ImageUploadProps<Multi extends boolean> = {
   defaultValue?: Multi extends true ? Array<Image> : Image
   multi?: Multi
   prefix: string
+  onReorderImages?: (ids: string[]) => Promise<void>
 } & Omit<InputProps<'input'>, 'multiple' | 'value' | 'defaultValue'>
 
 export function ImageUpload<Multi extends boolean = false>({
@@ -28,6 +28,7 @@ export function ImageUpload<Multi extends boolean = false>({
   defaultValue,
   prefix,
   className,
+  onReorderImages,
   ...props
 }: ImageUploadProps<Multi>) {
   const input = useRef<HTMLInputElement>(null)
@@ -60,7 +61,7 @@ export function ImageUpload<Multi extends boolean = false>({
         values={images}
         onReorder={async function (images) {
           setImages(images)
-          await reorderImages(images.map((i) => i.id))
+          await onReorderImages?.(images.map((i) => i.id))
         }}
         layoutScroll
         className={cn(

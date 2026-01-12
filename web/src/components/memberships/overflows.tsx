@@ -1,5 +1,4 @@
 'use client'
-import type { MembershipRole } from '@books-about-food/database'
 import {
   ChevronsDown,
   ChevronsUp,
@@ -7,6 +6,7 @@ import {
   Trash2
 } from 'src/components/atoms/icons'
 import * as Overflow from 'src/components/atoms/overflow'
+import type { MembershipRole } from 'src/core/models/types'
 
 export function MembershipsOverflow({
   id,

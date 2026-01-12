@@ -1,12 +1,12 @@
 'use client'
 
-import { FrequentlyAskedQuestion } from '@books-about-food/database'
 import { useState } from 'react'
 import * as Accordion from 'src/components/atoms/accordion'
+import type { FAQ } from 'src/payload/payload-types'
 import { EditorRenderer } from '../form/editor/renderer'
 import { Search } from '../lists/search'
 
-export function Faqs({ questions }: { questions: FrequentlyAskedQuestion[] }) {
+export function FAQs({ questions }: { questions: FAQ[] }) {
   const [search, setSearch] = useState('')
   const filtered = questions.filter(
     ({ question, answer }) =>

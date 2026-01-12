@@ -155,7 +155,6 @@ export const Profiles: CollectionConfig = {
       type: 'join',
       collection: 'books',
       on: 'contributions.profile',
-      hasMany: true,
       admin: { allowCreate: false }
     },
     {

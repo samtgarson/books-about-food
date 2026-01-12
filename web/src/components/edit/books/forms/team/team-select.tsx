@@ -1,6 +1,5 @@
 'use client'
 
-import { Job } from '@books-about-food/database'
 import { BaseAvatar } from 'src/components/atoms/avatar'
 import { CollectionInput } from 'src/components/form/collection-input'
 import { ContributionForm } from 'src/components/form/contribution-form'
@@ -9,6 +8,7 @@ import { Image } from 'src/core/models/image'
 import { Profile } from 'src/core/models/profile'
 import { ContributorAttrs } from 'src/core/services/books/update-contributors'
 import { useCurrentUser } from 'src/hooks/use-current-user'
+import type { Job } from 'src/payload/payload-types'
 
 export type TeamSelectValue = ContributorAttrs & {
   id: string

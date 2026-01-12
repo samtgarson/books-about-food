@@ -13,7 +13,7 @@ export const metadata = (segment: ProfilePageProps['segment']) =>
     const { slug } = await props.params
     const [{ data: profile }, total] = await Promise.all([
       call(fetchProfile, { slug }),
-      profileTotal
+      profileTotal()
     ])
     if (!profile) notFound()
 

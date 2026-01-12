@@ -1,6 +1,6 @@
-import prisma from '@books-about-food/database'
 import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { Metadata, ResolvedMetadata } from 'next'
+import { getPayloadClient } from 'src/core/services/utils/payload'
 
 const titleTemplate = (t: string) => `${t} on Books About Food`
 
@@ -48,11 +48,34 @@ export function genMetadata(
   return metadata
 }
 
-export const bookTotal = prisma.book.count({ where: { status: 'published' } })
-export const profileTotal = prisma.profile.count({
-  // FIXME: implement this filter during the migration to Payload
-  // where: FETCH_PROFILES_ONLY_PUBLISHED_QUERY
-})
-export const publisherTotal = prisma.publisher.count({
-  where: { books: { some: { status: 'published' } } }
-})
+export const bookTotal = (async () => {
+  const payload = await getPayloadClient()
+  const { totalDocs } = await payload.count({
+    collection: 'books',
+    where: { status: { equals: 'published' } }
+  })
+  return totalDocs
+})()
+
+export async function profileTotal() {
+  const payload = await getPayloadClient()
+  const { totalDocs } = await payload.count({
+    collection: 'profiles',
+    // FIXME: implement this filter during the migration to Payload
+    where: {
+      // 'contributions.status': { equals: 'published' }
+    }
+  })
+  return totalDocs
+}
+
+export const publisherTotal = (async () => {
+  const payload = await getPayloadClient()
+  const { totalDocs } = await payload.count({
+    collection: 'publishers',
+    where: {
+      'books.status': { equals: 'published' }
+    }
+  })
+  return totalDocs
+})()

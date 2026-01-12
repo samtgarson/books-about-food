@@ -1,6 +1,5 @@
 'use server'
 
-import prisma from '@books-about-food/database'
 import type { File } from 'payload'
 import sharp from 'sharp'
 import { createImages } from 'src/core/services/images/create-images'
@@ -44,17 +43,5 @@ async function cropImage(file: Buffer, cropArea: Area) {
     .toFormat('png')
     .toBuffer()
 
-  // TODO: Upgrade Typscript to remove this cast
-  return output as Buffer<ArrayBuffer>
-}
-
-export async function reorderImages(ids: string[]) {
-  await prisma.$transaction(
-    ids.map((id, order) =>
-      prisma.image.update({
-        where: { id },
-        data: { order }
-      })
-    )
-  )
+  return output
 }

@@ -1,4 +1,4 @@
-import { BookStatus } from '@books-about-food/database/client'
+import { BookStatus } from 'src/core/models/types'
 import { DraftNotes } from './draft'
 import { InReviewNotes } from './in-review'
 
@@ -10,9 +10,9 @@ export function EditNotes({
   className?: string
 }) {
   switch (status) {
-    case BookStatus.draft:
+    case 'draft':
       return <DraftNotes className={className} />
-    case BookStatus.inReview:
+    case 'inReview':
       return <InReviewNotes className={className} />
     default:
       return null

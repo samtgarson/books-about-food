@@ -49,7 +49,8 @@ export function ProfileSelect<Multi extends boolean>({
       allowCreate
       onChange={onChange}
       onCreate={async (name) => {
-        const newVal = new Profile(await createProfile(name))
+        const { data: newVal } = await createProfile(name)
+        if (!newVal) throw new Error('Failed to create profile')
         onCreate?.(newVal)
         return newVal
       }}

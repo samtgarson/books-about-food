@@ -1,11 +1,9 @@
 'use server'
 
-import prisma from '@books-about-food/database'
-import { slugify } from '@books-about-food/shared/utils/slugify'
 import { fetchJobs } from 'src/core/services/jobs/fetch-jobs'
 import { fetchProfiles } from 'src/core/services/profiles/fetch-profiles'
+import { findOrCreateProfile } from 'src/core/services/profiles/find-or-create-profile'
 import { fetchTags } from 'src/core/services/tags/fetch'
-import { profileIncludes } from 'src/core/services/utils'
 import { call } from 'src/utils/service'
 import { stringify } from 'src/utils/superjson'
 
@@ -25,9 +23,5 @@ export async function tags(search?: string) {
 }
 
 export async function createProfile(name: string) {
-  const profile = await prisma.profile.create({
-    data: { name, slug: slugify(name) },
-    include: profileIncludes
-  })
-  return profile
+  return await call(findOrCreateProfile, { name })
 }

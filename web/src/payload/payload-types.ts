@@ -108,7 +108,7 @@ export interface Config {
     books: Book
     claims: Claim
     collections: Collection
-    faqs: Faq
+    faqs: FAQ
     favourites: Favourite
     'featured-profiles': FeaturedProfile
     features: Feature
@@ -559,25 +559,11 @@ export interface Collection {
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "faqs".
  */
-export interface Faq {
+export interface FAQ {
   id: string
   _order?: string | null
   question: string
-  answer?: {
-    root: {
-      type: string
-      children: {
-        type: any
-        version: number
-        [k: string]: unknown
-      }[]
-      direction: ('ltr' | 'rtl') | null
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
-      indent: number
-      version: number
-    }
-    [k: string]: unknown
-  } | null
+  answer: string
   updatedAt: string
   createdAt: string
 }
@@ -640,21 +626,7 @@ export interface Post {
   id: string
   title: string
   slug: string
-  content: {
-    root: {
-      type: string
-      children: {
-        type: any
-        version: number
-        [k: string]: unknown
-      }[]
-      direction: ('ltr' | 'rtl') | null
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
-      indent: number
-      version: number
-    }
-    [k: string]: unknown
-  }
+  content: string
   author: string | User
   /**
    * Schedule post for future publication
@@ -720,7 +692,7 @@ export interface PayloadLockedDocument {
       } | null)
     | ({
         relationTo: 'faqs'
-        value: string | Faq
+        value: string | FAQ
       } | null)
     | ({
         relationTo: 'favourites'

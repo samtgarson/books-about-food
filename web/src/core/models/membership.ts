@@ -2,10 +2,9 @@ import type {
   Membership as PayloadMembership,
   User as PayloadUser
 } from 'src/payload/payload-types'
+import { MembershipRole } from './types'
 import { User } from './user'
 import { requirePopulated } from './utils/payload-validation'
-
-export type MembershipRole = 'admin' | 'member'
 
 export class Membership {
   public id: string

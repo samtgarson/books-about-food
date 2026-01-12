@@ -5,6 +5,9 @@ import { revalidatePaths } from '../../plugins/cache-revalidation'
 export const FAQs: CollectionConfig = {
   slug: 'faqs',
   orderable: true,
+  typescript: {
+    interface: 'FAQ'
+  },
   custom: {
     revalidatePaths: revalidatePaths(() => ['/frequently-asked-questions'])
   },

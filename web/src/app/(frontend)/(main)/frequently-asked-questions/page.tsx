@@ -1,6 +1,6 @@
 import { Container } from 'src/components/atoms/container'
 import { PageTitle } from 'src/components/atoms/page-title'
-import { Faqs } from 'src/components/home/faqs'
+import { FAQs } from 'src/components/home/faqs'
 import { getPayloadClient } from 'src/core/services/utils/payload'
 import { genMetadata } from 'src/utils/metadata'
 
@@ -37,7 +37,7 @@ export default async function FrequentlyAskedQuestions() {
   return (
     <Container belowNav>
       <PageTitle>Frequently Asked Questions</PageTitle>
-      <Faqs questions={questions} />
+      <FAQs questions={questions} />
     </Container>
   )
 }

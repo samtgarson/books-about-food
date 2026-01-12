@@ -4,6 +4,8 @@ import { ImageUpload } from 'src/components/form/image-upload'
 import { Submit } from 'src/components/form/submit'
 import { Wrap } from 'src/components/utils/wrap'
 import { FullBook } from 'src/core/models/full-book'
+import { updateBook } from 'src/core/services/books/update-book'
+import { call } from 'src/utils/service'
 import { createAction } from '../action'
 import { EditForm } from '../form'
 
@@ -37,6 +39,10 @@ export const UploadForm = async ({ book }: { book: FullBook }) => {
         defaultValue={book.previewImages}
         prefix={`books/${book.id}/previews`}
         className="mb-4"
+        onReorderImages={async function (previewImageIds) {
+          'use server'
+          await call(updateBook, { slug: book.slug, previewImageIds })
+        }}
       />
       <Submit>Save and Continue</Submit>
     </EditForm>

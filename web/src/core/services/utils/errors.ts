@@ -1,4 +1,3 @@
-import type { Prisma } from '@books-about-food/database'
 import z from 'zod'
 export type ErrorType = keyof typeof ErrorTypeStatusMap
 const ErrorTypeStatusMap = {
@@ -17,28 +16,9 @@ export type AppErrorJSON = {
   field?: string
 }
 
-const isPrismaError = (
-  e: unknown
-): e is Prisma.PrismaClientKnownRequestError => {
-  return typeof e === 'object' && e !== null && 'code' in e
-}
-
 export class AppError extends Error {
   static fromError = (e: unknown) => {
     if (e instanceof AppError) return e
-
-    if (isPrismaError(e)) {
-      switch (e.code) {
-        case 'P2025':
-          return new AppError('NotFound', e.message, e.meta?.target as string)
-        case 'P2002':
-          return new AppError(
-            'UniqueConstraintViolation',
-            e.message,
-            (e.meta?.target as string[] | undefined)?.[0]
-          )
-      }
-    }
 
     if (e instanceof z.ZodError) {
       return new AppError(

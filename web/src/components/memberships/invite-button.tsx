@@ -1,9 +1,9 @@
 'use client'
 
-import { MembershipRole } from '@books-about-food/database/client'
 import { titleize } from 'inflection'
 import * as Sheet from 'src/components/atoms/sheet'
 import { Publisher } from 'src/core/models/publisher'
+import { MembershipRole } from 'src/core/models/types'
 import { createInviteSchema } from 'src/core/services/memberships/schemas/create-invite'
 import { z } from 'zod'
 import { Plus } from '../atoms/icons'
@@ -17,9 +17,10 @@ type PublisherInviteButtonProps = {
   publisher: Pick<Publisher, 'id' | 'name' | 'slug'>
 }
 
-const roleOptions: { value: MembershipRole; label: string }[] = Object.values(
-  MembershipRole
-).map((role) => ({ value: role, label: titleize(role) }))
+const roleOptions: { value: MembershipRole; label: string }[] = [
+  'admin',
+  'member'
+].map((role) => ({ value: role as MembershipRole, label: titleize(role) }))
 
 export function PublisherInviteButton({
   publisher
@@ -49,8 +50,8 @@ export function PublisherInviteButton({
               name="role"
               label="Role"
               defaultValue={{
-                value: MembershipRole.member,
-                label: titleize(MembershipRole.member)
+                value: 'member',
+                label: titleize('member')
               }}
               valueKey="value"
               render="label"

@@ -1,6 +1,5 @@
 'use client'
 
-import { BookVote } from '@books-about-food/database'
 import Image from 'next/image'
 import { useMemo, useState } from 'react'
 import { AntiContainer } from 'src/components/atoms/container'
@@ -9,6 +8,8 @@ import { Search } from 'src/components/lists/search'
 import { useNav } from 'src/components/nav/context'
 import { TrackedLink } from 'src/components/tracking/context'
 import { Book as Model } from 'src/core/models/book'
+import { extractIds } from 'src/core/models/utils/payload-validation'
+import type { BookVote } from 'src/payload/payload-types'
 import { toggleItemAuto } from 'src/utils/array-helpers'
 import { useLocalStorage } from 'usehooks-ts'
 import { createVotes, onVote } from './actions'
@@ -60,10 +61,7 @@ export function TopTenGrid({
   const alreadyVoted = existingVoteCount >= 3
   const canVote = selected.length < 3
   const selectedBooksToShow = alreadyVoted
-    ? findBooks(
-        books,
-        existingVotes.map((vote) => vote.bookId)
-      )
+    ? findBooks(books, extractIds(existingVotes.map((vote) => vote.book)))
     : selected
   function isSelected(book: Model) {
     return selectedBooksToShow.includes(book)

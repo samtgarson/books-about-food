@@ -1,7 +1,8 @@
-import prisma from '@books-about-food/database'
 import { FullBook } from 'src/core/models/full-book'
 import { Profile } from 'src/core/models/profile'
+import { updateBook } from 'src/core/services/books/update-book'
 import { User } from 'src/core/types'
+import { call } from 'src/utils/service'
 
 export type StepCompletionMeta =
   | undefined
@@ -30,10 +31,7 @@ export class BookEditState {
 
   async submitForReview() {
     if (!this.valid) return
-    await prisma.book.update({
-      where: { id: this.book.id },
-      data: { status: 'inReview' }
-    })
+    await call(updateBook, { slug: this.book.slug, status: 'inReview' })
   }
 
   get valid() {
