@@ -6,19 +6,31 @@ export const quickSearch = new Service(
   async ({ query }, { payload }) => {
     if (query.length < 3) return []
 
-    const { docs } = await payload.find({
-      collection: 'search-results',
-      where: {
-        or: [
-          { name: { contains: query } },
-          { description: { contains: query } }
-        ]
-      },
-      sort: 'name',
-      limit: 20,
-      depth: 1 // Populate image relationship
-    })
+    // Two queries for relevance sorting: name matches first, then description-only matches
+    const [nameMatches, descriptionMatches] = await Promise.all([
+      payload.find({
+        collection: 'search-results',
+        where: { name: { contains: query } },
+        sort: 'name',
+        limit: 20,
+        depth: 1
+      }),
+      payload.find({
+        collection: 'search-results',
+        where: {
+          and: [
+            { description: { contains: query } },
+            { name: { not_contains: query } }
+          ]
+        },
+        sort: 'name',
+        limit: 20,
+        depth: 1
+      })
+    ])
 
-    return docs
+    // Combine results, prioritizing name matches
+    const combined = [...nameMatches.docs, ...descriptionMatches.docs]
+    return combined.slice(0, 20)
   }
 )
