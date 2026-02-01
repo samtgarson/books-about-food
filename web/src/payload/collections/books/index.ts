@@ -5,6 +5,14 @@ import { books_contributions, jobs, profiles } from 'src/payload/schema'
 import { slugField } from '../../fields/slug'
 import { revalidatePaths } from '../../plugins/cache-revalidation'
 import { colorField, dayOnlyDisplayFormat } from '../utils'
+import {
+  syncRelatedSearchResults,
+  syncRelatedSearchResultsOnDelete
+} from './hooks/sync-related-search-results'
+import {
+  deleteBookSearchResult,
+  syncBookSearchResult
+} from './hooks/sync-search-result'
 import { triggerPaletteGeneration } from './hooks/trigger-palette-generation'
 import { updateSearchText } from './hooks/update-search-text'
 
@@ -18,7 +26,9 @@ export const Books: CollectionConfig = {
     ])
   },
   hooks: {
-    beforeChange: [updateSearchText]
+    beforeChange: [updateSearchText],
+    afterChange: [syncBookSearchResult, syncRelatedSearchResults],
+    afterDelete: [deleteBookSearchResult, syncRelatedSearchResultsOnDelete]
   },
   admin: {
     group: 'Resources',

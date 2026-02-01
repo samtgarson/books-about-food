@@ -2,6 +2,10 @@ import type { CollectionConfig } from 'payload'
 import { slugField } from '../../fields/slug'
 import { revalidatePaths } from '../../plugins/cache-revalidation'
 import { dayOnlyDisplayFormat } from '../utils'
+import {
+  deleteProfileSearchResult,
+  syncProfileSearchResult
+} from './hooks/sync-search-result'
 
 export const Profiles: CollectionConfig = {
   slug: 'profiles',
@@ -12,6 +16,10 @@ export const Profiles: CollectionConfig = {
       '/people/map',
       '/'
     ])
+  },
+  hooks: {
+    afterChange: [syncProfileSearchResult],
+    afterDelete: [deleteProfileSearchResult]
   },
   admin: {
     group: 'Resources',

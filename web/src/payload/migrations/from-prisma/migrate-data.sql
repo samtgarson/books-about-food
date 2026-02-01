@@ -1001,6 +1001,253 @@ set
   );
 
 -- ============================================================================
+-- PHASE 9: Populate search_results collection
+-- Replaces the PostgreSQL view with denormalized data
+-- ============================================================================
+-- Create enum for search result types
+do $$
+begin
+  if not exists (select 1 from pg_type where typname = 'enum_search_results_type' and typnamespace = (select oid from pg_namespace where nspname = 'payload')) then
+    create type payload.enum_search_results_type as enum ('book', 'profile', 'publisher', 'bookTag', 'collection');
+  end if;
+end $$;
+
+-- Books (published only)
+insert into
+  payload.search_results (
+    id,
+    name,
+    type,
+    slug,
+    description,
+    image_id,
+    created_at,
+    updated_at
+  )
+select
+  gen_random_uuid() as id,
+  b.title as name,
+  'book'::payload.enum_search_results_type as type,
+  b.slug,
+  (
+    select
+      string_agg(p.name, ' • ')
+    from
+      payload.books_rels br
+      join payload.profiles p on p.id = br.profiles_id
+    where
+      br.parent_id = b.id
+      and br.path = 'authors'
+  ) as description,
+  b.cover_image_id as image_id,
+  b.created_at,
+  b.updated_at
+from
+  payload.books b
+where
+  b.status = 'published';
+
+-- Insert polymorphic relationships for books
+insert into
+  payload.search_results_rels (parent_id, path, books_id, "order")
+select
+  sr.id as parent_id,
+  'source' as path,
+  b.id as books_id,
+  1 as "order"
+from
+  payload.search_results sr
+  join payload.books b on b.slug = sr.slug
+where
+  sr.type = 'book';
+
+-- Profiles (those with published books as author or contributor)
+insert into
+  payload.search_results (
+    id,
+    name,
+    type,
+    slug,
+    description,
+    image_id,
+    created_at,
+    updated_at
+  )
+select
+  gen_random_uuid() as id,
+  p.name,
+  'profile'::payload.enum_search_results_type as type,
+  p.slug,
+  p.job_title as description,
+  p.avatar_id as image_id,
+  p.created_at,
+  p.updated_at
+from
+  payload.profiles p
+where
+  -- Has published books as author
+  exists (
+    select
+      1
+    from
+      payload.books_rels br
+      join payload.books b on b.id = br.parent_id
+    where
+      br.profiles_id = p.id
+      and br.path = 'authors'
+      and b.status = 'published'
+  )
+  -- Or has published contributions
+  or exists (
+    select
+      1
+    from
+      payload.books_contributions bc
+      join payload.books b on b.id = bc._parent_id
+    where
+      bc.profile_id = p.id
+      and b.status = 'published'
+  );
+
+-- Insert polymorphic relationships for profiles
+insert into
+  payload.search_results_rels (parent_id, path, profiles_id, "order")
+select
+  sr.id as parent_id,
+  'source' as path,
+  p.id as profiles_id,
+  1 as "order"
+from
+  payload.search_results sr
+  join payload.profiles p on p.slug = sr.slug
+where
+  sr.type = 'profile';
+
+-- Publishers (only those with published books)
+insert into
+  payload.search_results (
+    id,
+    name,
+    type,
+    slug,
+    description,
+    image_id,
+    created_at,
+    updated_at
+  )
+select
+  gen_random_uuid() as id,
+  pub.name,
+  'publisher'::payload.enum_search_results_type as type,
+  pub.slug,
+  null as description,
+  pub.logo_id as image_id,
+  pub.created_at,
+  pub.updated_at
+from
+  payload.publishers pub
+where
+  exists (
+    select
+      1
+    from
+      payload.books b
+    where
+      b.publisher_id = pub.id
+      and b.status = 'published'
+  );
+
+-- Insert polymorphic relationships for publishers
+insert into
+  payload.search_results_rels (parent_id, path, publishers_id, "order")
+select
+  sr.id as parent_id,
+  'source' as path,
+  pub.id as publishers_id,
+  1 as "order"
+from
+  payload.search_results sr
+  join payload.publishers pub on pub.slug = sr.slug
+where
+  sr.type = 'publisher';
+
+-- Tags (all tags)
+insert into
+  payload.search_results (
+    id,
+    name,
+    type,
+    slug,
+    description,
+    image_id,
+    created_at,
+    updated_at
+  )
+select
+  gen_random_uuid() as id,
+  t.name,
+  'bookTag'::payload.enum_search_results_type as type,
+  t.slug,
+  null as description,
+  null as image_id,
+  t.created_at,
+  t.updated_at
+from
+  payload.tags t;
+
+-- Insert polymorphic relationships for tags
+insert into
+  payload.search_results_rels (parent_id, path, tags_id, "order")
+select
+  sr.id as parent_id,
+  'source' as path,
+  t.id as tags_id,
+  1 as "order"
+from
+  payload.search_results sr
+  join payload.tags t on t.slug = sr.slug
+where
+  sr.type = 'bookTag';
+
+-- Collections (all collections)
+insert into
+  payload.search_results (
+    id,
+    name,
+    type,
+    slug,
+    description,
+    image_id,
+    created_at,
+    updated_at
+  )
+select
+  gen_random_uuid() as id,
+  c.title as name,
+  'collection'::payload.enum_search_results_type as type,
+  c.slug,
+  c.description,
+  null as image_id,
+  c.created_at,
+  c.updated_at
+from
+  payload.collections c;
+
+-- Insert polymorphic relationships for collections
+insert into
+  payload.search_results_rels (parent_id, path, collections_id, "order")
+select
+  sr.id as parent_id,
+  'source' as path,
+  c.id as collections_id,
+  1 as "order"
+from
+  payload.search_results sr
+  join payload.collections c on c.slug = sr.slug
+where
+  sr.type = 'collection';
+
+-- ============================================================================
 -- VERIFICATION QUERIES (uncomment to check counts)
 -- ============================================================================
 -- SELECT 'users' as table_name, (SELECT count(*) FROM public.users) as public_count, (SELECT count(*) FROM payload.users) as payload_count;

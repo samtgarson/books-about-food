@@ -1,6 +1,10 @@
 import type { CollectionConfig } from 'payload'
 import { slugField } from '../../fields/slug'
 import { revalidatePaths } from '../../plugins/cache-revalidation'
+import {
+  deletePublisherSearchResult,
+  syncPublisherSearchResult
+} from './hooks/sync-search-result'
 
 export const Publishers: CollectionConfig = {
   slug: 'publishers',
@@ -10,6 +14,10 @@ export const Publishers: CollectionConfig = {
       '/publishers',
       '/'
     ])
+  },
+  hooks: {
+    afterChange: [syncPublisherSearchResult],
+    afterDelete: [deletePublisherSearchResult]
   },
   admin: {
     group: 'Resources',

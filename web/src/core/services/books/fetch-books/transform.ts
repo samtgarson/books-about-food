@@ -27,7 +27,8 @@ export function transformToBook(
   return new Book(bookData)
 }
 
-function toHsl(color: unknown) {
+function toHsl(color: unknown): Hsl | null {
+  if (!color) return null
   return z
     .object({ h: z.number(), s: z.number(), l: z.number() })
     .parse(color) as Hsl

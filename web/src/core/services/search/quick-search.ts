@@ -1,28 +1,24 @@
-import prisma from '@books-about-food/database'
 import { Service } from 'src/core/services/base'
 import z from 'zod'
 
 export const quickSearch = new Service(
   z.object({ query: z.string() }),
-  async ({ query }, _ctx) => {
+  async ({ query }, { payload }) => {
     if (query.length < 3) return []
 
-    const contains = query
-    return await prisma.searchResult.findMany({
+    const { docs } = await payload.find({
+      collection: 'search-results',
       where: {
-        OR: [
-          { name: { contains, mode: 'insensitive' } },
-          { description: { contains, mode: 'insensitive' } }
+        or: [
+          { name: { contains: query } },
+          { description: { contains: query } }
         ]
       },
-      orderBy: {
-        _relevance: {
-          fields: ['name'],
-          search: query.replace(/[\s\n\t]/g, '_'),
-          sort: 'desc'
-        }
-      }
-      // cacheStrategy: { ttl: 60, swr: 60 * 10 }
+      sort: 'name',
+      limit: 20,
+      depth: 1 // Populate image relationship
     })
+
+    return docs
   }
 )

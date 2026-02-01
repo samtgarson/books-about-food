@@ -15,6 +15,7 @@ import { Posts } from './posts'
 import { Profiles } from './profiles'
 import { PublisherInvitations } from './publisher-invitations'
 import { Publishers } from './publishers'
+import { SearchResults } from './search-results'
 import { TagGroups } from './tag-groups'
 import { Tags } from './tags'
 import { Users } from './users'
@@ -37,6 +38,7 @@ export const collections = [
   Profiles,
   PublisherInvitations,
   Publishers,
+  SearchResults,
   TagGroups,
   Tags,
   Users

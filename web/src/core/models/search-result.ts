@@ -1,23 +1,13 @@
-import {
-  SearchResult as PrismaSearchResult,
-  SearchResultType
-} from '@books-about-food/database'
-import { z } from 'zod'
+import type { SearchResultType } from 'src/payload/collections/search-results'
+import type {
+  Image as PayloadImage,
+  SearchResult as PayloadSearchResult
+} from 'src/payload/payload-types'
 import { Image } from './image'
 import { Colourful } from './mixins/colourful'
+import { optionalPopulated } from './utils/payload-validation'
 
-const imageSchema = z.object({
-  id: z.string(),
-  path: z.string(),
-  width: z.number(),
-  height: z.number(),
-  caption: z.string().nullish().default(null),
-  order: z.number().default(0),
-  placeholderUrl: z
-    .string()
-    .nullish()
-    .transform((val) => val ?? null)
-})
+export type { SearchResultType }
 
 export class SearchResult extends Colourful(
   class {
@@ -29,18 +19,21 @@ export class SearchResult extends Colourful(
     slug: string
     updatedAt: Date
 
-    constructor(attrs: PrismaSearchResult) {
+    constructor(attrs: PayloadSearchResult) {
+      const image = optionalPopulated<PayloadImage>(
+        attrs.image,
+        'SearchResult.image'
+      )
+
       this.id = attrs.id
       this.name = attrs.name
       this.type = attrs.type
       this.description = attrs.description?.replace(/<[^>]+>/g, '') ?? undefined
       this.slug = attrs.slug
-      this.updatedAt = attrs.updatedAt
-
-      if (attrs.image) {
-        const imageAttrs = imageSchema.parse(attrs.image)
-        this.image = new Image(imageAttrs, `Preview image for ${this.name}`)
-      }
+      this.updatedAt = new Date(attrs.updatedAt)
+      this.image = image
+        ? new Image(image, `Preview image for ${this.name}`)
+        : undefined
     }
 
     get domId() {
@@ -48,7 +41,7 @@ export class SearchResult extends Colourful(
     }
 
     get isProfile() {
-      return ['contributor', 'author'].includes(this.type)
+      return this.type === 'profile'
     }
 
     get initials() {
@@ -60,9 +53,7 @@ export class SearchResult extends Colourful(
       switch (this.type) {
         case 'book':
           return `/cookbooks/${this.slug}`
-        case 'contributor':
-          return `/people/${this.slug}`
-        case 'author':
+        case 'profile':
           return `/people/${this.slug}`
         case 'publisher':
           return `/publishers/${this.slug}`

@@ -1,6 +1,10 @@
 import type { CollectionConfig } from 'payload'
 import { slugField } from '../../fields/slug'
 import { revalidatePaths } from '../../plugins/cache-revalidation'
+import {
+  deleteCollectionSearchResult,
+  syncCollectionSearchResult
+} from './hooks/sync-search-result'
 
 export const Collections: CollectionConfig = {
   slug: 'collections',
@@ -10,6 +14,10 @@ export const Collections: CollectionConfig = {
       '/collections',
       '/'
     ])
+  },
+  hooks: {
+    afterChange: [syncCollectionSearchResult],
+    afterDelete: [deleteCollectionSearchResult]
   },
   admin: {
     group: 'Resources',
