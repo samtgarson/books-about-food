@@ -117,7 +117,6 @@ export interface Config {
     locations: Location
     memberships: Membership
     pitches: Pitch
-    posts: Post
     profiles: Profile
     'publisher-invitations': PublisherInvitation
     publishers: Publisher
@@ -170,7 +169,6 @@ export interface Config {
     locations: LocationsSelect<false> | LocationsSelect<true>
     memberships: MembershipsSelect<false> | MembershipsSelect<true>
     pitches: PitchesSelect<false> | PitchesSelect<true>
-    posts: PostsSelect<false> | PostsSelect<true>
     profiles: ProfilesSelect<false> | ProfilesSelect<true>
     'publisher-invitations':
       | PublisherInvitationsSelect<false>
@@ -622,24 +620,6 @@ export interface Pitch {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts".
- */
-export interface Post {
-  id: string
-  title: string
-  slug: string
-  content: string
-  author: string | User
-  /**
-   * Schedule post for future publication
-   */
-  publishAt?: string | null
-  images?: (string | Image)[] | null
-  updatedAt: string
-  createdAt: string
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "publisher-invitations".
  */
 export interface PublisherInvitation {
@@ -768,10 +748,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'pitches'
         value: string | Pitch
-      } | null)
-    | ({
-        relationTo: 'posts'
-        value: string | Post
       } | null)
     | ({
         relationTo: 'profiles'
@@ -1067,20 +1043,6 @@ export interface PitchesSelect<T extends boolean = true> {
   author?: T
   description?: T
   viewCount?: T
-  updatedAt?: T
-  createdAt?: T
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts_select".
- */
-export interface PostsSelect<T extends boolean = true> {
-  title?: T
-  slug?: T
-  content?: T
-  author?: T
-  publishAt?: T
-  images?: T
   updatedAt?: T
   createdAt?: T
 }

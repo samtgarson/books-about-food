@@ -11,7 +11,6 @@ import { Jobs } from './jobs'
 import { Locations } from './locations'
 import { Memberships } from './memberships'
 import { Pitches } from './pitches'
-import { Posts } from './posts'
 import { Profiles } from './profiles'
 import { PublisherInvitations } from './publisher-invitations'
 import { Publishers } from './publishers'
@@ -34,7 +33,6 @@ export const collections = [
   Locations,
   Memberships,
   Pitches,
-  Posts,
   Profiles,
   PublisherInvitations,
   Publishers,

@@ -738,73 +738,6 @@ export const pitches = db_schema.table(
   ]
 )
 
-export const posts = db_schema.table(
-  'posts',
-  {
-    id: uuid('id').defaultRandom().primaryKey(),
-    title: varchar('title').notNull(),
-    slug: varchar('slug').notNull(),
-    content: varchar('content').notNull(),
-    author: varchar('author_id')
-      .notNull()
-      .references(() => users.id, {
-        onDelete: 'set null'
-      }),
-    publishAt: timestamp('publish_at', {
-      mode: 'string',
-      withTimezone: true,
-      precision: 3
-    }),
-    updatedAt: timestamp('updated_at', {
-      mode: 'string',
-      withTimezone: true,
-      precision: 3
-    })
-      .defaultNow()
-      .notNull(),
-    createdAt: timestamp('created_at', {
-      mode: 'string',
-      withTimezone: true,
-      precision: 3
-    })
-      .defaultNow()
-      .notNull()
-  },
-  (columns) => [
-    uniqueIndex('posts_slug_idx').on(columns.slug),
-    index('posts_author_idx').on(columns.author),
-    index('posts_updated_at_idx').on(columns.updatedAt),
-    index('posts_created_at_idx').on(columns.createdAt)
-  ]
-)
-
-export const posts_rels = db_schema.table(
-  'posts_rels',
-  {
-    id: serial('id').primaryKey(),
-    order: integer('order'),
-    parent: uuid('parent_id').notNull(),
-    path: varchar('path').notNull(),
-    imagesID: uuid('images_id')
-  },
-  (columns) => [
-    index('posts_rels_order_idx').on(columns.order),
-    index('posts_rels_parent_idx').on(columns.parent),
-    index('posts_rels_path_idx').on(columns.path),
-    index('posts_rels_images_id_idx').on(columns.imagesID),
-    foreignKey({
-      columns: [columns['parent']],
-      foreignColumns: [posts.id],
-      name: 'posts_rels_parent_fk'
-    }).onDelete('cascade'),
-    foreignKey({
-      columns: [columns['imagesID']],
-      foreignColumns: [images.id],
-      name: 'posts_rels_images_fk'
-    }).onDelete('cascade')
-  ]
-)
-
 export const profiles = db_schema.table(
   'profiles',
   {
@@ -1295,7 +1228,6 @@ export const payload_locked_documents_rels = db_schema.table(
     locationsID: uuid('locations_id'),
     membershipsID: uuid('memberships_id'),
     pitchesID: uuid('pitches_id'),
-    postsID: uuid('posts_id'),
     profilesID: uuid('profiles_id'),
     'publisher-invitationsID': uuid('publisher_invitations_id'),
     publishersID: uuid('publishers_id'),
@@ -1335,7 +1267,6 @@ export const payload_locked_documents_rels = db_schema.table(
       columns.membershipsID
     ),
     index('payload_locked_documents_rels_pitches_id_idx').on(columns.pitchesID),
-    index('payload_locked_documents_rels_posts_id_idx').on(columns.postsID),
     index('payload_locked_documents_rels_profiles_id_idx').on(
       columns.profilesID
     ),
@@ -1422,11 +1353,6 @@ export const payload_locked_documents_rels = db_schema.table(
       columns: [columns['pitchesID']],
       foreignColumns: [pitches.id],
       name: 'payload_locked_documents_rels_pitches_fk'
-    }).onDelete('cascade'),
-    foreignKey({
-      columns: [columns['postsID']],
-      foreignColumns: [posts.id],
-      name: 'payload_locked_documents_rels_posts_fk'
     }).onDelete('cascade'),
     foreignKey({
       columns: [columns['profilesID']],
@@ -1750,28 +1676,6 @@ export const relations_pitches = relations(pitches, ({ one }) => ({
     relationName: 'author'
   })
 }))
-export const relations_posts_rels = relations(posts_rels, ({ one }) => ({
-  parent: one(posts, {
-    fields: [posts_rels.parent],
-    references: [posts.id],
-    relationName: '_rels'
-  }),
-  imagesID: one(images, {
-    fields: [posts_rels.imagesID],
-    references: [images.id],
-    relationName: 'images'
-  })
-}))
-export const relations_posts = relations(posts, ({ one, many }) => ({
-  author: one(users, {
-    fields: [posts.author],
-    references: [users.id],
-    relationName: 'author'
-  }),
-  _rels: many(posts_rels, {
-    relationName: '_rels'
-  })
-}))
 export const relations_profiles_rels = relations(profiles_rels, ({ one }) => ({
   parent: one(profiles, {
     fields: [profiles_rels.parent],
@@ -2007,11 +1911,6 @@ export const relations_payload_locked_documents_rels = relations(
       references: [pitches.id],
       relationName: 'pitches'
     }),
-    postsID: one(posts, {
-      fields: [payload_locked_documents_rels.postsID],
-      references: [posts.id],
-      relationName: 'posts'
-    }),
     profilesID: one(profiles, {
       fields: [payload_locked_documents_rels.profilesID],
       references: [profiles.id],
@@ -2116,8 +2015,6 @@ type DatabaseSchema = {
   locations: typeof locations
   memberships: typeof memberships
   pitches: typeof pitches
-  posts: typeof posts
-  posts_rels: typeof posts_rels
   profiles: typeof profiles
   profiles_rels: typeof profiles_rels
   publisher_invitations: typeof publisher_invitations
@@ -2155,8 +2052,6 @@ type DatabaseSchema = {
   relations_locations: typeof relations_locations
   relations_memberships: typeof relations_memberships
   relations_pitches: typeof relations_pitches
-  relations_posts_rels: typeof relations_posts_rels
-  relations_posts: typeof relations_posts
   relations_profiles_rels: typeof relations_profiles_rels
   relations_profiles: typeof relations_profiles
   relations_publisher_invitations: typeof relations_publisher_invitations

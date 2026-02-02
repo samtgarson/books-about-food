@@ -10,10 +10,4 @@ export abstract class BaseModel {
   }
 }
 
-export type Model =
-  | 'profile'
-  | 'book'
-  | 'publisher'
-  | 'post'
-  | 'collection'
-  | 'location'
+export type Model = 'profile' | 'book' | 'publisher' | 'collection' | 'location'
