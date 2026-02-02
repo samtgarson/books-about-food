@@ -1,45 +1,55 @@
-import prisma, { Prisma } from '@books-about-food/database'
 import { z } from 'zod'
 import { Service } from '../base'
 
-const fetchLocationFilterOptionsSchema = z.object({
-  query: z.string().min(2).nullish(),
-  sort: z.literal(['relevance', 'popularity']).optional().default('relevance'),
-  limit: z
-    .union([z.number().min(1), z.literal(false)])
-    .optional()
-    .default(20)
-})
-
-export type FetchLocationFilterOptionsInput = z.input<
-  typeof fetchLocationFilterOptionsSchema
->
+export type LocationFilterOption = {
+  id: string
+  value: string
+}
 
 export const fetchLocationFilterOptions = new Service(
-  fetchLocationFilterOptionsSchema,
-  async function ({ query, sort, limit: take }, _ctx) {
-    const orderBy: Prisma.LocationFilterOptionOrderByWithRelationInput = {}
-    if (sort === 'popularity' || !query?.length) {
-      orderBy.profileCount = 'desc'
-    } else {
-      orderBy._relevance = {
-        fields: ['value'],
-        search: query.replace(/[\s\n\t]/g, '_'),
-        sort: 'desc'
+  z.object({}),
+  async function (_input, { payload }) {
+    const { docs: locations } = await payload.find({
+      collection: 'locations',
+      limit: 0,
+      depth: 0
+    })
+
+    // Map keyed by display value - first entry wins (countries, then regions, then locations)
+    const optionsMap = new Map<string, LocationFilterOption>()
+
+    for (const loc of locations) {
+      // Add country option (loosest)
+      if (loc.country && !optionsMap.has(loc.country)) {
+        optionsMap.set(loc.country, {
+          id: `country:${loc.country}`,
+          value: loc.country
+        })
+      }
+
+      // Add region option
+      if (loc.region && loc.country) {
+        const regionKey = `${loc.region}, ${loc.country}`
+        if (!optionsMap.has(regionKey)) {
+          optionsMap.set(regionKey, {
+            id: `region:${loc.region}`,
+            value: regionKey
+          })
+        }
+      }
+
+      // Add specific location (most specific - only if not already covered)
+      if (!optionsMap.has(loc.displayText)) {
+        optionsMap.set(loc.displayText, {
+          id: loc.slug,
+          value: loc.displayText
+        })
       }
     }
 
-    return await prisma.locationFilterOption.findMany({
-      where: {
-        value: query?.length
-          ? {
-              contains: query,
-              mode: 'insensitive'
-            }
-          : undefined
-      },
-      orderBy,
-      take: take === false ? undefined : take
-    })
+    // Sort alphabetically by value
+    return [...optionsMap.values()].sort((a, b) =>
+      a.value.localeCompare(b.value)
+    )
   }
 )

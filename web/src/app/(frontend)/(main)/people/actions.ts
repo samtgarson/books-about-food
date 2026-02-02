@@ -8,7 +8,7 @@ export async function locationOptions(
   _query: string,
   _existingIds: string[] = []
 ) {
-  const { data = [] } = await call(fetchLocationFilterOptions, { limit: false })
+  const { data = [] } = await call(fetchLocationFilterOptions, {})
   return data.map(({ value: label, id: value }) => ({
     label,
     value
