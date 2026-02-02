@@ -6,7 +6,7 @@
     "dev": "next dev --port 5000",
     "build": "next build",
     "start": "next start",
-    "payload": "npx tsx ../node_modules/payload/bin.js",
+    "payload": "NODE_OPTIONS='--import tsx' npx payload",
     "payload:generate": "npm run payload generate:types && rm ./src/app/\\(payload\\)/admin/importMap.js && npm run payload generate:importmap && npm run payload generate:db-schema"
   },
   "prettier": "@books-about-food/prettier-config",

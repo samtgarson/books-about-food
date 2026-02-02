@@ -121,6 +121,7 @@ export interface Config {
     profiles: Profile
     'publisher-invitations': PublisherInvitation
     publishers: Publisher
+    'search-results': SearchResult
     'tag-groups': TagGroup
     tags: Tag
     users: User
@@ -175,6 +176,7 @@ export interface Config {
       | PublisherInvitationsSelect<false>
       | PublisherInvitationsSelect<true>
     publishers: PublishersSelect<false> | PublishersSelect<true>
+    'search-results': SearchResultsSelect<false> | SearchResultsSelect<true>
     'tag-groups': TagGroupsSelect<false> | TagGroupsSelect<true>
     tags: TagsSelect<false> | TagsSelect<true>
     users: UsersSelect<false> | UsersSelect<true>
@@ -652,6 +654,47 @@ export interface PublisherInvitation {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "search-results".
+ */
+export interface SearchResult {
+  id: string
+  name: string
+  type: 'book' | 'profile' | 'publisher' | 'bookTag' | 'collection'
+  slug: string
+  description?: string | null
+  /**
+   * Image for search results display (cover, avatar, logo)
+   */
+  image?: (string | null) | Image
+  /**
+   * The source document this search result represents
+   */
+  source:
+    | {
+        relationTo: 'books'
+        value: string | Book
+      }
+    | {
+        relationTo: 'profiles'
+        value: string | Profile
+      }
+    | {
+        relationTo: 'publishers'
+        value: string | Publisher
+      }
+    | {
+        relationTo: 'tags'
+        value: string | Tag
+      }
+    | {
+        relationTo: 'collections'
+        value: string | Collection
+      }
+  updatedAt: string
+  createdAt: string
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -741,6 +784,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'publishers'
         value: string | Publisher
+      } | null)
+    | ({
+        relationTo: 'search-results'
+        value: string | SearchResult
       } | null)
     | ({
         relationTo: 'tag-groups'
@@ -1092,6 +1139,20 @@ export interface PublishersSelect<T extends boolean = true> {
   books?: T
   memberships?: T
   claimed?: T
+  updatedAt?: T
+  createdAt?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "search-results_select".
+ */
+export interface SearchResultsSelect<T extends boolean = true> {
+  name?: T
+  type?: T
+  slug?: T
+  description?: T
+  image?: T
+  source?: T
   updatedAt?: T
   createdAt?: T
 }

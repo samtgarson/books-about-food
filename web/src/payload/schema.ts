@@ -64,6 +64,10 @@ export const enum_publisher_invitations_role = db_schema.enum(
   'enum_publisher_invitations_role',
   ['admin', 'member']
 )
+export const enum_search_results_type = db_schema.enum(
+  'enum_search_results_type',
+  ['book', 'profile', 'publisher', 'bookTag', 'collection']
+)
 export const enum_users_role = db_schema.enum('enum_users_role', [
   'user',
   'admin',
@@ -411,7 +415,7 @@ export const faqs = db_schema.table(
     id: uuid('id').defaultRandom().primaryKey(),
     _order: varchar('_order'),
     question: varchar('question').notNull(),
-    answer: jsonb('answer'),
+    answer: varchar('answer').notNull(),
     updatedAt: timestamp('updated_at', {
       mode: 'string',
       withTimezone: true,
@@ -740,7 +744,7 @@ export const posts = db_schema.table(
     id: uuid('id').defaultRandom().primaryKey(),
     title: varchar('title').notNull(),
     slug: varchar('slug').notNull(),
-    content: jsonb('content').notNull(),
+    content: varchar('content').notNull(),
     author: varchar('author_id')
       .notNull()
       .references(() => users.id, {
@@ -994,6 +998,97 @@ export const publishers_rels = db_schema.table(
   ]
 )
 
+export const search_results = db_schema.table(
+  'search_results',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    name: varchar('name').notNull(),
+    type: enum_search_results_type('type').notNull(),
+    slug: varchar('slug').notNull(),
+    description: varchar('description'),
+    image: uuid('image_id').references(() => images.id, {
+      onDelete: 'set null'
+    }),
+    updatedAt: timestamp('updated_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3
+    })
+      .defaultNow()
+      .notNull(),
+    createdAt: timestamp('created_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3
+    })
+      .defaultNow()
+      .notNull()
+  },
+  (columns) => [
+    index('search_results_name_idx').on(columns.name),
+    index('search_results_type_idx').on(columns.type),
+    index('search_results_slug_idx').on(columns.slug),
+    index('search_results_image_idx').on(columns.image),
+    index('search_results_updated_at_idx').on(columns.updatedAt),
+    index('search_results_created_at_idx').on(columns.createdAt)
+  ]
+)
+
+export const search_results_rels = db_schema.table(
+  'search_results_rels',
+  {
+    id: serial('id').primaryKey(),
+    order: integer('order'),
+    parent: uuid('parent_id').notNull(),
+    path: varchar('path').notNull(),
+    booksID: uuid('books_id'),
+    profilesID: uuid('profiles_id'),
+    publishersID: uuid('publishers_id'),
+    tagsID: uuid('tags_id'),
+    collectionsID: uuid('collections_id')
+  },
+  (columns) => [
+    index('search_results_rels_order_idx').on(columns.order),
+    index('search_results_rels_parent_idx').on(columns.parent),
+    index('search_results_rels_path_idx').on(columns.path),
+    index('search_results_rels_books_id_idx').on(columns.booksID),
+    index('search_results_rels_profiles_id_idx').on(columns.profilesID),
+    index('search_results_rels_publishers_id_idx').on(columns.publishersID),
+    index('search_results_rels_tags_id_idx').on(columns.tagsID),
+    index('search_results_rels_collections_id_idx').on(columns.collectionsID),
+    foreignKey({
+      columns: [columns['parent']],
+      foreignColumns: [search_results.id],
+      name: 'search_results_rels_parent_fk'
+    }).onDelete('cascade'),
+    foreignKey({
+      columns: [columns['booksID']],
+      foreignColumns: [books.id],
+      name: 'search_results_rels_books_fk'
+    }).onDelete('cascade'),
+    foreignKey({
+      columns: [columns['profilesID']],
+      foreignColumns: [profiles.id],
+      name: 'search_results_rels_profiles_fk'
+    }).onDelete('cascade'),
+    foreignKey({
+      columns: [columns['publishersID']],
+      foreignColumns: [publishers.id],
+      name: 'search_results_rels_publishers_fk'
+    }).onDelete('cascade'),
+    foreignKey({
+      columns: [columns['tagsID']],
+      foreignColumns: [tags.id],
+      name: 'search_results_rels_tags_fk'
+    }).onDelete('cascade'),
+    foreignKey({
+      columns: [columns['collectionsID']],
+      foreignColumns: [collections.id],
+      name: 'search_results_rels_collections_fk'
+    }).onDelete('cascade')
+  ]
+)
+
 export const tag_groups = db_schema.table(
   'tag_groups',
   {
@@ -1204,6 +1299,7 @@ export const payload_locked_documents_rels = db_schema.table(
     profilesID: uuid('profiles_id'),
     'publisher-invitationsID': uuid('publisher_invitations_id'),
     publishersID: uuid('publishers_id'),
+    'search-resultsID': uuid('search_results_id'),
     'tag-groupsID': uuid('tag_groups_id'),
     tagsID: uuid('tags_id'),
     usersID: varchar('users_id')
@@ -1248,6 +1344,9 @@ export const payload_locked_documents_rels = db_schema.table(
     ),
     index('payload_locked_documents_rels_publishers_id_idx').on(
       columns.publishersID
+    ),
+    index('payload_locked_documents_rels_search_results_id_idx').on(
+      columns['search-resultsID']
     ),
     index('payload_locked_documents_rels_tag_groups_id_idx').on(
       columns['tag-groupsID']
@@ -1343,6 +1442,11 @@ export const payload_locked_documents_rels = db_schema.table(
       columns: [columns['publishersID']],
       foreignColumns: [publishers.id],
       name: 'payload_locked_documents_rels_publishers_fk'
+    }).onDelete('cascade'),
+    foreignKey({
+      columns: [columns['search-resultsID']],
+      foreignColumns: [search_results.id],
+      name: 'payload_locked_documents_rels_search_results_fk'
     }).onDelete('cascade'),
     foreignKey({
       columns: [columns['tag-groupsID']],
@@ -1745,6 +1849,54 @@ export const relations_publishers = relations(publishers, ({ one, many }) => ({
     relationName: '_rels'
   })
 }))
+export const relations_search_results_rels = relations(
+  search_results_rels,
+  ({ one }) => ({
+    parent: one(search_results, {
+      fields: [search_results_rels.parent],
+      references: [search_results.id],
+      relationName: '_rels'
+    }),
+    booksID: one(books, {
+      fields: [search_results_rels.booksID],
+      references: [books.id],
+      relationName: 'books'
+    }),
+    profilesID: one(profiles, {
+      fields: [search_results_rels.profilesID],
+      references: [profiles.id],
+      relationName: 'profiles'
+    }),
+    publishersID: one(publishers, {
+      fields: [search_results_rels.publishersID],
+      references: [publishers.id],
+      relationName: 'publishers'
+    }),
+    tagsID: one(tags, {
+      fields: [search_results_rels.tagsID],
+      references: [tags.id],
+      relationName: 'tags'
+    }),
+    collectionsID: one(collections, {
+      fields: [search_results_rels.collectionsID],
+      references: [collections.id],
+      relationName: 'collections'
+    })
+  })
+)
+export const relations_search_results = relations(
+  search_results,
+  ({ one, many }) => ({
+    image: one(images, {
+      fields: [search_results.image],
+      references: [images.id],
+      relationName: 'image'
+    }),
+    _rels: many(search_results_rels, {
+      relationName: '_rels'
+    })
+  })
+)
 export const relations_tag_groups = relations(tag_groups, () => ({}))
 export const relations_tags = relations(tags, ({ one }) => ({
   group: one(tag_groups, {
@@ -1875,6 +2027,11 @@ export const relations_payload_locked_documents_rels = relations(
       references: [publishers.id],
       relationName: 'publishers'
     }),
+    'search-resultsID': one(search_results, {
+      fields: [payload_locked_documents_rels['search-resultsID']],
+      references: [search_results.id],
+      relationName: 'search-results'
+    }),
     'tag-groupsID': one(tag_groups, {
       fields: [payload_locked_documents_rels['tag-groupsID']],
       references: [tag_groups.id],
@@ -1938,6 +2095,7 @@ type DatabaseSchema = {
   enum_collections_status: typeof enum_collections_status
   enum_memberships_role: typeof enum_memberships_role
   enum_publisher_invitations_role: typeof enum_publisher_invitations_role
+  enum_search_results_type: typeof enum_search_results_type
   enum_users_role: typeof enum_users_role
   book_votes: typeof book_votes
   books_palette: typeof books_palette
@@ -1965,6 +2123,8 @@ type DatabaseSchema = {
   publisher_invitations: typeof publisher_invitations
   publishers: typeof publishers
   publishers_rels: typeof publishers_rels
+  search_results: typeof search_results
+  search_results_rels: typeof search_results_rels
   tag_groups: typeof tag_groups
   tags: typeof tags
   users_accounts: typeof users_accounts
@@ -2002,6 +2162,8 @@ type DatabaseSchema = {
   relations_publisher_invitations: typeof relations_publisher_invitations
   relations_publishers_rels: typeof relations_publishers_rels
   relations_publishers: typeof relations_publishers
+  relations_search_results_rels: typeof relations_search_results_rels
+  relations_search_results: typeof relations_search_results
   relations_tag_groups: typeof relations_tag_groups
   relations_tags: typeof relations_tags
   relations_users_accounts: typeof relations_users_accounts

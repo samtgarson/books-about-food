@@ -73,13 +73,14 @@ export const authConfig: EnrichedAuthConfig = {
     async jwt({ token, user }) {
       if (!user) return token
 
-      const publishers = user.memberships?.docs?.flatMap((membership) =>
-        typeof membership === 'string'
-          ? []
-          : typeof membership.publisher === 'string'
-            ? membership.publisher
-            : membership.publisher?.id
-      )
+      const publishers =
+        user.memberships?.docs?.flatMap((membership) =>
+          typeof membership === 'string'
+            ? []
+            : typeof membership.publisher === 'string'
+              ? membership.publisher
+              : membership.publisher?.id
+        ) ?? []
       return {
         id: user.id as string,
         role: user.role,
