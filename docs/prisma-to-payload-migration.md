@@ -831,40 +831,33 @@ const Books: CollectionConfig = {
 
 ---
 
-## Phase 8: Cleanup Remaining Prisma Services 📋 PENDING
+## Phase 8: Cleanup Remaining Prisma Services ✅ COMPLETE
 
 **Goal:** Migrate remaining services that still use Prisma ORM
 
-### Services to Migrate
+### Services Status
 
-**Home services (2 files):**
+All web services have been migrated - these were completed in earlier phases:
 
-- 📋 `web/src/core/services/home/fetch-jobs.ts` - Uses `prisma.$queryRaw` for job aggregation
-- 📋 `web/src/core/services/home/fetch.ts` - Multiple Prisma queries for homepage data (books, profiles, publishers)
+- ✅ `web/src/core/services/home/fetch-jobs.ts` - Uses Drizzle
+- ✅ `web/src/core/services/home/fetch.ts` - Uses Payload API
+- ✅ `web/src/core/services/auth/destroy-account.ts` - Uses Drizzle
+- ✅ `web/src/core/services/auth/get-accounts.ts` - Uses Payload API
+- ✅ `web/src/core/services/images/create-images.ts` - Uses Payload API
 
-**Auth services:**
+### Remaining Prisma Usage
 
-- 📋 `web/src/core/services/auth/destroy-account.ts` - Uses `prisma.account.deleteMany()`
-- 📋 `web/src/core/services/auth/get-accounts.ts` - Uses `prisma.account.findMany()`
+Prisma is still used in packages that will be migrated as part of Phase 7:
 
-**Images:**
+- `packages/jobs/*` - Inngest jobs (will migrate to Payload jobs)
+- `packages/email/emails/verify-email.tsx` - Email transform (will migrate with Payload email)
 
-- 📋 `web/src/core/services/images/create-images.ts` - Uses `prisma.image.createMany()` and `findMany()`
-
-### Migration Approach
-
-**Home services:** Convert raw SQL to Drizzle, use Payload API for entity fetching
-**Auth services:** Use Payload API for accounts collection operations
-**Images:** Use Payload `create()` in loop or batch operations
-
-### Final Cleanup
-
-After all services are migrated:
+### Final Cleanup (after Phase 7)
 
 1. Remove `@books-about-food/database` package dependency
 2. Remove `@prisma/client` from package.json
 3. Remove any remaining Prisma imports
-4. Delete `packages/database` directory (if it still exists)
+4. Delete `packages/database` directory
 5. Update documentation to remove Prisma references
 
 ---
@@ -917,7 +910,7 @@ After all services are migrated:
 - ✅ Phase 5: Complex CRUD services migrated (14 services)
 - ✅ Phase 6: Raw SQL services migrated (2 services)
 - 📋 Phase 7: Jobs migrated to Payload
-- 📋 Phase 8: Cleanup remaining Prisma services
+- ✅ Phase 8: Web services fully migrated (Prisma only remains in jobs/email packages)
 - 📋 No TypeScript errors
 - 📋 Dev server runs successfully
 - 📋 All features working in preview deployment
