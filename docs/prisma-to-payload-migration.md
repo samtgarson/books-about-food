@@ -842,10 +842,6 @@ const Books: CollectionConfig = {
 - 📋 `web/src/core/services/home/fetch-jobs.ts` - Uses `prisma.$queryRaw` for job aggregation
 - 📋 `web/src/core/services/home/fetch.ts` - Multiple Prisma queries for homepage data (books, profiles, publishers)
 
-**Posts:**
-
-- 📋 `web/src/core/services/posts/upsert-post.ts` - Uses `prisma.post.upsert()`
-
 **Auth services:**
 
 - 📋 `web/src/core/services/auth/destroy-account.ts` - Uses `prisma.account.deleteMany()`
@@ -858,7 +854,6 @@ const Books: CollectionConfig = {
 ### Migration Approach
 
 **Home services:** Convert raw SQL to Drizzle, use Payload API for entity fetching
-**Posts:** Use Payload `update()` with `upsert` pattern (find + create/update)
 **Auth services:** Use Payload API for accounts collection operations
 **Images:** Use Payload `create()` in loop or batch operations
 
