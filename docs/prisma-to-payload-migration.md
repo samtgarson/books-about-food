@@ -125,7 +125,7 @@ web/src/
 
 **Complex location service:**
 
-- 📋 `fetchLocationFilterOptions` - Uses Prisma `_relevance` for full-text search (deferred to Phase 6)
+- ✅ `fetchLocationFilterOptions` - Migrated to generate options dynamically from locations collection (no longer needs `_relevance`)
 
 ### Key Implementation Details
 
@@ -235,8 +235,8 @@ const updated = await payload.update({
 
 **Remaining paginated services:**
 
-- 📋 `fetchContributions` - Deferred to Phase 5 (complex relationships)
-- 📋 `fetchBooks` - Deferred to Phase 6 (uses raw SQL for color matching)
+- ✅ `fetchContributions` - Completed in Phase 5
+- ✅ `fetchBooks` - Completed in Phase 6 (uses Drizzle for color matching)
 
 ### Key Implementation Details
 
@@ -1003,4 +1003,21 @@ After all services are migrated:
 
 - ✅ **Phase 6 Complete:** Raw SQL Services migration (all services migrated)
 
-**Last Updated:** 2026-01-06
+### 2026-02-02
+
+- ✅ **SearchResults Collection:** Replaced PostgreSQL `search_results` view with Payload collection
+  - Created `search-results` collection with polymorphic `source` relationship
+  - Added sync hooks on books, profiles, publishers, tags, and collections
+  - Implemented relevance-based sorting (name matches before description matches)
+  - Used single `profile` type instead of `author`/`contributor` distinction
+  - Added `syncRelatedSearchResultsOnDelete` to clean up stale entries
+
+- ✅ **Location Filter Options:** Replaced PostgreSQL `location_filter_options` view
+  - Generates country/region/location options dynamically from locations collection
+  - Uses Map for deduplication, preferring looser matches (country > region > location)
+  - Removed unused `profileCount` field (only used for sorting, but client filters locally)
+  - Deleted orphaned `fetch-location-filter-option.ts` service
+
+- ✅ **All PostgreSQL views now replaced with Payload-native solutions**
+
+**Last Updated:** 2026-02-02
