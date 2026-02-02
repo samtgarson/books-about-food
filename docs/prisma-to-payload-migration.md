@@ -729,26 +729,67 @@ const selectQuery = withFiltersAndJoins(
 
 ## Phase 7: Migrate Inngest to Payload Jobs 📋 PENDING
 
-**Goal:** Replace Inngest with Payload's built-in job system
+**Goal:** Replace Inngest with Payload's built-in job system and email functionality
 
-### Current Jobs to Migrate
+### Current Architecture
 
-| Inngest Job          | Trigger                               | Payload Equivalent         |
-| -------------------- | ------------------------------------- | -------------------------- |
-| `generate-palette`   | `book.updated` with coverImageChanged | Payload hook + job queue   |
-| `convert-webp`       | `book.updated` with coverImageChanged | Payload hook + job queue   |
-| `clean-images`       | Cron: `0 9 * * 1`                     | Payload scheduled task     |
-| `send-email`         | On-demand                             | Payload job queue          |
-| `send-verification`  | On-demand                             | Payload job queue          |
-| `send-vote-reminder` | `votes.created` with delay            | Payload hook + delayed job |
+**Inngest Jobs (packages/jobs):**
+| Inngest Job | Trigger | Uses Prisma |
+| -------------------- | ------------------------------------- | ----------- |
+| `generate-palette` | `book.updated` with coverImageChanged | Yes |
+| `convert-webp` | `book.updated` with coverImageChanged | Yes |
+| `clean-images` | Cron: `0 9 * * 1` | Yes |
+| `send-email` | On-demand | No |
+| `send-verification` | On-demand | No |
+| `send-vote-reminder` | `votes.created` with 6h delay | Yes |
 
-### Payload Jobs Configuration
+**Email Package (packages/email):**
 
-Add to `web/src/payload.config.ts`:
+- Uses React Email for templates (`@react-email/components`)
+- Uses Postmark for sending (`ServerClient`)
+- 8 email templates with optional `transform` functions (some use Prisma)
+- Templates: claimApproved, newClaim, submissionPublished, suggestEdit, publisherInvite, userApproved, verifyEmail, voteReminder
+
+### Migration Strategy
+
+#### 1. Email Configuration
+
+Configure Payload email adapter (Nodemailer with Postmark transport or Resend):
 
 ```typescript
+// payload.config.ts
+import { nodemailerAdapter } from "@payloadcms/email-nodemailer";
+
 export default buildConfig({
-  // ... other config
+  email: nodemailerAdapter({
+    defaultFromAddress: "no-reply@booksabout.food",
+    defaultFromName: "Books About Food",
+    transportOptions: {
+      host: "smtp.postmarkapp.com",
+      port: 587,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    },
+  }),
+});
+```
+
+#### 2. Move Email Templates to Web
+
+Move React Email templates from `packages/email` to `web/src/emails`:
+
+- Keep the React Email component structure
+- Use `render()` from `@react-email/components` to generate HTML
+- Call `payload.sendEmail({ to, subject, html })` instead of Postmark directly
+- Move any Prisma `transform` logic to use Payload API
+
+#### 3. Payload Jobs Configuration
+
+```typescript
+// payload.config.ts
+export default buildConfig({
   jobs: {
     tasks: [
       {
@@ -757,77 +798,113 @@ export default buildConfig({
           const book = await req.payload.findByID({
             collection: "books",
             id: input.bookId,
+            depth: 1,
           });
+          if (!book?.coverImage) return;
 
-          // Generate palette using Vibrant
-          const palette = await generatePalette(book.coverImage.url);
-
+          const { palette, backgroundColor } = await getColors(
+            book.coverImage.url,
+          );
           await req.payload.update({
             collection: "books",
             id: input.bookId,
-            data: { palette, backgroundColor: palette.dominant },
+            data: { palette, backgroundColor },
           });
         },
         inputSchema: [{ name: "bookId", type: "text", required: true }],
       },
       {
         slug: "clean-images",
-        schedule: [{ cron: "0 9 * * 1" }], // Mondays 9am
         handler: async ({ req }) => {
-          // Find orphaned images and delete
-          const images = await req.payload.find({
+          // Find orphaned images using Payload API
+          const orphaned = await req.payload.find({
             collection: "images",
             where: {
               and: [
-                { coverImageBooks: { exists: false } },
-                { previewImageBooks: { exists: false } },
+                { "coverImageBooks.id": { exists: false } },
+                { "previewImageBooks.id": { exists: false } },
+                { "publishers.id": { exists: false } },
+                { "profiles.id": { exists: false } },
               ],
             },
+            limit: 100,
           });
 
-          await Promise.all(
-            images.docs.map((img) =>
-              req.payload.delete({ collection: "images", id: img.id }),
-            ),
-          );
+          for (const img of orphaned.docs) {
+            await req.payload.delete({ collection: "images", id: img.id });
+          }
+          return { deleted: orphaned.docs.length };
         },
       },
+      {
+        slug: "send-email",
+        handler: async ({ input, req }) => {
+          const html = await renderEmailTemplate(input.template, input.props);
+          await req.payload.sendEmail({
+            to: input.to,
+            subject: input.subject,
+            html,
+          });
+        },
+        inputSchema: [
+          { name: "to", type: "text", required: true },
+          { name: "subject", type: "text", required: true },
+          { name: "template", type: "text", required: true },
+          { name: "props", type: "json" },
+        ],
+      },
     ],
-    autoRun: [{ cron: "* * * * *", limit: 10 }], // Process every minute
+    autoRun: [{ cron: "* * * * *", limit: 10 }],
   },
 });
 ```
 
-### Queue Jobs from Hooks
+#### 4. Trigger Jobs from Hooks
 
 ```typescript
-// In afterChange hook
-const Books: CollectionConfig = {
-  slug: "books",
-  hooks: {
-    afterChange: [
-      async ({ doc, previousDoc, req }) => {
-        const coverChanged = doc.coverImage !== previousDoc?.coverImage;
-
-        if (coverChanged) {
-          await req.payload.jobs.queue({
-            task: "generate-palette",
-            input: { bookId: doc.id },
-          });
-        }
-      },
-    ],
+// books/index.ts hooks
+afterChange: [
+  async ({ doc, previousDoc, req }) => {
+    const coverChanged = doc.coverImage !== previousDoc?.coverImage
+    if (coverChanged && doc.coverImage) {
+      await req.payload.jobs.queue({
+        task: 'generate-palette',
+        input: { bookId: doc.id },
+      })
+    }
   },
-};
+],
+```
+
+#### 5. Scheduled Jobs (Cron)
+
+Configure cron jobs in Payload:
+
+```typescript
+jobs: {
+  tasks: [/* ... */],
+  autoRun: [
+    { cron: '* * * * *', limit: 10 }, // Process queue every minute
+  ],
+  // For scheduled tasks like clean-images, use a separate cron config
+  // or trigger via external cron service hitting an API endpoint
+}
 ```
 
 ### Migration Steps
 
-1. Define all tasks in Payload config
-2. Update trigger points (hooks instead of `inngest.send()`)
-3. Remove `web/src/core/jobs` directory
-4. Remove `/admin/inngest` directory
-5. Remove Inngest dependencies
+1. Install `@payloadcms/email-nodemailer` (or `@payloadcms/email-resend`)
+2. Configure email adapter in payload.config.ts
+3. Move email templates from packages/email to web/src/emails
+4. Update templates to use Payload for any data fetching
+5. Define job tasks in payload.config.ts
+6. Add job queue triggers in collection hooks (books, book-votes)
+7. Test email sending via `payload.sendEmail()`
+8. Test job queue via `payload.jobs.queue()`
+9. Remove packages/jobs directory
+10. Remove packages/email directory
+11. Remove Inngest dependencies and admin route
+12. Update any remaining Prisma imports to use Payload
 
 ---
 
