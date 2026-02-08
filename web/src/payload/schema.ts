@@ -147,7 +147,8 @@ export const books_contributions = db_schema.table(
       .references(() => jobs.id, {
         onDelete: 'set null'
       }),
-    tag: enum_books_contributions_tag('tag')
+    tag: enum_books_contributions_tag('tag'),
+    hidden: boolean('hidden').default(false)
   },
   (columns) => [
     index('books_contributions_order_idx').on(columns._order),

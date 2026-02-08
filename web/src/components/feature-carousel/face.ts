@@ -8,10 +8,25 @@ const placer = new RandomPlacer(80, 60)
 const sizes: AvatarSize[] = ['lg', 'xl', 'xl', 'xl', '2xl', '2xl']
 
 export class Face {
+  public nameStyle: Record<string, string>
+  public avatarSize: AvatarSize
+
   constructor(
     public point: Dot,
     public profile: Profile
-  ) {}
+  ) {
+    const nameOffset = randomBelow(40) + 10
+    const nameSide = point.x >= 40 && point.x < 75 ? 'left' : 'right'
+
+    this.nameStyle = {
+      [nameSide]: `${nameOffset + 50}%`,
+      backgroundColor: profile.backgroundColour,
+      color: profile.foregroundColour,
+      top: randomBelow(80) + 10 + '%'
+    }
+
+    this.avatarSize = sample(sizes)
+  }
 
   static forBooks(books: Book[]) {
     const authors = books.reduce((arr, book) => {
@@ -23,16 +38,4 @@ export class Face {
     const points = placer.call(authors.length)
     return authors.map((author, i) => new Face(points[i], author))
   }
-
-  private nameOffset = randomBelow(40) + 10
-  private nameSide = this.point.x >= 40 && this.point.x < 75 ? 'left' : 'right'
-
-  public nameStyle = {
-    [this.nameSide]: `${this.nameOffset + 50}%`,
-    backgroundColor: this.profile.backgroundColour,
-    color: this.profile.foregroundColour,
-    top: randomBelow(80) + 10 + '%'
-  }
-
-  public avatarSize = sample(sizes)
 }

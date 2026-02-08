@@ -20,7 +20,7 @@ export const quickSearch = new Service(
         where: {
           and: [
             { description: { contains: query } },
-            { name: { not_contains: query } }
+            { name: { not_like: query } }
           ]
         },
         sort: 'name',

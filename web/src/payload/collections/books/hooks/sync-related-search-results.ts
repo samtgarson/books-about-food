@@ -1,4 +1,8 @@
-import type { CollectionAfterChangeHook, PayloadRequest } from 'payload'
+import type {
+  CollectionAfterChangeHook,
+  CollectionAfterDeleteHook,
+  PayloadRequest
+} from 'payload'
 import type { Book } from 'src/payload/payload-types'
 import { extractRelationId } from '../../search-results/hooks/sync-search-result'
 

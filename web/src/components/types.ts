@@ -1,4 +1,4 @@
-import { AppRoutes } from '.next/types/routes'
+import type { AppRoutes } from '.next/types/routes'
 import { JSX } from 'react'
 
 export function slugPage<Path extends AppRoutes>(
@@ -7,7 +7,7 @@ export function slugPage<Path extends AppRoutes>(
   return async function (props: PageProps<Path>) {
     const params = await props.params
     if ('slug' in params && typeof params.slug === 'string') {
-      return pageFn(params.slug)
+      return pageFn(params.slug as string)
     }
 
     throw new Error('slugPage requires a slug parameter in the route')

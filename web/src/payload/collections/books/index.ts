@@ -254,6 +254,11 @@ export const Books: CollectionConfig = {
           name: 'tag',
           type: 'select', // "Assistant" or null,
           options: [{ label: 'Assistant', value: 'Assistant' }]
+        },
+        {
+          name: 'hidden',
+          type: 'checkbox',
+          defaultValue: false
         }
       ]
     },

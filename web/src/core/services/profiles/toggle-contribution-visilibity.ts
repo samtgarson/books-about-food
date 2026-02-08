@@ -1,4 +1,6 @@
+import { extractId } from 'src/core/models/utils/payload-validation'
 import { Service } from 'src/core/services/base'
+import { Book } from 'src/payload/payload-types'
 import { z } from 'zod'
 
 export type ToggleContributionVisibilityInput = z.infer<
@@ -12,23 +14,28 @@ export const toggleContributionVisibility = new Service(
     hidden: z.boolean()
   }),
   async ({ profileId, bookId, hidden }, { payload }) => {
-    // Find all contributions matching the profile and book
-    const { docs } = await payload.find({
-      collection: 'contributions',
-      where: {
-        and: [{ profile: { equals: profileId } }, { book: { equals: bookId } }]
-      }
+    const book = await payload.findByID({
+      collection: 'books',
+      id: bookId,
+      depth: 0
     })
 
-    // Update each contribution
-    await Promise.all(
-      docs.map((contribution) =>
-        payload.update({
-          collection: 'contributions',
-          id: contribution.id,
-          data: { hidden }
-        })
-      )
-    )
+    const contributions = buildContributions(book, profileId, hidden)
+
+    await payload.update({
+      collection: 'books',
+      id: bookId,
+      data: { contributions }
+    })
   }
 )
+
+function buildContributions(book: Book, profileId: string, hidden: boolean) {
+  return book.contributions?.map((contribution) => {
+    const matching = extractId(contribution.profile) === profileId
+    return {
+      ...contribution,
+      hidden: matching ? hidden : contribution.hidden
+    }
+  })
+}

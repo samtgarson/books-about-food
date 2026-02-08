@@ -21,23 +21,10 @@ export default async function FrequentlyAskedQuestions() {
     pagination: false
   })
 
-  // Map Payload FAQs to Prisma-compatible format for client component
-  const questions = faqs.map((faq) => ({
-    id: faq.id,
-    question: faq.question,
-    // Convert rich text to string for legacy component
-    answer:
-      typeof faq.answer === 'object'
-        ? JSON.stringify(faq.answer)
-        : (faq.answer ?? ''),
-    updatedAt: new Date(faq.updatedAt),
-    createdAt: new Date(faq.createdAt)
-  }))
-
   return (
     <Container belowNav>
       <PageTitle>Frequently Asked Questions</PageTitle>
-      <FAQs questions={questions} />
+      <FAQs questions={faqs} />
     </Container>
   )
 }

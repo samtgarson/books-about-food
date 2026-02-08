@@ -20,6 +20,5 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-    // "src/app/(payload)/admin/importMap.js"
   ]
 }

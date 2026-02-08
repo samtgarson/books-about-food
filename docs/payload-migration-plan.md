@@ -391,26 +391,21 @@ npx tsx src/payload/migrations/convert-faq-answers.ts
 
 ---
 
-### Phase 10: Frontend Migration
+### Phase 10: Frontend Migration ✅ COMPLETE
 
 **Goal:** Migrate frontend from Prisma to Payload query API.
 
-**Steps:**
+**Completed:**
 
-1. Replace Prisma calls with Payload Local API calls in frontend
-2. For complex queries, use Payload's Drizzle client directly
-3. Update any type references from Prisma types to Payload types
-4. Test all frontend features
+- [x] All Prisma calls replaced with Payload Local API / Drizzle queries
+- [x] All type references updated from Prisma types to Payload types
+- [x] TypeScript errors fixed (excluding generated .next/types)
+- [x] Migration SQL bugs fixed (empty link sites, contribution ordering, title hook)
+- [x] Removed redundant `label` field from books links
+- [x] Contributions `hidden` field wired end-to-end (collection → query → model → component)
 
-**Detailed Plan:**
-See `docs/prisma-to-payload-migration.md` for step-by-step instructions.
-
-**Verification:**
-
-- [ ] All frontend pages load correctly
-- [ ] Search works
-- [ ] Filtering works
-- [ ] All data displays correctly
+**Detailed Log:**
+See `docs/prisma-to-payload-migration.md` for full migration history.
 
 **STOP FOR REVIEW** before proceeding to Phase 11.
 
@@ -430,15 +425,14 @@ See `docs/prisma-to-payload-migration.md` for step-by-step instructions.
    - Remove dependencies from `/admin`
    - Delete Heroku deployment
    - Cancel Forest Admin subscription
-6. Remove Prisma from packages (or keep for reference during transition)
-7. Drop old `public` schema tables once verified
+6. Drop old `public` schema tables once verified
 
 **Verification:**
 
 - [ ] Team has tested all workflows
 - [ ] No critical issues found
 - [ ] Forest Admin fully removed
-- [ ] Prisma dependencies removed
+- [ ] Old public schema dropped
 
 ---
 

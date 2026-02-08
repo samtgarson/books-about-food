@@ -18,7 +18,7 @@ export function transformToBook(
   // Transform the raw database row to PayloadBook
   const bookData: PayloadBook = {
     ...row,
-    backgroundColor: toHsl(row.backgroundColor),
+    backgroundColor: toHsl(row.backgroundColor) ?? undefined,
     authors,
     contributions,
     palette

@@ -20,9 +20,9 @@ export async function ContributionList({
     perPage: 'all'
   })
   if (!data) return null
-  const { books, filteredTotal } = data
+  const { books, total } = data
 
-  if (filteredTotal === 0) return null
+  if (total === 0) return null
   return (
     <ListContainer title="Cookbook Portfolio" className={className}>
       <GridContainer className="sm:gap-y-16">

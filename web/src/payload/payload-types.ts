@@ -21,6 +21,7 @@ export type BookContributions =
       title?: string | null
       job: string | Job
       tag?: 'Assistant' | null
+      hidden?: boolean | null
       id?: string | null
     }[]
   | null
@@ -878,6 +879,7 @@ export interface BookContributionsSelect<T extends boolean = true> {
   title?: T
   job?: T
   tag?: T
+  hidden?: T
   id?: T
 }
 /**

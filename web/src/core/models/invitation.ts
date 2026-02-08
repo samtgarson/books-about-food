@@ -2,7 +2,7 @@ import type {
   PublisherInvitation as PayloadPublisherInvitation,
   User as PayloadUser
 } from 'src/payload/payload-types'
-import { MembershipRole } from './membership'
+import { MembershipRole } from './types'
 import { User } from './user'
 import { requirePopulated } from './utils/payload-validation'
 

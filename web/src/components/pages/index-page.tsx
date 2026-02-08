@@ -1,4 +1,4 @@
-import { AppRoutes } from '.next/types/routes'
+import type { AppRoutes } from '.next/types/routes'
 import { ComponentType, Fragment } from 'react'
 import { z } from 'zod'
 import { Container } from '../atoms/container'

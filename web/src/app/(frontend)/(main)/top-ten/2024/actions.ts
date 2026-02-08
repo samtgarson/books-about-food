@@ -46,13 +46,7 @@ export async function fetchVotes() {
     pagination: false
   })
 
-  // Map Payload BookVotes to Prisma-compatible format for client component
-  return docs.map((vote) => ({
-    id: vote.id,
-    userId: typeof vote.user === 'string' ? vote.user : vote.user.id,
-    bookId: typeof vote.book === 'string' ? vote.book : vote.book.id,
-    createdAt: new Date(vote.createdAt)
-  }))
+  return docs
 }
 
 export async function onVote(bookIds: string[]) {
