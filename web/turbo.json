@@ -35,6 +35,11 @@
         "SENTRY_ORG",
         "SENTRY_PROJECT",
         "SKIP_REDIS_CACHE",
+        "SMTP_HOST",
+        "SMTP_PASS",
+        "SMTP_PORT",
+        "SMTP_SECURE",
+        "SMTP_USER",
         "UPSTASH_REDIS_TOKEN",
         "UPSTASH_REDIS_URL"
       ]

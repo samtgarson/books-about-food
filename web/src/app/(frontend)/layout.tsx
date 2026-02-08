@@ -7,7 +7,6 @@ import { Mouse } from 'src/components/atoms/mouse'
 import { AuthProvider } from 'src/components/auth/auth-provider'
 import { GlobalSheetProvider } from 'src/components/sheets/global-sheet'
 import { TrackingProvider } from 'src/components/tracking/context'
-import { Fathom } from 'src/components/utils/fathom'
 import { VisualBoundaryProvider } from 'src/components/utils/visual-boundary'
 import { fontClassname } from 'src/style/font'
 import 'src/style/globals.css'
@@ -44,7 +43,6 @@ export default async function RootLayout({
       </head>
       <body className="relative flex min-h-screen flex-col transition-colors duration-700">
         <Sentry.ErrorBoundary fallback={<div>FOO</div>}>
-          <Fathom />
           <AuthProvider>
             <TrackingProvider>
               <GlobalSheetProvider>
