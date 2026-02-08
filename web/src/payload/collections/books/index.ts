@@ -222,7 +222,7 @@ export const Books: CollectionConfig = {
           hooks: {
             beforeChange: [
               async function ({ siblingData, req }) {
-                if (!siblingData.id || !siblingData.book || !siblingData.job)
+                if (!siblingData.id || !siblingData.profile || !siblingData.job)
                   return null
 
                 const [{ profileName, jobTitle }] = await req.payload.db.drizzle
@@ -302,7 +302,17 @@ export const Books: CollectionConfig = {
         {
           name: 'label',
           type: 'text',
-          required: true
+          virtual: true,
+          admin: { hidden: true },
+          hooks: {
+            afterRead: [
+              async function ({ siblingData }) {
+                if (siblingData?.site === 'Other')
+                  return siblingData['site (other)']
+                return siblingData?.site ?? ''
+              }
+            ]
+          }
         },
         {
           name: 'url',

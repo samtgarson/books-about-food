@@ -1,7 +1,4 @@
-import type {
-  PublisherInvitation as PayloadPublisherInvitation,
-  User as PayloadUser
-} from 'src/payload/payload-types'
+import type { PublisherInvitation as PayloadPublisherInvitation } from 'src/payload/payload-types'
 import { MembershipRole } from './types'
 import { User } from './user'
 import { requirePopulated } from './utils/payload-validation'
@@ -16,10 +13,7 @@ export class Invitation {
 
   constructor(attrs: PayloadPublisherInvitation) {
     // Validate required relationships are populated
-    const invitedBy = requirePopulated<PayloadUser>(
-      attrs.invitedBy,
-      'Invitation.invitedBy'
-    )
+    const invitedBy = requirePopulated(attrs.invitedBy, 'Invitation.invitedBy')
 
     this.id = attrs.id
     this.invitedBy = new User(invitedBy)

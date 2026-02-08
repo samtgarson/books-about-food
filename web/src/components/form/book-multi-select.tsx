@@ -75,7 +75,6 @@ export function BookMultiSelect({
             setValues((v) =>
               [...v, value].filter((v, i, a) => a.indexOf(v) === i)
             )
-          console.log('select.current', select.current)
           select.current?.clear()
         }}
         loadOptions={loadOptions}

@@ -65,7 +65,9 @@ export async function fetchContributionsForBooks(
         createdAt: jobs.createdAt,
         updatedAt: jobs.updatedAt
       },
-      tag: books_contributions.tag
+      tag: books_contributions.tag,
+      id: books_contributions.id,
+      hidden: books_contributions.hidden
     })
     .from(books_contributions)
     .innerJoin(profiles, eq(books_contributions.profile, profiles.id))

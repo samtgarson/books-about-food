@@ -3,6 +3,6 @@ import { Policy } from './base'
 
 export class ProfilePolicy extends Policy<Profile> {
   get update() {
-    return this.user.role === 'admin' || this.user.id === this.resource.id
+    return this.user.role === 'admin' || this.user.id === this.resource.userId
   }
 }

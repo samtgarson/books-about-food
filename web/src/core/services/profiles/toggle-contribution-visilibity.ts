@@ -1,5 +1,5 @@
 import { extractId } from 'src/core/models/utils/payload-validation'
-import { Service } from 'src/core/services/base'
+import { AuthedService } from 'src/core/services/base'
 import { Book } from 'src/payload/payload-types'
 import { z } from 'zod'
 
@@ -7,13 +7,13 @@ export type ToggleContributionVisibilityInput = z.infer<
   typeof toggleContributionVisibility.input
 >
 
-export const toggleContributionVisibility = new Service(
+export const toggleContributionVisibility = new AuthedService(
   z.object({
     profileId: z.string(),
     bookId: z.string(),
     hidden: z.boolean()
   }),
-  async ({ profileId, bookId, hidden }, { payload }) => {
+  async ({ profileId, bookId, hidden }, { payload, user }) => {
     const book = await payload.findByID({
       collection: 'books',
       id: bookId,
@@ -25,7 +25,8 @@ export const toggleContributionVisibility = new Service(
     await payload.update({
       collection: 'books',
       id: bookId,
-      data: { contributions }
+      data: { contributions },
+      user
     })
   }
 )

@@ -812,17 +812,9 @@ order by
   i."order";
 
 -- Books links (from links table, skip orphaned)
--- Map site values to enum, use site as label
+-- Infer site from URL for rows with empty site
 insert into
-  payload.books_links (
-    _parent_id,
-    _order,
-    id,
-    label,
-    url,
-    site,
-    site_other
-  )
+  payload.books_links (_parent_id, _order, id, url, site, site_other)
 select
   l.book_id as _parent_id,
   row_number() over (
@@ -832,24 +824,34 @@ select
       l.created_at
   ) as _order,
   gen_random_uuid()::text as id,
-  l.site as label,
   l.url,
-  case l.site
-    when 'Amazon' then 'Amazon'
-    when 'Edelweiss+' then 'Edelweiss+'
-    when 'Bookshop.org' then 'Bookshop.org'
-    when 'Worldcat' then 'Worldcat'
-    when 'AbeBooks' then 'AbeBooks'
-    else 'Other'
-  end::payload.enum_books_links_site as site,
   case
-    when l.site not in (
+    when l.site in (
       'Amazon',
       'Edelweiss+',
       'Bookshop.org',
       'Worldcat',
       'AbeBooks'
-    ) then l.site
+    ) then l.site::payload.enum_books_links_site
+    when l.url like '%amzn%'
+    or l.url like '%amazon%' then 'Amazon'::payload.enum_books_links_site
+    when l.url like '%bookshop.org%' then 'Bookshop.org'::payload.enum_books_links_site
+    when l.url like '%montgomerypress%' then 'Other'::payload.enum_books_links_site
+    else 'Other'::payload.enum_books_links_site
+  end as site,
+  case
+    when l.site in (
+      'Amazon',
+      'Edelweiss+',
+      'Bookshop.org',
+      'Worldcat',
+      'AbeBooks'
+    ) then null
+    when l.url like '%amzn%'
+    or l.url like '%amazon%' then null
+    when l.url like '%bookshop.org%' then null
+    when l.url like '%montgomerypress%' then 'Montgomery Press'
+    when l.site != '' then l.site
     else null
   end as site_other
 from
@@ -882,7 +884,7 @@ select
   c.book_id as _parent_id,
   row_number() over (
     partition by
-      c.profile_id
+      c.book_id
     order by
       c.created_at
   ) as _order,

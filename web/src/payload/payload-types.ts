@@ -31,7 +31,7 @@ export type BookContributions =
  */
 export type BookLinks =
   | {
-      label: string
+      label?: string | null
       url: string
       site:
         | 'Amazon'

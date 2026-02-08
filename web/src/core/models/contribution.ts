@@ -1,7 +1,6 @@
 import type {
   Book as PayloadBook,
-  Job as PayloadJob,
-  Profile as PayloadProfile
+  Job as PayloadJob
 } from 'src/payload/payload-types'
 import { Profile } from './profile'
 import { requirePopulated } from './utils/payload-validation'
@@ -17,17 +16,14 @@ export class Contribution {
 
   constructor(attrs: ContributionAttrs) {
     // Validate relationships are populated
-    const profile = requirePopulated<PayloadProfile>(
-      attrs.profile,
-      'Contribution.profile'
-    )
-    const job = requirePopulated<PayloadJob>(attrs.job, 'Contribution.job')
+    const profile = requirePopulated(attrs.profile, 'Contribution.profile')
+    const job = requirePopulated(attrs.job, 'Contribution.job')
 
     this.id = attrs.id ?? ''
     this.job = job
     this.profile = new Profile(profile as typeof profile & { profile: never })
     this.tag = attrs.tag ?? undefined
-    this.hidden = false // Book contributions array doesn't have hidden field
+    this.hidden = attrs.hidden ?? false
   }
 
   get profileName() {

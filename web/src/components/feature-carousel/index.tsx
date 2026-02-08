@@ -73,7 +73,6 @@ export function FeatureCarousel({
           : offset
 
     setState([virtualIndex, newOffset])
-    console.log('virtualIndex', virtualIndex)
   }
 
   const onSwipe = () => {

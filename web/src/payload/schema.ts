@@ -193,7 +193,6 @@ export const books_links = db_schema.table(
     _order: integer('_order').notNull(),
     _parentID: uuid('_parent_id').notNull(),
     id: varchar('id').primaryKey(),
-    label: varchar('label').notNull(),
     url: varchar('url').notNull(),
     site: enum_books_links_site('site').notNull(),
     'site (other)': varchar('site_other')
