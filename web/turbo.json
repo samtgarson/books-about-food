@@ -29,6 +29,7 @@
         "INNGEST_EVENT_KEY",
         "NEXTAUTH_SECRET",
         "NEXT_PUBLIC_MAPBOX_TOKEN",
+        "POSTMARK_SERVER_TOKEN",
         "S3_DOMAIN",
         "SENTRY_AUTH_TOKEN",
         "SENTRY_ORG",

@@ -43,10 +43,9 @@ export async function sendEmail<K extends keyof EmailTemplateMap>(
     TextBody: text
   })
 
-  if (process.env.NODE_ENV !== 'production') {
-    await open(
-      `https://account.postmarkapp.com/servers/14846385/streams/outbound/messages/${res.MessageID}`,
-      { app: { name: apps.chrome } }
-    )
+  if (process.env.NODE_ENV === 'development') {
+    await open(`http://localhost:5000/dev/email-preview/${res.MessageID}`, {
+      app: { name: apps.chrome }
+    })
   }
 }

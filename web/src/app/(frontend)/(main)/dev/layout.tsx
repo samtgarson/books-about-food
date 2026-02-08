@@ -6,6 +6,7 @@ export default async function DevLayout({ children }: { children: ReactNode }) {
   const user = await getSessionUser()
 
   const allow = process.env.NODE_ENV === 'development' || user?.role === 'admin'
+  console.log({ allow })
   if (!allow) notFound()
 
   return <>{children}</>
