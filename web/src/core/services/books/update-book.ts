@@ -6,7 +6,6 @@ import { Book } from 'src/payload/payload-types'
 import { enum_books_source } from 'src/payload/schema'
 import { withoutUndefined } from 'src/utils/object-helpers'
 import { z } from 'zod'
-import { inngest } from '../../jobs'
 import { FullBook } from '../../models/full-book'
 import { AppError } from '../utils/errors'
 import { array, processString } from '../utils/inputs'
@@ -103,12 +102,6 @@ export const updateBook = new AuthedService(
         user
       })
     }
-
-    await inngest.send({
-      name: 'book.updated',
-      user,
-      data: { id: result.id, coverImageChanged: !!coverImage }
-    })
 
     return new FullBook(result)
   }

@@ -10,11 +10,12 @@ export async function PublishersNav() {
   const { docs: publishers } = await payload.find({
     collection: 'publishers',
     where: {
-      memberships: {
-        contains: user.id
+      'memberships.user': {
+        equals: user.id
       }
     },
-    depth: 0
+    depth: 0,
+    user
   })
 
   if (!publishers.length) return null

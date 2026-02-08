@@ -1,7 +1,7 @@
 import { AuthedService } from 'src/core/services/base'
 import { generate } from 'src/core/services/utils/passphrase'
+import { inngest } from 'src/jobs'
 import { z } from 'zod'
-import { inngest } from '../../jobs'
 
 export const createClaim = new AuthedService(
   z.object({

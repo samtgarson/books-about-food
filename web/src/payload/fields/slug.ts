@@ -11,7 +11,7 @@ export function slugField(sourceField: string = 'title'): TextField {
     hooks: {
       beforeValidate: [
         ({ data, value }) => {
-          if (!data?.[sourceField]) return value
+          if (value || !data?.[sourceField]) return value
           return slugify(data[sourceField] as string)
         }
       ]

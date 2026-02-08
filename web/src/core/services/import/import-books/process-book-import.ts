@@ -4,7 +4,6 @@ import { parse } from 'date-fns'
 import { AuthedService } from 'src/core/services/base'
 import { AppError } from 'src/core/services/utils/errors'
 import z from 'zod'
-import { inngest } from '../../../jobs'
 
 export type ProcessBookImportInput = z.input<typeof processBookImport.input>
 
@@ -158,7 +157,7 @@ export const processBookImport = new AuthedService(
         }
 
         // Create the book with all relationships
-        const newBook = await payload.create({
+        await payload.create({
           collection: 'books',
           data: {
             title: bookAttrs.title,
@@ -177,7 +176,6 @@ export const processBookImport = new AuthedService(
           depth: 0
         })
 
-        await inngest.send({ name: 'book.updated', data: { id: newBook.id } })
         return id
       } catch (e) {
         console.error(e)

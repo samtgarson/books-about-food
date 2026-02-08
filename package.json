@@ -15,7 +15,6 @@
   "homepage": "https://github.com/samtgarson/books-about-food#readme",
   "workspaces": [
     "web",
-    "packages/email",
     "packages/shared",
     "packages/e2e"
   ],

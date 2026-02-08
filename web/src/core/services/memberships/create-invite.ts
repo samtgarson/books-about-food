@@ -1,4 +1,4 @@
-import { inngest } from '../../jobs'
+import { inngest } from 'src/jobs'
 import { Publisher } from '../../models/publisher'
 import { can } from '../../policies'
 import { AuthedService } from '../base'

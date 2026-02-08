@@ -1,9 +1,9 @@
 'use server'
 
 import { appUrl } from '@books-about-food/shared/utils/app-url'
-import { inngest } from 'src/core/jobs'
 import { fetchBook } from 'src/core/services/books/fetch-book'
 import { fetchProfile } from 'src/core/services/profiles/fetch-profile'
+import { inngest } from 'src/jobs'
 import { call } from 'src/utils/service'
 import { getSessionUser } from 'src/utils/user'
 

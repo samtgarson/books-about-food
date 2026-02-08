@@ -5,6 +5,7 @@ import { books_contributions, jobs, profiles } from 'src/payload/schema'
 import { slugField } from '../../fields/slug'
 import { revalidatePaths } from '../../plugins/cache-revalidation'
 import { colorField, dayOnlyDisplayFormat } from '../utils'
+import { emitBookUpdatedEvent } from './hooks/emit-book-updated-event'
 import {
   syncRelatedSearchResults,
   syncRelatedSearchResultsOnDelete
@@ -13,7 +14,6 @@ import {
   deleteBookSearchResult,
   syncBookSearchResult
 } from './hooks/sync-search-result'
-import { triggerPaletteGeneration } from './hooks/trigger-palette-generation'
 import { updateSearchText } from './hooks/update-search-text'
 
 export const Books: CollectionConfig = {
@@ -27,7 +27,11 @@ export const Books: CollectionConfig = {
   },
   hooks: {
     beforeChange: [updateSearchText],
-    afterChange: [syncBookSearchResult, syncRelatedSearchResults],
+    afterChange: [
+      syncBookSearchResult,
+      syncRelatedSearchResults,
+      emitBookUpdatedEvent
+    ],
     afterDelete: [deleteBookSearchResult, syncRelatedSearchResultsOnDelete]
   },
   admin: {
@@ -257,10 +261,7 @@ export const Books: CollectionConfig = {
       name: 'coverImage',
       type: 'upload',
       relationTo: 'images',
-      hasMany: false,
-      hooks: {
-        afterChange: [triggerPaletteGeneration]
-      }
+      hasMany: false
     },
     {
       name: 'previewImages',

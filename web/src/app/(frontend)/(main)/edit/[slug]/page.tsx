@@ -11,18 +11,18 @@ import { ParamSheet } from 'src/components/sheets/use-param-sheet'
 import { slugPage } from 'src/components/types'
 import { Toaster } from 'src/components/utils/toaster'
 import { Wrap } from 'src/components/utils/wrap'
+import { can } from 'src/core/policies'
 import { fetchBook } from 'src/core/services/books/fetch-book'
 import { getPayloadClient } from 'src/core/services/utils/payload'
 import { call } from 'src/utils/service'
 import { getSessionUser } from 'src/utils/user'
 
 export default slugPage<'/edit/[slug]'>(async function EditBook(slug) {
-  const { data: book } = await call(fetchBook, { slug })
+  const { data: book } = await call(fetchBook, { slug, onlyPublished: false })
   const currentUser = await getSessionUser()
 
   if (!book || !currentUser) notFound()
-  if (currentUser.id !== book.submitterId && currentUser.role !== 'admin')
-    notFound()
+  if (!can(currentUser, book).update) notFound()
 
   return (
     <>

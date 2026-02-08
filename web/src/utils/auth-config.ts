@@ -3,7 +3,8 @@ import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { getEnv } from '@books-about-food/shared/utils/get-env'
 import GoogleProvider from 'next-auth/providers/google'
 import type { EnrichedAuthConfig } from 'payload-authjs'
-import { inngest } from 'src/core/jobs'
+import { extractId } from 'src/core/models/utils/payload-validation'
+import { inngest } from 'src/jobs'
 import { identify, IdentifyUser } from 'src/lib/tracking/identify'
 import { track } from 'src/lib/tracking/track'
 
@@ -75,12 +76,9 @@ export const authConfig: EnrichedAuthConfig = {
 
       const publishers =
         user.memberships?.docs?.flatMap((membership) =>
-          typeof membership === 'string'
-            ? []
-            : typeof membership.publisher === 'string'
-              ? membership.publisher
-              : membership.publisher?.id
+          typeof membership === 'string' ? [] : extractId(membership.publisher)
         ) ?? []
+
       return {
         id: user.id as string,
         role: user.role,

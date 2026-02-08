@@ -1,8 +1,8 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { inngest } from 'src/core/jobs'
 import { getPayloadClient } from 'src/core/services/utils/payload'
+import { inngest } from 'src/jobs'
 import { track } from 'src/lib/tracking/track'
 import { getSessionUser } from 'src/utils/user'
 

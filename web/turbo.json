@@ -1,8 +1,13 @@
 {
   "extends": ["//"],
   "tasks": {
+    "dev:jobs": {
+      "cache": false,
+      "persistent": true,
+      "outputs": []
+    },
     "dev": {
-      "with": ["@books-about-food/jobs#dev"]
+      "with": ["dev:jobs"]
     },
     "build": {
       "outputs": [".next/**"],

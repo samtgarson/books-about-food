@@ -33,6 +33,7 @@ import { getSessionUser } from 'src/utils/user'
 
 export default slugPage<'/account/publishers/[slug]'>(
   async function AccountPublisherPage(slug) {
+    const user = await getSessionUser()
     const [
       { data: publisher },
       { data: memberships = [] },
@@ -42,7 +43,6 @@ export default slugPage<'/account/publishers/[slug]'>(
       call(fetchMemberships, { slug }),
       call(fetchInvitations, { slug })
     ])
-    const user = await getSessionUser()
     const currentUserMembership = memberships.find(
       (m) => m.user.id === user?.id
     )

@@ -727,215 +727,65 @@ const selectQuery = withFiltersAndJoins(
 
 ---
 
-## Phase 7: Migrate Inngest to Payload Jobs 📋 PENDING
+## Phase 7: Move Jobs & Email into Web, Remove Prisma ✅ COMPLETE
 
-**Goal:** Replace Inngest with Payload's built-in job system and email functionality
+**Goal:** Move Inngest jobs and email into the web app, convert all Prisma usage to Payload, delete orphaned packages.
 
-### Current Architecture
+### What Changed
 
-**Inngest Jobs (packages/jobs):**
-| Inngest Job | Trigger | Uses Prisma |
-| -------------------- | ------------------------------------- | ----------- |
-| `generate-palette` | `book.updated` with coverImageChanged | Yes |
-| `convert-webp` | `book.updated` with coverImageChanged | Yes |
-| `clean-images` | Cron: `0 9 * * 1` | Yes |
-| `send-email` | On-demand | No |
-| `send-verification` | On-demand | No |
-| `send-vote-reminder` | `votes.created` with 6h delay | Yes |
+Rather than migrating from Inngest to Payload Jobs, we kept Inngest as the job orchestration layer and moved everything into `web/`. The old `packages/jobs`, `packages/email`, and `packages/database` directories were deleted.
 
-**Email Package (packages/email):**
+### Completed Changes
 
-- Uses React Email for templates (`@react-email/components`)
-- Uses Postmark for sending (`ServerClient`)
-- 8 email templates with optional `transform` functions (some use Prisma)
-- Templates: claimApproved, newClaim, submissionPublished, suggestEdit, publisherInvite, userApproved, verifyEmail, voteReminder
+#### Jobs (`packages/jobs/` → `web/src/jobs/`)
 
-### Migration Strategy
+- Moved Inngest client from `web/src/core/jobs/` to `web/src/jobs/index.ts`
+- Added Payload middleware (`web/src/jobs/middleware.ts`) that injects a `payload` instance into all function handlers via `transformInput`
+- Moved all 6 job functions, converting Prisma queries to Payload API
+- Added Inngest API route at `web/src/app/api/inngest/route.ts`
+- Updated all `src/core/jobs` imports across web to `src/jobs`
 
-#### 1. Email Configuration
+| Job                  | Prisma → Payload Changes                                                                                                         |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `generate-palette`   | `prisma.book`, `prisma.image` → `payload.findByID`, `payload.update`                                                             |
+| `convert-webp`       | `prisma.book`, `prisma.image`, `prisma.$transaction` → Payload equivalents                                                       |
+| `clean-images`       | Rewrote: single SQL query with LEFT JOINs to find orphaned images, `payload.delete()` for cleanup (S3 handled by storage plugin) |
+| `send-email`         | Uses `payload` from middleware context, passes to `sendEmail()`                                                                  |
+| `send-verification`  | No database usage, import paths only                                                                                             |
+| `send-vote-reminder` | `prisma.bookVote.count` → `payload.count({ collection: 'book-votes' })`                                                          |
 
-Configure Payload email adapter (Nodemailer with Postmark transport or Resend):
+#### Email (`packages/email/` → `web/src/email/`)
 
-```typescript
-// payload.config.ts
-import { nodemailerAdapter } from "@payloadcms/email-nodemailer";
+- Moved all email source files (templates, components, utils) into `web/src/email/`
+- Updated `sendEmail` to accept a `BasePayload` instance as first parameter
+- Added `TransformContext` with `payload` to template transform signatures
+- Replaced Prisma query in `verify-email.tsx` transform with `payload.find({ collection: 'users' })`
+- Kept React Email + Postmark for rendering and sending
 
-export default buildConfig({
-  email: nodemailerAdapter({
-    defaultFromAddress: "no-reply@booksabout.food",
-    defaultFromName: "Books About Food",
-    transportOptions: {
-      host: "smtp.postmarkapp.com",
-      port: 587,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    },
-  }),
-});
-```
+#### Event Dispatch Consolidation
 
-#### 2. Move Email Templates to Web
+- Converted `triggerPaletteGeneration` from a field hook on `coverImage` to a collection-level `afterChange` hook renamed `onCoverImageChange`
+- Uses `extractId()` to compare previous/new cover image IDs (avoids false positives from populated vs ID-only values)
+- Removed manual `inngest.send('book.updated')` from `update-book.ts` and `process-book-import.ts` — the collection hook is now the single source of truth
+- Removed duplicate event re-emit from `convert-webp` job — the webp check (`filename.endsWith('.webp')`) naturally terminates the chain
 
-Move React Email templates from `packages/email` to `web/src/emails`:
+#### Package Cleanup
 
-- Keep the React Email component structure
-- Use `render()` from `@react-email/components` to generate HTML
-- Call `payload.sendEmail({ to, subject, html })` instead of Postmark directly
-- Move any Prisma `transform` logic to use Payload API
+- Deleted `packages/jobs/`, `packages/email/`, `packages/database/`
+- Removed `packages/email` from npm workspaces
+- Moved vibrant dependencies (`@vibrant/*`) to web/package.json
 
-#### 3. Payload Jobs Configuration
+### Key Files
 
-```typescript
-// payload.config.ts
-export default buildConfig({
-  jobs: {
-    tasks: [
-      {
-        slug: "generate-palette",
-        handler: async ({ input, req }) => {
-          const book = await req.payload.findByID({
-            collection: "books",
-            id: input.bookId,
-            depth: 1,
-          });
-          if (!book?.coverImage) return;
-
-          const { palette, backgroundColor } = await getColors(
-            book.coverImage.url,
-          );
-          await req.payload.update({
-            collection: "books",
-            id: input.bookId,
-            data: { palette, backgroundColor },
-          });
-        },
-        inputSchema: [{ name: "bookId", type: "text", required: true }],
-      },
-      {
-        slug: "clean-images",
-        handler: async ({ req }) => {
-          // Find orphaned images using Payload API
-          const orphaned = await req.payload.find({
-            collection: "images",
-            where: {
-              and: [
-                { "coverImageBooks.id": { exists: false } },
-                { "previewImageBooks.id": { exists: false } },
-                { "publishers.id": { exists: false } },
-                { "profiles.id": { exists: false } },
-              ],
-            },
-            limit: 100,
-          });
-
-          for (const img of orphaned.docs) {
-            await req.payload.delete({ collection: "images", id: img.id });
-          }
-          return { deleted: orphaned.docs.length };
-        },
-      },
-      {
-        slug: "send-email",
-        handler: async ({ input, req }) => {
-          const html = await renderEmailTemplate(input.template, input.props);
-          await req.payload.sendEmail({
-            to: input.to,
-            subject: input.subject,
-            html,
-          });
-        },
-        inputSchema: [
-          { name: "to", type: "text", required: true },
-          { name: "subject", type: "text", required: true },
-          { name: "template", type: "text", required: true },
-          { name: "props", type: "json" },
-        ],
-      },
-    ],
-    autoRun: [{ cron: "* * * * *", limit: 10 }],
-  },
-});
-```
-
-#### 4. Trigger Jobs from Hooks
-
-```typescript
-// books/index.ts hooks
-afterChange: [
-  async ({ doc, previousDoc, req }) => {
-    const coverChanged = doc.coverImage !== previousDoc?.coverImage
-    if (coverChanged && doc.coverImage) {
-      await req.payload.jobs.queue({
-        task: 'generate-palette',
-        input: { bookId: doc.id },
-      })
-    }
-  },
-],
-```
-
-#### 5. Scheduled Jobs (Cron)
-
-Configure cron jobs in Payload:
-
-```typescript
-jobs: {
-  tasks: [/* ... */],
-  autoRun: [
-    { cron: '* * * * *', limit: 10 }, // Process queue every minute
-  ],
-  // For scheduled tasks like clean-images, use a separate cron config
-  // or trigger via external cron service hitting an API endpoint
-}
-```
-
-### Migration Steps
-
-1. Install `@payloadcms/email-nodemailer` (or `@payloadcms/email-resend`)
-2. Configure email adapter in payload.config.ts
-3. Move email templates from packages/email to web/src/emails
-4. Update templates to use Payload for any data fetching
-5. Define job tasks in payload.config.ts
-6. Add job queue triggers in collection hooks (books, book-votes)
-7. Test email sending via `payload.sendEmail()`
-8. Test job queue via `payload.jobs.queue()`
-9. Remove packages/jobs directory
-10. Remove packages/email directory
-11. Remove Inngest dependencies and admin route
-12. Update any remaining Prisma imports to use Payload
-
----
-
-## Phase 8: Cleanup Remaining Prisma Services ✅ COMPLETE
-
-**Goal:** Migrate remaining services that still use Prisma ORM
-
-### Services Status
-
-All web services have been migrated - these were completed in earlier phases:
-
-- ✅ `web/src/core/services/home/fetch-jobs.ts` - Uses Drizzle
-- ✅ `web/src/core/services/home/fetch.ts` - Uses Payload API
-- ✅ `web/src/core/services/auth/destroy-account.ts` - Uses Drizzle
-- ✅ `web/src/core/services/auth/get-accounts.ts` - Uses Payload API
-- ✅ `web/src/core/services/images/create-images.ts` - Uses Payload API
-
-### Remaining Prisma Usage
-
-Prisma is still used in packages that will be migrated as part of Phase 7:
-
-- `packages/jobs/*` - Inngest jobs (will migrate to Payload jobs)
-- `packages/email/emails/verify-email.tsx` - Email transform (will migrate with Payload email)
-
-### Final Cleanup (after Phase 7)
-
-1. Remove `@books-about-food/database` package dependency
-2. Remove `@prisma/client` from package.json
-3. Remove any remaining Prisma imports
-4. Delete `packages/database` directory
-5. Update documentation to remove Prisma references
+| File                                                               | Purpose                                         |
+| ------------------------------------------------------------------ | ----------------------------------------------- |
+| `web/src/jobs/index.ts`                                            | Inngest client with Payload + Sentry middleware |
+| `web/src/jobs/middleware.ts`                                       | Injects `payload` into all job handlers         |
+| `web/src/jobs/functions/*.ts`                                      | All job functions (6 total)                     |
+| `web/src/jobs/lib/generate-palette/`                               | Palette extraction using Vibrant                |
+| `web/src/app/api/inngest/route.ts`                                 | Next.js API route serving Inngest               |
+| `web/src/email/`                                                   | All email templates, components, utils          |
+| `web/src/payload/collections/books/hooks/on-cover-image-change.ts` | Single event dispatch for cover image changes   |
 
 ---
 
@@ -986,12 +836,12 @@ Prisma is still used in packages that will be migrated as part of Phase 7:
 - ✅ Phase 4: Auth adapter migrated
 - ✅ Phase 5: Complex CRUD services migrated (14 services)
 - ✅ Phase 6: Raw SQL services migrated (2 services)
-- 📋 Phase 7: Jobs migrated to Payload
-- ✅ Phase 8: Web services fully migrated (Prisma only remains in jobs/email packages)
+- ✅ Phase 7: Jobs & email moved into web, Prisma removed, event dispatch consolidated
+- ✅ Phase 8: Web services fully migrated
 - 📋 No TypeScript errors
 - 📋 Dev server runs successfully
 - 📋 All features working in preview deployment
-- 📋 Prisma dependencies removed
+- ✅ Prisma dependencies removed
 
 ---
 
@@ -1085,4 +935,18 @@ Prisma is still used in packages that will be migrated as part of Phase 7:
 
 - ✅ **All PostgreSQL views now replaced with Payload-native solutions**
 
-**Last Updated:** 2026-02-02
+### 2026-02-07
+
+- ✅ **Phase 7 Complete:** Jobs & email moved into web, all Prisma usage removed
+  - Moved Inngest jobs from `packages/jobs/` to `web/src/jobs/`, kept Inngest as orchestration layer
+  - Added Payload middleware to inject `payload` into all job handlers via `transformInput`
+  - Added Inngest API route at `web/src/app/api/inngest/route.ts`
+  - Moved email from `packages/email/` to `web/src/email/`, updated `sendEmail` to accept Payload instance
+  - Replaced Prisma in `verify-email.tsx` transform with Payload query
+  - Rewrote `clean-images` job: uses single SQL query with LEFT JOINs instead of Payload API (efficient for ~10k images)
+  - Consolidated event dispatch: `onCoverImageChange` collection hook is the single source of `book.updated` events
+  - Removed manual `inngest.send()` from `update-book.ts` and `process-book-import.ts`
+  - Removed duplicate event re-emit from `convert-webp` — webp check naturally terminates the chain
+  - Deleted `packages/jobs/`, `packages/email/`, `packages/database/`
+
+**Last Updated:** 2026-02-07

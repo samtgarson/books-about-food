@@ -25,8 +25,7 @@ export const action = async (values: unknown) => {
   let coverImageId: string | undefined
   if (cover) {
     const imageRes = await call(createImages, {
-      prefix: `books/${id}/cover`,
-      files: [{ url: cover }]
+      files: [cover]
     })
     if (imageRes.success) coverImageId = imageRes.data[0].id
   }

@@ -77,8 +77,7 @@ export const createBook = new AuthedService(
     if (coverUrl) {
       const imageRes = await createImages.call(
         {
-          prefix: `books/${book.id}/cover`,
-          files: [{ url: coverUrl }]
+          files: [coverUrl]
         },
         ctx
       )
