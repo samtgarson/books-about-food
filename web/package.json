@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --port 5000",
     "dev:jobs": "npx --ignore-scripts=false inngest-cli@latest dev",
-    "build": "next build",
+    "build": "npm run payload migrate && next build",
     "start": "next start",
     "payload": "NODE_OPTIONS='--import tsx' npx payload",
     "payload:generate": "npm run payload generate:types && rm ./src/app/\\(payload\\)/admin/importMap.js && npm run payload generate:importmap && npm run payload generate:db-schema"
