@@ -1,0 +1,27 @@
+name: Clean Up Database Branch
+on:
+  pull_request:
+    types: [closed]
+
+env:
+  NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+
+jobs:
+  cleanup:
+    name: "Remove database branch"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install neonctl
+        run: npm install -g neonctl
+      - name: Delete database branch
+        run: |
+          branch_name="github-deploy-${{ github.head_ref }}"
+          existing_id=$(neonctl branches list -o json \
+            | jq -r --arg name "$branch_name" '.[] | select(.name == $name) | .id')
+
+          if [ -n "$existing_id" ]; then
+            echo "Deleting database branch: $existing_id ($branch_name)"
+            neonctl branches delete "$existing_id"
+          else
+            echo "No database branch found for $branch_name"
+          fi

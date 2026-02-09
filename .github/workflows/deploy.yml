@@ -32,19 +32,38 @@ jobs:
         uses: actions/checkout@v4
       - name: Install CLI deps
         run: npm install -g neonctl vercel@latest
-      - name: Destroy previously missed database branches
-        run: |
-          neonctl branches list -o json \
-          | jq '.[].name | select(. | startswith("github-deploy-${{ github.ref_name }}"))' -c \
-          | xargs -I % neonctl branches delete %
-      - name: Create database branch
-        uses: neondatabase/create-branch-action@v4
-        with:
-          project_id: wandering-sound-489458
-          api_key: ${{ secrets.NEON_API_KEY }}
-          branch_name: github-deploy-${{ github.ref_name }}-${{ github.run_id}}-${{ github.run_attempt }}
-          database: books-about-food-prod
+      - name: Resolve database branch
         id: create-db
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            # On main: delete all previous branches and create a fresh one
+            neonctl branches list -o json \
+            | jq '.[].name | select(. | startswith("github-deploy-${{ github.ref_name }}"))' -c \
+            | xargs -I % neonctl branches delete %
+
+            branch_id=$(neonctl branches create \
+              --project-id wandering-sound-489458 \
+              --name "github-deploy-${{ github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}" \
+              --output json | jq -r '.branch.id')
+          else
+            # On feature branches: reuse existing branch if available
+            branch_name="github-deploy-${{ github.ref_name }}"
+            existing_id=$(neonctl branches list -o json \
+              | jq -r --arg name "$branch_name" '.[] | select(.name == $name) | .id')
+
+            if [ -n "$existing_id" ]; then
+              echo "Reusing existing database branch: $existing_id"
+              branch_id="$existing_id"
+            else
+              echo "Creating new database branch: $branch_name"
+              branch_id=$(neonctl branches create \
+                --project-id wandering-sound-489458 \
+                --name "$branch_name" \
+                --output json | jq -r '.branch.id')
+            fi
+          fi
+
+          echo "branch_id=$branch_id" >> $GITHUB_OUTPUT
       - name: Deploy preview to Vercel
         id: vercel-deploy
         env:
