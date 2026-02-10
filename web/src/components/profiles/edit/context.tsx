@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { ReactNode, useCallback, useContext } from 'react'
 import {
   EditInPlaceProvider,
@@ -22,12 +23,16 @@ export function useEditProfile() {
 
 export const EditProfileProvider = ({
   children,
-  profile
+  profile,
+  editMode = false
 }: {
   children: ReactNode
   profile: Profile
+  editMode?: boolean
 }) => {
-  const policy = usePolicy(profile)
+  const enabled = usePolicy(profile)?.update
+  const router = useRouter()
+
   const save = useCallback(
     async function (data: Omit<UpdateProfileInput, 'slug'>) {
       const result = await action({ ...data, slug: profile.slug })
@@ -44,12 +49,18 @@ export const EditProfileProvider = ({
     [profile.slug]
   )
 
+  if (editMode && !enabled) {
+    router.replace(`/people/${profile.slug}`, { scroll: false })
+    return null
+  }
+
   return (
     <EditInPlaceProvider
       context={context}
       resource={profile}
       onSave={save}
-      enabled={policy?.update}
+      enabled={enabled}
+      editMode={editMode}
     >
       {children}
     </EditInPlaceProvider>

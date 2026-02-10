@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { ReactNode, useCallback, useContext } from 'react'
 import {
   EditInPlaceProvider,
@@ -23,12 +24,15 @@ export function useEditPublisher() {
 
 export const EditPublisherProvider = ({
   children,
-  publisher
+  publisher,
+  editMode = false
 }: {
   children: ReactNode
   publisher: Publisher
+  editMode?: boolean
 }) => {
-  const policy = usePolicy(publisher)
+  const enabled = usePolicy(publisher)?.update
+  const router = useRouter()
 
   const save = useCallback(
     async function (data: Omit<UpdatePublisherInput, 'slug'>) {
@@ -46,12 +50,18 @@ export const EditPublisherProvider = ({
     [publisher.slug]
   )
 
+  if (editMode && !enabled) {
+    router.replace(`/publishers/${publisher.slug}`, { scroll: false })
+    return null
+  }
+
   return (
     <EditInPlaceProvider
       context={context}
       resource={publisher}
       onSave={save}
-      enabled={policy?.update}
+      enabled={enabled}
+      editMode={editMode}
     >
       {children}
     </EditInPlaceProvider>

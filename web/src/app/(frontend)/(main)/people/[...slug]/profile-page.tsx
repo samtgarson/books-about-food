@@ -14,6 +14,7 @@ import { LinkList } from 'src/components/profiles/link-list'
 import { LocationField } from 'src/components/profiles/location-field'
 import { ProfileOverflow } from 'src/components/profiles/profile-overflow'
 import { Wrap } from 'src/components/utils/wrap'
+import { Profile } from 'src/core/models/profile'
 import { fetchFrequentCollaborators } from 'src/core/services/books/fetch-frequent-collaborators'
 import { fetchProfile } from 'src/core/services/profiles/fetch-profile'
 import { call } from 'src/utils/service'
@@ -21,16 +22,30 @@ import { SkeletonPeopleGrid } from '../grid'
 
 export type ProfilePageProps = {
   slug: string
+  editing?: boolean
 }
-export async function ProfilePage({ slug }: ProfilePageProps) {
-  const [{ data: profile }, { data: collaborators = [] }] = await Promise.all([
+export async function ProfilePage({ slug, editing }: ProfilePageProps) {
+  const [
+    { data: profile },
+    { data: collaborators = [] },
+    { data: hiddenCollaborators = [] }
+  ] = await Promise.all([
     call(fetchProfile, { slug, onlyPublished: true }),
-    call(fetchFrequentCollaborators, { slug })
+    call(fetchFrequentCollaborators, { slug }),
+    editing
+      ? call(fetchFrequentCollaborators, { slug, onlyHidden: true })
+      : Promise.resolve({ data: [] as Profile[] })
   ])
+  const allCollaborators = [
+    ...collaborators,
+    ...hiddenCollaborators.filter(
+      (hc) => !collaborators.some((c) => c.id === hc.id)
+    )
+  ]
   if (!profile) return notFound()
 
   return (
-    <Wrap c={EditProfileProvider} profile={profile}>
+    <Wrap c={EditProfileProvider} profile={profile} editMode={editing}>
       <Container
         belowNav
         id="container"
@@ -67,7 +82,7 @@ export async function ProfilePage({ slug }: ProfilePageProps) {
           </div>
           <Wrap
             c={FrequentCollaborators}
-            profiles={collaborators}
+            profiles={allCollaborators}
             className="my-4 sm:mt-20 sm:mb-0"
           />
         </div>

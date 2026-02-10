@@ -13,7 +13,7 @@ export const action = async (data: UpdateProfileInput) => {
   if (!result.success) return result
 
   const { data: profile } = result
-  const path = `/people/${profile.slug}`
+  const path = `/people/${profile.slug}/edit`
   if (profile.slug !== data.slug) redirect(path)
   return { ...result, data: stringify(profile) }
 }

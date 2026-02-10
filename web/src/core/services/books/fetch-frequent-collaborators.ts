@@ -2,6 +2,7 @@ import {
   and,
   countDistinct,
   eq,
+  exists,
   gt,
   ne,
   notExists,
@@ -19,8 +20,8 @@ import { z } from 'zod'
 import { fetchProfile } from '../profiles/fetch-profile'
 
 export const fetchFrequentCollaborators = new Service(
-  z.object({ slug: z.string() }),
-  async ({ slug }, ctx) => {
+  z.object({ slug: z.string(), onlyHidden: z.boolean().optional() }),
+  async ({ slug, onlyHidden }, ctx) => {
     if (!slug) return []
 
     const { payload } = ctx
@@ -32,7 +33,22 @@ export const fetchFrequentCollaborators = new Service(
     const c1 = books_contributions
     const c2 = alias(books_contributions, 'c2')
 
-    const raw = await db
+    const hiddenSubquery = db
+      .select()
+      .from(profiles_rels)
+      .where(
+        and(
+          eq(profiles_rels.parent, p2.id),
+          eq(profiles_rels.path, 'hiddenFrequentCollaborators'),
+          eq(profiles_rels.profilesID, p1.id)
+        )
+      )
+
+    const hiddenFilter = onlyHidden
+      ? exists(hiddenSubquery)
+      : notExists(hiddenSubquery)
+
+    const query = db
       .select({
         slug: p1.slug,
         count: countDistinct(c1._parentID).as('book_count')
@@ -41,27 +57,12 @@ export const fetchFrequentCollaborators = new Service(
       .innerJoin(c1, eq(p1.id, c1.profile))
       .innerJoin(c2, eq(c2._parentID, c1._parentID))
       .innerJoin(p2, and(eq(p2.id, c2.profile), ne(p2.slug, p1.slug)))
-      .where(
-        and(
-          eq(p2.slug, slug),
-          notExists(
-            db
-              .select()
-              .from(profiles_rels)
-              .where(
-                and(
-                  eq(profiles_rels.parent, p2.id),
-                  eq(profiles_rels.path, 'hiddenFrequentCollaborators'),
-                  eq(profiles_rels.profilesID, p1.id)
-                )
-              )
-          )
-        )
-      )
+      .where(and(eq(p2.slug, slug), hiddenFilter))
       .groupBy(p1.slug)
       .having(gt(countDistinct(c1._parentID), 1))
       .orderBy(sql`count(DISTINCT ${c1._parentID}) DESC`)
-      .limit(8)
+
+    const raw = onlyHidden ? await query : await query.limit(8)
 
     const profileResults = await Promise.all(
       raw.flatMap(async ({ slug }) => {

@@ -22,7 +22,10 @@ export const Publishers: CollectionConfig = {
   admin: {
     group: 'Resources',
     useAsTitle: 'name',
-    defaultColumns: ['name', 'slug', 'website']
+    defaultColumns: ['name', 'slug', 'website'],
+    preview({ slug }) {
+      return `/publishers/${slug}`
+    }
   },
   fields: [
     {

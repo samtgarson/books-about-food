@@ -65,11 +65,14 @@ export const Button = forwardRef(function Button(
     )
   }
 
+  const linkProps = props as ComponentPropsWithoutRef<typeof Link>
+
   return (
     <Link
       aria-disabled={disabled}
       className={classes}
-      {...(props as ComponentPropsWithoutRef<typeof Link>)}
+      data-no-transition={linkProps.replace || undefined}
+      {...linkProps}
       ref={ref as ForwardedRef<HTMLAnchorElement>}
     >
       <ButtonContents loading={loading}>{children}</ButtonContents>

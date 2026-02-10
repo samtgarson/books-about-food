@@ -29,7 +29,7 @@ export const updateProfile = new AuthedService(
     instagram: z.string().regex(instagramHandle).nullish(),
     locations: array(locationInputSchema).nullish(),
     avatar: z.string().nullish(),
-    hiddenCollaborators: array(z.string()).optional()
+    hiddenFrequentCollaborators: array(z.string()).optional()
   }),
   async ({ slug, avatar, instagram, locations, ...data }, ctx) => {
     const { payload, user } = ctx

@@ -54,7 +54,10 @@ export const Transition = forwardRef<TransitionControl, TransitionProps>(
         if (anchor.href === window.location.href + '#') return
         try {
           const targetHref = new URL(anchor.href).pathname
-          if (targetHref === window.location.pathname) {
+          if (
+            targetHref === window.location.pathname ||
+            anchor.hasAttribute('data-no-transition')
+          ) {
             setInternalLoading(true)
             return
           }

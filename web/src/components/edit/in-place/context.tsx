@@ -19,9 +19,9 @@ export type EditInPlaceContext<
 > = {
   resource: Resource
   editMode: boolean
-  setEditMode: (editMode: boolean) => void
   onSave: (data: UpdateAttrs) => Promise<boolean>
   enabled: boolean
+  loading: boolean
 } & ExtraContext
 
 export function createInPlaceContext<
@@ -45,6 +45,7 @@ export function EditInPlaceProvider<
   resource: initialResource,
   onSave: save,
   enabled = false,
+  editMode = false,
   extra
 }: {
   context: Context<EditInPlaceContext<Resource, UpdateAttrs, ExtraContext>>
@@ -52,12 +53,13 @@ export function EditInPlaceProvider<
   resource: Resource
   onSave: (data: UpdateAttrs) => Promise<Resource | string | undefined>
   enabled?: boolean
+  editMode?: boolean
   extra?: ExtraContext
 }) {
   const [resource, setResource] = useState(initialResource)
-  const [editMode, setEditMode] = useState(false)
   const [changed, setChanged] = useState(false)
   const previousEditMode = usePrevious(editMode)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (!editMode) {
@@ -80,15 +82,18 @@ export function EditInPlaceProvider<
 
   const onSave = useCallback(
     async function (data: UpdateAttrs) {
+      setLoading(true)
       const result = await save(data)
 
       if (BaseModel.isModel(result)) {
         setChanged(true)
         setResource(result)
         successToast('Updated successfully')
+        setLoading(false)
         return true
       } else {
         errorToast(result || 'Something went wrong')
+        setLoading(false)
         return false
       }
     },
@@ -100,9 +105,9 @@ export function EditInPlaceProvider<
       value={
         {
           resource,
-          editMode,
-          setEditMode: enabled ? setEditMode : () => {},
+          editMode: enabled && editMode,
           onSave,
+          loading,
           enabled,
           ...extra
         } as EditInPlaceContext<Resource, UpdateAttrs, ExtraContext>

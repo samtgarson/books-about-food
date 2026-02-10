@@ -25,18 +25,19 @@ export function FrequentCollaborators({
   const isServer = useServer()
 
   const { profile, editMode, onSave } = useEditProfile()
-  const ids = useMemo(() => profile.hiddenCollaborators, [profile])
+  const hiddenIds = useMemo(() => profile.hiddenCollaborators, [profile])
 
   const toggle = useCallback(
     async (id: string, hidden: boolean) => {
-      const newIds = hidden ? [...ids, id] : ids.filter((i) => i !== id)
-      await onSave({ hiddenCollaborators: newIds })
+      const newIds = hidden
+        ? [...hiddenIds, id]
+        : hiddenIds.filter((i) => i !== id)
+      await onSave({ hiddenFrequentCollaborators: newIds })
     },
-    [ids, onSave]
+    [hiddenIds, onSave]
   )
 
-  const allHidden = profiles.every((p) => ids.includes(p.id))
-  if (!profiles.length || (allHidden && !editMode)) return null
+  if (!profiles.length) return null
   if (!currentUser) return <FrequentCollaboratorsDummy className={className} />
   if (isServer) return null
 
@@ -47,7 +48,7 @@ export function FrequentCollaborators({
       className={className}
     >
       {profiles.map((profile) => {
-        const hidden = ids.includes(profile.id)
+        const hidden = hiddenIds.includes(profile.id)
 
         if (!editMode && hidden) return null
         return (
