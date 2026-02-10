@@ -22,17 +22,15 @@ export function useEditProfile() {
 
 export const EditProfileProvider = ({
   children,
-  segment,
   profile
 }: {
   children: ReactNode
   profile: Profile
-  segment: 'authors' | 'people'
 }) => {
   const policy = usePolicy(profile)
   const save = useCallback(
     async function (data: Omit<UpdateProfileInput, 'slug'>) {
-      const result = await action(segment, { ...data, slug: profile.slug })
+      const result = await action({ ...data, slug: profile.slug })
       if (result.success) {
         return parse(result.data)
       } else {
@@ -43,7 +41,7 @@ export const EditProfileProvider = ({
         }
       }
     },
-    [profile.slug, segment]
+    [profile.slug]
   )
 
   return (

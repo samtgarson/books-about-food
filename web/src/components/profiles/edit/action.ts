@@ -8,15 +8,12 @@ import {
 import { call } from 'src/utils/service'
 import { stringify } from 'src/utils/superjson'
 
-export const action = async (
-  segment: 'people' | 'authors',
-  data: UpdateProfileInput
-) => {
+export const action = async (data: UpdateProfileInput) => {
   const result = await call(updateProfile, data)
   if (!result.success) return result
 
   const { data: profile } = result
-  const path = `/${segment}/${profile.slug}`
+  const path = `/people/${profile.slug}`
   if (profile.slug !== data.slug) redirect(path)
   return { ...result, data: stringify(profile) }
 }

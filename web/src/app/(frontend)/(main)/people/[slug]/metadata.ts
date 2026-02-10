@@ -3,9 +3,8 @@ import { notFound } from 'next/navigation'
 import { fetchProfile } from 'src/core/services/profiles/fetch-profile'
 import { genMetadata, profileTotal } from 'src/utils/metadata'
 import { call } from 'src/utils/service'
-import { ProfilePageProps } from './profile-page'
 
-export const metadata = (segment: ProfilePageProps['segment']) =>
+export const metadata = () =>
   async function generateMetadata(
     props: PageProps<'/people/[slug]'>,
     parent: Promise<ResolvedMetadata>
@@ -18,13 +17,13 @@ export const metadata = (segment: ProfilePageProps['segment']) =>
     if (!profile) notFound()
 
     const [firstName, ...names] = profile.name.split(' ')
-    return genMetadata(`/${segment}/${profile.slug}`, await parent, {
+    return genMetadata(`/people/${profile.slug}`, await parent, {
       title: profile.name,
       description: `View ${profile.name}’s cookbooks and ${total} other profiles on Books About Food — beautifully designed cookbooks and the people making them.`,
       openGraph: {
         images: [
           {
-            url: `/${segment}/${profile.slug}/og-image.png`,
+            url: `/people/${profile.slug}/og-image.png`,
             width: 1200,
             height: 630,
             alt: `${profile.name} on Books About Food`

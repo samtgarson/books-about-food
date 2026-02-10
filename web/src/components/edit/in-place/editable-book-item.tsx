@@ -79,6 +79,7 @@ export function EditableBookAction({
     <button
       className="flex h-10 w-10 items-center justify-center bg-white"
       title={title}
+      type="button"
       onClick={async function () {
         setLoading(true)
         await onClick()

@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { Container } from 'src/components/atoms/container'
 import { FavouriteButton } from 'src/components/favourites/favourite-button'
+import { ListContainer } from 'src/components/lists/list-container'
 import { ClaimProfileButton } from 'src/components/profiles/claim-button'
 import { ContributionList } from 'src/components/profiles/contribution-list'
 import { EditProfileProvider } from 'src/components/profiles/edit/context'
@@ -16,12 +17,12 @@ import { Wrap } from 'src/components/utils/wrap'
 import { fetchFrequentCollaborators } from 'src/core/services/books/fetch-frequent-collaborators'
 import { fetchProfile } from 'src/core/services/profiles/fetch-profile'
 import { call } from 'src/utils/service'
+import { SkeletonPeopleGrid } from '../grid'
 
 export type ProfilePageProps = {
-  segment: 'authors' | 'people'
   slug: string
 }
-export async function ProfilePage({ segment, slug }: ProfilePageProps) {
+export async function ProfilePage({ slug }: ProfilePageProps) {
   const [{ data: profile }, { data: collaborators = [] }] = await Promise.all([
     call(fetchProfile, { slug, onlyPublished: true }),
     call(fetchFrequentCollaborators, { slug })
@@ -29,7 +30,7 @@ export async function ProfilePage({ segment, slug }: ProfilePageProps) {
   if (!profile) return notFound()
 
   return (
-    <Wrap c={EditProfileProvider} profile={profile} segment={segment}>
+    <Wrap c={EditProfileProvider} profile={profile}>
       <Container
         belowNav
         id="container"
@@ -72,7 +73,13 @@ export async function ProfilePage({ segment, slug }: ProfilePageProps) {
         </div>
       </Container>
       <Container className="border-black empty:hidden max-sm:border-t">
-        <Suspense fallback={null}>
+        <Suspense
+          fallback={
+            <ListContainer title="Cookbook Portfolio" className="sm:mt-20">
+              <SkeletonPeopleGrid />
+            </ListContainer>
+          }
+        >
           <ContributionList profile={profile} className="sm:mt-20" />
         </Suspense>
       </Container>
