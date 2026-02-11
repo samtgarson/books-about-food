@@ -1,5 +1,4 @@
 import { JWT } from '@auth/core/jwt'
-import { appUrl } from '@books-about-food/shared/utils/app-url'
 import { getEnv } from '@books-about-food/shared/utils/get-env'
 import GoogleProvider from 'next-auth/providers/google'
 import type { EnrichedAuthConfig } from 'payload-authjs'
@@ -22,9 +21,7 @@ export const authConfig: EnrichedAuthConfig = {
           access_type: 'offline'
         }
       },
-      allowDangerousEmailAccountLinking: true,
-      redirectProxyUrl:
-        process.env.NODE_ENV === 'development' ? undefined : appUrl('/api/auth')
+      allowDangerousEmailAccountLinking: true
     }),
     {
       id: 'email',
