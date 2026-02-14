@@ -50,11 +50,11 @@ To enable a clean migration path:
 ```typescript
 // payload.config.ts
 db: postgresAdapter({
-  idType: "uuid",
-  schemaName: "payload",
+  idType: 'uuid',
+  schemaName: 'payload',
   pool: { connectionString: process.env.DATABASE_URL },
-  migrationDir: path.resolve(dirname, "payload", "migrations"),
-});
+  migrationDir: path.resolve(dirname, 'payload', 'migrations')
+})
 ```
 
 ### Field Handling

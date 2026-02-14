@@ -1,8 +1,7 @@
 {
-  "name": "@books-about-food/repo",
-  "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
+  "name": "books-about-food",
+  "version": "0.1.0",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/samtgarson/books-about-food.git"
@@ -13,38 +12,131 @@
     "url": "https://github.com/samtgarson/books-about-food/issues"
   },
   "homepage": "https://github.com/samtgarson/books-about-food#readme",
-  "workspaces": [
-    "web",
-    "packages/shared",
-    "packages/e2e"
-  ],
-  "cacheDirectories": [
-    "node_modules",
-    "admin/node_modules",
-    "web/node_modules",
-    "web/.next/cache"
-  ],
   "scripts": {
-    "build": "turbo run build",
-    "start": "turbo run start",
-    "test": "turbo run test",
+    "dev": "npm run dev:web & npm run dev:jobs & wait",
+    "dev:web": "next dev --port 5000",
+    "dev:jobs": "npx --ignore-scripts=false inngest-cli@latest dev",
+    "dev:test": "DANGER_SEND_EMAILS=true npm run dev",
+    "build": "npm run payload migrate && next build",
+    "start": "next start",
     "lint": "NODE_OPTIONS=\"--max-old-space-size=8192\" eslint . && prettier --check --ignore-path ./.prettierignore .",
     "format": "NODE_OPTIONS=\"--max-old-space-size=8192\" eslint . --fix && prettier --write --ignore-path ./.prettierignore .",
-    "dev": "turbo run dev",
-    "dev:web": "turbo run dev --filter @books-about-food/web",
-    "dev:test": "DANGER_SEND_EMAILS=true npm run dev",
+    "type-check": "npx tsc --noEmit",
+    "payload": "NODE_OPTIONS='--import tsx' npx payload",
+    "payload:generate": "npm run payload generate:types && rm ./src/app/\\(payload\\)/admin/importMap.js && npm run payload generate:importmap && npm run payload generate:db-schema",
     "postinstall": "patch-package",
-    "heroku-postbuild": "turbo build --filter=@books-about-food/admin",
-    "type-check": "npx -ws tsc --noEmit",
     "prepare": "node .husky/install.mjs"
   },
+  "overrides": {
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "next": "$next",
+    "payload": "$payload",
+    "next-auth": {
+      "@auth/core": "$@auth/core"
+    }
+  },
+  "dependencies": {
+    "@auth/core": "0.41.1",
+    "@auth/prisma-adapter": "^2.11.1",
+    "@aws-sdk/client-s3": "^3.940.0",
+    "@inngest/middleware-sentry": "^0.1.3",
+    "@payloadcms/db-postgres": "^3.70.0",
+    "@payloadcms/next": "^3.70.0",
+    "@payloadcms/storage-s3": "^3.70.0",
+    "@payloadcms/ui": "^3.70.0",
+    "@prisma/client": "^7.0.1",
+    "@react-email/components": "0.0.31",
+    "@sentry/nextjs": "^10.32.1",
+    "@tailwindcss/postcss": "^4.1.17",
+    "@tailwindcss/typography": "^0.5.19",
+    "@tiptap/core": "^2.11.5",
+    "@tiptap/extension-bold": "^2.11.5",
+    "@tiptap/extension-bubble-menu": "^2.11.5",
+    "@tiptap/extension-bullet-list": "^2.11.5",
+    "@tiptap/extension-document": "^2.11.5",
+    "@tiptap/extension-dropcursor": "^2.11.5",
+    "@tiptap/extension-history": "^2.11.5",
+    "@tiptap/extension-image": "^2.11.5",
+    "@tiptap/extension-italic": "^2.11.5",
+    "@tiptap/extension-link": "^2.11.5",
+    "@tiptap/extension-list-item": "^2.11.5",
+    "@tiptap/extension-ordered-list": "^2.11.5",
+    "@tiptap/extension-paragraph": "^2.11.5",
+    "@tiptap/extension-placeholder": "^2.11.5",
+    "@tiptap/extension-text": "^2.11.5",
+    "@tiptap/extension-typography": "^2.11.5",
+    "@tiptap/extension-underline": "^2.11.5",
+    "@tiptap/pm": "^2.11.5",
+    "@tiptap/react": "^2.11.5",
+    "@upstash/redis": "^1.34.5",
+    "@vercel/functions": "^3.3.4",
+    "@vercel/speed-insights": "^1.2.0",
+    "@vibrant/color": "^3.2.1-alpha.1",
+    "@vibrant/core": "^3.2.1-alpha.1",
+    "@vibrant/generator": "^3.2.1-alpha.1",
+    "@vibrant/image": "^3.2.1-alpha.1",
+    "@vibrant/quantizer-mmcq": "^3.2.1-alpha.1",
+    "buffer-image-size": "^0.6.4",
+    "classnames": "^2.5.1",
+    "color": "^4.2.3",
+    "date-fns": "^4.1.0",
+    "downshift": "^9.0.10",
+    "framer-motion": "^12.23.24",
+    "graphql": "^16.12.0",
+    "hoist-non-react-statics": "^3.3.2",
+    "inflection": "^3.0.2",
+    "inngest": "^3.52.0",
+    "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.555.0",
+    "mapbox-gl": "^3.17.0",
+    "mime-types": "^3.0.2",
+    "neat-csv": "^6",
+    "next": "^16.1.1",
+    "next-auth": "5.0.0-beta.30",
+    "open": "^8",
+    "payload": "^3.70.0",
+    "payload-authjs": "^0.10.0",
+    "plaiceholder": "^2.5.0",
+    "postmark": "^4.0.5",
+    "radix-ui": "^1.4.3",
+    "randomcolor": "^0.6.2",
+    "react": "^19.2.1",
+    "react-contenteditable": "^3.3.7",
+    "react-dom": "19.2.1",
+    "react-easy-crop": "^5.5.6",
+    "react-map-gl": "^8.1.0",
+    "sharp": "^0.34.5",
+    "slugify": "^1.6.6",
+    "sonner": "^2.0.7",
+    "stable-hash": "^0.0.6",
+    "superjson": "^2.2.6",
+    "tailwindcss": "^4.1.18",
+    "tsx": "^4.20.6",
+    "use-debounce": "^10.0.6",
+    "usehooks-ts": "^3.1.1",
+    "xss": "^1.0.15",
+    "zod": "^4.1.13"
+  },
   "devDependencies": {
-    "@books-about-food/prettier-config": "*",
     "@eslint/compat": "^1.2.7",
     "@eslint/js": "^9.22.0",
+    "@next/bundle-analyzer": "16.0.6",
     "@next/eslint-plugin-next": "^15.2.2",
-    "@samtgarson/eslint-config": "^3.2.13",
+    "@playwright/test": "^1.57.0",
+    "@samtgarson/eslint-config": "^3.3.0",
     "@stylistic/eslint-plugin": "^4.2.0",
+    "@types/color": "^3.0.6",
+    "@types/geojson": "^7946.0.16",
+    "@types/hoist-non-react-statics": "^3.3.7",
+    "@types/jsdom": "^27.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/mapbox-gl": "^3.4.1",
+    "@types/mime-types": "^3.0.1",
+    "@types/node": "^24.10.1",
+    "@types/randomcolor": "^0.5.9",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
     "dotenv": "^16.6.1",
     "eslint": "^9.22.0",
     "eslint-config-prettier": "^10.1.1",
@@ -52,20 +144,21 @@
     "eslint-plugin-import-x": "^4.7.0",
     "eslint-plugin-promise": "^7.2.1",
     "eslint-plugin-react": "^7.37.4",
+    "execa": "^8.0.1",
     "globals": "^16.0.0",
+    "gmail-inbox": "^1.5.0",
     "husky": "^9.1.7",
+    "jsdom": "^27.4.0",
     "knip": "^5.46.0",
     "lint-staged": "^15.5.0",
-    "next": "^16.1.1",
     "patch-package": "^8.0.1",
+    "postcss": "^8.5.6",
+    "prettier": "^3.8.1",
+    "prettier-plugin-tailwindcss": "^0.7.2",
     "sql-formatter": "^15.6.10",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.26.1"
-  },
-  "dependencies": {
-    "tsx": "^4.20.6",
-    "turbo": "^2.6.1"
   },
   "lint-staged": {
     "*.(json|md)": [
@@ -75,21 +168,16 @@
       "eslint_d --fix",
       "prettier --write"
     ],
-    "web/**/*.(ts|tsx)": [
-      "cd web && npx tsc --noEmit"
-    ],
-    "admin/**/*.(ts|tsx)": [
-      "cd admin && npx tsc --noEmit"
-    ],
-    "web/prisma/schema.prisma": [
-      "prettier --write",
-      "prisma format"
+    "src/**/*.(ts|tsx)": [
+      "npx tsc --noEmit"
     ],
     "*.sql": [
       "npx sql-formatter --fix"
-    ],
-    "web/src/payload/collections/*": [
-      "npm run -w web payload:generate"
+    ]
+  },
+  "knip": {
+    "ignore": [
+      ".yalc/**/*"
     ]
   },
   "packageManager": "npm@11.6.0"

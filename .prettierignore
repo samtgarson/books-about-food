@@ -3,12 +3,6 @@
 .next/
 .vercel
 
-admin/dist
-admin/.schema
-
-web/src/utils/passphrase/words.ts
-
 .mailing
 
-packages/database/generated
-web/src/payload/schema.ts
+src/payload/schema.ts

@@ -74,8 +74,8 @@ web/src/
 1. ✅ Created `web/src/core/services/utils/payload.ts` - Payload client singleton
 2. ✅ Updated `web/src/core/services/base.ts` - Added context pattern:
    ```typescript
-   export type ServiceContext = { payload: Payload };
-   export type AuthedServiceContext = ServiceContext & { user: User };
+   export type ServiceContext = { payload: Payload }
+   export type AuthedServiceContext = ServiceContext & { user: User }
    ```
 3. ✅ Created `web/src/core/services/utils/payload-depth.ts` - Depth constants
 4. ✅ Updated all 58+ service signatures:
@@ -148,25 +148,25 @@ export const fetchBook = new Service(
   async ({ slug }, _ctx) => {
     const book = await prisma.book.findUnique({
       where: { slug },
-      include: bookIncludes,
-    });
-    return book ? new Book(book) : null;
-  },
-);
+      include: bookIncludes
+    })
+    return book ? new Book(book) : null
+  }
+)
 
 // AFTER (Payload)
 export const fetchBook = new Service(
   z.object({ slug: z.string() }),
   async ({ slug }, { payload }) => {
     const { docs } = await payload.find({
-      collection: "books",
+      collection: 'books',
       where: { slug: { equals: slug } },
       limit: 1,
-      depth: BOOK_DEPTH,
-    });
-    return docs[0] ? new Book(docs[0]) : null;
-  },
-);
+      depth: BOOK_DEPTH
+    })
+    return docs[0] ? new Book(docs[0]) : null
+  }
+)
 ```
 
 ### Payload Query Patterns
@@ -175,43 +175,43 @@ export const fetchBook = new Service(
 
 ```typescript
 const { docs } = await payload.find({
-  collection: "books",
+  collection: 'books',
   where: { slug: { equals: slug } },
   limit: 1,
-  depth: BOOK_DEPTH,
-});
+  depth: BOOK_DEPTH
+})
 ```
 
 **Find many:**
 
 ```typescript
 const { docs } = await payload.find({
-  collection: "tags",
+  collection: 'tags',
   where: { group: { equals: groupSlug } },
-  sort: "name",
-  depth: TAG_DEPTH,
-});
+  sort: 'name',
+  depth: TAG_DEPTH
+})
 ```
 
 **Create:**
 
 ```typescript
 const newBook = await payload.create({
-  collection: "books",
-  data: { title, slug, status: "draft" },
-  depth: BOOK_DEPTH,
-});
+  collection: 'books',
+  data: { title, slug, status: 'draft' },
+  depth: BOOK_DEPTH
+})
 ```
 
 **Update:**
 
 ```typescript
 const updated = await payload.update({
-  collection: "books",
+  collection: 'books',
   id: bookId,
-  data: { status: "published" },
-  depth: BOOK_DEPTH,
-});
+  data: { status: 'published' },
+  depth: BOOK_DEPTH
+})
 ```
 
 ---
@@ -250,20 +250,20 @@ const updated = await payload.update({
 **"Get All" Pattern:**
 
 ```typescript
-if (perPage === "all") {
+if (perPage === 'all') {
   const result = await payload.find({
-    collection: "publishers",
+    collection: 'publishers',
     where,
     pagination: false, // Disable pagination to get all
-    sort: "name",
-    depth: PUBLISHER_DEPTH,
-  });
+    sort: 'name',
+    depth: PUBLISHER_DEPTH
+  })
   return {
     publishers: result.docs.map((p) => new Publisher(p)),
     total: totalResult.totalDocs,
     filteredTotal: result.totalDocs,
-    perPage: "all" as const,
-  };
+    perPage: 'all' as const
+  }
 }
 ```
 
@@ -274,10 +274,10 @@ For services that return both filtered and unfiltered totals, fetch unfiltered c
 ```typescript
 // Get total count (unfiltered)
 const totalResult = await payload.find({
-  collection: "publishers",
+  collection: 'publishers',
   limit: 0,
-  depth: 0,
-});
+  depth: 0
+})
 ```
 
 **Complex Filters:**
@@ -286,16 +286,16 @@ Services like `fetchProfiles` required converting complex Prisma filters to Payl
 
 ```typescript
 const where: Where = {
-  and: [{ name: { not_equals: "" } }],
-};
+  and: [{ name: { not_equals: '' } }]
+}
 
 if (onlyPublished) {
   where.and!.push({
     or: [
-      { "authoredBooks.status": { equals: "published" } },
-      { "contributions.book.status": { equals: "published" } },
-    ],
-  });
+      { 'authoredBooks.status': { equals: 'published' } },
+      { 'contributions.book.status': { equals: 'published' } }
+    ]
+  })
 }
 ```
 
@@ -306,11 +306,11 @@ AuthedServices like `fetchMemberships` and `fetchInvitations` maintain authoriza
 ```typescript
 // Verify user is a member before returning data
 const isMember = memberships.some((m) => {
-  const userId = typeof m.user === "object" ? m.user.id : m.user;
-  return userId === user.id;
-});
+  const userId = typeof m.user === 'object' ? m.user.id : m.user
+  return userId === user.id
+})
 if (!isMember) {
-  throw new AppError("Forbidden", "You are not a member of this publisher");
+  throw new AppError('Forbidden', 'You are not a member of this publisher')
 }
 ```
 
@@ -325,37 +325,37 @@ export const fetchPublishers = new Service(
       prisma.publisher.findMany({
         skip: page * perPage,
         take: perPage,
-        include: publisherIncludes,
+        include: publisherIncludes
       }),
-      prisma.publisher.count(),
-    ]);
+      prisma.publisher.count()
+    ])
 
     return {
       publishers: publishers.map((p) => new Publisher(p)),
       total,
-      totalPages: Math.ceil(total / perPage),
-    };
-  },
-);
+      totalPages: Math.ceil(total / perPage)
+    }
+  }
+)
 
 // AFTER (Payload with built-in pagination)
 export const fetchPublishers = new Service(
   z.object({ page: z.number(), perPage: z.number() }),
   async ({ page, perPage }, { payload }) => {
     const result = await payload.find({
-      collection: "publishers",
+      collection: 'publishers',
       limit: perPage,
       page: page + 1, // Payload is 1-indexed!
-      depth: PUBLISHER_DEPTH,
-    });
+      depth: PUBLISHER_DEPTH
+    })
 
     return {
       publishers: result.docs.map((p) => new Publisher(p)),
       total: result.totalDocs,
-      totalPages: result.totalPages,
-    };
-  },
-);
+      totalPages: result.totalPages
+    }
+  }
+)
 ```
 
 **Key Differences:**
@@ -425,18 +425,18 @@ export const fetchPublishers = new Service(
 
 ```typescript
 // BEFORE
-if (attrs.avatar && typeof attrs.avatar === "string") {
-  throw new Error("Profile.avatar must be populated...");
+if (attrs.avatar && typeof attrs.avatar === 'string') {
+  throw new Error('Profile.avatar must be populated...')
 }
 this.avatar = attrs.avatar
   ? new Image(attrs.avatar as ImageAttrs, `Avatar for ${attrs.name}`, true)
-  : undefined;
+  : undefined
 
 // AFTER
-const avatar = optionalPopulated(attrs.avatar, "Profile.avatar");
+const avatar = optionalPopulated(attrs.avatar, 'Profile.avatar')
 this.avatar = avatar
   ? new Image(avatar, `Avatar for ${attrs.name}`, true)
-  : undefined;
+  : undefined
 ```
 
 ---
@@ -457,18 +457,18 @@ this.avatar = avatar
 
 ```typescript
 // AFTER (using payload-authjs)
-import { getPayload } from "payload";
-import { getAuthjsInstance } from "payload-authjs";
-import payloadConfig from "src/payload.config";
+import { getPayload } from 'payload'
+import { getAuthjsInstance } from 'payload-authjs'
+import payloadConfig from 'src/payload.config'
 
-const payload = await getPayload({ config: payloadConfig });
+const payload = await getPayload({ config: payloadConfig })
 export const {
   handlers: { GET, POST },
   signIn,
   signOut,
   auth,
-  unstable_update,
-} = getAuthjsInstance(payload);
+  unstable_update
+} = getAuthjsInstance(payload)
 ```
 
 **Key Benefits:**
@@ -522,26 +522,26 @@ export const createBook = new AuthedService(
   z.object({
     title: z.string(),
     authorIds: z.array(z.string()).optional(),
-    tags: z.array(z.string()).optional(),
+    tags: z.array(z.string()).optional()
   }),
   async ({ title, authorIds, tags }, { payload, user }) => {
     const book = await payload.create({
-      collection: "books",
+      collection: 'books',
       data: {
         title,
         slug: slugify(title),
-        status: "draft",
+        status: 'draft',
         submitter: user.id,
         authors: authorIds, // Relationship IDs
         tags: tags, // Relationship IDs
-        source: "submitted",
+        source: 'submitted'
       },
-      depth: FULL_BOOK_DEPTH,
-    });
+      depth: FULL_BOOK_DEPTH
+    })
 
-    return new FullBook(book);
-  },
-);
+    return new FullBook(book)
+  }
+)
 ```
 
 ### Patterns for Complex Operations
@@ -550,32 +550,32 @@ export const createBook = new AuthedService(
 
 ```typescript
 const existing = await payload.find({
-  collection: "locations",
+  collection: 'locations',
   where: { placeId: { equals: placeId } },
-  limit: 1,
-});
+  limit: 1
+})
 
 if (existing.docs[0]) {
-  return existing.docs[0];
+  return existing.docs[0]
 }
 
 return await payload.create({
-  collection: "locations",
-  data: { placeId, displayText, slug },
-});
+  collection: 'locations',
+  data: { placeId, displayText, slug }
+})
 ```
 
 **Nested relationship updates:**
 
 ```typescript
 await payload.update({
-  collection: "books",
+  collection: 'books',
   id: bookId,
   data: {
     authors: authorIds, // Replace relationships
-    contributions: contributionIds, // Replace relationships
-  },
-});
+    contributions: contributionIds // Replace relationships
+  }
+})
 ```
 
 ---
@@ -640,16 +640,16 @@ const inputBookTags = await db
   .from(tags)
   .innerJoin(
     books_rels,
-    and(eq(books_rels.tagsID, tags.id), eq(books_rels.path, "tags")),
+    and(eq(books_rels.tagsID, tags.id), eq(books_rels.path, 'tags'))
   )
   .innerJoin(books, eq(books_rels.parent, books.id))
-  .where(eq(books.slug, slug));
+  .where(eq(books.slug, slug))
 
 // Use existing fetchBooks service for similarity
-const res = await fetchBooks.call({ tags: tagSlugs, perPage: 10 }, { payload });
+const res = await fetchBooks.call({ tags: tagSlugs, perPage: 10 }, { payload })
 
 // Filter out the input book
-return res.data.books.filter((book) => book.slug !== slug);
+return res.data.books.filter((book) => book.slug !== slug)
 ```
 
 **Key benefits:**

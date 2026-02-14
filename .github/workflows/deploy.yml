@@ -2,11 +2,10 @@ name: Test & Deploy
 on:
   push:
     paths:
-      - "./package.json"
-      - "./turbo.json"
+      - './package.json'
       - .github/workflows/deploy.yml
-      - "web/**"
-      - "packages/**"
+      - 'src/**'
+      - 'e2e/**'
 
 env:
   NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
@@ -18,7 +17,7 @@ concurrency:
 
 jobs:
   deploy-preview:
-    name: "Deploy to Preview"
+    name: 'Deploy to Preview'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -105,7 +104,7 @@ jobs:
           fi
 
   test:
-    name: "Run E2E tests"
+    name: 'Run E2E tests'
     needs: [deploy-preview]
     runs-on: ubuntu-latest
     steps:
@@ -117,7 +116,7 @@ jobs:
       - name: Install dependencies and get database url
         id: install-deps
         run: |
-          npm -w packages/e2e ci
+          npm ci
           npm i -g neonctl
           echo "database-url=$(neonctl cs ${{ needs.deploy-preview.outputs.database-id }} --database-name books-about-food-prod --prisma --pooled)" >> $GITHUB_OUTPUT
           echo "database-direct-url=$(neonctl cs ${{ needs.deploy-preview.outputs.database-id }} --database-name books-about-food-prod --prisma)" >> $GITHUB_OUTPUT
@@ -136,17 +135,12 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-      - name: Generate Prisma client
-        run: npm run -w packages/database build
-        env:
-          DATABASE_URL: ${{ steps.install-deps.outputs.database-url }}
-          DATABASE_DIRECT_URL: ${{ steps.install-deps.outputs.database-direct-url }}
       - name: Create Gmail secret files
         run: |
-          echo ${{ secrets.GMAIL_CREDENTIALS_JSON }} | base64 -d > ./packages/e2e/gmail-credentials.json
-          echo ${{ secrets.GMAIL_TOKEN_JSON }} | base64 -d > ./packages/e2e/gmail-token.json
+          echo ${{ secrets.GMAIL_CREDENTIALS_JSON }} | base64 -d > ./e2e/gmail-credentials.json
+          echo ${{ secrets.GMAIL_TOKEN_JSON }} | base64 -d > ./e2e/gmail-token.json
       - name: Run Playwright tests
-        run: npx -w packages/e2e playwright test
+        run: cd e2e && npx playwright test
         env:
           DEPLOYMENT_URL: ${{ needs.deploy-preview.outputs.preview-url }}
           DATABASE_URL: ${{ steps.install-deps.outputs.database-url }}
@@ -156,11 +150,11 @@ jobs:
         if: failure()
         with:
           name: test-results
-          path: packages/e2e/test-results
+          path: e2e/test-results
           retention-days: 10
 
   deploy-prod:
-    name: "Deploy to Production"
+    name: 'Deploy to Production'
     needs: [deploy-preview, test]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
@@ -186,13 +180,13 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_DEPLOY_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.BAF_VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.BAF_VERCEL_PROJECT_ID }}
-          VERCEL_SCOPE: "radical-innovation"
+          VERCEL_SCOPE: 'radical-innovation'
           PRODUCTION: true
           CREATE_COMMENT: false
           GITHUB_DEPLOYMENT: true
 
   cleanup:
-    name: "Clean Up"
+    name: 'Clean Up'
     needs: [deploy-preview, test, deploy-prod]
     runs-on: ubuntu-latest
     if: ${{ always() && github.run_attempt == 1 && github.ref == 'refs/heads/main' }}

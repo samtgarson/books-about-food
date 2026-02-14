@@ -1,0 +1,110 @@
+import { AuthedService, AuthedServiceContext } from 'src/core/services/base'
+import { z } from 'zod'
+import { slugify } from '../../../utils/slugify'
+import { createImages } from '../images/create-images'
+import { findOrCreateProfile } from '../profiles/find-or-create-profile'
+import { AppError } from '../utils/errors'
+import { fetchLibraryBook } from './library/fetch-library-book'
+import { updateBook } from './update-book'
+
+export type CreateBookInput = z.infer<typeof createBook.input>
+
+export const createBook = new AuthedService(
+  z.object({
+    title: z.string().trim(),
+    googleBooksId: z.string().optional(),
+    subtitle: z.string().optional(),
+    authorIds: z.array(z.string()).optional(),
+    tags: z.array(z.string()).optional()
+  }),
+  async ({ tags, authorIds, ...data }, ctx) => {
+    const { payload, user } = ctx
+    const { googleBooksId } = data
+    let coverUrl: string | undefined
+
+    if (googleBooksId) {
+      // Check if book with this googleBooksId already exists
+      const { totalDocs } = await payload.count({
+        collection: 'books',
+        where: { googleBooksId: { equals: googleBooksId } }
+      })
+
+      if (totalDocs > 0) {
+        throw new AppError(
+          'UniqueConstraintViolation',
+          'Book already exists',
+          'title'
+        )
+      }
+
+      // Fetch from Google Books API
+      const { data: libraryBook } = await fetchLibraryBook.call(
+        {
+          id: googleBooksId
+        },
+        ctx
+      )
+      if (!libraryBook) throw new Error('Book not found')
+
+      const { authors: authorNames, cover, ...attrs } = libraryBook
+      coverUrl = cover
+      data = { ...attrs, ...data }
+
+      // Create author profiles if needed
+      if (!authorIds?.length && authorNames.length) {
+        const ids = await Promise.all(
+          authorNames.map(async (name) => findOrCreateAuthor(name, ctx))
+        )
+        authorIds = ids.filter((id): id is string => !!id)
+      }
+    }
+
+    // Create initial book
+    const book = await payload.create({
+      collection: 'books',
+      data: {
+        ...data,
+        source: 'submitted',
+        slug: slugify(data.title),
+        submitter: user.id
+      },
+      depth: 0,
+      user
+    })
+
+    // Upload cover image if provided
+    let coverImageId: string | undefined = undefined
+    if (coverUrl) {
+      const imageRes = await createImages.call(
+        {
+          files: [coverUrl]
+        },
+        ctx
+      )
+      if (imageRes.success) coverImageId = imageRes.data[0].id
+    }
+
+    // Update book with relationships
+    const update = await updateBook.call(
+      {
+        slug: book.slug,
+        authorIds,
+        tags,
+        coverImageId
+      },
+      ctx
+    )
+
+    if (update.success) return update.data
+    throw AppError.fromJSON(update.errors[0])
+  }
+)
+
+async function findOrCreateAuthor(
+  name: string | undefined,
+  ctx: AuthedServiceContext
+) {
+  if (!name) return undefined
+  const { data } = await findOrCreateProfile.call({ name }, ctx)
+  return data?.id
+}

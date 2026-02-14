@@ -7,7 +7,19 @@
       "mcp__acp__Write",
       "mcp__acp__Edit",
       "mcp__acp__Bash",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:authjs.dev)",
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(npm install:*)",
+      "Bash(node -e:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npm link)",
+      "Bash(npm link:*)",
+      "Bash(gh run list:*)",
+      "Bash(git commit:*)",
+      "Bash(npm run payload:generate:*)",
+      "Bash(git -C /Users/samgarson/Developer/books-about-food rev-parse --git-dir)"
     ]
   }
 }

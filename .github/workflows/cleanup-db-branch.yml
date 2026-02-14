@@ -8,7 +8,7 @@ env:
 
 jobs:
   cleanup:
-    name: "Remove database branch"
+    name: 'Remove database branch'
     runs-on: ubuntu-latest
     steps:
       - name: Install neonctl
