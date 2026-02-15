@@ -16,10 +16,6 @@ type JobData<Data extends Record<string, unknown>> = {
   user?: { email: string; name?: string | null }
 }
 
-console.log(
-  'Initializing Inngest client with the following environment:',
-  process.env.VERCEL_GIT_COMMIT_REF
-)
 // Create a client to send and receive events
 export const inngest = new Inngest({
   id: 'books-about-food',

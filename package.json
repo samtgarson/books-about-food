@@ -28,7 +28,7 @@
     "prepare": "node .husky/install.mjs"
   },
   "overrides": {
-    "@types/react": "19.2.7",
+    "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "next": "$next",
     "payload": "$payload",
@@ -101,9 +101,9 @@
     "postmark": "^4.0.5",
     "radix-ui": "^1.4.3",
     "randomcolor": "^0.6.2",
-    "react": "^19.2.1",
+    "react": "19.2.4",
     "react-contenteditable": "^3.3.7",
-    "react-dom": "19.2.1",
+    "react-dom": "19.2.4",
     "react-easy-crop": "^5.5.6",
     "react-map-gl": "^8.1.0",
     "sharp": "^0.34.5",
@@ -135,7 +135,7 @@
     "@types/mime-types": "^3.0.1",
     "@types/node": "^24.10.1",
     "@types/randomcolor": "^0.5.9",
-    "@types/react": "19.2.7",
+    "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "dotenv": "^16.6.1",
     "eslint": "^9.22.0",
@@ -169,7 +169,7 @@
       "prettier --write"
     ],
     "src/**/*.(ts|tsx)": [
-      "npx tsc --noEmit"
+      "bash -c 'npx tsc --noEmit'"
     ],
     "*.sql": [
       "npx sql-formatter --fix"
