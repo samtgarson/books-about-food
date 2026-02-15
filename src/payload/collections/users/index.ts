@@ -35,6 +35,7 @@ export const Users: CollectionConfig = {
   admin: {
     group: 'Users',
     useAsTitle: 'email',
+    defaultColumns: ['email', 'name', 'role', 'emailVerified'],
     components: {
       edit: {
         beforeDocumentControls: [
@@ -46,15 +47,27 @@ export const Users: CollectionConfig = {
     }
   },
   fields: [
-    // {
-    //   name: 'email',
-    //   type: 'email',
-    //   required: true,
-    //   unique: true
-    // },
+    {
+      name: 'email',
+      type: 'email',
+      required: true,
+      unique: true,
+      admin: {
+        components: {
+          Cell: {
+            path: 'src/payload/components/fields/custom-title-cell.tsx',
+            serverProps: {
+              imageAttributeName: 'image',
+              imageShape: 'round',
+              directSrc: true
+            }
+          }
+        }
+      }
+    },
     // {
     //   name: 'name',
-    //   type: 'text'
+    //   type: 'text',
     // },
     {
       name: 'role',

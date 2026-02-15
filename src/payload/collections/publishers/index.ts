@@ -32,7 +32,18 @@ export const Publishers: CollectionConfig = {
       name: 'name',
       type: 'text',
       required: true,
-      unique: true
+      unique: true,
+      admin: {
+        components: {
+          Cell: {
+            path: 'src/payload/components/fields/custom-title-cell.tsx',
+            serverProps: {
+              imageAttributeName: 'logo',
+              imageShape: 'square'
+            }
+          }
+        }
+      }
     },
     slugField('name'),
     {

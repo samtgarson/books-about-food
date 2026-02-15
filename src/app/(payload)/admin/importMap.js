@@ -1,5 +1,5 @@
+import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
-import { CollectionCards as CollectionCards_ab83ff7e88da8d3530831f296ec4756a } from '@payloadcms/ui/rsc'
 import {
   AccountRowLabel as AccountRowLabel_06d0cb594d8f6ba2ac35015f930c882e,
   SignInButton as SignInButton_06d0cb594d8f6ba2ac35015f930c882e
@@ -16,15 +16,21 @@ import { LocationPicker as LocationPicker_b815847c38c8122cb3b5e41e02f031b2 } fro
 import { ProfileFeatureButton as ProfileFeatureButton_2d1432831a4612dc81865021c6b3cbad } from 'src/payload/collections/profiles/components/feature-button.tsx'
 import { UserApproveButton as UserApproveButton_8139da074bcc9123dc98f7c747378aef } from 'src/payload/collections/users/components/approve-button.tsx'
 import { ColorPickerField as ColorPickerField_769bfdd285767568b612dcc4334e8b2f } from 'src/payload/components/fields/color-picker/index.tsx'
+import { default as default_928ac3022ade2cb4d1f58fbb471cb43a } from 'src/payload/components/fields/custom-title-cell.tsx'
 import { EditorField as EditorField_753241fbcf2d32e51b3b1faaa7c06925 } from 'src/payload/components/fields/editor-field'
+import { default as default_f6290fd181f388d63f8da8386b3ec90e } from 'src/payload/components/fields/palette-cell.tsx'
 import { default as default_90441ee41512d23c76c47f07c342aebe } from 'src/payload/components/fields/string-array-cell.tsx'
 import { ArrayRowLabel as ArrayRowLabel_1a7e8d7c06d750553aaed5d2957fb002 } from 'src/payload/components/ui/array-row-label.tsx'
 
 export const importMap = {
+  'src/payload/components/fields/custom-title-cell.tsx#default':
+    default_928ac3022ade2cb4d1f58fbb471cb43a,
   'src/payload/components/fields/string-array-cell.tsx#default':
     default_90441ee41512d23c76c47f07c342aebe,
   'src/payload/components/fields/color-picker/index.tsx#ColorPickerField':
     ColorPickerField_769bfdd285767568b612dcc4334e8b2f,
+  'src/payload/components/fields/palette-cell.tsx#default':
+    default_f6290fd181f388d63f8da8386b3ec90e,
   'src/payload/components/ui/array-row-label.tsx#ArrayRowLabel':
     ArrayRowLabel_1a7e8d7c06d750553aaed5d2957fb002,
   'src/payload/collections/books/components/publish-button.tsx#BookPublishButton':
@@ -53,6 +59,6 @@ export const importMap = {
     SignInButton_06d0cb594d8f6ba2ac35015f930c882e,
   '@payloadcms/storage-s3/client#S3ClientUploadHandler':
     S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
-  '@payloadcms/ui/rsc#CollectionCards':
-    CollectionCards_ab83ff7e88da8d3530831f296ec4756a
+  '@payloadcms/next/rsc#CollectionCards':
+    CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }

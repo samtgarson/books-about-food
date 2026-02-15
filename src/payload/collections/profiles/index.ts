@@ -42,7 +42,18 @@ export const Profiles: CollectionConfig = {
     {
       name: 'name',
       type: 'text',
-      required: true
+      required: true,
+      admin: {
+        components: {
+          Cell: {
+            path: 'src/payload/components/fields/custom-title-cell.tsx',
+            serverProps: {
+              imageAttributeName: 'avatar',
+              imageShape: 'round'
+            }
+          }
+        }
+      }
     },
     slugField('name'),
     {

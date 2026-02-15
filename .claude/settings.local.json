@@ -19,7 +19,11 @@
       "Bash(gh run list:*)",
       "Bash(git commit:*)",
       "Bash(npm run payload:generate:*)",
-      "Bash(git -C /Users/samgarson/Developer/books-about-food rev-parse --git-dir)"
+      "Bash(git -C /Users/samgarson/Developer/books-about-food rev-parse --git-dir)",
+      "Bash(npm view:*)",
+      "Bash(npm run payload:*)",
+      "Bash(node --version:*)",
+      "Bash(npm ls:*)"
     ]
   }
 }

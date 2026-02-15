@@ -41,6 +41,7 @@ export const Books: CollectionConfig = {
       'title',
       'status',
       'authorNames',
+      'palette',
       'publisher',
       'releaseDate'
     ],
@@ -61,7 +62,17 @@ export const Books: CollectionConfig = {
     {
       name: 'title',
       type: 'text',
-      required: true
+      required: true,
+      admin: {
+        components: {
+          Cell: {
+            path: 'src/payload/components/fields/custom-title-cell.tsx',
+            serverProps: {
+              imageAttributeName: 'coverImage'
+            }
+          }
+        }
+      }
     },
     {
       name: 'subtitle',
@@ -166,7 +177,12 @@ export const Books: CollectionConfig = {
       fields: [colorField('color')],
       admin: {
         position: 'sidebar',
-        description: 'Generated from the cover image'
+        description: 'Generated from the cover image',
+        components: {
+          Cell: {
+            path: 'src/payload/components/fields/palette-cell.tsx'
+          }
+        }
       }
     },
     {
