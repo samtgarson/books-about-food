@@ -1,0 +1,43 @@
+css-loader.mjs
+  6f48a5ad4831fcc1 1-3
+src/jobs/lib/generate-palette/get-colors.ts
+  6f48a5ad4831fcc1 3-5,8-14,25,32-39,44-48,58-59,63,67-75
+src/email/index.tsx
+  6f48a5ad4831fcc1 2-3
+src/components/atoms/sheet/index.tsx
+  6f48a5ad4831fcc1 3-10
+css-loader-hooks.mjs
+  6f48a5ad4831fcc1 1-80
+package.json
+  6f48a5ad4831fcc1 29
+src/email/tailwind.config.ts
+  6f48a5ad4831fcc1 1-3,7-8,60-61
+vite.config.ts
+  6f48a5ad4831fcc1 1-5,7-127,130-133,135-203
+src/lib/editor/menu-actions.ts
+  6f48a5ad4831fcc1 1
+src/components/form/select/index.tsx
+  6f48a5ad4831fcc1 9
+.agents/vinext-migration.md
+  6f48a5ad4831fcc1 1-68
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "f511cf75eceab0bc234f92bf85a06914744d6eb0",
+  "prompts": {
+    "6f48a5ad4831fcc1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "edd6b9a8-e335-492e-9726-4fad532b29f4",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Sam Garson <samtgarson@gmail.com>",
+      "messages": [],
+      "total_additions": 514,
+      "total_deletions": 143,
+      "accepted_lines": 408,
+      "overriden_lines": 0
+    }
+  }
+}
