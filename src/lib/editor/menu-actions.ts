@@ -1,4 +1,4 @@
-import { isNodeSelection } from '@tiptap/react'
+import { isNodeSelection } from '@tiptap/core'
 import type { MenuActions, MenuActiveStates, TiptapEditor } from './types'
 
 /**

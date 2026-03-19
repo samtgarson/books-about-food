@@ -10,40 +10,34 @@
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "BookSource".
  */
-export type BookSource = ('admin' | 'import' | 'submitted' | 'edelweiss') | null
+export type BookSource = ('admin' | 'import' | 'submitted' | 'edelweiss') | null;
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "BookContributions".
  */
 export type BookContributions =
   | {
-      profile: string | Profile
-      title?: string | null
-      job: string | Job
-      tag?: 'Assistant' | null
-      hidden?: boolean | null
-      id?: string | null
+      profile: string | Profile;
+      title?: string | null;
+      job: string | Job;
+      tag?: 'Assistant' | null;
+      hidden?: boolean | null;
+      id?: string | null;
     }[]
-  | null
+  | null;
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "BookLinks".
  */
 export type BookLinks =
   | {
-      label?: string | null
-      url: string
-      site:
-        | 'Amazon'
-        | 'Edelweiss+'
-        | 'Bookshop.org'
-        | 'Worldcat'
-        | 'AbeBooks'
-        | 'Other'
-      'site (other)'?: string | null
-      id?: string | null
+      label?: string | null;
+      url: string;
+      site: 'Amazon' | 'Edelweiss+' | 'Bookshop.org' | 'Worldcat' | 'AbeBooks' | 'Other';
+      'site (other)'?: string | null;
+      id?: string | null;
     }[]
-  | null
+  | null;
 /**
  * Supported timezones in IANA format.
  *
@@ -97,382 +91,371 @@ export type SupportedTimezones =
   | 'Pacific/Guam'
   | 'Pacific/Noumea'
   | 'Pacific/Auckland'
-  | 'Pacific/Fiji'
+  | 'Pacific/Fiji';
 
 export interface Config {
   auth: {
-    users: UserAuthOperations
-  }
-  blocks: {}
+    users: UserAuthOperations;
+  };
+  blocks: {};
   collections: {
-    'book-votes': BookVote
-    books: Book
-    claims: Claim
-    collections: Collection
-    faqs: FAQ
-    favourites: Favourite
-    'featured-profiles': FeaturedProfile
-    features: Feature
-    images: Image
-    jobs: Job
-    locations: Location
-    memberships: Membership
-    pitches: Pitch
-    profiles: Profile
-    'publisher-invitations': PublisherInvitation
-    publishers: Publisher
-    'search-results': SearchResult
-    'tag-groups': TagGroup
-    tags: Tag
-    users: User
-    'payload-kv': PayloadKv
-    'payload-locked-documents': PayloadLockedDocument
-    'payload-preferences': PayloadPreference
-    'payload-migrations': PayloadMigration
-  }
+    'book-votes': BookVote;
+    books: Book;
+    claims: Claim;
+    collections: Collection;
+    faqs: FAQ;
+    favourites: Favourite;
+    'featured-profiles': FeaturedProfile;
+    features: Feature;
+    images: Image;
+    jobs: Job;
+    locations: Location;
+    memberships: Membership;
+    pitches: Pitch;
+    profiles: Profile;
+    'publisher-invitations': PublisherInvitation;
+    publishers: Publisher;
+    'search-results': SearchResult;
+    'tag-groups': TagGroup;
+    tags: Tag;
+    users: User;
+    'payload-kv': PayloadKv;
+    'payload-locked-documents': PayloadLockedDocument;
+    'payload-preferences': PayloadPreference;
+    'payload-migrations': PayloadMigration;
+  };
   collectionsJoins: {
     locations: {
-      profiles: 'profiles'
-    }
+      profiles: 'profiles';
+    };
     profiles: {
-      authoredBooks: 'books'
-      contributions: 'books'
-      claims: 'claims'
-    }
+      authoredBooks: 'books';
+      contributions: 'books';
+      claims: 'claims';
+    };
     publishers: {
-      imprints: 'publishers'
-      books: 'books'
-      memberships: 'memberships'
-    }
+      imprints: 'publishers';
+      books: 'books';
+      memberships: 'memberships';
+    };
     'tag-groups': {
-      tags: 'tags'
-    }
+      tags: 'tags';
+    };
     tags: {
-      books: 'books'
-    }
+      books: 'books';
+    };
     users: {
-      memberships: 'memberships'
-    }
-  }
+      memberships: 'memberships';
+    };
+  };
   collectionsSelect: {
-    'book-votes': BookVotesSelect<false> | BookVotesSelect<true>
-    books: BooksSelect<false> | BooksSelect<true>
-    claims: ClaimsSelect<false> | ClaimsSelect<true>
-    collections: CollectionsSelect<false> | CollectionsSelect<true>
-    faqs: FaqsSelect<false> | FaqsSelect<true>
-    favourites: FavouritesSelect<false> | FavouritesSelect<true>
-    'featured-profiles':
-      | FeaturedProfilesSelect<false>
-      | FeaturedProfilesSelect<true>
-    features: FeaturesSelect<false> | FeaturesSelect<true>
-    images: ImagesSelect<false> | ImagesSelect<true>
-    jobs: JobsSelect<false> | JobsSelect<true>
-    locations: LocationsSelect<false> | LocationsSelect<true>
-    memberships: MembershipsSelect<false> | MembershipsSelect<true>
-    pitches: PitchesSelect<false> | PitchesSelect<true>
-    profiles: ProfilesSelect<false> | ProfilesSelect<true>
-    'publisher-invitations':
-      | PublisherInvitationsSelect<false>
-      | PublisherInvitationsSelect<true>
-    publishers: PublishersSelect<false> | PublishersSelect<true>
-    'search-results': SearchResultsSelect<false> | SearchResultsSelect<true>
-    'tag-groups': TagGroupsSelect<false> | TagGroupsSelect<true>
-    tags: TagsSelect<false> | TagsSelect<true>
-    users: UsersSelect<false> | UsersSelect<true>
-    'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>
-    'payload-locked-documents':
-      | PayloadLockedDocumentsSelect<false>
-      | PayloadLockedDocumentsSelect<true>
-    'payload-preferences':
-      | PayloadPreferencesSelect<false>
-      | PayloadPreferencesSelect<true>
-    'payload-migrations':
-      | PayloadMigrationsSelect<false>
-      | PayloadMigrationsSelect<true>
-  }
+    'book-votes': BookVotesSelect<false> | BookVotesSelect<true>;
+    books: BooksSelect<false> | BooksSelect<true>;
+    claims: ClaimsSelect<false> | ClaimsSelect<true>;
+    collections: CollectionsSelect<false> | CollectionsSelect<true>;
+    faqs: FaqsSelect<false> | FaqsSelect<true>;
+    favourites: FavouritesSelect<false> | FavouritesSelect<true>;
+    'featured-profiles': FeaturedProfilesSelect<false> | FeaturedProfilesSelect<true>;
+    features: FeaturesSelect<false> | FeaturesSelect<true>;
+    images: ImagesSelect<false> | ImagesSelect<true>;
+    jobs: JobsSelect<false> | JobsSelect<true>;
+    locations: LocationsSelect<false> | LocationsSelect<true>;
+    memberships: MembershipsSelect<false> | MembershipsSelect<true>;
+    pitches: PitchesSelect<false> | PitchesSelect<true>;
+    profiles: ProfilesSelect<false> | ProfilesSelect<true>;
+    'publisher-invitations': PublisherInvitationsSelect<false> | PublisherInvitationsSelect<true>;
+    publishers: PublishersSelect<false> | PublishersSelect<true>;
+    'search-results': SearchResultsSelect<false> | SearchResultsSelect<true>;
+    'tag-groups': TagGroupsSelect<false> | TagGroupsSelect<true>;
+    tags: TagsSelect<false> | TagsSelect<true>;
+    users: UsersSelect<false> | UsersSelect<true>;
+    'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
+    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
+    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
+    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
+  };
   db: {
-    defaultIDType: string
-  }
-  fallbackLocale: null
-  globals: {}
-  globalsSelect: {}
-  locale: null
-  user: User & {
-    collection: 'users'
-  }
+    defaultIDType: string;
+  };
+  fallbackLocale: null;
+  globals: {};
+  globalsSelect: {};
+  locale: null;
+  user: User;
   jobs: {
-    tasks: unknown
-    workflows: unknown
-  }
+    tasks: unknown;
+    workflows: unknown;
+  };
 }
 export interface UserAuthOperations {
   forgotPassword: {
-    email: string
-    password: string
-  }
+    email: string;
+    password: string;
+  };
   login: {
-    email: string
-    password: string
-  }
+    email: string;
+    password: string;
+  };
   registerFirstUser: {
-    email: string
-    password: string
-  }
+    email: string;
+    password: string;
+  };
   unlock: {
-    email: string
-    password: string
-  }
+    email: string;
+    password: string;
+  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "book-votes".
  */
 export interface BookVote {
-  id: string
-  book: string | Book
-  user: string | User
-  updatedAt: string
-  createdAt: string
+  id: string;
+  book: string | Book;
+  user: string | User;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "books".
  */
 export interface Book {
-  id: string
-  title: string
-  subtitle?: string | null
-  slug: string
+  id: string;
+  title: string;
+  subtitle?: string | null;
+  slug: string;
   /**
    * Computed field containing all searchable text (title, subtitle, publisher, tags, authors, contributors)
    */
-  searchText?: string | null
-  authors?: (string | Profile)[] | null
-  authorNames?: string[] | null
-  status?: ('draft' | 'inReview' | 'published') | null
-  releaseDate?: string | null
-  pages?: number | null
-  blurb?: string | null
-  designCommentary?: string | null
-  tags?: (string | Tag)[] | null
-  source?: BookSource
+  searchText?: string | null;
+  authors?: (string | Profile)[] | null;
+  authorNames?: string[] | null;
+  status?: ('draft' | 'inReview' | 'published') | null;
+  releaseDate?: string | null;
+  pages?: number | null;
+  blurb?: string | null;
+  designCommentary?: string | null;
+  tags?: (string | Tag)[] | null;
+  source?: BookSource;
   backgroundColor?: {
-    h: number
-    s: number
-    l: number
-    [k: string]: unknown
-  }
+    h: number;
+    s: number;
+    l: number;
+    [k: string]: unknown;
+  };
   /**
    * Generated from the cover image
    */
   palette?:
     | {
         color?: {
-          h: number
-          s: number
-          l: number
-          [k: string]: unknown
-        }
-        id?: string | null
+          h: number;
+          s: number;
+          l: number;
+          [k: string]: unknown;
+        };
+        id?: string | null;
       }[]
-    | null
-  googleBooksId?: string | null
-  publisher?: (string | null) | Publisher
-  submitter?: (string | null) | User
-  contributions?: BookContributions
-  coverImage?: (string | null) | Image
+    | null;
+  googleBooksId?: string | null;
+  publisher?: (string | null) | Publisher;
+  submitter?: (string | null) | User;
+  contributions?: BookContributions;
+  coverImage?: (string | null) | Image;
   previewImages?:
     | {
-        image: string | Image
-        id?: string | null
+        image: string | Image;
+        id?: string | null;
       }[]
-    | null
-  links?: BookLinks
-  updatedAt: string
-  createdAt: string
+    | null;
+  links?: BookLinks;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "profiles".
  */
 export interface Profile {
-  id: string
-  name: string
-  slug: string
-  avatar?: (string | null) | Image
-  description?: string | null
-  jobTitle?: string | null
-  location?: string | null
-  website?: string | null
-  instagram?: string | null
-  mostRecentlyPublishedOn?: string | null
+  id: string;
+  name: string;
+  slug: string;
+  avatar?: (string | null) | Image;
+  description?: string | null;
+  jobTitle?: string | null;
+  location?: string | null;
+  website?: string | null;
+  instagram?: string | null;
+  mostRecentlyPublishedOn?: string | null;
   /**
    * Connected user account
    */
-  user?: (string | null) | User
+  user?: (string | null) | User;
   /**
    * Geographic locations associated with this profile
    */
-  locations?: (string | Location)[] | null
+  locations?: (string | Location)[] | null;
   authoredBooks?: {
-    docs?: (string | Book)[]
-    hasNextPage?: boolean
-    totalDocs?: number
-  }
+    docs?: (string | Book)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   contributions?: {
-    docs?: (string | Book)[]
-    hasNextPage?: boolean
-    totalDocs?: number
-  }
+    docs?: (string | Book)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   /**
    * Profiles to exclude from the "Frequent Collaborators" section on this profile page.
    */
-  hiddenFrequentCollaborators?: (string | Profile)[] | null
+  hiddenFrequentCollaborators?: (string | Profile)[] | null;
   claims?: {
-    docs?: (string | Claim)[]
-    hasNextPage?: boolean
-    totalDocs?: number
-  }
-  updatedAt: string
-  createdAt: string
+    docs?: (string | Claim)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "images".
  */
 export interface Image {
-  id: string
-  placeholderUrl?: string | null
-  prefix?: string | null
-  updatedAt: string
-  createdAt: string
-  url?: string | null
-  thumbnailURL?: string | null
-  filename?: string | null
-  mimeType?: string | null
-  filesize?: number | null
-  width?: number | null
-  height?: number | null
-  focalX?: number | null
-  focalY?: number | null
+  id: string;
+  placeholderUrl?: string | null;
+  prefix?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
   sizes?: {
     blurPlaceholder?: {
-      url?: string | null
-      width?: number | null
-      height?: number | null
-      mimeType?: string | null
-      filesize?: number | null
-      filename?: string | null
-    }
-  }
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
-  id: string
-  email: string
-  emailVerified?: string | null
-  name?: string | null
-  image?: string | null
-  role?: ('user' | 'admin' | 'waitlist') | null
+  id: string;
+  email: string;
+  emailVerified?: string | null;
+  name?: string | null;
+  image?: string | null;
+  role?: ('user' | 'admin' | 'waitlist') | null;
   memberships?: {
-    docs?: (string | Membership)[]
-    hasNextPage?: boolean
-    totalDocs?: number
-  }
+    docs?: (string | Membership)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   accounts?:
     | {
-        provider: string
-        providerAccountId: string
-        type: 'oidc' | 'oauth' | 'email' | 'webauthn'
-        id?: string | null
+        provider: string;
+        providerAccountId: string;
+        type: 'oidc' | 'oauth' | 'email' | 'webauthn';
+        id?: string | null;
       }[]
-    | null
+    | null;
   verificationTokens?:
     | {
-        token: string
-        expires: string
-        id?: string | null
+        token: string;
+        expires: string;
+        id?: string | null;
       }[]
-    | null
-  updatedAt: string
-  createdAt: string
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  collection: 'users';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "memberships".
  */
 export interface Membership {
-  id: string
-  publisher: string | Publisher
-  user: string | User
-  role: 'admin' | 'member'
-  updatedAt: string
-  createdAt: string
+  id: string;
+  publisher: string | Publisher;
+  user: string | User;
+  role: 'admin' | 'member';
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "publishers".
  */
 export interface Publisher {
-  id: string
-  name: string
-  slug: string
-  logo?: (string | null) | Image
-  description?: string | null
-  website?: string | null
-  instagram?: string | null
-  genericContact?: string | null
-  directContact?: string | null
-  house?: (string | null) | Publisher
+  id: string;
+  name: string;
+  slug: string;
+  logo?: (string | null) | Image;
+  description?: string | null;
+  website?: string | null;
+  instagram?: string | null;
+  genericContact?: string | null;
+  directContact?: string | null;
+  house?: (string | null) | Publisher;
   imprints?: {
-    docs?: (string | Publisher)[]
-    hasNextPage?: boolean
-    totalDocs?: number
-  }
+    docs?: (string | Publisher)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   /**
    * Books hidden from this publisher page
    */
-  hiddenBooks?: (string | Book)[] | null
+  hiddenBooks?: (string | Book)[] | null;
   books?: {
-    docs?: (string | Book)[]
-    hasNextPage?: boolean
-    totalDocs?: number
-  }
+    docs?: (string | Book)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   memberships?: {
-    docs?: (string | Membership)[]
-    hasNextPage?: boolean
-    totalDocs?: number
-  }
-  claimed?: boolean | null
-  updatedAt: string
-  createdAt: string
+    docs?: (string | Membership)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  claimed?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "locations".
  */
 export interface Location {
-  id: string
+  id: string;
   /**
    * Google Place ID
    */
-  placeId: string
-  displayText: string
-  slug: string
-  country?: string | null
-  region?: string | null
-  latitude: number
-  longitude: number
+  placeId: string;
+  displayText: string;
+  slug: string;
+  country?: string | null;
+  region?: string | null;
+  latitude: number;
+  longitude: number;
   profiles?: {
-    docs?: (string | Profile)[]
-    hasNextPage?: boolean
-    totalDocs?: number
-  }
-  updatedAt: string
-  createdAt: string
+    docs?: (string | Profile)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * Claims made by users to take ownership of their profile.
@@ -481,746 +464,747 @@ export interface Location {
  * via the `definition` "claims".
  */
 export interface Claim {
-  id: string
-  profile: string | Profile
-  user: string | User
-  secret: string
-  approvedAt?: string | null
-  cancelledAt?: string | null
-  state?: ('pending' | 'approved' | 'cancelled') | null
-  updatedAt: string
-  createdAt: string
+  id: string;
+  profile: string | Profile;
+  user: string | User;
+  secret: string;
+  approvedAt?: string | null;
+  cancelledAt?: string | null;
+  state?: ('pending' | 'approved' | 'cancelled') | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tags".
  */
 export interface Tag {
-  id: string
-  name: string
-  slug: string
-  group: string | TagGroup
+  id: string;
+  name: string;
+  slug: string;
+  group: string | TagGroup;
   books?: {
-    docs?: (string | Book)[]
-    hasNextPage?: boolean
-    totalDocs?: number
-  }
-  updatedAt: string
-  createdAt: string
+    docs?: (string | Book)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tag-groups".
  */
 export interface TagGroup {
-  id: string
-  name: string
-  slug: string
-  adminOnly?: boolean | null
+  id: string;
+  name: string;
+  slug: string;
+  adminOnly?: boolean | null;
   tags?: {
-    docs?: (string | Tag)[]
-    hasNextPage?: boolean
-    totalDocs?: number
-  }
-  updatedAt: string
-  createdAt: string
+    docs?: (string | Tag)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "jobs".
  */
 export interface Job {
-  id: string
-  name: string
-  featured?: boolean | null
-  updatedAt: string
-  createdAt: string
+  id: string;
+  name: string;
+  featured?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "collections".
  */
 export interface Collection {
-  id: string
-  title: string
-  slug: string
-  description?: string | null
-  status?: ('draft' | 'inReview' | 'published') | null
-  publisher?: (string | null) | Publisher
-  bookshopDotOrgUrl?: string | null
-  publisherFeatured?: boolean | null
+  id: string;
+  title: string;
+  slug: string;
+  description?: string | null;
+  status?: ('draft' | 'inReview' | 'published') | null;
+  publisher?: (string | null) | Publisher;
+  bookshopDotOrgUrl?: string | null;
+  publisherFeatured?: boolean | null;
   /**
    * Books in this collection
    */
-  books?: (string | Book)[] | null
-  updatedAt: string
-  createdAt: string
+  books?: (string | Book)[] | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "faqs".
  */
 export interface FAQ {
-  id: string
-  _order?: string | null
-  question: string
-  answer: string
-  updatedAt: string
-  createdAt: string
+  id: string;
+  _order?: string | null;
+  question: string;
+  answer: string;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "favourites".
  */
 export interface Favourite {
-  id: string
-  profile: string | Profile
-  user: string | User
-  updatedAt: string
-  createdAt: string
+  id: string;
+  profile: string | Profile;
+  user: string | User;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "featured-profiles".
  */
 export interface FeaturedProfile {
-  id: string
-  _order?: string | null
+  id: string;
+  _order?: string | null;
   /**
    * Profile UUID
    */
-  profile: string | Profile
-  until?: string | null
-  updatedAt: string
-  createdAt: string
+  profile: string | Profile;
+  until?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "features".
  */
 export interface Feature {
-  id: string
-  _order?: string | null
-  book: string | Book
-  tagLine?: string | null
-  until?: string | null
-  updatedAt: string
-  createdAt: string
+  id: string;
+  _order?: string | null;
+  book: string | Book;
+  tagLine?: string | null;
+  until?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pitches".
  */
 export interface Pitch {
-  id: string
-  author: string | User
-  description: string
-  viewCount?: number | null
-  updatedAt: string
-  createdAt: string
+  id: string;
+  author: string | User;
+  description: string;
+  viewCount?: number | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "publisher-invitations".
  */
 export interface PublisherInvitation {
-  id: string
-  email: string
-  publisher: string | Publisher
-  invitedBy: string | User
-  role: 'admin' | 'member'
-  acceptedAt?: string | null
-  updatedAt: string
-  createdAt: string
+  id: string;
+  email: string;
+  publisher: string | Publisher;
+  invitedBy: string | User;
+  role: 'admin' | 'member';
+  acceptedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "search-results".
  */
 export interface SearchResult {
-  id: string
-  name: string
-  type: 'book' | 'profile' | 'publisher' | 'bookTag' | 'collection'
-  slug: string
-  description?: string | null
+  id: string;
+  name: string;
+  type: 'book' | 'profile' | 'publisher' | 'bookTag' | 'collection';
+  slug: string;
+  description?: string | null;
   /**
    * Image for search results display (cover, avatar, logo)
    */
-  image?: (string | null) | Image
+  image?: (string | null) | Image;
   /**
    * The source document this search result represents
    */
   source:
     | {
-        relationTo: 'books'
-        value: string | Book
+        relationTo: 'books';
+        value: string | Book;
       }
     | {
-        relationTo: 'profiles'
-        value: string | Profile
+        relationTo: 'profiles';
+        value: string | Profile;
       }
     | {
-        relationTo: 'publishers'
-        value: string | Publisher
+        relationTo: 'publishers';
+        value: string | Publisher;
       }
     | {
-        relationTo: 'tags'
-        value: string | Tag
+        relationTo: 'tags';
+        value: string | Tag;
       }
     | {
-        relationTo: 'collections'
-        value: string | Collection
-      }
-  updatedAt: string
-  createdAt: string
+        relationTo: 'collections';
+        value: string | Collection;
+      };
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
-  id: string
-  key: string
+  id: string;
+  key: string;
   data:
     | {
-        [k: string]: unknown
+        [k: string]: unknown;
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null
+    | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string
+  id: string;
   document?:
     | ({
-        relationTo: 'book-votes'
-        value: string | BookVote
+        relationTo: 'book-votes';
+        value: string | BookVote;
       } | null)
     | ({
-        relationTo: 'books'
-        value: string | Book
+        relationTo: 'books';
+        value: string | Book;
       } | null)
     | ({
-        relationTo: 'claims'
-        value: string | Claim
+        relationTo: 'claims';
+        value: string | Claim;
       } | null)
     | ({
-        relationTo: 'collections'
-        value: string | Collection
+        relationTo: 'collections';
+        value: string | Collection;
       } | null)
     | ({
-        relationTo: 'faqs'
-        value: string | FAQ
+        relationTo: 'faqs';
+        value: string | FAQ;
       } | null)
     | ({
-        relationTo: 'favourites'
-        value: string | Favourite
+        relationTo: 'favourites';
+        value: string | Favourite;
       } | null)
     | ({
-        relationTo: 'featured-profiles'
-        value: string | FeaturedProfile
+        relationTo: 'featured-profiles';
+        value: string | FeaturedProfile;
       } | null)
     | ({
-        relationTo: 'features'
-        value: string | Feature
+        relationTo: 'features';
+        value: string | Feature;
       } | null)
     | ({
-        relationTo: 'images'
-        value: string | Image
+        relationTo: 'images';
+        value: string | Image;
       } | null)
     | ({
-        relationTo: 'jobs'
-        value: string | Job
+        relationTo: 'jobs';
+        value: string | Job;
       } | null)
     | ({
-        relationTo: 'locations'
-        value: string | Location
+        relationTo: 'locations';
+        value: string | Location;
       } | null)
     | ({
-        relationTo: 'memberships'
-        value: string | Membership
+        relationTo: 'memberships';
+        value: string | Membership;
       } | null)
     | ({
-        relationTo: 'pitches'
-        value: string | Pitch
+        relationTo: 'pitches';
+        value: string | Pitch;
       } | null)
     | ({
-        relationTo: 'profiles'
-        value: string | Profile
+        relationTo: 'profiles';
+        value: string | Profile;
       } | null)
     | ({
-        relationTo: 'publisher-invitations'
-        value: string | PublisherInvitation
+        relationTo: 'publisher-invitations';
+        value: string | PublisherInvitation;
       } | null)
     | ({
-        relationTo: 'publishers'
-        value: string | Publisher
+        relationTo: 'publishers';
+        value: string | Publisher;
       } | null)
     | ({
-        relationTo: 'search-results'
-        value: string | SearchResult
+        relationTo: 'search-results';
+        value: string | SearchResult;
       } | null)
     | ({
-        relationTo: 'tag-groups'
-        value: string | TagGroup
+        relationTo: 'tag-groups';
+        value: string | TagGroup;
       } | null)
     | ({
-        relationTo: 'tags'
-        value: string | Tag
+        relationTo: 'tags';
+        value: string | Tag;
       } | null)
     | ({
-        relationTo: 'users'
-        value: string | User
-      } | null)
-  globalSlug?: string | null
+        relationTo: 'users';
+        value: string | User;
+      } | null);
+  globalSlug?: string | null;
   user: {
-    relationTo: 'users'
-    value: string | User
-  }
-  updatedAt: string
-  createdAt: string
+    relationTo: 'users';
+    value: string | User;
+  };
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string
+  id: string;
   user: {
-    relationTo: 'users'
-    value: string | User
-  }
-  key?: string | null
+    relationTo: 'users';
+    value: string | User;
+  };
+  key?: string | null;
   value?:
     | {
-        [k: string]: unknown
+        [k: string]: unknown;
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null
-  updatedAt: string
-  createdAt: string
+    | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string
-  name?: string | null
-  batch?: number | null
-  updatedAt: string
-  createdAt: string
+  id: string;
+  name?: string | null;
+  batch?: number | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "book-votes_select".
  */
 export interface BookVotesSelect<T extends boolean = true> {
-  book?: T
-  user?: T
-  updatedAt?: T
-  createdAt?: T
+  book?: T;
+  user?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "books_select".
  */
 export interface BooksSelect<T extends boolean = true> {
-  title?: T
-  subtitle?: T
-  slug?: T
-  searchText?: T
-  authors?: T
-  authorNames?: T
-  status?: T
-  releaseDate?: T
-  pages?: T
-  blurb?: T
-  designCommentary?: T
-  tags?: T
-  source?: T
-  backgroundColor?: T
+  title?: T;
+  subtitle?: T;
+  slug?: T;
+  searchText?: T;
+  authors?: T;
+  authorNames?: T;
+  status?: T;
+  releaseDate?: T;
+  pages?: T;
+  blurb?: T;
+  designCommentary?: T;
+  tags?: T;
+  source?: T;
+  backgroundColor?: T;
   palette?:
     | T
     | {
-        color?: T
-        id?: T
-      }
-  googleBooksId?: T
-  publisher?: T
-  submitter?: T
-  contributions?: T | BookContributionsSelect<T>
-  coverImage?: T
+        color?: T;
+        id?: T;
+      };
+  googleBooksId?: T;
+  publisher?: T;
+  submitter?: T;
+  contributions?: T | BookContributionsSelect<T>;
+  coverImage?: T;
   previewImages?:
     | T
     | {
-        image?: T
-        id?: T
-      }
-  links?: T | BookLinksSelect<T>
-  updatedAt?: T
-  createdAt?: T
+        image?: T;
+        id?: T;
+      };
+  links?: T | BookLinksSelect<T>;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "BookContributions_select".
  */
 export interface BookContributionsSelect<T extends boolean = true> {
-  profile?: T
-  title?: T
-  job?: T
-  tag?: T
-  hidden?: T
-  id?: T
+  profile?: T;
+  title?: T;
+  job?: T;
+  tag?: T;
+  hidden?: T;
+  id?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "BookLinks_select".
  */
 export interface BookLinksSelect<T extends boolean = true> {
-  label?: T
-  url?: T
-  site?: T
-  'site (other)'?: T
-  id?: T
+  label?: T;
+  url?: T;
+  site?: T;
+  'site (other)'?: T;
+  id?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "claims_select".
  */
 export interface ClaimsSelect<T extends boolean = true> {
-  profile?: T
-  user?: T
-  secret?: T
-  approvedAt?: T
-  cancelledAt?: T
-  state?: T
-  updatedAt?: T
-  createdAt?: T
+  profile?: T;
+  user?: T;
+  secret?: T;
+  approvedAt?: T;
+  cancelledAt?: T;
+  state?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "collections_select".
  */
 export interface CollectionsSelect<T extends boolean = true> {
-  title?: T
-  slug?: T
-  description?: T
-  status?: T
-  publisher?: T
-  bookshopDotOrgUrl?: T
-  publisherFeatured?: T
-  books?: T
-  updatedAt?: T
-  createdAt?: T
+  title?: T;
+  slug?: T;
+  description?: T;
+  status?: T;
+  publisher?: T;
+  bookshopDotOrgUrl?: T;
+  publisherFeatured?: T;
+  books?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "faqs_select".
  */
 export interface FaqsSelect<T extends boolean = true> {
-  _order?: T
-  question?: T
-  answer?: T
-  updatedAt?: T
-  createdAt?: T
+  _order?: T;
+  question?: T;
+  answer?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "favourites_select".
  */
 export interface FavouritesSelect<T extends boolean = true> {
-  profile?: T
-  user?: T
-  updatedAt?: T
-  createdAt?: T
+  profile?: T;
+  user?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "featured-profiles_select".
  */
 export interface FeaturedProfilesSelect<T extends boolean = true> {
-  _order?: T
-  profile?: T
-  until?: T
-  updatedAt?: T
-  createdAt?: T
+  _order?: T;
+  profile?: T;
+  until?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "features_select".
  */
 export interface FeaturesSelect<T extends boolean = true> {
-  _order?: T
-  book?: T
-  tagLine?: T
-  until?: T
-  updatedAt?: T
-  createdAt?: T
+  _order?: T;
+  book?: T;
+  tagLine?: T;
+  until?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "images_select".
  */
 export interface ImagesSelect<T extends boolean = true> {
-  placeholderUrl?: T
-  prefix?: T
-  updatedAt?: T
-  createdAt?: T
-  url?: T
-  thumbnailURL?: T
-  filename?: T
-  mimeType?: T
-  filesize?: T
-  width?: T
-  height?: T
-  focalX?: T
-  focalY?: T
+  placeholderUrl?: T;
+  prefix?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
   sizes?:
     | T
     | {
         blurPlaceholder?:
           | T
           | {
-              url?: T
-              width?: T
-              height?: T
-              mimeType?: T
-              filesize?: T
-              filename?: T
-            }
-      }
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "jobs_select".
  */
 export interface JobsSelect<T extends boolean = true> {
-  name?: T
-  featured?: T
-  updatedAt?: T
-  createdAt?: T
+  name?: T;
+  featured?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "locations_select".
  */
 export interface LocationsSelect<T extends boolean = true> {
-  placeId?: T
-  displayText?: T
-  slug?: T
-  country?: T
-  region?: T
-  latitude?: T
-  longitude?: T
-  profiles?: T
-  updatedAt?: T
-  createdAt?: T
+  placeId?: T;
+  displayText?: T;
+  slug?: T;
+  country?: T;
+  region?: T;
+  latitude?: T;
+  longitude?: T;
+  profiles?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "memberships_select".
  */
 export interface MembershipsSelect<T extends boolean = true> {
-  publisher?: T
-  user?: T
-  role?: T
-  updatedAt?: T
-  createdAt?: T
+  publisher?: T;
+  user?: T;
+  role?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pitches_select".
  */
 export interface PitchesSelect<T extends boolean = true> {
-  author?: T
-  description?: T
-  viewCount?: T
-  updatedAt?: T
-  createdAt?: T
+  author?: T;
+  description?: T;
+  viewCount?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "profiles_select".
  */
 export interface ProfilesSelect<T extends boolean = true> {
-  name?: T
-  slug?: T
-  avatar?: T
-  description?: T
-  jobTitle?: T
-  location?: T
-  website?: T
-  instagram?: T
-  mostRecentlyPublishedOn?: T
-  user?: T
-  locations?: T
-  authoredBooks?: T
-  contributions?: T
-  hiddenFrequentCollaborators?: T
-  claims?: T
-  updatedAt?: T
-  createdAt?: T
+  name?: T;
+  slug?: T;
+  avatar?: T;
+  description?: T;
+  jobTitle?: T;
+  location?: T;
+  website?: T;
+  instagram?: T;
+  mostRecentlyPublishedOn?: T;
+  user?: T;
+  locations?: T;
+  authoredBooks?: T;
+  contributions?: T;
+  hiddenFrequentCollaborators?: T;
+  claims?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "publisher-invitations_select".
  */
 export interface PublisherInvitationsSelect<T extends boolean = true> {
-  email?: T
-  publisher?: T
-  invitedBy?: T
-  role?: T
-  acceptedAt?: T
-  updatedAt?: T
-  createdAt?: T
+  email?: T;
+  publisher?: T;
+  invitedBy?: T;
+  role?: T;
+  acceptedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "publishers_select".
  */
 export interface PublishersSelect<T extends boolean = true> {
-  name?: T
-  slug?: T
-  logo?: T
-  description?: T
-  website?: T
-  instagram?: T
-  genericContact?: T
-  directContact?: T
-  house?: T
-  imprints?: T
-  hiddenBooks?: T
-  books?: T
-  memberships?: T
-  claimed?: T
-  updatedAt?: T
-  createdAt?: T
+  name?: T;
+  slug?: T;
+  logo?: T;
+  description?: T;
+  website?: T;
+  instagram?: T;
+  genericContact?: T;
+  directContact?: T;
+  house?: T;
+  imprints?: T;
+  hiddenBooks?: T;
+  books?: T;
+  memberships?: T;
+  claimed?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "search-results_select".
  */
 export interface SearchResultsSelect<T extends boolean = true> {
-  name?: T
-  type?: T
-  slug?: T
-  description?: T
-  image?: T
-  source?: T
-  updatedAt?: T
-  createdAt?: T
+  name?: T;
+  type?: T;
+  slug?: T;
+  description?: T;
+  image?: T;
+  source?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tag-groups_select".
  */
 export interface TagGroupsSelect<T extends boolean = true> {
-  name?: T
-  slug?: T
-  adminOnly?: T
-  tags?: T
-  updatedAt?: T
-  createdAt?: T
+  name?: T;
+  slug?: T;
+  adminOnly?: T;
+  tags?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tags_select".
  */
 export interface TagsSelect<T extends boolean = true> {
-  name?: T
-  slug?: T
-  group?: T
-  books?: T
-  updatedAt?: T
-  createdAt?: T
+  name?: T;
+  slug?: T;
+  group?: T;
+  books?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
-  id?: T
-  email?: T
-  emailVerified?: T
-  name?: T
-  image?: T
-  role?: T
-  memberships?: T
+  id?: T;
+  email?: T;
+  emailVerified?: T;
+  name?: T;
+  image?: T;
+  role?: T;
+  memberships?: T;
   accounts?:
     | T
     | {
-        provider?: T
-        providerAccountId?: T
-        type?: T
-        id?: T
-      }
+        provider?: T;
+        providerAccountId?: T;
+        type?: T;
+        id?: T;
+      };
   verificationTokens?:
     | T
     | {
-        token?: T
-        expires?: T
-        id?: T
-      }
-  updatedAt?: T
-  createdAt?: T
+        token?: T;
+        expires?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
-  key?: T
-  data?: T
+  key?: T;
+  data?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents_select".
  */
 export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
-  document?: T
-  globalSlug?: T
-  user?: T
-  updatedAt?: T
-  createdAt?: T
+  document?: T;
+  globalSlug?: T;
+  user?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences_select".
  */
 export interface PayloadPreferencesSelect<T extends boolean = true> {
-  user?: T
-  key?: T
-  value?: T
-  updatedAt?: T
-  createdAt?: T
+  user?: T;
+  key?: T;
+  value?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-migrations_select".
  */
 export interface PayloadMigrationsSelect<T extends boolean = true> {
-  name?: T
-  batch?: T
-  updatedAt?: T
-  createdAt?: T
+  name?: T;
+  batch?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "auth".
  */
 export interface Auth {
-  [k: string]: unknown
+  [k: string]: unknown;
 }
+
 
 declare module 'payload' {
   export interface GeneratedTypes extends Config {}

@@ -1,5 +1,6 @@
 import { render } from '@react-email/components'
-import open, { apps } from 'open'
+import pkg from 'open'
+const { default: open, apps } = pkg as typeof import('open')
 import type { BasePayload } from 'payload'
 import { ServerClient } from 'postmark'
 import { EmailTemplateMap, EmailTemplateProps } from './emails'

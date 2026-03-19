@@ -23,7 +23,10 @@
       "Bash(npm view:*)",
       "Bash(npm run payload:*)",
       "Bash(node --version:*)",
-      "Bash(npm ls:*)"
+      "Bash(npm ls:*)",
+      "Bash(timeout 30 npm run:*)",
+      "Bash(curl:*)",
+      "Bash(gh api:*)"
     ]
   }
 }

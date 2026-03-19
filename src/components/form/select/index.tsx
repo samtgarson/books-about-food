@@ -6,7 +6,7 @@ import { useForm } from '../context'
 import { inputClasses } from '../input'
 import { SelectControl, SelectProps } from './types'
 
-export * from './types'
+export type { SelectValue, SelectProps, SelectContext, SelectControl } from './types'
 
 const SelectClient = dynamic(
   async () => (await import('./client')).SelectClient,

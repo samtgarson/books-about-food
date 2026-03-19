@@ -25,7 +25,9 @@
     "payload": "NODE_OPTIONS='--import tsx' npx payload",
     "payload:generate": "npm run payload generate:types && rm ./src/app/\\(payload\\)/admin/importMap.js && npm run payload generate:importmap && npm run payload generate:db-schema",
     "postinstall": "patch-package",
-    "prepare": "node .husky/install.mjs"
+    "prepare": "node .husky/install.mjs",
+    "dev:vinext": "NODE_OPTIONS='--import ./css-loader.mjs' vite dev --port 3001",
+    "build:vinext": "vite build"
   },
   "overrides": {
     "@types/react": "19.2.14",
@@ -137,6 +139,7 @@
     "@types/randomcolor": "^0.5.9",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-rsc": "^0.5.21",
     "dotenv": "^16.6.1",
     "eslint": "^9.22.0",
     "eslint-config-prettier": "^10.1.1",
@@ -155,10 +158,13 @@
     "postcss": "^8.5.6",
     "prettier": "^3.8.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
+    "sass": "^1.98.0",
     "sql-formatter": "^15.6.10",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.26.1"
+    "typescript-eslint": "^8.26.1",
+    "vinext": "^0.0.28",
+    "vite": "^7.3.1"
   },
   "lint-staged": {
     "*.(json|md)": [
@@ -180,5 +186,6 @@
       ".yalc/**/*"
     ]
   },
-  "packageManager": "npm@11.6.0"
+  "packageManager": "npm@11.6.0",
+  "type": "module"
 }
