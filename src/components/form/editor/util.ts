@@ -1,2 +1,2 @@
-// Re-export from shared library for backwards compatibility
-export { htmlClasses } from 'src/lib/editor'
+// Import directly from utils to avoid pulling @tiptap/react into the RSC module graph
+export { htmlClasses } from 'src/lib/editor/utils'

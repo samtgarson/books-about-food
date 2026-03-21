@@ -26,7 +26,7 @@
     "payload:generate": "npm run payload generate:types && rm ./src/app/\\(payload\\)/admin/importMap.js && npm run payload generate:importmap && npm run payload generate:db-schema",
     "postinstall": "patch-package",
     "prepare": "node .husky/install.mjs",
-    "dev:vinext": "NODE_OPTIONS='--import ./css-loader.mjs' vite dev --port 3001",
+    "dev:vinext": "NODE_OPTIONS='--import ./css-loader.mjs' vite dev --port 5000",
     "build:vinext": "vite build"
   },
   "overrides": {

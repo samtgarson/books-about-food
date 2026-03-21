@@ -36,5 +36,11 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "eslint.config.mjs", "next.config.mjs"]
+  "exclude": [
+    "node_modules",
+    "eslint.config.mjs",
+    "next.config.mjs",
+    "css-loader-hooks.mjs",
+    "css-loader.mjs"
+  ]
 }
