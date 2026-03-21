@@ -1,0 +1,33 @@
+src/components/auth/logos.tsx
+  175ebfe24e6c92a3 5-15
+tsconfig.json
+  175ebfe24e6c92a3 39
+vite.config.ts
+  175ebfe24e6c92a3 4,6,130-186,194,225-231,260-268
+src/email/index.tsx
+  175ebfe24e6c92a3 2
+src/hooks/use-route.ts
+  175ebfe24e6c92a3 3-40,45-46,49-55
+src/vinext-next-types.d.ts
+  175ebfe24e6c92a3 1-13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "32896a117d18742ecb00c9ebb89c658434d90c17",
+  "prompts": {
+    "175ebfe24e6c92a3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c0106ed9-d906-4a53-9d59-7137dadead43",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Sam Garson <samtgarson@gmail.com>",
+      "messages": [],
+      "total_additions": 200,
+      "total_deletions": 75,
+      "accepted_lines": 156,
+      "overriden_lines": 0
+    }
+  }
+}
