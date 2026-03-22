@@ -187,11 +187,39 @@ function fixNavigationSuspense(): Plugin {
   }
 }
 
+/**
+ * vinext passes a raw Request to App Router route handlers, but next-auth
+ * (and other libraries) expect a NextRequest with .nextUrl, .cookies, etc.
+ * Wrap the request before calling the handler, matching what vinext already
+ * does for middleware.
+ */
+function fixRouteHandlerNextRequest(): Plugin {
+  return {
+    name: 'fix-route-handler-next-request',
+    enforce: 'post',
+    transform(code, id) {
+      if (!id.includes('vinext-rsc-entry')) return
+
+      const original =
+        '        const response = await handlerFn(request, { params });'
+
+      const replacement =
+        '        const __routeReq = request instanceof NextRequest ? request : new NextRequest(request);\n' +
+        '        const response = await handlerFn(__routeReq, { params });'
+
+      if (code.includes(original)) {
+        return { code: code.replace(original, replacement), map: null }
+      }
+    }
+  }
+}
+
 export default defineConfig({
   plugins: [
     vinext(),
     fixServerActionRerender(),
     fixNavigationSuspense(),
+    fixRouteHandlerNextRequest(),
     fixRscHoistCollision(),
     fixPayloadAuthjsResolve()
   ],
@@ -271,6 +299,8 @@ export default defineConfig({
       '@payloadcms/next',
       '@payloadcms/ui',
       'payload-authjs',
+      'next-auth',
+      '@auth/core',
       '@dnd-kit/core',
       '@dnd-kit/modifiers',
       '@dnd-kit/sortable',
