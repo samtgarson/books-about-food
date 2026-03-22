@@ -1,0 +1,23 @@
+vite.config.ts
+  175ebfe24e6c92a3 190-216,222,302-303
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "4a8f4fa272aec194e022e29876bc759e7c626f56",
+  "prompts": {
+    "175ebfe24e6c92a3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c0106ed9-d906-4a53-9d59-7137dadead43",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Sam Garson <samtgarson@gmail.com>",
+      "messages": [],
+      "total_additions": 31,
+      "total_deletions": 1,
+      "accepted_lines": 30,
+      "overriden_lines": 0
+    }
+  }
+}
