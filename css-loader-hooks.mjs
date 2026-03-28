@@ -33,15 +33,15 @@ const NEXT_SHIM_MAP = {
 
 /**
  * Node.js ESM loader hooks:
- * 1. Resolve extensionless relative imports to .js (for packages like payload-authjs)
+ * 1. Resolve extensionless relative imports to .js (for packages like payload-auth)
  * 2. Redirect next/* imports globally to vinext shims
  * 3. Stub .css/.scss imports (Node can't process them)
  */
 export function resolve(specifier, context, nextResolve) {
-  // Handle extensionless relative imports from payload-authjs
+  // Handle extensionless relative imports from payload-auth
   if (
     context.parentURL &&
-    context.parentURL.includes('payload-authjs') &&
+    context.parentURL.includes('payload-auth') &&
     specifier.startsWith('.') &&
     !path.extname(specifier)
   ) {

@@ -1,4 +1,3 @@
-import { existsSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 // eslint-disable-next-line import-x/no-extraneous-dependencies
@@ -100,34 +99,6 @@ function fixRscHoistCollision(): Plugin {
 }
 
 /**
- * Resolve extensionless ESM imports in payload-authjs.
- * Its dist files use imports like "../authjs/getAuthjsInstance" without .js.
- * Node's ESM resolver requires explicit extensions, so we append .js.
- */
-function fixPayloadAuthjsResolve(): Plugin {
-  return {
-    name: 'fix-payload-authjs-resolve',
-    enforce: 'pre',
-    resolveId(source, importer) {
-      if (
-        importer &&
-        importer.includes('payload-authjs') &&
-        !source.startsWith('\0') &&
-        !path.extname(source) &&
-        source.startsWith('.')
-      ) {
-        const base = path.resolve(path.dirname(importer), source)
-        // Try .js extension
-        if (existsSync(base + '.js')) return base + '.js'
-        // Try directory import (index.js)
-        const indexPath = path.join(base, 'index.js')
-        if (existsSync(indexPath)) return indexPath
-      }
-    }
-  }
-}
-
-/**
  * Fix Suspense boundaries not resolving during client-side navigation.
  *
  * vinext uses flushSync for navigation renders to ensure the DOM is updated
@@ -187,13 +158,40 @@ function fixNavigationSuspense(): Plugin {
   }
 }
 
+/**
+ * vinext passes a raw Request to App Router route handlers, but better-auth
+ * (and other libraries) expect a NextRequest with .nextUrl, .cookies, etc.
+ * Wrap the request before calling the handler, matching what vinext already
+ * does for middleware.
+ */
+function fixRouteHandlerNextRequest(): Plugin {
+  return {
+    name: "fix-route-handler-next-request",
+    enforce: "post",
+    transform(code, id) {
+      if (!id.includes("vinext-rsc-entry")) return
+
+      const original =
+        "        const response = await handlerFn(request, { params });"
+
+      const replacement =
+        "        const __routeReq = request instanceof NextRequest ? request : new NextRequest(request);\n" +
+        "        const response = await handlerFn(__routeReq, { params });"
+
+      if (code.includes(original)) {
+        return { code: code.replace(original, replacement), map: null }
+      }
+    }
+  }
+}
+
 export default defineConfig({
   plugins: [
     vinext(),
     fixServerActionRerender(),
     fixNavigationSuspense(),
-    fixRscHoistCollision(),
-    fixPayloadAuthjsResolve()
+    fixRouteHandlerNextRequest(),
+    fixRscHoistCollision()
   ],
   optimizeDeps: {
     include: [
@@ -270,7 +268,8 @@ export default defineConfig({
     noExternal: [
       '@payloadcms/next',
       '@payloadcms/ui',
-      'payload-authjs',
+      'payload-auth',
+      'better-auth',
       '@dnd-kit/core',
       '@dnd-kit/modifiers',
       '@dnd-kit/sortable',

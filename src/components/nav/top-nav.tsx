@@ -1,13 +1,13 @@
 'use client'
 
 import cn from 'classnames'
-import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 import { Dialog } from 'radix-ui'
 import { FC, useState } from 'react'
 import { Menu, Plus, Settings, User, X } from 'src/components/atoms/icons'
 import { useCurrentUser } from 'src/hooks/use-current-user'
+import { authClient } from 'src/lib/auth/client'
 import { useScrollLock } from 'src/hooks/use-scroll-lock'
 import { Container } from '../atoms/container'
 import { Loader } from '../atoms/loader'
@@ -17,12 +17,12 @@ import { useNav } from './context'
 import { QuickSearch } from './search'
 
 const AccountLink = ({ className }: { className?: string }) => {
-  const session = useSession()
+  const { data, isPending } = authClient.useSession()
   const { theme } = useNav()
 
-  if (session.status === 'loading')
+  if (isPending)
     return <Loader className={cn(className, 'opacity-50')} />
-  const currentUser = session.data?.user
+  const currentUser = data?.user
 
   if (currentUser)
     return (

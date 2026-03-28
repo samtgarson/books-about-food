@@ -1,6 +1,9 @@
 import { User as DbUser } from 'src/payload/payload-types'
 
-export type User = Pick<DbUser, 'id' | 'name' | 'email' | 'role' | 'image'> & {
+export type UserRole = 'user' | 'admin' | 'waitlist'
+
+export type User = Pick<DbUser, 'id' | 'name' | 'email' | 'image'> & {
+  role: UserRole
   publishers: string[]
-  emailVerified: Date | null
+  emailVerified: boolean
 }

@@ -1,6 +1,7 @@
 'use server'
 
-import * as actions from 'src/auth'
+import { headers } from 'next/headers'
+import { auth } from 'src/auth'
 
 export async function emailSignIn({
   email,
@@ -9,20 +10,24 @@ export async function emailSignIn({
   email: string
   redirect?: string
 }) {
-  await actions.signIn('email', {
-    email,
-    redirect: false,
-    redirectTo: redirect || '/'
-  })
-}
-
-export async function googleSignIn(redirect = '/') {
-  await actions.signIn('google', {
-    redirect: true,
-    redirectTo: redirect
+  await (
+    auth.api as unknown as {
+      signInMagicLink: (opts: {
+        body: { email: string; callbackURL: string }
+        headers: Headers
+      }) => Promise<unknown>
+    }
+  ).signInMagicLink({
+    body: {
+      email,
+      callbackURL: redirect || '/'
+    },
+    headers: await headers()
   })
 }
 
 export async function signOut() {
-  await actions.signOut()
+  await auth.api.signOut({
+    headers: await headers()
+  })
 }

@@ -1,8 +1,10 @@
 'use client'
 
+import { useState } from 'react'
 import { Account } from 'src/core/models/types'
 import { User } from 'src/core/types'
-import { emailSignIn } from '../auth/actions'
+import { useUpdateSession } from 'src/hooks/use-update-session'
+import { authClient } from 'src/lib/auth/client'
 import { ConnectAccountButton } from '../auth/connect-account-button'
 import { DestroyAccountButton } from '../auth/destroy-account-button'
 import { Google } from '../auth/logos'
@@ -15,17 +17,22 @@ import { AccountHeader } from './header'
 
 export function AccountForm({
   user,
-  accounts
+  accounts: initialAccounts
 }: {
   user: User
   accounts: Account[]
 }) {
+  const { update: updateSession } = useUpdateSession()
+  const [accounts, setAccounts] = useState(initialAccounts)
   const googleAccount = accounts?.find(
-    (account) => account.provider === 'google'
+    (account) => account.providerId === 'google'
   )
 
   const sendVerification = (email: string) => {
-    emailSignIn({ email, redirect: '/account' })
+    authClient.sendVerificationEmail({
+      email,
+      callbackURL: '/account'
+    })
     successToast('Verification email sent', {
       description: 'Please check your inbox to verify your email address'
     })
@@ -49,6 +56,8 @@ export function AccountForm({
               }
             })
           }
+
+          await updateSession()
 
           if (
             result.data.email &&
@@ -88,7 +97,15 @@ export function AccountForm({
           {googleAccount ? (
             <>
               <Google size={18} /> Signed in with Google
-              <DestroyAccountButton className="ml-auto" provider="google" />
+              <DestroyAccountButton
+                className="ml-auto"
+                provider="google"
+                onDestroyed={() =>
+                  setAccounts((prev) =>
+                    prev.filter((a) => a.providerId !== 'google')
+                  )
+                }
+              />
             </>
           ) : (
             <ConnectAccountButton provider="google" />

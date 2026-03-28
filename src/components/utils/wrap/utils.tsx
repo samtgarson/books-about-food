@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return */
 import hoistNonReactStatics from 'hoist-non-react-statics'
 import { JSX } from 'react'
+import 'src/utils/superjson'
 import SuperJSON from 'superjson'
 
 export type SuperJSONProps<P> = P & {

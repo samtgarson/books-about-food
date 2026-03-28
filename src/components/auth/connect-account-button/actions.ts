@@ -1,10 +1,10 @@
-'use server'
+'use client'
 
-import * as actions from 'src/auth'
+import { authClient } from 'src/lib/auth/client'
 
-export async function connectAccount(provider: string) {
-  await actions.signIn(provider, {
-    redirect: true,
-    redirectTo: '/account'
+export function connectAccount(provider: string) {
+  return authClient.linkSocial({
+    provider: provider as 'google',
+    callbackURL: '/account'
   })
 }

@@ -5,17 +5,20 @@ import { action } from './actions'
 
 export function DestroyAccountButton({
   provider,
-  className
+  className,
+  onDestroyed
 }: {
   provider: string
   className?: string
+  onDestroyed?: () => void
 }) {
   return (
     <button
       type="button"
       className={className}
-      onClick={() => {
-        action(provider)
+      onClick={async () => {
+        await action(provider)
+        onDestroyed?.()
       }}
     >
       <X strokeWidth={1} />

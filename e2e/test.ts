@@ -1,4 +1,3 @@
-import { encode } from '@auth/core/jwt'
 import { BrowserContext, Page, test as base } from '@playwright/test'
 import { $ } from 'execa'
 
@@ -14,28 +13,20 @@ const helpers = ({
   email,
   async login() {
     const userId = await createUser(email)
+    const { token, expiresAt } = await createSession(userId)
+
     await page.goto('/', { waitUntil: 'commit' })
-    const cookies = await context.cookies()
-    const authCookie = cookies.find(
-      ({ name }) => name.includes('authjs') && name.endsWith('callback-url')
-    )
-    if (!authCookie) throw new Error('No auth cookie found')
 
-    const prefix = authCookie.name.split('.')[0]
-    const cookieName = `${prefix}.session-token`
-    const token = await encode({
-      token: {
-        name: 'Sam Garson',
-        email,
-        userId,
-        role: 'user',
-        publishers: []
-      },
-      salt: cookieName,
-      secret: process.env.AUTH_SECRET as string
-    })
-
-    context.addCookies([{ ...authCookie, name: cookieName, value: token }])
+    // Better Auth uses a 'better-auth.session_token' cookie
+    context.addCookies([
+      {
+        name: 'better-auth.session_token',
+        value: token,
+        domain: new URL(page.url()).hostname,
+        path: '/',
+        expires: Math.floor(expiresAt.getTime() / 1000)
+      }
+    ])
   }
 })
 
@@ -58,18 +49,43 @@ const databaseUrl =
 
 async function createUser(email: string) {
   const res = await executeSql(`
-    INSERT INTO "users" (email, role, "email_verified")
-    VALUES ('${email}', 'user', NOW())
+    INSERT INTO payload.users (email, name, "email_verified")
+    VALUES ('${email}', 'Sam Garson', true)
     RETURNING id;
   `)
 
-  return res.trim()
+  const userId = res.trim()
+
+  // Add role
+  await executeSql(`
+    INSERT INTO payload.users_role ("order", parent_id, value)
+    VALUES (1, '${userId}'::uuid, 'user');
+  `)
+
+  return userId
+}
+
+async function createSession(userId: string) {
+  const token = crypto.randomUUID()
+  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+
+  await executeSql(`
+    INSERT INTO payload.sessions (token, user_id, expires_at)
+    VALUES ('${token}', '${userId}'::uuid, '${expiresAt.toISOString()}');
+  `)
+
+  return { token, expiresAt }
 }
 
 async function deleteUser(email: string) {
   await executeSql(`
-    DELETE FROM "users"
-    WHERE email = '${email}';
+    DELETE FROM payload.sessions WHERE user_id IN (
+      SELECT id FROM payload.users WHERE email = '${email}'
+    );
+    DELETE FROM payload.users_role WHERE parent_id IN (
+      SELECT id FROM payload.users WHERE email = '${email}'
+    );
+    DELETE FROM payload.users WHERE email = '${email}';
   `)
 }
 
