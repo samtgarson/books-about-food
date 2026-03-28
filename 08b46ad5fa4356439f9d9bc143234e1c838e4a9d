@@ -1,0 +1,81 @@
+src/hooks/use-update-session.ts
+  636572e1f888a6a8 1-2,5,8-10,12-15
+src/payload/collections/users/actions.ts
+  636572e1f888a6a8 20,28
+src/payload.config.ts
+  636572e1f888a6a8 3,6,32
+src/components/auth/connect-account-button/index.tsx
+  636572e1f888a6a8 4,21-25
+src/app/(frontend)/auth/sign-in/page.tsx
+  636572e1f888a6a8 10,27
+src/components/auth/sign-out-button.tsx
+  636572e1f888a6a8 3,10-16
+src/app/api/auth/[...all]/route.ts
+  636572e1f888a6a8 1-4
+src/components/nav/top-nav.tsx
+  636572e1f888a6a8 10,20,23,25
+src/lib/auth/client.ts
+  636572e1f888a6a8 1-7
+src/hooks/use-current-user.ts
+  636572e1f888a6a8 1-2,4-16,18-28,30-32
+vite.config.ts
+  636572e1f888a6a8 162,194,271-272
+src/components/accounts/account-form.tsx
+  636572e1f888a6a8 3,6-7,20,25-26,28,32-35,60-61,100-108
+src/components/atoms/sheet/content.tsx
+  636572e1f888a6a8 6,97-98,108,115,117,119
+src/core/types.ts
+  636572e1f888a6a8 3-6,8
+src/components/tracking/context.tsx
+  636572e1f888a6a8 15,31
+src/core/services/auth/get-accounts.ts
+  636572e1f888a6a8 7-11,14
+src/lib/auth/options.ts
+  636572e1f888a6a8 1-125
+src/components/auth/destroy-account-button/index.tsx
+  636572e1f888a6a8 8-9,13,19-21
+src/core/services/auth/destroy-account.ts
+  636572e1f888a6a8 7-14,16-23
+src/proxy.ts
+  636572e1f888a6a8 1,10,15-17,19-27,29
+src/core/models/types.ts
+  636572e1f888a6a8 24
+src/app/(frontend)/layout.tsx
+  636572e1f888a6a8 44-64
+src/components/auth/sign-in-buttons.tsx
+  636572e1f888a6a8 5,11,26,54-57
+css-loader-hooks.mjs
+  636572e1f888a6a8 36,41,44
+src/utils/user.ts
+  636572e1f888a6a8 1-2,4,6-19,22-37
+e2e/test.ts
+  636572e1f888a6a8 16-17,19-29,52-53,57-74,77,82-88
+src/components/auth/actions.ts
+  636572e1f888a6a8 3-4,13-25,30-32
+src/auth.ts
+  636572e1f888a6a8 1,4,6
+src/core/services/users/update-user.ts
+  636572e1f888a6a8 15
+src/components/auth/connect-account-button/actions.ts
+  636572e1f888a6a8 1,3,5-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.20",
+  "base_commit_sha": "08b46ad5fa4356439f9d9bc143234e1c838e4a9d",
+  "prompts": {
+    "636572e1f888a6a8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dfc2a125-dbfe-48ae-be04-0252a1fa15ce",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Sam Garson <samtgarson@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 618,
+      "overriden_lines": 0
+    }
+  }
+}
