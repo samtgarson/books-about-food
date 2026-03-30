@@ -19,7 +19,8 @@ export const updateUser = new AuthedService(
       collection: 'users',
       id: user.id,
       data,
-      depth: 0
+      depth: 0,
+      overrideAccess: true
     })
   }
 )

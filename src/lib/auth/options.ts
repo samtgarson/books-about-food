@@ -99,7 +99,7 @@ export const betterAuthPluginOptions: PayloadAuthOptions = {
   users: {
     slug: 'users',
     roles: ['user', 'admin', 'waitlist'] as const,
-    allowedFields: ['name'],
+    allowedFields: ['name', 'email'],
     collectionOverrides: ({ collection }) => {
       for (const field of collection.fields) {
         if ('name' in field && field.name === 'email' && field.type === 'email') {
