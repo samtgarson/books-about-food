@@ -1,6 +1,7 @@
 import { headers } from 'next/headers'
 import { cache } from 'react'
 import { auth } from 'src/auth'
+import { extractRole } from 'src/core/services/users/utils'
 import { User, UserRole } from 'src/core/types'
 
 type SessionUser = {
@@ -31,8 +32,3 @@ export const getSessionUser = cache(async (): Promise<User | null> => {
     emailVerified: user.emailVerified
   }
 })
-
-function extractRole(role: UserRole | UserRole[] | null | undefined): UserRole {
-  if (Array.isArray(role)) return role[0] ?? 'user'
-  return role ?? 'user'
-}
