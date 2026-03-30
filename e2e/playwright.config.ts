@@ -26,7 +26,7 @@ export default defineConfig({
     trace: 'retain-on-failure',
     ...devices['Desktop Chrome']
   },
-
+  timeout: process.env.CI ? 30000 : 60000,
   expect: {
     timeout: 15000
   }

@@ -18,9 +18,9 @@ test.describe('Account', () => {
     const nameInput = page.getByLabel('Name')
     await expect(nameInput).toHaveValue('Sam Garson')
 
-    await nameInput.clear()
-    await nameInput.fill('New Name')
-    await nameInput.blur()
+    await nameInput.selectText()
+    await page.keyboard.type('New Name')
+    await page.keyboard.press('Tab')
 
     await expect(page.getByText('Account updated')).toBeVisible()
 

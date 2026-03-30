@@ -1,10 +1,10 @@
-import { magicLink, customSession } from 'better-auth/plugins'
 import { nextCookies } from 'better-auth/next-js'
+import { customSession, magicLink } from 'better-auth/plugins'
 import type { PayloadAuthOptions } from 'payload-auth/better-auth/plugin'
-import { extractId } from 'src/core/models/utils/payload-validation'
-import { inngest } from 'src/jobs'
 import { getPayloadClient } from 'src/core/services/utils/payload'
+import { inngest } from 'src/jobs'
 
+import { extractMemberships } from 'src/core/services/users/utils'
 import { appUrl } from 'src/utils/app-url'
 
 const baseURL = appUrl()
@@ -22,9 +22,7 @@ export const betterAuthPluginOptions: PayloadAuthOptions = {
       async sendVerificationEmail({ user, url }) {
         try {
           if (process.env.NODE_ENV === 'development') {
-            console.log(
-              `Sending verification email to ${user.email} at ${url}`
-            )
+            console.log(`Sending verification email to ${user.email} at ${url}`)
           }
           await inngest.send({
             name: 'jobs.email',
@@ -80,14 +78,10 @@ export const betterAuthPluginOptions: PayloadAuthOptions = {
         const fullUser = await payload.findByID({
           collection: 'users',
           id: user.id,
-          depth: 1
+          depth: 1,
+          overrideAccess: true
         })
-        const publishers =
-          fullUser.memberships?.docs?.flatMap((membership) =>
-            typeof membership === 'string'
-              ? []
-              : (extractId(membership.publisher) ?? [])
-          ) ?? []
+        const publishers = extractMemberships(fullUser.memberships?.docs)
         return {
           user: { ...user, publishers },
           session
@@ -102,7 +96,11 @@ export const betterAuthPluginOptions: PayloadAuthOptions = {
     allowedFields: ['name', 'email'],
     collectionOverrides: ({ collection }) => {
       for (const field of collection.fields) {
-        if ('name' in field && field.name === 'email' && field.type === 'email') {
+        if (
+          'name' in field &&
+          field.name === 'email' &&
+          field.type === 'email'
+        ) {
           if (!field.admin) field.admin = {}
           if (!field.admin.components) field.admin.components = {}
           field.admin.components.Cell = {

@@ -12,7 +12,7 @@ import { Form } from '../form'
 import { Input } from '../form/input'
 import { parseAppError } from '../form/utils'
 import { successToast } from '../utils/toaster'
-import { action } from './form-action'
+import { updateAccountAction } from './form-action'
 import { AccountHeader } from './header'
 
 export function AccountForm({
@@ -44,7 +44,7 @@ export function AccountForm({
 
       <Form
         action={async (values) => {
-          const result = await action(values)
+          const result = await updateAccountAction(values)
           if (!result.success) {
             return parseAppError(result.errors, {
               email: {

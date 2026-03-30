@@ -1,3 +1,4 @@
+import { extractRole } from 'src/core/services/users/utils'
 import { User, UserRole } from 'src/core/types'
 import { authClient } from 'src/lib/auth/client'
 
@@ -25,9 +26,4 @@ export function useCurrentUser(): User | null {
     publishers: user.publishers ?? [],
     emailVerified: user.emailVerified
   }
-}
-
-function extractRole(role: UserRole | UserRole[] | null | undefined): UserRole {
-  if (Array.isArray(role)) return role[0] ?? 'user'
-  return role ?? 'user'
 }
