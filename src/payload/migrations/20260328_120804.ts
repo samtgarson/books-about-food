@@ -1,9 +1,12 @@
-import { MigrateDownArgs, MigrateUpArgs, sql } from '@payloadcms/db-postgres'
+import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 
 export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
-  CREATE SCHEMA IF NOT EXISTS "payload";
-   CREATE TYPE "payload"."enum_books_contributions_tag" AS ENUM('Assistant');
+   DROP SCHEMA "payload" CASCADE;
+   CREATE SCHEMA IF NOT EXISTS "payload";
+   CREATE TYPE "payload"."enum_users_role" AS ENUM('admin', 'user', 'waitlist');
+  CREATE TYPE "payload"."enum_admin_invitations_role" AS ENUM('admin', 'user', 'waitlist');
+  CREATE TYPE "payload"."enum_books_contributions_tag" AS ENUM('Assistant');
   CREATE TYPE "payload"."enum_books_links_site" AS ENUM('Amazon', 'Edelweiss+', 'Bookshop.org', 'Worldcat', 'AbeBooks', 'Other');
   CREATE TYPE "payload"."enum_books_status" AS ENUM('draft', 'inReview', 'published');
   CREATE TYPE "payload"."enum_books_source" AS ENUM('admin', 'import', 'submitted', 'edelweiss');
@@ -12,22 +15,96 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE TYPE "payload"."enum_memberships_role" AS ENUM('admin', 'member');
   CREATE TYPE "payload"."enum_publisher_invitations_role" AS ENUM('admin', 'member');
   CREATE TYPE "payload"."enum_search_results_type" AS ENUM('book', 'profile', 'publisher', 'bookTag', 'collection');
-  CREATE TYPE "payload"."enum_users_role" AS ENUM('user', 'admin', 'waitlist');
-  CREATE TABLE "payload"."book_votes" (
+  CREATE TABLE "payload"."users_role" (
+  	"order" integer NOT NULL,
+  	"parent_id" uuid NOT NULL,
+  	"value" "payload"."enum_users_role",
+  	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL
+  );
+  
+  CREATE TABLE "payload"."users_sessions" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" uuid NOT NULL,
+  	"id" varchar PRIMARY KEY NOT NULL,
+  	"created_at" timestamp(3) with time zone,
+  	"expires_at" timestamp(3) with time zone NOT NULL
+  );
+  
+  CREATE TABLE "payload"."users" (
   	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-  	"book_id" uuid NOT NULL,
-  	"user_id" varchar NOT NULL,
+  	"name" varchar NOT NULL,
+  	"email_verified" boolean DEFAULT false NOT NULL,
+  	"image" varchar,
+  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+  	"email" varchar NOT NULL,
+  	"reset_password_token" varchar,
+  	"reset_password_expiration" timestamp(3) with time zone,
+  	"salt" varchar,
+  	"hash" varchar,
+  	"login_attempts" numeric DEFAULT 0,
+  	"lock_until" timestamp(3) with time zone
+  );
+  
+  CREATE TABLE "payload"."sessions" (
+  	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+  	"expires_at" timestamp(3) with time zone NOT NULL,
+  	"token" varchar NOT NULL,
+  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+  	"ip_address" varchar,
+  	"user_agent" varchar,
+  	"user_id" uuid NOT NULL
+  );
+  
+  CREATE TABLE "payload"."accounts" (
+  	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+  	"account_id" varchar NOT NULL,
+  	"provider_id" varchar NOT NULL,
+  	"user_id" uuid NOT NULL,
+  	"access_token" varchar,
+  	"refresh_token" varchar,
+  	"id_token" varchar,
+  	"access_token_expires_at" timestamp(3) with time zone,
+  	"refresh_token_expires_at" timestamp(3) with time zone,
+  	"scope" varchar,
+  	"password" varchar,
+  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL
+  );
+  
+  CREATE TABLE "payload"."verifications" (
+  	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+  	"identifier" varchar NOT NULL,
+  	"value" varchar NOT NULL,
+  	"expires_at" timestamp(3) with time zone NOT NULL,
+  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL
+  );
+  
+  CREATE TABLE "payload"."admin_invitations" (
+  	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+  	"role" "payload"."enum_admin_invitations_role" DEFAULT 'admin' NOT NULL,
+  	"token" varchar NOT NULL,
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-
+  
+  CREATE TABLE "payload"."book_votes" (
+  	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+  	"book_id" uuid NOT NULL,
+  	"user_id" uuid NOT NULL,
+  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
+  );
+  
   CREATE TABLE "payload"."books_palette" (
   	"_order" integer NOT NULL,
   	"_parent_id" uuid NOT NULL,
   	"id" varchar PRIMARY KEY NOT NULL,
   	"color" jsonb
   );
-
+  
   CREATE TABLE "payload"."books_contributions" (
   	"_order" integer NOT NULL,
   	"_parent_id" uuid NOT NULL,
@@ -38,14 +115,14 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"tag" "payload"."enum_books_contributions_tag",
   	"hidden" boolean DEFAULT false
   );
-
+  
   CREATE TABLE "payload"."books_preview_images" (
   	"_order" integer NOT NULL,
   	"_parent_id" uuid NOT NULL,
   	"id" varchar PRIMARY KEY NOT NULL,
   	"image_id" uuid NOT NULL
   );
-
+  
   CREATE TABLE "payload"."books_links" (
   	"_order" integer NOT NULL,
   	"_parent_id" uuid NOT NULL,
@@ -54,7 +131,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"site" "payload"."enum_books_links_site" NOT NULL,
   	"site_other" varchar
   );
-
+  
   CREATE TABLE "payload"."books" (
   	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
   	"title" varchar NOT NULL,
@@ -70,12 +147,12 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"background_color" jsonb,
   	"google_books_id" varchar,
   	"publisher_id" uuid,
-  	"submitter_id" varchar,
+  	"submitter_id" uuid,
   	"cover_image_id" uuid,
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-
+  
   CREATE TABLE "payload"."books_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
@@ -84,11 +161,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"profiles_id" uuid,
   	"tags_id" uuid
   );
-
+  
   CREATE TABLE "payload"."claims" (
   	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
   	"profile_id" uuid NOT NULL,
-  	"user_id" varchar NOT NULL,
+  	"user_id" uuid NOT NULL,
   	"secret" varchar NOT NULL,
   	"approved_at" timestamp(3) with time zone,
   	"cancelled_at" timestamp(3) with time zone,
@@ -96,7 +173,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-
+  
   CREATE TABLE "payload"."collections" (
   	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
   	"title" varchar NOT NULL,
@@ -109,7 +186,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-
+  
   CREATE TABLE "payload"."collections_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
@@ -117,7 +194,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"path" varchar NOT NULL,
   	"books_id" uuid
   );
-
+  
   CREATE TABLE "payload"."faqs" (
   	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
   	"_order" varchar,
@@ -126,15 +203,15 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-
+  
   CREATE TABLE "payload"."favourites" (
   	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
   	"profile_id" uuid NOT NULL,
-  	"user_id" varchar NOT NULL,
+  	"user_id" uuid NOT NULL,
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-
+  
   CREATE TABLE "payload"."featured_profiles" (
   	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
   	"_order" varchar,
@@ -143,7 +220,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-
+  
   CREATE TABLE "payload"."features" (
   	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
   	"_order" varchar,
@@ -153,7 +230,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-
+  
   CREATE TABLE "payload"."images" (
   	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
   	"placeholder_url" varchar,
@@ -176,7 +253,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"sizes_blur_placeholder_filesize" numeric,
   	"sizes_blur_placeholder_filename" varchar
   );
-
+  
   CREATE TABLE "payload"."jobs" (
   	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
   	"name" varchar NOT NULL,
@@ -184,7 +261,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-
+  
   CREATE TABLE "payload"."locations" (
   	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
   	"place_id" varchar NOT NULL,
@@ -197,25 +274,25 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-
+  
   CREATE TABLE "payload"."memberships" (
   	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
   	"publisher_id" uuid NOT NULL,
-  	"user_id" varchar NOT NULL,
+  	"user_id" uuid NOT NULL,
   	"role" "payload"."enum_memberships_role" DEFAULT 'member' NOT NULL,
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-
+  
   CREATE TABLE "payload"."pitches" (
   	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-  	"author_id" varchar NOT NULL,
+  	"author_id" uuid NOT NULL,
   	"description" varchar NOT NULL,
   	"view_count" numeric DEFAULT 0,
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-
+  
   CREATE TABLE "payload"."profiles" (
   	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
   	"name" varchar NOT NULL,
@@ -227,11 +304,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"website" varchar,
   	"instagram" varchar,
   	"most_recently_published_on" timestamp(3) with time zone,
-  	"user_id" varchar,
+  	"user_id" uuid,
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-
+  
   CREATE TABLE "payload"."profiles_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
@@ -240,18 +317,18 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"locations_id" uuid,
   	"profiles_id" uuid
   );
-
+  
   CREATE TABLE "payload"."publisher_invitations" (
   	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
   	"email" varchar NOT NULL,
   	"publisher_id" uuid NOT NULL,
-  	"invited_by_id" varchar NOT NULL,
+  	"invited_by_id" uuid NOT NULL,
   	"role" "payload"."enum_publisher_invitations_role" DEFAULT 'member' NOT NULL,
   	"accepted_at" timestamp(3) with time zone,
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-
+  
   CREATE TABLE "payload"."publishers" (
   	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
   	"name" varchar NOT NULL,
@@ -266,7 +343,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-
+  
   CREATE TABLE "payload"."publishers_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
@@ -274,7 +351,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"path" varchar NOT NULL,
   	"books_id" uuid
   );
-
+  
   CREATE TABLE "payload"."search_results" (
   	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
   	"name" varchar NOT NULL,
@@ -285,7 +362,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-
+  
   CREATE TABLE "payload"."search_results_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
@@ -297,7 +374,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"tags_id" uuid,
   	"collections_id" uuid
   );
-
+  
   CREATE TABLE "payload"."tag_groups" (
   	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
   	"name" varchar NOT NULL,
@@ -306,7 +383,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-
+  
   CREATE TABLE "payload"."tags" (
   	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
   	"name" varchar NOT NULL,
@@ -315,53 +392,30 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-
-  CREATE TABLE "payload"."users_accounts" (
-  	"_order" integer NOT NULL,
-  	"_parent_id" varchar NOT NULL,
-  	"id" varchar PRIMARY KEY NOT NULL,
-  	"provider" varchar NOT NULL,
-  	"provider_account_id" varchar NOT NULL,
-  	"type" varchar NOT NULL
-  );
-
-  CREATE TABLE "payload"."users_verification_tokens" (
-  	"_order" integer NOT NULL,
-  	"_parent_id" varchar NOT NULL,
-  	"id" varchar PRIMARY KEY NOT NULL,
-  	"token" varchar NOT NULL,
-  	"expires" timestamp(3) with time zone NOT NULL
-  );
-
-  CREATE TABLE "payload"."users" (
-  	"id" varchar PRIMARY KEY NOT NULL,
-  	"email" varchar NOT NULL,
-  	"email_verified" timestamp(3) with time zone,
-  	"name" varchar,
-  	"image" varchar,
-  	"role" "payload"."enum_users_role" DEFAULT 'user',
-  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
-  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
-  );
-
+  
   CREATE TABLE "payload"."payload_kv" (
   	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
   	"key" varchar NOT NULL,
   	"data" jsonb NOT NULL
   );
-
+  
   CREATE TABLE "payload"."payload_locked_documents" (
   	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
   	"global_slug" varchar,
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-
+  
   CREATE TABLE "payload"."payload_locked_documents_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
   	"parent_id" uuid NOT NULL,
   	"path" varchar NOT NULL,
+  	"users_id" uuid,
+  	"sessions_id" uuid,
+  	"accounts_id" uuid,
+  	"verifications_id" uuid,
+  	"admin_invitations_id" uuid,
   	"book_votes_id" uuid,
   	"books_id" uuid,
   	"claims_id" uuid,
@@ -380,10 +434,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"publishers_id" uuid,
   	"search_results_id" uuid,
   	"tag_groups_id" uuid,
-  	"tags_id" uuid,
-  	"users_id" varchar
+  	"tags_id" uuid
   );
-
+  
   CREATE TABLE "payload"."payload_preferences" (
   	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
   	"key" varchar,
@@ -391,15 +444,15 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-
+  
   CREATE TABLE "payload"."payload_preferences_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
   	"parent_id" uuid NOT NULL,
   	"path" varchar NOT NULL,
-  	"users_id" varchar
+  	"users_id" uuid
   );
-
+  
   CREATE TABLE "payload"."payload_migrations" (
   	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
   	"name" varchar,
@@ -407,7 +460,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-
+  
+  ALTER TABLE "payload"."users_role" ADD CONSTRAINT "users_role_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "payload"."users"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "payload"."users_sessions" ADD CONSTRAINT "users_sessions_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "payload"."users"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "payload"."sessions" ADD CONSTRAINT "sessions_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "payload"."users"("id") ON DELETE set null ON UPDATE no action;
+  ALTER TABLE "payload"."accounts" ADD CONSTRAINT "accounts_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "payload"."users"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "payload"."book_votes" ADD CONSTRAINT "book_votes_book_id_books_id_fk" FOREIGN KEY ("book_id") REFERENCES "payload"."books"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "payload"."book_votes" ADD CONSTRAINT "book_votes_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "payload"."users"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "payload"."books_palette" ADD CONSTRAINT "books_palette_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "payload"."books"("id") ON DELETE cascade ON UPDATE no action;
@@ -454,9 +511,12 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "payload"."search_results_rels" ADD CONSTRAINT "search_results_rels_tags_fk" FOREIGN KEY ("tags_id") REFERENCES "payload"."tags"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload"."search_results_rels" ADD CONSTRAINT "search_results_rels_collections_fk" FOREIGN KEY ("collections_id") REFERENCES "payload"."collections"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload"."tags" ADD CONSTRAINT "tags_group_id_tag_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "payload"."tag_groups"("id") ON DELETE set null ON UPDATE no action;
-  ALTER TABLE "payload"."users_accounts" ADD CONSTRAINT "users_accounts_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "payload"."users"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "payload"."users_verification_tokens" ADD CONSTRAINT "users_verification_tokens_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "payload"."users"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload"."payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "payload"."payload_locked_documents"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "payload"."payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_users_fk" FOREIGN KEY ("users_id") REFERENCES "payload"."users"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "payload"."payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_sessions_fk" FOREIGN KEY ("sessions_id") REFERENCES "payload"."sessions"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "payload"."payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_accounts_fk" FOREIGN KEY ("accounts_id") REFERENCES "payload"."accounts"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "payload"."payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_verifications_fk" FOREIGN KEY ("verifications_id") REFERENCES "payload"."verifications"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "payload"."payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_admin_invitations_fk" FOREIGN KEY ("admin_invitations_id") REFERENCES "payload"."admin_invitations"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload"."payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_book_votes_fk" FOREIGN KEY ("book_votes_id") REFERENCES "payload"."book_votes"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload"."payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_books_fk" FOREIGN KEY ("books_id") REFERENCES "payload"."books"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload"."payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_claims_fk" FOREIGN KEY ("claims_id") REFERENCES "payload"."claims"("id") ON DELETE cascade ON UPDATE no action;
@@ -476,9 +536,32 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "payload"."payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_search_results_fk" FOREIGN KEY ("search_results_id") REFERENCES "payload"."search_results"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload"."payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_tag_groups_fk" FOREIGN KEY ("tag_groups_id") REFERENCES "payload"."tag_groups"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload"."payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_tags_fk" FOREIGN KEY ("tags_id") REFERENCES "payload"."tags"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "payload"."payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_users_fk" FOREIGN KEY ("users_id") REFERENCES "payload"."users"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload"."payload_preferences_rels" ADD CONSTRAINT "payload_preferences_rels_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "payload"."payload_preferences"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload"."payload_preferences_rels" ADD CONSTRAINT "payload_preferences_rels_users_fk" FOREIGN KEY ("users_id") REFERENCES "payload"."users"("id") ON DELETE cascade ON UPDATE no action;
+  CREATE INDEX "users_role_order_idx" ON "payload"."users_role" USING btree ("order");
+  CREATE INDEX "users_role_parent_idx" ON "payload"."users_role" USING btree ("parent_id");
+  CREATE INDEX "users_sessions_order_idx" ON "payload"."users_sessions" USING btree ("_order");
+  CREATE INDEX "users_sessions_parent_id_idx" ON "payload"."users_sessions" USING btree ("_parent_id");
+  CREATE INDEX "users_created_at_idx" ON "payload"."users" USING btree ("created_at");
+  CREATE INDEX "users_updated_at_idx" ON "payload"."users" USING btree ("updated_at");
+  CREATE UNIQUE INDEX "users_email_idx" ON "payload"."users" USING btree ("email");
+  CREATE UNIQUE INDEX "sessions_token_idx" ON "payload"."sessions" USING btree ("token");
+  CREATE INDEX "sessions_created_at_idx" ON "payload"."sessions" USING btree ("created_at");
+  CREATE INDEX "sessions_updated_at_idx" ON "payload"."sessions" USING btree ("updated_at");
+  CREATE INDEX "sessions_user_idx" ON "payload"."sessions" USING btree ("user_id");
+  CREATE INDEX "accounts_account_id_idx" ON "payload"."accounts" USING btree ("account_id");
+  CREATE INDEX "accounts_user_idx" ON "payload"."accounts" USING btree ("user_id");
+  CREATE INDEX "accounts_access_token_expires_at_idx" ON "payload"."accounts" USING btree ("access_token_expires_at");
+  CREATE INDEX "accounts_refresh_token_expires_at_idx" ON "payload"."accounts" USING btree ("refresh_token_expires_at");
+  CREATE INDEX "accounts_created_at_idx" ON "payload"."accounts" USING btree ("created_at");
+  CREATE INDEX "accounts_updated_at_idx" ON "payload"."accounts" USING btree ("updated_at");
+  CREATE INDEX "verifications_identifier_idx" ON "payload"."verifications" USING btree ("identifier");
+  CREATE INDEX "verifications_expires_at_idx" ON "payload"."verifications" USING btree ("expires_at");
+  CREATE INDEX "verifications_created_at_idx" ON "payload"."verifications" USING btree ("created_at");
+  CREATE INDEX "verifications_updated_at_idx" ON "payload"."verifications" USING btree ("updated_at");
+  CREATE INDEX "admin_invitations_token_idx" ON "payload"."admin_invitations" USING btree ("token");
+  CREATE INDEX "admin_invitations_updated_at_idx" ON "payload"."admin_invitations" USING btree ("updated_at");
+  CREATE INDEX "admin_invitations_created_at_idx" ON "payload"."admin_invitations" USING btree ("created_at");
   CREATE INDEX "book_votes_book_idx" ON "payload"."book_votes" USING btree ("book_id");
   CREATE INDEX "book_votes_user_idx" ON "payload"."book_votes" USING btree ("user_id");
   CREATE INDEX "book_votes_updated_at_idx" ON "payload"."book_votes" USING btree ("updated_at");
@@ -599,15 +682,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "tags_group_idx" ON "payload"."tags" USING btree ("group_id");
   CREATE INDEX "tags_updated_at_idx" ON "payload"."tags" USING btree ("updated_at");
   CREATE INDEX "tags_created_at_idx" ON "payload"."tags" USING btree ("created_at");
-  CREATE INDEX "users_accounts_order_idx" ON "payload"."users_accounts" USING btree ("_order");
-  CREATE INDEX "users_accounts_parent_id_idx" ON "payload"."users_accounts" USING btree ("_parent_id");
-  CREATE INDEX "users_accounts_provider_account_id_idx" ON "payload"."users_accounts" USING btree ("provider_account_id");
-  CREATE INDEX "users_verification_tokens_order_idx" ON "payload"."users_verification_tokens" USING btree ("_order");
-  CREATE INDEX "users_verification_tokens_parent_id_idx" ON "payload"."users_verification_tokens" USING btree ("_parent_id");
-  CREATE INDEX "users_verification_tokens_token_idx" ON "payload"."users_verification_tokens" USING btree ("token");
-  CREATE UNIQUE INDEX "users_email_idx" ON "payload"."users" USING btree ("email");
-  CREATE INDEX "users_updated_at_idx" ON "payload"."users" USING btree ("updated_at");
-  CREATE INDEX "users_created_at_idx" ON "payload"."users" USING btree ("created_at");
   CREATE UNIQUE INDEX "payload_kv_key_idx" ON "payload"."payload_kv" USING btree ("key");
   CREATE INDEX "payload_locked_documents_global_slug_idx" ON "payload"."payload_locked_documents" USING btree ("global_slug");
   CREATE INDEX "payload_locked_documents_updated_at_idx" ON "payload"."payload_locked_documents" USING btree ("updated_at");
@@ -615,6 +689,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "payload_locked_documents_rels_order_idx" ON "payload"."payload_locked_documents_rels" USING btree ("order");
   CREATE INDEX "payload_locked_documents_rels_parent_idx" ON "payload"."payload_locked_documents_rels" USING btree ("parent_id");
   CREATE INDEX "payload_locked_documents_rels_path_idx" ON "payload"."payload_locked_documents_rels" USING btree ("path");
+  CREATE INDEX "payload_locked_documents_rels_users_id_idx" ON "payload"."payload_locked_documents_rels" USING btree ("users_id");
+  CREATE INDEX "payload_locked_documents_rels_sessions_id_idx" ON "payload"."payload_locked_documents_rels" USING btree ("sessions_id");
+  CREATE INDEX "payload_locked_documents_rels_accounts_id_idx" ON "payload"."payload_locked_documents_rels" USING btree ("accounts_id");
+  CREATE INDEX "payload_locked_documents_rels_verifications_id_idx" ON "payload"."payload_locked_documents_rels" USING btree ("verifications_id");
+  CREATE INDEX "payload_locked_documents_rels_admin_invitations_id_idx" ON "payload"."payload_locked_documents_rels" USING btree ("admin_invitations_id");
   CREATE INDEX "payload_locked_documents_rels_book_votes_id_idx" ON "payload"."payload_locked_documents_rels" USING btree ("book_votes_id");
   CREATE INDEX "payload_locked_documents_rels_books_id_idx" ON "payload"."payload_locked_documents_rels" USING btree ("books_id");
   CREATE INDEX "payload_locked_documents_rels_claims_id_idx" ON "payload"."payload_locked_documents_rels" USING btree ("claims_id");
@@ -634,7 +713,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "payload_locked_documents_rels_search_results_id_idx" ON "payload"."payload_locked_documents_rels" USING btree ("search_results_id");
   CREATE INDEX "payload_locked_documents_rels_tag_groups_id_idx" ON "payload"."payload_locked_documents_rels" USING btree ("tag_groups_id");
   CREATE INDEX "payload_locked_documents_rels_tags_id_idx" ON "payload"."payload_locked_documents_rels" USING btree ("tags_id");
-  CREATE INDEX "payload_locked_documents_rels_users_id_idx" ON "payload"."payload_locked_documents_rels" USING btree ("users_id");
   CREATE INDEX "payload_preferences_key_idx" ON "payload"."payload_preferences" USING btree ("key");
   CREATE INDEX "payload_preferences_updated_at_idx" ON "payload"."payload_preferences" USING btree ("updated_at");
   CREATE INDEX "payload_preferences_created_at_idx" ON "payload"."payload_preferences" USING btree ("created_at");
@@ -646,13 +724,16 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "payload_migrations_created_at_idx" ON "payload"."payload_migrations" USING btree ("created_at");`)
 }
 
-export async function down({
-  db,
-  payload,
-  req
-}: MigrateDownArgs): Promise<void> {
+export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
   await db.execute(sql`
-   DROP TABLE "payload"."book_votes" CASCADE;
+   DROP TABLE "payload"."users_role" CASCADE;
+  DROP TABLE "payload"."users_sessions" CASCADE;
+  DROP TABLE "payload"."users" CASCADE;
+  DROP TABLE "payload"."sessions" CASCADE;
+  DROP TABLE "payload"."accounts" CASCADE;
+  DROP TABLE "payload"."verifications" CASCADE;
+  DROP TABLE "payload"."admin_invitations" CASCADE;
+  DROP TABLE "payload"."book_votes" CASCADE;
   DROP TABLE "payload"."books_palette" CASCADE;
   DROP TABLE "payload"."books_contributions" CASCADE;
   DROP TABLE "payload"."books_preview_images" CASCADE;
@@ -680,15 +761,14 @@ export async function down({
   DROP TABLE "payload"."search_results_rels" CASCADE;
   DROP TABLE "payload"."tag_groups" CASCADE;
   DROP TABLE "payload"."tags" CASCADE;
-  DROP TABLE "payload"."users_accounts" CASCADE;
-  DROP TABLE "payload"."users_verification_tokens" CASCADE;
-  DROP TABLE "payload"."users" CASCADE;
   DROP TABLE "payload"."payload_kv" CASCADE;
   DROP TABLE "payload"."payload_locked_documents" CASCADE;
   DROP TABLE "payload"."payload_locked_documents_rels" CASCADE;
   DROP TABLE "payload"."payload_preferences" CASCADE;
   DROP TABLE "payload"."payload_preferences_rels" CASCADE;
   DROP TABLE "payload"."payload_migrations" CASCADE;
+  DROP TYPE "payload"."enum_users_role";
+  DROP TYPE "payload"."enum_admin_invitations_role";
   DROP TYPE "payload"."enum_books_contributions_tag";
   DROP TYPE "payload"."enum_books_links_site";
   DROP TYPE "payload"."enum_books_status";
@@ -697,6 +777,5 @@ export async function down({
   DROP TYPE "payload"."enum_collections_status";
   DROP TYPE "payload"."enum_memberships_role";
   DROP TYPE "payload"."enum_publisher_invitations_role";
-  DROP TYPE "payload"."enum_search_results_type";
-  DROP TYPE "payload"."enum_users_role";`)
+  DROP TYPE "payload"."enum_search_results_type";`)
 }

@@ -2,10 +2,10 @@ name: Test & Deploy
 on:
   push:
     paths:
-      - './package.json'
+      - "./package.json"
       - .github/workflows/deploy.yml
-      - 'src/**'
-      - 'e2e/**'
+      - "src/**"
+      - "e2e/**"
 
 env:
   NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   deploy-preview:
-    name: 'Deploy to Preview'
+    name: "Deploy to Preview"
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -104,7 +104,7 @@ jobs:
           fi
 
   test:
-    name: 'Run E2E tests'
+    name: "Run E2E tests"
     needs: [deploy-preview]
     runs-on: ubuntu-latest
     steps:
@@ -116,6 +116,7 @@ jobs:
       - name: Install dependencies and get database url
         id: install-deps
         run: |
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGE_INSTALL_PAT }}" >> .npmrc
           npm ci
           npm i -g neonctl
           echo "database-url=$(neonctl cs ${{ needs.deploy-preview.outputs.database-id }} --database-name books-about-food-prod --prisma --pooled)" >> $GITHUB_OUTPUT
@@ -145,7 +146,7 @@ jobs:
           DEPLOYMENT_URL: ${{ needs.deploy-preview.outputs.preview-url }}
           DATABASE_URL: ${{ steps.install-deps.outputs.database-url }}
           DATABASE_DIRECT_URL: ${{ steps.install-deps.outputs.database-direct-url }}
-          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+          BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
@@ -154,7 +155,7 @@ jobs:
           retention-days: 10
 
   deploy-prod:
-    name: 'Deploy to Production'
+    name: "Deploy to Production"
     needs: [deploy-preview, test]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
@@ -180,13 +181,13 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_DEPLOY_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.BAF_VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.BAF_VERCEL_PROJECT_ID }}
-          VERCEL_SCOPE: 'radical-innovation'
+          VERCEL_SCOPE: "radical-innovation"
           PRODUCTION: true
           CREATE_COMMENT: false
           GITHUB_DEPLOYMENT: true
 
   cleanup:
-    name: 'Clean Up'
+    name: "Clean Up"
     needs: [deploy-preview, test, deploy-prod]
     runs-on: ubuntu-latest
     if: ${{ always() && github.run_attempt == 1 && github.ref == 'refs/heads/main' }}
