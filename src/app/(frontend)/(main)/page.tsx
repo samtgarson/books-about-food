@@ -40,7 +40,7 @@ async function Page() {
             features={features}
             title
             faces
-            className="h-[90vh] max-h-[800px] overflow-y-hidden"
+            className="h-[90vh] max-h-200 overflow-y-hidden"
           />
         </div>
       )}
