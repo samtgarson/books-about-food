@@ -5,8 +5,13 @@ import { extractId } from 'src/core/models/utils/payload-validation'
 import { inngest } from 'src/jobs'
 import { getPayloadClient } from 'src/core/services/utils/payload'
 
+import { appUrl } from 'src/utils/app-url'
+
+const baseURL = appUrl()
+
 export const betterAuthPluginOptions: PayloadAuthOptions = {
   betterAuthOptions: {
+    baseURL,
     socialProviders: {
       google: {
         clientId: process.env.GOOGLE_CLIENT_ID!,
