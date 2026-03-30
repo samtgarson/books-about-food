@@ -1,0 +1,41 @@
+src/hooks/use-current-user.ts
+  636572e1f888a6a8 1
+src/components/auth/logos.tsx
+  636572e1f888a6a8 6,9
+src/components/accounts/account-form.tsx
+  636572e1f888a6a8 15,47
+src/components/accounts/form-action.ts
+  636572e1f888a6a8 7,10
+e2e/tests/account.spec.ts
+  636572e1f888a6a8 21-23
+src/core/services/users/utils.ts
+  636572e1f888a6a8 1-21
+src/utils/user.ts
+  636572e1f888a6a8 4
+src/core/services/users/fetch-user.ts
+  636572e1f888a6a8 1-6,9-10,12-15,18-21,25-29
+src/app/(frontend)/(main)/account/page.tsx
+  636572e1f888a6a8 10,20-21
+src/lib/auth/options.ts
+  636572e1f888a6a8 7,81-82,84
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.22",
+  "base_commit_sha": "6c2f3c1c0bbaad5d068944ec7b39f7bb8392c8cb",
+  "prompts": {
+    "636572e1f888a6a8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dfc2a125-dbfe-48ae-be04-0252a1fa15ce",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Sam Garson <samtgarson@gmail.com>",
+      "messages": [],
+      "total_additions": 184,
+      "total_deletions": 133,
+      "accepted_lines": 88,
+      "overriden_lines": 7
+    }
+  }
+}
