@@ -3,9 +3,10 @@ import google from 'src/assets/auth-logos/google.svg'
 export type LogoProps = { size?: number; className?: string }
 
 export function Google({ size = 30, className }: LogoProps) {
+  const src = typeof google === 'string' ? google : google.src
   return (
     <img
-      src={google}
+      src={src}
       width={size}
       height={size}
       alt="Google"

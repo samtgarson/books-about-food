@@ -7,9 +7,9 @@ import { InviteWidget } from 'src/components/memberships/invite-widget'
 import { ProfileItem } from 'src/components/profiles/item'
 import { fetchAccounts } from 'src/core/services/auth/get-accounts'
 import { fetchProfiles } from 'src/core/services/profiles/fetch-profiles'
+import { fetchUser } from 'src/core/services/users/fetch-user'
 import { genMetadata } from 'src/utils/metadata'
 import { call } from 'src/utils/service'
-import { getSessionUser } from 'src/utils/user'
 
 export const metadata = genMetadata('/account', null, {
   title: 'Account',
@@ -17,8 +17,8 @@ export const metadata = genMetadata('/account', null, {
 })
 
 const Page = async () => {
-  const [user, { data: accounts = [] }] = await Promise.all([
-    getSessionUser(),
+  const [{ data: user }, { data: accounts = [] }] = await Promise.all([
+    call(fetchUser),
     call(fetchAccounts, undefined)
   ])
 

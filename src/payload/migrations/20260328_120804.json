@@ -2,6 +2,869 @@
   "version": "7",
   "dialect": "postgresql",
   "tables": {
+    "payload.users_role": {
+      "name": "users_role",
+      "schema": "payload",
+      "columns": {
+        "order": {
+          "name": "order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "parent_id": {
+          "name": "parent_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "value": {
+          "name": "value",
+          "type": "enum_users_role",
+          "typeSchema": "payload",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        }
+      },
+      "indexes": {
+        "users_role_order_idx": {
+          "name": "users_role_order_idx",
+          "columns": [
+            {
+              "expression": "order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "users_role_parent_idx": {
+          "name": "users_role_parent_idx",
+          "columns": [
+            {
+              "expression": "parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "users_role_parent_fk": {
+          "name": "users_role_parent_fk",
+          "tableFrom": "users_role",
+          "tableTo": "users",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "payload.users_sessions": {
+      "name": "users_sessions",
+      "schema": "payload",
+      "columns": {
+        "_order": {
+          "name": "_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "_parent_id": {
+          "name": "_parent_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "users_sessions_order_idx": {
+          "name": "users_sessions_order_idx",
+          "columns": [
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "users_sessions_parent_id_idx": {
+          "name": "users_sessions_parent_id_idx",
+          "columns": [
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "users_sessions_parent_id_fk": {
+          "name": "users_sessions_parent_id_fk",
+          "tableFrom": "users_sessions",
+          "tableTo": "users",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "payload.users": {
+      "name": "users",
+      "schema": "payload",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email_verified": {
+          "name": "email_verified",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "image": {
+          "name": "image",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reset_password_token": {
+          "name": "reset_password_token",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reset_password_expiration": {
+          "name": "reset_password_expiration",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "salt": {
+          "name": "salt",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "hash": {
+          "name": "hash",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "login_attempts": {
+          "name": "login_attempts",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        },
+        "lock_until": {
+          "name": "lock_until",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "users_created_at_idx": {
+          "name": "users_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "users_updated_at_idx": {
+          "name": "users_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "users_email_idx": {
+          "name": "users_email_idx",
+          "columns": [
+            {
+              "expression": "email",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "payload.sessions": {
+      "name": "sessions",
+      "schema": "payload",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "token": {
+          "name": "token",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "ip_address": {
+          "name": "ip_address",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "user_agent": {
+          "name": "user_agent",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "sessions_token_idx": {
+          "name": "sessions_token_idx",
+          "columns": [
+            {
+              "expression": "token",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "sessions_created_at_idx": {
+          "name": "sessions_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "sessions_updated_at_idx": {
+          "name": "sessions_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "sessions_user_idx": {
+          "name": "sessions_user_idx",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "sessions_user_id_users_id_fk": {
+          "name": "sessions_user_id_users_id_fk",
+          "tableFrom": "sessions",
+          "tableTo": "users",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "payload.accounts": {
+      "name": "accounts",
+      "schema": "payload",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "account_id": {
+          "name": "account_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "provider_id": {
+          "name": "provider_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "access_token": {
+          "name": "access_token",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "refresh_token": {
+          "name": "refresh_token",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_token": {
+          "name": "id_token",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "access_token_expires_at": {
+          "name": "access_token_expires_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "refresh_token_expires_at": {
+          "name": "refresh_token_expires_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "scope": {
+          "name": "scope",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "password": {
+          "name": "password",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "accounts_account_id_idx": {
+          "name": "accounts_account_id_idx",
+          "columns": [
+            {
+              "expression": "account_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "accounts_user_idx": {
+          "name": "accounts_user_idx",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "accounts_access_token_expires_at_idx": {
+          "name": "accounts_access_token_expires_at_idx",
+          "columns": [
+            {
+              "expression": "access_token_expires_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "accounts_refresh_token_expires_at_idx": {
+          "name": "accounts_refresh_token_expires_at_idx",
+          "columns": [
+            {
+              "expression": "refresh_token_expires_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "accounts_created_at_idx": {
+          "name": "accounts_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "accounts_updated_at_idx": {
+          "name": "accounts_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "accounts_user_id_users_id_fk": {
+          "name": "accounts_user_id_users_id_fk",
+          "tableFrom": "accounts",
+          "tableTo": "users",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "payload.verifications": {
+      "name": "verifications",
+      "schema": "payload",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "identifier": {
+          "name": "identifier",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "value": {
+          "name": "value",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "verifications_identifier_idx": {
+          "name": "verifications_identifier_idx",
+          "columns": [
+            {
+              "expression": "identifier",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "verifications_expires_at_idx": {
+          "name": "verifications_expires_at_idx",
+          "columns": [
+            {
+              "expression": "expires_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "verifications_created_at_idx": {
+          "name": "verifications_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "verifications_updated_at_idx": {
+          "name": "verifications_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "payload.admin_invitations": {
+      "name": "admin_invitations",
+      "schema": "payload",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "role": {
+          "name": "role",
+          "type": "enum_admin_invitations_role",
+          "typeSchema": "payload",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'admin'"
+        },
+        "token": {
+          "name": "token",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "admin_invitations_token_idx": {
+          "name": "admin_invitations_token_idx",
+          "columns": [
+            {
+              "expression": "token",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "admin_invitations_updated_at_idx": {
+          "name": "admin_invitations_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "admin_invitations_created_at_idx": {
+          "name": "admin_invitations_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "payload.book_votes": {
       "name": "book_votes",
       "schema": "payload",
@@ -21,7 +884,7 @@
         },
         "user_id": {
           "name": "user_id",
-          "type": "varchar",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
@@ -108,8 +971,12 @@
           "tableFrom": "book_votes",
           "tableTo": "books",
           "schemaTo": "payload",
-          "columnsFrom": ["book_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "book_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -118,8 +985,12 @@
           "tableFrom": "book_votes",
           "tableTo": "users",
           "schemaTo": "payload",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -197,8 +1068,12 @@
           "tableFrom": "books_palette",
           "tableTo": "books",
           "schemaTo": "payload",
-          "columnsFrom": ["_parent_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -332,8 +1207,12 @@
           "tableFrom": "books_contributions",
           "tableTo": "profiles",
           "schemaTo": "payload",
-          "columnsFrom": ["profile_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "profile_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -342,8 +1221,12 @@
           "tableFrom": "books_contributions",
           "tableTo": "jobs",
           "schemaTo": "payload",
-          "columnsFrom": ["job_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "job_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -352,8 +1235,12 @@
           "tableFrom": "books_contributions",
           "tableTo": "books",
           "schemaTo": "payload",
-          "columnsFrom": ["_parent_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -446,8 +1333,12 @@
           "tableFrom": "books_preview_images",
           "tableTo": "images",
           "schemaTo": "payload",
-          "columnsFrom": ["image_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "image_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -456,8 +1347,12 @@
           "tableFrom": "books_preview_images",
           "tableTo": "books",
           "schemaTo": "payload",
-          "columnsFrom": ["_parent_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -548,8 +1443,12 @@
           "tableFrom": "books_links",
           "tableTo": "books",
           "schemaTo": "payload",
-          "columnsFrom": ["_parent_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -655,7 +1554,7 @@
         },
         "submitter_id": {
           "name": "submitter_id",
-          "type": "varchar",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         },
@@ -793,8 +1692,12 @@
           "tableFrom": "books",
           "tableTo": "publishers",
           "schemaTo": "payload",
-          "columnsFrom": ["publisher_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "publisher_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -803,8 +1706,12 @@
           "tableFrom": "books",
           "tableTo": "users",
           "schemaTo": "payload",
-          "columnsFrom": ["submitter_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "submitter_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -813,8 +1720,12 @@
           "tableFrom": "books",
           "tableTo": "images",
           "schemaTo": "payload",
-          "columnsFrom": ["cover_image_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "cover_image_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -949,8 +1860,12 @@
           "tableFrom": "books_rels",
           "tableTo": "books",
           "schemaTo": "payload",
-          "columnsFrom": ["parent_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -959,8 +1874,12 @@
           "tableFrom": "books_rels",
           "tableTo": "profiles",
           "schemaTo": "payload",
-          "columnsFrom": ["profiles_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "profiles_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -969,8 +1888,12 @@
           "tableFrom": "books_rels",
           "tableTo": "tags",
           "schemaTo": "payload",
-          "columnsFrom": ["tags_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "tags_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1000,7 +1923,7 @@
         },
         "user_id": {
           "name": "user_id",
-          "type": "varchar",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
@@ -1113,8 +2036,12 @@
           "tableFrom": "claims",
           "tableTo": "profiles",
           "schemaTo": "payload",
-          "columnsFrom": ["profile_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "profile_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -1123,8 +2050,12 @@
           "tableFrom": "claims",
           "tableTo": "users",
           "schemaTo": "payload",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -1274,8 +2205,12 @@
           "tableFrom": "collections",
           "tableTo": "publishers",
           "schemaTo": "payload",
-          "columnsFrom": ["publisher_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "publisher_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -1389,8 +2324,12 @@
           "tableFrom": "collections_rels",
           "tableTo": "collections",
           "schemaTo": "payload",
-          "columnsFrom": ["parent_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -1399,8 +2338,12 @@
           "tableFrom": "collections_rels",
           "tableTo": "books",
           "schemaTo": "payload",
-          "columnsFrom": ["books_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "books_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1543,7 +2486,7 @@
         },
         "user_id": {
           "name": "user_id",
-          "type": "varchar",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
@@ -1630,8 +2573,12 @@
           "tableFrom": "favourites",
           "tableTo": "profiles",
           "schemaTo": "payload",
-          "columnsFrom": ["profile_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "profile_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -1640,8 +2587,12 @@
           "tableFrom": "favourites",
           "tableTo": "users",
           "schemaTo": "payload",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -1764,8 +2715,12 @@
           "tableFrom": "featured_profiles",
           "tableTo": "profiles",
           "schemaTo": "payload",
-          "columnsFrom": ["profile_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "profile_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -1894,8 +2849,12 @@
           "tableFrom": "features",
           "tableTo": "books",
           "schemaTo": "payload",
-          "columnsFrom": ["book_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "book_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -2353,7 +3312,7 @@
         },
         "user_id": {
           "name": "user_id",
-          "type": "varchar",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
@@ -2448,8 +3407,12 @@
           "tableFrom": "memberships",
           "tableTo": "publishers",
           "schemaTo": "payload",
-          "columnsFrom": ["publisher_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "publisher_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -2458,8 +3421,12 @@
           "tableFrom": "memberships",
           "tableTo": "users",
           "schemaTo": "payload",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -2483,7 +3450,7 @@
         },
         "author_id": {
           "name": "author_id",
-          "type": "varchar",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
@@ -2568,8 +3535,12 @@
           "tableFrom": "pitches",
           "tableTo": "users",
           "schemaTo": "payload",
-          "columnsFrom": ["author_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "author_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -2647,7 +3618,7 @@
         },
         "user_id": {
           "name": "user_id",
-          "type": "varchar",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         },
@@ -2749,8 +3720,12 @@
           "tableFrom": "profiles",
           "tableTo": "images",
           "schemaTo": "payload",
-          "columnsFrom": ["avatar_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "avatar_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -2759,8 +3734,12 @@
           "tableFrom": "profiles",
           "tableTo": "users",
           "schemaTo": "payload",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -2895,8 +3874,12 @@
           "tableFrom": "profiles_rels",
           "tableTo": "profiles",
           "schemaTo": "payload",
-          "columnsFrom": ["parent_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -2905,8 +3888,12 @@
           "tableFrom": "profiles_rels",
           "tableTo": "locations",
           "schemaTo": "payload",
-          "columnsFrom": ["locations_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "locations_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -2915,8 +3902,12 @@
           "tableFrom": "profiles_rels",
           "tableTo": "profiles",
           "schemaTo": "payload",
-          "columnsFrom": ["profiles_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "profiles_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -2952,7 +3943,7 @@
         },
         "invited_by_id": {
           "name": "invited_by_id",
-          "type": "varchar",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
@@ -3053,8 +4044,12 @@
           "tableFrom": "publisher_invitations",
           "tableTo": "publishers",
           "schemaTo": "payload",
-          "columnsFrom": ["publisher_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "publisher_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -3063,8 +4058,12 @@
           "tableFrom": "publisher_invitations",
           "tableTo": "users",
           "schemaTo": "payload",
-          "columnsFrom": ["invited_by_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "invited_by_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -3253,8 +4252,12 @@
           "tableFrom": "publishers",
           "tableTo": "images",
           "schemaTo": "payload",
-          "columnsFrom": ["logo_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "logo_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -3263,8 +4266,12 @@
           "tableFrom": "publishers",
           "tableTo": "publishers",
           "schemaTo": "payload",
-          "columnsFrom": ["house_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "house_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -3378,8 +4385,12 @@
           "tableFrom": "publishers_rels",
           "tableTo": "publishers",
           "schemaTo": "payload",
-          "columnsFrom": ["parent_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -3388,8 +4399,12 @@
           "tableFrom": "publishers_rels",
           "tableTo": "books",
           "schemaTo": "payload",
-          "columnsFrom": ["books_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "books_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -3555,8 +4570,12 @@
           "tableFrom": "search_results",
           "tableTo": "images",
           "schemaTo": "payload",
-          "columnsFrom": ["image_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "image_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -3754,8 +4773,12 @@
           "tableFrom": "search_results_rels",
           "tableTo": "search_results",
           "schemaTo": "payload",
-          "columnsFrom": ["parent_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -3764,8 +4787,12 @@
           "tableFrom": "search_results_rels",
           "tableTo": "books",
           "schemaTo": "payload",
-          "columnsFrom": ["books_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "books_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -3774,8 +4801,12 @@
           "tableFrom": "search_results_rels",
           "tableTo": "profiles",
           "schemaTo": "payload",
-          "columnsFrom": ["profiles_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "profiles_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -3784,8 +4815,12 @@
           "tableFrom": "search_results_rels",
           "tableTo": "publishers",
           "schemaTo": "payload",
-          "columnsFrom": ["publishers_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "publishers_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -3794,8 +4829,12 @@
           "tableFrom": "search_results_rels",
           "tableTo": "tags",
           "schemaTo": "payload",
-          "columnsFrom": ["tags_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "tags_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -3804,8 +4843,12 @@
           "tableFrom": "search_results_rels",
           "tableTo": "collections",
           "schemaTo": "payload",
-          "columnsFrom": ["collections_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "collections_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -4057,329 +5100,16 @@
           "tableFrom": "tags",
           "tableTo": "tag_groups",
           "schemaTo": "payload",
-          "columnsFrom": ["group_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "group_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "payload.users_accounts": {
-      "name": "users_accounts",
-      "schema": "payload",
-      "columns": {
-        "_order": {
-          "name": "_order",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "_parent_id": {
-          "name": "_parent_id",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "id": {
-          "name": "id",
-          "type": "varchar",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "provider": {
-          "name": "provider",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "provider_account_id": {
-          "name": "provider_account_id",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "type": {
-          "name": "type",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {
-        "users_accounts_order_idx": {
-          "name": "users_accounts_order_idx",
-          "columns": [
-            {
-              "expression": "_order",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "users_accounts_parent_id_idx": {
-          "name": "users_accounts_parent_id_idx",
-          "columns": [
-            {
-              "expression": "_parent_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "users_accounts_provider_account_id_idx": {
-          "name": "users_accounts_provider_account_id_idx",
-          "columns": [
-            {
-              "expression": "provider_account_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {
-        "users_accounts_parent_id_fk": {
-          "name": "users_accounts_parent_id_fk",
-          "tableFrom": "users_accounts",
-          "tableTo": "users",
-          "schemaTo": "payload",
-          "columnsFrom": ["_parent_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "payload.users_verification_tokens": {
-      "name": "users_verification_tokens",
-      "schema": "payload",
-      "columns": {
-        "_order": {
-          "name": "_order",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "_parent_id": {
-          "name": "_parent_id",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "id": {
-          "name": "id",
-          "type": "varchar",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "token": {
-          "name": "token",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "expires": {
-          "name": "expires",
-          "type": "timestamp(3) with time zone",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {
-        "users_verification_tokens_order_idx": {
-          "name": "users_verification_tokens_order_idx",
-          "columns": [
-            {
-              "expression": "_order",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "users_verification_tokens_parent_id_idx": {
-          "name": "users_verification_tokens_parent_id_idx",
-          "columns": [
-            {
-              "expression": "_parent_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "users_verification_tokens_token_idx": {
-          "name": "users_verification_tokens_token_idx",
-          "columns": [
-            {
-              "expression": "token",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {
-        "users_verification_tokens_parent_id_fk": {
-          "name": "users_verification_tokens_parent_id_fk",
-          "tableFrom": "users_verification_tokens",
-          "tableTo": "users",
-          "schemaTo": "payload",
-          "columnsFrom": ["_parent_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "payload.users": {
-      "name": "users",
-      "schema": "payload",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "varchar",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "email": {
-          "name": "email",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "email_verified": {
-          "name": "email_verified",
-          "type": "timestamp(3) with time zone",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "image": {
-          "name": "image",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "role": {
-          "name": "role",
-          "type": "enum_users_role",
-          "typeSchema": "payload",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "'user'"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp(3) with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp(3) with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {
-        "users_email_idx": {
-          "name": "users_email_idx",
-          "columns": [
-            {
-              "expression": "email",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": true,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "users_updated_at_idx": {
-          "name": "users_updated_at_idx",
-          "columns": [
-            {
-              "expression": "updated_at",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "users_created_at_idx": {
-          "name": "users_created_at_idx",
-          "columns": [
-            {
-              "expression": "created_at",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
@@ -4548,6 +5278,36 @@
           "primaryKey": false,
           "notNull": true
         },
+        "users_id": {
+          "name": "users_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sessions_id": {
+          "name": "sessions_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "accounts_id": {
+          "name": "accounts_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "verifications_id": {
+          "name": "verifications_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "admin_invitations_id": {
+          "name": "admin_invitations_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
         "book_votes_id": {
           "name": "book_votes_id",
           "type": "uuid",
@@ -4661,12 +5421,6 @@
           "type": "uuid",
           "primaryKey": false,
           "notNull": false
-        },
-        "users_id": {
-          "name": "users_id",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
         }
       },
       "indexes": {
@@ -4705,6 +5459,81 @@
           "columns": [
             {
               "expression": "path",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_users_id_idx": {
+          "name": "payload_locked_documents_rels_users_id_idx",
+          "columns": [
+            {
+              "expression": "users_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_sessions_id_idx": {
+          "name": "payload_locked_documents_rels_sessions_id_idx",
+          "columns": [
+            {
+              "expression": "sessions_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_accounts_id_idx": {
+          "name": "payload_locked_documents_rels_accounts_id_idx",
+          "columns": [
+            {
+              "expression": "accounts_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_verifications_id_idx": {
+          "name": "payload_locked_documents_rels_verifications_id_idx",
+          "columns": [
+            {
+              "expression": "verifications_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_admin_invitations_id_idx": {
+          "name": "payload_locked_documents_rels_admin_invitations_id_idx",
+          "columns": [
+            {
+              "expression": "admin_invitations_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -4999,21 +5828,6 @@
           "concurrently": false,
           "method": "btree",
           "with": {}
-        },
-        "payload_locked_documents_rels_users_id_idx": {
-          "name": "payload_locked_documents_rels_users_id_idx",
-          "columns": [
-            {
-              "expression": "users_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
         }
       },
       "foreignKeys": {
@@ -5022,198 +5836,12 @@
           "tableFrom": "payload_locked_documents_rels",
           "tableTo": "payload_locked_documents",
           "schemaTo": "payload",
-          "columnsFrom": ["parent_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "payload_locked_documents_rels_book_votes_fk": {
-          "name": "payload_locked_documents_rels_book_votes_fk",
-          "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "book_votes",
-          "schemaTo": "payload",
-          "columnsFrom": ["book_votes_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "payload_locked_documents_rels_books_fk": {
-          "name": "payload_locked_documents_rels_books_fk",
-          "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "books",
-          "schemaTo": "payload",
-          "columnsFrom": ["books_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "payload_locked_documents_rels_claims_fk": {
-          "name": "payload_locked_documents_rels_claims_fk",
-          "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "claims",
-          "schemaTo": "payload",
-          "columnsFrom": ["claims_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "payload_locked_documents_rels_collections_fk": {
-          "name": "payload_locked_documents_rels_collections_fk",
-          "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "collections",
-          "schemaTo": "payload",
-          "columnsFrom": ["collections_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "payload_locked_documents_rels_faqs_fk": {
-          "name": "payload_locked_documents_rels_faqs_fk",
-          "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "faqs",
-          "schemaTo": "payload",
-          "columnsFrom": ["faqs_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "payload_locked_documents_rels_favourites_fk": {
-          "name": "payload_locked_documents_rels_favourites_fk",
-          "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "favourites",
-          "schemaTo": "payload",
-          "columnsFrom": ["favourites_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "payload_locked_documents_rels_featured_profiles_fk": {
-          "name": "payload_locked_documents_rels_featured_profiles_fk",
-          "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "featured_profiles",
-          "schemaTo": "payload",
-          "columnsFrom": ["featured_profiles_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "payload_locked_documents_rels_features_fk": {
-          "name": "payload_locked_documents_rels_features_fk",
-          "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "features",
-          "schemaTo": "payload",
-          "columnsFrom": ["features_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "payload_locked_documents_rels_images_fk": {
-          "name": "payload_locked_documents_rels_images_fk",
-          "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "images",
-          "schemaTo": "payload",
-          "columnsFrom": ["images_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "payload_locked_documents_rels_jobs_fk": {
-          "name": "payload_locked_documents_rels_jobs_fk",
-          "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "jobs",
-          "schemaTo": "payload",
-          "columnsFrom": ["jobs_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "payload_locked_documents_rels_locations_fk": {
-          "name": "payload_locked_documents_rels_locations_fk",
-          "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "locations",
-          "schemaTo": "payload",
-          "columnsFrom": ["locations_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "payload_locked_documents_rels_memberships_fk": {
-          "name": "payload_locked_documents_rels_memberships_fk",
-          "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "memberships",
-          "schemaTo": "payload",
-          "columnsFrom": ["memberships_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "payload_locked_documents_rels_pitches_fk": {
-          "name": "payload_locked_documents_rels_pitches_fk",
-          "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "pitches",
-          "schemaTo": "payload",
-          "columnsFrom": ["pitches_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "payload_locked_documents_rels_profiles_fk": {
-          "name": "payload_locked_documents_rels_profiles_fk",
-          "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "profiles",
-          "schemaTo": "payload",
-          "columnsFrom": ["profiles_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "payload_locked_documents_rels_publisher_invitations_fk": {
-          "name": "payload_locked_documents_rels_publisher_invitations_fk",
-          "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "publisher_invitations",
-          "schemaTo": "payload",
-          "columnsFrom": ["publisher_invitations_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "payload_locked_documents_rels_publishers_fk": {
-          "name": "payload_locked_documents_rels_publishers_fk",
-          "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "publishers",
-          "schemaTo": "payload",
-          "columnsFrom": ["publishers_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "payload_locked_documents_rels_search_results_fk": {
-          "name": "payload_locked_documents_rels_search_results_fk",
-          "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "search_results",
-          "schemaTo": "payload",
-          "columnsFrom": ["search_results_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "payload_locked_documents_rels_tag_groups_fk": {
-          "name": "payload_locked_documents_rels_tag_groups_fk",
-          "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "tag_groups",
-          "schemaTo": "payload",
-          "columnsFrom": ["tag_groups_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "payload_locked_documents_rels_tags_fk": {
-          "name": "payload_locked_documents_rels_tags_fk",
-          "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "tags",
-          "schemaTo": "payload",
-          "columnsFrom": ["tags_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -5222,8 +5850,334 @@
           "tableFrom": "payload_locked_documents_rels",
           "tableTo": "users",
           "schemaTo": "payload",
-          "columnsFrom": ["users_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "users_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_sessions_fk": {
+          "name": "payload_locked_documents_rels_sessions_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "sessions",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "sessions_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_accounts_fk": {
+          "name": "payload_locked_documents_rels_accounts_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "accounts",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "accounts_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_verifications_fk": {
+          "name": "payload_locked_documents_rels_verifications_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "verifications",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "verifications_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_admin_invitations_fk": {
+          "name": "payload_locked_documents_rels_admin_invitations_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "admin_invitations",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "admin_invitations_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_book_votes_fk": {
+          "name": "payload_locked_documents_rels_book_votes_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "book_votes",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "book_votes_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_books_fk": {
+          "name": "payload_locked_documents_rels_books_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "books",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "books_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_claims_fk": {
+          "name": "payload_locked_documents_rels_claims_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "claims",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "claims_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_collections_fk": {
+          "name": "payload_locked_documents_rels_collections_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "collections",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "collections_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_faqs_fk": {
+          "name": "payload_locked_documents_rels_faqs_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "faqs",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "faqs_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_favourites_fk": {
+          "name": "payload_locked_documents_rels_favourites_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "favourites",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "favourites_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_featured_profiles_fk": {
+          "name": "payload_locked_documents_rels_featured_profiles_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "featured_profiles",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "featured_profiles_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_features_fk": {
+          "name": "payload_locked_documents_rels_features_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "features",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "features_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_images_fk": {
+          "name": "payload_locked_documents_rels_images_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "images",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "images_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_jobs_fk": {
+          "name": "payload_locked_documents_rels_jobs_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "jobs",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "jobs_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_locations_fk": {
+          "name": "payload_locked_documents_rels_locations_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "locations",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "locations_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_memberships_fk": {
+          "name": "payload_locked_documents_rels_memberships_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "memberships",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "memberships_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_pitches_fk": {
+          "name": "payload_locked_documents_rels_pitches_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "pitches",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "pitches_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_profiles_fk": {
+          "name": "payload_locked_documents_rels_profiles_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "profiles",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "profiles_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_publisher_invitations_fk": {
+          "name": "payload_locked_documents_rels_publisher_invitations_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "publisher_invitations",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "publisher_invitations_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_publishers_fk": {
+          "name": "payload_locked_documents_rels_publishers_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "publishers",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "publishers_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_search_results_fk": {
+          "name": "payload_locked_documents_rels_search_results_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "search_results",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "search_results_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_tag_groups_fk": {
+          "name": "payload_locked_documents_rels_tag_groups_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "tag_groups",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "tag_groups_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_tags_fk": {
+          "name": "payload_locked_documents_rels_tags_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "tags",
+          "schemaTo": "payload",
+          "columnsFrom": [
+            "tags_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -5356,7 +6310,7 @@
         },
         "users_id": {
           "name": "users_id",
-          "type": "varchar",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         }
@@ -5429,8 +6383,12 @@
           "tableFrom": "payload_preferences_rels",
           "tableTo": "payload_preferences",
           "schemaTo": "payload",
-          "columnsFrom": ["parent_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -5439,8 +6397,12 @@
           "tableFrom": "payload_preferences_rels",
           "tableTo": "users",
           "schemaTo": "payload",
-          "columnsFrom": ["users_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "users_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -5530,10 +6492,30 @@
     }
   },
   "enums": {
+    "payload.enum_users_role": {
+      "name": "enum_users_role",
+      "schema": "payload",
+      "values": [
+        "admin",
+        "user",
+        "waitlist"
+      ]
+    },
+    "payload.enum_admin_invitations_role": {
+      "name": "enum_admin_invitations_role",
+      "schema": "payload",
+      "values": [
+        "admin",
+        "user",
+        "waitlist"
+      ]
+    },
     "payload.enum_books_contributions_tag": {
       "name": "enum_books_contributions_tag",
       "schema": "payload",
-      "values": ["Assistant"]
+      "values": [
+        "Assistant"
+      ]
     },
     "payload.enum_books_links_site": {
       "name": "enum_books_links_site",
@@ -5550,42 +6532,66 @@
     "payload.enum_books_status": {
       "name": "enum_books_status",
       "schema": "payload",
-      "values": ["draft", "inReview", "published"]
+      "values": [
+        "draft",
+        "inReview",
+        "published"
+      ]
     },
     "payload.enum_books_source": {
       "name": "enum_books_source",
       "schema": "payload",
-      "values": ["admin", "import", "submitted", "edelweiss"]
+      "values": [
+        "admin",
+        "import",
+        "submitted",
+        "edelweiss"
+      ]
     },
     "payload.enum_claims_state": {
       "name": "enum_claims_state",
       "schema": "payload",
-      "values": ["pending", "approved", "cancelled"]
+      "values": [
+        "pending",
+        "approved",
+        "cancelled"
+      ]
     },
     "payload.enum_collections_status": {
       "name": "enum_collections_status",
       "schema": "payload",
-      "values": ["draft", "inReview", "published"]
+      "values": [
+        "draft",
+        "inReview",
+        "published"
+      ]
     },
     "payload.enum_memberships_role": {
       "name": "enum_memberships_role",
       "schema": "payload",
-      "values": ["admin", "member"]
+      "values": [
+        "admin",
+        "member"
+      ]
     },
     "payload.enum_publisher_invitations_role": {
       "name": "enum_publisher_invitations_role",
       "schema": "payload",
-      "values": ["admin", "member"]
+      "values": [
+        "admin",
+        "member"
+      ]
     },
     "payload.enum_search_results_type": {
       "name": "enum_search_results_type",
       "schema": "payload",
-      "values": ["book", "profile", "publisher", "bookTag", "collection"]
-    },
-    "payload.enum_users_role": {
-      "name": "enum_users_role",
-      "schema": "payload",
-      "values": ["user", "admin", "waitlist"]
+      "values": [
+        "book",
+        "profile",
+        "publisher",
+        "bookTag",
+        "collection"
+      ]
     }
   },
   "schemas": {
@@ -5600,6 +6606,6 @@
     "tables": {},
     "columns": {}
   },
-  "id": "41996335-1a3b-4999-854c-17a7e7ada1d0",
+  "id": "93386b80-2723-4bf3-b85e-cd4ac8a5839d",
   "prevId": "00000000-0000-0000-0000-000000000000"
 }

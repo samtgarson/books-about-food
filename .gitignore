@@ -19,3 +19,6 @@ postgres-language-server.jsonc
 gmail-credentials.json
 gmail-token.json
 .dev.vars
+
+.last-run.json
+test-results

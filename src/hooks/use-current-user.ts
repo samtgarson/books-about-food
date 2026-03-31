@@ -1,8 +1,29 @@
-import { useSession } from 'next-auth/react'
+import { extractRole } from 'src/core/services/users/utils'
+import { User, UserRole } from 'src/core/types'
+import { authClient } from 'src/lib/auth/client'
 
-export const useCurrentUser = () => {
-  const session = useSession()
-  if (session.status !== 'authenticated') return null
+type SessionUser = {
+  id: string
+  name: string
+  email: string
+  role?: UserRole | UserRole[] | null
+  image?: string | null
+  publishers?: string[]
+  emailVerified: boolean
+}
 
-  return session.data.user
+export function useCurrentUser(): User | null {
+  const session = authClient.useSession()
+  if (!session.data?.user) return null
+
+  const user = session.data.user as SessionUser
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: extractRole(user.role),
+    image: user.image ?? null,
+    publishers: user.publishers ?? [],
+    emailVerified: user.emailVerified
+  }
 }

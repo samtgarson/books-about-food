@@ -2,7 +2,6 @@ import * as Sentry from '@sentry/nextjs'
 import { ReactNode } from 'react'
 import { Toaster } from 'sonner'
 import { Mouse } from 'src/components/atoms/mouse'
-import { AuthProvider } from 'src/components/auth/auth-provider'
 import { GlobalSheetProvider } from 'src/components/sheets/global-sheet'
 import { TrackingProvider } from 'src/components/tracking/context'
 import { VisualBoundaryProvider } from 'src/components/utils/visual-boundary'
@@ -42,29 +41,27 @@ export default async function RootLayout({
       </head>
       <body className="relative flex min-h-screen flex-col transition-colors duration-700">
         <Sentry.ErrorBoundary fallback={<div>FOO</div>}>
-          <AuthProvider>
-            <TrackingProvider>
-              <GlobalSheetProvider>
-                <VisualBoundaryProvider>
-                  <Toaster
-                    toastOptions={{
-                      style: {
-                        borderRadius: 4,
-                        paddingBlock: 16,
-                        paddingInline: 20,
-                        boxShadow:
-                          '0px 3.15564px 2.52452px 0px rgba(0, 0, 0, 0.02), 0px 7.58345px 6.06676px 0px rgba(0, 0, 0, 0.03)',
-                        fontSize: 16,
-                        gap: 16
-                      },
-                      className: 'font-sans'
-                    }}
-                  />
-                  {children}
-                </VisualBoundaryProvider>
-              </GlobalSheetProvider>
-            </TrackingProvider>
-          </AuthProvider>
+          <TrackingProvider>
+            <GlobalSheetProvider>
+              <VisualBoundaryProvider>
+                <Toaster
+                  toastOptions={{
+                    style: {
+                      borderRadius: 4,
+                      paddingBlock: 16,
+                      paddingInline: 20,
+                      boxShadow:
+                        '0px 3.15564px 2.52452px 0px rgba(0, 0, 0, 0.02), 0px 7.58345px 6.06676px 0px rgba(0, 0, 0, 0.03)',
+                      fontSize: 16,
+                      gap: 16
+                    },
+                    className: 'font-sans'
+                  }}
+                />
+                {children}
+              </VisualBoundaryProvider>
+            </GlobalSheetProvider>
+          </TrackingProvider>
           <Mouse />
         </Sentry.ErrorBoundary>
       </body>

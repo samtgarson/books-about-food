@@ -21,7 +21,7 @@ type PgEnumValue<T extends PgEnum<any>> =
   T extends PgEnum<infer U> ? U[number] : never
 
 export type BookContribution = NonNullable<BookContributions>[number]
-export type Account = NonNullable<User['accounts']>[number]
+export type { Account } from 'src/payload/payload-types'
 export type BookLinkSite = PgEnumValue<typeof enum_books_links_site>
 export type MembershipRole = PgEnumValue<typeof enum_memberships_role>
 

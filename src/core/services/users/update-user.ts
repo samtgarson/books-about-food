@@ -12,14 +12,15 @@ export const updateUser = new AuthedService(
     const data: Record<string, unknown> = params
 
     if (params.email && params.email !== user.email) {
-      data.emailVerified = null
+      data.emailVerified = false
     }
 
     return payload.update({
       collection: 'users',
       id: user.id,
       data,
-      depth: 0
+      depth: 0,
+      overrideAccess: true
     })
   }
 )

@@ -1,8 +1,8 @@
 'use client'
 
 import cn from 'classnames'
+import { authClient } from 'src/lib/auth/client'
 import { Google } from '../logos'
-import { connectAccount } from './actions'
 
 const providers = { google: { Icon: Google, label: 'Google' } }
 
@@ -18,8 +18,11 @@ export function ConnectAccountButton({
     <button
       type="button"
       className={cn('flex items-center gap-4', className)}
-      onClick={async () => {
-        await connectAccount(provider)
+      onClick={() => {
+        authClient.linkSocial({
+          provider,
+          callbackURL: '/account'
+        })
       }}
     >
       <Icon size={18} /> Connect {label}
