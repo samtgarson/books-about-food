@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument, react-hooks/rules-of-hooks */
 import { Hsl } from '../../../utils/types'
 
 interface Swatch {
@@ -35,12 +36,12 @@ export async function getColors(src: string) {
   const Vibrant = req('@vibrant/core').default
   const { BasicPipeline } = req('@vibrant/core/lib/pipeline')
   const MMCQ = req('@vibrant/quantizer-mmcq')
-  const { SharpImage } = await import('./image-class')
+  const { JimpImage } = await import('./image-class')
 
   Vibrant.DefaultOpts.quantizer = 'mmcq'
   Vibrant.DefaultOpts.generators = ['default']
   Vibrant.DefaultOpts.filters = ['default']
-  Vibrant.DefaultOpts.ImageClass = SharpImage
+  Vibrant.DefaultOpts.ImageClass = JimpImage
 
   const defaultFilter = (r: number, g: number, b: number, a: number) =>
     a >= 125 && !(r > 250 && g > 250 && b > 250)
@@ -66,8 +67,8 @@ export async function getColors(src: string) {
     }
   }
 
-  const pipeline = new BasicPipeline()
-    .filter.register('default', defaultFilter)
+  const pipeline = new BasicPipeline().filter
+    .register('default', defaultFilter)
     .quantizer.register('mmcq', MMCQ)
     .generator.register('default', DefaultGenerator)
 

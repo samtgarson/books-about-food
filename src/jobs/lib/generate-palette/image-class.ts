@@ -1,40 +1,38 @@
 import { ImageBase, ImageSource } from '@vibrant/image'
-import sharp from 'sharp'
+import { Jimp } from 'jimp'
 
-export class SharpImage extends ImageBase {
+export class JimpImage extends ImageBase {
   private _image?: ImageData
 
   async load(image: ImageSource): Promise<ImageBase> {
-    let source: Buffer | string
+    let buffer: Buffer
     if (typeof image === 'string') {
       if (image.startsWith('http')) {
         const res = await fetch(image)
-        source = Buffer.from(await res.arrayBuffer())
-      } else source = image
+        buffer = Buffer.from(await res.arrayBuffer())
+      } else {
+        return Promise.reject(new Error('File path loading not supported'))
+      }
     } else if (image instanceof Buffer) {
-      source = image
+      buffer = image
     } else {
       return Promise.reject(new Error('Invalid image source'))
     }
 
-    if (typeof image === 'string' || image instanceof Buffer) {
-      const { data, info } = await sharp(source)
-        .resize(200, 200, { fit: 'inside', withoutEnlargement: true })
-        .ensureAlpha()
-        .raw()
-        .toBuffer({ resolveWithObject: true })
-      this._image = {
-        width: info.width,
-        height: info.height,
-        data: data as never,
-        colorSpace: 'srgb'
-      }
-      return this
-    } else {
-      return Promise.reject(
-        new Error('Cannot load image from HTMLImageElement in node environment')
-      )
+    const jimpImage = await Jimp.fromBuffer(buffer)
+    jimpImage.resize({ w: 200, h: 200 })
+
+    const width = jimpImage.width
+    const height = jimpImage.height
+    const bitmap = jimpImage.bitmap
+
+    this._image = {
+      width,
+      height,
+      data: new Uint8ClampedArray(bitmap.data) as never,
+      colorSpace: 'srgb'
     }
+    return this
   }
 
   clear(): void {}

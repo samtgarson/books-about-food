@@ -1,6 +1,6 @@
 import { RetryAfterError } from 'inngest'
+import { Jimp } from 'jimp'
 import type { Payload } from 'payload'
-import sharp from 'sharp'
 import { FileUploader } from 'src/core/services/images/file-uploader'
 import { inngest } from 'src/jobs'
 import { wrapArray } from '../../utils/array'
@@ -72,7 +72,8 @@ async function convertCover(payload: Payload, id: string): Promise<JobResult> {
   if (!res.ok) return { id, status: 'failed', message: 'Failed to fetch cover' }
   const buffer = await res.arrayBuffer()
 
-  const pngBuffer = await sharp(buffer).png({ force: true }).toBuffer()
+  const image = await Jimp.fromBuffer(Buffer.from(buffer))
+  const pngBuffer = Buffer.from(await image.getBuffer('image/png'))
 
   const newCover = await payload.create({
     collection: 'images',
