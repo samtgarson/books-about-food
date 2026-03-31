@@ -43,6 +43,7 @@
     "@auth/prisma-adapter": "^2.11.1",
     "@aws-sdk/client-s3": "^3.940.0",
     "@edge-runtime/cookies": "^6.0.0",
+    "@neondatabase/serverless": "^1.0.2",
     "@payloadcms/db-postgres": "^3.70.0",
     "@payloadcms/next": "^3.70.0",
     "@payloadcms/storage-s3": "^3.70.0",

@@ -340,6 +340,9 @@ export default defineConfig(({ mode }) => ({
       // file-type: cloudflare plugin resolves to core.js (no fileTypeFromFile).
       // Payload needs the Node entry which includes filesystem-based detection.
       'file-type': path.join(__dirname, 'node_modules/file-type/index.js'),
+      // Alias pg → @neondatabase/serverless for Workers-compatible Postgres.
+      // @payloadcms/db-postgres uses `pg` (TCP), but Workers need WebSocket connections.
+      pg: '@neondatabase/serverless',
       // Payload imports next/headers.js (with .js) — must redirect to vinext shim
       'next/headers.js': path.join(vinextShimsDir, 'headers.js'),
       'next/server.js': path.join(vinextShimsDir, 'server.js'),
