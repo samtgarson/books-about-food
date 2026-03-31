@@ -211,6 +211,10 @@ function fixEdgeRuntimeCookies(): Plugin {
 }
 
 export default defineConfig(({ mode }) => ({
+  build: {
+    // mapbox-gl and sheet system produce large route-isolated chunks
+    chunkSizeWarningLimit: 2500
+  },
   plugins: [
     fixEdgeRuntimeCookies(),
     vinext(),

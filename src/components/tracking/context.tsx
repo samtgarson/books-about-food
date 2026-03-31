@@ -13,6 +13,7 @@ import {
 } from 'react'
 import { useRoute } from 'src/hooks/use-route'
 import { authClient } from 'src/lib/auth/client'
+import 'src/lib/sentry-client'
 import { TrackableEvents } from 'src/lib/tracking/events'
 import { track as action } from 'src/lib/tracking/track'
 
