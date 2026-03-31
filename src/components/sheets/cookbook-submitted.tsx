@@ -1,6 +1,7 @@
 'use client'
 import { Button } from '../atoms/button'
-import { Body, Content } from '../atoms/sheet'
+import { Body } from '../atoms/sheet'
+import { Content } from '../atoms/sheet/content'
 import { SheetComponent } from './types'
 
 export type CookbookSubmittedSheetProps = {
