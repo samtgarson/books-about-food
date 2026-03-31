@@ -20,6 +20,38 @@ export type ImageUploadButtonProps = {
 
 const sizeLimit = 5 * 1024 * 1024
 
+function cropImageClientSide(file: File, cropArea: Area): Promise<File> {
+  return new Promise((resolve, reject) => {
+    const img = new window.Image()
+    img.onload = () => {
+      const canvas = document.createElement('canvas')
+      canvas.width = cropArea.width
+      canvas.height = cropArea.height
+      const ctx = canvas.getContext('2d')
+      if (!ctx) return reject(new Error('Could not get canvas context'))
+
+      ctx.drawImage(
+        img,
+        cropArea.x,
+        cropArea.y,
+        cropArea.width,
+        cropArea.height,
+        0,
+        0,
+        cropArea.width,
+        cropArea.height
+      )
+
+      canvas.toBlob((blob) => {
+        if (!blob) return reject(new Error('Could not create blob'))
+        resolve(new File([blob], file.name, { type: 'image/png' }))
+      }, 'image/png')
+    }
+    img.onerror = () => reject(new Error('Could not load image'))
+    img.src = URL.createObjectURL(file)
+  })
+}
+
 export const ImageUploadButton = forwardRef<
   HTMLInputElement,
   ImageUploadButtonProps
@@ -35,10 +67,10 @@ export const ImageUploadButton = forwardRef<
     throw new Error('Croppable multi image upload is not supported')
   }
 
-  async function uploadImage(file: File, cropArea?: Area) {
+  async function uploadImage(file: File) {
     const fd = new FormData()
     fd.append('image', file, file.name)
-    const { data: [result] = [] } = await upload(prefix, fd, cropArea)
+    const { data: [result] = [] } = await upload(prefix, fd)
 
     return new Image(result, 'Uploaded image')
   }
@@ -85,7 +117,10 @@ export const ImageUploadButton = forwardRef<
         src={croppableImage ?? undefined}
         onSave={async (result) => {
           if (!croppableImage) return
-          const image = await uploadImage(croppableImage, result || undefined)
+          const file = result
+            ? await cropImageClientSide(croppableImage, result)
+            : croppableImage
+          const image = await uploadImage(file)
           setCroppableImage(null)
 
           onSuccess([image])

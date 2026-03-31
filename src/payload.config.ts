@@ -1,7 +1,6 @@
 import path from 'path'
 import { buildConfig } from 'payload'
 import { betterAuthPlugin } from 'payload-auth/better-auth/plugin'
-import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 import { betterAuthPluginOptions } from './lib/auth/options'
 
@@ -29,7 +28,6 @@ export default buildConfig({
   },
   db: postgres,
   upload: {},
-  sharp,
   plugins: [
     betterAuthPlugin(betterAuthPluginOptions),
     s3Storage,
