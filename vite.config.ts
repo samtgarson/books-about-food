@@ -166,17 +166,17 @@ function fixNavigationSuspense(): Plugin {
  */
 function fixRouteHandlerNextRequest(): Plugin {
   return {
-    name: "fix-route-handler-next-request",
-    enforce: "post",
+    name: 'fix-route-handler-next-request',
+    enforce: 'post',
     transform(code, id) {
-      if (!id.includes("vinext-rsc-entry")) return
+      if (!id.includes('vinext-rsc-entry')) return
 
       const original =
-        "        const response = await handlerFn(request, { params });"
+        '        const response = await handlerFn(request, { params });'
 
       const replacement =
-        "        const __routeReq = request instanceof NextRequest ? request : new NextRequest(request);\n" +
-        "        const response = await handlerFn(__routeReq, { params });"
+        '        const __routeReq = request instanceof NextRequest ? request : new NextRequest(request);\n' +
+        '        const response = await handlerFn(__routeReq, { params });'
 
       if (code.includes(original)) {
         return { code: code.replace(original, replacement), map: null }
@@ -185,8 +185,34 @@ function fixRouteHandlerNextRequest(): Plugin {
   }
 }
 
-export default defineConfig({
+/**
+ * vinext shims next/dist/compiled/@edge-runtime/cookies but only exports
+ * RequestCookies/ResponseCookies. payload-auth needs parseSetCookie from
+ * the real @edge-runtime/cookies. Rewrite the import in the source since
+ * vinext's alias takes precedence over resolveId and persists across
+ * multi-environment builds.
+ */
+function fixEdgeRuntimeCookies(): Plugin {
+  return {
+    name: 'fix-edge-runtime-cookies',
+    enforce: 'pre',
+    transform(code, id) {
+      if (!id.includes('payload-auth')) return
+      if (!code.includes('next/dist/compiled/@edge-runtime/cookies')) return
+      return {
+        code: code.replace(
+          /from ['"]next\/dist\/compiled\/@edge-runtime\/cookies['"]/g,
+          'from "@edge-runtime/cookies"'
+        ),
+        map: null
+      }
+    }
+  }
+}
+
+export default defineConfig(({ mode }) => ({
   plugins: [
+    fixEdgeRuntimeCookies(),
     vinext(),
     fixServerActionRerender(),
     fixNavigationSuspense(),
@@ -220,13 +246,17 @@ export default defineConfig({
       'next/server.js': path.join(vinextShimsDir, 'server.js'),
       'next/navigation.js': path.join(vinextShimsDir, 'navigation.js'),
       'next/cache.js': path.join(vinextShimsDir, 'cache.js'),
-      // Force dev builds of react-server-dom: the SSR dep optimizer picks the
-      // production CJS branch (esbuild doesn't evaluate NODE_ENV conditionals),
+      // Force dev builds of react-server-dom in dev only: the SSR dep optimizer
+      // picks the production CJS branch (esbuild doesn't evaluate NODE_ENV),
       // causing a dev-server/prod-client mismatch in the RSC stream.
-      '@vitejs/plugin-rsc/vendor/react-server-dom/client.edge': path.join(
-        __dirname,
-        'node_modules/@vitejs/plugin-rsc/dist/vendor/react-server-dom/cjs/react-server-dom-webpack-client.edge.development.js'
-      )
+      ...(mode === 'development'
+        ? {
+            '@vitejs/plugin-rsc/vendor/react-server-dom/client.edge': path.join(
+              __dirname,
+              'node_modules/@vitejs/plugin-rsc/dist/vendor/react-server-dom/cjs/react-server-dom-webpack-client.edge.development.js'
+            )
+          }
+        : {})
     }
   },
   css: {
@@ -263,11 +293,16 @@ export default defineConfig({
       '@tiptap/pm',
       '@tiptap/starter-kit',
       '@tiptap/extension-link',
-      '@tiptap/extension-placeholder'
+      '@tiptap/extension-placeholder',
+      // In production builds, externalize Payload UI to avoid Rollup
+      // choking on SCSS imports and RSC CSS transform export mismatches
+      ...(mode !== 'development' ? ['@payloadcms/ui', '@payloadcms/next'] : [])
     ],
     noExternal: [
-      '@payloadcms/next',
-      '@payloadcms/ui',
+      // In dev, these must be processed by Vite to resolve next/* shim aliases.
+      // In production builds, Payload packages are externalized to avoid Rollup
+      // choking on SCSS imports and RSC export mismatches.
+      ...(mode === 'development' ? ['@payloadcms/next', '@payloadcms/ui'] : []),
       'payload-auth',
       'better-auth',
       '@dnd-kit/core',
@@ -277,4 +312,4 @@ export default defineConfig({
       '@dnd-kit/accessibility'
     ]
   }
-})
+}))

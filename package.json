@@ -14,11 +14,11 @@
   "homepage": "https://github.com/samtgarson/books-about-food#readme",
   "scripts": {
     "dev": "npm run dev:web & npm run dev:jobs & wait",
-    "dev:web": "next dev --port 5000",
+    "dev:web": "NODE_OPTIONS='--import ./css-loader.mjs' vite dev --port 5000",
     "dev:jobs": "npx --ignore-scripts=false inngest-cli@latest dev",
     "dev:test": "DANGER_SEND_EMAILS=true npm run dev",
-    "build": "npm run payload migrate && next build",
-    "start": "next start",
+    "build": "npm run payload migrate && vite build",
+    "start": "NODE_OPTIONS='--import ./css-loader.mjs' vinext start",
     "lint": "NODE_OPTIONS=\"--max-old-space-size=8192\" eslint . && prettier --check --ignore-path ./.prettierignore .",
     "format": "NODE_OPTIONS=\"--max-old-space-size=8192\" eslint . --fix && prettier --write --ignore-path ./.prettierignore .",
     "type-check": "npx tsc --noEmit",
@@ -26,8 +26,9 @@
     "payload:generate": "npm run payload generate:types && rm ./src/app/\\(payload\\)/admin/importMap.js && npm run payload generate:importmap && npm run payload generate:db-schema",
     "postinstall": "patch-package",
     "prepare": "node .husky/install.mjs",
-    "dev:vinext": "NODE_OPTIONS='--import ./css-loader.mjs' vite dev --port 5000",
-    "build:vinext": "vite build"
+    "dev:next": "next dev --port 5000",
+    "build:next": "next build",
+    "start:next": "next start"
   },
   "overrides": {
     "@types/react": "19.2.14",
@@ -41,6 +42,7 @@
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.1",
     "@aws-sdk/client-s3": "^3.940.0",
+    "@edge-runtime/cookies": "^6.0.0",
     "@inngest/middleware-sentry": "^0.1.3",
     "@payloadcms/db-postgres": "^3.70.0",
     "@payloadcms/next": "^3.70.0",

@@ -6,43 +6,34 @@ Migrate this Next.js 16 + Payload CMS app to vinext (Vite-based Next.js reimplem
 
 ## Current State
 
-The vinext dev server starts, Payload CMS initializes, and the **homepage renders successfully (200)**. The RSC module graph issues are resolved for the homepage. Next steps: test other pages, client-side hydration, and production build.
+The vinext dev server works end-to-end: homepage, auth (Better Auth), account page, client-side navigation with Suspense. Auth has been migrated from NextAuth to Better Auth (which vinext supports natively). Next steps: production build, script switchover, deployment config.
 
 ## How to Test
 
 ```bash
 npm run dev:vinext
-# Server starts on port 3001
-curl http://localhost:3001/
+# Server starts on port 5000
 ```
-
-Check `/tmp/vinext-output.log` for errors after running:
-
-```bash
-npm run dev:vinext > /tmp/vinext-output.log 2>&1 &
-sleep 15
-curl -s -o /dev/null -w "%{http_code}" --max-time 60 http://localhost:3001/
-tail -30 /tmp/vinext-output.log
-```
-
-## Last Error
-
-Resolved. Was `Class extends value undefined` in `@tiptap/react` — caused by barrel export in `src/lib/editor/index.ts` pulling `@tiptap/react` into RSC graph via `EditorRenderer` → `util.ts`. Fixed by importing directly from `src/lib/editor/utils` instead of the barrel.
 
 ## Key Files Modified
 
-- **`vite.config.ts`** — Main config with 3 custom plugins (`fixServerActionRerender`, `fixRscHoistCollision`, `fixPayloadAuthjsResolve`), SSR external/noExternal lists, resolve aliases for vinext shims, optimizeDeps for CJS pre-bundling
-- **`css-loader.mjs` / `css-loader-hooks.mjs`** — Node ESM loader hooks that: stub CSS/SCSS/SVG/font imports, resolve extensionless imports in `payload-authjs`, redirect `next/*` imports to vinext shims globally
+- **`vite.config.ts`** — Main config with 4 custom plugins (`fixServerActionRerender`, `fixRscHoistCollision`, `fixNavigationSuspense`, `fixRouteHandlerNextRequest`), SSR external/noExternal lists, resolve aliases for vinext shims, optimizeDeps for CJS pre-bundling
+- **`css-loader.mjs` / `css-loader-hooks.mjs`** — Node ESM loader hooks that: stub CSS/SCSS/SVG/font imports, resolve extensionless imports in `payload-auth`, redirect `next/*` imports to vinext shims globally
 - **`postcss.config.cjs`** — Renamed from `.js` (CJS in ESM project)
 - **`prettier.config.cjs`** — Renamed from `.js` (CJS in ESM project)
 - **`package.json`** — Added `"type": "module"`, vinext/vite/rsc/sass devDeps, `dev:vinext` and `build:vinext` scripts
-- **`src/email/tailwind.config.ts`** — Converted from CJS to ESM
-- **`src/email/index.tsx`** — Fixed `open` CJS import (`import pkg from 'open'`)
-- **`src/components/form/select/index.tsx`** — Changed `export *` to named type exports (RSC plugin limitation)
-- **`src/components/atoms/sheet/index.tsx`** — Changed `export *` to named exports (RSC plugin limitation)
-- **`src/lib/editor/menu-actions.ts`** — Import from `@tiptap/core` instead of `@tiptap/react`
-- **`src/jobs/lib/generate-palette/get-colors.ts`** — Lazy-load `@vibrant/*` CJS packages inside function body to avoid Vite module runner CJS interop failures
-- **`src/components/form/editor/util.ts`** — Import from `src/lib/editor/utils` instead of barrel to avoid pulling `@tiptap/react` into RSC graph
+- **`src/auth.ts`** — Migrated from NextAuth/payload-authjs to Better Auth/payload-auth
+- **`src/lib/auth/options.ts`** — Better Auth configuration (Google OAuth, magic links, custom session)
+- **`src/lib/auth/client.ts`** — Better Auth client
+- **`src/utils/user.ts`** — Uses `auth.api.getSession({ headers })` instead of NextAuth `auth()`
+- **`src/components/auth/*`** — Updated sign-in/sign-out to use Better Auth client + server actions
+
+## Vite Plugins (in vite.config.ts)
+
+1. **`fixServerActionRerender`** — Skip root re-render when server action returns data (prevents Payload Form infinite loop)
+2. **`fixNavigationSuspense`** — Replace `flushSync` with `startTransition` in navigation renders (fixes Suspense boundaries)
+3. **`fixRouteHandlerNextRequest`** — Wrap raw Request as NextRequest for App Router route handlers (Better Auth needs `.nextUrl`)
+4. **`fixRscHoistCollision`** — Rename colliding `cookies` variable in Payload's switchLanguageServerAction
 
 ## Issues Already Resolved
 
@@ -55,15 +46,20 @@ Resolved. Was `Class extends value undefined` in `@tiptap/react` — caused by b
 7. **`@vibrant/*` CJS interop** — Lazy-loaded with `createRequire` inside function
 8. **`open` CJS named exports** — Changed to default import + destructure
 9. **CJS config files** — Renamed to `.cjs`
-10. **`@tiptap/react` in RSC graph** — Barrel import in `util.ts` pulled `@tiptap/react` into server render via `EditorRenderer`. Fixed by importing directly from submodule + added `@tiptap/*` to `ssr.external`
+10. **`@tiptap/react` in RSC graph** — Barrel import pulled `@tiptap/react` into server render; fixed by importing directly from submodule + added `@tiptap/*` to `ssr.external`
+11. **react-server-dom dev/prod mismatch** — Resolve alias forcing development CJS build
+12. **Navigation Suspense stuck** — `flushSync` prevents Suspense retry; replaced with `startTransition`
+13. **Route handler raw Request** — vinext passes plain Request, Better Auth needs NextRequest; wrapped in plugin
+14. **next-auth incompatibility** — Migrated to Better Auth (payload-auth plugin)
+15. **Google logo 400 via image optimizer** — Changed from `next/image` to native `<img>` for inline SVG
+16. **@vercel/speed-insights removed** — Not needed with vinext; inlined `computeRoute` in `useRoute`
+17. **Next.js generated types (RouteContext/LayoutProps)** — Replaced with inline types
 
 ## Pattern for Fixing Future Errors
 
-The errors follow a pattern:
-
 - **"Cannot find module X"** → Add to ESM loader resolve hook or Vite resolve alias
 - **"Unknown file extension .css/.svg"** → Add extension to STUB_EXTENSIONS in css-loader-hooks.mjs
-- **"\_\_cjs_module_runner_transform" / "Class extends undefined"** → Package can't run in Vite's module runner. Either externalize to Node (`ssr.external`), lazy-load with `createRequire`, or fix the import chain so it's not loaded in RSC
+- **"\_\_cjs_module_runner_transform" / "Class extends undefined"** → Package can't run in Vite's module runner. Either externalize to Node (`ssr.external`), lazy-load with `createRequire`, or fix the import chain
 - **"Named export X not found" (CJS)** → Change to default import + destructure, or add to `ssr.external`
 - **"unsupported ExportAllDeclaration"** → Convert `export *` to named exports in `"use client"` files
 - **"Identifier X already declared"** → RSC hoisting collision, handle in `fixRscHoistCollision` plugin
@@ -75,9 +71,12 @@ The approach is based on https://github.com/payloadcms/payload/discussions/15761
 ## What's NOT Done Yet
 
 - ~~Full homepage render~~ ✅ Done
-- Test other pages and client-side hydration
-- Switching main `dev`/`build`/`start` scripts from Next.js to vinext
+- ~~Auth (next-auth)~~ ✅ Done (migrated to Better Auth)
+- ~~Client-side navigation with Suspense~~ ✅ Done
+- ~~Account page / authenticated pages~~ ✅ Done
+- ~~Production build (`vite build`)~~ ✅ Done
+- ~~Switch main `dev`/`build`/`start` scripts~~ ✅ Done (old scripts kept as `:next` variants)
 - Sentry integration (client works, server needs manual setup)
-- next-auth compatibility (flagged as incompatible, may need migration to better-auth)
-- Production build (`vinext build`)
 - Deployment configuration
+- Fix circular dependency warnings (sheet/content.tsx re-exports)
+- Optimize large chunks (mapbox-gl, cookbook-submitted)

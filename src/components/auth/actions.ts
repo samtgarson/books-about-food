@@ -10,14 +10,16 @@ export async function emailSignIn({
   email: string
   redirect?: string
 }) {
-  await (
-    auth.api as unknown as {
-      signInMagicLink: (opts: {
-        body: { email: string; callbackURL: string }
-        headers: Headers
-      }) => Promise<unknown>
-    }
-  ).signInMagicLink({
+  // auth.api doesn't carry magic-link plugin types because PayloadAuthOptions
+  // erases plugin generics. This is a payload-auth typing limitation.
+  const api = auth.api as typeof auth.api & {
+    signInMagicLink: (opts: {
+      body: { email: string; callbackURL: string }
+      headers: Headers
+    }) => Promise<{ status: boolean }>
+  }
+
+  await api.signInMagicLink({
     body: {
       email,
       callbackURL: redirect || '/'
