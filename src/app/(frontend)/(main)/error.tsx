@@ -1,6 +1,5 @@
 'use client'
 
-import * as Sentry from '@sentry/nextjs'
 import { useEffect } from 'react'
 import { Button } from 'src/components/atoms/button'
 import { Container } from 'src/components/atoms/container'
@@ -16,7 +15,7 @@ export default function Error({
 }) {
   const { setTheme } = useNav()
   useEffect(() => {
-    Sentry.captureException(error)
+    console.error(error)
     setTheme('dark')
   }, [error, setTheme])
 

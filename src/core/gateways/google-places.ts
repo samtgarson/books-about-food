@@ -1,4 +1,3 @@
-import { captureException } from '@sentry/nextjs'
 import { z } from 'zod'
 import { BaseGoogleGateway } from './google/base-gateway'
 
@@ -89,12 +88,9 @@ export class GooglePlacesGateway extends BaseGoogleGateway {
     )
 
     if (!response.ok) {
-      captureException(new Error('Google Places autocomplete request failed'), {
-        data: {
-          status: response.status,
-          statusText: response.statusText,
-          body: await response.text()
-        }
+      console.error('Google Places autocomplete request failed', {
+        status: response.status,
+        statusText: response.statusText
       })
       return []
     }

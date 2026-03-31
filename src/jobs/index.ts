@@ -1,4 +1,3 @@
-import { sentryMiddleware } from '@inngest/middleware-sentry'
 import { EventSchemas, Inngest } from 'inngest'
 import { EmailTemplate } from 'src/email'
 import { payloadMiddleware } from './middleware'
@@ -6,10 +5,6 @@ import { payloadMiddleware } from './middleware'
 const middleware: NonNullable<
   ConstructorParameters<typeof Inngest>[0]['middleware']
 > = [payloadMiddleware]
-
-if (process.env.SENTRY_DSN) {
-  middleware.push(sentryMiddleware())
-}
 
 type JobData<Data extends Record<string, unknown>> = {
   data: Data

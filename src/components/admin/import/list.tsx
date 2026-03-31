@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/nextjs'
 import { Accordion } from 'radix-ui'
 import { ChangeEvent, useMemo, useState } from 'react'
 import { Button } from 'src/components/atoms/button'
@@ -41,11 +40,7 @@ export function ImportList({
     if (!result.success || result.data.length === 0) {
       const firstError = result.errors?.[0]
       if (firstError) {
-        Sentry.withScope((scope) => {
-          scope.setExtra('errors', result.errors)
-          Sentry.captureMessage('Import Error')
-        })
-
+        console.error('Import Error', result.errors)
         errorToast('Something went wrong', {
           description: `${firstError.field}: ${firstError.message}`
         })

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import * as Sentry from '@sentry/nextjs'
 import { Payload } from 'payload'
 import { z } from 'zod'
 import { User } from '../types'
@@ -90,7 +89,6 @@ abstract class BaseService<
         input
       })
       if (isServiceError(e)) return e
-      Sentry.captureException(e)
       return {
         success: false,
         errors: [AppError.fromError(e).toJSON()]
