@@ -39,6 +39,7 @@
   "exclude": [
     "node_modules",
     "dist",
+    "worker",
     "eslint.config.mjs",
     "next.config.mjs",
     "css-loader-hooks.mjs",
