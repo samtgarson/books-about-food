@@ -1,6 +1,8 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 // eslint-disable-next-line import-x/no-extraneous-dependencies
+import { cloudflare } from '@cloudflare/vite-plugin'
+// eslint-disable-next-line import-x/no-extraneous-dependencies
 import vinext from 'vinext'
 // eslint-disable-next-line import-x/no-extraneous-dependencies
 import { defineConfig, type Plugin } from 'vite'
@@ -210,14 +212,104 @@ function fixEdgeRuntimeCookies(): Plugin {
   }
 }
 
+/**
+ * Stub SCSS imports inside @payloadcms packages during production builds.
+ * Rollup can't process SCSS and fails to analyze modules that import it,
+ * causing "is not exported" errors even though the JS exports are valid.
+ */
+function stubPayloadScss(): Plugin {
+  return {
+    name: 'stub-payload-scss',
+    enforce: 'pre',
+    // Strip SCSS import lines from @payloadcms and payload-auth source files.
+    // Rollup's static export analysis runs before resolveId, so we must remove
+    // the import at the source level to prevent parse failures.
+    transform(code, id) {
+      if (
+        (id.includes('@payloadcms') || id.includes('payload-auth')) &&
+        code.includes('.scss')
+      ) {
+        return {
+          code: code.replace(/^import\s+['"][^'"]*\.scss['"];?\s*$/gm, ''),
+          map: null
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Stub native Node.js modules (sharp, etc.) for Cloudflare Workers builds.
+ * These modules use native binaries that can't run in the Workers runtime.
+ * Image processing is handled by the Cloudflare Images binding instead.
+ */
+function stubNativeModules(): Plugin {
+  const stubbed = [
+    'sharp',
+    'pino',
+    'pino-pretty',
+    'console-table-printer',
+    'open'
+  ]
+  return {
+    name: 'stub-native-modules',
+    enforce: 'pre',
+    resolveId(source) {
+      if (stubbed.includes(source)) {
+        return { id: `\0stub-native:${source}`, moduleSideEffects: false }
+      }
+    },
+    load(id) {
+      if (id.startsWith('\0stub-native:')) {
+        return 'export default undefined'
+      }
+    }
+  }
+}
+
+/**
+ * Guard fileURLToPath(import.meta.url) calls for Cloudflare Workers where
+ * import.meta.url may be undefined in bundled code.
+ */
+function fixImportMetaUrl(): Plugin {
+  return {
+    name: 'fix-import-meta-url',
+    enforce: 'pre',
+    transform(code, id) {
+      if (
+        id.includes('node_modules') &&
+        code.includes('fileURLToPath') &&
+        code.includes('import.meta.url')
+      ) {
+        return {
+          code: code.replace(
+            /fileURLToPath\(import\.meta\.url\)/g,
+            '(typeof import.meta.url === "string" && import.meta.url.startsWith("file:") ? fileURLToPath(import.meta.url) : "/")'
+          ),
+          map: null
+        }
+      }
+    }
+  }
+}
+
 export default defineConfig(({ mode }) => ({
+  define: {
+    // Provide __dirname fallback for CJS modules running in Workers runtime
+    __dirname: JSON.stringify('/')
+  },
   build: {
     // mapbox-gl and sheet system produce large route-isolated chunks
     chunkSizeWarningLimit: 2500
   },
   plugins: [
     fixEdgeRuntimeCookies(),
+    stubNativeModules(),
+    ...(mode !== 'development' ? [stubPayloadScss(), fixImportMetaUrl()] : []),
     vinext(),
+    cloudflare({
+      viteEnvironment: { name: 'rsc', childEnvironments: ['ssr'] }
+    }),
     fixServerActionRerender(),
     fixNavigationSuspense(),
     fixRouteHandlerNextRequest(),
@@ -245,6 +337,9 @@ export default defineConfig(({ mode }) => ({
   },
   resolve: {
     alias: {
+      // file-type: cloudflare plugin resolves to core.js (no fileTypeFromFile).
+      // Payload needs the Node entry which includes filesystem-based detection.
+      'file-type': path.join(__dirname, 'node_modules/file-type/index.js'),
       // Payload imports next/headers.js (with .js) — must redirect to vinext shim
       'next/headers.js': path.join(vinextShimsDir, 'headers.js'),
       'next/server.js': path.join(vinextShimsDir, 'server.js'),
@@ -271,42 +366,21 @@ export default defineConfig(({ mode }) => ({
     }
   },
   ssr: {
+    // With the cloudflare vite plugin, externalized packages must still be
+    // resolvable at runtime. Node.js-only packages are stubbed instead
+    // (see stubNativeModules). TipTap is externalized because it's
+    // client-only and causes SSR issues when bundled.
     external: [
-      'payload',
-      'payload/shared',
-      '@payloadcms/db-postgres',
-      '@payloadcms/graphql',
-      '@payloadcms/richtext-lexical',
-      '@payloadcms/storage-s3',
-      '@payloadcms/translations',
-      'sharp',
-      'drizzle-kit',
-      'drizzle-orm',
-      'graphql',
-      'pino',
-      'pino-pretty',
-      'console-table-printer',
-      'pluralize',
-      'open',
-      '@vercel/functions',
-      '@vibrant/color',
-      '@vibrant/core',
-      '@vibrant/quantizer-mmcq',
       '@tiptap/core',
       '@tiptap/react',
       '@tiptap/pm',
       '@tiptap/starter-kit',
       '@tiptap/extension-link',
-      '@tiptap/extension-placeholder',
-      // In production builds, externalize Payload UI to avoid Rollup
-      // choking on SCSS imports and RSC CSS transform export mismatches
-      ...(mode !== 'development' ? ['@payloadcms/ui', '@payloadcms/next'] : [])
+      '@tiptap/extension-placeholder'
     ],
     noExternal: [
-      // In dev, these must be processed by Vite to resolve next/* shim aliases.
-      // In production builds, Payload packages are externalized to avoid Rollup
-      // choking on SCSS imports and RSC export mismatches.
-      ...(mode === 'development' ? ['@payloadcms/next', '@payloadcms/ui'] : []),
+      '@payloadcms/next',
+      '@payloadcms/ui',
       'payload-auth',
       'better-auth',
       '@dnd-kit/core',

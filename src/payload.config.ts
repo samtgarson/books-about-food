@@ -10,8 +10,10 @@ import { postgres } from './payload/config/postgres'
 import { s3Storage } from './payload/config/s3-storage'
 import { cacheRevalidationPlugin } from './payload/plugins/cache-revalidation'
 
-const filename = fileURLToPath(import.meta.url)
-const dirname = path.dirname(filename)
+const dirname =
+  typeof import.meta.url === 'string' && import.meta.url.startsWith('file:')
+    ? path.dirname(fileURLToPath(import.meta.url))
+    : '.'
 
 export default buildConfig({
   admin: {
