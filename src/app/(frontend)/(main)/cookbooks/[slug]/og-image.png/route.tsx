@@ -24,7 +24,7 @@ const bookShadow = `
 
 export async function GET(
   _request: NextRequest,
-  props: RouteContext<'/cookbooks/[slug]/og-image.png'>
+  props: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await props.params
 

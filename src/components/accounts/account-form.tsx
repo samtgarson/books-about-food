@@ -16,13 +16,14 @@ import { updateAccountAction } from './form-action'
 import { AccountHeader } from './header'
 
 export function AccountForm({
-  user,
+  user: initialUser,
   accounts: initialAccounts
 }: {
   user: User
   accounts: Account[]
 }) {
   const { update: updateSession } = useUpdateSession()
+  const [user, setUser] = useState(initialUser)
   const [accounts, setAccounts] = useState(initialAccounts)
   const googleAccount = accounts?.find(
     (account) => account.providerId === 'google'
@@ -63,9 +64,12 @@ export function AccountForm({
             result.data.email &&
             result.data.email !== user.email &&
             !result.data?.emailVerified
-          )
+          ) {
             sendVerification(result.data.email)
-          else successToast('Account updated')
+            return
+          }
+          setUser(result.data)
+          successToast('Account updated')
         }}
         autoSubmit
       >

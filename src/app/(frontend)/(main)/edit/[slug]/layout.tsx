@@ -5,9 +5,9 @@ import { Container } from 'src/components/atoms/container'
 import { fetchBook } from 'src/core/services/books/fetch-book'
 import { call } from 'src/utils/service'
 
-export async function generateMetadata(
-  props: LayoutProps<'/edit/[slug]'>
-): Promise<Metadata> {
+export async function generateMetadata(props: {
+  params: Promise<{ slug: string }>
+}): Promise<Metadata> {
   const { slug } = await props.params
 
   const { data: book } = await call(fetchBook, { slug })

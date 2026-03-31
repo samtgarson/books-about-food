@@ -7,7 +7,7 @@ import { call } from 'src/utils/service'
 
 export async function GET(
   _request: NextRequest,
-  props: RouteContext<'/collections/[slug]/og-image.png'>
+  props: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await props.params
 

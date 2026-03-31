@@ -1,9 +1,13 @@
 import { notFound } from 'next/navigation'
+import { ReactNode } from 'react'
 import { PageBackLink } from 'src/components/atoms/page-back-link'
 import { fetchBook } from 'src/core/services/books/fetch-book'
 import { call } from 'src/utils/service'
 
-export default async function EditLayout(props: LayoutProps<'/edit/[slug]'>) {
+export default async function EditLayout(props: {
+  children: ReactNode
+  params: Promise<{ slug: string }>
+}) {
   const { children, params } = props
   const { slug } = await params
 

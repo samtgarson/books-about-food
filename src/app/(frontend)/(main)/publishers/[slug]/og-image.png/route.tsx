@@ -27,7 +27,7 @@ export const revalidate = 3600
 
 export async function GET(
   _request: NextRequest,
-  props: RouteContext<'/publishers/[slug]/og-image.png'>
+  props: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await props.params
 
