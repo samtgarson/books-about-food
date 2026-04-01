@@ -239,6 +239,56 @@ function stubPayloadScss(): Plugin {
 }
 
 /**
+ * Patch node_modules sources before Vite starts for Workers compatibility.
+ * - drizzle-kit/api: Stub migration tooling import (not needed at runtime)
+ * - pluralize: Fix UMD wrapper that uses `this` as root (undefined in ESM strict mode)
+ */
+function patchNodeModules(): Plugin {
+  const patches: Array<{
+    file: string
+    find: string | RegExp
+    replace: string
+  }> = [
+    {
+      file: 'node_modules/@payloadcms/drizzle/dist/postgres/requireDrizzleKit.js',
+      find: "require('drizzle-kit/api')",
+      replace: '({})'
+    },
+    {
+      // pluralize uses `(function(root, pluralize) { ... })(this, ...)` where
+      // `this` is undefined in ESM strict mode. Replace with globalThis.
+      file: 'node_modules/pluralize/pluralize.js',
+      find: '})(this, function () {',
+      replace:
+        '})(typeof globalThis !== "undefined" ? globalThis : {}, function () {'
+    }
+  ]
+  return {
+    name: 'patch-node-modules',
+    enforce: 'pre',
+    async config() {
+      const fs = await import('node:fs/promises')
+      for (const patch of patches) {
+        const filePath = path.join(__dirname, patch.file)
+        try {
+          const content = await fs.readFile(filePath, 'utf-8')
+          if (
+            content.includes(typeof patch.find === 'string' ? patch.find : '')
+          ) {
+            await fs.writeFile(
+              filePath,
+              content.replace(patch.find, patch.replace)
+            )
+          }
+        } catch {
+          // File may not exist
+        }
+      }
+    }
+  }
+}
+
+/**
  * Stub native Node.js modules (sharp, etc.) for Cloudflare Workers builds.
  * These modules use native binaries that can't run in the Workers runtime.
  * Image processing is handled by the Cloudflare Images binding instead.
@@ -261,7 +311,8 @@ function stubNativeModules(): Plugin {
     },
     load(id) {
       if (id.startsWith('\0stub-native:')) {
-        return 'export default undefined'
+        // Return an empty object (not undefined) so destructuring doesn't crash
+        return 'export default {}; export const apps = {};'
       }
     }
   }
@@ -296,7 +347,9 @@ function fixImportMetaUrl(): Plugin {
 export default defineConfig(({ mode }) => ({
   define: {
     // Provide __dirname fallback for CJS modules running in Workers runtime
-    __dirname: JSON.stringify('/')
+    __dirname: JSON.stringify('/'),
+    // Workers runtime throws on console.createTask access — stub it out
+    'console.createTask': 'undefined'
   },
   build: {
     // mapbox-gl and sheet system produce large route-isolated chunks
@@ -304,6 +357,7 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     fixEdgeRuntimeCookies(),
+    patchNodeModules(),
     stubNativeModules(),
     ...(mode !== 'development' ? [stubPayloadScss(), fixImportMetaUrl()] : []),
     vinext(),
@@ -340,9 +394,12 @@ export default defineConfig(({ mode }) => ({
       // file-type: cloudflare plugin resolves to core.js (no fileTypeFromFile).
       // Payload needs the Node entry which includes filesystem-based detection.
       'file-type': path.join(__dirname, 'node_modules/file-type/index.js'),
-      // Alias pg → @neondatabase/serverless for Workers-compatible Postgres.
+      // Alias pg → @neondatabase/serverless for Workers builds only.
       // @payloadcms/db-postgres uses `pg` (TCP), but Workers need WebSocket connections.
-      pg: '@neondatabase/serverless',
+      // In development, keep standard pg for local Postgres.
+      ...(mode !== 'development'
+        ? { pg: path.join(__dirname, 'src/lib/pg-shim.ts') }
+        : {}),
       // Payload imports next/headers.js (with .js) — must redirect to vinext shim
       'next/headers.js': path.join(vinextShimsDir, 'headers.js'),
       'next/server.js': path.join(vinextShimsDir, 'server.js'),
@@ -368,6 +425,16 @@ export default defineConfig(({ mode }) => ({
       }
     }
   },
+  environments: {
+    // Exclude Payload packages from RSC dep optimization so the RSC plugin
+    // can properly handle "use client" directives as client references
+    // instead of evaluating them in the react-server context.
+    rsc: {
+      optimizeDeps: {
+        exclude: ['@payloadcms/next', '@payloadcms/ui']
+      }
+    }
+  },
   ssr: {
     // With the cloudflare vite plugin, externalized packages must still be
     // resolvable at runtime. Node.js-only packages are stubbed instead
@@ -382,8 +449,6 @@ export default defineConfig(({ mode }) => ({
       '@tiptap/extension-placeholder'
     ],
     noExternal: [
-      '@payloadcms/next',
-      '@payloadcms/ui',
       'payload-auth',
       'better-auth',
       '@dnd-kit/core',

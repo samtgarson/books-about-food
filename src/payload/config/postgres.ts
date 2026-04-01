@@ -10,6 +10,7 @@ const dirname =
 export const postgres = postgresAdapter({
   idType: 'uuid',
   schemaName: 'payload',
+  push: false,
   pool: {
     connectionString: process.env.DATABASE_URL
   },
