@@ -4,13 +4,22 @@ import { stringify } from './superjson'
 
 const CACHE_VERSION = 'v1'
 const ROOT_SKIP = !!process.env.SKIP_REDIS_CACHE
+const REDIS_AVAILABLE =
+  !!process.env.UPSTASH_REDIS_URL && !!process.env.UPSTASH_REDIS_TOKEN
 
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_URL,
-  token: process.env.UPSTASH_REDIS_TOKEN,
-  cache: 'default',
-  enableAutoPipelining: true
-})
+let redis: Redis | null = null
+function getRedis() {
+  if (!REDIS_AVAILABLE) return null
+  if (!redis) {
+    redis = new Redis({
+      url: process.env.UPSTASH_REDIS_URL!,
+      token: process.env.UPSTASH_REDIS_TOKEN!,
+      cache: 'default',
+      enableAutoPipelining: true
+    })
+  }
+  return redis
+}
 
 export async function getOrPopulateKv<R>(
   keys: string[],
@@ -25,11 +34,12 @@ export async function getOrPopulateKv<R>(
     skipResult?: (data: R) => boolean
   } = {}
 ): Promise<R> {
-  if (!enabled || ROOT_SKIP) return exec()
+  const client = getRedis()
+  if (!enabled || ROOT_SKIP || !client) return exec()
 
   const key = ['baf', CACHE_VERSION, ...keys].join(':')
   try {
-    const cached = await redis.get<SuperJSONResult>(key)
+    const cached = await client.get<SuperJSONResult>(key)
     if (cached) {
       return deserialize(cached)
     }
@@ -42,7 +52,7 @@ export async function getOrPopulateKv<R>(
   if (skipResult?.(data)) return data
   const stringified = stringify(data)
   try {
-    await redis.set(key, stringified, { ex: expiry })
+    await client.set(key, stringified, { ex: expiry })
   } catch (e) {
     console.error('Failed to set cache:', e)
   }

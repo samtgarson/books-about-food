@@ -261,6 +261,14 @@ function patchNodeModules(): Plugin {
       find: '})(this, function () {',
       replace:
         '})(typeof globalThis !== "undefined" ? globalThis : {}, function () {'
+    },
+    {
+      // vinext's cookies shim only exports RequestCookies/ResponseCookies but
+      // payload-auth imports parseSetCookie. Re-export from the real package.
+      file: 'node_modules/vinext/dist/shims/internal/cookies.js',
+      find: 'export { RequestCookies, ResponseCookies };',
+      replace:
+        'export { RequestCookies, ResponseCookies };\nexport { parseSetCookie } from "@edge-runtime/cookies";'
     }
   ]
   return {
