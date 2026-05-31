@@ -48,14 +48,19 @@ export function genMetadata(
   return metadata
 }
 
-export const bookTotal = (async () => {
+// Must stay a function (not a module-scope IIFE): on Cloudflare Workers,
+// querying the DB at module-evaluation runs in "global scope" where async I/O
+// is forbidden. That failed init poisons Payload's getPayload cache (the failed
+// entry makes every later init skip onInit), which breaks betterAuth and other
+// onInit-dependent features. Defer the query to request time.
+export async function bookTotal() {
   const payload = await getPayloadClient()
   const { totalDocs } = await payload.count({
     collection: 'books',
     where: { status: { equals: 'published' } }
   })
   return totalDocs
-})()
+}
 
 export async function profileTotal() {
   const payload = await getPayloadClient()
@@ -69,7 +74,8 @@ export async function profileTotal() {
   return totalDocs
 }
 
-export const publisherTotal = (async () => {
+// Lazy for the same reason as bookTotal — no DB I/O at module scope.
+export async function publisherTotal() {
   const payload = await getPayloadClient()
   const { totalDocs } = await payload.count({
     collection: 'publishers',
@@ -78,4 +84,4 @@ export const publisherTotal = (async () => {
     }
   })
   return totalDocs
-})()
+}

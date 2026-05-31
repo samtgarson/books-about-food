@@ -188,7 +188,7 @@ export async function generateMetadata(
   const { slug } = await props.params
   const [{ data: book }, count] = await Promise.all([
     call(fetchBook, { slug, onlyPublished: true }),
-    bookTotal
+    bookTotal()
   ])
   if (!book) notFound()
 

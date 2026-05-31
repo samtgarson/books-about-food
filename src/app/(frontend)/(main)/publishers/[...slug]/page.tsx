@@ -41,7 +41,7 @@ export async function generateMetadata(
 
   const [{ data: publisher }, total] = await Promise.all([
     call(fetchPublisher, { slug }),
-    publisherTotal
+    publisherTotal()
   ])
   if (!publisher) notFound()
 
