@@ -1,4 +1,12 @@
 import { toNextJsHandler } from 'better-auth/next-js'
-import { auth } from 'src/auth'
+import { getAuth } from 'src/auth'
 
-export const { POST, GET } = toNextJsHandler(auth)
+export async function POST(request: Request) {
+  const auth = await getAuth()
+  return toNextJsHandler(auth).POST(request)
+}
+
+export async function GET(request: Request) {
+  const auth = await getAuth()
+  return toNextJsHandler(auth).GET(request)
+}

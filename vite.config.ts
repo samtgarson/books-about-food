@@ -146,36 +146,86 @@ function stubNativeModules(): Plugin {
       }
     },
     load(id) {
-      if (id.startsWith('\0stub-native:')) {
-        // Return an empty object (not undefined) so destructuring doesn't crash
-        return 'export default {}; export const apps = {};'
+      if (!id.startsWith('\0stub-native:')) return
+      const source = id.slice('\0stub-native:'.length)
+      // The production build statically analyzes named imports, so each
+      // stubbed module must provide every named export its consumers use.
+      // These modules are never meaningfully invoked at runtime in Workers,
+      // but pino must produce a usable logger (Payload calls .info/.warn/etc).
+      switch (source) {
+        case 'pino': {
+          // Console-backed logger so Payload's logging works in Workers.
+          return [
+            'const noop = () => {}',
+            'function makeLogger() {',
+            '  const l = {',
+            '    info: (...a) => console.log(...a),',
+            '    warn: (...a) => console.warn(...a),',
+            '    error: (...a) => console.error(...a),',
+            '    debug: (...a) => console.debug(...a),',
+            '    fatal: (...a) => console.error(...a),',
+            '    trace: noop,',
+            '    silent: noop,',
+            '    level: "info",',
+            '    child: () => makeLogger(),',
+            '    flush: noop',
+            '  }',
+            '  return l',
+            '}',
+            'export function pino() { return makeLogger() }',
+            'pino.stdSerializers = {}',
+            'pino.stdTimeFunctions = {}',
+            'pino.destination = () => ({})',
+            'pino.transport = () => ({})',
+            'export default pino'
+          ].join('\n')
+        }
+        case 'pino-pretty':
+          // build() returns a destination/options object consumed by pino,
+          // which our pino stub ignores.
+          return 'export function build() { return {} }\nexport default build'
+        case 'console-table-printer':
+          return 'export class Table { constructor() {} addRow() {} addRows() {} printTable() {} render() { return "" } }\nexport default { Table }'
+        case 'open':
+          return 'export const apps = {}\nexport default function open() { return Promise.resolve() }'
+        default:
+          // sharp and any other native module — Payload guards `if (sharp)`.
+          return 'export default {}'
       }
     }
   }
 }
 
 /**
- * Guard fileURLToPath(import.meta.url) calls for Cloudflare Workers where
- * import.meta.url may be undefined in bundled code.
+ * Guard import.meta.url-based calls for Cloudflare Workers where
+ * import.meta.url may be undefined in bundled code. Covers:
+ *   - fileURLToPath(import.meta.url)  -> "/" fallback
+ *   - createRequire(import.meta.url)  -> "file:///" fallback so the
+ *     module evaluates (the returned require isn't usable in Workers, but
+ *     guarding the call prevents a startup crash).
  */
 function fixImportMetaUrl(): Plugin {
   return {
     name: 'fix-import-meta-url',
     enforce: 'pre',
     transform(code, id) {
-      if (
-        id.includes('node_modules') &&
-        code.includes('fileURLToPath') &&
-        code.includes('import.meta.url')
-      ) {
-        return {
-          code: code.replace(
-            /fileURLToPath\(import\.meta\.url\)/g,
-            '(typeof import.meta.url === "string" && import.meta.url.startsWith("file:") ? fileURLToPath(import.meta.url) : "/")'
-          ),
-          map: null
-        }
+      if (!id.includes('node_modules') || !code.includes('import.meta.url')) {
+        return
       }
+      let out = code
+      if (out.includes('fileURLToPath')) {
+        out = out.replace(
+          /fileURLToPath\(import\.meta\.url\)/g,
+          '(typeof import.meta.url === "string" && import.meta.url.startsWith("file:") ? fileURLToPath(import.meta.url) : "/")'
+        )
+      }
+      if (out.includes('createRequire')) {
+        out = out.replace(
+          /createRequire\(import\.meta\.url\)/g,
+          'createRequire(typeof import.meta.url === "string" && import.meta.url.startsWith("file:") ? import.meta.url : "file:///")'
+        )
+      }
+      if (out !== code) return { code: out, map: null }
     }
   }
 }

@@ -1,7 +1,7 @@
 'use server'
 
 import { headers } from 'next/headers'
-import { auth } from 'src/auth'
+import { getAuth } from 'src/auth'
 
 export async function emailSignIn({
   email,
@@ -10,6 +10,7 @@ export async function emailSignIn({
   email: string
   redirect?: string
 }) {
+  const auth = await getAuth()
   // auth.api doesn't carry magic-link plugin types because PayloadAuthOptions
   // erases plugin generics. This is a payload-auth typing limitation.
   const api = auth.api as typeof auth.api & {
@@ -29,6 +30,7 @@ export async function emailSignIn({
 }
 
 export async function signOut() {
+  const auth = await getAuth()
   await auth.api.signOut({
     headers: await headers()
   })

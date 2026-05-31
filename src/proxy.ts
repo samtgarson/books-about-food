@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { auth } from './auth'
+import { getAuth } from './auth'
 
 const protectedPath = (pathname: string) =>
   ['/admin', '/account', '/edit'].some((path) => pathname.startsWith(path))
@@ -13,6 +13,7 @@ export default async function proxy(request: NextRequest) {
   }
 
   if (protectedPath(request.nextUrl.pathname)) {
+    const auth = await getAuth()
     const session = await auth.api.getSession({
       headers: request.headers
     })

@@ -1,6 +1,6 @@
 import { headers } from 'next/headers'
 import { cache } from 'react'
-import { auth } from 'src/auth'
+import { getAuth } from 'src/auth'
 import { extractRole } from 'src/core/services/users/utils'
 import { User, UserRole } from 'src/core/types'
 
@@ -15,6 +15,7 @@ type SessionUser = {
 }
 
 export const getSessionUser = cache(async (): Promise<User | null> => {
+  const auth = await getAuth()
   const session = await auth.api.getSession({
     headers: await headers()
   })
