@@ -1,13 +1,3 @@
-/*
-  vinext bundles all route-group layout CSS into one shared stylesheet, so the
-  Payload admin styles (imported in (payload)/layout.tsx via @payloadcms/next/css)
-  leak onto the frontend. Payload scopes its rules in `@layer payload`; declaring
-  the layer order here with `payload` first makes it the LOWEST priority, so
-  Tailwind's Preflight + utilities win on the frontend (fonts, heading sizes, and
-  img sizing). Must precede the Tailwind import — first @layer declaration wins.
-*/
-@layer payload, payload-default, theme, base, components, utilities;
-
 @import 'tailwindcss';
 
 @plugin '@tailwindcss/typography';
@@ -18,6 +8,30 @@
 @custom-variant list-container (&:where(.grid-container.flex *));
 
 @custom-variant short (@media (max-height: 650px));
+
+/*
+  vinext bundles every route-group layout's CSS into one shared stylesheet, so
+  Payload's admin styles (imported via @payloadcms/next/css in (payload)/layout.tsx)
+  leak onto the frontend. Payload's `payload-default` layer sets html font-size,
+  and body / h1–h6 / form-element font-family with no Tailwind counterpart, so
+  they win even though they're in a cascade layer.
+
+  These overrides are UNLAYERED (so they beat any @layer, including Payload's)
+  and scoped to `html:not([data-theme])` — the Payload admin root carries
+  `data-theme`, so the admin keeps its own styling untouched. Do NOT reorder
+  cascade layers globally to fix this: layers are document-wide and the admin
+  shares this stylesheet, so deprioritising Payload's layers breaks the admin.
+*/
+html:not([data-theme]) {
+  font-size: 16px;
+}
+html:not([data-theme]) body {
+  font-family: var(--font-sans);
+}
+html:not([data-theme])
+  :where(h1, h2, h3, h4, h5, h6, p, blockquote, button, input, textarea, select, label) {
+  font-family: inherit;
+}
 
 @theme {
   --color-*: initial;
@@ -274,32 +288,6 @@
 }
 
 @layer base {
-  /*
-    Payload's `payload-default` layer sets `html { font-size: 13px }` and
-    `body { font-family: var(--font-body) }`. Tailwind has no competing rule for
-    these (Preflight only sets html font-family), so they apply on the frontend
-    even though we moved payload-default to the lowest layer. Re-assert the
-    frontend base here. Scoped to `html:not([data-theme])` — the Payload admin
-    root carries `data-theme`, so the admin keeps its own 13px/system styling.
-  */
-  html:not([data-theme]) {
-    font-size: 16px;
-  }
-  html:not([data-theme]) body {
-    font-family: var(--font-sans);
-  }
-  /*
-    Payload also sets font-family on bare h1–h6 / form elements (no Tailwind
-    counterpart), which beats inheritance from body. Make them inherit the
-    frontend font again. :where() keeps specificity low enough that component
-    font utilities still win, but the `html:not([data-theme])` ancestor beats
-    Payload's bare-element selectors.
-  */
-  html:not([data-theme])
-    :where(h1, h2, h3, h4, h5, h6, p, blockquote, button, input, textarea, select, label) {
-    font-family: inherit;
-  }
-
   html {
     @apply overflow-x-hidden bg-grey;
   }
