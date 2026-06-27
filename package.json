@@ -31,13 +31,9 @@
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "next": "$next",
-    "payload": "$payload",
-    "next-auth": {
-      "@auth/core": "$@auth/core"
-    }
+    "payload": "$payload"
   },
   "dependencies": {
-    "@auth/prisma-adapter": "^2.11.1",
     "@aws-sdk/client-s3": "^3.940.0",
     "@inngest/middleware-sentry": "^0.1.3",
     "@payloadcms/db-postgres": "^3.85.1",
