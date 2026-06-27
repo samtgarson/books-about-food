@@ -19,3 +19,12 @@ postgres-language-server.jsonc
 gmail-credentials.json
 gmail-token.json
 .dev.vars
+
+.last-run.json
+test-results
+
+# vinext/build artifacts (not used on Next.js branch)
+dist/
+.wrangler/
+worker/
+wrangler.jsonc

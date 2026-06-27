@@ -1,20 +1,25 @@
-import { and, eq } from '@payloadcms/db-postgres/drizzle'
 import { AuthedService } from 'src/core/services/base'
-import { users_accounts } from 'src/payload/schema'
 import { z } from 'zod'
 
 export const destroyAccount = new AuthedService(
   z.object({ provider: z.string() }),
   async ({ provider }, { user, payload }) => {
-    const res = await payload.db.drizzle
-      .delete(users_accounts)
-      .where(
-        and(
-          eq(users_accounts._parentID, user.id),
-          eq(users_accounts.provider, provider)
-        )
-      )
+    const { docs } = await payload.find({
+      collection: 'accounts',
+      where: {
+        user: { equals: user.id },
+        providerId: { equals: provider }
+      },
+      limit: 1
+    })
 
-    return { count: res.rowCount }
+    if (docs.length === 0) return { count: 0 }
+
+    await payload.delete({
+      collection: 'accounts',
+      id: docs[0].id
+    })
+
+    return { count: 1 }
   }
 )

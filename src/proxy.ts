@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { auth } from './auth'
 
 const protectedPath = (pathname: string) =>
@@ -7,23 +7,26 @@ const protectedPath = (pathname: string) =>
 const systemPath = (pathname: string) =>
   ['/api', '/_next', '/auth'].some((path) => pathname.startsWith(path))
 
-// const { auth } = NextAuth(authConfig)
-
-export default auth(async function proxy(request) {
+export default async function proxy(request: NextRequest) {
   if (request.method === 'POST' || systemPath(request.nextUrl.pathname)) {
     return NextResponse.next()
   }
 
-  const user = request.auth?.user
-  if (!user && protectedPath(request.nextUrl.pathname)) {
-    const loginPath = `/auth/sign-in?callbackUrl=${encodeURIComponent(
-      request.url
-    )}`
-    return NextResponse.redirect(new URL(loginPath, request.url), {
-      status: 307
+  if (protectedPath(request.nextUrl.pathname)) {
+    const session = await auth.api.getSession({
+      headers: request.headers
     })
+
+    if (!session?.user) {
+      const loginPath = `/auth/sign-in?callbackUrl=${encodeURIComponent(
+        request.url
+      )}`
+      return NextResponse.redirect(new URL(loginPath, request.url), {
+        status: 307
+      })
+    }
   }
-})
+}
 
 export const config = {
   matcher: [

@@ -2,12 +2,13 @@
 
 import { FC, useState, type JSX } from 'react'
 import { useUserAgent } from 'src/hooks/use-user-agent'
+import { authClient } from 'src/lib/auth/client'
 import z from 'zod'
 import { Button } from '../atoms/button'
 import { Form } from '../form'
 import { Input } from '../form/input'
 import { Submit } from '../form/submit'
-import { emailSignIn, googleSignIn } from './actions'
+import { emailSignIn } from './actions'
 import { Google } from './logos'
 
 export type SignInButtonsProps = {
@@ -22,7 +23,7 @@ export type SignInButtonsProps = {
 export const SignInButtons: FC<SignInButtonsProps> = ({
   callbackUrl = '/',
   emailButtonLabel = 'Continue with Email',
-  successMessage = 'We’ve just sent you a secure magic link to your inbox. When you click this link we’ll log you into your account automatically.'
+  successMessage = 'We\u2019ve just sent you a secure magic link to your inbox. When you click this link we\u2019ll log you into your account automatically.'
 }) => {
   const isInstagram = useUserAgent()?.includes('Instagram')
   const [googleLoading, setGoogleLoading] = useState(false)
@@ -50,7 +51,10 @@ export const SignInButtons: FC<SignInButtonsProps> = ({
           <Button
             onClick={() => {
               setGoogleLoading(true)
-              googleSignIn(callbackUrl)
+              authClient.signIn.social({
+                provider: 'google',
+                callbackURL: callbackUrl
+              })
             }}
             className="relative flex items-center justify-center gap-3 border border-neutral-grey"
             type="button"

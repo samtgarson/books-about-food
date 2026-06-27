@@ -1,9 +1,10 @@
+'use client'
 import cn from 'classnames'
-import { useSession } from 'next-auth/react'
 import { Dialog } from 'radix-ui'
 import { CSSProperties, ReactNode, useEffect, useMemo } from 'react'
 import { X } from 'src/components/atoms/icons'
 import { useSheet } from 'src/components/sheets/global-sheet'
+import { authClient } from 'src/lib/auth/client'
 import type { SheetMap } from 'src/components/sheets/types'
 import { useVisualViewport } from 'src/hooks/use-visual-viewport'
 import { Loader } from '../loader'
@@ -94,7 +95,8 @@ function AuthedContent({
   children,
   authenticated
 }: Pick<SheetContentProps, 'loading' | 'children' | 'authenticated'>) {
-  const { status } = useSession()
+  const { data, isPending } = authClient.useSession()
+  const isAuthenticated = !!data?.user
   const { close } = useSheetContext()
   const { openSheet } = useSheet()
 
@@ -104,18 +106,18 @@ function AuthedContent({
   )
 
   useEffect(() => {
-    if (!authenticated || status !== 'unauthenticated') return
+    if (!authenticated || isPending || isAuthenticated) return
     let redirect = location.pathname
     if (typeof authenticated !== 'boolean' && authenticated.action)
       redirect += `?action=${authenticated.action}`
 
     close()
     openSheet('signIn', { redirect })
-  }, [authenticated, openSheet, status, close])
+  }, [authenticated, openSheet, isPending, isAuthenticated, close])
 
-  if ((!loading && !authenticated) || status === 'authenticated') return nodes
+  if ((!loading && !authenticated) || isAuthenticated) return nodes
 
-  if (status === 'loading' || loading)
+  if (isPending || loading)
     return (
       <Body className="items-center justify-center">
         <Loader />

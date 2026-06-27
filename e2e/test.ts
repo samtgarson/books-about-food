@@ -1,5 +1,5 @@
-import { encode } from '@auth/core/jwt'
 import { BrowserContext, Page, test as base } from '@playwright/test'
+import { createHmac } from 'crypto'
 import { $ } from 'execa'
 
 const helpers = ({
@@ -14,28 +14,27 @@ const helpers = ({
   email,
   async login() {
     const userId = await createUser(email)
+    const { token, expiresAt } = await createSession(userId)
+    const signedToken = await signCookieValue(token)
+
     await page.goto('/', { waitUntil: 'commit' })
-    const cookies = await context.cookies()
-    const authCookie = cookies.find(
-      ({ name }) => name.includes('authjs') && name.endsWith('callback-url')
-    )
-    if (!authCookie) throw new Error('No auth cookie found')
 
-    const prefix = authCookie.name.split('.')[0]
-    const cookieName = `${prefix}.session-token`
-    const token = await encode({
-      token: {
-        name: 'Sam Garson',
-        email,
-        userId,
-        role: 'user',
-        publishers: []
-      },
-      salt: cookieName,
-      secret: process.env.AUTH_SECRET as string
-    })
+    const url = new URL(page.url())
+    const isSecure = url.protocol === 'https:'
+    const cookieName = isSecure
+      ? '__Secure-better-auth.session_token'
+      : 'better-auth.session_token'
 
-    context.addCookies([{ ...authCookie, name: cookieName, value: token }])
+    context.addCookies([
+      {
+        name: cookieName,
+        value: signedToken,
+        domain: url.hostname,
+        path: '/',
+        expires: Math.floor(expiresAt.getTime() / 1000),
+        secure: isSecure
+      }
+    ])
   }
 })
 
@@ -56,20 +55,54 @@ export const test = base.extend<Fixtures>({
 const databaseUrl =
   process.env.DATABASE_DIRECT_URL || 'postgres://localhost:5432/baf_dev'
 
+const authSecret = process.env.BETTER_AUTH_SECRET || process.env.AUTH_SECRET
+
+async function signCookieValue(value: string): Promise<string> {
+  if (!authSecret) throw new Error('BETTER_AUTH_SECRET or AUTH_SECRET must be set')
+  const signature = createHmac('sha256', authSecret)
+    .update(value)
+    .digest('base64')
+  return `${value}.${signature}`
+}
+
 async function createUser(email: string) {
   const res = await executeSql(`
-    INSERT INTO "users" (email, role, "email_verified")
-    VALUES ('${email}', 'user', NOW())
+    INSERT INTO "payload"."users" (email, name, "email_verified")
+    VALUES ('${email}', 'Sam Garson', true)
     RETURNING id;
   `)
 
-  return res.trim()
+  const userId = res.trim()
+
+  await executeSql(`
+    INSERT INTO "payload"."users_role" ("order", parent_id, value)
+    VALUES (1, '${userId}'::uuid, 'user');
+  `)
+
+  return userId
+}
+
+async function createSession(userId: string) {
+  const token = crypto.randomUUID()
+  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+
+  await executeSql(`
+    INSERT INTO "payload"."sessions" (token, user_id, expires_at)
+    VALUES ('${token}', '${userId}'::uuid, '${expiresAt.toISOString()}');
+  `)
+
+  return { token, expiresAt }
 }
 
 async function deleteUser(email: string) {
   await executeSql(`
-    DELETE FROM "users"
-    WHERE email = '${email}';
+    DELETE FROM "payload"."sessions" WHERE user_id IN (
+      SELECT id FROM "payload"."users" WHERE email = '${email}'
+    );
+    DELETE FROM "payload"."users_role" WHERE parent_id IN (
+      SELECT id FROM "payload"."users" WHERE email = '${email}'
+    );
+    DELETE FROM "payload"."users" WHERE email = '${email}';
   `)
 }
 
