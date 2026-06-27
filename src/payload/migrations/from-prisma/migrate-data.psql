@@ -1,49 +1,138 @@
--- Data Migration: public schema → payload schema
+-- Data Migration: remote public schema → local payload schema
 -- Run this AFTER the Payload schema migration has been applied
--- Execute with: psql $DATABASE_URL -f migrate-data.sql
+-- Execute with:
+--   REMOTE_DATABASE_URL='postgres://user:pass@host:5432/dbname?sslmode=require' \
+--     psql $LOCAL_DATABASE_URL -f migrate-data.sql
+
+-- ============================================================================
+-- SETUP: Mount remote database via postgres_fdw
+-- Reads REMOTE_DATABASE_URL from environment via \getenv
+-- ============================================================================
+CREATE EXTENSION IF NOT EXISTS postgres_fdw;
+
+\getenv remote_url REMOTE_DATABASE_URL
+SELECT set_config('app.remote_url', :'remote_url', false);
+
+DO $$
+DECLARE
+  remote_url text := current_setting('app.remote_url');
+  -- Parse postgres://user:password@host:port/dbname?params
+  auth_host text := split_part(split_part(remote_url, '://', 2), '/', 1);
+  user_pass text := split_part(auth_host, '@', 1);
+  host_port text := split_part(auth_host, '@', 2);
+  db_user text := split_part(user_pass, ':', 1);
+  db_pass text := split_part(user_pass, ':', 2);
+  db_host text := split_part(host_port, ':', 1);
+  db_port text := split_part(host_port, ':', 2);
+  db_name text := split_part(split_part(split_part(remote_url, '@', 2), '/', 2), '?', 1);
+  query_str text := split_part(remote_url, '?', 2);
+  ssl_mode text;
+BEGIN
+  -- Extract sslmode from query string if present
+  IF query_str LIKE '%sslmode=%' THEN
+    ssl_mode := split_part(split_part(query_str, 'sslmode=', 2), '&', 1);
+  ELSE
+    ssl_mode := 'prefer';
+  END IF;
+
+  -- Default port
+  IF db_port = '' OR db_port IS NULL THEN
+    db_port := '5432';
+  END IF;
+
+  -- Drop existing server if present (for re-runs)
+  IF EXISTS (SELECT 1 FROM pg_foreign_server WHERE srvname = 'remote_prisma') THEN
+    DROP SERVER remote_prisma CASCADE;
+  END IF;
+
+  EXECUTE format(
+    'CREATE SERVER remote_prisma FOREIGN DATA WRAPPER postgres_fdw OPTIONS (host %L, port %L, dbname %L, sslmode %L)',
+    db_host, db_port, db_name, ssl_mode
+  );
+
+  EXECUTE format(
+    'CREATE USER MAPPING FOR CURRENT_USER SERVER remote_prisma OPTIONS (user %L, password %L)',
+    db_user, db_pass
+  );
+END $$;
+
+DROP SCHEMA IF EXISTS remote CASCADE;
+CREATE SCHEMA remote;
+IMPORT FOREIGN SCHEMA public FROM SERVER remote_prisma INTO remote;
+
+-- ============================================================================
+-- CLEANUP: Truncate all payload tables before migration
+-- ============================================================================
+TRUNCATE payload.search_results CASCADE;
+TRUNCATE payload.users CASCADE;
+TRUNCATE payload.jobs CASCADE;
+TRUNCATE payload.tag_groups CASCADE;
+TRUNCATE payload.locations CASCADE;
+TRUNCATE payload.faqs CASCADE;
+TRUNCATE payload.images CASCADE;
+TRUNCATE payload.publishers CASCADE;
+TRUNCATE payload.collections CASCADE;
+
 begin;
 
 -- ============================================================================
 -- PHASE 1: Core entities (no foreign key dependencies)
 -- ============================================================================
--- Users
+-- Users (email_verified converted from timestamp to boolean, no role column in public)
 insert into
-  payload.users (id, email, name, role, created_at, updated_at)
+  payload.users (id, email, name, email_verified, created_at, updated_at)
 select
-  id::text,
+  id,
   email,
-  name,
-  role::text::payload.enum_users_role,
+  coalesce(name, ''),
+  email_verified is not null,
   created_at,
   updated_at
 from
-  public.users;
+  remote.users;
 
--- Accounts (NextAuth, now embedded as array in users table via payload-authjs)
--- Simplified structure: only provider, provider_account_id, type
+-- Users role (all users default to 'user' since remote.users has no role column)
 insert into
-  payload.users_accounts (
-    _order,
-    _parent_id,
-    id,
-    provider,
-    provider_account_id,
-    type
+  payload.users_role ("order", parent_id, value)
+select
+  1,
+  id,
+  'user'::payload.enum_users_role
+from
+  remote.users;
+
+-- Accounts (Better Auth standalone table)
+-- Maps provider → provider_id, provider_account_id → account_id
+-- Carries over access_token, refresh_token, id_token, scope
+insert into
+  payload.accounts (
+    account_id,
+    provider_id,
+    user_id,
+    access_token,
+    refresh_token,
+    id_token,
+    access_token_expires_at,
+    scope,
+    created_at,
+    updated_at
   )
 select
-  row_number() over (
-    partition by
-      a.user_id
-    order by
-      a.created_at
-  ) as _order,
-  a.user_id::text as _parent_id,
-  gen_random_uuid()::text as id,
-  a.provider,
   a.provider_account_id,
-  a.type
+  a.provider,
+  a.user_id,
+  a.access_token,
+  a.refresh_token,
+  a.id_token,
+  case
+    when a.expires_at is not null then to_timestamp(a.expires_at)
+    else null
+  end,
+  a.scope,
+  a.created_at,
+  a.created_at
 from
-  public.accounts a
+  remote.accounts a
 where
   exists (
     select
@@ -51,27 +140,20 @@ where
     from
       payload.users u
     where
-      u.id::uuid = a.user_id
+      u.id = a.user_id
   );
 
--- Verification Tokens (NextAuth, now embedded as array in users table via payload-authjs)
--- Match identifier (email) to user.email to find parent
+-- Verification Tokens (Better Auth standalone table)
 insert into
-  payload.users_verification_tokens (_order, _parent_id, id, token, expires)
+  payload.verifications (identifier, value, expires_at, created_at, updated_at)
 select
-  row_number() over (
-    partition by
-      u.id
-    order by
-      vt.expires
-  ) as _order,
-  u.id as _parent_id,
-  gen_random_uuid()::text as id,
+  vt.identifier,
   vt.token,
-  vt.expires
+  vt.expires,
+  now(),
+  now()
 from
-  public.verification_tokens vt
-  join payload.users u on u.email = vt.identifier;
+  remote.verification_tokens vt;
 
 -- Jobs
 insert into
@@ -83,7 +165,7 @@ select
   created_at,
   updated_at
 from
-  public.jobs;
+  remote.jobs;
 
 -- Tag Groups
 insert into
@@ -103,7 +185,7 @@ select
   created_at,
   updated_at
 from
-  public.tag_groups;
+  remote.tag_groups;
 
 -- Locations
 insert into
@@ -131,7 +213,7 @@ select
   created_at,
   updated_at
 from
-  public.locations;
+  remote.locations;
 
 -- FAQs
 insert into
@@ -143,7 +225,7 @@ select
   created_at,
   updated_at
 from
-  public.frequently_asked_questions;
+  remote.frequently_asked_questions;
 
 -- ============================================================================
 -- PHASE 2: Images (needed before entities that reference them)
@@ -170,7 +252,7 @@ select
   created_at,
   updated_at
 from
-  public.images;
+  remote.images;
 
 -- ============================================================================
 -- PHASE 3: Entities with image relationships
@@ -186,7 +268,7 @@ select
   created_at,
   updated_at
 from
-  public.tags;
+  remote.tags;
 
 -- Publishers (with logo from images)
 insert into
@@ -218,8 +300,8 @@ select
   p.created_at,
   p.updated_at
 from
-  public.publishers p
-  left join public.images i on i.publisher_id = p.id;
+  remote.publishers p
+  left join remote.images i on i.publisher_id = p.id;
 
 -- Profiles (with avatar from images)
 -- Note: Only set user_id if the user exists in payload.users (handles partial data dumps)
@@ -251,15 +333,15 @@ select
   p.instagram,
   p.most_recently_published_on,
   case
-    when u.id is not null then p.user_id::text
+    when u.id is not null then p.user_id
     else null
   end as user_id,
   p.created_at,
   p.updated_at
 from
-  public.profiles p
-  left join public.images i on i.profile_id = p.id
-  left join payload.users u on u.id::uuid = p.user_id;
+  remote.profiles p
+  left join remote.images i on i.profile_id = p.id
+  left join payload.users u on u.id = p.user_id;
 
 -- Books (with cover_image from images)
 -- Note: background_color in Prisma is JSON like {"h":0,"s":0,"l":0}, keep as JSON string for querying/sorting
@@ -300,16 +382,16 @@ select
   b.google_books_id,
   b.publisher_id,
   case
-    when u.id is not null then b.submitter_id::text
+    when u.id is not null then b.submitter_id
     else null
   end as submitter_id,
   i.id as cover_image_id,
   b.created_at,
   b.updated_at
 from
-  public.books b
-  left join public.images i on i.cover_for_id = b.id
-  left join payload.users u on u.id::uuid = b.submitter_id;
+  remote.books b
+  left join remote.images i on i.cover_for_id = b.id
+  left join payload.users u on u.id = b.submitter_id;
 
 -- ============================================================================
 -- PHASE 4: Entities depending on the above
@@ -330,7 +412,7 @@ insert into
 select
   c.id,
   c.profile_id,
-  c.user_id::text,
+  c.user_id,
   c.secret,
   c.approved_at,
   c.cancelled_at,
@@ -342,7 +424,7 @@ select
   c.created_at,
   c.updated_at
 from
-  public.claims c
+  remote.claims c
 where
   exists (
     select
@@ -350,7 +432,7 @@ where
     from
       payload.users u
     where
-      u.id::uuid = c.user_id
+      u.id = c.user_id
   )
   and exists (
     select
@@ -374,12 +456,12 @@ insert into
 select
   m.id,
   m.publisher_id,
-  m.user_id::text,
+  m.user_id,
   m.role::text::payload.enum_memberships_role,
   m.created_at,
   m.updated_at
 from
-  public.memberships m
+  remote.memberships m
 where
   exists (
     select
@@ -387,7 +469,7 @@ where
     from
       payload.users u
     where
-      u.id::uuid = m.user_id
+      u.id = m.user_id
   )
   and exists (
     select
@@ -414,13 +496,13 @@ select
   pi.id,
   pi.email,
   pi.publisher_id,
-  pi.invited_by_id::text,
+  pi.invited_by_id,
   pi.role::text::payload.enum_publisher_invitations_role,
   pi.accepted_at,
   pi.created_at,
   pi.updated_at
 from
-  public.publisher_invitations pi
+  remote.publisher_invitations pi
 where
   exists (
     select
@@ -428,7 +510,7 @@ where
     from
       payload.users u
     where
-      u.id::uuid = pi.invited_by_id
+      u.id = pi.invited_by_id
   )
   and exists (
     select
@@ -445,11 +527,11 @@ insert into
 select
   bv.id,
   bv.book_id,
-  bv.user_id::text,
+  bv.user_id,
   bv.created_at,
   bv.created_at
 from
-  public.book_votes bv
+  remote.book_votes bv
 where
   exists (
     select
@@ -457,7 +539,7 @@ where
     from
       payload.users u
     where
-      u.id::uuid = bv.user_id
+      u.id = bv.user_id
   )
   and exists (
     select
@@ -480,13 +562,13 @@ insert into
   )
 select
   p.id,
-  p.author_id::text,
+  p.author_id,
   p.description,
   p.view_count,
   p.created_at,
   p.created_at
 from
-  public.pitches p
+  remote.pitches p
 where
   exists (
     select
@@ -494,7 +576,7 @@ where
     from
       payload.users u
     where
-      u.id::uuid = p.author_id
+      u.id = p.author_id
   );
 
 -- Favourites (skip rows where user or profile doesn't exist)
@@ -503,11 +585,11 @@ insert into
 select
   f.id,
   f.profile_id,
-  f.user_id::text,
+  f.user_id,
   f.created_at,
   f.updated_at
 from
-  public.favourites f
+  remote.favourites f
 where
   exists (
     select
@@ -515,7 +597,7 @@ where
     from
       payload.users u
     where
-      u.id::uuid = f.user_id
+      u.id = f.user_id
   )
   and exists (
     select
@@ -536,7 +618,7 @@ select
   fp.created_at,
   fp.updated_at
 from
-  public.featured_profiles fp
+  remote.featured_profiles fp
 where
   exists (
     select
@@ -565,7 +647,7 @@ select
   f.created_at,
   f.updated_at
 from
-  public.features f
+  remote.features f
 where
   exists (
     select
@@ -612,7 +694,7 @@ select
   c.created_at,
   c.updated_at
 from
-  public.collections c;
+  remote.collections c;
 
 -- ============================================================================
 -- PHASE 5: Relationship tables (_rels)
@@ -631,7 +713,7 @@ select
       b."B"
   ) as "order"
 from
-  public."_books_tags" b
+  remote."_books_tags" b
 where
   exists (
     select
@@ -665,7 +747,7 @@ select
       ab."B"
   ) as "order"
 from
-  public."_authored_books" ab
+  remote."_authored_books" ab
 where
   exists (
     select
@@ -699,7 +781,7 @@ select
       pl."A"
   ) as "order"
 from
-  public."_profiles_locations" pl
+  remote."_profiles_locations" pl
 where
   exists (
     select
@@ -732,7 +814,7 @@ select
       ci.created_at
   ) as "order"
 from
-  public.collection_items ci
+  remote.collection_items ci
 where
   exists (
     select
@@ -765,7 +847,7 @@ select
   gen_random_uuid()::text as id,
   elem.value as color
 from
-  public.books b
+  remote.books b
   cross join lateral jsonb_array_elements(b.palette) with ordinality as elem (value, ordinality)
 where
   b.palette is not null
@@ -788,7 +870,7 @@ select
   gen_random_uuid()::text as id,
   i.id as image_id
 from
-  public.images i
+  remote.images i
 where
   i.preview_for_id is not null
   and exists (
@@ -855,7 +937,7 @@ select
     else null
   end as site_other
 from
-  public.links l
+  remote.links l
 where
   exists (
     select
@@ -897,10 +979,10 @@ select
     else null
   end
 from
-  public.contributions c
-  join public.profiles p on p.id = c.profile_id
-  join public.jobs j on j.id = c.job_id
-  join public.books b on b.id = c.book_id
+  remote.contributions c
+  join remote.profiles p on p.id = c.profile_id
+  join remote.jobs j on j.id = c.job_id
+  join remote.books b on b.id = c.book_id
 where
   exists (
     select
@@ -1252,33 +1334,42 @@ where
 -- ============================================================================
 -- VERIFICATION QUERIES (uncomment to check counts)
 -- ============================================================================
--- SELECT 'users' as table_name, (SELECT count(*) FROM public.users) as public_count, (SELECT count(*) FROM payload.users) as payload_count;
--- SELECT 'jobs' as table_name, (SELECT count(*) FROM public.jobs) as public_count, (SELECT count(*) FROM payload.jobs) as payload_count;
--- SELECT 'tag_groups' as table_name, (SELECT count(*) FROM public.tag_groups) as public_count, (SELECT count(*) FROM payload.tag_groups) as payload_count;
--- SELECT 'tags' as table_name, (SELECT count(*) FROM public.tags) as public_count, (SELECT count(*) FROM payload.tags) as payload_count;
--- SELECT 'locations' as table_name, (SELECT count(*) FROM public.locations) as public_count, (SELECT count(*) FROM payload.locations) as payload_count;
--- SELECT 'faqs' as table_name, (SELECT count(*) FROM public.frequently_asked_questions) as public_count, (SELECT count(*) FROM payload.faqs) as payload_count;
--- SELECT 'images' as table_name, (SELECT count(*) FROM public.images) as public_count, (SELECT count(*) FROM payload.images) as payload_count;
--- SELECT 'publishers' as table_name, (SELECT count(*) FROM public.publishers) as public_count, (SELECT count(*) FROM payload.publishers) as payload_count;
--- SELECT 'profiles' as table_name, (SELECT count(*) FROM public.profiles) as public_count, (SELECT count(*) FROM payload.profiles) as payload_count;
--- SELECT 'books' as table_name, (SELECT count(*) FROM public.books) as public_count, (SELECT count(*) FROM payload.books) as payload_count;
--- SELECT 'claims' as table_name, (SELECT count(*) FROM public.claims) as public_count, (SELECT count(*) FROM payload.claims) as payload_count;
--- SELECT 'contributions' as table_name, (SELECT count(*) FROM public.contributions) as public_count, (SELECT count(*) FROM payload.contributions) as payload_count;
--- SELECT 'memberships' as table_name, (SELECT count(*) FROM public.memberships) as public_count, (SELECT count(*) FROM payload.memberships) as payload_count;
--- SELECT 'publisher_invitations' as table_name, (SELECT count(*) FROM public.publisher_invitations) as public_count, (SELECT count(*) FROM payload.publisher_invitations) as payload_count;
--- SELECT 'book_votes' as table_name, (SELECT count(*) FROM public.book_votes) as public_count, (SELECT count(*) FROM payload.book_votes) as payload_count;
--- SELECT 'pitches' as table_name, (SELECT count(*) FROM public.pitches) as public_count, (SELECT count(*) FROM payload.pitches) as payload_count;
--- SELECT 'favourites' as table_name, (SELECT count(*) FROM public.favourites) as public_count, (SELECT count(*) FROM payload.favourites) as payload_count;
--- SELECT 'featured_profiles' as table_name, (SELECT count(*) FROM public.featured_profiles) as public_count, (SELECT count(*) FROM payload.featured_profiles) as payload_count;
--- SELECT 'features' as table_name, (SELECT count(*) FROM public.features) as public_count, (SELECT count(*) FROM payload.features) as payload_count;
--- SELECT 'collections' as table_name, (SELECT count(*) FROM public.collections) as public_count, (SELECT count(*) FROM payload.collections) as payload_count;
--- SELECT 'books_tags' as table_name, (SELECT count(*) FROM public."_books_tags") as public_count, (SELECT count(*) FROM payload.books_rels WHERE path = 'tags') as payload_count;
--- SELECT 'authored_books' as table_name, (SELECT count(*) FROM public."_authored_books") as public_count, (SELECT count(*) FROM payload.books_rels WHERE path = 'authors') as payload_count;
--- SELECT 'profiles_locations' as table_name, (SELECT count(*) FROM public."_profiles_locations") as public_count, (SELECT count(*) FROM payload.profiles_rels WHERE path = 'locations') as payload_count;
--- SELECT 'collection_items' as table_name, (SELECT count(*) FROM public.collection_items) as public_count, (SELECT count(*) FROM payload.collections_rels WHERE path = 'books') as payload_count;
--- SELECT 'links' as table_name, (SELECT count(*) FROM public.links) as public_count, (SELECT count(*) FROM payload.books_links) as payload_count;
--- SELECT 'preview_images' as table_name, (SELECT count(*) FROM public.images WHERE preview_for_id IS NOT NULL) as public_count, (SELECT count(*) FROM payload.books_preview_images) as payload_count;
+-- SELECT 'users' as table_name, (SELECT count(*) FROM remote.users) as public_count, (SELECT count(*) FROM payload.users) as payload_count;
+-- SELECT 'users_role' as table_name, (SELECT count(*) FROM remote.users) as public_count, (SELECT count(*) FROM payload.users_role) as payload_count;
+-- SELECT 'accounts' as table_name, (SELECT count(*) FROM remote.accounts) as public_count, (SELECT count(*) FROM payload.accounts) as payload_count;
+-- SELECT 'verification_tokens' as table_name, (SELECT count(*) FROM remote.verification_tokens) as public_count, (SELECT count(*) FROM payload.verifications) as payload_count;
+-- SELECT 'jobs' as table_name, (SELECT count(*) FROM remote.jobs) as public_count, (SELECT count(*) FROM payload.jobs) as payload_count;
+-- SELECT 'tag_groups' as table_name, (SELECT count(*) FROM remote.tag_groups) as public_count, (SELECT count(*) FROM payload.tag_groups) as payload_count;
+-- SELECT 'tags' as table_name, (SELECT count(*) FROM remote.tags) as public_count, (SELECT count(*) FROM payload.tags) as payload_count;
+-- SELECT 'locations' as table_name, (SELECT count(*) FROM remote.locations) as public_count, (SELECT count(*) FROM payload.locations) as payload_count;
+-- SELECT 'faqs' as table_name, (SELECT count(*) FROM remote.frequently_asked_questions) as public_count, (SELECT count(*) FROM payload.faqs) as payload_count;
+-- SELECT 'images' as table_name, (SELECT count(*) FROM remote.images) as public_count, (SELECT count(*) FROM payload.images) as payload_count;
+-- SELECT 'publishers' as table_name, (SELECT count(*) FROM remote.publishers) as public_count, (SELECT count(*) FROM payload.publishers) as payload_count;
+-- SELECT 'profiles' as table_name, (SELECT count(*) FROM remote.profiles) as public_count, (SELECT count(*) FROM payload.profiles) as payload_count;
+-- SELECT 'books' as table_name, (SELECT count(*) FROM remote.books) as public_count, (SELECT count(*) FROM payload.books) as payload_count;
+-- SELECT 'claims' as table_name, (SELECT count(*) FROM remote.claims) as public_count, (SELECT count(*) FROM payload.claims) as payload_count;
+-- SELECT 'contributions' as table_name, (SELECT count(*) FROM remote.contributions) as public_count, (SELECT count(*) FROM payload.contributions) as payload_count;
+-- SELECT 'memberships' as table_name, (SELECT count(*) FROM remote.memberships) as public_count, (SELECT count(*) FROM payload.memberships) as payload_count;
+-- SELECT 'publisher_invitations' as table_name, (SELECT count(*) FROM remote.publisher_invitations) as public_count, (SELECT count(*) FROM payload.publisher_invitations) as payload_count;
+-- SELECT 'book_votes' as table_name, (SELECT count(*) FROM remote.book_votes) as public_count, (SELECT count(*) FROM payload.book_votes) as payload_count;
+-- SELECT 'pitches' as table_name, (SELECT count(*) FROM remote.pitches) as public_count, (SELECT count(*) FROM payload.pitches) as payload_count;
+-- SELECT 'favourites' as table_name, (SELECT count(*) FROM remote.favourites) as public_count, (SELECT count(*) FROM payload.favourites) as payload_count;
+-- SELECT 'featured_profiles' as table_name, (SELECT count(*) FROM remote.featured_profiles) as public_count, (SELECT count(*) FROM payload.featured_profiles) as payload_count;
+-- SELECT 'features' as table_name, (SELECT count(*) FROM remote.features) as public_count, (SELECT count(*) FROM payload.features) as payload_count;
+-- SELECT 'collections' as table_name, (SELECT count(*) FROM remote.collections) as public_count, (SELECT count(*) FROM payload.collections) as payload_count;
+-- SELECT 'books_tags' as table_name, (SELECT count(*) FROM remote."_books_tags") as public_count, (SELECT count(*) FROM payload.books_rels WHERE path = 'tags') as payload_count;
+-- SELECT 'authored_books' as table_name, (SELECT count(*) FROM remote."_authored_books") as public_count, (SELECT count(*) FROM payload.books_rels WHERE path = 'authors') as payload_count;
+-- SELECT 'profiles_locations' as table_name, (SELECT count(*) FROM remote."_profiles_locations") as public_count, (SELECT count(*) FROM payload.profiles_rels WHERE path = 'locations') as payload_count;
+-- SELECT 'collection_items' as table_name, (SELECT count(*) FROM remote.collection_items) as public_count, (SELECT count(*) FROM payload.collections_rels WHERE path = 'books') as payload_count;
+-- SELECT 'links' as table_name, (SELECT count(*) FROM remote.links) as public_count, (SELECT count(*) FROM payload.books_links) as payload_count;
+-- SELECT 'preview_images' as table_name, (SELECT count(*) FROM remote.images WHERE preview_for_id IS NOT NULL) as public_count, (SELECT count(*) FROM payload.books_preview_images) as payload_count;
 commit;
+
+-- ============================================================================
+-- CLEANUP: Remove foreign data wrapper
+-- ============================================================================
+DROP SCHEMA IF EXISTS remote CASCADE;
+DROP SERVER IF EXISTS remote_prisma CASCADE;
 
 -- Success message
 do $$ BEGIN RAISE NOTICE 'Data migration completed successfully!'; END $$;

@@ -17,7 +17,7 @@ export async function approveUser(userId: string): Promise<ActionResult> {
       return { success: false, error: 'User not found' }
     }
 
-    if (user.role !== 'waitlist') {
+    if (!user.role?.includes('waitlist')) {
       return { success: false, error: 'User is not on the waitlist' }
     }
 
@@ -25,7 +25,7 @@ export async function approveUser(userId: string): Promise<ActionResult> {
       collection: 'users',
       id: userId,
       data: {
-        role: 'user'
+        role: ['user']
       }
     })
 

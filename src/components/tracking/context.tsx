@@ -1,6 +1,5 @@
 'use client'
 
-import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 import {
@@ -13,6 +12,7 @@ import {
   useEffect
 } from 'react'
 import { useRoute } from 'src/hooks/use-route'
+import { authClient } from 'src/lib/auth/client'
 import { TrackableEvents } from 'src/lib/tracking/events'
 import { track as action } from 'src/lib/tracking/track'
 
@@ -28,7 +28,7 @@ type TrackingContext = {
 const TrackingContext = createContext({} as TrackingContext)
 
 function TrackingProviderContent({ children }: { children: ReactNode }) {
-  const { data } = useSession()
+  const { data } = authClient.useSession()
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const route = useRoute()

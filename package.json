@@ -37,7 +37,6 @@
     }
   },
   "dependencies": {
-    "@auth/core": "0.41.1",
     "@auth/prisma-adapter": "^2.11.1",
     "@aws-sdk/client-s3": "^3.940.0",
     "@inngest/middleware-sentry": "^0.1.3",
@@ -77,6 +76,7 @@
     "@vibrant/generator": "^3.2.1-alpha.1",
     "@vibrant/image": "^3.2.1-alpha.1",
     "@vibrant/quantizer-mmcq": "^3.2.1-alpha.1",
+    "better-auth": "^1.2.4",
     "buffer-image-size": "^0.6.4",
     "classnames": "^2.5.1",
     "color": "^4.2.3",
@@ -93,10 +93,9 @@
     "mime-types": "^3.0.2",
     "neat-csv": "^6",
     "next": "^16.1.1",
-    "next-auth": "5.0.0-beta.30",
     "open": "^8",
     "payload": "^3.70.0",
-    "payload-authjs": "^0.10.0",
+    "payload-auth": "^1.8.4",
     "plaiceholder": "^2.5.0",
     "postmark": "^4.0.5",
     "radix-ui": "^1.4.3",
