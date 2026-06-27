@@ -22,3 +22,9 @@ gmail-token.json
 
 .last-run.json
 test-results
+
+# vinext/build artifacts (not used on Next.js branch)
+dist/
+.wrangler/
+worker/
+wrangler.jsonc
