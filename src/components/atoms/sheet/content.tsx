@@ -1,3 +1,4 @@
+'use client'
 import cn from 'classnames'
 import { Dialog } from 'radix-ui'
 import { CSSProperties, ReactNode, useEffect, useMemo } from 'react'

@@ -8,9 +8,10 @@ const dirname = path.dirname(filename)
 export const postgres = postgresAdapter({
   idType: 'uuid',
   schemaName: 'payload',
-  // Use migrations, not dev schema-push. Without this, `next build` runs a
-  // drizzle push against the DB and prompts interactively on schema drift.
-  push: false,
+  // Push schema in development (Payload dev workflow), but never during
+  // `next build` / production — otherwise the build runs a drizzle push and
+  // hangs on an interactive data-loss prompt. Production uses migrations.
+  push: process.env.NODE_ENV === 'development',
   pool: {
     connectionString: process.env.DATABASE_URL
   },
