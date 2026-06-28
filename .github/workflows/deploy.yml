@@ -89,7 +89,10 @@ jobs:
           # terminal status so we also catch pre-deploy `migrate` / start failures.
           railway up --service web --environment "$ENV_NAME" --ci
           .github/scripts/wait-for-deploy.sh web "$ENV_NAME"
-          WEB_URL=$(railway domain --service web --environment "$ENV_NAME" --json | jq -r '.domain')
+          # `railway domain` returns {"domain": "..."} when it generates a new one
+          # but {"domains": ["..."]} when the service already has one (the
+          # duplicated env auto-provisions a domain from production's).
+          WEB_URL=$(railway domain --service web --environment "$ENV_NAME" --json | jq -r '.domain // .domains[0]')
           # Wait for the app to actually serve before handing off to e2e.
           for i in $(seq 1 30); do
             code=$(curl -s -o /dev/null -w '%{http_code}' "$WEB_URL" || true)
