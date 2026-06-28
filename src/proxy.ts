@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from './auth'
+import { appUrl } from './utils/app-url'
 
 const protectedPath = (pathname: string) =>
   ['/admin', '/account', '/edit'].some((path) => pathname.startsWith(path))
@@ -19,7 +20,7 @@ export default async function proxy(request: NextRequest) {
 
     if (!session?.user) {
       const loginPath = `/auth/sign-in?callbackUrl=${encodeURIComponent(
-        request.nextUrl.pathname + request.nextUrl.search
+        appUrl(request.nextUrl.pathname + request.nextUrl.search)
       )}`
       return NextResponse.redirect(new URL(loginPath, request.url), {
         status: 307
