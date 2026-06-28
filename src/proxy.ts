@@ -19,7 +19,7 @@ export default async function proxy(request: NextRequest) {
 
     if (!session?.user) {
       const loginPath = `/auth/sign-in?callbackUrl=${encodeURIComponent(
-        request.url
+        request.nextUrl.pathname + request.nextUrl.search
       )}`
       return NextResponse.redirect(new URL(loginPath, request.url), {
         status: 307
