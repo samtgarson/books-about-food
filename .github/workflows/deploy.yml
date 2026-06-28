@@ -59,8 +59,24 @@ jobs:
         run: |
           ENV_NAME="${{ steps.create-env.outputs.env_name }}"
           PROD_DB=$(railway variables --service Postgres --environment production --json | jq -r '.DATABASE_PUBLIC_URL')
-          CI_DB=$(railway variables --service Postgres --environment "$ENV_NAME" --json | jq -r '.DATABASE_PUBLIC_URL')
           AUTH_SECRET=$(railway variables --service web --environment "$ENV_NAME" --json | jq -r '.BETTER_AUTH_SECRET')
+
+          # The duplicated Postgres needs a moment to deploy and have its TCP proxy
+          # assigned before DATABASE_PUBLIC_URL resolves and accepts connections.
+          CI_DB=""
+          for i in $(seq 1 30); do
+            CI_DB=$(railway variables --service Postgres --environment "$ENV_NAME" --json | jq -r '.DATABASE_PUBLIC_URL // empty')
+            if [ -n "$CI_DB" ] && pg_isready -d "$CI_DB" >/dev/null 2>&1; then
+              echo "ephemeral Postgres ready"
+              break
+            fi
+            echo "waiting for ephemeral Postgres... ($i)"
+            sleep 10
+          done
+          if [ -z "$CI_DB" ] || ! pg_isready -d "$CI_DB" >/dev/null 2>&1; then
+            echo "ephemeral Postgres never became ready" >&2
+            exit 1
+          fi
 
           # DROP guard makes the restore order-independent even if the duplicated
           # web service auto-deployed and ran migrations against the empty schema.
