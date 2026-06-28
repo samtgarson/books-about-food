@@ -56,18 +56,8 @@ BEGIN
   );
 END $$;
 
--- ----------------------------------------------------------------------------
--- Mirror the remote's enum types as local `text` domains.
---
--- IMPORT FOREIGN SCHEMA generates foreign tables whose enum columns reference
--- the remote's custom types (e.g. public."BookStatus"). Those types don't exist
--- on a fresh Payload database, so the import fails. postgres_fdw transfers enum
--- values as text, so we create a same-named `text` domain in `public` for every
--- remote enum; the foreign tables then resolve, and the inserts below cast the
--- values (`x::text::payload.enum_*`) into the Payload enums.
---
--- Discovered dynamically from the remote catalog so we can't miss one.
--- ----------------------------------------------------------------------------
+-- IMPORT FOREIGN SCHEMA can't create foreign tables whose columns use the
+-- remote's enum types; mirror each as a local text domain so it imports as text.
 DROP SCHEMA IF EXISTS remote_catalog CASCADE;
 CREATE SCHEMA remote_catalog;
 

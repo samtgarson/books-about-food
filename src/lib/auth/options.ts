@@ -3,12 +3,7 @@ import { customSession, magicLink } from 'better-auth/plugins'
 import type { PayloadAuthOptions } from 'payload-auth/better-auth/plugin'
 import { appUrl } from 'src/utils/app-url'
 
-// NOTE: `getPayloadClient`, `inngest` and `extractMemberships` are imported
-// lazily inside the callbacks below. They each transitively import
-// `payload.config`, so importing them at module scope creates a circular
-// dependency (payload.config → options → payload.config) that throws a TDZ
-// "Cannot access 'betterAuthPluginOptions' before initialization" when the
-// config is loaded via tsx (e.g. `payload migrate`).
+// Imported lazily in the callbacks below to avoid a circular dependency with payload.config.
 
 const baseURL = appUrl()
 

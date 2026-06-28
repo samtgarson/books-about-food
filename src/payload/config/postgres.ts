@@ -9,20 +9,12 @@ const dirname = path.dirname(filename)
 export const postgres = postgresAdapter({
   idType: 'uuid',
   schemaName: 'payload',
-  // Push schema in development (Payload dev workflow), but never during
-  // `next build` / production — otherwise the build runs a drizzle push and
-  // hangs on an interactive data-loss prompt. Production uses migrations.
   push: true,
-  // Bundled (statically imported) migrations, run automatically on `connect()`
-  // when NODE_ENV=production. This avoids the `payload migrate` CLI dynamically
-  // importing `.ts` migration files in an ESM loader worker without the tsx
-  // loader (fails on Node < ~22.18; Railway's Nixpacks ships 22.14).
+  // Bundled migrations run on connect(); the payload-migrate CLI can't load .ts here.
   prodMigrations: migrations,
   pool: {
     connectionString: process.env.DATABASE_URL,
-    // `next build` prerenders every page across many parallel workers, each with
-    // its own pool; cap it during the build (DB_POOL_MAX) so the fan-out can't
-    // exhaust Postgres connections. Unset at runtime → pg default (10).
+    // Cap the pool during build so prerender workers don't exhaust connections.
     max: process.env.DB_POOL_MAX ? Number(process.env.DB_POOL_MAX) : undefined
   },
   migrationDir: path.resolve(dirname, '..', 'migrations'),

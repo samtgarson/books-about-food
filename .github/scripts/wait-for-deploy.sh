@@ -1,13 +1,10 @@
 #!/usr/bin/env bash
-# Poll a Railway service's newest deployment until it reaches a terminal state.
-# Exits 0 on SUCCESS, 1 on FAILED/CRASHED or timeout.
-#
-# Usage: wait-for-deploy.sh <service> <environment>
+# Usage: wait-for-deploy.sh <service> <environment> [attempts]
 set -euo pipefail
 
 SERVICE="$1"
 ENVIRONMENT="$2"
-ATTEMPTS="${3:-90}" # ~15 min at 10s intervals
+ATTEMPTS="${3:-90}"
 
 for _ in $(seq 1 "$ATTEMPTS"); do
   status=$(railway deployment list --service "$SERVICE" --environment "$ENVIRONMENT" --json 2>/dev/null \
