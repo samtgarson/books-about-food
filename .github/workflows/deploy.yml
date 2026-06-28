@@ -25,8 +25,6 @@ jobs:
     outputs:
       env-name: ${{ steps.create-env.outputs.env_name }}
       web-url: ${{ steps.deploy.outputs.web_url }}
-      db-url: ${{ steps.seed.outputs.db_url }}
-      auth-secret: ${{ steps.seed.outputs.auth_secret }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -55,11 +53,9 @@ jobs:
           echo "env_name=$ENV_NAME" >> "$GITHUB_OUTPUT"
 
       - name: Seed ephemeral DB from production (scrubbed)
-        id: seed
         run: |
           ENV_NAME="${{ steps.create-env.outputs.env_name }}"
           PROD_DB=$(railway variables --service Postgres --environment production --json | jq -r '.DATABASE_PUBLIC_URL')
-          AUTH_SECRET=$(railway variables --service web --environment "$ENV_NAME" --json | jq -r '.BETTER_AUTH_SECRET')
 
           # The duplicated Postgres needs a moment to deploy and have its TCP proxy
           # assigned before DATABASE_PUBLIC_URL resolves and accepts connections.
@@ -84,10 +80,6 @@ jobs:
           pg_dump "$PROD_DB" --schema=payload --no-owner --no-privileges \
             | psql "$CI_DB" -v ON_ERROR_STOP=1
           psql "$CI_DB" -v ON_ERROR_STOP=1 -f .github/scripts/scrub-ci-db.sql
-
-          echo "db_url=$CI_DB" >> "$GITHUB_OUTPUT"
-          echo "::add-mask::$AUTH_SECRET"
-          echo "auth_secret=$AUTH_SECRET" >> "$GITHUB_OUTPUT"
 
       - name: Deploy web to ephemeral environment
         id: deploy
@@ -123,6 +115,22 @@ jobs:
           npm ci
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+      - name: Fetch ephemeral environment credentials
+        run: |
+          npm install -g @railway/cli
+          ENV_NAME="${{ needs.preview.outputs.env-name }}"
+          railway link --project "$RAILWAY_PROJECT_ID" --environment production --service web
+          # Fetched here (not via job outputs) because GitHub drops job outputs
+          # that carry secret-like values (DB password, auth secret).
+          CI_DB=$(railway variables --service Postgres --environment "$ENV_NAME" --json | jq -r '.DATABASE_PUBLIC_URL')
+          AUTH_SECRET=$(railway variables --service web --environment "$ENV_NAME" --json | jq -r '.BETTER_AUTH_SECRET')
+          echo "::add-mask::$CI_DB"
+          echo "::add-mask::$AUTH_SECRET"
+          {
+            echo "DATABASE_URL=$CI_DB"
+            echo "DATABASE_DIRECT_URL=$CI_DB"
+            echo "BETTER_AUTH_SECRET=$AUTH_SECRET"
+          } >> "$GITHUB_ENV"
       - name: Get installed Playwright version
         id: playwright-version
         run: echo "PLAYWRIGHT_VERSION=$(npm why @playwright/test --json | jq '.[0].version' -r)" >> $GITHUB_ENV
@@ -144,9 +152,6 @@ jobs:
         run: cd e2e && npx playwright test
         env:
           DEPLOYMENT_URL: ${{ needs.preview.outputs.web-url }}
-          DATABASE_URL: ${{ needs.preview.outputs.db-url }}
-          DATABASE_DIRECT_URL: ${{ needs.preview.outputs.db-url }}
-          BETTER_AUTH_SECRET: ${{ needs.preview.outputs.auth-secret }}
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
