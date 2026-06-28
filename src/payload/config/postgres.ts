@@ -19,7 +19,11 @@ export const postgres = postgresAdapter({
   // loader (fails on Node < ~22.18; Railway's Nixpacks ships 22.14).
   prodMigrations: migrations,
   pool: {
-    connectionString: process.env.DATABASE_URL
+    connectionString: process.env.DATABASE_URL,
+    // `next build` prerenders every page across many parallel workers, each with
+    // its own pool; cap it during the build (DB_POOL_MAX) so the fan-out can't
+    // exhaust Postgres connections. Unset at runtime → pg default (10).
+    max: process.env.DB_POOL_MAX ? Number(process.env.DB_POOL_MAX) : undefined
   },
   migrationDir: path.resolve(dirname, '..', 'migrations'),
   generateSchemaOutputFile: path.resolve(dirname, '..', 'schema.ts')
