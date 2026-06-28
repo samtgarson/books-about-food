@@ -1,11 +1,14 @@
 import { nextCookies } from 'better-auth/next-js'
 import { customSession, magicLink } from 'better-auth/plugins'
 import type { PayloadAuthOptions } from 'payload-auth/better-auth/plugin'
-import { getPayloadClient } from 'src/core/services/utils/payload'
-import { inngest } from 'src/jobs'
-
-import { extractMemberships } from 'src/core/services/users/utils'
 import { appUrl } from 'src/utils/app-url'
+
+// NOTE: `getPayloadClient`, `inngest` and `extractMemberships` are imported
+// lazily inside the callbacks below. They each transitively import
+// `payload.config`, so importing them at module scope creates a circular
+// dependency (payload.config → options → payload.config) that throws a TDZ
+// "Cannot access 'betterAuthPluginOptions' before initialization" when the
+// config is loaded via tsx (e.g. `payload migrate`).
 
 const baseURL = appUrl()
 
@@ -21,6 +24,7 @@ export const betterAuthPluginOptions: PayloadAuthOptions = {
     emailVerification: {
       async sendVerificationEmail({ user, url }) {
         try {
+          const { inngest } = await import('src/jobs')
           if (process.env.NODE_ENV === 'development') {
             console.log(`Sending verification email to ${user.email} at ${url}`)
           }
@@ -58,6 +62,7 @@ export const betterAuthPluginOptions: PayloadAuthOptions = {
       magicLink({
         async sendMagicLink({ email, url }) {
           try {
+            const { inngest } = await import('src/jobs')
             if (process.env.NODE_ENV === 'development') {
               console.log(`Sending magic link to ${email} at ${url}`)
             }
@@ -74,6 +79,10 @@ export const betterAuthPluginOptions: PayloadAuthOptions = {
         expiresIn: 60 * 10
       }),
       customSession(async ({ user, session }) => {
+        const { getPayloadClient } =
+          await import('src/core/services/utils/payload')
+        const { extractMemberships } =
+          await import('src/core/services/users/utils')
         const payload = await getPayloadClient()
         const fullUser = await payload.findByID({
           collection: 'users',

@@ -1,8 +1,8 @@
-import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
+import { MigrateDownArgs, MigrateUpArgs, sql } from '@payloadcms/db-postgres'
 
 export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
-   DROP SCHEMA "payload" CASCADE;
+   DROP SCHEMA IF EXISTS "payload" CASCADE;
    CREATE SCHEMA IF NOT EXISTS "payload";
    CREATE TYPE "payload"."enum_users_role" AS ENUM('admin', 'user', 'waitlist');
   CREATE TYPE "payload"."enum_admin_invitations_role" AS ENUM('admin', 'user', 'waitlist');
@@ -724,7 +724,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "payload_migrations_created_at_idx" ON "payload"."payload_migrations" USING btree ("created_at");`)
 }
 
-export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
+export async function down({
+  db,
+  payload,
+  req
+}: MigrateDownArgs): Promise<void> {
   await db.execute(sql`
    DROP TABLE "payload"."users_role" CASCADE;
   DROP TABLE "payload"."users_sessions" CASCADE;

@@ -30,5 +30,5 @@ export const inngest = new Inngest({
     'votes.submitted': JobData<{ userId: string; voteIds: string[] }>
   }>(),
   middleware,
-  env: process.env.VERCEL_GIT_COMMIT_REF
+  env: process.env.RAILWAY_GIT_BRANCH
 })

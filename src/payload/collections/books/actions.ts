@@ -1,12 +1,11 @@
 'use server'
 
-import config from '@payload-config'
-import { getPayload } from 'payload'
+import { getPayloadClient } from 'src/core/services/utils/payload'
 import type { ActionResult } from '../../components/actions/action-button'
 
 export async function publishBook(bookId: string): Promise<ActionResult> {
   try {
-    const payload = await getPayload({ config })
+    const payload = await getPayloadClient()
 
     const book = await payload.findByID({
       collection: 'books',

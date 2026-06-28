@@ -2,13 +2,16 @@ name: Test & Deploy
 on:
   push:
     paths:
-      - "./package.json"
+      - "package.json"
+      - "railway.json"
       - .github/workflows/deploy.yml
+      - .github/scripts/scrub-ci-db.sql
       - "src/**"
       - "e2e/**"
 
 env:
-  NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+  RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_API_TOKEN }}
+  RAILWAY_PROJECT_ID: 4a6f0233-9778-4f59-86e9-d82e40b63970
   HUSKY: 0
 
 concurrency:
@@ -16,96 +19,81 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy-preview:
-    name: "Deploy to Preview"
+  preview:
+    name: "Deploy preview + seed DB"
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-      deployments: write
     outputs:
-      database-id: ${{ steps.create-db.outputs.branch_id }}
-      preview-url: ${{ steps.vercel-deploy.outputs.preview_url }}
+      env-name: ${{ steps.create-env.outputs.env_name }}
+      web-url: ${{ steps.deploy.outputs.web_url }}
+      db-url: ${{ steps.seed.outputs.db_url }}
+      auth-secret: ${{ steps.seed.outputs.auth_secret }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install CLI deps
-        run: npm install -g neonctl vercel@latest
-      - name: Resolve database branch
-        id: create-db
+
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Install PostgreSQL 18 client
         run: |
-          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            # On main: delete all previous branches and create a fresh one
-            neonctl branches list -o json \
-            | jq '.[].name | select(. | startswith("github-deploy-${{ github.ref_name }}"))' -c \
-            | xargs -I % neonctl branches delete %
+          sudo apt-get update && sudo apt-get install -y postgresql-common
+          sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+          sudo apt-get install -y postgresql-client-18
+          echo "/usr/lib/postgresql/18/bin" >> "$GITHUB_PATH"
 
-            branch_id=$(neonctl branches create \
-              --project-id wandering-sound-489458 \
-              --name "github-deploy-${{ github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}" \
-              --output json | jq -r '.branch.id')
-          else
-            # On feature branches: reuse existing branch if available
-            branch_name="github-deploy-${{ github.ref_name }}"
-            existing_id=$(neonctl branches list -o json \
-              | jq -r --arg name "$branch_name" '.[] | select(.name == $name) | .id')
+      - name: Link Railway project
+        run: railway link --project "$RAILWAY_PROJECT_ID" --environment production --service web
 
-            if [ -n "$existing_id" ]; then
-              echo "Reusing existing database branch: $existing_id"
-              branch_id="$existing_id"
-            else
-              echo "Creating new database branch: $branch_name"
-              branch_id=$(neonctl branches create \
-                --project-id wandering-sound-489458 \
-                --name "$branch_name" \
-                --output json | jq -r '.branch.id')
-            fi
-          fi
-
-          echo "branch_id=$branch_id" >> $GITHUB_OUTPUT
-      - name: Deploy preview to Vercel
-        id: vercel-deploy
-        env:
-          VERCEL_ORG_ID: ${{ secrets.BAF_VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.BAF_VERCEL_PROJECT_ID }}
+      - name: Create ephemeral environment (duplicate of production)
+        id: create-env
         run: |
-          db_url=$(neonctl cs ${{ steps.create-db.outputs.branch_id }} --database-name books-about-food-prod --prisma --pooled)
-          direct_db_url=$(neonctl cs ${{ steps.create-db.outputs.branch_id }} --database-name books-about-food-prod --prisma)
+          REF="${{ github.ref_name }}"
+          ENV_NAME="ci-$(echo "$REF" | tr '/_' '--' | tr -cd 'a-zA-Z0-9-' | cut -c1-40)"
+          # Self-heal any orphan left by a cancelled run, then fork production.
+          railway environment delete "$ENV_NAME" -y 2>/dev/null || true
+          railway environment new "$ENV_NAME" --duplicate production --json
+          echo "env_name=$ENV_NAME" >> "$GITHUB_OUTPUT"
 
-          preview_url=$(vercel \
-            --token=${{ secrets.VERCEL_DEPLOY_TOKEN }} \
-            --scope=radical-innovation \
-            --meta githubCommitAuthorName=${{ github.actor }} \
-            --meta githubCommitAuthorLogin=${{ github.actor }} \
-            --meta githubCommitMessage="${{ github.event.head_commit.message }}" \
-            --meta githubCommitOrg=${{ github.repository_owner }} \
-            --meta githubCommitRepo=books-about-food \
-            --meta githubCommitRef=${{ github.ref_name }} \
-            --meta githubCommitSha=${{ github.sha }} \
-            --meta githubOrg=samtgarson \
-            --meta githubRepo=books-about-food \
-            --meta githubDeployment=1 \
-            --build-env DATABASE_URL="$db_url" \
-            --build-env DATABASE_DIRECT_URL="$direct_db_url" \
-            --env DATABASE_URL="$db_url" \
-            --env DATABASE_DIRECT_URL="$direct_db_url" \
-          )
+      - name: Seed ephemeral DB from production (scrubbed)
+        id: seed
+        run: |
+          ENV_NAME="${{ steps.create-env.outputs.env_name }}"
+          PROD_DB=$(railway variables --service Postgres --environment production --json | jq -r '.DATABASE_PUBLIC_URL')
+          CI_DB=$(railway variables --service Postgres --environment "$ENV_NAME" --json | jq -r '.DATABASE_PUBLIC_URL')
+          AUTH_SECRET=$(railway variables --service web --environment "$ENV_NAME" --json | jq -r '.BETTER_AUTH_SECRET')
 
-          if [ -z "$preview_url" ]
-          then
-            echo "Preview URL not found"
-            exit 1
-          else
-            echo "preview_url=$preview_url" >> $GITHUB_OUTPUT
-            vercel alias $preview_url \
-              books-about-food-git-${{ github.ref_name }}.vercel.app \
-              --scope=radical-innovation \
-              --token=${{ secrets.VERCEL_DEPLOY_TOKEN }}
-          fi
+          # DROP guard makes the restore order-independent even if the duplicated
+          # web service auto-deployed and ran migrations against the empty schema.
+          psql "$CI_DB" -v ON_ERROR_STOP=1 -c "DROP SCHEMA IF EXISTS payload CASCADE;"
+          pg_dump "$PROD_DB" --schema=payload --no-owner --no-privileges \
+            | psql "$CI_DB" -v ON_ERROR_STOP=1
+          psql "$CI_DB" -v ON_ERROR_STOP=1 -f .github/scripts/scrub-ci-db.sql
+
+          echo "db_url=$CI_DB" >> "$GITHUB_OUTPUT"
+          echo "::add-mask::$AUTH_SECRET"
+          echo "auth_secret=$AUTH_SECRET" >> "$GITHUB_OUTPUT"
+
+      - name: Deploy web to ephemeral environment
+        id: deploy
+        run: |
+          ENV_NAME="${{ steps.create-env.outputs.env_name }}"
+          # In CI, `railway up` returns after the build; poll for the deployment's
+          # terminal status so we also catch pre-deploy `migrate` / start failures.
+          railway up --service web --environment "$ENV_NAME" --ci
+          .github/scripts/wait-for-deploy.sh web "$ENV_NAME"
+          WEB_URL=$(railway domain --service web --environment "$ENV_NAME" --json | jq -r '.domain')
+          # Wait for the app to actually serve before handing off to e2e.
+          for i in $(seq 1 30); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$WEB_URL" || true)
+            echo "GET $WEB_URL -> $code"
+            [ "$code" != "000" ] && [ "$code" -lt 500 ] && break
+            sleep 5
+          done
+          echo "web_url=$WEB_URL" >> "$GITHUB_OUTPUT"
 
   test:
     name: "Run E2E tests"
-    needs: [deploy-preview]
+    needs: [preview]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -113,14 +101,10 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 22
-      - name: Install dependencies and get database url
-        id: install-deps
+      - name: Install dependencies
         run: |
           echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGE_INSTALL_PAT }}" >> .npmrc
           npm ci
-          npm i -g neonctl
-          echo "database-url=$(neonctl cs ${{ needs.deploy-preview.outputs.database-id }} --database-name books-about-food-prod --prisma --pooled)" >> $GITHUB_OUTPUT
-          echo "database-direct-url=$(neonctl cs ${{ needs.deploy-preview.outputs.database-id }} --database-name books-about-food-prod --prisma)" >> $GITHUB_OUTPUT
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
       - name: Get installed Playwright version
@@ -143,10 +127,10 @@ jobs:
       - name: Run Playwright tests
         run: cd e2e && npx playwright test
         env:
-          DEPLOYMENT_URL: ${{ needs.deploy-preview.outputs.preview-url }}
-          DATABASE_URL: ${{ steps.install-deps.outputs.database-url }}
-          DATABASE_DIRECT_URL: ${{ steps.install-deps.outputs.database-direct-url }}
-          BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
+          DEPLOYMENT_URL: ${{ needs.preview.outputs.web-url }}
+          DATABASE_URL: ${{ needs.preview.outputs.db-url }}
+          DATABASE_DIRECT_URL: ${{ needs.preview.outputs.db-url }}
+          BETTER_AUTH_SECRET: ${{ needs.preview.outputs.auth-secret }}
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
@@ -156,55 +140,30 @@ jobs:
 
   deploy-prod:
     name: "Deploy to Production"
-    needs: [deploy-preview, test]
+    needs: [preview, test]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-    env:
-      VERCEL_ORG_ID: ${{ secrets.BAF_VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ secrets.BAF_VERCEL_PROJECT_ID }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 22
-      # This should be unneeded eventually
-      # https://github.com/BetaHuhn/deploy-to-vercel-action/issues/393
-      - name: Install CLI deps
-        run: npm install --global vercel@latest
-      - name: Deploy production to Vercel
-        id: vercel-deploy
-        if: always()
-        uses: BetaHuhn/deploy-to-vercel-action@v1
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VERCEL_TOKEN: ${{ secrets.VERCEL_DEPLOY_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.BAF_VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.BAF_VERCEL_PROJECT_ID }}
-          VERCEL_SCOPE: "radical-innovation"
-          PRODUCTION: true
-          CREATE_COMMENT: false
-          GITHUB_DEPLOYMENT: true
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+      - name: Link Railway project
+        run: railway link --project "$RAILWAY_PROJECT_ID" --environment production --service web
+      - name: Deploy to production
+        run: |
+          railway up --service web --environment production --ci
+          .github/scripts/wait-for-deploy.sh web production
 
   cleanup:
     name: "Clean Up"
-    needs: [deploy-preview, test, deploy-prod]
+    needs: [preview, test, deploy-prod]
     runs-on: ubuntu-latest
-    if: ${{ always() && github.run_attempt == 1 && github.ref == 'refs/heads/main' }}
-    env:
-      VERCEL_ORG_ID: ${{ secrets.BAF_VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ secrets.BAF_VERCEL_PROJECT_ID }}
+    if: ${{ always() && needs.preview.outputs.env-name }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 22
-      - name: Install CLI deps
-        run: npm install --global vercel@latest neonctl
-      - name: Remove preview deployment
-        if: ${{ needs.deploy-preview.outputs.preview-url }}
-        run: vercel rm ${{ needs.deploy-preview.outputs.preview-url }} --token=${{ secrets.VERCEL_DEPLOY_TOKEN }} --scope=radical-innovation --yes || true
-      - name: Remove database branch
-        if: ${{ needs.deploy-preview.outputs.database-id }}
-        run: neonctl branches delete ${{ needs.deploy-preview.outputs.database-id }} || true
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+      - name: Link Railway project
+        run: railway link --project "$RAILWAY_PROJECT_ID" --environment production --service web
+      - name: Delete ephemeral environment
+        run: railway environment delete "${{ needs.preview.outputs.env-name }}" -y || true

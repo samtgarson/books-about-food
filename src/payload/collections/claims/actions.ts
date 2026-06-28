@@ -1,12 +1,11 @@
 'use server'
 
-import config from '@payload-config'
-import { getPayload } from 'payload'
+import { getPayloadClient } from 'src/core/services/utils/payload'
 import type { ActionResult } from '../../components/actions/action-button'
 
 export async function approveClaim(claimId: string): Promise<ActionResult> {
   try {
-    const payload = await getPayload({ config })
+    const payload = await getPayloadClient()
 
     // Get the claim with its relationships
     const claim = await payload.findByID({
@@ -65,7 +64,7 @@ export async function approveClaim(claimId: string): Promise<ActionResult> {
 
 export async function cancelClaim(claimId: string): Promise<ActionResult> {
   try {
-    const payload = await getPayload({ config })
+    const payload = await getPayloadClient()
 
     const claim = await payload.findByID({
       collection: 'claims',

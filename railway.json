@@ -1,0 +1,12 @@
+{
+  "$schema": "https://railway.com/railway.schema.json",
+  "build": {
+    "builder": "RAILPACK",
+    "buildCommand": "NODE_ENV=production DATABASE_URL=\"$DATABASE_PUBLIC_URL\" npm run migrate && NODE_ENV=production DATABASE_URL=\"$DATABASE_PUBLIC_URL\" npm run build"
+  },
+  "deploy": {
+    "startCommand": "npm run start",
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 3
+  }
+}

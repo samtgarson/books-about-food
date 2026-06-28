@@ -56,6 +56,39 @@ BEGIN
   );
 END $$;
 
+-- ----------------------------------------------------------------------------
+-- Mirror the remote's enum types as local `text` domains.
+--
+-- IMPORT FOREIGN SCHEMA generates foreign tables whose enum columns reference
+-- the remote's custom types (e.g. public."BookStatus"). Those types don't exist
+-- on a fresh Payload database, so the import fails. postgres_fdw transfers enum
+-- values as text, so we create a same-named `text` domain in `public` for every
+-- remote enum; the foreign tables then resolve, and the inserts below cast the
+-- values (`x::text::payload.enum_*`) into the Payload enums.
+--
+-- Discovered dynamically from the remote catalog so we can't miss one.
+-- ----------------------------------------------------------------------------
+DROP SCHEMA IF EXISTS remote_catalog CASCADE;
+CREATE SCHEMA remote_catalog;
+
+CREATE FOREIGN TABLE remote_catalog.pg_type (
+  typname name,
+  typtype "char"
+) SERVER remote_prisma OPTIONS (schema_name 'pg_catalog', table_name 'pg_type');
+
+DO $$
+DECLARE r record;
+BEGIN
+  FOR r IN
+    SELECT typname FROM remote_catalog.pg_type WHERE typtype = 'e'
+  LOOP
+    EXECUTE format('DROP DOMAIN IF EXISTS public.%I CASCADE', r.typname);
+    EXECUTE format('CREATE DOMAIN public.%I AS text', r.typname);
+  END LOOP;
+END $$;
+
+DROP SCHEMA remote_catalog CASCADE;
+
 DROP SCHEMA IF EXISTS remote CASCADE;
 CREATE SCHEMA remote;
 IMPORT FOREIGN SCHEMA public FROM SERVER remote_prisma INTO remote;

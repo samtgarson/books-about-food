@@ -12,13 +12,17 @@
     "url": "https://github.com/samtgarson/books-about-food/issues"
   },
   "homepage": "https://github.com/samtgarson/books-about-food#readme",
+  "engines": {
+    "node": "25.x"
+  },
   "scripts": {
     "dev": "npm run dev:web & npm run dev:jobs & wait",
     "dev:web": "next dev --port 5000",
     "dev:jobs": "npx --ignore-scripts=false inngest-cli@latest dev",
     "dev:test": "DANGER_SEND_EMAILS=true npm run dev",
-    "build": "npm run payload migrate && next build",
+    "build": "next build",
     "start": "next start",
+    "migrate": "node --import tsx scripts/run-migrations.ts",
     "lint": "NODE_OPTIONS=\"--max-old-space-size=8192\" eslint . && prettier --check --ignore-path ./.prettierignore .",
     "format": "NODE_OPTIONS=\"--max-old-space-size=8192\" eslint . --fix && prettier --write --ignore-path ./.prettierignore .",
     "type-check": "npx tsc --noEmit",
@@ -171,6 +175,5 @@
     "ignore": [
       ".yalc/**/*"
     ]
-  },
-  "packageManager": "npm@11.6.0"
+  }
 }
