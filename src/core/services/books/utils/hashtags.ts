@@ -41,10 +41,10 @@ function contribHandles(contribs: Contribution[]) {
     {} as Record<string, string[]>
   )
 
-  return Object.keys(jobs).map((job) => `${job} ${jobs[job].join(' ')}`)
+  return Object.keys(jobs).map((job) => `${job}: ${jobs[job].join(' ')}`)
 }
 
 function handle(profile: { name: string; instagram?: string }) {
   if (profile.instagram) return `@${profile.instagram}`
-  return `#${profile.name.replace(/ +/g, '')}`
+  return profile.name
 }
