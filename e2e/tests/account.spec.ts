@@ -18,11 +18,17 @@ test.describe('Account', () => {
     const nameInput = page.getByLabel('Name')
     await expect(nameInput).toHaveValue('Sam Garson')
 
-    await nameInput.selectText()
-    await page.keyboard.type('New Name')
-    await page.keyboard.press('Tab')
+    await nameInput.fill('New Name')
 
-    await expect(page.getByText('Account updated')).toBeVisible()
+    // The form auto-submits via a server action when the field blurs. Wait for
+    // that POST to round-trip rather than the transient success toast, which
+    // auto-dismisses and can be slow to appear on a cold preview deploy.
+    const saved = page.waitForResponse(
+      (res) =>
+        res.request().method() === 'POST' && res.url().includes('/account')
+    )
+    await nameInput.blur()
+    await saved
 
     await page.reload()
     await expect(page.getByLabel('Name')).toHaveValue('New Name')

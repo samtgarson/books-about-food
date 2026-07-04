@@ -22,7 +22,7 @@ export function hashtags(book: FullBook) {
   if (extras.length) tags += `\n•\n${extras.join(' • ')}`
   return `${tags}
 •
-#food #recipes #bookstagram #bookcovers #design #books #cooking #cookbook #booksaboutfoodclub #foodstagram #cookbooks #booksaboutfood`
+#bookcovers #recipes #booksaboutfoodclub #cookbooks #booksaboutfood`
 }
 
 function authorHandles(profiles: Profile[]) {
@@ -41,10 +41,10 @@ function contribHandles(contribs: Contribution[]) {
     {} as Record<string, string[]>
   )
 
-  return Object.keys(jobs).map((job) => `${job} ${jobs[job].join(' ')}`)
+  return Object.keys(jobs).map((job) => `${job}: ${jobs[job].join(', ')}`)
 }
 
 function handle(profile: { name: string; instagram?: string }) {
   if (profile.instagram) return `@${profile.instagram}`
-  return `#${profile.name.replace(/ +/g, '')}`
+  return profile.name
 }
