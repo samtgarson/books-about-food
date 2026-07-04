@@ -1,6 +1,6 @@
 import { eq } from '@payloadcms/db-postgres/drizzle'
 import type { CollectionConfig, Data } from 'payload'
-import { books_contributions, jobs, profiles } from 'src/payload/schema'
+import { jobs, profiles } from 'src/payload/schema'
 import { websites } from '../../../utils/data/websites'
 import { slugField } from '../../fields/slug'
 import { revalidatePaths } from '../../plugins/cache-revalidation'
@@ -238,24 +238,21 @@ export const Books: CollectionConfig = {
           hooks: {
             beforeChange: [
               async function ({ siblingData, req }) {
-                if (!siblingData.id || !siblingData.profile || !siblingData.job)
-                  return null
+                if (!siblingData.profile || !siblingData.job) return null
 
-                const [{ profileName, jobTitle }] = await req.payload.db.drizzle
-                  .selectDistinct({
-                    profileName: profiles.name,
-                    jobTitle: jobs.name
-                  })
-                  .from(books_contributions)
-                  .innerJoin(
-                    profiles,
-                    eq(profiles.id, books_contributions.profile)
-                  )
-                  .innerJoin(jobs, eq(jobs.id, books_contributions.job))
-                  .where(eq(books_contributions.id, siblingData.id))
+                const [[profile], [job]] = await Promise.all([
+                  req.payload.db.drizzle
+                    .select({ name: profiles.name })
+                    .from(profiles)
+                    .where(eq(profiles.id, siblingData.profile)),
+                  req.payload.db.drizzle
+                    .select({ name: jobs.name })
+                    .from(jobs)
+                    .where(eq(jobs.id, siblingData.job))
+                ])
 
-                if (!profileName || !jobTitle) return null
-                return `${profileName} (${jobTitle})`
+                if (!profile?.name || !job?.name) return null
+                return `${profile.name} (${job.name})`
               }
             ]
           }
