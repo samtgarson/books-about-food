@@ -40,7 +40,7 @@ jobs:
           echo "/usr/lib/postgresql/18/bin" >> "$GITHUB_PATH"
 
       - name: Link Railway project
-        run: railway link --project "$RAILWAY_PROJECT_ID" --environment production --service web
+        run: railway link --project "$RAILWAY_PROJECT_ID" --environment production --service App
 
       - name: Create ephemeral environment (duplicate of production)
         id: create-env
@@ -84,10 +84,10 @@ jobs:
         run: |
           ENV_NAME="${{ steps.create-env.outputs.env_name }}"
           # In CI, railway up returns after build; poll for the terminal deploy status.
-          railway up --service web --environment "$ENV_NAME" --ci
-          .github/scripts/wait-for-deploy.sh web "$ENV_NAME"
+          railway up --service App --environment "$ENV_NAME" --ci
+          .github/scripts/wait-for-deploy.sh App "$ENV_NAME"
           # railway domain returns {domain} when new, {domains:[...]} when one already exists.
-          WEB_URL=$(railway domain --service web --environment "$ENV_NAME" --json | jq -r '.domain // .domains[0]')
+          WEB_URL=$(railway domain --service App --environment "$ENV_NAME" --json | jq -r '.domain // .domains[0]')
           for i in $(seq 1 30); do
             code=$(curl -s -o /dev/null -w '%{http_code}' "$WEB_URL" || true)
             echo "GET $WEB_URL -> $code"
@@ -116,10 +116,10 @@ jobs:
         run: |
           npm install -g @railway/cli
           ENV_NAME="${{ needs.preview.outputs.env-name }}"
-          railway link --project "$RAILWAY_PROJECT_ID" --environment production --service web
+          railway link --project "$RAILWAY_PROJECT_ID" --environment production --service App
           # Fetched here, not via job outputs (GitHub drops secret-bearing outputs across jobs).
           CI_DB=$(railway variables --service Postgres --environment "$ENV_NAME" --json | jq -r '.DATABASE_PUBLIC_URL')
-          AUTH_SECRET=$(railway variables --service web --environment "$ENV_NAME" --json | jq -r '.BETTER_AUTH_SECRET')
+          AUTH_SECRET=$(railway variables --service App --environment "$ENV_NAME" --json | jq -r '.BETTER_AUTH_SECRET')
           echo "::add-mask::$CI_DB"
           echo "::add-mask::$AUTH_SECRET"
           {
@@ -166,11 +166,11 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
       - name: Link Railway project
-        run: railway link --project "$RAILWAY_PROJECT_ID" --environment production --service web
+        run: railway link --project "$RAILWAY_PROJECT_ID" --environment production --service App
       - name: Deploy to production
         run: |
-          railway up --service web --environment production --ci
-          .github/scripts/wait-for-deploy.sh web production
+          railway up --service App --environment production --ci
+          .github/scripts/wait-for-deploy.sh App production
 
   cleanup:
     name: "Clean Up"
@@ -181,6 +181,6 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
       - name: Link Railway project
-        run: railway link --project "$RAILWAY_PROJECT_ID" --environment production --service web
+        run: railway link --project "$RAILWAY_PROJECT_ID" --environment production --service App
       - name: Delete ephemeral environment
         run: railway environment delete "${{ needs.preview.outputs.env-name }}" -y || true
