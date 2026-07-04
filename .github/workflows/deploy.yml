@@ -46,7 +46,8 @@ jobs:
         id: create-env
         run: |
           REF="${{ github.ref_name }}"
-          ENV_NAME="ci-$(echo "$REF" | tr '/_' '--' | tr -cd 'a-zA-Z0-9-' | cut -c1-40)"
+          # Railway caps environment names at 32 chars, so keep the whole name (incl. "ci-") within it.
+          ENV_NAME="ci-$(echo "$REF" | tr '/_' '--' | tr -cd 'a-zA-Z0-9-' | cut -c1-29)"
           # Self-heal any orphan left by a cancelled run, then fork production.
           railway environment delete "$ENV_NAME" -y 2>/dev/null || true
           railway environment new "$ENV_NAME" --duplicate production --json
@@ -145,7 +146,8 @@ jobs:
           echo ${{ secrets.GMAIL_CREDENTIALS_JSON }} | base64 -d > ./e2e/gmail-credentials.json
           echo ${{ secrets.GMAIL_TOKEN_JSON }} | base64 -d > ./e2e/gmail-token.json
       - name: Run Playwright tests
-        run: cd e2e && npx playwright test
+        # --fail-on-flaky-tests: a test that only passes on retry still fails the job.
+        run: cd e2e && npx playwright test --fail-on-flaky-tests
         env:
           DEPLOYMENT_URL: ${{ needs.preview.outputs.web-url }}
       - uses: actions/upload-artifact@v4
