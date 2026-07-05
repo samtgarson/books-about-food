@@ -1,4 +1,3 @@
-import { payloadCmdk } from '@veiag/payload-cmdk'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { betterAuthPlugin } from 'payload-auth/better-auth/plugin'
@@ -32,7 +31,6 @@ export default buildConfig({
   plugins: [
     betterAuthPlugin(betterAuthPluginOptions),
     s3Storage,
-    cacheRevalidationPlugin(),
-    payloadCmdk({})
+    cacheRevalidationPlugin()
   ]
 })
