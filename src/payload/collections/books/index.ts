@@ -279,12 +279,26 @@ export const Books: CollectionConfig = {
       name: 'coverImage',
       type: 'upload',
       relationTo: 'images',
-      hasMany: false
+      hasMany: false,
+      admin: {
+        components: {
+          Field: {
+            path: 'src/payload/components/fields/cover-image/index.tsx#CoverImageField'
+          }
+        }
+      }
     },
     {
       name: 'previewImages',
       type: 'array',
-      admin: { initCollapsed: true },
+      admin: {
+        initCollapsed: true,
+        components: {
+          Field: {
+            path: 'src/payload/components/fields/preview-images/index.tsx#PreviewImagesField'
+          }
+        }
+      },
       fields: [
         {
           name: 'image',

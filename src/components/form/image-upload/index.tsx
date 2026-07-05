@@ -1,18 +1,15 @@
 'use client'
 
 import cn from 'classnames'
-import { Reorder } from 'framer-motion'
-import Img from 'next/image'
 import { Form } from 'radix-ui'
 import { useRef, useState } from 'react'
 import { containerClasses } from 'src/components/atoms/container'
-import { Plus, X } from 'src/components/atoms/icons'
-import { mouseAttrs } from 'src/components/atoms/mouse'
 import { Image } from 'src/core/models/image'
+import { useFormField } from '../context'
 import { InputProps, useRequired } from '../input-props'
 import { Label } from '../label'
 import { Messages } from '../messages'
-import { ImageUploadButton } from './upload-button'
+import { ImageUploadCore } from './core'
 
 export type ImageUploadProps<Multi extends boolean> = {
   defaultValue?: Multi extends true ? Array<Image> : Image
@@ -32,7 +29,6 @@ export function ImageUpload<Multi extends boolean = false>({
   ...props
 }: ImageUploadProps<Multi>) {
   const input = useRef<HTMLInputElement>(null)
-  const uploadButton = useRef<HTMLInputElement>(null)
   const [images, setImages] = useState<Image[]>(
     Array.isArray(defaultValue)
       ? defaultValue
@@ -41,6 +37,13 @@ export function ImageUpload<Multi extends boolean = false>({
         : [defaultValue]
   )
   const required = useRequired(props.required)
+  const { setError } = useFormField(name)
+
+  function notifyChange() {
+    setTimeout(() => {
+      input.current?.dispatchEvent(new Event('change', { bubbles: true }))
+    }, 10)
+  }
 
   return (
     <Form.Field name={name} className={cn('flex flex-col gap-2', className)}>
@@ -56,77 +59,28 @@ export function ImageUpload<Multi extends boolean = false>({
           value={images.map((i) => i.id).join(',')}
         />
       </Form.Control>
-      <Reorder.Group
-        axis="x"
-        values={images}
-        onReorder={async function (images) {
-          setImages(images)
-          await onReorderImages?.(images.map((i) => i.id))
-        }}
-        layoutScroll
+      <ImageUploadCore
+        images={images}
+        multi={multi}
+        prefix={prefix}
         className={cn(
-          'flex w-full gap-6 overflow-auto bg-sand py-12',
-          !images.length && 'cursor-pointer',
+          'bg-sand',
           containerClasses(),
           containerClasses({ scroll: true })
         )}
-      >
-        {images.map((image) => (
-          <Reorder.Item
-            key={image.id}
-            value={image}
-            className={cn(
-              'relative shrink-0',
-              images.length === 1 && !multi && 'mx-auto',
-              images.length > 1 && 'cursor-grab active:cursor-grabbing'
-            )}
-            {...mouseAttrs({ mode: 'clickable' })}
-          >
-            <Img
-              className="pointer-events-none h-52"
-              {...image.imageAttrs(208)}
-            />
-            <button
-              type="button"
-              className="absolute -top-3 -right-3 flex h-6 w-6 items-center justify-center rounded-full bg-white"
-              onClick={() => {
-                setImages((existing) =>
-                  existing.filter((i) => i.id !== image.id)
-                )
-              }}
-              title="Remove this image"
-            >
-              <X size={16} strokeWidth={1} />
-            </button>
-          </Reorder.Item>
-        ))}
-        {(multi || !images?.length) && (
-          <li
-            className={cn(
-              'group flex items-center justify-center',
-              !images.length && 'mx-auto'
-            )}
-          >
-            <ImageUploadButton
-              name={name}
-              ref={uploadButton}
-              multi={multi}
-              prefix={prefix}
-              onSuccess={(images) => {
-                setImages((existing) => [...existing, ...images])
-                setTimeout(() => {
-                  input.current?.dispatchEvent(
-                    new Event('change', { bubbles: true })
-                  )
-                }, 10)
-              }}
-              className="mx-12 my-20 flex h-11 w-11 items-center justify-center bg-white"
-            >
-              <Plus strokeWidth={1} size={28} />
-            </ImageUploadButton>
-          </li>
-        )}
-      </Reorder.Group>
+        onReorder={async (reordered) => {
+          setImages(reordered)
+          await onReorderImages?.(reordered.map((i) => i.id))
+        }}
+        onDelete={(image) => {
+          setImages((existing) => existing.filter((i) => i.id !== image.id))
+        }}
+        onUpload={(uploaded) => {
+          setImages((existing) => [...existing, ...uploaded])
+          notifyChange()
+        }}
+        onError={(message) => setError({ message })}
+      />
       <Messages label={label} name={name} {...props} />
     </Form.Field>
   )

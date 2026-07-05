@@ -1,0 +1,110 @@
+/*
+ * Self-contained styling for ImageUploadCore so the component looks identical
+ * whether it renders on the Tailwind-powered frontend or inside the Payload
+ * admin (which does not load the app's Tailwind). Uses px, not rem: Payload's
+ * admin sets a 13px root font-size, so rem units would shrink the gallery there
+ * relative to the frontend's 16px root.
+ *
+ * Two things are intentionally NOT set here because they are page-context
+ * specific and supplied by the caller via the `className` prop:
+ *   - horizontal gutter padding (frontend page gutters vs. admin field width)
+ *   - background/border (frontend `bg-sand` vs. admin `upload-field-card`)
+ */
+
+.gallery {
+  display: flex;
+  width: 100%;
+  gap: 24px;
+  overflow: auto;
+  padding-top: 48px;
+  padding-bottom: 48px;
+  list-style: none;
+}
+
+.galleryEmpty {
+  cursor: pointer;
+}
+
+.item {
+  position: relative;
+  flex-shrink: 0;
+  list-style: none;
+}
+
+.itemCentered {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.itemDraggable {
+  cursor: grab;
+}
+
+.itemDraggable:active {
+  cursor: grabbing;
+}
+
+.image {
+  height: 208px;
+  pointer-events: none;
+}
+
+.remove {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: 9999px;
+  background: #fff;
+  /* Buttons are always white, so pin the icon dark — otherwise Payload dark
+   * mode's light `currentColor` renders the icon invisible on white. */
+  color: var(--color-black, #1d1d1b);
+  cursor: pointer;
+}
+
+.uploadItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+}
+
+.uploadItemCentered {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.uploadButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin: 80px 48px;
+  background: #fff;
+  color: var(--color-black, #1d1d1b);
+}
+
+.uploadLabel {
+  cursor: pointer;
+}
+
+.uploadLabelPending {
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Visually hidden file input — overlays the label so a click opens the picker. */
+.fileInput {
+  position: absolute;
+  inset: 0;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}

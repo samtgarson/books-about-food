@@ -24,6 +24,8 @@ import { AdminSignup as AdminSignup_5afe2312a68aef77a0242fe42f239ed0 } from 'pay
 import { ForgotPassword as ForgotPassword_5afe2312a68aef77a0242fe42f239ed0 } from 'payload-auth/better-auth/plugin/rsc'
 import { ResetPassword as ResetPassword_5afe2312a68aef77a0242fe42f239ed0 } from 'payload-auth/better-auth/plugin/rsc'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
+import { PreviewImagesField as PreviewImagesField_1b9c4e7a2d3f5061a8b7c9d0e1f23456 } from 'src/payload/components/fields/preview-images/index.tsx'
+import { CoverImageField as CoverImageField_2c7d5f8b3e4a6172b9c8d0e1f2345678 } from 'src/payload/components/fields/cover-image/index.tsx'
 
 /** @type import('payload').ImportMap */
 export const importMap = {
@@ -52,5 +54,7 @@ export const importMap = {
   "payload-auth/better-auth/plugin/rsc#AdminSignup": AdminSignup_5afe2312a68aef77a0242fe42f239ed0,
   "payload-auth/better-auth/plugin/rsc#ForgotPassword": ForgotPassword_5afe2312a68aef77a0242fe42f239ed0,
   "payload-auth/better-auth/plugin/rsc#ResetPassword": ResetPassword_5afe2312a68aef77a0242fe42f239ed0,
-  "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
+  "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1,
+  "src/payload/components/fields/preview-images/index.tsx#PreviewImagesField": PreviewImagesField_1b9c4e7a2d3f5061a8b7c9d0e1f23456,
+  "src/payload/components/fields/cover-image/index.tsx#CoverImageField": CoverImageField_2c7d5f8b3e4a6172b9c8d0e1f2345678
 }

@@ -3,15 +3,15 @@ import { ReactNode, forwardRef, useState, useTransition } from 'react'
 import { Loader } from 'src/components/atoms/loader'
 import { errorToast } from 'src/components/utils/toaster'
 import { Image } from 'src/core/models/image'
-import { useFormField } from '../context'
 import { upload } from './action'
+import styles from './core.module.css'
 import { Area, CropperSheet } from './cropper-sheet'
 
 export type ImageUploadButtonProps = {
-  name: string
   prefix: string
   multi?: boolean
   onSuccess: (images: Image[]) => void
+  onError?: (message: string) => void
   children: ReactNode
   className?: string
   sizeLimit?: number
@@ -24,10 +24,9 @@ export const ImageUploadButton = forwardRef<
   HTMLInputElement,
   ImageUploadButtonProps
 >(function ImageUploadButton(
-  { name, prefix, multi, onSuccess, children, className, croppable },
+  { prefix, multi, onSuccess, onError, children, className, croppable },
   ref
 ) {
-  const { setError } = useFormField(name)
   const [isPending, startTransition] = useTransition()
   const [croppableImage, setCroppableImage] = useState<File | null>(null)
 
@@ -46,7 +45,7 @@ export const ImageUploadButton = forwardRef<
   return (
     <label
       className={cn(
-        isPending ? 'pointer-events-none' : 'cursor-pointer',
+        isPending ? styles.uploadLabelPending : styles.uploadLabel,
         className
       )}
     >
@@ -55,7 +54,7 @@ export const ImageUploadButton = forwardRef<
       <input
         type="file"
         accept="image/*"
-        className="absolute inset-0 h-0 w-0 opacity-0"
+        className={styles.fileInput}
         multiple={multi}
         ref={ref}
         form=""
@@ -64,7 +63,7 @@ export const ImageUploadButton = forwardRef<
           if (!files?.length) return
           if (sizeLimit && files.some((f) => f.size > sizeLimit)) {
             errorToast('Please select a image smaller than 5mb')
-            setError({ message: 'Image is too large' })
+            onError?.('Image is too large')
             return
           }
 

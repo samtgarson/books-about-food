@@ -34,7 +34,6 @@ export function EditableImage({
         <div className="absolute top-0 right-0 flex gap-1">
           <ImageUploadButton
             croppable={croppeable}
-            name="avatar"
             prefix="profile-avatars"
             className="flex h-10 min-w-10 items-center justify-center gap-2 bg-white px-2 text-16"
             onSuccess={([{ id }]) => onSave(id)}

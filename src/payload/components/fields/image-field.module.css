@@ -1,0 +1,7 @@
+/* Admin-appropriate horizontal padding for the image-upload gallery fields
+ * (cover + preview images). The frontend supplies its own page-gutter padding
+ * instead. */
+.gutter {
+  padding-left: 16px;
+  padding-right: 16px;
+}
