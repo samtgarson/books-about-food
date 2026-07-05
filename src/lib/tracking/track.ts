@@ -2,8 +2,6 @@
 import { cookies, headers } from 'next/headers'
 import { NextRequest, NextResponse, userAgent } from 'next/server'
 
-import { ipAddress } from '@vercel/functions'
-
 import { ResponseCookies } from 'next/dist/compiled/@edge-runtime/cookies'
 import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies'
 import { TrackableEvents } from './events'
@@ -87,7 +85,7 @@ async function getCommonProperties(
       $device: ua.device.type,
       $os: ua.os.name,
       $referrer: h.get('referer'),
-      ip: ip(h, ipAddress(req as Request)),
+      ip: ip(h),
       time: Date.now()
     }
   } catch {

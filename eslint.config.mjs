@@ -18,7 +18,6 @@ export default defineConfig([
   globalIgnores([
     '.husky',
     'e2e/bin/generate-google-token.js',
-    '**/.vercel',
     'src/app/(payload)',
     'src/payload/migrations/**/*',
     '!src/payload/migrations/from-prisma/**/*'

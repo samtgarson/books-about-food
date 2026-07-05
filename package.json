@@ -67,8 +67,6 @@
     "@tiptap/pm": "^2.11.5",
     "@tiptap/react": "^2.11.5",
     "@upstash/redis": "^1.34.5",
-    "@vercel/functions": "^3.3.4",
-    "@vercel/speed-insights": "^1.2.0",
     "@vibrant/color": "^3.2.1-alpha.1",
     "@vibrant/core": "^3.2.1-alpha.1",
     "@vibrant/generator": "^3.2.1-alpha.1",

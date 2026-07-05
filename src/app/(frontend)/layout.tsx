@@ -1,5 +1,4 @@
 import * as Sentry from '@sentry/nextjs'
-import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ReactNode } from 'react'
 import { Toaster } from 'sonner'
 import { Mouse } from 'src/components/atoms/mouse'
@@ -64,7 +63,6 @@ export default async function RootLayout({
             </GlobalSheetProvider>
           </TrackingProvider>
           <Mouse />
-          <SpeedInsights />
         </Sentry.ErrorBoundary>
       </body>
     </html>
