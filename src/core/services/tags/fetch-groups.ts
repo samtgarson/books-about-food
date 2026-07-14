@@ -1,24 +1,40 @@
-import { requirePopulatedArray } from 'src/core/models/utils/payload-validation'
+import { and, asc, eq } from '@payloadcms/db-postgres/drizzle'
 import { Service } from 'src/core/services/base'
-import { TAG_GROUP_DEPTH } from 'src/core/services/utils/payload-depth'
+import { books, books_rels, tag_groups, tags } from 'src/payload/schema'
 import { z } from 'zod'
 
 export const fetchTagGroups = new Service(z.undefined(), async function (
   _input,
   { payload }
 ) {
-  const { docs } = await payload.find({
-    collection: 'tag-groups',
-    sort: 'name',
-    where: {
-      adminOnly: { equals: false },
-      'tags.books.status': { equals: 'published' }
-    },
-    depth: TAG_GROUP_DEPTH
-  })
+  const rows = await payload.db.drizzle
+    .selectDistinct({
+      group: tag_groups,
+      tag: tags
+    })
+    .from(tag_groups)
+    .innerJoin(tags, eq(tags.group, tag_groups.id))
+    .innerJoin(
+      books_rels,
+      and(eq(books_rels.tagsID, tags.id), eq(books_rels.path, 'tags'))
+    )
+    .innerJoin(books, eq(books.id, books_rels.parent))
+    .where(and(eq(tag_groups.adminOnly, false), eq(books.status, 'published')))
+    .orderBy(asc(tag_groups.name), asc(tags.name))
 
-  return docs.map(({ tags, ...group }) => ({
-    ...group,
-    tags: requirePopulatedArray(tags?.docs || [], 'TagGroup.tags')
-  }))
+  type Group = (typeof rows)[number]['group']
+  type Tag = (typeof rows)[number]['tag']
+  const groups = new Map<string, Group & { tags: Tag[] }>()
+
+  for (const { group, tag } of rows) {
+    const existing = groups.get(group.id)
+
+    if (existing) {
+      existing.tags.push(tag)
+    } else {
+      groups.set(group.id, { ...group, tags: [tag] })
+    }
+  }
+
+  return Array.from(groups.values())
 })

@@ -35,6 +35,8 @@ export function ColorCircle({
   const Tag = onClick ? 'button' : 'span'
   return (
     <Tag
+      aria-label={onClick ? `${color} colour` : undefined}
+      aria-pressed={onClick ? selected : undefined}
       style={{
         background: color === 'rainbow' ? rainbowGradient : hex
       }}

@@ -14,7 +14,8 @@ function ParamLinkContent({
   ...props
 }: ParamLinkParams) {
   const mergeParams = useMergeParams(reset)
-  const child = Children.only(children)
+  // React 19 may deserialize a single RSC child as a one-item array.
+  const child = Children.toArray(children)[0] as JSX.Element
   return cloneElement(child, {
     href: mergeParams(props)
   })

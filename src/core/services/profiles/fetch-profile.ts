@@ -1,21 +1,28 @@
-import { JoinQuery, Where } from 'payload'
+import { and, eq } from '@payloadcms/db-postgres/drizzle'
+import { Where } from 'payload'
 import { Profile } from 'src/core/models/profile'
 import { Service } from 'src/core/services/base'
+import { profiles } from 'src/payload/schema'
 import { z } from 'zod'
 import { PROFILE_DEPTH } from '../utils/payload-depth'
+import { hasPublishedWork } from './fetch-profile-page'
 
 export const fetchProfile = new Service(
   z.object({ onlyPublished: z.boolean().optional(), slug: z.string() }),
   async ({ slug, onlyPublished }, { payload }) => {
     const where: Where = { slug: { equals: slug } }
-    const joins: JoinQuery<'profiles'> = {}
 
     if (onlyPublished) {
-      joins.contributions = { where: { status: { equals: 'published' } } }
-      where.or = [
-        { 'authoredBooks.status': { equals: 'published' } },
-        { authoredBooks: { exists: false } }
-      ]
+      const [publishedProfile] = await payload.db.drizzle
+        .select({ id: profiles.id })
+        .from(profiles)
+        .where(
+          and(eq(profiles.slug, slug), hasPublishedWork(payload.db.drizzle))
+        )
+        .limit(1)
+
+      if (!publishedProfile) return null
+      where.id = { equals: publishedProfile.id }
     }
 
     try {
@@ -23,8 +30,7 @@ export const fetchProfile = new Service(
         collection: 'profiles',
         where,
         limit: 1,
-        depth: PROFILE_DEPTH,
-        joins
+        depth: PROFILE_DEPTH
       })
 
       return docs[0] ? new Profile(docs[0]) : null

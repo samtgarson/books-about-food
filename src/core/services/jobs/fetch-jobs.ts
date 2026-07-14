@@ -14,7 +14,8 @@ export const fetchJobs = new Service(
     const { docs } = await payload.find({
       collection: 'jobs',
       sort: 'name',
-      where
+      where,
+      pagination: false
     })
 
     return docs
