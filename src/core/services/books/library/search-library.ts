@@ -10,7 +10,7 @@ export const searchLibrary = new Service(
   async ({ query }, _ctx): Promise<BookResult[]> => {
     if (!query.length) return []
 
-    const result = await client.search(`intitle:"${query}" subject:Cooking`)
+    const result = await client.search(query)
 
     if (!result) return []
     return result.flatMap((item, index) => {
