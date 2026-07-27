@@ -41,7 +41,12 @@ function contribHandles(contribs: Contribution[]) {
     {} as Record<string, string[]>
   )
 
-  return Object.keys(jobs).map((job) => `${job}: ${jobs[job].join(', ')}`)
+  return Object.keys(jobs).map((job) => formatJob(job, jobs[job]))
+}
+
+function formatJob(job: string, handles: string[]) {
+  if (handles.every((h) => h.startsWith('@'))) return `${job} ${handles.join(' ')}`
+  return `${job}: ${handles.join(', ')}`
 }
 
 function handle(profile: { name: string; instagram?: string }) {
