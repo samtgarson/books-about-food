@@ -25,9 +25,9 @@ export const CoverCarousel: FC<CoverCarouselProps> = ({ book, className }) => {
             <Carousel.Item key={image.id} index={i}>
               <li>
                 <Image
-                  {...image.imageAttrs(440)}
+                  {...image.imageAttrs(560)}
                   loading="eager"
-                  className="h-[210px] w-auto max-w-none book-shadow md:h-[310px] xl:h-[440px]"
+                  className="h-[210px] w-auto max-w-none book-shadow md:h-[310px] xl:h-[440px] 2xl:h-[560px]"
                 />
               </li>
             </Carousel.Item>
@@ -41,6 +41,8 @@ export const CoverCarousel: FC<CoverCarouselProps> = ({ book, className }) => {
           mdLastSlideWidth={lastImage.widthFor(310)}
           lgSlideWidth={firstImage.widthFor(440)}
           lgLastSlideWidth={lastImage.widthFor(440)}
+          xxlSlideWidth={firstImage.widthFor(560)}
+          xxlLastSlideWidth={lastImage.widthFor(560)}
         />
       </Carousel.Root>
     </>
