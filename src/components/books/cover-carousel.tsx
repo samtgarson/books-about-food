@@ -1,13 +1,27 @@
 'use client'
 
 import Image from 'next/image'
-import { FC } from 'react'
+import { FC, useContext } from 'react'
 import * as Carousel from 'src/components/atoms/carousel'
+import { CarouselContext } from 'src/components/atoms/carousel/context'
 import { FullBook } from 'src/core/models/full-book'
 
 export type CoverCarouselProps = {
   book: FullBook
   className?: string
+}
+
+const CoverFlood: FC<{ color?: string }> = ({ color }) => {
+  const { currentIndex } = useContext(CarouselContext)
+  if (!color) return null
+
+  return (
+    <div
+      aria-hidden
+      className="absolute inset-0 -z-10 transition-opacity duration-700"
+      style={{ backgroundColor: color, opacity: currentIndex === 0 ? 1 : 0 }}
+    />
+  )
 }
 
 export const CoverCarousel: FC<CoverCarouselProps> = ({ book, className }) => {
@@ -20,6 +34,7 @@ export const CoverCarousel: FC<CoverCarouselProps> = ({ book, className }) => {
   return (
     <>
       <Carousel.Root totalItems={images.length} className={className}>
+        <CoverFlood color={book.backgroundColor} />
         <Carousel.Scroller className="w-full gap-24 py-16 lg:py-4">
           {images.map((image, i) => (
             <Carousel.Item key={image.id} index={i}>
