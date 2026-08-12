@@ -8,15 +8,19 @@ export type CentererProps = {
   mdLastSlideWidth?: number | false
   lgSlideWidth?: number | false
   lgLastSlideWidth?: number | false
+  xxlSlideWidth?: number | false
+  xxlLastSlideWidth?: number | false
 }
 
 export const Centerer: FC<CentererProps> = memo(function Centerer({
   slideWidth,
   mdSlideWidth,
   lgSlideWidth,
+  xxlSlideWidth,
   lastSlideWidth = slideWidth,
   mdLastSlideWidth = mdSlideWidth,
-  lgLastSlideWidth = lgSlideWidth
+  lgLastSlideWidth = lgSlideWidth,
+  xxlLastSlideWidth = xxlSlideWidth
 }) {
   const { id } = useContext(CarouselContext)
   let __html = ''
@@ -66,6 +70,24 @@ export const Centerer: FC<CentererProps> = memo(function Centerer({
         @media (min-width: 1280px) {
           [id="${id}"] li:last-child {
             padding-right: calc(50% - ${lgLastSlideWidth / 2}px);
+          }
+        }
+      `
+  }
+  if (xxlSlideWidth) {
+    __html += `
+        @media (min-width: 1536px) {
+          [id="${id}"] li:first-child {
+            padding-left: calc(50% - ${xxlSlideWidth / 2}px);
+          }
+        }
+      `
+  }
+  if (xxlLastSlideWidth) {
+    __html += `
+        @media (min-width: 1536px) {
+          [id="${id}"] li:last-child {
+            padding-right: calc(50% - ${xxlLastSlideWidth / 2}px);
           }
         }
       `
