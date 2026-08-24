@@ -17,6 +17,8 @@ export default defineConfig([
   includeIgnoreFile(gitignorePath),
   globalIgnores([
     '.husky',
+    // Evaluated by the Railway CLI, outside the app tsconfig
+    '.railway',
     'e2e/bin/generate-google-token.js',
     'src/app/(payload)',
     'src/payload/migrations/**/*',

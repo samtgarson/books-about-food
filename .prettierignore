@@ -6,3 +6,5 @@
 .mailing
 
 src/payload/schema.ts
+
+.railway/
