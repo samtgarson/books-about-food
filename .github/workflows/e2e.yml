@@ -1,0 +1,78 @@
+name: E2E
+
+on:
+  workflow_call:
+    inputs:
+      env-name:
+        description: Railway environment holding the deployment under test
+        required: true
+        type: string
+      web-url:
+        description: URL to point Playwright at
+        required: true
+        type: string
+
+env:
+  RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_API_TOKEN }}
+  RAILWAY_PROJECT_ID: 4a6f0233-9778-4f59-86e9-d82e40b63970
+  HUSKY: 0
+
+jobs:
+  test:
+    name: "Run E2E tests"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGE_INSTALL_PAT }}" >> .npmrc
+          npm ci
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+      - name: Fetch environment credentials
+        run: |
+          npm install -g @railway/cli
+          ENV_NAME="${{ inputs.env-name }}"
+          railway link --project "$RAILWAY_PROJECT_ID" --environment production --service App
+          # Fetched here, not via job outputs (GitHub drops secret-bearing outputs across jobs).
+          CI_DB=$(railway variables --service Postgres --environment "$ENV_NAME" --json | jq -r '.DATABASE_PUBLIC_URL')
+          AUTH_SECRET=$(railway variables --service App --environment "$ENV_NAME" --json | jq -r '.BETTER_AUTH_SECRET')
+          echo "::add-mask::$CI_DB"
+          echo "::add-mask::$AUTH_SECRET"
+          {
+            echo "DATABASE_URL=$CI_DB"
+            echo "DATABASE_DIRECT_URL=$CI_DB"
+            echo "BETTER_AUTH_SECRET=$AUTH_SECRET"
+          } >> "$GITHUB_ENV"
+      - name: Get installed Playwright version
+        id: playwright-version
+        run: echo "PLAYWRIGHT_VERSION=$(npm why @playwright/test --json | jq '.[0].version' -r)" >> $GITHUB_ENV
+      - name: Cache playwright binaries
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+      - name: Create Gmail secret files
+        run: |
+          echo ${{ secrets.GMAIL_CREDENTIALS_JSON }} | base64 -d > ./e2e/gmail-credentials.json
+          echo ${{ secrets.GMAIL_TOKEN_JSON }} | base64 -d > ./e2e/gmail-token.json
+      - name: Run Playwright tests
+        # --fail-on-flaky-tests: a test that only passes on retry still fails the job.
+        run: cd e2e && npx playwright test --fail-on-flaky-tests
+        env:
+          DEPLOYMENT_URL: ${{ inputs.web-url }}
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: test-results
+          path: e2e/test-results
+          retention-days: 10

@@ -3,6 +3,11 @@ import { defineRailway, postgres, preserve, project, service, volume } from "rai
 export default defineRailway(() => {
   const Postgres = postgres("Postgres", { region: "europe-west4-drams3a" });
   const postgresVolume = volume("postgres-volume", { alerts: { usage: { "100": {}, "80": {}, "95": {} } }, allowOnlineResize: true, region: "europe-west4-drams3a", sizeMB: 5000 });
+  // Production only, enforced by .github/scripts/create-preview-env.sh: backup
+  // object keys carry no environment discriminator, so a preview environment
+  // running this cron would upload its own database into the production bucket
+  // looking exactly like a real backup. Not expressible here — the Railway CLI
+  // does not yet pass environment context to this file (ctx is {} as of 5.43.2).
   const DatabaseBackup = service("Database Backup", {
     replicas: { "europe-west4-drams3a": 1 },
     deploy: { cronSchedule: "0 3 * * *", restartPolicyType: "NEVER" },

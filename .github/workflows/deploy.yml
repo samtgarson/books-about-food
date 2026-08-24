@@ -1,11 +1,14 @@
 name: Test & Deploy
 on:
   push:
+    branches:
+      - main
     paths:
       - "package.json"
-      - "railway.json"
+      - ".railway/**"
       - .github/workflows/deploy.yml
-      - .github/scripts/scrub-ci-db.sql
+      - .github/workflows/e2e.yml
+      - .github/scripts/**
       - "src/**"
       - "e2e/**"
 
@@ -45,123 +48,32 @@ jobs:
       - name: Create ephemeral environment (duplicate of production)
         id: create-env
         run: |
-          REF="${{ github.ref_name }}"
-          # Railway caps environment names at 32 chars, so keep the whole name (incl. "ci-") within it.
-          ENV_NAME="ci-$(echo "$REF" | tr '/_' '--' | tr -cd 'a-zA-Z0-9-' | cut -c1-29)"
-          # Self-heal any orphan left by a cancelled run, then fork production.
-          railway environment delete "$ENV_NAME" -y 2>/dev/null || true
-          railway environment new "$ENV_NAME" --duplicate production --json
+          ENV_NAME="ci-main"
+          .github/scripts/create-preview-env.sh "$ENV_NAME" --recreate
           echo "env_name=$ENV_NAME" >> "$GITHUB_OUTPUT"
 
       - name: Seed ephemeral DB from production (scrubbed)
-        run: |
-          ENV_NAME="${{ steps.create-env.outputs.env_name }}"
-          PROD_DB=$(railway variables --service Postgres --environment production --json | jq -r '.DATABASE_PUBLIC_URL')
-
-          # Wait for the duplicated Postgres to deploy and start accepting connections.
-          CI_DB=""
-          for i in $(seq 1 30); do
-            CI_DB=$(railway variables --service Postgres --environment "$ENV_NAME" --json | jq -r '.DATABASE_PUBLIC_URL // empty')
-            if [ -n "$CI_DB" ] && pg_isready -d "$CI_DB" >/dev/null 2>&1; then
-              echo "ephemeral Postgres ready"
-              break
-            fi
-            echo "waiting for ephemeral Postgres... ($i)"
-            sleep 10
-          done
-          if [ -z "$CI_DB" ] || ! pg_isready -d "$CI_DB" >/dev/null 2>&1; then
-            echo "ephemeral Postgres never became ready" >&2
-            exit 1
-          fi
-
-          # DROP first so the restore is order-independent (the duplicated web may have auto-migrated).
-          psql "$CI_DB" -v ON_ERROR_STOP=1 -c "DROP SCHEMA IF EXISTS payload CASCADE;"
-          pg_dump "$PROD_DB" --schema=payload --no-owner --no-privileges \
-            | psql "$CI_DB" -v ON_ERROR_STOP=1
-          psql "$CI_DB" -v ON_ERROR_STOP=1 -f .github/scripts/scrub-ci-db.sql
+        run: .github/scripts/seed-env-db.sh "${{ steps.create-env.outputs.env_name }}"
 
       - name: Deploy web to ephemeral environment
         id: deploy
         run: |
-          ENV_NAME="${{ steps.create-env.outputs.env_name }}"
-          # In CI, railway up returns after build; poll for the terminal deploy status.
-          railway up --service App --environment "$ENV_NAME" --ci
-          .github/scripts/wait-for-deploy.sh App "$ENV_NAME"
-          # railway domain returns {domain} when new, {domains:[...]} when one already exists.
-          WEB_URL=$(railway domain --service App --environment "$ENV_NAME" --json | jq -r '.domain // .domains[0]')
-          for i in $(seq 1 30); do
-            code=$(curl -s -o /dev/null -w '%{http_code}' "$WEB_URL" || true)
-            echo "GET $WEB_URL -> $code"
-            [ "$code" != "000" ] && [ "$code" -lt 500 ] && break
-            sleep 5
-          done
+          WEB_URL=$(.github/scripts/deploy-app.sh "${{ steps.create-env.outputs.env_name }}")
           echo "web_url=$WEB_URL" >> "$GITHUB_OUTPUT"
 
   test:
     name: "Run E2E tests"
     needs: [preview]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 22
-      - name: Install dependencies
-        run: |
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGE_INSTALL_PAT }}" >> .npmrc
-          npm ci
-        env:
-          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
-      - name: Fetch ephemeral environment credentials
-        run: |
-          npm install -g @railway/cli
-          ENV_NAME="${{ needs.preview.outputs.env-name }}"
-          railway link --project "$RAILWAY_PROJECT_ID" --environment production --service App
-          # Fetched here, not via job outputs (GitHub drops secret-bearing outputs across jobs).
-          CI_DB=$(railway variables --service Postgres --environment "$ENV_NAME" --json | jq -r '.DATABASE_PUBLIC_URL')
-          AUTH_SECRET=$(railway variables --service App --environment "$ENV_NAME" --json | jq -r '.BETTER_AUTH_SECRET')
-          echo "::add-mask::$CI_DB"
-          echo "::add-mask::$AUTH_SECRET"
-          {
-            echo "DATABASE_URL=$CI_DB"
-            echo "DATABASE_DIRECT_URL=$CI_DB"
-            echo "BETTER_AUTH_SECRET=$AUTH_SECRET"
-          } >> "$GITHUB_ENV"
-      - name: Get installed Playwright version
-        id: playwright-version
-        run: echo "PLAYWRIGHT_VERSION=$(npm why @playwright/test --json | jq '.[0].version' -r)" >> $GITHUB_ENV
-      - name: Cache playwright binaries
-        uses: actions/cache@v4
-        id: playwright-cache
-        with:
-          path: |
-            ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-      - name: Create Gmail secret files
-        run: |
-          echo ${{ secrets.GMAIL_CREDENTIALS_JSON }} | base64 -d > ./e2e/gmail-credentials.json
-          echo ${{ secrets.GMAIL_TOKEN_JSON }} | base64 -d > ./e2e/gmail-token.json
-      - name: Run Playwright tests
-        # --fail-on-flaky-tests: a test that only passes on retry still fails the job.
-        run: cd e2e && npx playwright test --fail-on-flaky-tests
-        env:
-          DEPLOYMENT_URL: ${{ needs.preview.outputs.web-url }}
-      - uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: test-results
-          path: e2e/test-results
-          retention-days: 10
+    uses: ./.github/workflows/e2e.yml
+    secrets: inherit
+    with:
+      env-name: ${{ needs.preview.outputs.env-name }}
+      web-url: ${{ needs.preview.outputs.web-url }}
 
   deploy-prod:
     name: "Deploy to Production"
     needs: [preview, test]
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout
         uses: actions/checkout@v4

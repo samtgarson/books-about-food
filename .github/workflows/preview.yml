@@ -1,0 +1,164 @@
+name: PR Preview
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+
+env:
+  RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_API_TOKEN }}
+  RAILWAY_PROJECT_ID: 4a6f0233-9778-4f59-86e9-d82e40b63970
+  HUSKY: 0
+
+concurrency:
+  group: pr-preview-${{ github.event.number }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    name: "Deploy preview"
+    # Forked PRs receive no secrets, and the preview is seeded from a
+    # production dump, so previews are limited to branches on this repository.
+    if: >-
+      github.event.action != 'closed' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    outputs:
+      env-name: ${{ steps.create-env.outputs.env_name }}
+      web-url: ${{ steps.deploy.outputs.web_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Start GitHub deployment
+        id: gh-deployment
+        uses: actions/github-script@v7
+        with:
+          result-encoding: string
+          script: |
+            const { data } = await github.rest.repos.createDeployment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.payload.pull_request.head.sha,
+              environment: `pr-${context.payload.number}`,
+              description: 'Railway preview environment',
+              transient_environment: true,
+              auto_merge: false,
+              // Without this GitHub refuses to create a deployment while the
+              // PR's other checks are still pending.
+              required_contexts: [],
+            })
+            await github.rest.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: data.id,
+              state: 'in_progress',
+              log_url: `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+            })
+            return String(data.id)
+
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Link Railway project
+        run: railway link --project "$RAILWAY_PROJECT_ID" --environment production --service App
+
+      - name: Create preview environment
+        id: create-env
+        run: |
+          ENV_NAME="pr-${{ github.event.number }}"
+          STATUS=$(.github/scripts/create-preview-env.sh "$ENV_NAME")
+          echo "env_name=$ENV_NAME" >> "$GITHUB_OUTPUT"
+          echo "status=$STATUS" >> "$GITHUB_OUTPUT"
+
+      - name: Install PostgreSQL 18 client
+        if: steps.create-env.outputs.status == 'created'
+        run: |
+          sudo apt-get update && sudo apt-get install -y postgresql-common
+          sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+          sudo apt-get install -y postgresql-client-18
+          echo "/usr/lib/postgresql/18/bin" >> "$GITHUB_PATH"
+
+      - name: Seed preview DB from production (scrubbed)
+        # Seeded once, on creation. Later pushes redeploy against the database
+        # as it stands, so data created while reviewing the PR survives.
+        if: steps.create-env.outputs.status == 'created'
+        run: .github/scripts/seed-env-db.sh "${{ steps.create-env.outputs.env_name }}"
+
+      - name: Deploy web to preview environment
+        id: deploy
+        run: |
+          WEB_URL=$(.github/scripts/deploy-app.sh "${{ steps.create-env.outputs.env_name }}")
+          echo "web_url=$WEB_URL" >> "$GITHUB_OUTPUT"
+
+      - name: Publish preview URL
+        run: |
+          {
+            echo "### Preview deployment"
+            echo
+            echo "| | |"
+            echo "| --- | --- |"
+            echo "| URL | ${{ steps.deploy.outputs.web_url }} |"
+            echo "| Environment | \`${{ steps.create-env.outputs.env_name }}\` |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Report deployment result
+        if: always() && steps.gh-deployment.outputs.result
+        uses: actions/github-script@v7
+        env:
+          WEB_URL: ${{ steps.deploy.outputs.web_url }}
+          SUCCEEDED: ${{ job.status == 'success' }}
+        with:
+          script: |
+            const succeeded = process.env.SUCCEEDED === 'true'
+            await github.rest.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: Number('${{ steps.gh-deployment.outputs.result }}'),
+              state: succeeded ? 'success' : 'failure',
+              ...(succeeded && process.env.WEB_URL ? { environment_url: process.env.WEB_URL } : {}),
+              log_url: `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+            })
+
+  test:
+    name: "Run E2E tests"
+    needs: [preview]
+    uses: ./.github/workflows/e2e.yml
+    secrets: inherit
+    with:
+      env-name: ${{ needs.preview.outputs.env-name }}
+      web-url: ${{ needs.preview.outputs.web-url }}
+
+  teardown:
+    name: "Tear down preview"
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+      - name: Link Railway project
+        run: railway link --project "$RAILWAY_PROJECT_ID" --environment production --service App
+      - name: Delete preview environment
+        run: railway environment delete "pr-${{ github.event.number }}" -y || true
+      - name: Mark GitHub deployments inactive
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const environment = `pr-${context.payload.number}`
+            const deployments = await github.paginate(github.rest.repos.listDeployments, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              environment,
+            })
+            for (const deployment of deployments) {
+              await github.rest.repos.createDeploymentStatus({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                deployment_id: deployment.id,
+                state: 'inactive',
+              })
+            }
