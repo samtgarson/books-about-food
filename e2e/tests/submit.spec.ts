@@ -1,6 +1,11 @@
 import { Page } from '@playwright/test'
 import { expect, test } from '../test'
 
+// The title combobox is backed by a Google Books lookup. Both accepting input
+// and the results settling wait on that external call, so they need far longer
+// than the default expect timeout.
+const BOOK_SEARCH_TIMEOUT = 60 * 1000
+
 test.describe('Submit', function () {
   test.beforeEach(async function ({ page, helpers }) {
     await helpers.login()
@@ -38,12 +43,14 @@ async function fillInTitleForm(page: Page) {
   await expect(dialog).toBeVisible()
   await dialog
     .getByRole('combobox', { name: 'Title' })
-    .fill('a good day to bake', { timeout: 60 * 1000 })
+    .fill('a good day to bake', { timeout: BOOK_SEARCH_TIMEOUT })
 
   const option = page
     .getByRole('option')
     .filter({ hasText: /A Good Day to Bake/i })
-  await expect(option).toHaveAttribute('aria-selected', 'true')
+  await expect(option).toHaveAttribute('aria-selected', 'true', {
+    timeout: BOOK_SEARCH_TIMEOUT
+  })
   await page.keyboard.press('Enter')
 
   await expect(dialog).toContainText('Benjamina Ebuehi') // Author

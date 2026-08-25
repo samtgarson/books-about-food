@@ -31,6 +31,10 @@ test.describe('Account', () => {
     await saved
 
     await page.reload()
-    await expect(page.getByLabel('Name')).toHaveValue('New Name')
+    // A freshly deployed preview can be slow to serve the reloaded page, so
+    // give the persisted value longer than the default expect timeout.
+    await expect(page.getByLabel('Name')).toHaveValue('New Name', {
+      timeout: 30 * 1000
+    })
   })
 })

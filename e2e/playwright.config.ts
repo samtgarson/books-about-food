@@ -26,7 +26,10 @@ export default defineConfig({
     trace: 'retain-on-failure',
     ...devices['Desktop Chrome']
   },
-  timeout: process.env.CI ? 30000 : 60000,
+  // CI runs against a freshly deployed preview over the network, so it needs
+  // more headroom than a local run, not less. It must also exceed the longest
+  // per-assertion timeout below, or that assertion can never reach it.
+  timeout: process.env.CI ? 90000 : 60000,
   expect: {
     timeout: 15000
   }
