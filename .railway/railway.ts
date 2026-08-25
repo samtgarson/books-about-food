@@ -28,7 +28,10 @@ export default defineRailway(() => {
         'NODE_ENV=production DATABASE_URL="$DATABASE_PUBLIC_URL" npm run migrate && NODE_ENV=production DB_POOL_MAX=3 DATABASE_URL="$DATABASE_PUBLIC_URL" npm run build',
     },
     start: "npm run start",
-    deploy: { restartPolicyType: "ON_FAILURE", restartPolicyMaxRetries: 3 },
+    // restartPolicyType is omitted deliberately: ON_FAILURE is Railway's
+    // default, so it is stored as unset and an explicit value here would leave
+    // a diff that never converges. Only the retry count differs from default.
+    deploy: { restartPolicyMaxRetries: 3 },
     domains: ["www.booksabout.food"],
     networking: { privateNetworkEndpoint: "web" },
     env: {
