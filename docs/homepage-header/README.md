@@ -114,7 +114,6 @@ No schema changes are needed. Everything comes from the existing `features` coll
 
 - Arrow keys work; the phone ‹ › buttons and View Book link have labels; the credit has the full author list in `aria-label`.
 - With `prefers-reduced-motion: reduce`: no slide/turn transitions and no auto-advance.
-- **Open decision:** WCAG 2.2.2 expects a way to **pause** content that moves on its own for more than 5s. Hover-pause was removed at the designer's request, because it made the carousel look stuck after clicking. Suggestion: a small pause/play button at one end of the progress line.
 - The View Book link is only focusable while the commentary is showing.
 
 ---
@@ -132,5 +131,5 @@ No schema changes are needed. Everything comes from the existing `features` coll
 - [ ] Tap zones: right half = next, left half = previous; the centre book and View Book are excluded.
 - [ ] Phone: no dots; arrows level with the author name and aligned to the nav icons; equal space above and below the book.
 - [ ] Reduced motion: no transitions, no auto-advance.
-- [ ] Safari and a real phone: the 3D faces render the right way round (a software-rendered headless browser showed depth-sorting glitches that GPU rendering didn't).
+- [ ] Safari (macOS and iOS) and a real Android phone: the 3D faces render the right way round. The mockup was only tested in Chromium; a software-rendered headless Chromium showed depth-sorting glitches that GPU rendering didn't.
 - [ ] No books animate in on first page load.
