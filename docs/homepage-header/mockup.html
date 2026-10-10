@@ -354,7 +354,7 @@ a { color: inherit; text-decoration: none; }
 /* =============================================================================================
    10. DESIGN COMMENTARY + "VIEW BOOK"
    Centred over the book in focus. Appears once the book has settled and the carousel has been
-   idle for 0.5s; the book fades to 18% behind it. Hidden again the moment anything moves.
+   idle for 1.2s; the book fades to 18% behind it. Hidden again the moment anything moves.
    ============================================================================================= */
 .commentary {
   position: absolute; left: 50%; top: 50%; z-index: 15; width: min(300px, calc(100% - 40px));
@@ -600,7 +600,7 @@ a { color: inherit; text-decoration: none; }
   const slides = [{ isTitle: true }].concat(features.map(function (f) { return { feature: f } }))
   const n = slides.length
   const STACK_SIZE = 5              // books in the landing stack (phones show 3, set in CSS)
-  const COMMENTARY_IDLE_MS = 500         // idle time after a book settles before its design commentary shows
+  const COMMENTARY_IDLE_MS = 1200        // idle time after a book settles before its design commentary shows
   let current = 0
   let busy = false                  // true while a loop-around sequence (D) is running
 
