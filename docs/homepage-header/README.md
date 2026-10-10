@@ -2,7 +2,7 @@
 
 Handoff notes for building the new homepage header. It replaces the current `FeatureCarousel`, which only the homepage uses.
 
-- **Reference mockup (interactive):** https://claude.ai/artifact/9iiA8tfme6ehwFFL5rGeAi. It's private, so ask for it to be shared with you. Add `#tune` to the end of the link to show the design tuning panel.
+- **Reference mockup (interactive):** https://claude.ai/artifact/9iiA8tfme6ehwFFL5rGeAi. Add `#tune` to the end of the link to show the design tuning panel.
 - **Mockup source:** [`mockup.html`](./mockup.html). It's a single annotated file, with comments numbered so they match the sections below.
 - **Run it locally:** `python3 docs/homepage-header/build-mockup.py [covers-folder]` writes `mockup.built.html`, which you open in a browser. Without a covers folder it uses flat placeholder covers.
 
