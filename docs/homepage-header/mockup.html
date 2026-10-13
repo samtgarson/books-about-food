@@ -13,7 +13,7 @@
     CSS   1. Design settings (every tuned value lives here)
           2. Base + mock chrome (preview frame only, not part of the site)
           3. Nav + progress line
-          4. Carousel frame
+          4. Carousel frame + colour backdrop
           5. Slide positions (how books move)
           6. Landing stack
           7. 3D book
@@ -24,9 +24,10 @@
          12. "Coming Soon" stub (context only)
          13. Tablet / desktop breakpoints
          14. Short screens + reduced motion
-         15. Tuning panel (dev only, open with #tune)
+         15. Tuning panels + preview switch (dev only, hidden unless opened with #tune, #backdrop or #preview)
     JS    A. Data  B. Building the DOM  C. Positions + render  D. Loop-around sequences
-          E. Credit  F. Design commentary  G. Auto-advance  H. Input  I. Mock-only extras  J. Tuning panel
+          E. Credit  F. Design commentary  G. Auto-advance  H. Colour backdrop  I. Input
+          J. Mock-only extras  K. Tuning panel
 
   Breakpoints match Tailwind in the app: sm 640, md 768, lg 1024. They are written as container
   queries on .site only so the Desktop/Mobile preview toggle can resize the page; in the app use
@@ -88,6 +89,18 @@
   --lines: .12;         /* contrast of the page lines on the page block */
   --page: #ffffff;      /* page block colour */
 
+  /* Colour backdrop (section 4 + script H): dots in the cover's colours behind the book */
+  --bg-cell: 3;         /* dot grid spacing, px */
+  --bg-dot: .21;        /* dot radius as a fraction of the spacing (.5 = dots touch) */
+  --bg-reach: .49;      /* how far the colour spreads from the book, fraction of header height */
+  --bg-falloff: .9;     /* higher = colour stays closer to the book */
+  --bg-o: .31;          /* strength */
+  --bg-dim: .5;         /* strength while the design commentary shows, fraction of --bg-o */
+  --ripple: 1.2;        /* how long the colour takes to ripple out from behind the book, s */
+  --ripple-start: .5;   /* when the ripple starts, as a fraction of the slide move */
+  --ripple-glow: .12;   /* extra brightness on the ripple's leading edge (fades as it spreads) */
+  --ripple-edge: 20;    /* softness of the ripple edge, dots */
+
   /* Phone layout (< 640px) */
   --m-offset: 14;       /* nudge books down (+) / up (−) without changing the header height, px */
   --m-gap: 76;          /* space above and below the book; the header height follows from it, px */
@@ -97,7 +110,9 @@
   --d-offset: -15;      /* nudge books / stack / title down (+) or up (−), px */
   --d-credit: 40;       /* author row distance from the bottom, px */
   --d-stack-scale: 1.15;/* size of the books in the landing stack */
-  --d-stack-span: 560;  /* width the stack spreads across from the right edge, px */
+  --d-stack-span: 560;  /* width the stack spreads across from the right edge, px (at 1440px wide and below) */
+  --d-stack-span-max: 900; /* widest the stack spreads on very wide screens, px */
+  --d-stack-grow: .6;   /* on screens wider than 1440px, px of extra spread per extra px of width (0 = never loosen) */
   --d-stack-tail: 150;  /* how much of the top stack book shows, px */
   --d-commentary-size: 26;   /* commentary font size, px */
   --d-commentary-width: 440; /* commentary max width, px */
@@ -113,20 +128,22 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 a { color: inherit; text-decoration: none; }
 :focus-visible { outline: 2px solid var(--primary-blue); outline-offset: 2px; }
 
-.chrome {
-  display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px;
-  padding: 12px 16px; color: var(--chrome-fg); font-size: 13px;
+/* Desktop / phone preview switch: two icons, floating bottom left. Hidden unless asked for. */
+.chrome__toggle[hidden] { display: none; }
+.chrome__toggle {
+  position: fixed; left: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 2000;
+  display: inline-flex; padding: 3px; border-radius: 999px;
+  background: rgba(30,30,28,.94); border: 1px solid #4a4844; box-shadow: 0 8px 24px rgba(0,0,0,.35);
 }
-.chrome__title { font-weight: 500; letter-spacing: .02em; }
-.chrome__note { color: var(--chrome-muted); }
-.chrome__toggle { display: inline-flex; border: 1px solid #55534f; border-radius: 999px; padding: 3px; margin-left: auto; }
-.chrome__toggle button { padding: 6px 14px; border-radius: 999px; color: var(--chrome-muted); }
+.chrome__toggle button { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; color: var(--chrome-muted); }
+.chrome__toggle button:hover { color: var(--chrome-fg); }
 .chrome__toggle button[aria-pressed="true"] { background: var(--chrome-fg); color: var(--black); }
+.chrome__toggle .icon { width: 18px; height: 18px; stroke-width: 1.5; }
 
 /* --frame-h stands in for the viewport height (100vh in the app) */
 .stage { display: flex; justify-content: center; }
-.stage[data-view="mobile"] { padding: 8px 16px 40px; }
-.frame { --frame-h: calc(100vh - 56px); width: 100%; height: var(--frame-h); overflow-y: auto; overflow-x: hidden; background: var(--grey); }
+.stage[data-view="mobile"] { padding: 24px 16px 40px; }
+.frame { --frame-h: 100vh; width: 100%; height: var(--frame-h); overflow-y: auto; overflow-x: hidden; background: var(--grey); }
 .stage[data-view="mobile"] .frame {
   --frame-h: 760px; width: 390px; max-width: 100%;
   border-radius: 28px; border: 8px solid #111; box-shadow: 0 30px 60px rgba(0,0,0,.35);
@@ -162,7 +179,7 @@ a { color: inherit; text-decoration: none; }
 .progress__fill { position: absolute; inset: 0; background: rgba(255,255,255,.75); transform-origin: 0 50%; transform: scaleX(0); }
 
 /* =============================================================================================
-   4. CAROUSEL FRAME   (src/components/feature-carousel/index.tsx)
+   4. CAROUSEL FRAME + COLOUR BACKDROP   (src/components/feature-carousel/index.tsx)
    --hn is the base book height for the breakpoint (320 phone / 380 tablet / 440 desktop / 200
    short screens); the real book height is --hn × --size.
    The track is the area books are vertically centred in: it starts under the nav (64px).
@@ -178,6 +195,20 @@ a { color: inherit; text-decoration: none; }
 .carousel[data-zone="next"] { cursor: e-resize; }
 .carousel[data-zone="prev"] { cursor: w-resize; }
 .track { position: absolute; left: 0; right: 0; top: calc(64px + var(--m-offset) * 1px); bottom: calc(56px - var(--m-offset) * 1px); }
+
+/* Colour backdrop: a dithered field of dots in the colours of the book in focus (script H).
+   The canvas has one pixel per dot; it is scaled up with hard pixel edges and masked into
+   round dots, so the browser draws the dots, not the script. */
+.backdrop {
+  --cell: calc(var(--bg-cell) * 1px);
+  --dot: radial-gradient(circle, #000 calc(var(--bg-dot) * var(--cell)), transparent calc(var(--bg-dot) * var(--cell) + .75px));
+  position: absolute; left: 0; top: 0; pointer-events: none;
+  image-rendering: pixelated;
+  -webkit-mask-image: var(--dot); -webkit-mask-size: var(--cell) var(--cell);
+  mask-image: var(--dot); mask-size: var(--cell) var(--cell);
+  opacity: var(--bg-o); transition: opacity .15s ease-out;
+}
+.carousel[data-commentary] .backdrop { opacity: calc(var(--bg-o) * var(--bg-dim)); transition-duration: .5s; }
 
 /* =============================================================================================
    5. SLIDE POSITIONS
@@ -354,7 +385,7 @@ a { color: inherit; text-decoration: none; }
 /* =============================================================================================
    10. DESIGN COMMENTARY + "VIEW BOOK"
    Centred over the book in focus. Appears once the book has settled and the carousel has been
-   idle for 1.2s; the book fades to 18% behind it. Hidden again the moment anything moves.
+   idle for 1.2s; the book darkens to 18% behind it. Hidden again the moment anything moves.
    ============================================================================================= */
 .commentary {
   position: absolute; left: 50%; top: 50%; z-index: 15; width: min(300px, calc(100% - 40px));
@@ -370,8 +401,10 @@ a { color: inherit; text-decoration: none; }
 .commentary__link { color: var(--white); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; padding: 6px 4px; }
 .commentary__link:hover { text-decoration-thickness: 2px; }
 .commentary[data-show] .commentary__link { pointer-events: auto; }
-.slide[data-pos="current"] .book3d-wrap { transition: opacity .15s ease-out; }
-.track[data-commentary] .slide[data-pos="current"] .book3d-wrap { opacity: .18; transition-duration: .5s; }
+/* The book is darkened rather than made see-through, so the colour backdrop doesn't show through
+   it. Over the black header, 18% brightness looks the same as 18% opacity. */
+.slide[data-pos="current"] .book3d-wrap { transition: filter .15s ease-out; }
+.track[data-commentary] .slide[data-pos="current"] .book3d-wrap { filter: brightness(.18); transition-duration: .5s; }
 
 /* =============================================================================================
    11. PHONE ARROWS
@@ -442,7 +475,14 @@ a { color: inherit; text-decoration: none; }
   .slide--title[data-pos="prev"] { translate: -20px; }
   .slide--feature[data-pos^="stack"] { scale: var(--d-stack-scale); }
   .slide--feature {
-    --stack-start: max(640px, calc(100cqw - var(--d-stack-span) * 1px));    /* never closer than 640px: keeps clear of the title */
+    /* The spread grows with the screen beyond 1440px, up to --d-stack-span-max, so the overlap
+       loosens on wide screens but never goes away. Below 1440px it is --d-stack-span. */
+    --stack-span: clamp(
+      calc(var(--d-stack-span) * 1px),
+      calc(var(--d-stack-span) * 1px + (100cqw - 1440px) * var(--d-stack-grow)),
+      calc(var(--d-stack-span-max) * 1px)
+    );
+    --stack-start: max(640px, calc(100cqw - var(--stack-span)));    /* never closer than 640px: keeps clear of the title */
     --stack-tail: calc(var(--d-stack-tail) * 1px);
   }
   .credit { bottom: calc(var(--d-credit) * 1px); }
@@ -464,7 +504,9 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* =============================================================================================
-   15. TUNING PANEL — development only. Hidden unless the page is opened with #tune.
+   15. TUNING PANELS + PREVIEW SWITCH — development only. Hidden unless the page is opened with
+   #tune (all settings), #backdrop (colour backdrop settings only) or #preview (just the
+   Desktop / Phone switch; #tune and #backdrop show it too).
    Not part of the design; do not port.
    ============================================================================================= */
 .tuner[hidden] { display: none; }
@@ -476,11 +518,22 @@ a { color: inherit; text-decoration: none; }
   box-shadow: 0 20px 50px rgba(0,0,0,.4); font-size: 12px;
 }
 .tuner__head { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-bottom: 1px solid #3c3a37; }
+.tuner__replay { display: block; width: 100%; margin-top: 10px; }
 .tuner__head strong { font-weight: 500; font-size: 13px; margin-right: auto; }
 .tuner__btn { padding: 5px 10px; border-radius: 999px; border: 1px solid #55534f; color: var(--chrome-fg); font-size: 11px; }
 .tuner__btn:hover { background: #3c3a37; }
 .tuner__body { overflow-y: auto; padding: 4px 12px 12px; }
 .tuner[data-collapsed] .tuner__body, .tuner[data-collapsed] .tuner__foot { display: none; }
+.tuner__icon { display: none; width: 20px; height: 20px; stroke-width: 1.5; }
+/* On phones a closed panel is just an icon */
+@media (max-width: 699px) {
+  .tuner[data-collapsed] { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; }
+  .tuner[data-collapsed] .tuner__head { display: contents; }
+  .tuner[data-collapsed] .tuner__head strong { display: none; }
+  .tuner[data-collapsed] #tuner-toggle { display: grid; place-items: center; width: 42px; height: 42px; padding: 0; border: 0; border-radius: 50%; }
+  .tuner[data-collapsed] .tuner__label { display: none; }
+  .tuner[data-collapsed] .tuner__icon { display: block; }
+}
 .tuner h4 { margin: 14px 0 6px; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--chrome-muted); font-weight: 500; }
 .tuner__row { display: grid; grid-template-columns: 1fr 52px; align-items: center; gap: 2px 8px; padding: 3px 0; }
 .tuner__row label { color: #d6d3cd; }
@@ -493,14 +546,14 @@ a { color: inherit; text-decoration: none; }
 .tuner__status { padding: 0 12px 10px; color: var(--chrome-muted); min-height: 1em; }
 </style>
 
-<header class="chrome">
-  <span class="chrome__title">Homepage header — v2 · 3D covers</span>
-  <span class="chrome__note">Covers, design commentary and author avatars are placeholders.</span>
-  <div class="chrome__toggle" role="group" aria-label="Preview size">
-    <button id="view-desktop" type="button" data-view="desktop" aria-pressed="true">Desktop</button>
-    <button id="view-mobile" type="button" data-view="mobile" aria-pressed="false">Mobile</button>
-  </div>
-</header>
+<div class="chrome__toggle" id="chrome-toggle" role="group" aria-label="Preview size" hidden>
+  <button id="view-desktop" type="button" data-view="desktop" aria-pressed="true" aria-label="Desktop" title="Desktop">
+    <svg class="icon" viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="12.5" rx="1.5"/><path d="M8.5 20.5h7M12 16.5v4"/></svg>
+  </button>
+  <button id="view-mobile" type="button" data-view="mobile" aria-pressed="false" aria-label="Phone" title="Phone">
+    <svg class="icon" viewBox="0 0 24 24"><rect x="6.5" y="2.5" width="11" height="19" rx="2"/><path d="M10.5 18.5h3"/></svg>
+  </button>
+</div>
 
 <div class="stage" id="stage" data-view="desktop">
   <div class="frame" id="frame">
@@ -530,6 +583,7 @@ a { color: inherit; text-decoration: none; }
 
       <section class="hero" aria-label="Today's Specials" aria-roledescription="carousel">
         <div class="carousel" id="carousel">
+          <canvas class="backdrop" id="backdrop" aria-hidden="true"></canvas>
           <div class="track" id="track">
             <div class="commentary" id="commentary" aria-live="polite">
               <p class="commentary__text" id="commentary-text"></p>
@@ -556,7 +610,10 @@ a { color: inherit; text-decoration: none; }
 <aside class="tuner" id="tuner" aria-label="3D book settings" hidden>
   <div class="tuner__head">
     <strong>3D book settings</strong>
-    <button type="button" class="tuner__btn" id="tuner-toggle" aria-expanded="true">Hide</button>
+    <button type="button" class="tuner__btn" id="tuner-toggle" aria-expanded="true" aria-label="Settings">
+      <svg class="icon tuner__icon" viewBox="0 0 24 24"><path d="M3 7h9M18 7h3M3 17h3M12 17h9"/><circle cx="15" cy="7" r="2.5"/><circle cx="9" cy="17" r="2.5"/></svg>
+      <span class="tuner__label">Hide</span>
+    </button>
   </div>
   <div class="tuner__body" id="tuner-body"></div>
   <div class="tuner__foot">
@@ -573,6 +630,8 @@ a { color: inherit; text-decoration: none; }
   // Shaped like what the app has for each featured book (see README → Data):
   //   cover   book.cover (Image: src, width, height) — width/height give the 3D book its ratio
   //   back    book.backgroundColor (generated from the cover) — boards + spine
+  //   palette book.colors (book.palette, generated from the cover: 1–4 colours, most used first)
+  //           — the colour backdrop (H)
   //   designCommentary  book.designCommentary (existing field, edited in the CMS)
   //   href    book.href
   //   authors book.authors (Profile: name, avatar, backgroundColour, foregroundColour)
@@ -580,18 +639,23 @@ a { color: inherit; text-decoration: none; }
   // ===========================================================================================
   const features = [
     { cover: { src: 'data:image/jpeg;base64,__COVER_1__', width: 800, height: 1178 }, back: '#7b1650', href: '#',
+      palette: ['#7e1951', '#d874a8', '#ac5534', '#e0a3c4'],
       designCommentary: 'Bold colour blocking that feels as layered as the spice blends inside.',
       authors: [{ name: 'Priya Mani', bg: '#d670a6', fg: '#1d1d1b' }] },
     { cover: { src: 'data:image/jpeg;base64,__COVER_2__', width: 800, height: 1127 }, back: '#1f74c4', href: '#',
+      palette: ['#0081c5'],
       designCommentary: 'Woodcut-style illustration and a rolling-pin title make everyday cooking feel joyful.',
       authors: [{ name: 'Jeremy Lee', bg: '#fae068', fg: '#1d1d1b' }] },
     { cover: { src: 'data:image/jpeg;base64,__COVER_3__', width: 800, height: 1047 }, back: '#d7231f', href: '#',
+      palette: ['#e01d23', '#eb1b21', '#e9ece4', '#7f0f10'],
       designCommentary: 'One plate, one colour, one big serif: a cover as quick and satisfying as the recipes.',
       authors: [{ name: 'Caroline Griffiths', bg: '#ed7656', fg: '#1d1d1b' }] },
     { cover: { src: 'data:image/jpeg;base64,__COVER_4__', width: 800, height: 1048 }, back: '#0f5a4f', href: '#',
+      palette: ['#014842', '#045850', '#00453e', '#046d67'],
       designCommentary: 'A single loaf in raking light. Calm, precise and quietly confident.',
       authors: [{ name: 'Satoshi Narusawa', bg: '#c7e171', fg: '#1d1d1b' }] },
     { cover: { src: 'data:image/jpeg;base64,__COVER_5__', width: 800, height: 1026 }, back: '#cfc7bb', href: '#',
+      palette: ['#d5cdc0'],
       designCommentary: 'Copper foil and an art deco crust turn the humble pie into a centrepiece.',
       authors: [{ name: 'Calum Franklin', bg: '#ddd8d1', fg: '#1d1d1b' }] }
   ]
@@ -609,10 +673,11 @@ a { color: inherit; text-decoration: none; }
   const track = document.getElementById('track')
 
   // Timing values live in CSS (section 1) so the dev panel can change them; read them here
-  function cssSeconds(name, fallback) {
+  function cssNumber(name, fallback) {
     const v = parseFloat(getComputedStyle(site).getPropertyValue(name))
-    return (isNaN(v) ? fallback : v) * 1000
+    return isNaN(v) ? fallback : v
   }
+  function cssSeconds(name, fallback) { return cssNumber(name, fallback) * 1000 }
   function moveMs() { return cssSeconds('--move', .6) }
   function autoMs() { return cssSeconds('--auto', 6) }
 
@@ -776,6 +841,7 @@ a { color: inherit; text-decoration: none; }
   function afterMove() {
     updateCredit()
     scheduleCommentary()
+    updateBackdrop()
     startTimer()
   }
 
@@ -818,6 +884,7 @@ a { color: inherit; text-decoration: none; }
       current = target
       updateCredit()
       scheduleCommentary()
+      updateBackdrop()
       slideEls.forEach(function (el, idx) {
         if (slides[idx].isTitle) setPos(el, 'current')
         else if (side(el.dataset.pos) === 'right') setPos(el, 'off-next')   // already right: stay there
@@ -857,7 +924,7 @@ a { color: inherit; text-decoration: none; }
   const credit = document.getElementById('credit')
   let creditFor = null
   let creditTimer = null
-  let previewCoAuthors = false   // dev panel only (J)
+  let previewCoAuthors = false   // dev panel only (K)
 
   function updateCredit(force) {
     const slide = slides[current]
@@ -910,6 +977,7 @@ a { color: inherit; text-decoration: none; }
     clearTimeout(commentaryTimer)
     commentary.removeAttribute('data-show')
     track.removeAttribute('data-commentary')
+    carousel.removeAttribute('data-commentary')
     commentaryLink.tabIndex = -1
     const f = slides[current].feature
     if (!f || !f.designCommentary) return
@@ -920,6 +988,7 @@ a { color: inherit; text-decoration: none; }
       commentaryLink.tabIndex = 0
       commentary.setAttribute('data-show', '')
       track.setAttribute('data-commentary', '')
+      carousel.setAttribute('data-commentary', '')
     }, moveMs() + COMMENTARY_IDLE_MS)
   }
 
@@ -941,6 +1010,7 @@ a { color: inherit; text-decoration: none; }
   })
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
   let progress = null
+  let holdAuto = false   // dev panel only (K)
 
   function stopTimer() {
     if (progress) progress.cancel()
@@ -955,6 +1025,7 @@ a { color: inherit; text-decoration: none; }
 
   function startTimer() {
     stopTimer()
+    if (holdAuto) return
     progressFills.forEach(function (fill, i) { fill.style.transform = i < current ? 'scaleX(1)' : 'scaleX(0)' })
     if (reduceMotion.matches) {
       progressFills[current].style.transform = 'scaleX(1)'
@@ -974,7 +1045,170 @@ a { color: inherit; text-decoration: none; }
   document.addEventListener('visibilitychange', syncPause)
 
   // ===========================================================================================
-  // H. INPUT
+  // H. COLOUR BACKDROP
+  // A field of dots in the colours extracted from the cover (book.palette), brightest behind the
+  // book and fading to the black header towards the edges. Each dot is black or one palette colour,
+  // chosen by ordered (Bayer 8×8) dithering along a ramp: black → palette from darkest to lightest,
+  // so the lightest colour sits right behind the book. A book with one colour gets black → colour.
+  // When the slide changes, the new field ripples out from behind the book with a brighter leading
+  // edge, starting halfway through the slide move. The landing slide has no colours, so its ripple
+  // clears back to black. With reduced motion the field swaps without the ripple.
+  // The canvas holds one pixel per dot. Everything that doesn't change between frames (each dot's
+  // distance from the book, its colour strength and its dither threshold) is worked out once per
+  // size, so a ripple frame is just a lookup per dot. It only redraws while a ripple runs, or
+  // after a resize or a settings change.
+  // ===========================================================================================
+  const backdrop = document.getElementById('backdrop')
+  const backdropCtx = backdrop.getContext('2d')
+  const BAYER = [
+    0, 32, 8, 40, 2, 34, 10, 42, 48, 16, 56, 24, 50, 18, 58, 26,
+    12, 44, 4, 36, 14, 46, 6, 38, 60, 28, 52, 20, 62, 30, 54, 22,
+    3, 35, 11, 43, 1, 33, 9, 41, 51, 19, 59, 27, 49, 17, 57, 25,
+    15, 47, 7, 39, 13, 45, 5, 37, 63, 31, 55, 23, 61, 29, 53, 21
+  ].map(function (v) { return (v + .5) / 64 })
+  const RIPPLE_GLOW = 14       // width of the brighter band behind the ripple edge, in dots
+  let grid = null              // dot grid for the current carousel size
+  let frame = null             // the pixels on screen: ImageData, plus a 32-bit view of it (one write per dot)
+  let frame32 = null
+
+  let backdropFor = null       // slide the backdrop is showing or rippling towards
+  let rippleFrame = null
+  let settled = false          // true once the first field has been drawn
+  let darkestBehindBook = false   // dev panel only (K): flips the ramp
+
+  function hexToRgb(hex) {
+    const v = parseInt(hex.slice(1), 16)
+    return [v >> 16, (v >> 8) & 255, v & 255]
+  }
+  function luminance(rgb) { return .2126 * rgb[0] + .7152 * rgb[1] + .0722 * rgb[2] }
+
+  // null = black: left transparent so the header shows through
+  function rampFor(slide) {
+    const palette = slide.feature ? slide.feature.palette : []
+    const sign = darkestBehindBook ? -1 : 1
+    return [null].concat(palette.map(hexToRgb).sort(function (a, b) { return sign * (luminance(a) - luminance(b)) }))
+  }
+
+  // Sizes in dots. The field is centred on the book in focus (middle of the carousel, middle of
+  // the track) and is wider than it is tall on wide screens.
+  function measureGrid() {
+    const cell = cssNumber('--bg-cell', 3)
+    const w = carousel.clientWidth
+    const h = carousel.clientHeight
+    const reach = cssNumber('--bg-reach', .49) * h / cell
+    const g = {
+      cols: Math.ceil(w / cell), rows: Math.ceil(h / cell),
+      cx: w / 2 / cell, cy: (track.offsetTop + track.offsetHeight / 2) / cell,
+      rx: reach * Math.max(1, .8 * w / h), ry: reach,
+      falloff: cssNumber('--bg-falloff', .9),
+      edge: Math.max(.5, cssNumber('--ripple-edge', 20))
+    }
+    g.maxDist = Math.hypot(Math.max(g.cx, g.cols - g.cx), Math.max(g.cy, g.rows - g.cy)) + g.edge + RIPPLE_GLOW
+    backdrop.width = g.cols
+    backdrop.height = g.rows
+    backdrop.style.width = g.cols * cell + 'px'
+    backdrop.style.height = g.rows * cell + 'px'
+    const count = g.cols * g.rows
+    g.dist = new Float32Array(count)       // distance from the book, in dots
+    g.strength = new Float32Array(count)   // 0…1 colour strength
+    g.threshold = new Float32Array(count)  // dither threshold, 0…1
+    for (let y = 0; y < g.rows; y++) {
+      for (let x = 0; x < g.cols; x++) {
+        const i = y * g.cols + x
+        g.dist[i] = Math.hypot(x + .5 - g.cx, y + .5 - g.cy)
+        g.strength[i] = strengthAt(g, x, y)
+        g.threshold[i] = BAYER[(y & 7) * 8 + (x & 7)]
+      }
+    }
+    frame = backdropCtx.createImageData(g.cols, g.rows)
+    frame32 = new Uint32Array(frame.data.buffer)
+    return g
+  }
+
+  // 0…1 colour strength for a dot: 1 behind the book, 0 at the edge of the reach. The small wobble
+  // stops the bands looking like perfect rings.
+  function strengthAt(g, x, y) {
+    const dx = (x + .5 - g.cx) / g.rx
+    const dy = (y + .5 - g.cy) / g.ry
+    const wobble = .05 * Math.sin(x * .21 + y * .13) * Math.cos(y * .17 - x * .07)
+    return Math.pow(Math.max(0, 1 - Math.sqrt(dx * dx + dy * dy) + wobble), g.falloff)
+  }
+
+  // Draw one frame. Dots the ripple has reached (within `front` dots of the book) show the new
+  // ramp; the rest keep the previous frame (`from`, a copy of the pixels, or null). `glow`
+  // brightens the band behind the ripple edge.
+  function drawBackdrop(ramp, from, front, glow) {
+    const steps = ramp.length - 1
+    const colours = ramp.map(function (rgb) { return rgb ? ((255 << 24) | (rgb[2] << 16) | (rgb[1] << 8) | rgb[0]) >>> 0 : 0 })
+    const edge = grid.edge
+    const band = edge + RIPPLE_GLOW
+    const dist = grid.dist
+    const strength = grid.strength
+    const threshold = grid.threshold
+    for (let i = 0; i < dist.length; i++) {
+      const t = threshold[i]
+      const behind = front - dist[i]
+      if (behind < t * edge) { frame32[i] = from ? from[i] : 0; continue }
+      if (!steps) { frame32[i] = 0; continue }
+      let v = strength[i]
+      if (glow && behind < band) v += glow * (1 - behind / band)
+      const pos = (v > 1 ? 1 : v) * steps
+      const base = pos | 0
+      const level = base + (pos - base > t ? 1 : 0)
+      frame32[i] = colours[level > steps ? steps : level]
+    }
+    backdropCtx.putImageData(frame, 0, 0)
+  }
+
+  // A copy of what is on screen, for a ripple to start from
+  function snapshot() { return frame32 ? frame32.slice() : null }
+
+  function easeOut(p) { return 1 - Math.pow(1 - p, 3) }
+
+  function updateBackdrop() {
+    if (backdropFor === current) return       // already showing, or rippling towards, this slide
+    backdropFor = current
+    cancelAnimationFrame(rippleFrame)
+    if (!grid) grid = measureGrid()
+    const ramp = rampFor(slides[current])
+    const from = settled ? snapshot() : null
+    if (!from || reduceMotion.matches) {
+      drawBackdrop(ramp, null, Infinity, 0)
+      settled = true
+      return
+    }
+    const start = performance.now() + moveMs() * cssNumber('--ripple-start', .5)
+    const duration = cssSeconds('--ripple', 1.2)
+    const glow = cssNumber('--ripple-glow', .12)
+    function step(now) {
+      const p = Math.min(1, Math.max(0, (now - start) / duration))
+      if (p > 0) drawBackdrop(ramp, from, easeOut(p) * grid.maxDist, glow * (1 - p))
+      if (p < 1) rippleFrame = requestAnimationFrame(step)
+    }
+    rippleFrame = requestAnimationFrame(step)
+  }
+
+  // Resizes (and the dev panel) redraw the settled field at the new size
+  function redrawBackdrop() {
+    if (!grid) return
+    cancelAnimationFrame(rippleFrame)
+    grid = measureGrid()
+    drawBackdrop(rampFor(slides[backdropFor]), null, Infinity, 0)
+  }
+  // Dev panel: run the ripple for the slide in focus again
+  function replayRipple() {
+    backdropFor = null
+    drawBackdrop([null], null, Infinity, 0)
+    updateBackdrop()
+  }
+  let resizeFrame = null
+  new ResizeObserver(function () {
+    cancelAnimationFrame(resizeFrame)
+    resizeFrame = requestAnimationFrame(redrawBackdrop)
+  }).observe(carousel)
+
+  // ===========================================================================================
+  // I. INPUT
   //   tap/click right half → next, left half → previous (the book in focus and links excluded)
   //   swipe left/right, arrow keys, phone arrow buttons
   // ===========================================================================================
@@ -1014,7 +1248,7 @@ a { color: inherit; text-decoration: none; }
   carousel.querySelector('.next-btn').addEventListener('click', function () { go(current + 1) })
 
   // ===========================================================================================
-  // I. MOCK-ONLY EXTRAS (not part of the design)
+  // J. MOCK-ONLY EXTRAS (not part of the design)
   // ===========================================================================================
   // Covers under "Coming Soon", for context
   const strip = document.getElementById('below-strip')
@@ -1037,10 +1271,16 @@ a { color: inherit; text-decoration: none; }
   document.querySelectorAll('.chrome__toggle button').forEach(function (b) {
     b.addEventListener('click', function () { setView(b.dataset.view) })
   })
-  try { const saved = localStorage.getItem('baf-mock-view'); if (saved) setView(saved) } catch (err) {}
+  // The switch is a dev aid: it only shows (and the last choice is only remembered) when asked for
+  const wantsPreviewSwitch = /^#(tune|backdrop|preview)$/.test(location.hash)
+  if (wantsPreviewSwitch) {
+    document.getElementById('chrome-toggle').hidden = false
+    try { const saved = localStorage.getItem('baf-mock-view'); if (saved) setView(saved) } catch (err) {}
+  }
 
   // ===========================================================================================
-  // J. TUNING PANEL — development only. Open the page with #tune to show it.
+  // K. TUNING PANELS — development only. Open the page with #tune (everything) or #backdrop
+  // (colour backdrop only) to show one. Nothing here is visible on the plain page.
   // Each slider drives one CSS variable from section 1. "Copy values" copies them as text.
   // ===========================================================================================
   const SETTINGS = [
@@ -1076,6 +1316,8 @@ a { color: inherit; text-decoration: none; }
     { key: 'dCredit', css: 'd-credit', label: 'Author distance from bottom', min: 8, max: 120, step: 1, def: 40, unit: 'px' },
     { key: 'dStackScale', css: 'd-stack-scale', label: 'Stack: book size', min: .7, max: 1.5, step: .01, def: 1.15, fmt: function (v) { return Math.round(v * 100) + '%' } },
     { key: 'dStackSpan', css: 'd-stack-span', label: 'Stack: width it spreads across', min: 200, max: 900, step: 10, def: 560, unit: 'px' },
+    { key: 'dStackSpanMax', css: 'd-stack-span-max', label: 'Stack: widest spread (very wide screens)', min: 560, max: 1400, step: 10, def: 900, unit: 'px' },
+    { key: 'dStackGrow', css: 'd-stack-grow', label: 'Stack: loosens beyond 1440px at', min: 0, max: 1.5, step: .05, def: .6, fmt: function (v) { return v ? Math.round(v * 100) + '% of extra width' : 'never' } },
     { key: 'dStackTail', css: 'd-stack-tail', label: 'Stack: top book showing', min: 40, max: 400, step: 5, def: 150, unit: 'px' },
     { key: 'dCommentarySize', css: 'd-commentary-size', label: 'Design commentary text size', min: 16, max: 40, step: 1, def: 26, unit: 'px' },
     { key: 'dCommentaryWidth', css: 'd-commentary-width', label: 'Design commentary width', min: 240, max: 720, step: 10, def: 440, unit: 'px' },
@@ -1083,7 +1325,18 @@ a { color: inherit; text-decoration: none; }
     { key: 'crease', label: 'Spine crease', min: 0, max: .4, step: .01, def: .08 },
     { key: 'sheen', label: 'Cover sheen', min: 0, max: .6, step: .01, def: .02 },
     { key: 'lines', label: 'Page line contrast', min: 0, max: .3, step: .01, def: .12 },
-    { key: 'page', label: 'Page colour', type: 'color', def: '#ffffff' }
+    { key: 'page', label: 'Page colour', type: 'color', def: '#ffffff' },
+    { group: 'Colour backdrop' },
+    { key: 'bgCell', css: 'bg-cell', label: 'Dot spacing', min: 3, max: 16, step: 1, def: 3, unit: 'px', redraw: true },
+    { key: 'bgDot', css: 'bg-dot', label: 'Dot size', min: .15, max: .7, step: .01, def: .21, fmt: function (v) { return Math.round(v * 200) + '%' } },
+    { key: 'bgReach', css: 'bg-reach', label: 'Colour spread', min: .2, max: 1.2, step: .01, def: .49, redraw: true },
+    { key: 'bgFalloff', css: 'bg-falloff', label: 'Colour falloff', min: .5, max: 4, step: .1, def: .9, redraw: true },
+    { key: 'bgO', css: 'bg-o', label: 'Strength', min: 0, max: 1, step: .01, def: .31 },
+    { key: 'bgDim', css: 'bg-dim', label: 'Strength behind commentary', min: 0, max: 1, step: .01, def: .5 },
+    { key: 'ripple', label: 'Ripple duration', min: .3, max: 4, step: .1, def: 1.2, unit: 's' },
+    { key: 'rippleStart', css: 'ripple-start', label: 'Ripple starts (fraction of slide move)', min: 0, max: 1.5, step: .05, def: .5, fmt: function (v) { return Math.round(v * 100) + '%' } },
+    { key: 'rippleGlow', css: 'ripple-glow', label: 'Ripple edge brightness', min: 0, max: 1, step: .01, def: .12 },
+    { key: 'rippleEdge', css: 'ripple-edge', label: 'Ripple edge softness', min: .5, max: 20, step: .5, def: 20, unit: ' dots', redraw: true }
   ]
   const PLACEHOLDER_COAUTHORS = [
     { name: 'Co-author Two', bg: '#c3d6ff', fg: '#1d1d1b' },
@@ -1098,26 +1351,37 @@ a { color: inherit; text-decoration: none; }
     return feature.authors.concat(PLACEHOLDER_COAUTHORS.slice(0, extra))
   }
 
-  function initTuningPanel() {
-    const STORE = 'baf-book3d-settings-v11'
+  // only: show just one group (e.g. #backdrop opens a panel for the colour backdrop alone)
+  function initTuningPanel(only) {
+    const STORE = only ? 'baf-backdrop-settings-v4' : 'baf-book3d-settings-v15'
+    let inGroup = false
+    const list = !only ? SETTINGS : SETTINGS.filter(function (s) {
+      if (s.group) inGroup = s.group === only
+      return inGroup && !s.group
+    })
     const tuner = document.getElementById('tuner')
     const body = document.getElementById('tuner-body')
     const status = document.getElementById('tuner-status')
     let values = {}
     try { values = JSON.parse(localStorage.getItem(STORE) || '{}') } catch (err) { values = {} }
     tuner.hidden = false
+    if (only) {
+      tuner.querySelector('.tuner__head strong').textContent = only + ' settings'
+      tuner.setAttribute('aria-label', only + ' settings')
+    }
 
     function cssName(s) { return '--' + (s.css || s.key) }
     function display(s, v) { return s.fmt ? s.fmt(v) : s.type === 'color' ? v : (+v) + (s.unit || '') }
     function valueOf(s) { return values[s.key] !== undefined ? values[s.key] : s.def }
     function apply(s, v) {
       site.style.setProperty(cssName(s), v)
+      if (s.redraw) redrawBackdrop()
       const out = document.getElementById('out-' + s.key)
       if (out) out.textContent = display(s, v)
     }
     function save() { try { localStorage.setItem(STORE, JSON.stringify(values)) } catch (err) {} }
 
-    SETTINGS.forEach(function (s) {
+    list.forEach(function (s) {
       if (s.group) {
         const h = document.createElement('h4')
         h.textContent = s.group
@@ -1150,18 +1414,36 @@ a { color: inherit; text-decoration: none; }
       el.querySelector('input').addEventListener('change', function (e) { onChange(e.target.checked) })
       body.appendChild(el)
     }
-    checkbox('set-pin-hover', 'Hold the hover pose (preview without hovering)', function (on) {
-      site.toggleAttribute('data-pin-hover', on)
-    })
-    checkbox('set-coauthors', 'Preview with extra authors (placeholder names)', function (on) {
-      previewCoAuthors = on
-      updateCredit(true)
-    })
+    if (!only) {
+      checkbox('set-pin-hover', 'Hold the hover pose (preview without hovering)', function (on) {
+        site.toggleAttribute('data-pin-hover', on)
+      })
+      checkbox('set-coauthors', 'Preview with extra authors (placeholder names)', function (on) {
+        previewCoAuthors = on
+        updateCredit(true)
+      })
+    } else {
+      checkbox('set-darkest', 'Darkest colour behind the book (instead of lightest)', function (on) {
+        darkestBehindBook = on
+        redrawBackdrop()
+      })
+      checkbox('set-hold', 'Pause auto-advance while tuning', function (on) {
+        holdAuto = on
+        if (on) stopTimer()
+        else startTimer()
+      })
+      const replay = document.createElement('button')
+      replay.type = 'button'
+      replay.className = 'tuner__btn tuner__replay'
+      replay.textContent = 'Replay ripple'
+      replay.addEventListener('click', function (e) { e.stopPropagation(); replayRipple() })
+      body.appendChild(replay)
+    }
 
     document.getElementById('tuner-reset').addEventListener('click', function () {
       values = {}
       save()
-      SETTINGS.forEach(function (s) {
+      list.forEach(function (s) {
         if (s.group) return
         document.getElementById('set-' + s.key).value = s.def
         apply(s, s.def)
@@ -1170,7 +1452,7 @@ a { color: inherit; text-decoration: none; }
     })
 
     document.getElementById('tuner-copy').addEventListener('click', function () {
-      const text = SETTINGS.filter(function (s) { return !s.group })
+      const text = list.filter(function (s) { return !s.group })
         .map(function (s) { return s.label + ': ' + display(s, valueOf(s)) }).join('\n')
       function fallback() {
         status.textContent = 'Copy blocked here. Select the text below and copy it.'
@@ -1195,7 +1477,7 @@ a { color: inherit; text-decoration: none; }
     const toggle = document.getElementById('tuner-toggle')
     function setCollapsed(collapsed) {
       tuner.toggleAttribute('data-collapsed', collapsed)
-      toggle.textContent = collapsed ? 'Show' : 'Hide'
+      toggle.querySelector('.tuner__label').textContent = collapsed ? 'Show' : 'Hide'
       toggle.setAttribute('aria-expanded', collapsed ? 'false' : 'true')
     }
     setCollapsed(window.innerWidth < 700)
@@ -1203,6 +1485,7 @@ a { color: inherit; text-decoration: none; }
   }
 
   if (location.hash === '#tune') initTuningPanel()
+  if (location.hash === '#backdrop') initTuningPanel('Colour backdrop')
 
   // ===========================================================================================
   // START — first paint puts everything in place without animating in from the left edge
