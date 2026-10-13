@@ -8,3 +8,7 @@
 src/payload/schema.ts
 
 .railway/
+
+# Hand-structured design reference (see docs/homepage-header/README.md)
+docs/homepage-header/mockup.html
+docs/homepage-header/mockup.built.html
