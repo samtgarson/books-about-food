@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url'
 import { betterAuthPluginOptions } from './lib/auth/options'
 
 import { collections } from './payload/collections'
+import { importExport } from './payload/config/import-export'
 import { postgres } from './payload/config/postgres'
 import { s3Storage } from './payload/config/s3-storage'
 import { cacheRevalidationPlugin } from './payload/plugins/cache-revalidation'
@@ -31,6 +32,7 @@ export default buildConfig({
   plugins: [
     betterAuthPlugin(betterAuthPluginOptions),
     s3Storage,
-    cacheRevalidationPlugin()
+    cacheRevalidationPlugin(),
+    importExport
   ]
 })
