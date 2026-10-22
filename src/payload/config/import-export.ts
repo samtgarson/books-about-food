@@ -1,28 +1,6 @@
 import { importExportPlugin } from '@payloadcms/plugin-import-export'
-import type { Access, CollectionConfig, CollectionSlug } from 'payload'
+import type { CollectionSlug } from 'payload'
 import { collections } from '../collections'
-
-function isAdmin({ req }: Parameters<Access>[0]) {
-  return req.user?.role === 'admin'
-}
-
-// The plugin's own `exports`/`imports` collections are hidden from the nav,
-// but are still reachable via the API, so lock them down to admins.
-function restrictToAdmins({
-  collection
-}: {
-  collection: CollectionConfig
-}): CollectionConfig {
-  return {
-    ...collection,
-    access: {
-      ...collection.access,
-      read: isAdmin,
-      create: isAdmin,
-      delete: isAdmin
-    }
-  }
-}
 
 /**
  * Adds an "Export" option to every collection's list view in the admin. CSVs
@@ -38,7 +16,5 @@ export const importExport = importExportPlugin({
       disableSave: true,
       disableJobsQueue: true
     }
-  })),
-  overrideExportCollection: restrictToAdmins,
-  overrideImportCollection: restrictToAdmins
+  }))
 })

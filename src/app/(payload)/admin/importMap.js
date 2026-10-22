@@ -1,3 +1,4 @@
+import { ExportListMenuItem as ExportListMenuItem_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
 import { AdminInviteButton as AdminInviteButton_5a568d0e24198ca3140489e0d330f424 } from 'payload-auth/better-auth/plugin/client'
 import { AdminButtons as AdminButtons_5a568d0e24198ca3140489e0d330f424 } from 'payload-auth/better-auth/plugin/client'
 import { GenerateUuidButton as GenerateUuidButton_ce3a59fe00f4e2209a6e5804babc005e } from 'payload-auth/shared/payload/fields'
@@ -7,6 +8,8 @@ import { default as default_90441ee41512d23c76c47f07c342aebe } from 'src/payload
 import { ColorPickerField as ColorPickerField_769bfdd285767568b612dcc4334e8b2f } from 'src/payload/components/fields/color-picker/index.tsx'
 import { default as default_f6290fd181f388d63f8da8386b3ec90e } from 'src/payload/components/fields/palette-cell.tsx'
 import { ArrayRowLabel as ArrayRowLabel_1a7e8d7c06d750553aaed5d2957fb002 } from 'src/payload/components/ui/array-row-label.tsx'
+import { CoverImageField as CoverImageField_b66ec8681307c5a610f43e8cacabec06 } from 'src/payload/components/fields/cover-image/index.tsx'
+import { PreviewImagesField as PreviewImagesField_5e35aab79244c5b4cac3a2358bbd207a } from 'src/payload/components/fields/preview-images/index.tsx'
 import { BookPublishButton as BookPublishButton_c211647b9773ce67b01490e92a97a231 } from 'src/payload/collections/books/components/publish-button.tsx'
 import { ClaimApproveCell as ClaimApproveCell_94b30a3e0da09dbd9eae749b04734401 } from 'src/payload/collections/claims/components/approve-cell.tsx'
 import { ClaimStatusCell as ClaimStatusCell_21d2f7062d1fe0062ea64c44f8d3c0c4 } from 'src/payload/collections/claims/components/status.tsx'
@@ -16,19 +19,31 @@ import { ClaimApproveButton as ClaimApproveButton_19ade6f4e104dee3d0fd087c92004c
 import { EditorField as EditorField_753241fbcf2d32e51b3b1faaa7c06925 } from 'src/payload/components/fields/editor-field'
 import { LocationPicker as LocationPicker_b815847c38c8122cb3b5e41e02f031b2 } from 'src/payload/collections/locations/components/picker.tsx'
 import { ProfileFeatureButton as ProfileFeatureButton_2d1432831a4612dc81865021c6b3cbad } from 'src/payload/collections/profiles/components/feature-button.tsx'
+import { FormatField as FormatField_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
+import { LimitField as LimitField_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
+import { Page as Page_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
+import { SortBy as SortBy_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
+import { SortOrder as SortOrder_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
+import { SelectionToUseField as SelectionToUseField_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
+import { FieldsToExport as FieldsToExport_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
+import { CollectionField as CollectionField_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
+import { ExportPreview as ExportPreview_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
+import { ExportSaveButton as ExportSaveButton_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
+import { ImportPreview as ImportPreview_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
+import { ImportSaveButton as ImportSaveButton_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
 import { LogoutButton as LogoutButton_5a568d0e24198ca3140489e0d330f424 } from 'payload-auth/better-auth/plugin/client'
 import { RSCRedirect as RSCRedirect_5afe2312a68aef77a0242fe42f239ed0 } from 'payload-auth/better-auth/plugin/rsc'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
+import { ImportExportProvider as ImportExportProvider_cdf7e044479f899a31f804427d568b36 } from '@payloadcms/plugin-import-export/rsc'
 import { AdminLogin as AdminLogin_5afe2312a68aef77a0242fe42f239ed0 } from 'payload-auth/better-auth/plugin/rsc'
 import { AdminSignup as AdminSignup_5afe2312a68aef77a0242fe42f239ed0 } from 'payload-auth/better-auth/plugin/rsc'
 import { ForgotPassword as ForgotPassword_5afe2312a68aef77a0242fe42f239ed0 } from 'payload-auth/better-auth/plugin/rsc'
 import { ResetPassword as ResetPassword_5afe2312a68aef77a0242fe42f239ed0 } from 'payload-auth/better-auth/plugin/rsc'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
-import { PreviewImagesField as PreviewImagesField_1b9c4e7a2d3f5061a8b7c9d0e1f23456 } from 'src/payload/components/fields/preview-images/index.tsx'
-import { CoverImageField as CoverImageField_2c7d5f8b3e4a6172b9c8d0e1f2345678 } from 'src/payload/components/fields/cover-image/index.tsx'
 
 /** @type import('payload').ImportMap */
 export const importMap = {
+  "@payloadcms/plugin-import-export/rsc#ExportListMenuItem": ExportListMenuItem_cdf7e044479f899a31f804427d568b36,
   "payload-auth/better-auth/plugin/client#AdminInviteButton": AdminInviteButton_5a568d0e24198ca3140489e0d330f424,
   "payload-auth/better-auth/plugin/client#AdminButtons": AdminButtons_5a568d0e24198ca3140489e0d330f424,
   "payload-auth/shared/payload/fields#GenerateUuidButton": GenerateUuidButton_ce3a59fe00f4e2209a6e5804babc005e,
@@ -38,6 +53,8 @@ export const importMap = {
   "src/payload/components/fields/color-picker/index.tsx#ColorPickerField": ColorPickerField_769bfdd285767568b612dcc4334e8b2f,
   "src/payload/components/fields/palette-cell.tsx#default": default_f6290fd181f388d63f8da8386b3ec90e,
   "src/payload/components/ui/array-row-label.tsx#ArrayRowLabel": ArrayRowLabel_1a7e8d7c06d750553aaed5d2957fb002,
+  "src/payload/components/fields/cover-image/index.tsx#CoverImageField": CoverImageField_b66ec8681307c5a610f43e8cacabec06,
+  "src/payload/components/fields/preview-images/index.tsx#PreviewImagesField": PreviewImagesField_5e35aab79244c5b4cac3a2358bbd207a,
   "src/payload/collections/books/components/publish-button.tsx#BookPublishButton": BookPublishButton_c211647b9773ce67b01490e92a97a231,
   "src/payload/collections/claims/components/approve-cell.tsx#ClaimApproveCell": ClaimApproveCell_94b30a3e0da09dbd9eae749b04734401,
   "src/payload/collections/claims/components/status.tsx#ClaimStatusCell": ClaimStatusCell_21d2f7062d1fe0062ea64c44f8d3c0c4,
@@ -47,14 +64,25 @@ export const importMap = {
   "src/payload/components/fields/editor-field#EditorField": EditorField_753241fbcf2d32e51b3b1faaa7c06925,
   "src/payload/collections/locations/components/picker.tsx#LocationPicker": LocationPicker_b815847c38c8122cb3b5e41e02f031b2,
   "src/payload/collections/profiles/components/feature-button.tsx#ProfileFeatureButton": ProfileFeatureButton_2d1432831a4612dc81865021c6b3cbad,
+  "@payloadcms/plugin-import-export/rsc#FormatField": FormatField_cdf7e044479f899a31f804427d568b36,
+  "@payloadcms/plugin-import-export/rsc#LimitField": LimitField_cdf7e044479f899a31f804427d568b36,
+  "@payloadcms/plugin-import-export/rsc#Page": Page_cdf7e044479f899a31f804427d568b36,
+  "@payloadcms/plugin-import-export/rsc#SortBy": SortBy_cdf7e044479f899a31f804427d568b36,
+  "@payloadcms/plugin-import-export/rsc#SortOrder": SortOrder_cdf7e044479f899a31f804427d568b36,
+  "@payloadcms/plugin-import-export/rsc#SelectionToUseField": SelectionToUseField_cdf7e044479f899a31f804427d568b36,
+  "@payloadcms/plugin-import-export/rsc#FieldsToExport": FieldsToExport_cdf7e044479f899a31f804427d568b36,
+  "@payloadcms/plugin-import-export/rsc#CollectionField": CollectionField_cdf7e044479f899a31f804427d568b36,
+  "@payloadcms/plugin-import-export/rsc#ExportPreview": ExportPreview_cdf7e044479f899a31f804427d568b36,
+  "@payloadcms/plugin-import-export/rsc#ExportSaveButton": ExportSaveButton_cdf7e044479f899a31f804427d568b36,
+  "@payloadcms/plugin-import-export/rsc#ImportPreview": ImportPreview_cdf7e044479f899a31f804427d568b36,
+  "@payloadcms/plugin-import-export/rsc#ImportSaveButton": ImportSaveButton_cdf7e044479f899a31f804427d568b36,
   "payload-auth/better-auth/plugin/client#LogoutButton": LogoutButton_5a568d0e24198ca3140489e0d330f424,
   "payload-auth/better-auth/plugin/rsc#RSCRedirect": RSCRedirect_5afe2312a68aef77a0242fe42f239ed0,
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
+  "@payloadcms/plugin-import-export/rsc#ImportExportProvider": ImportExportProvider_cdf7e044479f899a31f804427d568b36,
   "payload-auth/better-auth/plugin/rsc#AdminLogin": AdminLogin_5afe2312a68aef77a0242fe42f239ed0,
   "payload-auth/better-auth/plugin/rsc#AdminSignup": AdminSignup_5afe2312a68aef77a0242fe42f239ed0,
   "payload-auth/better-auth/plugin/rsc#ForgotPassword": ForgotPassword_5afe2312a68aef77a0242fe42f239ed0,
   "payload-auth/better-auth/plugin/rsc#ResetPassword": ResetPassword_5afe2312a68aef77a0242fe42f239ed0,
-  "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1,
-  "src/payload/components/fields/preview-images/index.tsx#PreviewImagesField": PreviewImagesField_1b9c4e7a2d3f5061a8b7c9d0e1f23456,
-  "src/payload/components/fields/cover-image/index.tsx#CoverImageField": CoverImageField_2c7d5f8b3e4a6172b9c8d0e1f2345678
+  "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }
