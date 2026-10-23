@@ -1,13 +1,13 @@
-import { BrowserContext, Page, test as base } from '@playwright/test'
+import { BrowserContext, test as base } from '@playwright/test'
 import { createHmac } from 'crypto'
 import { $ } from 'execa'
 
 const helpers = ({
   context,
-  page,
+  baseURL,
   email
 }: {
-  page: Page
+  baseURL: string
   context: BrowserContext
   email: string
 }) => ({
@@ -17,9 +17,7 @@ const helpers = ({
     const { token, expiresAt } = await createSession(userId)
     const signedToken = await signCookieValue(token)
 
-    await page.goto('/', { waitUntil: 'commit' })
-
-    const url = new URL(page.url())
+    const url = new URL(baseURL)
     const isSecure = url.protocol === 'https:'
     const cookieName = isSecure
       ? '__Secure-better-auth.session_token'
@@ -43,10 +41,11 @@ type Fixtures = {
 }
 
 export const test = base.extend<Fixtures>({
-  async helpers({ page, context }, use) {
+  async helpers({ baseURL, context }, use) {
+    if (!baseURL) throw new Error('Playwright baseURL must be set')
     const email = `sam+${crypto.randomUUID()}@samgarson.com`
 
-    await use(helpers({ page, context, email }))
+    await use(helpers({ baseURL, context, email }))
 
     await deleteUser(email)
   }
