@@ -14,7 +14,7 @@ fi
 railway variable set E2E_GOOGLE_BOOKS_FIXTURES=1 \
   --service App --environment "$ENV_NAME" --skip-deploys >&2
 
-# In CI, railway up returns after build; poll for the terminal deploy status.
+# The CLI can return before the remote build finishes.
 railway up --service App --environment "$ENV_NAME" --ci >&2
 "$SCRIPT_DIR/wait-for-deploy.sh" App "$ENV_NAME" >&2
 

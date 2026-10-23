@@ -4,7 +4,7 @@ set -euo pipefail
 
 SERVICE="$1"
 ENVIRONMENT="$2"
-ATTEMPTS="${3:-90}"
+ATTEMPTS="${3:-180}"
 
 for _ in $(seq 1 "$ATTEMPTS"); do
   status=$(railway deployment list --service "$SERVICE" --environment "$ENVIRONMENT" --json 2>/dev/null \
