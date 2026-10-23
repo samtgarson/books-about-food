@@ -20,15 +20,17 @@ test.describe('Account', () => {
 
     await nameInput.fill('New Name')
 
-    // The form auto-submits via a server action when the field blurs. Wait for
-    // that POST to round-trip rather than the transient success toast, which
-    // auto-dismisses and can be slow to appear on a cold preview deploy.
+    // Analytics also posts to this page, so match the submitted name before
+    // reloading to avoid cancelling the save request.
     const saved = page.waitForResponse(
       (res) =>
-        res.request().method() === 'POST' && res.url().includes('/account')
+        res.request().method() === 'POST' &&
+        res.url().includes('/account') &&
+        res.request().postDataJSON()?.[0]?.name === 'New Name'
     )
     await nameInput.blur()
-    await saved
+    const response = await saved
+    await response.finished()
 
     await page.reload()
     // A freshly deployed preview can be slow to serve the reloaded page, so
