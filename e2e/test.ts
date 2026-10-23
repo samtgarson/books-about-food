@@ -25,7 +25,7 @@ const helpers = ({
       ? '__Secure-better-auth.session_token'
       : 'better-auth.session_token'
 
-    context.addCookies([
+    await context.addCookies([
       {
         name: cookieName,
         value: signedToken,
@@ -58,7 +58,8 @@ const databaseUrl =
 const authSecret = process.env.BETTER_AUTH_SECRET || process.env.AUTH_SECRET
 
 async function signCookieValue(value: string): Promise<string> {
-  if (!authSecret) throw new Error('BETTER_AUTH_SECRET or AUTH_SECRET must be set')
+  if (!authSecret)
+    throw new Error('BETTER_AUTH_SECRET or AUTH_SECRET must be set')
   const signature = createHmac('sha256', authSecret)
     .update(value)
     .digest('base64')

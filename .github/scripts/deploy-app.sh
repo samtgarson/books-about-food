@@ -6,6 +6,14 @@ set -euo pipefail
 ENV_NAME="$1"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+if [ "$ENV_NAME" = "production" ]; then
+  echo "refusing to enable test fixtures in production" >&2
+  exit 1
+fi
+
+railway variable set E2E_GOOGLE_BOOKS_FIXTURES=1 \
+  --service App --environment "$ENV_NAME" --skip-deploys >&2
+
 # In CI, railway up returns after build; poll for the terminal deploy status.
 railway up --service App --environment "$ENV_NAME" --ci >&2
 "$SCRIPT_DIR/wait-for-deploy.sh" App "$ENV_NAME" >&2

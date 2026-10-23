@@ -19,6 +19,7 @@ export default defineConfig({
   reporter: process.env.CI ? 'github' : 'list',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
+    extraHTTPHeaders: process.env.CI ? { 'x-e2e-google-books': '1' } : {},
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: process.env.DEPLOYMENT_URL || 'http://localhost:5000',
 

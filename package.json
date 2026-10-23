@@ -21,7 +21,7 @@
     "dev:jobs": "npx --ignore-scripts=false inngest-cli@latest dev",
     "dev:test": "DANGER_SEND_EMAILS=true npm run dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node ${E2E_GOOGLE_BOOKS_FIXTURES:+--import=./e2e/mock-google-books.mjs} node_modules/next/dist/bin/next start",
     "migrate": "node --import tsx scripts/run-migrations.ts",
     "lint": "NODE_OPTIONS=\"--max-old-space-size=8192\" eslint . && prettier --check --ignore-path ./.prettierignore .",
     "format": "NODE_OPTIONS=\"--max-old-space-size=8192\" eslint . --fix && prettier --write --ignore-path ./.prettierignore .",

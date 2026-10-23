@@ -20,17 +20,10 @@ test.describe('Account', () => {
 
     await nameInput.fill('New Name')
 
-    // Analytics also posts to this page, so match the submitted name before
-    // reloading to avoid cancelling the save request.
-    const saved = page.waitForResponse(
-      (res) =>
-        res.request().method() === 'POST' &&
-        res.url().includes('/account') &&
-        res.request().postDataJSON()?.[0]?.name === 'New Name'
-    )
     await nameInput.blur()
-    const response = await saved
-    await response.finished()
+    await expect(
+      page.getByText('Account updated', { exact: true })
+    ).toBeVisible()
 
     await page.reload()
     // A freshly deployed preview can be slow to serve the reloaded page, so
