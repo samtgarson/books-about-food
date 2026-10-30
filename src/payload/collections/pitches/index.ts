@@ -1,7 +1,14 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnly, ownedBy } from '../../access'
 
 export const Pitches: CollectionConfig = {
   slug: 'pitches',
+  access: {
+    read: ownedBy('author'),
+    create: adminOnly,
+    update: adminOnly,
+    delete: adminOnly
+  },
   admin: {
     group: 'Beta Features',
     useAsTitle: 'id',

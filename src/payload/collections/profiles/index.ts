@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnly, anyone, ownedBy } from '../../access'
 import { slugField } from '../../fields/slug'
 import { revalidatePaths } from '../../plugins/cache-revalidation'
 import { dayOnlyDisplayFormat } from '../utils'
@@ -9,6 +10,12 @@ import {
 
 export const Profiles: CollectionConfig = {
   slug: 'profiles',
+  access: {
+    read: anyone,
+    create: adminOnly,
+    update: ownedBy('user'),
+    delete: adminOnly
+  },
   custom: {
     revalidatePaths: revalidatePaths((doc) => [
       `/people/${doc.slug}`,

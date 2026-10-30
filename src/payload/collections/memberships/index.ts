@@ -1,7 +1,14 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnly, ownedBy } from '../../access'
 
 export const Memberships: CollectionConfig = {
   slug: 'memberships',
+  access: {
+    read: ownedBy('user'),
+    create: adminOnly,
+    update: adminOnly,
+    delete: adminOnly
+  },
   admin: {
     group: 'Users',
     useAsTitle: 'id',

@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnly, ownedBy } from '../../access'
 
 export const Favourites: CollectionConfig = {
   slug: 'favourites',
@@ -8,7 +9,10 @@ export const Favourites: CollectionConfig = {
     defaultColumns: ['profile', 'user']
   },
   access: {
-    create: () => false
+    read: ownedBy('user'),
+    create: () => false,
+    update: adminOnly,
+    delete: adminOnly
   },
   fields: [
     {

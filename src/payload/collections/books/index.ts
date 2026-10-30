@@ -1,7 +1,13 @@
 import { eq } from '@payloadcms/db-postgres/drizzle'
-import type { CollectionConfig, Data } from 'payload'
+import type { CollectionConfig, Data, Where } from 'payload'
 import { jobs, profiles } from 'src/payload/schema'
 import { websites } from '../../../utils/data/websites'
+import {
+  adminOnly,
+  canChangeStatus,
+  editableByPublisher,
+  publishedOrOwned
+} from '../../access'
 import { slugField } from '../../fields/slug'
 import { revalidatePaths } from '../../plugins/cache-revalidation'
 import { colorField, dayOnlyDisplayFormat } from '../utils'
@@ -18,6 +24,24 @@ import { updateSearchText } from './hooks/update-search-text'
 
 export const Books: CollectionConfig = {
   slug: 'books',
+  access: {
+    read: publishedOrOwned(function (userId) {
+      return [{ submitter: { equals: userId } }]
+    }),
+    create: adminOnly,
+    // Submitters can edit their books until they are published.
+    update: editableByPublisher(function (userId): Where[] {
+      return [
+        {
+          and: [
+            { submitter: { equals: userId } },
+            { status: { not_equals: 'published' } }
+          ]
+        }
+      ]
+    }),
+    delete: adminOnly
+  },
   custom: {
     revalidatePaths: revalidatePaths((doc) => [
       `/cookbooks/${doc.slug}`,
@@ -111,6 +135,7 @@ export const Books: CollectionConfig = {
     {
       name: 'status',
       type: 'select',
+      access: { create: canChangeStatus, update: canChangeStatus },
       options: [
         { label: 'Draft', value: 'draft' },
         { label: 'In Review', value: 'inReview' },

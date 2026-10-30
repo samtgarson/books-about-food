@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnly, ownedBy } from '../../access'
 
 export const BookVotes: CollectionConfig = {
   slug: 'book-votes',
@@ -8,7 +9,10 @@ export const BookVotes: CollectionConfig = {
     defaultColumns: ['book', 'user']
   },
   access: {
-    create: () => false
+    read: ownedBy('user'),
+    create: () => false,
+    update: adminOnly,
+    delete: adminOnly
   },
   labels: {
     singular: 'Book Vote',

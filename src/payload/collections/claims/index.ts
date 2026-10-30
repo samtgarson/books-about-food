@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnly, ownedBy } from '../../access'
 
 export const Claims: CollectionConfig = {
   slug: 'claims',
@@ -22,7 +23,10 @@ export const Claims: CollectionConfig = {
     }
   },
   access: {
-    create: () => false
+    read: ownedBy('user'),
+    create: () => false,
+    update: adminOnly,
+    delete: adminOnly
   },
   fields: [
     {

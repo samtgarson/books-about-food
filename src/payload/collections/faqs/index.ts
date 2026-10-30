@@ -1,9 +1,16 @@
 import type { CollectionConfig } from 'payload'
 import { editorField } from 'src/payload/fields/editor'
+import { adminOnly, anyone } from '../../access'
 import { revalidatePaths } from '../../plugins/cache-revalidation'
 
 export const FAQs: CollectionConfig = {
   slug: 'faqs',
+  access: {
+    read: anyone,
+    create: adminOnly,
+    update: adminOnly,
+    delete: adminOnly
+  },
   orderable: true,
   typescript: {
     interface: 'FAQ'
