@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnly, isAdmin } from '../../access'
 import { slugField } from '../../fields/slug'
 import {
   deleteTagSearchResult,
@@ -7,6 +8,14 @@ import {
 
 export const Tags: CollectionConfig = {
   slug: 'tags',
+  access: {
+    read: function ({ req }) {
+      return isAdmin(req) || { 'group.adminOnly': { equals: false } }
+    },
+    create: adminOnly,
+    update: adminOnly,
+    delete: adminOnly
+  },
   custom: { revalidatePaths: () => ['/cookbooks', '/people'] },
   hooks: {
     afterChange: [syncTagSearchResult],

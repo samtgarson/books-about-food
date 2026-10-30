@@ -1,7 +1,14 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnly } from '../../access'
 
 export const PublisherInvitations: CollectionConfig = {
   slug: 'publisher-invitations',
+  access: {
+    read: adminOnly,
+    create: adminOnly,
+    update: adminOnly,
+    delete: adminOnly
+  },
   admin: {
     group: 'Users',
     useAsTitle: 'email',

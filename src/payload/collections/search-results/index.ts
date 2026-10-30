@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { anyone } from '../../access'
 
 export const searchResultTypes = [
   'book',
@@ -30,6 +31,7 @@ export const SearchResults: CollectionConfig = {
     hidden: true
   },
   access: {
+    read: anyone,
     // Read-only from external access - only hooks can modify
     create: () => false,
     update: () => false,

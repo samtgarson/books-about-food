@@ -1,4 +1,10 @@
 import type { CollectionConfig } from 'payload'
+import {
+  adminOnly,
+  canChangeStatus,
+  editableByPublisher,
+  publishedOrOwned
+} from '../../access'
 import { slugField } from '../../fields/slug'
 import { revalidatePaths } from '../../plugins/cache-revalidation'
 import {
@@ -8,6 +14,12 @@ import {
 
 export const Collections: CollectionConfig = {
   slug: 'collections',
+  access: {
+    read: publishedOrOwned(),
+    create: adminOnly,
+    update: editableByPublisher(),
+    delete: adminOnly
+  },
   custom: {
     revalidatePaths: revalidatePaths((doc) => [
       `/collections/${doc.slug}`,
@@ -42,6 +54,7 @@ export const Collections: CollectionConfig = {
     {
       name: 'status',
       type: 'select',
+      access: { create: canChangeStatus, update: canChangeStatus },
       options: [
         { label: 'Draft', value: 'draft' },
         { label: 'In Review', value: 'inReview' },

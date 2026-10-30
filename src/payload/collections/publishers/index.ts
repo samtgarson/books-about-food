@@ -1,4 +1,10 @@
 import type { CollectionConfig } from 'payload'
+import {
+  adminOnly,
+  anyone,
+  publisherMember,
+  publisherMemberField
+} from '../../access'
 import { slugField } from '../../fields/slug'
 import { revalidatePaths } from '../../plugins/cache-revalidation'
 import {
@@ -8,6 +14,12 @@ import {
 
 export const Publishers: CollectionConfig = {
   slug: 'publishers',
+  access: {
+    read: anyone,
+    create: adminOnly,
+    update: publisherMember,
+    delete: adminOnly
+  },
   custom: {
     revalidatePaths: revalidatePaths((doc) => [
       `/publishers/${doc.slug}`,
@@ -66,11 +78,13 @@ export const Publishers: CollectionConfig = {
     },
     {
       name: 'genericContact',
-      type: 'email'
+      type: 'email',
+      access: { read: publisherMemberField }
     },
     {
       name: 'directContact',
-      type: 'email'
+      type: 'email',
+      access: { read: publisherMemberField }
     },
     {
       name: 'house',

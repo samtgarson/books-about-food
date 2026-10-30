@@ -1,7 +1,14 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnly, anyone } from '../../access'
 
 export const Locations: CollectionConfig = {
   slug: 'locations',
+  access: {
+    read: anyone,
+    create: adminOnly,
+    update: adminOnly,
+    delete: adminOnly
+  },
   admin: {
     group: 'Metadata',
     useAsTitle: 'displayText',

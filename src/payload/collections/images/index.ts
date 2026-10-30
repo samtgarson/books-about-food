@@ -1,11 +1,15 @@
 import { randomUUID } from 'crypto'
 import type { CollectionConfig } from 'payload'
 import { imageUrl } from '../../../utils/image-url'
+import { adminOnly, anyone } from '../../access'
 
 export const Images: CollectionConfig = {
   slug: 'images',
   access: {
-    update: () => false
+    read: anyone,
+    create: adminOnly,
+    update: () => false,
+    delete: adminOnly
   },
   upload: {
     displayPreview: true,

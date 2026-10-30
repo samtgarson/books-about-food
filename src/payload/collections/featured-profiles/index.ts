@@ -1,8 +1,15 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnly, anyone } from '../../access'
 import { dayOnlyDisplayFormat } from '../utils'
 
 export const FeaturedProfiles: CollectionConfig = {
   slug: 'featured-profiles',
+  access: {
+    read: anyone,
+    create: adminOnly,
+    update: adminOnly,
+    delete: adminOnly
+  },
   custom: { revalidatePaths: () => ['/'] },
   orderable: true,
   admin: {

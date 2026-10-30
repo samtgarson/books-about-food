@@ -1,8 +1,17 @@
 import type { CollectionConfig } from 'payload'
+import { adminOnly, isAdmin } from '../../access'
 import { slugField } from '../../fields/slug'
 
 export const TagGroups: CollectionConfig = {
   slug: 'tag-groups',
+  access: {
+    read: function ({ req }) {
+      return isAdmin(req) || { adminOnly: { equals: false } }
+    },
+    create: adminOnly,
+    update: adminOnly,
+    delete: adminOnly
+  },
   admin: {
     group: 'Metadata',
     useAsTitle: 'name',
