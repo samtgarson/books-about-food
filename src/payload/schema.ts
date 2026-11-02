@@ -283,6 +283,130 @@ export const verifications = db_schema.table(
   ]
 )
 
+export const oauth_applications = db_schema.table(
+  'oauth_applications',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    name: varchar('name'),
+    icon: varchar('icon'),
+    metadata: varchar('metadata'),
+    clientId: varchar('client_id'),
+    clientSecret: varchar('client_secret'),
+    redirectUrls: varchar('redirect_urls'),
+    type: varchar('type'),
+    disabled: boolean('disabled').default(false),
+    user: uuid('user_id').references(() => users.id, {
+      onDelete: 'set null'
+    }),
+    createdAt: timestamp('created_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3
+    })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp('updated_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3
+    })
+      .defaultNow()
+      .notNull()
+  },
+  (columns) => [
+    index('oauth_applications_name_idx').on(columns.name),
+    uniqueIndex('oauth_applications_client_id_idx').on(columns.clientId),
+    index('oauth_applications_user_idx').on(columns.user),
+    index('oauth_applications_created_at_idx').on(columns.createdAt),
+    index('oauth_applications_updated_at_idx').on(columns.updatedAt)
+  ]
+)
+
+export const oauth_access_tokens = db_schema.table(
+  'oauth_access_tokens',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    accessToken: varchar('access_token'),
+    refreshToken: varchar('refresh_token'),
+    accessTokenExpiresAt: timestamp('access_token_expires_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3
+    }),
+    refreshTokenExpiresAt: timestamp('refresh_token_expires_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3
+    }),
+    client: uuid('client_id').references(() => oauth_applications.id, {
+      onDelete: 'set null'
+    }),
+    user: uuid('user_id').references(() => users.id, {
+      onDelete: 'set null'
+    }),
+    scopes: varchar('scopes'),
+    createdAt: timestamp('created_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3
+    })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp('updated_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3
+    })
+      .defaultNow()
+      .notNull()
+  },
+  (columns) => [
+    uniqueIndex('oauth_access_tokens_access_token_idx').on(columns.accessToken),
+    uniqueIndex('oauth_access_tokens_refresh_token_idx').on(
+      columns.refreshToken
+    ),
+    index('oauth_access_tokens_client_idx').on(columns.client),
+    index('oauth_access_tokens_user_idx').on(columns.user),
+    index('oauth_access_tokens_created_at_idx').on(columns.createdAt),
+    index('oauth_access_tokens_updated_at_idx').on(columns.updatedAt)
+  ]
+)
+
+export const oauth_consents = db_schema.table(
+  'oauth_consents',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    client: uuid('client_id').references(() => oauth_applications.id, {
+      onDelete: 'set null'
+    }),
+    user: uuid('user_id').references(() => users.id, {
+      onDelete: 'set null'
+    }),
+    scopes: varchar('scopes'),
+    createdAt: timestamp('created_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3
+    })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp('updated_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3
+    })
+      .defaultNow()
+      .notNull(),
+    consentGiven: boolean('consent_given').default(false)
+  },
+  (columns) => [
+    index('oauth_consents_client_idx').on(columns.client),
+    index('oauth_consents_user_idx').on(columns.user),
+    index('oauth_consents_created_at_idx').on(columns.createdAt),
+    index('oauth_consents_updated_at_idx').on(columns.updatedAt)
+  ]
+)
+
 export const admin_invitations = db_schema.table(
   'admin_invitations',
   {
@@ -1562,6 +1686,9 @@ export const payload_locked_documents_rels = db_schema.table(
     sessionsID: uuid('sessions_id'),
     accountsID: uuid('accounts_id'),
     verificationsID: uuid('verifications_id'),
+    oauthApplicationsID: uuid('oauth_applications_id'),
+    oauthAccessTokensID: uuid('oauth_access_tokens_id'),
+    oauthConsentsID: uuid('oauth_consents_id'),
     'admin-invitationsID': uuid('admin_invitations_id'),
     'book-votesID': uuid('book_votes_id'),
     booksID: uuid('books_id'),
@@ -1596,6 +1723,15 @@ export const payload_locked_documents_rels = db_schema.table(
     ),
     index('payload_locked_documents_rels_verifications_id_idx').on(
       columns.verificationsID
+    ),
+    index('payload_locked_documents_rels_oauth_applications_id_idx').on(
+      columns.oauthApplicationsID
+    ),
+    index('payload_locked_documents_rels_oauth_access_tokens_id_idx').on(
+      columns.oauthAccessTokensID
+    ),
+    index('payload_locked_documents_rels_oauth_consents_id_idx').on(
+      columns.oauthConsentsID
     ),
     index('payload_locked_documents_rels_admin_invitations_id_idx').on(
       columns['admin-invitationsID']
@@ -1667,6 +1803,21 @@ export const payload_locked_documents_rels = db_schema.table(
       columns: [columns['verificationsID']],
       foreignColumns: [verifications.id],
       name: 'payload_locked_documents_rels_verifications_fk'
+    }).onDelete('cascade'),
+    foreignKey({
+      columns: [columns['oauthApplicationsID']],
+      foreignColumns: [oauth_applications.id],
+      name: 'payload_locked_documents_rels_oauth_applications_fk'
+    }).onDelete('cascade'),
+    foreignKey({
+      columns: [columns['oauthAccessTokensID']],
+      foreignColumns: [oauth_access_tokens.id],
+      name: 'payload_locked_documents_rels_oauth_access_tokens_fk'
+    }).onDelete('cascade'),
+    foreignKey({
+      columns: [columns['oauthConsentsID']],
+      foreignColumns: [oauth_consents.id],
+      name: 'payload_locked_documents_rels_oauth_consents_fk'
     }).onDelete('cascade'),
     foreignKey({
       columns: [columns['admin-invitationsID']],
@@ -1880,6 +2031,46 @@ export const relations_accounts = relations(accounts, ({ one }) => ({
   })
 }))
 export const relations_verifications = relations(verifications, () => ({}))
+export const relations_oauth_applications = relations(
+  oauth_applications,
+  ({ one }) => ({
+    user: one(users, {
+      fields: [oauth_applications.user],
+      references: [users.id],
+      relationName: 'user'
+    })
+  })
+)
+export const relations_oauth_access_tokens = relations(
+  oauth_access_tokens,
+  ({ one }) => ({
+    client: one(oauth_applications, {
+      fields: [oauth_access_tokens.client],
+      references: [oauth_applications.id],
+      relationName: 'client'
+    }),
+    user: one(users, {
+      fields: [oauth_access_tokens.user],
+      references: [users.id],
+      relationName: 'user'
+    })
+  })
+)
+export const relations_oauth_consents = relations(
+  oauth_consents,
+  ({ one }) => ({
+    client: one(oauth_applications, {
+      fields: [oauth_consents.client],
+      references: [oauth_applications.id],
+      relationName: 'client'
+    }),
+    user: one(users, {
+      fields: [oauth_consents.user],
+      references: [users.id],
+      relationName: 'user'
+    })
+  })
+)
 export const relations_admin_invitations = relations(
   admin_invitations,
   () => ({})
@@ -2276,6 +2467,21 @@ export const relations_payload_locked_documents_rels = relations(
       references: [verifications.id],
       relationName: 'verifications'
     }),
+    oauthApplicationsID: one(oauth_applications, {
+      fields: [payload_locked_documents_rels.oauthApplicationsID],
+      references: [oauth_applications.id],
+      relationName: 'oauthApplications'
+    }),
+    oauthAccessTokensID: one(oauth_access_tokens, {
+      fields: [payload_locked_documents_rels.oauthAccessTokensID],
+      references: [oauth_access_tokens.id],
+      relationName: 'oauthAccessTokens'
+    }),
+    oauthConsentsID: one(oauth_consents, {
+      fields: [payload_locked_documents_rels.oauthConsentsID],
+      references: [oauth_consents.id],
+      relationName: 'oauthConsents'
+    }),
     'admin-invitationsID': one(admin_invitations, {
       fields: [payload_locked_documents_rels['admin-invitationsID']],
       references: [admin_invitations.id],
@@ -2440,6 +2646,9 @@ type DatabaseSchema = {
   sessions: typeof sessions
   accounts: typeof accounts
   verifications: typeof verifications
+  oauth_applications: typeof oauth_applications
+  oauth_access_tokens: typeof oauth_access_tokens
+  oauth_consents: typeof oauth_consents
   admin_invitations: typeof admin_invitations
   book_votes: typeof book_votes
   books_palette: typeof books_palette
@@ -2485,6 +2694,9 @@ type DatabaseSchema = {
   relations_sessions: typeof relations_sessions
   relations_accounts: typeof relations_accounts
   relations_verifications: typeof relations_verifications
+  relations_oauth_applications: typeof relations_oauth_applications
+  relations_oauth_access_tokens: typeof relations_oauth_access_tokens
+  relations_oauth_consents: typeof relations_oauth_consents
   relations_admin_invitations: typeof relations_admin_invitations
   relations_book_votes: typeof relations_book_votes
   relations_books_palette: typeof relations_books_palette

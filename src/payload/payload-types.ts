@@ -103,6 +103,9 @@ export interface Config {
     sessions: Session;
     accounts: Account;
     verifications: Verification;
+    oauthApplications: OauthApplication;
+    oauthAccessTokens: OauthAccessToken;
+    oauthConsents: OauthConsent;
     'admin-invitations': AdminInvitation;
     'book-votes': BookVote;
     books: Book;
@@ -162,6 +165,9 @@ export interface Config {
     sessions: SessionsSelect<false> | SessionsSelect<true>;
     accounts: AccountsSelect<false> | AccountsSelect<true>;
     verifications: VerificationsSelect<false> | VerificationsSelect<true>;
+    oauthApplications: OauthApplicationsSelect<false> | OauthApplicationsSelect<true>;
+    oauthAccessTokens: OauthAccessTokensSelect<false> | OauthAccessTokensSelect<true>;
+    oauthConsents: OauthConsentsSelect<false> | OauthConsentsSelect<true>;
     'admin-invitations': AdminInvitationsSelect<false> | AdminInvitationsSelect<true>;
     'book-votes': BookVotesSelect<false> | BookVotesSelect<true>;
     books: BooksSelect<false> | BooksSelect<true>;
@@ -650,6 +656,119 @@ export interface Verification {
   updatedAt: string;
 }
 /**
+ * OAuth applications are custom OAuth clients
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauthApplications".
+ */
+export interface OauthApplication {
+  id: string;
+  /**
+   * Name of the OAuth application
+   */
+  name?: string | null;
+  /**
+   * Icon of the OAuth application
+   */
+  icon?: string | null;
+  /**
+   * Additional metadata for the OAuth application
+   */
+  metadata?: string | null;
+  /**
+   * Unique identifier for each OAuth client
+   */
+  clientId?: string | null;
+  /**
+   * Secret key for the OAuth client
+   */
+  clientSecret?: string | null;
+  /**
+   * Comma-separated list of redirect URLs
+   */
+  redirectUrls?: string | null;
+  /**
+   * Type of OAuth client (e.g., web, mobile)
+   */
+  type?: string | null;
+  /**
+   * Indicates if the client is disabled
+   */
+  disabled?: boolean | null;
+  /**
+   * ID of the user who owns the client. (optional)
+   */
+  user?: (string | null) | User;
+  createdAt: string;
+  updatedAt: string;
+}
+/**
+ * OAuth access tokens for custom OAuth clients
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauthAccessTokens".
+ */
+export interface OauthAccessToken {
+  id: string;
+  /**
+   * Access token issued to the client
+   */
+  accessToken?: string | null;
+  /**
+   * Refresh token issued to the client
+   */
+  refreshToken?: string | null;
+  /**
+   * Expiration date of the access token
+   */
+  accessTokenExpiresAt?: string | null;
+  /**
+   * Expiration date of the refresh token
+   */
+  refreshTokenExpiresAt?: string | null;
+  /**
+   * OAuth application associated with the access token
+   */
+  client?: (string | null) | OauthApplication;
+  /**
+   * User associated with the access token
+   */
+  user?: (string | null) | User;
+  /**
+   * Comma-separated list of scopes granted
+   */
+  scopes?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+/**
+ * OAuth consents are used to store user consents for OAuth clients
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauthConsents".
+ */
+export interface OauthConsent {
+  id: string;
+  /**
+   * OAuth client associated with the consent
+   */
+  client?: (string | null) | OauthApplication;
+  /**
+   * User associated with the consent
+   */
+  user?: (string | null) | User;
+  /**
+   * Comma-separated list of scopes consented to
+   */
+  scopes?: string | null;
+  createdAt: string;
+  updatedAt: string;
+  /**
+   * Indicates if consent was given
+   */
+  consentGiven?: boolean | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "admin-invitations".
  */
@@ -1017,6 +1136,18 @@ export interface PayloadLockedDocument {
         value: string | Verification;
       } | null)
     | ({
+        relationTo: 'oauthApplications';
+        value: string | OauthApplication;
+      } | null)
+    | ({
+        relationTo: 'oauthAccessTokens';
+        value: string | OauthAccessToken;
+      } | null)
+    | ({
+        relationTo: 'oauthConsents';
+        value: string | OauthConsent;
+      } | null)
+    | ({
         relationTo: 'admin-invitations';
         value: string | AdminInvitation;
       } | null)
@@ -1195,6 +1326,50 @@ export interface VerificationsSelect<T extends boolean = true> {
   expiresAt?: T;
   createdAt?: T;
   updatedAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauthApplications_select".
+ */
+export interface OauthApplicationsSelect<T extends boolean = true> {
+  name?: T;
+  icon?: T;
+  metadata?: T;
+  clientId?: T;
+  clientSecret?: T;
+  redirectUrls?: T;
+  type?: T;
+  disabled?: T;
+  user?: T;
+  createdAt?: T;
+  updatedAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauthAccessTokens_select".
+ */
+export interface OauthAccessTokensSelect<T extends boolean = true> {
+  accessToken?: T;
+  refreshToken?: T;
+  accessTokenExpiresAt?: T;
+  refreshTokenExpiresAt?: T;
+  client?: T;
+  user?: T;
+  scopes?: T;
+  createdAt?: T;
+  updatedAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauthConsents_select".
+ */
+export interface OauthConsentsSelect<T extends boolean = true> {
+  client?: T;
+  user?: T;
+  scopes?: T;
+  createdAt?: T;
+  updatedAt?: T;
+  consentGiven?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1684,6 +1859,9 @@ export interface TaskCreateCollectionExport {
       | 'sessions'
       | 'accounts'
       | 'verifications'
+      | 'oauthApplications'
+      | 'oauthAccessTokens'
+      | 'oauthConsents'
       | 'admin-invitations'
       | 'book-votes'
       | 'books'

@@ -1,5 +1,5 @@
 import { nextCookies } from 'better-auth/next-js'
-import { customSession, magicLink } from 'better-auth/plugins'
+import { customSession, magicLink, mcp } from 'better-auth/plugins'
 import type { PayloadAuthOptions } from 'payload-auth/better-auth/plugin'
 import { appUrl } from 'src/utils/app-url'
 
@@ -73,6 +73,10 @@ export const betterAuthPluginOptions: PayloadAuthOptions = {
         },
         expiresIn: 60 * 10
       }),
+      // OAuth for the MCP server at /mcp (see src/app/mcp/route.ts)
+      mcpWithPayloadCollections(
+        mcp({ loginPage: '/auth/sign-in', resource: appUrl('/mcp') })
+      ),
       customSession(async ({ user, session }) => {
         const { getPayloadClient } =
           await import('src/core/services/utils/payload')
@@ -128,5 +132,50 @@ export const betterAuthPluginOptions: PayloadAuthOptions = {
   },
   verifications: {
     slug: 'verifications'
+  }
+}
+
+type McpPlugin = ReturnType<typeof mcp>
+
+function renamed<F extends object>(field: F, fieldName: string) {
+  return { ...field, fieldName }
+}
+
+/**
+ * payload-auth stores the OAuth models in its own collections, but only maps
+ * the model and field names for the oidc plugin, so map them for mcp too.
+ */
+function mcpWithPayloadCollections(plugin: McpPlugin): McpPlugin {
+  const { oauthApplication, oauthAccessToken, oauthConsent } = plugin.schema
+  return {
+    ...plugin,
+    schema: {
+      oauthApplication: {
+        ...oauthApplication,
+        modelName: 'oauthApplications',
+        fields: {
+          ...oauthApplication.fields,
+          userId: renamed(oauthApplication.fields.userId, 'user')
+        }
+      },
+      oauthAccessToken: {
+        ...oauthAccessToken,
+        modelName: 'oauthAccessTokens',
+        fields: {
+          ...oauthAccessToken.fields,
+          userId: renamed(oauthAccessToken.fields.userId, 'user'),
+          clientId: renamed(oauthAccessToken.fields.clientId, 'client')
+        }
+      },
+      oauthConsent: {
+        ...oauthConsent,
+        modelName: 'oauthConsents',
+        fields: {
+          ...oauthConsent.fields,
+          userId: renamed(oauthConsent.fields.userId, 'user'),
+          clientId: renamed(oauthConsent.fields.clientId, 'client')
+        }
+      }
+    }
   }
 }
