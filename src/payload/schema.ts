@@ -338,9 +338,7 @@ export const oauth_access_tokens = db_schema.table(
       withTimezone: true,
       precision: 3
     }),
-    client: uuid('client_id').references(() => oauth_applications.id, {
-      onDelete: 'set null'
-    }),
+    client: varchar('client'),
     user: uuid('user_id').references(() => users.id, {
       onDelete: 'set null'
     }),
@@ -376,9 +374,7 @@ export const oauth_consents = db_schema.table(
   'oauth_consents',
   {
     id: uuid('id').defaultRandom().primaryKey(),
-    client: uuid('client_id').references(() => oauth_applications.id, {
-      onDelete: 'set null'
-    }),
+    client: varchar('client'),
     user: uuid('user_id').references(() => users.id, {
       onDelete: 'set null'
     }),
@@ -2044,11 +2040,6 @@ export const relations_oauth_applications = relations(
 export const relations_oauth_access_tokens = relations(
   oauth_access_tokens,
   ({ one }) => ({
-    client: one(oauth_applications, {
-      fields: [oauth_access_tokens.client],
-      references: [oauth_applications.id],
-      relationName: 'client'
-    }),
     user: one(users, {
       fields: [oauth_access_tokens.user],
       references: [users.id],
@@ -2059,11 +2050,6 @@ export const relations_oauth_access_tokens = relations(
 export const relations_oauth_consents = relations(
   oauth_consents,
   ({ one }) => ({
-    client: one(oauth_applications, {
-      fields: [oauth_consents.client],
-      references: [oauth_applications.id],
-      relationName: 'client'
-    }),
     user: one(users, {
       fields: [oauth_consents.user],
       references: [users.id],

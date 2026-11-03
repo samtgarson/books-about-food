@@ -1,5 +1,6 @@
 import { nextCookies } from 'better-auth/next-js'
 import { customSession, magicLink, mcp } from 'better-auth/plugins'
+import type { CollectionConfig } from 'payload'
 import type { PayloadAuthOptions } from 'payload-auth/better-auth/plugin'
 import { appUrl } from 'src/utils/app-url'
 
@@ -124,6 +125,10 @@ export const betterAuthPluginOptions: PayloadAuthOptions = {
       return collection
     }
   },
+  pluginCollectionOverrides: {
+    oauthAccessTokens: clientIdAsText,
+    oauthConsents: clientIdAsText
+  },
   sessions: {
     slug: 'sessions'
   },
@@ -177,5 +182,31 @@ function mcpWithPayloadCollections(plugin: McpPlugin): McpPlugin {
         }
       }
     }
+  }
+}
+
+/**
+ * Better Auth stores the OAuth client's public client_id string on access
+ * tokens and consents, but payload-auth makes the field a relationship to the
+ * application's row id, so writes fail. Store it as text instead.
+ */
+function clientIdAsText({
+  collection
+}: {
+  collection: CollectionConfig
+}): CollectionConfig {
+  return {
+    ...collection,
+    fields: collection.fields.map(function (field) {
+      if (!('name' in field) || field.name !== 'client') return field
+      return {
+        name: 'client',
+        type: 'text',
+        index: true,
+        // Keeps payload-auth's mapping to Better Auth's clientId field
+        custom: field.custom,
+        admin: { readOnly: true, description: 'OAuth client ID' }
+      }
+    })
   }
 }

@@ -423,7 +423,9 @@ export function createMcpServer(payload: Payload) {
     },
     async function ({ query }) {
       const docs = unwrap(await quickSearch.call({ query }, ctx))
-      const results = docs.map((doc) => new SearchResult(doc))
+      // The two underlying queries can both match the same document.
+      const unique = new Map(docs.map((doc) => [doc.id, doc]))
+      const results = [...unique.values()].map((doc) => new SearchResult(doc))
 
       // Search results include draft collections and admin-only tags, so drop
       // anything that isn't public.

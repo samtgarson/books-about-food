@@ -727,9 +727,9 @@ export interface OauthAccessToken {
    */
   refreshTokenExpiresAt?: string | null;
   /**
-   * OAuth application associated with the access token
+   * OAuth client ID
    */
-  client?: (string | null) | OauthApplication;
+  client?: string | null;
   /**
    * User associated with the access token
    */
@@ -750,9 +750,9 @@ export interface OauthAccessToken {
 export interface OauthConsent {
   id: string;
   /**
-   * OAuth client associated with the consent
+   * OAuth client ID
    */
-  client?: (string | null) | OauthApplication;
+  client?: string | null;
   /**
    * User associated with the consent
    */

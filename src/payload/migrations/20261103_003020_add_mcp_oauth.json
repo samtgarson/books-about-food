@@ -815,9 +815,9 @@
           "primaryKey": false,
           "notNull": false
         },
-        "client_id": {
-          "name": "client_id",
-          "type": "uuid",
+        "client": {
+          "name": "client",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": false
         },
@@ -883,7 +883,7 @@
           "name": "oauth_access_tokens_client_idx",
           "columns": [
             {
-              "expression": "client_id",
+              "expression": "client",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -941,20 +941,6 @@
         }
       },
       "foreignKeys": {
-        "oauth_access_tokens_client_id_oauth_applications_id_fk": {
-          "name": "oauth_access_tokens_client_id_oauth_applications_id_fk",
-          "tableFrom": "oauth_access_tokens",
-          "tableTo": "oauth_applications",
-          "schemaTo": "payload",
-          "columnsFrom": [
-            "client_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "set null",
-          "onUpdate": "no action"
-        },
         "oauth_access_tokens_user_id_users_id_fk": {
           "name": "oauth_access_tokens_user_id_users_id_fk",
           "tableFrom": "oauth_access_tokens",
@@ -987,9 +973,9 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
-        "client_id": {
-          "name": "client_id",
-          "type": "uuid",
+        "client": {
+          "name": "client",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": false
         },
@@ -1032,7 +1018,7 @@
           "name": "oauth_consents_client_idx",
           "columns": [
             {
-              "expression": "client_id",
+              "expression": "client",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -1090,20 +1076,6 @@
         }
       },
       "foreignKeys": {
-        "oauth_consents_client_id_oauth_applications_id_fk": {
-          "name": "oauth_consents_client_id_oauth_applications_id_fk",
-          "tableFrom": "oauth_consents",
-          "tableTo": "oauth_applications",
-          "schemaTo": "payload",
-          "columnsFrom": [
-            "client_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "set null",
-          "onUpdate": "no action"
-        },
         "oauth_consents_user_id_users_id_fk": {
           "name": "oauth_consents_user_id_users_id_fk",
           "tableFrom": "oauth_consents",
@@ -7958,6 +7930,6 @@
     "tables": {},
     "columns": {}
   },
-  "id": "2f92e40b-26ac-497b-a5b5-766ee42b38fd",
+  "id": "0e7a3a4f-1167-4ed8-ac18-185d08d5b26c",
   "prevId": "00000000-0000-0000-0000-000000000000"
 }

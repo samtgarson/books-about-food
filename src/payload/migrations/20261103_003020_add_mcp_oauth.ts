@@ -23,7 +23,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"refresh_token" varchar,
   	"access_token_expires_at" timestamp(3) with time zone,
   	"refresh_token_expires_at" timestamp(3) with time zone,
-  	"client_id" uuid,
+  	"client" varchar,
   	"user_id" uuid,
   	"scopes" varchar,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
@@ -32,7 +32,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   
   CREATE TABLE "payload"."oauth_consents" (
   	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-  	"client_id" uuid,
+  	"client" varchar,
   	"user_id" uuid,
   	"scopes" varchar,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
@@ -44,9 +44,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "payload"."payload_locked_documents_rels" ADD COLUMN "oauth_access_tokens_id" uuid;
   ALTER TABLE "payload"."payload_locked_documents_rels" ADD COLUMN "oauth_consents_id" uuid;
   ALTER TABLE "payload"."oauth_applications" ADD CONSTRAINT "oauth_applications_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "payload"."users"("id") ON DELETE set null ON UPDATE no action;
-  ALTER TABLE "payload"."oauth_access_tokens" ADD CONSTRAINT "oauth_access_tokens_client_id_oauth_applications_id_fk" FOREIGN KEY ("client_id") REFERENCES "payload"."oauth_applications"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "payload"."oauth_access_tokens" ADD CONSTRAINT "oauth_access_tokens_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "payload"."users"("id") ON DELETE set null ON UPDATE no action;
-  ALTER TABLE "payload"."oauth_consents" ADD CONSTRAINT "oauth_consents_client_id_oauth_applications_id_fk" FOREIGN KEY ("client_id") REFERENCES "payload"."oauth_applications"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "payload"."oauth_consents" ADD CONSTRAINT "oauth_consents_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "payload"."users"("id") ON DELETE set null ON UPDATE no action;
   CREATE INDEX "oauth_applications_name_idx" ON "payload"."oauth_applications" USING btree ("name");
   CREATE UNIQUE INDEX "oauth_applications_client_id_idx" ON "payload"."oauth_applications" USING btree ("client_id");
@@ -55,11 +53,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "oauth_applications_updated_at_idx" ON "payload"."oauth_applications" USING btree ("updated_at");
   CREATE UNIQUE INDEX "oauth_access_tokens_access_token_idx" ON "payload"."oauth_access_tokens" USING btree ("access_token");
   CREATE UNIQUE INDEX "oauth_access_tokens_refresh_token_idx" ON "payload"."oauth_access_tokens" USING btree ("refresh_token");
-  CREATE INDEX "oauth_access_tokens_client_idx" ON "payload"."oauth_access_tokens" USING btree ("client_id");
+  CREATE INDEX "oauth_access_tokens_client_idx" ON "payload"."oauth_access_tokens" USING btree ("client");
   CREATE INDEX "oauth_access_tokens_user_idx" ON "payload"."oauth_access_tokens" USING btree ("user_id");
   CREATE INDEX "oauth_access_tokens_created_at_idx" ON "payload"."oauth_access_tokens" USING btree ("created_at");
   CREATE INDEX "oauth_access_tokens_updated_at_idx" ON "payload"."oauth_access_tokens" USING btree ("updated_at");
-  CREATE INDEX "oauth_consents_client_idx" ON "payload"."oauth_consents" USING btree ("client_id");
+  CREATE INDEX "oauth_consents_client_idx" ON "payload"."oauth_consents" USING btree ("client");
   CREATE INDEX "oauth_consents_user_idx" ON "payload"."oauth_consents" USING btree ("user_id");
   CREATE INDEX "oauth_consents_created_at_idx" ON "payload"."oauth_consents" USING btree ("created_at");
   CREATE INDEX "oauth_consents_updated_at_idx" ON "payload"."oauth_consents" USING btree ("updated_at");
