@@ -1,7 +1,6 @@
-import { eq } from '@payloadcms/db-postgres/drizzle'
-import type { CollectionConfig, Data } from 'payload'
-import { jobs, profiles } from 'src/payload/schema'
-import { websites } from '../../../utils/data/websites'
+import type { CollectionConfig } from 'payload'
+import { contributionTitleField } from '../../fields/contribution-title'
+import { linksField } from '../../fields/links'
 import { slugField } from '../../fields/slug'
 import { revalidatePaths } from '../../plugins/cache-revalidation'
 import { colorField, dayOnlyDisplayFormat } from '../utils'
@@ -14,7 +13,19 @@ import {
   deleteBookSearchResult,
   syncBookSearchResult
 } from './hooks/sync-search-result'
+import { syncMagazineFields } from './hooks/sync-magazine-fields'
 import { updateSearchText } from './hooks/update-search-text'
+
+function isMagazineIssue(data: Partial<{ type: unknown }> | undefined) {
+  return data?.type === 'magazineIssue'
+}
+
+// New books created from a magazine's issues list arrive with the magazine set
+function showMagazineFields(
+  data: Partial<{ id: unknown; type: unknown; magazine: unknown }>
+) {
+  return isMagazineIssue(data) || (!data.id && !!data.magazine)
+}
 
 export const Books: CollectionConfig = {
   slug: 'books',
@@ -26,7 +37,7 @@ export const Books: CollectionConfig = {
     ])
   },
   hooks: {
-    beforeChange: [updateSearchText],
+    beforeChange: [syncMagazineFields, updateSearchText],
     afterChange: [
       syncBookSearchResult,
       syncRelatedSearchResults,
@@ -40,6 +51,7 @@ export const Books: CollectionConfig = {
     defaultColumns: [
       'title',
       'status',
+      'type',
       'authorNames',
       'palette',
       'publisher',
@@ -90,10 +102,61 @@ export const Books: CollectionConfig = {
       index: true
     },
     {
+      name: 'type',
+      type: 'select',
+      interfaceName: 'BookType',
+      options: [
+        { label: 'Cookbook', value: 'cookbook' },
+        { label: 'Magazine issue', value: 'magazineIssue' }
+      ],
+      defaultValue: 'cookbook',
+      required: true,
+      index: true
+    },
+    {
+      type: 'row',
+      admin: {
+        condition: showMagazineFields
+      },
+      fields: [
+        {
+          name: 'magazine',
+          type: 'relationship',
+          relationTo: 'magazines',
+          hasMany: false,
+          index: true,
+          validate: (
+            value: unknown,
+            { data }: { data: Partial<{ type: unknown }> }
+          ) => {
+            if (isMagazineIssue(data) && !value) {
+              return 'Magazine issues must belong to a magazine'
+            }
+            return true
+          }
+        },
+        {
+          name: 'issueNumber',
+          type: 'number',
+          min: 0
+        },
+        {
+          name: 'issueLabel',
+          type: 'text',
+          admin: {
+            description: 'Optional, e.g. "Spring/Summer 2025"'
+          }
+        }
+      ]
+    },
+    {
       name: 'authors',
       type: 'relationship',
       relationTo: 'profiles',
-      hasMany: true
+      hasMany: true,
+      admin: {
+        condition: (data) => !showMagazineFields(data)
+      }
     },
     {
       name: 'authorNames',
@@ -229,34 +292,7 @@ export const Books: CollectionConfig = {
           required: true,
           hasMany: false
         },
-        {
-          name: 'title',
-          type: 'text',
-          admin: {
-            hidden: true
-          },
-          hooks: {
-            beforeChange: [
-              async function ({ siblingData, req }) {
-                if (!siblingData.profile || !siblingData.job) return null
-
-                const [[profile], [job]] = await Promise.all([
-                  req.payload.db.drizzle
-                    .select({ name: profiles.name })
-                    .from(profiles)
-                    .where(eq(profiles.id, siblingData.profile)),
-                  req.payload.db.drizzle
-                    .select({ name: jobs.name })
-                    .from(jobs)
-                    .where(eq(jobs.id, siblingData.job))
-                ])
-
-                if (!profile?.name || !job?.name) return null
-                return `${profile.name} (${job.name})`
-              }
-            ]
-          }
-        },
+        contributionTitleField,
         {
           name: 'job',
           type: 'relationship',
@@ -309,69 +345,6 @@ export const Books: CollectionConfig = {
         }
       ]
     },
-    {
-      name: 'links',
-      type: 'array',
-      interfaceName: 'BookLinks',
-      admin: {
-        initCollapsed: true,
-        components: {
-          RowLabel: {
-            path: 'src/payload/components/ui/array-row-label.tsx#ArrayRowLabel',
-            clientProps: {
-              itemPlaceholder: 'New link',
-              keyPath: ['label']
-            }
-          }
-        }
-      },
-      fields: [
-        {
-          name: 'label',
-          type: 'text',
-          virtual: true,
-          admin: { hidden: true },
-          hooks: {
-            afterRead: [
-              async function ({ siblingData }) {
-                if (siblingData?.site === 'Other')
-                  return siblingData['site (other)']
-                return siblingData?.site ?? ''
-              }
-            ]
-          }
-        },
-        {
-          name: 'url',
-          type: 'text',
-          required: true
-        },
-        {
-          name: 'site',
-          type: 'select',
-          options: [
-            ...websites.map((site) => ({ label: site, value: site })),
-            { label: 'Other', value: 'Other' }
-          ],
-          required: true
-        },
-        {
-          name: 'site (other)',
-          type: 'text',
-          validate: (
-            value: unknown,
-            { siblingData }: { siblingData: Data }
-          ) => {
-            if (siblingData?.site === 'Other' && !value) {
-              return 'Please specify the site name'
-            }
-            return true
-          },
-          admin: {
-            condition: (data, siblingData) => siblingData?.site === 'Other'
-          }
-        }
-      ]
-    }
+    linksField('BookLinks')
   ]
 }

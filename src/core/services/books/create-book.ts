@@ -64,6 +64,7 @@ export const createBook = new AuthedService(
       collection: 'books',
       data: {
         ...data,
+        type: 'cookbook',
         source: 'submitted',
         slug: slugify(data.title),
         submitter: user.id

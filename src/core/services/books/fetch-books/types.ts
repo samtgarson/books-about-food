@@ -1,5 +1,5 @@
 import { BasePayload } from 'payload'
-import { enum_books_status } from 'src/payload/schema'
+import { enum_books_status, enum_books_type } from 'src/payload/schema'
 import { z } from 'zod'
 import { array, arrayOrSingle, paginationInput } from '../../utils/inputs'
 import { NamedColor } from '../colors'
@@ -27,6 +27,7 @@ export const validator = z.object({
   search: z.string().optional(),
   profile: z.string().optional(),
   status: arrayOrSingle(z.enum(enum_books_status.enumValues)).optional(),
+  type: arrayOrSingle(z.enum(enum_books_type.enumValues)).optional(),
   submitterId: z.string().optional(),
   publisherSlug: z.string().optional(),
   color: z.enum(NamedColor).or(array(z.coerce.number())).optional(),

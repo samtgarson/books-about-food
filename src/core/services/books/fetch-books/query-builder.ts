@@ -111,6 +111,12 @@ export function buildWhereConditions(
     where.push(inArray(books.status, statusFilter))
   }
 
+  // Type filter - magazine issues are excluded unless asked for
+  const typeFilter = wrapArray(input.type || 'cookbook')
+  if (typeFilter.length > 0) {
+    where.push(inArray(books.type, typeFilter))
+  }
+
   // Submitter filter
   if (input.submitterId) {
     where.push(eq(books.submitter, input.submitterId))
