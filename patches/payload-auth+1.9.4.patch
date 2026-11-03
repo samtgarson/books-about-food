@@ -1,0 +1,97 @@
+diff --git a/node_modules/payload-auth/dist/better-auth/adapter/index.js b/node_modules/payload-auth/dist/better-auth/adapter/index.js
+index 84d0034..a806857 100644
+--- a/node_modules/payload-auth/dist/better-auth/adapter/index.js
++++ b/node_modules/payload-auth/dist/better-auth/adapter/index.js
+@@ -705,6 +705,92 @@ const CREATE_QUERY_DEPTH = 0;
+                     throw error;
+                 }
+             },
++            // Backported from payload-auth 3.0.0: Better Auth >= 1.6 calls
++            // consumeOne to read and delete single-use verification values
++            // (magic links, OAuth codes), which 1.9.4 doesn't implement.
++            async consumeOne ({ model, where }) {
++                const payload = await resolvePayloadClient();
++                const collectionSlug = getCollectionSlug(model);
++                await validateCollection(payload, collectionSlug, model);
++                const payloadWhere = convertWhereClause({
++                    idType: adapterConfig.idType,
++                    model: model,
++                    where,
++                    payload
++                });
++                debugLog([
++                    "consumeOne",
++                    {
++                        collectionSlug,
++                        payloadWhere
++                    }
++                ]);
++                try {
++                    const singleId = singleIdQuery(payloadWhere);
++                    let found = null;
++                    if (singleId) {
++                        found = await payload.findByID({
++                            collection: collectionSlug,
++                            id: singleId,
++                            depth: PAYLOAD_QUERY_DEPTH,
++                            context: createAdapterContext({
++                                model,
++                                operation: "consumeOneRead"
++                            })
++                        }).catch((error)=>{
++                            if (error instanceof Error && "status" in error && error.status === 404) {
++                                return null;
++                            }
++                            throw error;
++                        });
++                    } else {
++                        const docs = await payload.find({
++                            collection: collectionSlug,
++                            where: payloadWhere,
++                            depth: PAYLOAD_QUERY_DEPTH,
++                            limit: 1,
++                            context: createAdapterContext({
++                                model,
++                                operation: "consumeOneRead"
++                            })
++                        });
++                        found = docs.docs[0] ?? null;
++                    }
++                    if (!found) return null;
++                    // Delete by id so a concurrent consumer gets a 404 instead of
++                    // deleting a different matching row.
++                    try {
++                        await payload.delete({
++                            collection: collectionSlug,
++                            id: found.id,
++                            depth: PAYLOAD_QUERY_DEPTH,
++                            context: createAdapterContext({
++                                model,
++                                operation: "consumeOneDelete"
++                            })
++                        });
++                    } catch (error) {
++                        if (error instanceof Error && "status" in error && error.status === 404) {
++                            return null;
++                        }
++                        throw error;
++                    }
++                    return transformOutput({
++                        doc: found,
++                        model: model,
++                        payload
++                    });
++                } catch (error) {
++                    if (error instanceof Error && "status" in error && error.status === 404) {
++                        return null;
++                    }
++                    errorLog([
++                        "Error in consumeOne: ",
++                        error
++                    ]);
++                    throw error;
++                }
++            },
+             async deleteMany ({ model, where }) {
+                 const start = Date.now();
+                 const payload = await resolvePayloadClient();
