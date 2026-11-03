@@ -1,5 +1,6 @@
 import { SQL, sql } from '@payloadcms/db-postgres/drizzle'
 import { books_palette } from 'src/payload/schema'
+import { Hsl } from 'src/utils/types'
 import { NamedColor, OddColors } from '../colors'
 
 /** Gets relative radius for a hue considering visual perception of breadth of color */
@@ -112,4 +113,34 @@ export function colorMatchScore(color: NamedColor | number[]): SQL {
       POWER(ABS((${books_palette.color} ->> 'l')::decimal - ${targetL}), 2) / 100.0
     )
   `
+}
+
+/**
+ * The named color a palette entry falls under, using the same thresholds as
+ * the named color filter, or undefined if it matches none (e.g. a muted tone).
+ */
+export function namedColorFor({ h, s, l }: Hsl): NamedColor | undefined {
+  if (l > 90) return NamedColor.white
+  if (l < 10) return NamedColor.black
+  if (h >= 10 && h <= 35 && s > 35 && l >= 8 && l <= 40) return NamedColor.brown
+  if (s < 15 && l >= 25 && l <= 70) return NamedColor.gray
+  if (s <= 40 || l < 20 || l > 70) return
+
+  const hueColors = Object.values(NamedColor).filter(isHueColor)
+  return hueColors.find(function (color) {
+    return namedColorToHueBand(color).some(function ([lower, upper]) {
+      return h >= lower && h <= upper
+    })
+  })
+}
+
+function isHueColor(
+  color: NamedColor
+): color is Exclude<NamedColor, OddColors> {
+  return ![
+    NamedColor.white,
+    NamedColor.black,
+    NamedColor.brown,
+    NamedColor.gray
+  ].includes(color)
 }
