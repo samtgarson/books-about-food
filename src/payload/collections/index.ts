@@ -9,6 +9,7 @@ import { Features } from './features'
 import { Images } from './images'
 import { Jobs } from './jobs'
 import { Locations } from './locations'
+import { Magazines } from './magazines'
 import { Memberships } from './memberships'
 import { Pitches } from './pitches'
 import { Profiles } from './profiles'
@@ -31,6 +32,7 @@ export const collections = [
   Images,
   Jobs,
   Locations,
+  Magazines,
   Memberships,
   Pitches,
   Profiles,

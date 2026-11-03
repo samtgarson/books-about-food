@@ -160,6 +160,7 @@ export const processBookImport = new AuthedService(
         await payload.create({
           collection: 'books',
           data: {
+            type: 'cookbook',
             title: bookAttrs.title,
             slug: bookAttrs.slug,
             subtitle: bookAttrs.subtitle,

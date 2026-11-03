@@ -93,6 +93,7 @@ export const updateBook = new AuthedService(
       result = await payload.create({
         collection: 'books',
         data: {
+          type: 'cookbook',
           ...updateData,
           slug: slugify(input.title),
           title: input.title,

@@ -45,6 +45,10 @@ export const enum_books_links_site = db_schema.enum('enum_books_links_site', [
   'AbeBooks',
   'Other'
 ])
+export const enum_books_type = db_schema.enum('enum_books_type', [
+  'cookbook',
+  'magazineIssue'
+])
 export const enum_books_status = db_schema.enum('enum_books_status', [
   'draft',
   'inReview',
@@ -64,6 +68,27 @@ export const enum_claims_state = db_schema.enum('enum_claims_state', [
 export const enum_collections_status = db_schema.enum(
   'enum_collections_status',
   ['draft', 'inReview', 'published']
+)
+export const enum_magazines_links_site = db_schema.enum(
+  'enum_magazines_links_site',
+  ['Amazon', 'Edelweiss+', 'Bookshop.org', 'Worldcat', 'AbeBooks', 'Other']
+)
+export const enum_magazines_status = db_schema.enum('enum_magazines_status', [
+  'draft',
+  'inReview',
+  'published'
+])
+export const enum_magazines_frequency = db_schema.enum(
+  'enum_magazines_frequency',
+  [
+    'weekly',
+    'monthly',
+    'bimonthly',
+    'quarterly',
+    'biannual',
+    'annual',
+    'irregular'
+  ]
 )
 export const enum_memberships_role = db_schema.enum('enum_memberships_role', [
   'admin',
@@ -453,6 +478,12 @@ export const books = db_schema.table(
     subtitle: varchar('subtitle'),
     slug: varchar('slug').notNull(),
     searchText: varchar('search_text'),
+    type: enum_books_type('type').notNull().default('cookbook'),
+    magazine: uuid('magazine_id').references(() => magazines.id, {
+      onDelete: 'set null'
+    }),
+    issueNumber: numeric('issue_number', { mode: 'number' }),
+    issueLabel: varchar('issue_label'),
     status: enum_books_status('status').default('draft'),
     releaseDate: timestamp('release_date', {
       mode: 'string',
@@ -492,6 +523,8 @@ export const books = db_schema.table(
   (columns) => [
     uniqueIndex('books_slug_idx').on(columns.slug),
     index('books_search_text_idx').on(columns.searchText),
+    index('books_type_idx').on(columns.type),
+    index('books_magazine_idx').on(columns.magazine),
     index('books_publisher_idx').on(columns.publisher),
     index('books_submitter_idx').on(columns.submitter),
     index('books_cover_image_idx').on(columns.coverImage),
@@ -901,6 +934,97 @@ export const locations = db_schema.table(
     uniqueIndex('locations_slug_idx').on(columns.slug),
     index('locations_updated_at_idx').on(columns.updatedAt),
     index('locations_created_at_idx').on(columns.createdAt)
+  ]
+)
+
+export const magazines_team = db_schema.table(
+  'magazines_team',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: uuid('_parent_id').notNull(),
+    id: varchar('id').primaryKey(),
+    profile: uuid('profile_id')
+      .notNull()
+      .references(() => profiles.id, {
+        onDelete: 'set null'
+      }),
+    title: varchar('title'),
+    job: uuid('job_id')
+      .notNull()
+      .references(() => jobs.id, {
+        onDelete: 'set null'
+      }),
+    fromYear: numeric('from_year', { mode: 'number' }),
+    toYear: numeric('to_year', { mode: 'number' })
+  },
+  (columns) => [
+    index('magazines_team_order_idx').on(columns._order),
+    index('magazines_team_parent_id_idx').on(columns._parentID),
+    index('magazines_team_profile_idx').on(columns.profile),
+    index('magazines_team_job_idx').on(columns.job),
+    foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [magazines.id],
+      name: 'magazines_team_parent_id_fk'
+    }).onDelete('cascade')
+  ]
+)
+
+export const magazines_links = db_schema.table(
+  'magazines_links',
+  {
+    _order: integer('_order').notNull(),
+    _parentID: uuid('_parent_id').notNull(),
+    id: varchar('id').primaryKey(),
+    url: varchar('url').notNull(),
+    site: enum_magazines_links_site('site').notNull(),
+    'site (other)': varchar('site_other')
+  },
+  (columns) => [
+    index('magazines_links_order_idx').on(columns._order),
+    index('magazines_links_parent_id_idx').on(columns._parentID),
+    foreignKey({
+      columns: [columns['_parentID']],
+      foreignColumns: [magazines.id],
+      name: 'magazines_links_parent_id_fk'
+    }).onDelete('cascade')
+  ]
+)
+
+export const magazines = db_schema.table(
+  'magazines',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    title: varchar('title').notNull(),
+    slug: varchar('slug').notNull(),
+    status: enum_magazines_status('status').default('draft'),
+    publisher: uuid('publisher_id').references(() => publishers.id, {
+      onDelete: 'set null'
+    }),
+    description: varchar('description'),
+    frequency: enum_magazines_frequency('frequency'),
+    startYear: numeric('start_year', { mode: 'number' }),
+    endYear: numeric('end_year', { mode: 'number' }),
+    updatedAt: timestamp('updated_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3
+    })
+      .defaultNow()
+      .notNull(),
+    createdAt: timestamp('created_at', {
+      mode: 'string',
+      withTimezone: true,
+      precision: 3
+    })
+      .defaultNow()
+      .notNull()
+  },
+  (columns) => [
+    uniqueIndex('magazines_slug_idx').on(columns.slug),
+    index('magazines_publisher_idx').on(columns.publisher),
+    index('magazines_updated_at_idx').on(columns.updatedAt),
+    index('magazines_created_at_idx').on(columns.createdAt)
   ]
 )
 
@@ -1574,6 +1698,7 @@ export const payload_locked_documents_rels = db_schema.table(
     imagesID: uuid('images_id'),
     jobsID: uuid('jobs_id'),
     locationsID: uuid('locations_id'),
+    magazinesID: uuid('magazines_id'),
     membershipsID: uuid('memberships_id'),
     pitchesID: uuid('pitches_id'),
     profilesID: uuid('profiles_id'),
@@ -1622,6 +1747,9 @@ export const payload_locked_documents_rels = db_schema.table(
     index('payload_locked_documents_rels_jobs_id_idx').on(columns.jobsID),
     index('payload_locked_documents_rels_locations_id_idx').on(
       columns.locationsID
+    ),
+    index('payload_locked_documents_rels_magazines_id_idx').on(
+      columns.magazinesID
     ),
     index('payload_locked_documents_rels_memberships_id_idx').on(
       columns.membershipsID
@@ -1727,6 +1855,11 @@ export const payload_locked_documents_rels = db_schema.table(
       columns: [columns['locationsID']],
       foreignColumns: [locations.id],
       name: 'payload_locked_documents_rels_locations_fk'
+    }).onDelete('cascade'),
+    foreignKey({
+      columns: [columns['magazinesID']],
+      foreignColumns: [magazines.id],
+      name: 'payload_locked_documents_rels_magazines_fk'
     }).onDelete('cascade'),
     foreignKey({
       columns: [columns['membershipsID']],
@@ -1963,6 +2096,11 @@ export const relations_books_rels = relations(books_rels, ({ one }) => ({
   })
 }))
 export const relations_books = relations(books, ({ one, many }) => ({
+  magazine: one(magazines, {
+    fields: [books.magazine],
+    references: [magazines.id],
+    relationName: 'magazine'
+  }),
   palette: many(books_palette, {
     relationName: 'palette'
   }),
@@ -2067,6 +2205,49 @@ export const relations_features = relations(features, ({ one }) => ({
 export const relations_images = relations(images, () => ({}))
 export const relations_jobs = relations(jobs, () => ({}))
 export const relations_locations = relations(locations, () => ({}))
+export const relations_magazines_team = relations(
+  magazines_team,
+  ({ one }) => ({
+    _parentID: one(magazines, {
+      fields: [magazines_team._parentID],
+      references: [magazines.id],
+      relationName: 'team'
+    }),
+    profile: one(profiles, {
+      fields: [magazines_team.profile],
+      references: [profiles.id],
+      relationName: 'profile'
+    }),
+    job: one(jobs, {
+      fields: [magazines_team.job],
+      references: [jobs.id],
+      relationName: 'job'
+    })
+  })
+)
+export const relations_magazines_links = relations(
+  magazines_links,
+  ({ one }) => ({
+    _parentID: one(magazines, {
+      fields: [magazines_links._parentID],
+      references: [magazines.id],
+      relationName: 'links'
+    })
+  })
+)
+export const relations_magazines = relations(magazines, ({ one, many }) => ({
+  publisher: one(publishers, {
+    fields: [magazines.publisher],
+    references: [publishers.id],
+    relationName: 'publisher'
+  }),
+  team: many(magazines_team, {
+    relationName: 'team'
+  }),
+  links: many(magazines_links, {
+    relationName: 'links'
+  })
+}))
 export const relations_memberships = relations(memberships, ({ one }) => ({
   publisher: one(publishers, {
     fields: [memberships.publisher],
@@ -2336,6 +2517,11 @@ export const relations_payload_locked_documents_rels = relations(
       references: [locations.id],
       relationName: 'locations'
     }),
+    magazinesID: one(magazines, {
+      fields: [payload_locked_documents_rels.magazinesID],
+      references: [magazines.id],
+      relationName: 'magazines'
+    }),
     membershipsID: one(memberships, {
       fields: [payload_locked_documents_rels.membershipsID],
       references: [memberships.id],
@@ -2420,10 +2606,14 @@ type DatabaseSchema = {
   enum_admin_invitations_role: typeof enum_admin_invitations_role
   enum_books_contributions_tag: typeof enum_books_contributions_tag
   enum_books_links_site: typeof enum_books_links_site
+  enum_books_type: typeof enum_books_type
   enum_books_status: typeof enum_books_status
   enum_books_source: typeof enum_books_source
   enum_claims_state: typeof enum_claims_state
   enum_collections_status: typeof enum_collections_status
+  enum_magazines_links_site: typeof enum_magazines_links_site
+  enum_magazines_status: typeof enum_magazines_status
+  enum_magazines_frequency: typeof enum_magazines_frequency
   enum_memberships_role: typeof enum_memberships_role
   enum_publisher_invitations_role: typeof enum_publisher_invitations_role
   enum_search_results_type: typeof enum_search_results_type
@@ -2458,6 +2648,9 @@ type DatabaseSchema = {
   images: typeof images
   jobs: typeof jobs
   locations: typeof locations
+  magazines_team: typeof magazines_team
+  magazines_links: typeof magazines_links
+  magazines: typeof magazines
   memberships: typeof memberships
   pitches: typeof pitches
   profiles: typeof profiles
@@ -2503,6 +2696,9 @@ type DatabaseSchema = {
   relations_images: typeof relations_images
   relations_jobs: typeof relations_jobs
   relations_locations: typeof relations_locations
+  relations_magazines_team: typeof relations_magazines_team
+  relations_magazines_links: typeof relations_magazines_links
+  relations_magazines: typeof relations_magazines
   relations_memberships: typeof relations_memberships
   relations_pitches: typeof relations_pitches
   relations_profiles_rels: typeof relations_profiles_rels

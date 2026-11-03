@@ -8,6 +8,50 @@
 
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BookType".
+ */
+export type BookType = 'cookbook' | 'magazineIssue';
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MagazineFrequency".
+ */
+export type MagazineFrequency =
+  | ('weekly' | 'monthly' | 'bimonthly' | 'quarterly' | 'biannual' | 'annual' | 'irregular')
+  | null;
+/**
+ * The standing team, credited across issues
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MagazineTeam".
+ */
+export type MagazineTeam =
+  | {
+      profile: string | Profile;
+      title?: string | null;
+      job: string | Job;
+      fromYear?: number | null;
+      /**
+       * Leave blank if current
+       */
+      toYear?: number | null;
+      id?: string | null;
+    }[]
+  | null;
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MagazineLinks".
+ */
+export type MagazineLinks =
+  | {
+      label?: string | null;
+      url: string;
+      site: 'Amazon' | 'Edelweiss+' | 'Bookshop.org' | 'Worldcat' | 'AbeBooks' | 'Other';
+      'site (other)'?: string | null;
+      id?: string | null;
+    }[]
+  | null;
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "BookSource".
  */
 export type BookSource = ('admin' | 'import' | 'submitted' | 'edelweiss') | null;
@@ -115,6 +159,7 @@ export interface Config {
     images: Image;
     jobs: Job;
     locations: Location;
+    magazines: Magazine;
     memberships: Membership;
     pitches: Pitch;
     profiles: Profile;
@@ -139,6 +184,9 @@ export interface Config {
     };
     locations: {
       profiles: 'profiles';
+    };
+    magazines: {
+      issues: 'books';
     };
     profiles: {
       authoredBooks: 'books';
@@ -174,6 +222,7 @@ export interface Config {
     images: ImagesSelect<false> | ImagesSelect<true>;
     jobs: JobsSelect<false> | JobsSelect<true>;
     locations: LocationsSelect<false> | LocationsSelect<true>;
+    magazines: MagazinesSelect<false> | MagazinesSelect<true>;
     memberships: MembershipsSelect<false> | MembershipsSelect<true>;
     pitches: PitchesSelect<false> | PitchesSelect<true>;
     profiles: ProfilesSelect<false> | ProfilesSelect<true>;
@@ -369,6 +418,13 @@ export interface Book {
    * Computed field containing all searchable text (title, subtitle, publisher, tags, authors, contributors)
    */
   searchText?: string | null;
+  type: BookType;
+  magazine?: (string | null) | Magazine;
+  issueNumber?: number | null;
+  /**
+   * Optional, e.g. "Spring/Summer 2025"
+   */
+  issueLabel?: string | null;
   authors?: (string | Profile)[] | null;
   authorNames?: string[] | null;
   status?: ('draft' | 'inReview' | 'published') | null;
@@ -410,6 +466,33 @@ export interface Book {
       }[]
     | null;
   links?: BookLinks;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "magazines".
+ */
+export interface Magazine {
+  id: string;
+  title: string;
+  slug: string;
+  status?: ('draft' | 'inReview' | 'published') | null;
+  publisher?: (string | null) | Publisher;
+  description?: string | null;
+  frequency?: MagazineFrequency;
+  startYear?: number | null;
+  /**
+   * Leave blank if still in print
+   */
+  endYear?: number | null;
+  team?: MagazineTeam;
+  issues?: {
+    docs?: (string | Book)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  links?: MagazineLinks;
   updatedAt: string;
   createdAt: string;
 }
@@ -501,6 +584,17 @@ export interface Claim {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "jobs".
+ */
+export interface Job {
+  id: string;
+  name: string;
+  featured?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tags".
  */
 export interface Tag {
@@ -530,17 +624,6 @@ export interface TagGroup {
     hasNextPage?: boolean;
     totalDocs?: number;
   };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "jobs".
- */
-export interface Job {
-  id: string;
-  name: string;
-  featured?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1065,6 +1148,10 @@ export interface PayloadLockedDocument {
         value: string | Location;
       } | null)
     | ({
+        relationTo: 'magazines';
+        value: string | Magazine;
+      } | null)
+    | ({
         relationTo: 'memberships';
         value: string | Membership;
       } | null)
@@ -1226,6 +1313,10 @@ export interface BooksSelect<T extends boolean = true> {
   subtitle?: T;
   slug?: T;
   searchText?: T;
+  type?: T;
+  magazine?: T;
+  issueNumber?: T;
+  issueLabel?: T;
   authors?: T;
   authorNames?: T;
   status?: T;
@@ -1412,6 +1503,48 @@ export interface LocationsSelect<T extends boolean = true> {
   profiles?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "magazines_select".
+ */
+export interface MagazinesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  status?: T;
+  publisher?: T;
+  description?: T;
+  frequency?: T;
+  startYear?: T;
+  endYear?: T;
+  team?: T | MagazineTeamSelect<T>;
+  issues?: T;
+  links?: T | MagazineLinksSelect<T>;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MagazineTeam_select".
+ */
+export interface MagazineTeamSelect<T extends boolean = true> {
+  profile?: T;
+  title?: T;
+  job?: T;
+  fromYear?: T;
+  toYear?: T;
+  id?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MagazineLinks_select".
+ */
+export interface MagazineLinksSelect<T extends boolean = true> {
+  label?: T;
+  url?: T;
+  site?: T;
+  'site (other)'?: T;
+  id?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1696,6 +1829,7 @@ export interface TaskCreateCollectionExport {
       | 'images'
       | 'jobs'
       | 'locations'
+      | 'magazines'
       | 'memberships'
       | 'pitches'
       | 'profiles'
