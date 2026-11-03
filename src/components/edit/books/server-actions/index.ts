@@ -23,5 +23,8 @@ export async function tags(search?: string) {
 }
 
 export async function createProfile(name: string) {
-  return await call(findOrCreateProfile, { name })
+  const { data } = await call(findOrCreateProfile, { name })
+  // Profile is a class instance, which React can't serialise across the
+  // server action boundary, so it must be stringified with superjson
+  return stringify(data)
 }

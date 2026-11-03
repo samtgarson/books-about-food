@@ -3,6 +3,7 @@
 import cn from 'classnames'
 import { Select } from 'src/components/form/select'
 import { Profile } from 'src/core/models/profile'
+import { parse } from 'src/utils/superjson'
 import { Avatar } from '../atoms/avatar'
 import { createProfile, profiles } from '../edit/books/server-actions'
 import { SelectProps } from './select/types'
@@ -49,7 +50,7 @@ export function ProfileSelect<Multi extends boolean>({
       allowCreate
       onChange={onChange}
       onCreate={async (name) => {
-        const { data: newVal } = await createProfile(name)
+        const newVal = parse(await createProfile(name))
         if (!newVal) throw new Error('Failed to create profile')
         onCreate?.(newVal)
         return newVal
