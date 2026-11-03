@@ -3,6 +3,7 @@ import { customSession, magicLink, mcp } from 'better-auth/plugins'
 import type { CollectionConfig } from 'payload'
 import type { PayloadAuthOptions } from 'payload-auth/better-auth/plugin'
 import { appUrl } from 'src/utils/app-url'
+import { mcpRedirectAllowlist } from './mcp-redirects'
 
 // Imported lazily in the callbacks below to avoid a circular dependency with payload.config.
 
@@ -78,6 +79,7 @@ export const betterAuthPluginOptions: PayloadAuthOptions = {
       mcpWithPayloadCollections(
         mcp({ loginPage: '/auth/sign-in', resource: appUrl('/mcp') })
       ),
+      mcpRedirectAllowlist(),
       customSession(async ({ user, session }) => {
         const { getPayloadClient } =
           await import('src/core/services/utils/payload')

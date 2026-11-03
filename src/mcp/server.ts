@@ -224,6 +224,17 @@ export function createMcpServer(payload: Payload) {
           .filter((job) => wanted.includes(job.name.toLowerCase()))
           .map((job) => job.id)
         if (wanted.includes('author')) jobIds.push('author')
+
+        // An empty job filter means "no filter", so don't fall through to
+        // returning everyone when none of the names match.
+        if (!jobIds.length) {
+          return json({
+            total: 0,
+            profiles: [],
+            unknownJobs: input.jobs,
+            hint: 'Use list_jobs for valid job names'
+          })
+        }
       }
 
       const result = unwrap(
