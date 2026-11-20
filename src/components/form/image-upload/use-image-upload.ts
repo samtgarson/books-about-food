@@ -3,6 +3,7 @@ import { errorToast } from 'src/components/utils/toaster'
 import { Image } from 'src/core/models/image'
 import { upload } from './action'
 import type { Area } from './cropper-sheet'
+import { isImageFile, normaliseImage } from './normalise-image'
 
 export type UseImageUploadOptions = {
   prefix: string
@@ -17,10 +18,11 @@ export type ImageUploader = ReturnType<typeof useImageUpload>
 const sizeLimit = 5 * 1024 * 1024
 
 /**
- * Shared upload logic for picked *and* dropped files: validates size, routes a
- * single croppable file through the cropper sheet, otherwise uploads straight
- * away. Lets the file-input button and gallery drop zone share one pending
- * state and one cropper.
+ * Shared upload logic for picked *and* dropped files: converts HEIC to JPEG
+ * (see `normaliseImage`), validates size, routes a single croppable file
+ * through the cropper sheet, otherwise uploads straight away. Lets the
+ * file-input button and gallery drop zone share one pending state and one
+ * cropper.
  */
 export function useImageUpload({
   prefix,
@@ -44,23 +46,35 @@ export function useImageUpload({
     return new Image(result, 'Uploaded image')
   }
 
+  async function prepareFiles(files: File[]) {
+    try {
+      return await Promise.all(files.map(normaliseImage))
+    } catch {
+      errorToast('Sorry, we couldn’t read that image')
+      onError?.('Image could not be read')
+    }
+  }
+
   function handleFiles(input: File[]) {
-    const images = input.filter((f) => f.type.startsWith('image/'))
-    const files = multi ? images : images.slice(0, 1)
-    if (!files.length || isPending) return
-
-    if (files.some((f) => f.size > sizeLimit)) {
-      errorToast('Please select a image smaller than 5mb')
-      onError?.('Image is too large')
-      return
-    }
-
-    if (croppable) {
-      setCroppableImage(files[0])
-      return
-    }
+    const images = input.filter(isImageFile)
+    const selected = multi ? images : images.slice(0, 1)
+    if (!selected.length || isPending) return
 
     startTransition(async () => {
+      const files = await prepareFiles(selected)
+      if (!files) return
+
+      if (files.some((f) => f.size > sizeLimit)) {
+        errorToast('Please select a image smaller than 5mb')
+        onError?.('Image is too large')
+        return
+      }
+
+      if (croppable) {
+        setCroppableImage(files[0])
+        return
+      }
+
       const result = await Promise.all(files.map((f) => uploadImage(f)))
       onSuccess(result)
     })

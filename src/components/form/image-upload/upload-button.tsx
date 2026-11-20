@@ -3,6 +3,7 @@ import { ReactNode, forwardRef } from 'react'
 import { Loader } from 'src/components/atoms/loader'
 import styles from './core.module.css'
 import { CropperSheet } from './cropper-sheet'
+import { acceptedImageTypes } from './normalise-image'
 import {
   ImageUploader,
   UseImageUploadOptions,
@@ -36,7 +37,7 @@ export const ImageUploadInput = forwardRef<
 
       <input
         type="file"
-        accept="image/*"
+        accept={acceptedImageTypes}
         className={styles.fileInput}
         multiple={multi}
         ref={ref}
