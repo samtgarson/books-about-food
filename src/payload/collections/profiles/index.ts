@@ -60,7 +60,15 @@ export const Profiles: CollectionConfig = {
       name: 'avatar',
       type: 'upload',
       relationTo: 'images',
-      hasMany: false
+      hasMany: false,
+      admin: {
+        components: {
+          Field: {
+            path: 'src/payload/components/fields/single-image/index.tsx#SingleImageField',
+            clientProps: { prefix: 'profile-avatars' }
+          }
+        }
+      }
     },
     {
       name: 'description',

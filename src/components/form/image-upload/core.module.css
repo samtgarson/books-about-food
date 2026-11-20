@@ -25,6 +25,12 @@
   cursor: pointer;
 }
 
+/* Highlight while image files are dragged over the gallery. */
+.galleryDragging {
+  outline: 2px dashed currentColor;
+  outline-offset: -8px;
+}
+
 .item {
   position: relative;
   flex-shrink: 0;

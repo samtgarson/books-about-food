@@ -3,11 +3,17 @@
 import cn from 'classnames'
 import { Reorder } from 'framer-motion'
 import Img from 'next/image'
+import { DragEvent, useState } from 'react'
 import { Plus, X } from 'src/components/atoms/icons'
 import { mouseAttrs } from 'src/components/atoms/mouse'
 import { Image } from 'src/core/models/image'
 import styles from './core.module.css'
-import { ImageUploadButton } from './upload-button'
+import { ImageUploadInput } from './upload-button'
+import { useImageUpload } from './use-image-upload'
+
+function hasFiles(e: DragEvent) {
+  return e.dataTransfer.types.includes('Files')
+}
 
 export type ImageUploadCoreProps = {
   images: Image[]
@@ -28,7 +34,8 @@ export type ImageUploadCoreProps = {
  * the same UI back both the frontend Radix form (`ImageUpload`) and the Payload
  * admin field (`PreviewImagesField`). Styling is self-contained (see
  * `core.module.css`) so it renders identically in both contexts; callers pass
- * page-context gutter padding via `className`.
+ * page-context gutter padding via `className`. While the upload button is
+ * shown, image files can also be dropped anywhere on the gallery.
  */
 export function ImageUploadCore({
   images,
@@ -41,15 +48,48 @@ export function ImageUploadCore({
   onReorder,
   onError
 }: ImageUploadCoreProps) {
+  const uploader = useImageUpload({
+    prefix,
+    multi,
+    croppable,
+    onSuccess: onUpload,
+    onError
+  })
+  const [isDragging, setIsDragging] = useState(false)
+  const canUpload = multi || !images.length
+
+  function onDragOver(e: DragEvent<HTMLUListElement>) {
+    if (!canUpload || !hasFiles(e)) return
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'copy'
+    setIsDragging(true)
+  }
+
+  function onDragLeave(e: DragEvent<HTMLUListElement>) {
+    if (e.currentTarget.contains(e.relatedTarget as Node | null)) return
+    setIsDragging(false)
+  }
+
+  function onDrop(e: DragEvent<HTMLUListElement>) {
+    if (!canUpload || !hasFiles(e)) return
+    e.preventDefault()
+    setIsDragging(false)
+    uploader.handleFiles(Array.from(e.dataTransfer.files))
+  }
+
   return (
     <Reorder.Group
       axis="x"
       values={images}
       onReorder={onReorder}
       layoutScroll
+      onDragOver={onDragOver}
+      onDragLeave={onDragLeave}
+      onDrop={onDrop}
       className={cn(
         styles.gallery,
         !images.length && styles.galleryEmpty,
+        isDragging && styles.galleryDragging,
         className
       )}
     >
@@ -75,23 +115,16 @@ export function ImageUploadCore({
           </button>
         </Reorder.Item>
       ))}
-      {(multi || !images?.length) && (
+      {canUpload && (
         <li
           className={cn(
             styles.uploadItem,
             !images.length && styles.uploadItemCentered
           )}
         >
-          <ImageUploadButton
-            multi={multi}
-            prefix={prefix}
-            croppable={croppable}
-            onSuccess={onUpload}
-            onError={onError}
-            className={styles.uploadButton}
-          >
+          <ImageUploadInput uploader={uploader} className={styles.uploadButton}>
             <Plus strokeWidth={1} size={28} />
-          </ImageUploadButton>
+          </ImageUploadInput>
         </li>
       )}
     </Reorder.Group>
