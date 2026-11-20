@@ -9,21 +9,30 @@ import { Image } from 'src/core/models/image'
 import styles from '../image-field.module.css'
 import { loadImages } from '../load-images'
 
-type CoverValue = string | { id: string } | null | undefined
+type ImageValue = string | { id: string } | null | undefined
 
-function coverImageId(value: CoverValue): string | undefined {
+type SingleImageFieldProps = UploadFieldClientProps & {
+  prefix: string
+}
+
+function imageId(value: ImageValue): string | undefined {
   if (!value) return undefined
   return typeof value === 'string' ? value : value.id
 }
 
 /**
- * Renders Payload's single `coverImage` upload field with the same
- * `ImageUploadCore` gallery the frontend `/edit` cover input uses. Unlike the
- * array-backed preview field, the value here is a single image id, so it syncs
- * through `useField().setValue` and Payload's native Save persists it.
+ * Renders a single-image Payload upload field (e.g. a book's `coverImage` or a
+ * profile's `avatar`) with the same `ImageUploadCore` gallery the frontend
+ * uses. The value is a single image id, so it syncs through
+ * `useField().setValue` and Payload's native Save persists it. Pass the upload
+ * storage `prefix` via the field's `clientProps`.
  */
-export function CoverImageField({ path, field }: UploadFieldClientProps) {
-  const { value, setValue } = useField<CoverValue>({ path })
+export function SingleImageField({
+  path,
+  field,
+  prefix
+}: SingleImageFieldProps) {
+  const { value, setValue } = useField<ImageValue>({ path })
   const [images, setImages] = useState<Image[]>([])
   const loaded = useRef(false)
 
@@ -32,11 +41,11 @@ export function CoverImageField({ path, field }: UploadFieldClientProps) {
     if (loaded.current || value === undefined) return
     loaded.current = true
 
-    const id = coverImageId(value)
+    const id = imageId(value)
     if (!id) return
 
-    async function seed(imageId: string) {
-      const [doc] = await loadImages([imageId])
+    async function seed(id: string) {
+      const [doc] = await loadImages([id])
       if (doc) setImages([new Image(doc, doc.filename ?? '')])
     }
 
@@ -48,7 +57,7 @@ export function CoverImageField({ path, field }: UploadFieldClientProps) {
       <FieldLabel label={field.label} path={path} />
       <ImageUploadCore
         images={images}
-        prefix="books/cover"
+        prefix={prefix}
         className={cn('upload-field-card', styles.gutter)}
         onUpload={(uploaded) => {
           const image = uploaded[uploaded.length - 1]

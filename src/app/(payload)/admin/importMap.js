@@ -8,7 +8,7 @@ import { default as default_90441ee41512d23c76c47f07c342aebe } from 'src/payload
 import { ColorPickerField as ColorPickerField_769bfdd285767568b612dcc4334e8b2f } from 'src/payload/components/fields/color-picker/index.tsx'
 import { default as default_f6290fd181f388d63f8da8386b3ec90e } from 'src/payload/components/fields/palette-cell.tsx'
 import { ArrayRowLabel as ArrayRowLabel_1a7e8d7c06d750553aaed5d2957fb002 } from 'src/payload/components/ui/array-row-label.tsx'
-import { CoverImageField as CoverImageField_b66ec8681307c5a610f43e8cacabec06 } from 'src/payload/components/fields/cover-image/index.tsx'
+import { SingleImageField as SingleImageField_b66ec8681307c5a610f43e8cacabec06 } from 'src/payload/components/fields/single-image/index.tsx'
 import { PreviewImagesField as PreviewImagesField_5e35aab79244c5b4cac3a2358bbd207a } from 'src/payload/components/fields/preview-images/index.tsx'
 import { BookPublishButton as BookPublishButton_c211647b9773ce67b01490e92a97a231 } from 'src/payload/collections/books/components/publish-button.tsx'
 import { ClaimApproveCell as ClaimApproveCell_94b30a3e0da09dbd9eae749b04734401 } from 'src/payload/collections/claims/components/approve-cell.tsx'
@@ -53,7 +53,7 @@ export const importMap = {
   "src/payload/components/fields/color-picker/index.tsx#ColorPickerField": ColorPickerField_769bfdd285767568b612dcc4334e8b2f,
   "src/payload/components/fields/palette-cell.tsx#default": default_f6290fd181f388d63f8da8386b3ec90e,
   "src/payload/components/ui/array-row-label.tsx#ArrayRowLabel": ArrayRowLabel_1a7e8d7c06d750553aaed5d2957fb002,
-  "src/payload/components/fields/cover-image/index.tsx#CoverImageField": CoverImageField_b66ec8681307c5a610f43e8cacabec06,
+  "src/payload/components/fields/single-image/index.tsx#SingleImageField": SingleImageField_b66ec8681307c5a610f43e8cacabec06,
   "src/payload/components/fields/preview-images/index.tsx#PreviewImagesField": PreviewImagesField_5e35aab79244c5b4cac3a2358bbd207a,
   "src/payload/collections/books/components/publish-button.tsx#BookPublishButton": BookPublishButton_c211647b9773ce67b01490e92a97a231,
   "src/payload/collections/claims/components/approve-cell.tsx#ClaimApproveCell": ClaimApproveCell_94b30a3e0da09dbd9eae749b04734401,

@@ -283,7 +283,8 @@ export const Books: CollectionConfig = {
       admin: {
         components: {
           Field: {
-            path: 'src/payload/components/fields/cover-image/index.tsx#CoverImageField'
+            path: 'src/payload/components/fields/single-image/index.tsx#SingleImageField',
+            clientProps: { prefix: 'books/cover' }
           }
         }
       }
